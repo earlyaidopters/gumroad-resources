@@ -1,6 +1,8 @@
 # Create Your Own ChatGPT System 🎁
 
-![cover](https://public-files.gumroad.com/93uyrm62aong64xgb3yk3d6apsgd)
+[![watch on YouTube](https://i.ytimg.com/vi/JQm4EnY8dkk/maxresdefault.jpg)](https://youtu.be/JQm4EnY8dkk)
+
+**▶ Watch the video → https://youtu.be/JQm4EnY8dkk**
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/create-your-own-gpt-kit**
 

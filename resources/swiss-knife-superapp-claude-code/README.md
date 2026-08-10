@@ -1,6 +1,8 @@
 # Swiss Knife Superapp (Claude Code) 🇨🇭
 
-![cover](https://public-files.gumroad.com/t9cvn6uo4igf2rb66n4d80c3ycvz)
+[![watch on YouTube](https://i.ytimg.com/vi/HZqWGE3XQb0/maxresdefault.jpg)](https://youtu.be/HZqWGE3XQb0)
+
+**▶ Watch the video → https://youtu.be/HZqWGE3XQb0**
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/media-toolkit-claude-code-prompts**
 

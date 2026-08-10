@@ -1,6 +1,8 @@
 # The OpenClaw Mind Virus Cure 💊
 
-![cover](https://public-files.gumroad.com/1u40jcorzzbyu6axgxh063bu5wbn)
+[![watch on YouTube](https://i.ytimg.com/vi/s-BHmRewyNI/maxresdefault.jpg)](https://youtu.be/s-BHmRewyNI)
+
+**▶ Watch the video → https://youtu.be/s-BHmRewyNI**
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/openclaw-mind-virus-cure**
 

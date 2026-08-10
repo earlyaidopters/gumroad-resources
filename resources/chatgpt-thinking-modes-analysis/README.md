@@ -1,6 +1,8 @@
 # ChatGPT Thinking Modes Analysis 🧠
 
-![cover](https://public-files.gumroad.com/huwt02ejsxiq91vj15t9flql2bzk)
+[![watch on YouTube](https://i.ytimg.com/vi/oZ3ZECb05Sc/maxresdefault.jpg)](https://youtu.be/oZ3ZECb05Sc)
+
+**▶ Watch the video → https://youtu.be/oZ3ZECb05Sc**
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/thinkingmodechatgpt**
 

@@ -1,6 +1,8 @@
 # One-Shot Skill Creation Prompt 🎥
 
-![cover](https://public-files.gumroad.com/w0w0dc04qq1sx8bjlt9fh2eoug2s)
+[![watch on YouTube](https://i.ytimg.com/vi/hTWxGSsGDZU/maxresdefault.jpg)](https://youtu.be/hTWxGSsGDZU)
+
+**▶ Watch the video → https://youtu.be/hTWxGSsGDZU**
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/one-shot-skill-prompt**
 

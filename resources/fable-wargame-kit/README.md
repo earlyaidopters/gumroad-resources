@@ -1,6 +1,8 @@
 # Fable Wargame Kit 🎖️
 
-![cover](https://public-files.gumroad.com/us5ly1dfbafsutowshzcpf3ari4z)
+[![watch on YouTube](https://i.ytimg.com/vi/nuwlyQXrADg/maxresdefault.jpg)](https://youtu.be/nuwlyQXrADg)
+
+**▶ Watch the video → https://youtu.be/nuwlyQXrADg**
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/fable-wargame-kit**
 

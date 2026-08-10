@@ -1,6 +1,8 @@
 # Claude CoWork Sub-Agents Guide 🤖
 
-![cover](https://public-files.gumroad.com/ih8dmtonhsgc1cklws9594wuizg3)
+[![watch on YouTube](https://i.ytimg.com/vi/5Q-LSw0ATIg/maxresdefault.jpg)](https://youtu.be/5Q-LSw0ATIg)
+
+**▶ Watch the video → https://youtu.be/5Q-LSw0ATIg**
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/claude-cowork-subagents-guide**
 

@@ -1,6 +1,8 @@
 # Claude Agent Skills Pack 🧰
 
-![cover](https://public-files.gumroad.com/tz30h03ns2wzoc40ior6cpnuvisy)
+[![watch on YouTube](https://i.ytimg.com/vi/KhkIsNDYbcI/maxresdefault.jpg)](https://youtu.be/KhkIsNDYbcI)
+
+**▶ Watch the video → https://youtu.be/KhkIsNDYbcI**
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/claudeagentskills**
 

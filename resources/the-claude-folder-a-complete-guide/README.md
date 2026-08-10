@@ -1,6 +1,8 @@
 # The .claude Folder: A Complete Guide 🧠
 
-![cover](https://public-files.gumroad.com/kushso6m71we4ie025w44m0bfew0)
+[![watch on YouTube](https://i.ytimg.com/vi/oYIXe6aqh_U/maxresdefault.jpg)](https://youtu.be/oYIXe6aqh_U)
+
+**▶ Watch the video → https://youtu.be/oYIXe6aqh_U**
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/claude-folder-anatomy-guide**
 

@@ -1,6 +1,8 @@
 # Claude Code Guide Prompts ⭐️
 
-![cover](https://public-files.gumroad.com/dsmzuscqzphrnro2pnje45rkj6ay)
+[![watch on YouTube](https://i.ytimg.com/vi/04zBiBqzKQA/maxresdefault.jpg)](https://youtu.be/04zBiBqzKQA)
+
+**▶ Watch the video → https://youtu.be/04zBiBqzKQA**
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/claude-code-guide-5-levels**
 

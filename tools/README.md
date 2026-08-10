@@ -20,6 +20,19 @@ before it is ever committed.
 - `build_repo.py` — turns a pulled export into the repo layout, newest-first.
 - `sync.sh` — the end-to-end job the workflow runs.
 
+## YouTube pairing
+
+`youtube_map.json` pairs each resource with the YouTube video whose description
+links it (`gumroad.com/l/<permalink>`) — authoritative, not fuzzy title matching.
+`build_repo.py` reads it and adds the video thumbnail + watch link to each
+resource. The Gumroad sync cannot refresh this (no YouTube auth in CI), so
+regenerate it locally when new videos go up and commit the result:
+
+```sh
+uv run --with google-api-python-client --with google-auth-oauthlib \
+       --with google-auth tools/youtube_map.py
+```
+
 ## The `GUMROAD_COOKIE` secret
 
 The pull needs a logged-in gumroad.com session cookie string (it must include

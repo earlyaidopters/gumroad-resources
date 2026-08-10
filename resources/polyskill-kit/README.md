@@ -1,6 +1,8 @@
 # Polyskill Kit 🧩
 
-![cover](https://public-files.gumroad.com/z2aropawkrectef7yqwi04gsh1rv)
+[![watch on YouTube](https://i.ytimg.com/vi/tjjX43FoAUg/maxresdefault.jpg)](https://youtu.be/tjjX43FoAUg)
+
+**▶ Watch the video → https://youtu.be/tjjX43FoAUg**
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/polyskill-kit**
 

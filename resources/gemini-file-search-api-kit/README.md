@@ -1,6 +1,8 @@
 # Gemini File Search API Kit 🔎
 
-![cover](https://public-files.gumroad.com/d2i483ucb85kkdz8smpc4edp7e13)
+[![watch on YouTube](https://i.ytimg.com/vi/_wN2v8o-imo/maxresdefault.jpg)](https://youtu.be/_wN2v8o-imo)
+
+**▶ Watch the video → https://youtu.be/_wN2v8o-imo**
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/geminifilesearchapi**
 

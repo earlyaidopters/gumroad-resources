@@ -1,6 +1,8 @@
 # Dynamic Workflows Prompt Pack 📝
 
-![cover](https://public-files.gumroad.com/hbu7x3x12hrixd4cm31tw6p36108)
+[![watch on YouTube](https://i.ytimg.com/vi/-tLlZqrXpo8/maxresdefault.jpg)](https://youtu.be/-tLlZqrXpo8)
+
+**▶ Watch the video → https://youtu.be/-tLlZqrXpo8**
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/dynamic-workflows-prompt-pack**
 

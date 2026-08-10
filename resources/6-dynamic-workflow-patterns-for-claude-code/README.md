@@ -1,6 +1,8 @@
 # 6 Dynamic Workflow Patterns for Claude Code 👨🏽‍💻
 
-![cover](https://public-files.gumroad.com/9y1l4b4ed7kgdsa2ijzy7ln1zzq8)
+[![watch on YouTube](https://i.ytimg.com/vi/g9b9G8dcS8Y/maxresdefault.jpg)](https://youtu.be/g9b9G8dcS8Y)
+
+**▶ Watch the video → https://youtu.be/g9b9G8dcS8Y**
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/dynamic-workflow-patterns**
 

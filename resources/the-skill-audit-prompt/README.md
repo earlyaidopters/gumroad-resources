@@ -1,6 +1,8 @@
 # The Skill Audit Prompt 🔍
 
-![cover](https://public-files.gumroad.com/25c44shvk1jkhfuke8eh4wvvsq83)
+[![watch on YouTube](https://i.ytimg.com/vi/cgWZcFKx2lQ/maxresdefault.jpg)](https://youtu.be/cgWZcFKx2lQ)
+
+**▶ Watch the video → https://youtu.be/cgWZcFKx2lQ**
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/skill-audit-prompt**
 

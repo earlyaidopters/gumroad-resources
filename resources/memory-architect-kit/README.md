@@ -1,6 +1,8 @@
 # Memory Architect Kit 🧠 ⚡️
 
-![cover](https://public-files.gumroad.com/ovik5ntx3pbg5t9mwlcfhcjvs8sa)
+[![watch on YouTube](https://i.ytimg.com/vi/OMkdlwZxSt8/maxresdefault.jpg)](https://youtu.be/OMkdlwZxSt8)
+
+**▶ Watch the video → https://youtu.be/OMkdlwZxSt8**
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/claude-memory-architect-kit**
 

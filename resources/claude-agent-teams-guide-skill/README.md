@@ -1,6 +1,8 @@
 # Claude Agent Teams Guide + Skill 🦾
 
-![cover](https://public-files.gumroad.com/z8otcp51pjxjdyydv5llws924djt)
+[![watch on YouTube](https://i.ytimg.com/vi/1jlKUxqRQAw/maxresdefault.jpg)](https://youtu.be/1jlKUxqRQAw)
+
+**▶ Watch the video → https://youtu.be/1jlKUxqRQAw**
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/claude-code-agent-teams-guide**
 

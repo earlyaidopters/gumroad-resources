@@ -1,6 +1,8 @@
 # 📓 Claude Certified Architect Study Guide
 
-![cover](https://public-files.gumroad.com/8ueyr0808tdum63s07qo4opj6brq)
+[![watch on YouTube](https://i.ytimg.com/vi/vizgFWixquE/maxresdefault.jpg)](https://youtu.be/vizgFWixquE)
+
+**▶ Watch the video → https://youtu.be/vizgFWixquE**
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/claude-architect-study-guide**
 

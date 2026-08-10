@@ -1,6 +1,8 @@
 # Prompt Suite Factory 🏭
 
-![cover](https://public-files.gumroad.com/rs9f1hitk5qu5e1kx3ufu6yitj9j)
+[![watch on YouTube](https://i.ytimg.com/vi/5vI17CkkpOU/maxresdefault.jpg)](https://youtu.be/5vI17CkkpOU)
+
+**▶ Watch the video → https://youtu.be/5vI17CkkpOU**
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/promptfactoryclaude**
 

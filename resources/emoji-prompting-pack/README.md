@@ -1,6 +1,8 @@
 # Emoji Prompting Pack 🎨🤖
 
-![cover](https://public-files.gumroad.com/tueylt09br3bhtk18s0jmqegu7a0)
+[![watch on YouTube](https://i.ytimg.com/vi/vtUBF-euNBE/maxresdefault.jpg)](https://youtu.be/vtUBF-euNBE)
+
+**▶ Watch the video → https://youtu.be/vtUBF-euNBE**
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/emojiprompting**
 

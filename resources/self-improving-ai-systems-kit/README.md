@@ -1,6 +1,8 @@
 # Self-Improving AI Systems Kit 🔄
 
-![cover](https://public-files.gumroad.com/me5q2rhf8mjtgznbw3noy9fybxys)
+[![watch on YouTube](https://i.ytimg.com/vi/1gDZtt-iKFE/maxresdefault.jpg)](https://youtu.be/1gDZtt-iKFE)
+
+**▶ Watch the video → https://youtu.be/1gDZtt-iKFE**
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/self-improving-ai-systems-kit**
 

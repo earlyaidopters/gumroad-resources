@@ -1,6 +1,8 @@
 # Claude Code Council Kit 🤖
 
-![cover](https://public-files.gumroad.com/xaxfeg4ovl4xyh14ybnp8kyg3lr1)
+[![watch on YouTube](https://i.ytimg.com/vi/LpM1dlB12-A/maxresdefault.jpg)](https://youtu.be/LpM1dlB12-A)
+
+**▶ Watch the video → https://youtu.be/LpM1dlB12-A**
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/agent-council-kit**
 

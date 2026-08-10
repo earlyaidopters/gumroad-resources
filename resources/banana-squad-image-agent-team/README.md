@@ -1,6 +1,8 @@
 # Banana Squad - Image Agent Team 🍌
 
-![cover](https://public-files.gumroad.com/q9w3qajem047ow2qrtpit3oe58q3)
+[![watch on YouTube](https://i.ytimg.com/vi/mGfQV4s1MgE/maxresdefault.jpg)](https://youtu.be/mGfQV4s1MgE)
+
+**▶ Watch the video → https://youtu.be/mGfQV4s1MgE**
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/banana-squad-agent-team**
 

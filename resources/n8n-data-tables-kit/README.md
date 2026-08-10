@@ -1,6 +1,8 @@
 # n8n Data Tables Kit 🧠
 
-![cover](https://public-files.gumroad.com/pywg6q3yh94t3pi7lre8ygk4gygi)
+[![watch on YouTube](https://i.ytimg.com/vi/emmlqnP1WL4/maxresdefault.jpg)](https://youtu.be/emmlqnP1WL4)
+
+**▶ Watch the video → https://youtu.be/emmlqnP1WL4**
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/n8ndatatables**
 

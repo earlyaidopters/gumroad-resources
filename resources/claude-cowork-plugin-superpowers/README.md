@@ -1,6 +1,8 @@
 # Claude Cowork Plugin Superpowers ⚡️
 
-![cover](https://public-files.gumroad.com/wqm7fbdq2pjzzmy7h0ezcfqtd4dq)
+[![watch on YouTube](https://i.ytimg.com/vi/eT_6uaHNlk8/maxresdefault.jpg)](https://youtu.be/eT_6uaHNlk8)
+
+**▶ Watch the video → https://youtu.be/eT_6uaHNlk8**
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/claude-cowork-plugin-superpowers**
 

@@ -1,6 +1,8 @@
 # Claude Code Extraction Kit 🧠
 
-![cover](https://public-files.gumroad.com/zpg11q58i1vlh4o3r98bbms72yex)
+[![watch on YouTube](https://i.ytimg.com/vi/F6JTJ9GeSOY/maxresdefault.jpg)](https://youtu.be/F6JTJ9GeSOY)
+
+**▶ Watch the video → https://youtu.be/F6JTJ9GeSOY**
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/claude-code-extraction-kit**
 

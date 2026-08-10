@@ -1,6 +1,8 @@
 # Claude Skills in n8n Workflow Template 🍳
 
-![cover](https://public-files.gumroad.com/5twtgymm0hvqlo5v1w6dhcjflqve)
+[![watch on YouTube](https://i.ytimg.com/vi/zgcUIT4veYY/maxresdefault.jpg)](https://youtu.be/zgcUIT4veYY)
+
+**▶ Watch the video → https://youtu.be/zgcUIT4veYY**
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/claudeskillsn8n**
 

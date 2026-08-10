@@ -1,6 +1,8 @@
 # Claudemaxxing Guide 🧠 🦾
 
-![cover](https://public-files.gumroad.com/s7ngdwmselw56kwbfd2izxbdfxql)
+[![watch on YouTube](https://i.ytimg.com/vi/JcY1LekT954/maxresdefault.jpg)](https://youtu.be/JcY1LekT954)
+
+**▶ Watch the video → https://youtu.be/JcY1LekT954**
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/claudemaxxing-hidden-features-guide**
 

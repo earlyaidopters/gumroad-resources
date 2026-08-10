@@ -1,6 +1,8 @@
 # RAG Ladder Cheat Sheet 📖
 
-![cover](https://public-files.gumroad.com/fp3dgfvgov1lzaltfqxokdexpx24)
+[![watch on YouTube](https://i.ytimg.com/vi/PbaJANDa5pU/maxresdefault.jpg)](https://youtu.be/PbaJANDa5pU)
+
+**▶ Watch the video → https://youtu.be/PbaJANDa5pU**
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/ragrealitycheck**
 

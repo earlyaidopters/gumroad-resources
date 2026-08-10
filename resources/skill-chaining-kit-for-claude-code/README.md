@@ -1,6 +1,8 @@
 # Skill Chaining Kit for Claude Code 👨🏽‍💻
 
-![cover](https://public-files.gumroad.com/eeihi19oiiu8zigf8jhzqbynmmk9)
+[![watch on YouTube](https://i.ytimg.com/vi/KsYCtXeAGBg/maxresdefault.jpg)](https://youtu.be/KsYCtXeAGBg)
+
+**▶ Watch the video → https://youtu.be/KsYCtXeAGBg**
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/skill-chaining-kit**
 

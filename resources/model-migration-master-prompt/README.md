@@ -1,6 +1,8 @@
 # Model Migration Master Prompt 🔄
 
-![cover](https://public-files.gumroad.com/2iojzerckhmozonscor5hf3hacg4)
+[![watch on YouTube](https://i.ytimg.com/vi/h0rmHYIRXjM/maxresdefault.jpg)](https://youtu.be/h0rmHYIRXjM)
+
+**▶ Watch the video → https://youtu.be/h0rmHYIRXjM**
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/systemcardshowdown**
 

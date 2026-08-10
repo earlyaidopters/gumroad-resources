@@ -1,6 +1,8 @@
 # The Council Skill for Claude Code 👑
 
-![cover](https://public-files.gumroad.com/0bkgw1pgujq1faxdjzzjhmnyxbfp)
+[![watch on YouTube](https://i.ytimg.com/vi/EeX7ovArylU/maxresdefault.jpg)](https://youtu.be/EeX7ovArylU)
+
+**▶ Watch the video → https://youtu.be/EeX7ovArylU**
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/council-skill-claude-code**
 

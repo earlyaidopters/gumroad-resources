@@ -1,6 +1,8 @@
 # Agent Team Prompts for Claude Code 👥 👥
 
-![cover](https://public-files.gumroad.com/1ohfygb53tnf23xeya50xe6s877v)
+[![watch on YouTube](https://i.ytimg.com/vi/dlb_XgFVrHQ/maxresdefault.jpg)](https://youtu.be/dlb_XgFVrHQ)
+
+**▶ Watch the video → https://youtu.be/dlb_XgFVrHQ**
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/agent-team-prompts**
 

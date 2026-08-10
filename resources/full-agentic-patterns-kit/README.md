@@ -1,6 +1,8 @@
 # FULL Agentic Patterns Kit 🧠
 
-![cover](https://public-files.gumroad.com/wa5u06nf7qz9rkqr1y1q043zinwj)
+[![watch on YouTube](https://i.ytimg.com/vi/e2zIr_2JMbE/maxresdefault.jpg)](https://youtu.be/e2zIr_2JMbE)
+
+**▶ Watch the video → https://youtu.be/e2zIr_2JMbE**
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/agenticdesignpatterns**
 

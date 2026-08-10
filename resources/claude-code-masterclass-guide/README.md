@@ -1,6 +1,8 @@
 # Claude Code Masterclass Guide 🧞‍♂️
 
-![cover](https://public-files.gumroad.com/hihmi9bjhiv1vekb27u5187i4dye)
+[![watch on YouTube](https://i.ytimg.com/vi/6qJsw0n0GGw/maxresdefault.jpg)](https://youtu.be/6qJsw0n0GGw)
+
+**▶ Watch the video → https://youtu.be/6qJsw0n0GGw**
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/claudecodemasterclass**
 

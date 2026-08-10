@@ -94,6 +94,10 @@ def main():
     ap.add_argument("--index", default=None)
     a = ap.parse_args()
     idx = load_index(a.index)
+    ytmap = {}
+    yt_path = os.path.join(a.repo, "tools", "youtube_map.json")
+    if os.path.exists(yt_path):
+        ytmap = json.load(open(yt_path))  # permalink -> {video_id,url,title,thumbnail}
     res_dir = os.path.join(a.repo, "resources")
     os.makedirs(res_dir, exist_ok=True)
 
@@ -192,8 +196,13 @@ def main():
 
         # per-resource README
         lines = [f"# {e['name']}\n"]
-        if e["thumbnail"]:
+        yt = ytmap.get(e["permalink"])
+        if yt:  # lead with the video thumbnail linking to the watch page
+            lines.append(f"[![watch on YouTube]({yt['thumbnail']})]({yt['url']})\n")
+        elif e["thumbnail"]:
             lines.append(f"![cover]({e['thumbnail']})\n")
+        if yt:
+            lines.append(f"**▶ Watch the video → {yt['url']}**\n")
         if e["url"]:
             lines.append(f"**Get it on Gumroad → {e['url']}**\n")
         badge = "archived" if e["archived"] else e["status"]
@@ -220,12 +229,13 @@ def main():
     arch = [e for e in entries if e["archived"]]
 
     def table(rows):
-        out = ["| Resource | What it is | Files | Get it |", "|---|---|---|---|"]
+        out = ["| Resource | What it is | Video | Get it |", "|---|---|---|---|"]
         for e in rows:
             snip = snippet(e["description_md"])
-            nfiles = len(e["files"]) or ("content" if e["has_content"] else "-")
+            yt = ytmap.get(e["permalink"])
+            vid = f"[▶ Watch]({yt['url']})" if yt else "-"
             link = f"[Gumroad]({e['url']})" if e["url"] else "-"
-            out.append(f"| [{esc(e['name'])}](resources/{e['slug']}/) | {snip} | {nfiles} | {link} |")
+            out.append(f"| [{esc(e['name'])}](resources/{e['slug']}/) | {snip} | {vid} | {link} |")
         return "\n".join(out)
 
     readme = [
@@ -234,7 +244,9 @@ def main():
         "mirrored here and kept in sync. Newest first. Each folder holds the actual "
         "files (zips unpacked so you can browse them on GitHub), the resource content "
         "page, and a README. Watch or star this repo to catch every new drop.\n",
-        f"**{len(live)} published resources.** Auto-synced from Gumroad every few hours.\n",
+        f"**{len(live)} published resources.** Where a resource came from a "
+        "YouTube video, the video is paired to it. Auto-synced from Gumroad every "
+        "few hours.\n",
         "## Latest resources\n",
         table(live),
     ]

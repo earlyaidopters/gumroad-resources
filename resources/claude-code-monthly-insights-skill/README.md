@@ -1,6 +1,8 @@
 # Claude Code Monthly Insights Skill 🛠️
 
-![cover](https://public-files.gumroad.com/uwcvs4ehix930zh185i2to04z7he)
+[![watch on YouTube](https://i.ytimg.com/vi/xssGpNx3its/maxresdefault.jpg)](https://youtu.be/xssGpNx3its)
+
+**▶ Watch the video → https://youtu.be/xssGpNx3its**
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/monthly-insights-skill**
 

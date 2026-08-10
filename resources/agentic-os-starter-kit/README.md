@@ -1,6 +1,8 @@
 # Agentic OS Starter Kit 🌍
 
-![cover](https://public-files.gumroad.com/u8iaez04oktp8wg2a5clnx7n9sj0)
+[![watch on YouTube](https://i.ytimg.com/vi/YjkteijEyzQ/maxresdefault.jpg)](https://youtu.be/YjkteijEyzQ)
+
+**▶ Watch the video → https://youtu.be/YjkteijEyzQ**
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/agentic-os-starter-kit**
 

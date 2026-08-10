@@ -1,6 +1,8 @@
 # Universal AI Browser Prompts 🌐
 
-![cover](https://public-files.gumroad.com/r8yeh55fdb47yqr9w7lztfvegtnh)
+[![watch on YouTube](https://i.ytimg.com/vi/VuULRih34PU/maxresdefault.jpg)](https://youtu.be/VuULRih34PU)
+
+**▶ Watch the video → https://youtu.be/VuULRih34PU**
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/aibrowsers**
 

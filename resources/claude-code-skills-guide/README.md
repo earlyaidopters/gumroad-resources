@@ -1,6 +1,8 @@
 # Claude Code Skills Guide 📓 🤖
 
-![cover](https://public-files.gumroad.com/6c2sdir1h08ma72givkl3qh3uhb6)
+[![watch on YouTube](https://i.ytimg.com/vi/TzJecWCbex0/maxresdefault.jpg)](https://youtu.be/TzJecWCbex0)
+
+**▶ Watch the video → https://youtu.be/TzJecWCbex0**
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/claude-code-skills-guide**
 

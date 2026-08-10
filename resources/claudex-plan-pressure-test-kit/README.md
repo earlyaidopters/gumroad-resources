@@ -1,6 +1,8 @@
 # Claudex Plan-Pressure-Test Kit ⏲️
 
-![cover](https://public-files.gumroad.com/yqzx8ss7zs95d9u3wlp2t2lnwz5z)
+[![watch on YouTube](https://i.ytimg.com/vi/RChO5deJ_fE/maxresdefault.jpg)](https://youtu.be/RChO5deJ_fE)
+
+**▶ Watch the video → https://youtu.be/RChO5deJ_fE**
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/claudex-plan-pressure-test-kit**
 

@@ -1,6 +1,8 @@
 # Codex + Claude Code Dynamic Duo Kit 🤝
 
-![cover](https://public-files.gumroad.com/uwwyv9ywcak8i5k9huq3cdousfvr)
+[![watch on YouTube](https://i.ytimg.com/vi/Fu5KIG2Jm1g/maxresdefault.jpg)](https://youtu.be/Fu5KIG2Jm1g)
+
+**▶ Watch the video → https://youtu.be/Fu5KIG2Jm1g**
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/codex-claude-dynamic-duo-kit**
 

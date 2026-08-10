@@ -1,6 +1,8 @@
 # Effort Decoder Guide 🎛️
 
-![cover](https://public-files.gumroad.com/x3dfqwmecn2delvuj5q7b7znu8bb)
+[![watch on YouTube](https://i.ytimg.com/vi/4__5q76f04s/maxresdefault.jpg)](https://youtu.be/4__5q76f04s)
+
+**▶ Watch the video → https://youtu.be/4__5q76f04s**
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/effort-decoder**
 

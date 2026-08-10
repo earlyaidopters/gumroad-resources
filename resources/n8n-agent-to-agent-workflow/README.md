@@ -1,6 +1,8 @@
 # n8n Agent-to-Agent Workflow 🤖
 
-![cover](https://public-files.gumroad.com/nw7xo0ykjagmky9l5aqxrnd9mfrw)
+[![watch on YouTube](https://i.ytimg.com/vi/u4D6hEdM_XQ/maxresdefault.jpg)](https://youtu.be/u4D6hEdM_XQ)
+
+**▶ Watch the video → https://youtu.be/u4D6hEdM_XQ**
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/agent-to-agent**
 

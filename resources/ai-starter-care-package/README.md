@@ -1,6 +1,8 @@
 # AI Starter Care Package 🎒
 
-![cover](https://public-files.gumroad.com/imjbujmiuyzh0e84l1k6gfwpyg1y)
+[![watch on YouTube](https://i.ytimg.com/vi/vttdheXdGS8/maxresdefault.jpg)](https://youtu.be/vttdheXdGS8)
+
+**▶ Watch the video → https://youtu.be/vttdheXdGS8**
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/n8ncarepackage**
 

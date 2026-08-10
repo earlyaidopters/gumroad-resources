@@ -1,6 +1,8 @@
 # Claude Code ASCII Art Planning ✏️
 
-![cover](https://public-files.gumroad.com/jcifq77gmulmbnwzhbg1butpx2m3)
+[![watch on YouTube](https://i.ytimg.com/vi/3qUg57KGSVY/maxresdefault.jpg)](https://youtu.be/3qUg57KGSVY)
+
+**▶ Watch the video → https://youtu.be/3qUg57KGSVY**
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/ascii-planning**
 

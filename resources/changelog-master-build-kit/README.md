@@ -1,6 +1,8 @@
 # Changelog Master Build Kit 🔔
 
-![cover](https://public-files.gumroad.com/s1z135ys98ithvz1jyx3mvf8yh8v)
+[![watch on YouTube](https://i.ytimg.com/vi/jgNPX9K92Os/maxresdefault.jpg)](https://youtu.be/jgNPX9K92Os)
+
+**▶ Watch the video → https://youtu.be/jgNPX9K92Os**
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/changelog-master-build-kit**
 

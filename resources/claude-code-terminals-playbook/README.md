@@ -1,6 +1,8 @@
 # Claude Code Terminals Playbook 📓
 
-![cover](https://public-files.gumroad.com/onc14gj5f9ofth6vhk82kx9f447s)
+[![watch on YouTube](https://i.ytimg.com/vi/kOTXWKCJklY/maxresdefault.jpg)](https://youtu.be/kOTXWKCJklY)
+
+**▶ Watch the video → https://youtu.be/kOTXWKCJklY**
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/parallel-terminals-playbook**
 

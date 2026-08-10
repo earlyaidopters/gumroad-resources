@@ -1,6 +1,8 @@
 # Sora Studio Builder 🎬
 
-![cover](https://public-files.gumroad.com/fa0k75btgjzte1mxs10zeyslqc9w)
+[![watch on YouTube](https://i.ytimg.com/vi/iacK0bf531w/maxresdefault.jpg)](https://youtu.be/iacK0bf531w)
+
+**▶ Watch the video → https://youtu.be/iacK0bf531w**
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/sorastudio**
 

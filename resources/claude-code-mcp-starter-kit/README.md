@@ -1,6 +1,8 @@
 # Claude Code MCP Starter Kit 📦
 
-![cover](https://public-files.gumroad.com/1yacwg4u1u4eyiwibd5zezb97ohp)
+[![watch on YouTube](https://i.ytimg.com/vi/mCXuXmnIvk0/maxresdefault.jpg)](https://youtu.be/mCXuXmnIvk0)
+
+**▶ Watch the video → https://youtu.be/mCXuXmnIvk0**
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/claudecodemcp**
 

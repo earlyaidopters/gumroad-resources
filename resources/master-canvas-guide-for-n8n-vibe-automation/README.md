@@ -1,6 +1,8 @@
 # Master Canvas Guide for n8n Vibe Automation
 
-![cover](https://public-files.gumroad.com/buvyt3viehju0vj9x8r56p8sntdn)
+[![watch on YouTube](https://i.ytimg.com/vi/2bqVsRezYqY/maxresdefault.jpg)](https://youtu.be/2bqVsRezYqY)
+
+**▶ Watch the video → https://youtu.be/2bqVsRezYqY**
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/n8nvibeautomation**
 

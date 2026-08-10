@@ -1,6 +1,8 @@
 # Claude Code Agentic Architect 🧱
 
-![cover](https://public-files.gumroad.com/slcz78m3bknpd7ko642r0hvgsl2a)
+[![watch on YouTube](https://i.ytimg.com/vi/qzeRWzKte3I/maxresdefault.jpg)](https://youtu.be/qzeRWzKte3I)
+
+**▶ Watch the video → https://youtu.be/qzeRWzKte3I**
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/claudecodeagents**
 

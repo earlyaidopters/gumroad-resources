@@ -1,6 +1,8 @@
 # Agent Builder Starter Clone Kit 🧩
 
-![cover](https://public-files.gumroad.com/w1u4all735oecp3zmds5xtcktzxk)
+[![watch on YouTube](https://i.ytimg.com/vi/oGzdBoKam0c/maxresdefault.jpg)](https://youtu.be/oGzdBoKam0c)
+
+**▶ Watch the video → https://youtu.be/oGzdBoKam0c**
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/agentbuilderclone**
 

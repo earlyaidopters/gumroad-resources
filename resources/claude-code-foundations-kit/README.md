@@ -1,6 +1,8 @@
 # Claude Code Foundations Kit 🛠️
 
-![cover](https://public-files.gumroad.com/cx3eu8lft2188wr7pj3y256l85vh)
+[![watch on YouTube](https://i.ytimg.com/vi/KmWdzN2jaoo/maxresdefault.jpg)](https://youtu.be/KmWdzN2jaoo)
+
+**▶ Watch the video → https://youtu.be/KmWdzN2jaoo**
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/claude-code-deep-dive-guide**
 

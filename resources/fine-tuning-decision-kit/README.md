@@ -1,6 +1,8 @@
 # Fine-Tuning Decision Kit 📊
 
-![cover](https://public-files.gumroad.com/rgiz1igobslojizglp38xmiezx6o)
+[![watch on YouTube](https://i.ytimg.com/vi/gUgwG0XPdkc/maxresdefault.jpg)](https://youtu.be/gUgwG0XPdkc)
+
+**▶ Watch the video → https://youtu.be/gUgwG0XPdkc**
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/finetuningdecision**
 

@@ -1,6 +1,8 @@
 # The Agentic Goal Cookbook 📖
 
-![cover](https://public-files.gumroad.com/3q6iplebpy0ikn55xtcjergx58wi)
+[![watch on YouTube](https://i.ytimg.com/vi/5xrjO38WUYY/maxresdefault.jpg)](https://youtu.be/5xrjO38WUYY)
+
+**▶ Watch the video → https://youtu.be/5xrjO38WUYY**
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/goal-cookbook-self-improving-agentic-os**
 

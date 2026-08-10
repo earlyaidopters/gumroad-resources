@@ -1,6 +1,8 @@
 # The Enterprise OS Blueprint Kit 🏢
 
-![cover](https://public-files.gumroad.com/9hij9rwf1ix43n3wh3peqtd4b1rz)
+[![watch on YouTube](https://i.ytimg.com/vi/T17DYl_4Z-U/maxresdefault.jpg)](https://youtu.be/T17DYl_4Z-U)
+
+**▶ Watch the video → https://youtu.be/T17DYl_4Z-U**
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/enterprise-os-blueprint-kit-cc**
 

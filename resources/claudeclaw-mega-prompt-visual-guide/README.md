@@ -1,6 +1,8 @@
 # ClaudeClaw - Mega Prompt + Visual Guide 🦞
 
-![cover](https://public-files.gumroad.com/u7hf2lnv43980xqokkbso2u4jq1u)
+[![watch on YouTube](https://i.ytimg.com/vi/9Svv-n11Ysk/maxresdefault.jpg)](https://youtu.be/9Svv-n11Ysk)
+
+**▶ Watch the video → https://youtu.be/9Svv-n11Ysk**
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/claudeclaw**
 

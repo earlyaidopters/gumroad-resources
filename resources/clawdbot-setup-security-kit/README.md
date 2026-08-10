@@ -1,6 +1,8 @@
 # Clawdbot Setup & Security Kit 🦞
 
-![cover](https://public-files.gumroad.com/dcvt1tfcghetg7fjqi293l5fbxv4)
+[![watch on YouTube](https://i.ytimg.com/vi/06oLpdFLkVA/maxresdefault.jpg)](https://youtu.be/06oLpdFLkVA)
+
+**▶ Watch the video → https://youtu.be/06oLpdFLkVA**
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/clawdbot-jarvis-setup-kit**
 

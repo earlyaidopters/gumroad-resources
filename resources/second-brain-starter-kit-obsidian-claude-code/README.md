@@ -1,6 +1,8 @@
 # Second Brain Starter Kit - Obsidian + Claude Code 🧠
 
-![cover](https://public-files.gumroad.com/l76vtgd6azq24ebg71iaz0c7qc3s)
+[![watch on YouTube](https://i.ytimg.com/vi/2kbINqpluM0/maxresdefault.jpg)](https://youtu.be/2kbINqpluM0)
+
+**▶ Watch the video → https://youtu.be/2kbINqpluM0**
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/second-brain-obsidian-claude-code**
 

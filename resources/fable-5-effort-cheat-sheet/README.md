@@ -1,6 +1,8 @@
 # Fable 5 Effort Cheat Sheet 🎛️
 
-![cover](https://public-files.gumroad.com/rz15nbhki7wcji7xwwdqdu3ibufa)
+[![watch on YouTube](https://i.ytimg.com/vi/113P6SBWAm8/maxresdefault.jpg)](https://youtu.be/113P6SBWAm8)
+
+**▶ Watch the video → https://youtu.be/113P6SBWAm8**
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/claude-fable-5-wield-it-kit**
 

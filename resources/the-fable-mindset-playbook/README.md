@@ -1,6 +1,8 @@
 # The Fable Mindset Playbook 🧠
 
-![cover](https://public-files.gumroad.com/uc0j7m405e0m0kq14bwywnia58ci)
+[![watch on YouTube](https://i.ytimg.com/vi/B95cu7seTm8/maxresdefault.jpg)](https://youtu.be/B95cu7seTm8)
+
+**▶ Watch the video → https://youtu.be/B95cu7seTm8**
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/fable-mindset**
 

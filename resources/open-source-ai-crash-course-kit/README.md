@@ -1,6 +1,8 @@
 # Open Source AI Crash Course Kit 🧰
 
-![cover](https://public-files.gumroad.com/2iqd2nkj9bkylvja0dh3eaai06dn)
+[![watch on YouTube](https://i.ytimg.com/vi/84POiAUhtSI/maxresdefault.jpg)](https://youtu.be/84POiAUhtSI)
+
+**▶ Watch the video → https://youtu.be/84POiAUhtSI**
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/open-source-ai-crash-course-kit**
 

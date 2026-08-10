@@ -1,6 +1,8 @@
 # NotebookLM Reimagined - Complete Build Kit 🛠️
 
-![cover](https://public-files.gumroad.com/yysds58sj7a9vkyu29w3wqpehlo7)
+[![watch on YouTube](https://i.ytimg.com/vi/3bGdg9hTvws/maxresdefault.jpg)](https://youtu.be/3bGdg9hTvws)
+
+**▶ Watch the video → https://youtu.be/3bGdg9hTvws**
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/vmrahj**
 

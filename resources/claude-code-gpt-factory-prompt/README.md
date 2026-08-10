@@ -1,6 +1,8 @@
 # Claude Code GPT Factory Prompt ⚙️
 
-![cover](https://public-files.gumroad.com/e00yv6vsgf5ze0owdy1ey8zjqlmx)
+[![watch on YouTube](https://i.ytimg.com/vi/o0bn4Xeotmo/maxresdefault.jpg)](https://youtu.be/o0bn4Xeotmo)
+
+**▶ Watch the video → https://youtu.be/o0bn4Xeotmo**
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/lojspb**
 

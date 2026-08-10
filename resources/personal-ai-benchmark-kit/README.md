@@ -1,6 +1,8 @@
 # Personal AI Benchmark Kit 🧪
 
-![cover](https://public-files.gumroad.com/tcxp6z3n5zs4to248jysri4yilip)
+[![watch on YouTube](https://i.ytimg.com/vi/3ICM9ZdflZA/maxresdefault.jpg)](https://youtu.be/3ICM9ZdflZA)
+
+**▶ Watch the video → https://youtu.be/3ICM9ZdflZA**
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/personal-ai-benchmark-kit**
 

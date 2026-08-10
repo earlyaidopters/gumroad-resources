@@ -1,6 +1,8 @@
 # Google Workspace CLI Starter Kit 🏁
 
-![cover](https://public-files.gumroad.com/3im1owattjnlm0z6yk3ud0igypcr)
+[![watch on YouTube](https://i.ytimg.com/vi/1Z1aECGwJh0/maxresdefault.jpg)](https://youtu.be/1Z1aECGwJh0)
+
+**▶ Watch the video → https://youtu.be/1Z1aECGwJh0**
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/gws-starter-kit**
 

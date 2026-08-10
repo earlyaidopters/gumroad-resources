@@ -1,6 +1,8 @@
 # ClaudeClaw OS Blueprint Kit 🦀
 
-![cover](https://public-files.gumroad.com/g7w3njjyif3lxnovjpllyr9aiem9)
+[![watch on YouTube](https://i.ytimg.com/vi/rVzGu5OYYS0/maxresdefault.jpg)](https://youtu.be/rVzGu5OYYS0)
+
+**▶ Watch the video → https://youtu.be/rVzGu5OYYS0**
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/gnwsm**
 

@@ -1,6 +1,8 @@
 # ChatGPT Atlas → n8n Builder Prompt ⚙️
 
-![cover](https://public-files.gumroad.com/qa5ywrdt9zvavsg2f82w0dbcmjae)
+[![watch on YouTube](https://i.ytimg.com/vi/RtP9ioLXc1k/maxresdefault.jpg)](https://youtu.be/RtP9ioLXc1k)
+
+**▶ Watch the video → https://youtu.be/RtP9ioLXc1k**
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/atlasvibeautomation**
 
