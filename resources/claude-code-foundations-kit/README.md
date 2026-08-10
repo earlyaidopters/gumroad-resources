@@ -24,6 +24,9 @@ See [`content.md`](content.md).
 
 ## Files
 
-- [`claude_diagrams.zip`](files/claude_diagrams.zip)
 - [`Claude_Code_Deep_Dive_Guide.pdf`](files/Claude_Code_Deep_Dive_Guide.pdf)
+
+## Large files (not stored in this repo)
+
+- `claude_diagrams.zip` — 128 MB — too large for GitHub; browse `unpacked/claude_diagrams/` or get the full archive on Gumroad
 
