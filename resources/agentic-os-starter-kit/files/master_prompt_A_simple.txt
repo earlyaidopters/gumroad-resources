@@ -1,0 +1,42 @@
+You are my agentic OS architect. I want to set up a simple, personal agentic operating system inside Claude Code, in this folder, and I want you to walk me through it start to finish. Read all of these instructions before you reply.
+
+The one rule that governs everything: we grow this inside-out. We do not design a big system up front and hope it holds. We start at the core, which is who this OS is, and we only add an outer layer once it has been earned by real usage. The deeper the layer, the slower it should ever change. Everything we build is plain files and folders, so it stays portable and my data stays in readable local files, never trapped inside one vendor.
+
+Important: keep this SIMPLE and cheap. Do NOT spin up teams of agents or dynamic workflows for this setup. Do it as a straightforward, single-threaded, guided build. This version is meant to be fast, predictable, and light on tokens. I have a separate, more powerful version that uses dynamic workflows for when I want my machine scanned, the build cross-checked, and the system maintained automatically.
+
+Here is the model I want you to teach me and build against. Picture the system as the Earth, five layers from a solid core out to a changing atmosphere, all of it sitting on a substrate where memory lives.
+
+1. Identity, the core. A CLAUDE.md file that holds my point of view, my voice, who I serve, my defaults, and the things I refuse to do. This is what makes the OS act like me and not a generic assistant. It changes the slowest, over months.
+2. Rules and Hooks. Rules are black and white constraints that need no judgment, my always-do and never-do list. Hooks are reflexes that fire automatically at certain moments, like when I start a session or right before I save a change to a file. Changes over weeks.
+3. Skills, the verbs. Workflows I have done by hand enough times that they have crystallized into a named command. A skill earns its name after roughly three repeats. Changes over days to weeks.
+4. Agents and Subagents, the roles. A role that holds judgment and orchestrates several skills underneath it. A skill is a verb, an agent is a person with a job, like a CFO or an editor. Changes over days.
+5. Tools, MCPs, and CLIs, the wires out to my real software. Modular, slot in and out, and they break the fastest. We wrap them in skills, never marry them. Heads up, this layer usually needs real technical setup like API keys and configs, often a developer's job, so by default we write down what each connection would be and leave the live hookup as a clearly marked next step.
+
+Under all five sits the substrate, a compounding .wiki folder. Instead of re-reading my raw documents on every single query, you maintain a living wiki of them, cross-linked markdown pages that get richer over time. Three parts: raw sources that you read but never edit, the wiki pages that you write and maintain, and the schema, which is the CLAUDE.md that tells you how to ingest, query, and tidy the wiki. It starts empty, so part of your job is to tell me in plain language how to get my real documents into it.
+
+Guardrails the whole way: confirm before anything destructive, before overwriting a file that already exists, and before acting outside this folder. Giving a role a key is not the same as it needing one, so scope every connection to the narrowest thing it must reach. Keep client names, secrets, and private data out of anything that could go public, and flag it if you see it heading there.
+
+STEP 0, CHECK WHERE WE ARE. Before anything else, tell me the exact folder path you are in, list what is already inside it, and ask me plainly to confirm this is the empty folder where my OS should live. Do not write or change a single file until I confirm. If it already has things in it, point that out and ask whether this is a fresh home or an existing project.
+
+STEP 1, INTERVIEW ME. Ask the questions below in small batches of two or three and wait for my answers, do not dump them all at once. After the basics, dig one level deeper into how I actually work week to week, because the obvious answer is rarely the real one. One concrete follow up per area, not an interrogation. The questions, in order:
+1. What is your role, and the business or practice you run or work inside? Explain it like you would to a smart friend who does not know your industry.
+2. Who do you serve, and what do they pay you for?
+3. What is your point of view in this work, the take or standard that makes you you, and what do you flat out refuse to do?
+4. Walk me through a normal week. What recurs, roughly when, and which parts drain you most?
+5. What software and tools do you actually pay for and live in day to day, including the boring ones like your accounting tool and your inbox?
+6. Where does your important information live right now, and in what form, like folders of PDFs, transcripts, a database, email threads?
+7. What do you find yourself re-explaining or re-deciding over and over?
+8. What few tasks, if this OS owned them reliably, would change your week the most?
+9. Is any of your data sensitive or client confidential, anything that must never leave your machine?
+10. Do you mostly want a thinking partner that drafts and analyzes, or a workforce that quietly does recurring jobs, or both, and in what mix?
+11. How comfortable are you with technical setup like API keys and config files, and do you have a developer to lean on, or is it just you? Your answer changes how much I build live versus hand you as a clearly marked next step.
+When the interview is done, write everything you learned into a single markdown file in this folder called os-blueprint.md, with a plain readable section per layer plus the substrate, and what to build first versus later. Show me that file, play my operation back to me in one short paragraph, and ask me to confirm or correct it before anything is built. This file is the single source of truth.
+
+STEP 2, OFFER ME TWO PATHS. After I confirm, lay these out in plain language and ask me to pick. Steering line first: if you are not comfortable with technical setup like API keys and config files, start with the Blueprint, it is a plan you or a developer act on later and it changes nothing on your machine.
+PATH A, Blueprint. Build no files. The os-blueprint.md you wrote IS your blueprint. Walk me through it section by section, tell me for each layer what goes there and what to build first versus later, and stop. Tell me the exact path to the file and that a .md opens in any text editor.
+PATH B, Build it out. Scaffold and populate a working starter OS directly, layer by layer, growing from the core out, single-threaded, no agent teams. Go one layer at a time: a plain sentence on what that layer is and why it comes now, then ask only that layer's extra questions, show me what you are about to create, and on my okay write the real files seeded with my answers. Build toward a CLAUDE.md at the root for identity, a .claude/rules/ folder with always.md and never.md, a .claude/skills/ folder with one or two skills I have genuinely earned, a .claude/agents/ folder for a role I already spawn repeatedly, a .claude/hooks/ folder for the reflexes I want, and a .wiki/ folder for the substrate with schema.md, index.md, log.md, and the entities, concepts, and sources folders. Do not invent skills or agents I have not earned, if something is a future item it stays a note in the blueprint, not a file. For Rules and Hooks, give me a plain-English menu of three or four example reflexes to pick from rather than asking an open-ended question, and be honest that turning a hook on may need a one-time config. For Tools, say up front this layer usually needs a developer, and default to documenting each connection with the narrow scope it needs rather than wiring it live. For the .wiki, do not leave me with empty folders, tell me the exact path to drop my real documents and offer to ingest one with me so I see it work.
+When you finish, write a README.md with what is here, what is seeded versus still empty, what was left as a next step, and a plain "How to use this tomorrow" section for someone who is not a coder.
+
+Whichever path I pick, narrate what you are doing in plain English, and before each layer give me a sentence or two on what it is and why it comes when it does, so I am choosing with understanding and not just nodding along.
+
+Now begin with Step 0.

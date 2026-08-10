@@ -1,0 +1,63 @@
+openapi: 3.1.0
+info:
+  title: Claude PDF Question API
+  description: API for fetching a PDF from a Google Drive link, sending it to the Claude API along with a question, and receiving an answer.
+  version: 1.0.0
+servers:
+  - url: ADD YOUR URL HERE
+    description: Replit deployment server
+
+paths:
+  /ask:
+    post:
+      operationId: askClaudeQuestion
+      summary: Fetches a PDF, sends it to Claude API with a question, and returns the answer.
+      requestBody:
+        description: JSON payload containing the Google Drive PDF URL and question.
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                pdf_url:
+                  type: string
+                  format: uri
+                  description: Google Drive URL of the PDF to be processed.
+                question:
+                  type: string
+                  description: The question to ask about the PDF content.
+              required:
+                - pdf_url
+                - question
+      responses:
+        '200':
+          description: Successfully retrieved answer from Claude API.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  answer:
+                    type: string
+                    description: The answer returned by Claude API based on the PDF content.
+        '400':
+          description: Bad request due to missing or invalid parameters.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: Error message detailing the issue.
+        '500':
+          description: Internal server error due to Claude API or other processing issues.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: Error message detailing the server error.

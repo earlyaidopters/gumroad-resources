@@ -1,0 +1,56 @@
+{
+  "name": "MCP Workflow Power Bundle 🤖 ☢️",
+  "external_id": "TEYOGBngWZ3N8kN0RczBGw==",
+  "permalink": "yqfkan",
+  "unique_permalink": "yqfkan",
+  "custom_permalink": "n8nmcpfusion",
+  "url": "https://markkashef.gumroad.com/l/n8nmcpfusion",
+  "status": "published",
+  "archived": false,
+  "kind": "products",
+  "price_formatted": "CAD$0+",
+  "description_md": "## What You Get\n\n- \nLevel 1 Ready-to-Run Docs: Step-by-step Claude Desktop + Remote MCP Server setup documentation—no guesswork, just follow along and launch.\n\n- \nInstant Config JSONs: Copy-paste JSON files required for connecting n8n workflows, context7, and n8n MCP Servers—pulled straight from the exact screens you see in the preview.\n\n- \nDirect GitHub Repo Links: One-click access to the public repositories for 1000s of n8n workflows, context7, and MCP servers.\n\n- \nTool List & Converter: Breakdown of the tools (like GitMCP) used to convert GitHub repos into live MCP workflows.\n\n- \nSample Agent Workflows: Ready-to-import agent workflow examples for your Claude Desktop or Cursor Knowledge Base—get started instantly, no coding needed.\n\nIf you want advanced Level 2/3 automations (including Docker setups, Cursor integrations, exclusive JSON bundles, and deep-dive templates), check out the Early AI-dopters Community\nYou won’t regret it 😉",
+  "files": [
+    {
+      "file": "retrofuture-artisan-production-agent.json",
+      "status": "cached",
+      "bytes": 10673
+    },
+    {
+      "file": "retrofuture-custom-orders-agent.json",
+      "status": "cached",
+      "bytes": 13382
+    },
+    {
+      "file": "retrofuture-customer-experience-agent.json",
+      "status": "cached",
+      "bytes": 8923
+    },
+    {
+      "file": "retrofuture-master-assistant.json",
+      "status": "cached",
+      "bytes": 9612
+    },
+    {
+      "file": "retrofuture-order-analytics-agent.json",
+      "status": "cached",
+      "bytes": 14805
+    },
+    {
+      "file": "retrofuture-sales-design-agent.json",
+      "status": "cached",
+      "bytes": 13184
+    },
+    {
+      "file": "retrofuture-supply-chain-agent.json",
+      "status": "cached",
+      "bytes": 12262
+    },
+    {
+      "file": "retrofuture-workshop-technical-agent.json",
+      "status": "cached",
+      "bytes": 10201
+    }
+  ],
+  "has_rich_content": true
+}

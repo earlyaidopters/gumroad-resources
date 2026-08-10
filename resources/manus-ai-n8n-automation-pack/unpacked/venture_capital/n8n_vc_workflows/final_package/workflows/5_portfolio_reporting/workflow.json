@@ -1,0 +1,996 @@
+{
+  "name": "Portfolio Company Update & Reporting",
+  "nodes": [
+    {
+      "parameters": {
+        "triggerTimes": {
+          "item": [
+            {
+              "mode": "monthlyOn",
+              "monthlyOn": 1,
+              "at": {
+                "hour": 9,
+                "minute": 0
+              }
+            }
+          ]
+        }
+      },
+      "name": "Monthly Report Trigger",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1,
+      "position": [
+        240,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "sheetName": "Portfolio Companies",
+        "options": {}
+      },
+      "name": "Get Portfolio Companies",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 3,
+      "position": [
+        460,
+        300
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "1",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "functionCode": "// Prepare email requests for each portfolio company\nconst portfolioCompanies = $input.item.json;\nconst today = new Date();\nconst lastMonth = new Date(today.getFullYear(), today.getMonth() - 1, 1);\nconst lastMonthName = lastMonth.toLocaleString('default', { month: 'long' });\nconst lastMonthYear = lastMonth.getFullYear();\n\n// Create an array of items for each portfolio company\nconst companyItems = [];\n\nfor (const company of portfolioCompanies) {\n  // Skip if no email contact\n  if (!company.ceoEmail && !company.cfoEmail && !company.reportingContact) {\n    continue;\n  }\n  \n  // Determine reporting contact\n  const reportingEmail = company.reportingContact || company.cfoEmail || company.ceoEmail;\n  \n  // Create reporting item\n  companyItems.push({\n    json: {\n      companyId: company.id,\n      companyName: company.name,\n      stage: company.stage,\n      sector: company.sector,\n      investmentDate: company.investmentDate,\n      investmentAmount: company.investmentAmount,\n      ownership: company.ownership,\n      reportingEmail: reportingEmail,\n      ccEmails: [company.ceoEmail, company.cfoEmail].filter(email => email && email !== reportingEmail),\n      lastReportMonth: lastMonthName,\n      lastReportYear: lastMonthYear,\n      reportingPeriod: `${lastMonthName} ${lastMonthYear}`,\n      reportDueDate: new Date(today.getFullYear(), today.getMonth(), 15).toISOString(),\n      reportStatus: 'Requested',\n      lastUpdated: new Date().toISOString()\n    }\n  });\n}\n\nreturn companyItems;"
+      },
+      "name": "Prepare Reporting Requests",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [
+        680,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "fromEmail": "reporting@vcfirm.com",
+        "toEmail": "={{ $json.reportingEmail }}",
+        "ccEmail": "={{ $json.ccEmails.join(',') }}",
+        "subject": "={{ $json.companyName + ' - Monthly Report Request for ' + $json.reportingPeriod }}",
+        "text": "=Dear {{ $json.companyName }} Team,\n\nAs part of our regular portfolio reporting process, we're requesting your monthly update for {{ $json.reportingPeriod }}.\n\n**Company:** {{ $json.companyName }}\n**Reporting Period:** {{ $json.reportingPeriod }}\n**Due Date:** {{ new Date($json.reportDueDate).toLocaleDateString() }}\n\nPlease complete the following reporting requirements:\n\n1. **Financial Update:**\n   - Monthly P&L statement\n   - Cash position and runway\n   - Burn rate\n   - Revenue metrics\n\n2. **Operational Update:**\n   - Key milestones achieved\n   - Team changes\n   - Product development updates\n\n3. **Key Metrics:**\n   - Customer/user growth\n   - Engagement metrics\n   - Sales pipeline\n   - Other KPIs specific to your business\n\n4. **Challenges & Support Needed:**\n   - Current challenges\n   - Areas where you need support from us\n\nYou can submit your report by:\n1. Replying to this email with attachments\n2. Using our secure reporting form: {{ $json.reportingFormUrl || 'https://vcfirm.com/portfolio-reporting' }}\n3. Updating your dedicated reporting dashboard\n\nIf you have any questions or need assistance, please don't hesitate to reach out to your portfolio manager.\n\nBest regards,\nVC Firm Portfolio Team",
+        "options": {}
+      },
+      "name": "Send Report Request Email",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2,
+      "position": [
+        900,
+        300
+      ],
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "2",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "sheetName": "Report Tracking",
+        "columns": "={{ Object.keys($json) }}",
+        "options": {}
+      },
+      "name": "Log Report Request",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 3,
+      "position": [
+        1120,
+        300
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "1",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "portfolio-reporting",
+        "text": "=## Monthly Report Requests Sent\n\n**Reporting Period:** {{ $json.reportingPeriod }}\n**Due Date:** {{ new Date($json.reportDueDate).toLocaleDateString() }}\n\nReport requests have been sent to {{ $input.all().length }} portfolio companies. Tracking has been updated in the reporting spreadsheet.",
+        "additionalFields": {}
+      },
+      "name": "Send Slack Notification",
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 1,
+      "position": [
+        1340,
+        300
+      ],
+      "credentials": {
+        "slackApi": {
+          "id": "3",
+          "name": "Slack account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "portfolio-report-submission",
+        "options": {}
+      },
+      "name": "Report Submission Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [
+        240,
+        460
+      ],
+      "webhookId": "portfolio-report-submission"
+    },
+    {
+      "parameters": {
+        "triggerOn": "form",
+        "formTitle": "Portfolio Company Monthly Report",
+        "formDescription": "Submit your monthly report for your portfolio company. All fields marked with * are required.",
+        "formFields": {
+          "values": [
+            {
+              "fieldType": "text",
+              "fieldTypeOptions": {
+                "required": true
+              },
+              "fieldName": "companyName",
+              "fieldTitle": "Company Name"
+            },
+            {
+              "fieldType": "text",
+              "fieldTypeOptions": {
+                "required": true
+              },
+              "fieldName": "reportingPeriod",
+              "fieldTitle": "Reporting Period (Month Year)"
+            },
+            {
+              "fieldType": "number",
+              "fieldTypeOptions": {
+                "required": true
+              },
+              "fieldName": "revenue",
+              "fieldTitle": "Monthly Revenue ($)"
+            },
+            {
+              "fieldType": "number",
+              "fieldTypeOptions": {
+                "required": true
+              },
+              "fieldName": "expenses",
+              "fieldTitle": "Monthly Expenses ($)"
+            },
+            {
+              "fieldType": "number",
+              "fieldTypeOptions": {
+                "required": true
+              },
+              "fieldName": "cashBalance",
+              "fieldTitle": "Cash Balance ($)"
+            },
+            {
+              "fieldType": "number",
+              "fieldTypeOptions": {
+                "required": true
+              },
+              "fieldName": "runway",
+              "fieldTitle": "Runway (months)"
+            },
+            {
+              "fieldType": "number",
+              "fieldTypeOptions": {
+                "required": true
+              },
+              "fieldName": "headcount",
+              "fieldTitle": "Current Headcount"
+            },
+            {
+              "fieldType": "number",
+              "fieldTypeOptions": {
+                "required": true
+              },
+              "fieldName": "customers",
+              "fieldTitle": "Total Customers/Users"
+            },
+            {
+              "fieldType": "textarea",
+              "fieldTypeOptions": {
+                "required": true
+              },
+              "fieldName": "keyMilestones",
+              "fieldTitle": "Key Milestones Achieved"
+            },
+            {
+              "fieldType": "textarea",
+              "fieldTypeOptions": {
+                "required": true
+              },
+              "fieldName": "challenges",
+              "fieldTitle": "Current Challenges"
+            },
+            {
+              "fieldType": "textarea",
+              "fieldTypeOptions": {},
+              "fieldName": "supportNeeded",
+              "fieldTitle": "Support Needed from VC Firm"
+            },
+            {
+              "fieldType": "file",
+              "fieldTypeOptions": {},
+              "fieldName": "financialStatements",
+              "fieldTitle": "Financial Statements (PDF or Excel)"
+            },
+            {
+              "fieldType": "email",
+              "fieldTypeOptions": {
+                "required": true
+              },
+              "fieldName": "submitterEmail",
+              "fieldTitle": "Your Email"
+            }
+          ]
+        },
+        "formSubmitButtonText": "Submit Monthly Report",
+        "formSuccessResponseBody": "Thank you for submitting your monthly report. Your portfolio manager will review it and reach out if there are any questions.",
+        "options": {}
+      },
+      "name": "Report Submission Form",
+      "type": "n8n-nodes-base.form",
+      "typeVersion": 1,
+      "position": [
+        240,
+        620
+      ]
+    },
+    {
+      "parameters": {
+        "functionCode": "// Process report submission data\nconst reportData = $input.item.json;\n\n// Calculate key metrics\nconst profit = reportData.revenue - reportData.expenses;\nconst profitMargin = reportData.revenue > 0 ? (profit / reportData.revenue) * 100 : 0;\nconst burnRate = reportData.expenses - reportData.revenue;\n\n// Format reporting period\nconst reportingPeriod = reportData.reportingPeriod.trim();\n\n// Add calculated fields and metadata\nconst processedReport = {\n  ...reportData,\n  profit,\n  profitMargin,\n  burnRate,\n  submissionDate: new Date().toISOString(),\n  reportStatus: 'Submitted',\n  reviewStatus: 'Pending Review',\n  hasFinancials: !!reportData.financialStatements,\n  financialUrl: reportData.financialStatements || '',\n  lastUpdated: new Date().toISOString()\n};\n\nreturn { json: processedReport };"
+      },
+      "name": "Process Report Submission",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [
+        460,
+        460
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "lookup",
+        "sheetName": "Portfolio Companies",
+        "lookupColumn": "name",
+        "lookupValue": "={{ $json.companyName }}",
+        "options": {}
+      },
+      "name": "Get Company Details",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 3,
+      "position": [
+        680,
+        460
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "1",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "functionCode": "// Combine report data with company details\nconst reportData = $input.first().json;\nconst companyData = $input.last().json;\n\n// Create combined data object\nconst combinedData = {\n  ...reportData,\n  companyId: companyData.id,\n  stage: companyData.stage,\n  sector: companyData.sector,\n  investmentDate: companyData.investmentDate,\n  investmentAmount: companyData.investmentAmount,\n  ownership: companyData.ownership,\n  portfolioManager: companyData.portfolioManager,\n  boardSeat: companyData.boardSeat === 'Yes',\n  lastValuation: companyData.lastValuation\n};\n\n// Calculate performance metrics\nconst monthsSinceInvestment = Math.floor((new Date() - new Date(companyData.investmentDate)) / (30 * 24 * 60 * 60 * 1000));\nconst revenueGrowth = companyData.lastReportedRevenue ? ((reportData.revenue - companyData.lastReportedRevenue) / companyData.lastReportedRevenue) * 100 : 0;\nconst customerGrowth = companyData.lastReportedCustomers ? ((reportData.customers - companyData.lastReportedCustomers) / companyData.lastReportedCustomers) * 100 : 0;\n\n// Add performance metrics\ncombinedData.monthsSinceInvestment = monthsSinceInvestment;\ncombinedData.revenueGrowth = revenueGrowth;\ncombinedData.customerGrowth = customerGrowth;\n\n// Add alert flags\ncombinedData.alerts = [];\nif (reportData.runway < 6) {\n  combinedData.alerts.push('Low Runway');\n}\nif (revenueGrowth < 0) {\n  combinedData.alerts.push('Revenue Decline');\n}\nif (customerGrowth < 0) {\n  combinedData.alerts.push('Customer Decline');\n}\nif (reportData.challenges && reportData.challenges.length > 100) {\n  combinedData.alerts.push('Significant Challenges');\n}\n\ncombinedData.alertCount = combinedData.alerts.length;\ncombinedData.alertsText = combinedData.alerts.join(', ');\n\nreturn { json: combinedData };"
+      },
+      "name": "Combine Data",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [
+        900,
+        460
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "sheetName": "Monthly Reports",
+        "columns": "={{ Object.keys($json) }}",
+        "options": {}
+      },
+      "name": "Save Report to Database",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 3,
+      "position": [
+        1120,
+        460
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "1",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "sheetName": "Report Tracking",
+        "key": "companyName",
+        "options": {}
+      },
+      "name": "Update Report Tracking",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 3,
+      "position": [
+        1340,
+        460
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "1",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "sheetName": "Portfolio Companies",
+        "key": "id",
+        "options": {}
+      },
+      "name": "Update Company Record",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 3,
+      "position": [
+        1560,
+        460
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "1",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "number": [
+            {
+              "value1": "={{ $json.alertCount }}",
+              "operation": "larger",
+              "value2": 0
+            }
+          ]
+        }
+      },
+      "name": "Has Alerts?",
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 1,
+      "position": [
+        1120,
+        620
+      ]
+    },
+    {
+      "parameters": {
+        "chatId": "portfolio-alerts",
+        "text": "=## Portfolio Company Alert: {{ $json.companyName }}\n\n**Alerts:** {{ $json.alertsText }}\n**Reporting Period:** {{ $json.reportingPeriod }}\n\n**Key Metrics:**\n- Revenue: ${{ $json.revenue.toLocaleString() }} ({{ $json.revenueGrowth.toFixed(1) }}% growth)\n- Runway: {{ $json.runway }} months\n- Cash Balance: ${{ $json.cashBalance.toLocaleString() }}\n- Customers: {{ $json.customers.toLocaleString() }} ({{ $json.customerGrowth.toFixed(1) }}% growth)\n\n**Challenges:** {{ $json.challenges }}\n\n**Support Needed:** {{ $json.supportNeeded || 'None specified' }}\n\nPortfolio Manager: {{ $json.portfolioManager }}",
+        "additionalFields": {}
+      },
+      "name": "Send Alert Notification",
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 1,
+      "position": [
+        1340,
+        620
+      ],
+      "credentials": {
+        "slackApi": {
+          "id": "3",
+          "name": "Slack account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "fromEmail": "reporting@vcfirm.com",
+        "toEmail": "={{ $json.portfolioManager }}",
+        "subject": "={{ 'ALERT: ' + $json.companyName + ' - ' + $json.alertsText }}",
+        "text": "=Dear {{ $json.portfolioManager.split('@')[0] }},\n\nThe monthly report for {{ $json.companyName }} has raised the following alerts:\n\n**{{ $json.alertsText }}**\n\n**Reporting Period:** {{ $json.reportingPeriod }}\n\n**Key Metrics:**\n- Revenue: ${{ $json.revenue.toLocaleString() }} ({{ $json.revenueGrowth.toFixed(1) }}% growth)\n- Runway: {{ $json.runway }} months\n- Cash Balance: ${{ $json.cashBalance.toLocaleString() }}\n- Customers: {{ $json.customers.toLocaleString() }} ({{ $json.customerGrowth.toFixed(1) }}% growth)\n\n**Challenges Reported:**\n{{ $json.challenges }}\n\n**Support Needed:**\n{{ $json.supportNeeded || 'None specified' }}\n\nPlease review the full report in the portfolio reporting dashboard and follow up with the company as needed.\n\nBest regards,\nVC Firm Portfolio Team",
+        "options": {}
+      },
+      "name": "Send Alert Email",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2,
+      "position": [
+        1560,
+        620
+      ],
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "2",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "portfolio-reporting",
+        "text": "=## New Portfolio Report Submitted\n\n**Company:** {{ $json.companyName }}\n**Reporting Period:** {{ $json.reportingPeriod }}\n**Submitted By:** {{ $json.submitterEmail }}\n\n**Key Metrics:**\n- Revenue: ${{ $json.revenue.toLocaleString() }}\n- Profit: ${{ $json.profit.toLocaleString() }} ({{ $json.profitMargin.toFixed(1) }}% margin)\n- Cash Balance: ${{ $json.cashBalance.toLocaleString() }}\n- Runway: {{ $json.runway }} months\n- Headcount: {{ $json.headcount }}\n- Customers: {{ $json.customers.toLocaleString() }}\n\nThe report has been saved to the database and is ready for review.",
+        "additionalFields": {}
+      },
+      "name": "Send Report Notification",
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 1,
+      "position": [
+        1780,
+        460
+      ],
+      "credentials": {
+        "slackApi": {
+          "id": "3",
+          "name": "Slack account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "triggerTimes": {
+          "item": [
+            {
+              "mode": "everyX",
+              "value": 1,
+              "unit": "weeks",
+              "weekDay": 1
+            }
+          ]
+        }
+      },
+      "name": "Weekly Portfolio Summary",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1,
+      "position": [
+        240,
+        780
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "sheetName": "Monthly Reports",
+        "options": {
+          "sort": {
+            "column": "submissionDate",
+            "direction": "desc"
+          }
+        }
+      },
+      "name": "Get Recent Reports",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 3,
+      "position": [
+        460,
+        780
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "1",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "functionCode": "// Generate portfolio summary report\nconst reports = $input.item.json;\n\n// Get reports from the last 30 days\nconst thirtyDaysAgo = new Date();\nthirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);\n\nconst recentReports = reports.filter(report => {\n  const submissionDate = new Date(report.submissionDate);\n  return submissionDate >= thirtyDaysAgo;\n});\n\n// Group reports by company (keeping only the most recent for each)\nconst companiesMap = {};\nfor (const report of recentReports) {\n  if (!companiesMap[report.companyId] || new Date(report.submissionDate) > new Date(companiesMap[report.companyId].submissionDate)) {\n    companiesMap[report.companyId] = report;\n  }\n}\n\n// Convert to array\nconst latestReports = Object.values(companiesMap);\n\n// Calculate portfolio metrics\nconst totalRevenue = latestReports.reduce((sum, report) => sum + (parseFloat(report.revenue) || 0), 0);\nconst totalProfit = latestReports.reduce((sum, report) => sum + (parseFloat(report.profit) || 0), 0);\nconst totalCash = latestReports.reduce((sum, report) => sum + (parseFloat(report.cashBalance) || 0), 0);\nconst totalCustomers = latestReports.reduce((sum, report) => sum + (parseFloat(report.customers) || 0), 0);\nconst totalHeadcount = latestReports.reduce((sum, report) => sum + (parseFloat(report.headcount) || 0), 0);\n\n// Calculate averages\nconst avgRunway = latestReports.reduce((sum, report) => sum + (parseFloat(report.runway) || 0), 0) / latestReports.length;\nconst avgRevenueGrowth = latestReports.reduce((sum, report) => sum + (parseFloat(report.revenueGrowth) || 0), 0) / latestReports.length;\nconst avgCustomerGrowth = latestReports.reduce((sum, report) => sum + (parseFloat(report.customerGrowth) || 0), 0) / latestReports.length;\n\n// Count companies by stage\nconst stageCount = {};\nfor (const report of latestReports) {\n  stageCount[report.stage] = (stageCount[report.stage] || 0) + 1;\n}\n\n// Count companies by sector\nconst sectorCount = {};\nfor (const report of latestReports) {\n  sectorCount[report.sector] = (sectorCount[report.sector] || 0) + 1;\n}\n\n// Find companies with alerts\nconst companiesWithAlerts = latestReports.filter(report => report.alertCount > 0);\n\n// Create summary report\nconst portfolioSummary = {\n  reportDate: new Date().toISOString(),\n  reportPeriod: `Last 30 days (${new Date(thirtyDaysAgo).toLocaleDateString()} - ${new Date().toLocaleDateString()})`,\n  totalCompanies: latestReports.length,\n  totalRevenue,\n  totalProfit,\n  totalCash,\n  totalCustomers,\n  totalHeadcount,\n  avgRunway,\n  avgRevenueGrowth,\n  avgCustomerGrowth,\n  stageDistribution: JSON.stringify(stageCount),\n  sectorDistribution: JSON.stringify(sectorCount),\n  companiesWithAlerts: companiesWithAlerts.length,\n  alertCompanies: companiesWithAlerts.map(c => c.companyName).join(', '),\n  lowRunwayCompanies: latestReports.filter(r => r.runway < 6).map(c => c.companyName).join(', '),\n  highGrowthCompanies: latestReports.filter(r => r.revenueGrowth > 50).map(c => c.companyName).join(', ')\n};\n\nreturn { json: portfolioSummary };"
+      },
+      "name": "Generate Portfolio Summary",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [
+        680,
+        780
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "sheetName": "Portfolio Summaries",
+        "columns": "={{ Object.keys($json) }}",
+        "options": {}
+      },
+      "name": "Save Portfolio Summary",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 3,
+      "position": [
+        900,
+        780
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "1",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "portfolio-summary",
+        "text": "=## Weekly Portfolio Summary\n\n**Period:** {{ $json.reportPeriod }}\n**Total Companies Reporting:** {{ $json.totalCompanies }}\n\n**Portfolio Metrics:**\n- Total Revenue: ${{ $json.totalRevenue.toLocaleString() }}\n- Total Profit: ${{ $json.totalProfit.toLocaleString() }}\n- Total Cash: ${{ $json.totalCash.toLocaleString() }}\n- Average Runway: {{ $json.avgRunway.toFixed(1) }} months\n- Average Revenue Growth: {{ $json.avgRevenueGrowth.toFixed(1) }}%\n- Total Headcount: {{ $json.totalHeadcount.toLocaleString() }}\n- Total Customers: {{ $json.totalCustomers.toLocaleString() }}\n\n**Companies with Alerts ({{ $json.companiesWithAlerts }}):**\n{{ $json.alertCompanies || 'None' }}\n\n**Companies with Low Runway (<6 months):**\n{{ $json.lowRunwayCompanies || 'None' }}\n\n**High Growth Companies (>50% growth):**\n{{ $json.highGrowthCompanies || 'None' }}\n\nThe full portfolio summary has been saved to the reporting database.",
+        "additionalFields": {}
+      },
+      "name": "Send Summary to Slack",
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 1,
+      "position": [
+        1120,
+        780
+      ],
+      "credentials": {
+        "slackApi": {
+          "id": "3",
+          "name": "Slack account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "fromEmail": "reporting@vcfirm.com",
+        "toEmail": "partners@vcfirm.com",
+        "ccEmail": "portfolioteam@vcfirm.com",
+        "subject": "Weekly Portfolio Company Performance Summary",
+        "text": "=Dear Partners,\n\nPlease find below the weekly summary of our portfolio company performance:\n\n**Period:** {{ $json.reportPeriod }}\n**Total Companies Reporting:** {{ $json.totalCompanies }}\n\n**Portfolio Metrics:**\n- Total Revenue: ${{ $json.totalRevenue.toLocaleString() }}\n- Total Profit: ${{ $json.totalProfit.toLocaleString() }}\n- Total Cash: ${{ $json.totalCash.toLocaleString() }}\n- Average Runway: {{ $json.avgRunway.toFixed(1) }} months\n- Average Revenue Growth: {{ $json.avgRevenueGrowth.toFixed(1) }}%\n- Total Headcount: {{ $json.totalHeadcount.toLocaleString() }}\n- Total Customers: {{ $json.totalCustomers.toLocaleString() }}\n\n**Companies with Alerts ({{ $json.companiesWithAlerts }}):**\n{{ $json.alertCompanies || 'None' }}\n\n**Companies with Low Runway (<6 months):**\n{{ $json.lowRunwayCompanies || 'None' }}\n\n**High Growth Companies (>50% growth):**\n{{ $json.highGrowthCompanies || 'None' }}\n\nThe full portfolio dashboard has been updated with the latest data and is available in the reporting portal.\n\nBest regards,\nVC Firm Portfolio Team",
+        "options": {}
+      },
+      "name": "Email Summary to Partners",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2,
+      "position": [
+        1340,
+        780
+      ],
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "2",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "triggerTimes": {
+          "item": [
+            {
+              "mode": "everyX",
+              "value": 1,
+              "unit": "days"
+            }
+          ]
+        }
+      },
+      "name": "Check Missing Reports",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1,
+      "position": [
+        240,
+        940
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "lookup",
+        "sheetName": "Report Tracking",
+        "lookupColumn": "reportStatus",
+        "lookupValue": "Requested",
+        "options": {}
+      },
+      "name": "Get Pending Reports",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 3,
+      "position": [
+        460,
+        940
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "1",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "functionCode": "// Check for overdue reports\nconst pendingReports = $input.item.json;\n\n// If no pending reports, return empty\nif (!pendingReports) {\n  return { json: { hasOverdueReports: false } };\n}\n\n// Check if report is overdue\nconst now = new Date();\nconst dueDate = new Date(pendingReports.reportDueDate);\nconst isOverdue = now > dueDate;\n\n// Calculate days overdue\nconst daysOverdue = Math.floor((now - dueDate) / (24 * 60 * 60 * 1000));\n\n// Determine if reminder should be sent\n// Send reminder if 1 day overdue, 3 days overdue, or 7 days overdue\nconst shouldSendReminder = isOverdue && (daysOverdue === 1 || daysOverdue === 3 || daysOverdue === 7);\n\nreturn {\n  json: {\n    ...pendingReports,\n    isOverdue,\n    daysOverdue,\n    shouldSendReminder\n  }\n};"
+      },
+      "name": "Check Overdue Reports",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [
+        680,
+        940
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "boolean": [
+            {
+              "value1": "={{ $json.shouldSendReminder }}",
+              "value2": true
+            }
+          ]
+        }
+      },
+      "name": "Should Send Reminder?",
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 1,
+      "position": [
+        900,
+        940
+      ]
+    },
+    {
+      "parameters": {
+        "fromEmail": "reporting@vcfirm.com",
+        "toEmail": "={{ $json.reportingEmail }}",
+        "ccEmail": "={{ $json.ccEmails.join(',') }}",
+        "subject": "={{ 'REMINDER: ' + $json.companyName + ' - Monthly Report for ' + $json.reportingPeriod + ' is Overdue' }}",
+        "text": "=Dear {{ $json.companyName }} Team,\n\nThis is a reminder that your monthly report for {{ $json.reportingPeriod }} is now {{ $json.daysOverdue }} day(s) overdue. The report was due on {{ new Date($json.reportDueDate).toLocaleDateString() }}.\n\nPlease submit your report as soon as possible using one of the following methods:\n\n1. Reply to this email with attachments\n2. Use our secure reporting form: {{ $json.reportingFormUrl || 'https://vcfirm.com/portfolio-reporting' }}\n3. Update your dedicated reporting dashboard\n\nTimely reporting is essential for us to provide appropriate support and fulfill our obligations to our limited partners. If you're experiencing any difficulties with the reporting process or need an extension, please contact your portfolio manager directly.\n\nBest regards,\nVC Firm Portfolio Team",
+        "options": {}
+      },
+      "name": "Send Reminder Email",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2,
+      "position": [
+        1120,
+        940
+      ],
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "2",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "sheetName": "Report Tracking",
+        "key": "companyId",
+        "options": {}
+      },
+      "name": "Update Reminder Status",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 3,
+      "position": [
+        1340,
+        940
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "1",
+          "name": "Google Sheets account"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Monthly Report Trigger": {
+      "main": [
+        [
+          {
+            "node": "Get Portfolio Companies",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Portfolio Companies": {
+      "main": [
+        [
+          {
+            "node": "Prepare Reporting Requests",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prepare Reporting Requests": {
+      "main": [
+        [
+          {
+            "node": "Send Report Request Email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send Report Request Email": {
+      "main": [
+        [
+          {
+            "node": "Log Report Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Log Report Request": {
+      "main": [
+        [
+          {
+            "node": "Send Slack Notification",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Report Submission Webhook": {
+      "main": [
+        [
+          {
+            "node": "Process Report Submission",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Report Submission Form": {
+      "main": [
+        [
+          {
+            "node": "Process Report Submission",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Process Report Submission": {
+      "main": [
+        [
+          {
+            "node": "Get Company Details",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Company Details": {
+      "main": [
+        [
+          {
+            "node": "Combine Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Combine Data": {
+      "main": [
+        [
+          {
+            "node": "Save Report to Database",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Has Alerts?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Save Report to Database": {
+      "main": [
+        [
+          {
+            "node": "Update Report Tracking",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update Report Tracking": {
+      "main": [
+        [
+          {
+            "node": "Update Company Record",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update Company Record": {
+      "main": [
+        [
+          {
+            "node": "Send Report Notification",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Has Alerts?": {
+      "main": [
+        [
+          {
+            "node": "Send Alert Notification",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send Alert Notification": {
+      "main": [
+        [
+          {
+            "node": "Send Alert Email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Weekly Portfolio Summary": {
+      "main": [
+        [
+          {
+            "node": "Get Recent Reports",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Recent Reports": {
+      "main": [
+        [
+          {
+            "node": "Generate Portfolio Summary",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate Portfolio Summary": {
+      "main": [
+        [
+          {
+            "node": "Save Portfolio Summary",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Save Portfolio Summary": {
+      "main": [
+        [
+          {
+            "node": "Send Summary to Slack",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send Summary to Slack": {
+      "main": [
+        [
+          {
+            "node": "Email Summary to Partners",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Missing Reports": {
+      "main": [
+        [
+          {
+            "node": "Get Pending Reports",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Pending Reports": {
+      "main": [
+        [
+          {
+            "node": "Check Overdue Reports",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Overdue Reports": {
+      "main": [
+        [
+          {
+            "node": "Should Send Reminder?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Should Send Reminder?": {
+      "main": [
+        [
+          {
+            "node": "Send Reminder Email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send Reminder Email": {
+      "main": [
+        [
+          {
+            "node": "Update Reminder Status",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "saveManualExecutions": true,
+    "callerPolicy": "workflowsFromSameOwner",
+    "errorWorkflow": "",
+    "saveExecutionProgress": true,
+    "saveDataErrorExecution": "all"
+  },
+  "tags": [
+    {
+      "name": "portfolio",
+      "color": "#00cc00"
+    },
+    {
+      "name": "reporting",
+      "color": "#0000cc"
+    }
+  ],
+  "pinData": {},
+  "versionId": "1",
+  "triggerCount": 4,
+  "staticData": null,
+  "id": "5"
+}

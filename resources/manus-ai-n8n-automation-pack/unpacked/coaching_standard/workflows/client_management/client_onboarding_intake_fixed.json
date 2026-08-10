@@ -1,0 +1,368 @@
+{
+  "name": "Client Onboarding & Intake Automation",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "new-client-intake",
+        "options": {}
+      },
+      "name": "Webhook - New Client Intake",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [
+        250,
+        300
+      ],
+      "webhookId": "client-onboarding-intake"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Validate incoming client data\nconst data = $input.item.json;\nconst requiredFields = ['name', 'email', 'phone', 'goals', 'preferredCoachingType'];\n\nlet missingFields = [];\nrequiredFields.forEach(field => {\n  if (!data[field]) {\n    missingFields.push(field);\n  }\n});\n\nif (missingFields.length > 0) {\n  return {\n    json: {\n      success: false,\n      message: `Missing required fields: ${missingFields.join(', ')}`,\n      validationError: true\n    }\n  };\n}\n\n// Format and standardize data\nreturn {\n  json: {\n    ...data,\n    name: data.name.trim(),\n    email: data.email.toLowerCase().trim(),\n    phone: data.phone.replace(/[^0-9+]/g, ''),\n    intakeDate: new Date().toISOString(),\n    status: 'New',\n    success: true\n  }\n};"
+      },
+      "name": "Validate and Format Data",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [
+        400,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "boolean": [
+            {
+              "value1": "={{ $json.success }}",
+              "value2": true,
+              "operation": "equal"
+            }
+          ]
+        }
+      },
+      "name": "Is Valid Data?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [
+        550,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "YOUR_CLIENTS_SHEET_ID",
+          "mode": "list",
+          "cachedResultName": "Clients"
+        },
+        "sheetName": "Clients",
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Name": "={{ $json.name }}",
+            "Email": "={{ $json.email }}",
+            "Phone": "={{ $json.phone }}",
+            "Intake Date": "={{ $json.intakeDate.split('T')[0] }}",
+            "Goals": "={{ $json.goals }}",
+            "Preferred Coaching Type": "={{ $json.preferredCoachingType }}",
+            "Referral Source": "={{ $json.referralSource || \"Not specified\" }}",
+            "Status": "={{ $json.status }}",
+            "Notes": "={{ $json.additionalNotes || \"\" }}"
+          }
+        }
+      },
+      "name": "Google Sheets - Add Client",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4,
+      "position": [
+        700,
+        200
+      ]
+    },
+    {
+      "parameters": {
+        "authentication": "serviceAccount",
+        "operation": "completion",
+        "model": "gpt-4",
+        "prompt": {
+          "value": "Create a personalized welcome email for a new coaching client with the following details:\n\nClient Name: {{ $json.name }}\nCoaching Goals: {{ $json.goals }}\nPreferred Coaching Type: {{ $json.preferredCoachingType }}\n\nThe email should:\n1. Warmly welcome them to the coaching practice\n2. Acknowledge their specific goals\n3. Briefly explain the next steps in the onboarding process\n4. Mention that they'll receive a welcome packet and scheduling information soon\n5. Invite them to prepare any questions for their first session\n\nThe tone should be professional but warm and encouraging. Format the email with appropriate HTML formatting including a greeting and signature. Keep the email concise but personalized."
+        },
+        "options": {
+          "temperature": 0.7,
+          "maxTokens": 1000
+        }
+      },
+      "name": "OpenAI - Generate Welcome Email",
+      "type": "n8n-nodes-base.openAi",
+      "typeVersion": 1,
+      "position": [
+        850,
+        200
+      ]
+    },
+    {
+      "parameters": {
+        "fromEmail": "your.coaching.business@example.com",
+        "toEmail": "={{ $json.email }}",
+        "subject": "Welcome to Your Coaching Journey!",
+        "text": "",
+        "html": "={{ $node[\"OpenAI - Generate Welcome Email\"].json.text }}",
+        "options": {}
+      },
+      "name": "Gmail - Send Welcome Email",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2,
+      "position": [
+        1000,
+        200
+      ]
+    },
+    {
+      "parameters": {
+        "authentication": "serviceAccount",
+        "operation": "completion",
+        "model": "gpt-4",
+        "prompt": {
+          "value": "Create a personalized welcome packet PDF content for a new coaching client with the following details:\n\nClient Name: {{ $json.name }}\nCoaching Goals: {{ $json.goals }}\nPreferred Coaching Type: {{ $json.preferredCoachingType }}\n\nThe welcome packet should include:\n\n1. A personalized welcome letter\n2. Information about the coaching process and methodology\n3. Client-coach agreement and expectations\n4. Session preparation guidelines\n5. A brief coaching questionnaire to help them prepare for the first session\n\nFormat the content with appropriate headings, paragraphs, and bullet points. The tone should be professional, warm, and encouraging."
+        },
+        "options": {
+          "temperature": 0.7,
+          "maxTokens": 2000
+        }
+      },
+      "name": "OpenAI - Generate Welcome Packet",
+      "type": "n8n-nodes-base.openAi",
+      "typeVersion": 1,
+      "position": [
+        1150,
+        200
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Create a PDF from the welcome packet content\nconst fs = require('fs');\nconst path = require('path');\nconst { jsPDF } = require('jspdf');\n\n// Create a temporary directory for the PDF\nconst tempDir = '/tmp/welcome-packets';\nif (!fs.existsSync(tempDir)) {\n  fs.mkdirSync(tempDir, { recursive: true });\n}\n\n// Sanitize client name for filename\nconst sanitizedName = $json.name.replace(/[^a-z0-9]/gi, '_').toLowerCase();\nconst timestamp = new Date().getTime();\nconst filename = `welcome_packet_${sanitizedName}_${timestamp}.pdf`;\nconst filepath = path.join(tempDir, filename);\n\n// Create PDF\nconst doc = new jsPDF();\nconst content = $node[\"OpenAI - Generate Welcome Packet\"].json.text;\n\n// Split content into lines that fit on the page\nconst splitText = doc.splitTextToSize(content, 180);\n\n// Add content to PDF\nlet y = 10;\nconst lineHeight = 7;\n\n// Add title\ndoc.setFontSize(16);\ndoc.text('Welcome to Your Coaching Journey', 105, y, { align: 'center' });\ny += 15;\n\n// Add content\ndoc.setFontSize(12);\nfor (let i = 0; i < splitText.length; i++) {\n  // Check if we need a new page\n  if (y > 280) {\n    doc.addPage();\n    y = 10;\n  }\n  \n  doc.text(splitText[i], 15, y);\n  y += lineHeight;\n}\n\n// Save the PDF\ndoc.save(filepath);\n\nreturn {\n  json: {\n    ...$json,\n    welcomePacketPath: filepath,\n    welcomePacketFilename: filename\n  }\n};"
+      },
+      "name": "Create Welcome Packet PDF",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [
+        1300,
+        200
+      ]
+    },
+    {
+      "parameters": {
+        "fromEmail": "your.coaching.business@example.com",
+        "toEmail": "={{ $json.email }}",
+        "subject": "Your Coaching Welcome Packet",
+        "text": "",
+        "html": "<p>Dear {{ $json.name }},</p>\n\n<p>Thank you for joining our coaching program! Attached is your personalized welcome packet with important information to help you get the most out of our coaching relationship.</p>\n\n<p>Please review the materials and complete the brief questionnaire before our first session. This will help us make the most of our time together.</p>\n\n<p>I'm looking forward to supporting you in achieving your goals!</p>\n\n<p>Best regards,<br>\nYour Coach</p>",
+        "options": {
+          "attachments": [
+            {
+              "name": "={{ \"Welcome Packet - \" + $json.name + \".pdf\" }}",
+              "path": "={{ $json.welcomePacketPath }}"
+            }
+          ]
+        }
+      },
+      "name": "Gmail - Send Welcome Packet",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2,
+      "position": [
+        1450,
+        200
+      ]
+    },
+    {
+      "parameters": {
+        "chatId": "YOUR_SLACK_CHANNEL_ID",
+        "text": "✅ New client onboarded!\n\n*Name:* {{ $json.name }}\n*Email:* {{ $json.email }}\n*Goals:* {{ $json.goals }}\n*Preferred Coaching Type:* {{ $json.preferredCoachingType }}\n*Referral Source:* {{ $json.referralSource || \"Not specified\" }}",
+        "otherOptions": {
+          "parse_mode": "markdown"
+        }
+      },
+      "name": "Slack - Send Notification",
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 2,
+      "position": [
+        1600,
+        200
+      ]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseData": {
+          "value": {
+            "success": true,
+            "message": "Client onboarded successfully! Welcome emails and materials have been sent.",
+            "clientId": "={{ $node[\"Google Sheets - Add Client\"].json.id }}"
+          }
+        },
+        "options": {}
+      },
+      "name": "Respond - Success",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [
+        1750,
+        200
+      ]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseData": {
+          "value": {
+            "success": false,
+            "message": "={{ $json.message || \"Invalid client data\" }}"
+          }
+        },
+        "options": {
+          "responseCode": 400
+        }
+      },
+      "name": "Respond - Error",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [
+        700,
+        400
+      ]
+    }
+  ],
+  "connections": {
+    "Webhook - New Client Intake": {
+      "main": [
+        [
+          {
+            "node": "Validate and Format Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Validate and Format Data": {
+      "main": [
+        [
+          {
+            "node": "Is Valid Data?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Is Valid Data?": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets - Add Client",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Respond - Error",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets - Add Client": {
+      "main": [
+        [
+          {
+            "node": "OpenAI - Generate Welcome Email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI - Generate Welcome Email": {
+      "main": [
+        [
+          {
+            "node": "Gmail - Send Welcome Email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Gmail - Send Welcome Email": {
+      "main": [
+        [
+          {
+            "node": "OpenAI - Generate Welcome Packet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI - Generate Welcome Packet": {
+      "main": [
+        [
+          {
+            "node": "Create Welcome Packet PDF",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create Welcome Packet PDF": {
+      "main": [
+        [
+          {
+            "node": "Gmail - Send Welcome Packet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Gmail - Send Welcome Packet": {
+      "main": [
+        [
+          {
+            "node": "Slack - Send Notification",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Slack - Send Notification": {
+      "main": [
+        [
+          {
+            "node": "Respond - Success",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "saveManualExecutions": true,
+    "callerPolicy": "workflowsFromSameOwner",
+    "errorWorkflow": "YOUR_ERROR_WORKFLOW_ID"
+  },
+  "tags": [
+    "client-management",
+    "onboarding"
+  ],
+  "triggerCount": 1
+}

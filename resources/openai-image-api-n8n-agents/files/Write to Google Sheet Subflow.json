@@ -1,0 +1,420 @@
+{
+  "name": "GPT Image Save to Sheets SubWorkflow",
+  "nodes": [
+    {
+      "parameters": {
+        "workflowInputs": {
+          "values": [
+            {
+              "name": "Image Link"
+            },
+            {
+              "name": "Type"
+            },
+            {
+              "name": "Prompt"
+            },
+            {
+              "name": "Model"
+            },
+            {
+              "name": "Filename"
+            }
+          ]
+        }
+      },
+      "id": "c055762a-8fe7-4141-a639-df2372f30060",
+      "typeVersion": 1.1,
+      "name": "When Executed by Another Workflow",
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "position": [
+        260,
+        340
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "16bfbmumKETjOdZzyLOn-ITTXTNhtNnRSeQ2VtaJBkOE",
+          "mode": "list",
+          "cachedResultName": "GPT Image API Sheet",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/16bfbmumKETjOdZzyLOn-ITTXTNhtNnRSeQ2VtaJBkOE/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/16bfbmumKETjOdZzyLOn-ITTXTNhtNnRSeQ2VtaJBkOE/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Image Link": "={{ $json['Image Link'] }}",
+            "Type": "={{ $json.Type }}",
+            "Model": "={{ $json.Model }}",
+            "Prompt": "={{ $json.Prompt }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Image Link",
+              "displayName": "Image Link",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Type",
+              "displayName": "Type",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Model",
+              "displayName": "Model",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Prompt",
+              "displayName": "Prompt",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        1440,
+        320
+      ],
+      "id": "4d4e98dc-5542-44f2-8451-12e9e600718e",
+      "name": "Google Sheets",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "csxkrTkckZHfm18t",
+          "name": "Maaz Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "5f91170a-e870-417c-8f8e-99fdb3ebb32d",
+              "leftValue": "={{ $json['Image Link'] }}",
+              "rightValue": "drive.google.com",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        480,
+        340
+      ],
+      "id": "160f996b-8450-41b9-8c50-37de67202856",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "name": "={{ $('If').item.json.Filename }}",
+        "driveId": {
+          "__rl": true,
+          "mode": "list",
+          "value": "My Drive"
+        },
+        "folderId": {
+          "__rl": true,
+          "value": "1tG2vAn6MO_VX8LHTnettCBnGyAUyA5Sx",
+          "mode": "list",
+          "cachedResultName": "N8N Image Agent",
+          "cachedResultUrl": "https://drive.google.com/drive/folders/1tG2vAn6MO_VX8LHTnettCBnGyAUyA5Sx"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        920,
+        520
+      ],
+      "id": "2f26060d-87b5-441c-8cd5-6a88763bd104",
+      "name": "Google Drive1",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "8GZEWzWP6w0WaUF1",
+          "name": "Maaz Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "={{ $json['Image Link'] }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        720,
+        520
+      ],
+      "id": "bf9f1b56-8c7c-4762-814e-4f381cd137e9",
+      "name": "HTTP Request"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "b934b216-fea1-446c-a12c-e1e4df1bee18",
+              "name": "Image Link",
+              "value": "={{ $json.webViewLink }}",
+              "type": "string"
+            },
+            {
+              "id": "eafc6f06-3748-44ef-abd5-920309743c78",
+              "name": "Type",
+              "value": "={{ $('When Executed by Another Workflow').item.json.Type }}",
+              "type": "string"
+            },
+            {
+              "id": "aa6b1261-7fb5-449e-9d72-1d9e597a71ee",
+              "name": "Model",
+              "value": "={{ $('When Executed by Another Workflow').item.json.Model }}",
+              "type": "string"
+            },
+            {
+              "id": "98ca8e19-83ed-4ec5-8003-d138b809711e",
+              "name": "Prompt",
+              "value": "={{ $('When Executed by Another Workflow').item.json.Prompt }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1120,
+        520
+      ],
+      "id": "680e2077-effc-4c8f-826a-1e9a259a40d2",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "6079cc8a-ae66-4103-ac06-9c13df3815e3",
+              "name": "Response",
+              "value": "Success! The row has been added",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1660,
+        320
+      ],
+      "id": "d76785e3-a758-47ce-8dfa-22b8a08a5dcf",
+      "name": "Edit Fields1"
+    },
+    {
+      "parameters": {
+        "content": "Checks if the image is from Google Drive",
+        "height": 80,
+        "width": 180
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        440,
+        220
+      ],
+      "typeVersion": 1,
+      "id": "76487610-565a-4d8c-b67c-e4afa8e28518",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "content": "Downloads and uploads to Google Drive for consistent storage",
+        "height": 100,
+        "width": 180
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        680,
+        680
+      ],
+      "typeVersion": 1,
+      "id": "96dc0f09-2ce5-4eda-83c7-3b34be780a83",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "content": "used to format the data that was processed through the lower path (when an image is not from Google Drive but from an external URL)",
+        "width": 180
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1100,
+        680
+      ],
+      "typeVersion": 1,
+      "id": "3f2d5ea9-2659-453b-b325-e243f9f44ab6",
+      "name": "Sticky Note3"
+    },
+    {
+      "parameters": {
+        "content": "Add a row to Google Sheet",
+        "height": 80,
+        "width": 180
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1400,
+        220
+      ],
+      "typeVersion": 1,
+      "id": "0e43317b-973a-4d1f-be14-e4a1c3e08db7",
+      "name": "Sticky Note2"
+    }
+  ],
+  "pinData": {
+    "When Executed by Another Workflow": [
+      {
+        "json": {
+          "Image Link": "https://oaidalleapiprodscus.blob.core.windows.net/private/org-OuyljrfOW8vOGjcO3V6MaBJV/user-T0fGYI9gKLisiGRc0SfgVxW4/img-MzMYbibb9epmwIvBZe9RBD3U.png?st=2025-04-24T04%3A59%3A38Z&se=2025-04-24T06%3A59%3A38Z&sp=r&sv=2024-08-04&sr=b&rscd=inline&rsct=image/png&skoid=475fd488-6c59-44a5-9aa9-31c4db451bea&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2025-04-23T13%3A42%3A21Z&ske=2025-04-24T13%3A42%3A21Z&sks=b&skv=2024-08-04&sig=DXMu/xZb7kwNH3OkGlWDLhbq4cczchlQ3mRY2gvfyTg%3D",
+          "Type": "Create",
+          "Prompt": "A dog playfully eating a colorful ball in a sunny park, with trees and grass in the background. The dog is a golden retriever, looking happy and energetic.",
+          "Model": "dall-e-3"
+        }
+      }
+    ]
+  },
+  "connections": {
+    "When Executed by Another Workflow": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "Google Drive1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Drive1": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "be22c066-cf59-4821-8892-9df04644a61e",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "aaadb797535f05587ee95b776c942a7c3f7a46fd7aa0c9b6a9d64e1e595f8af1"
+  },
+  "id": "lmOokdLOv8cPudJx",
+  "tags": []
+}

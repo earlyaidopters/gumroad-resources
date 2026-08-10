@@ -1,0 +1,21 @@
+{
+  "name": "Claude Code Guide Prompts ⭐️",
+  "external_id": "nGpN-NxzfUiBu2r8wBaelQ==",
+  "permalink": "yfkxc",
+  "unique_permalink": "yfkxc",
+  "custom_permalink": "claude-code-guide-5-levels",
+  "url": "https://markkashef.gumroad.com/l/claude-code-guide-5-levels",
+  "status": "published",
+  "archived": false,
+  "kind": "products",
+  "price_formatted": "CAD$0+",
+  "description_md": "# What You Get\n5-Level Prompt Blueprint: Copy-paste prompts for every level of @claude-code-guide — from asking a basic question to having Claude fix its own broken automation. No setup required.\n5 Levels Covered:\n- Level 1 (Just Ask): How to get instant answers about any Claude Code feature without leaving the terminal\n- Level 2 (Diagnose): How to tag your CLAUDE.md and ask the guide what's missing\n- Level 3 (Learn the Landscape): How to understand every hook type available in Claude Code\n- Level 4 (Build): How to create a custom slash command in one prompt\n- Level 5 (Self-Improve): How to point Claude at its own broken automation and have it fix itself\nBonus Tips Page: 5 advanced ways to combine @claude-code-guide with other Claude Code features (sub-agents, file tagging, chaining).\n---\nWhy This Works\nMost Claude Code users don't know @claude-code-guide exists. The ones who do use it for basic questions and stop there. This guide takes you through all five levels so you can use it to actually change how your Claude Code setup works, not just answer questions.\n---\nWant my full library and access to every resource I create? Join 800+ builders inside the community:\nhttps://www.skool.com/earlyaidopters/about",
+  "files": [
+    {
+      "file": "5_LEVELS_CLAUDE_CODE_GUIDE.pdf",
+      "status": "cached",
+      "bytes": 12500
+    }
+  ],
+  "has_rich_content": true
+}

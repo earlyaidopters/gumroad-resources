@@ -1,0 +1,41 @@
+{
+  "name": "n8n Prompt Engineer Workflow ✏️",
+  "external_id": "vEIPtwV0xdtNmCvLcnZ4Pg==",
+  "permalink": "rmhgq",
+  "unique_permalink": "rmhgq",
+  "custom_permalink": "n8npromptengineer",
+  "url": "https://markkashef.gumroad.com/l/n8npromptengineer",
+  "status": "published",
+  "archived": false,
+  "kind": "products",
+  "price_formatted": "CAD$0+",
+  "description_md": "## What You Get\n\n- \nComprehensive Prompt Engineering Workflows: Ready-to-use n8n workflows specifically optimized for OpenAI, Google Gemini, Anthropic Claude, and other AI models, designed to maximize accuracy, efficiency, and precision.\n\n- \nAI Model-Specific Guidance: Structured, step-by-step system messages tailored to clearly define AI roles, tasks, outputs, and context, ensuring perfect execution and minimal hallucination.\n\n- \nVersatile Prompt Templates: Fully customizable prompts covering action planning, document analysis, goal prioritization, strategy formulation, KPI setting, and iterative refinement processes.\n\n- \nIntelligent AI Agent Integration: Seamlessly connect your workflows with AI Agents to auto-generate and refine prompts, enhancing clarity and reducing manual input.\n\n- \nDynamic Prompt Adjustment: Easily iterate prompts based on user feedback with built-in refinement mechanisms, allowing continuous improvement and precision tuning.",
+  "files": [
+    {
+      "file": "Tool_Call_for_Anthropic_Prompt_Engineer.json",
+      "status": "cached",
+      "bytes": 8161
+    },
+    {
+      "file": "Tool_Call_for_OpenAI_Prompt_Engineer.json",
+      "status": "cached",
+      "bytes": 7339
+    },
+    {
+      "file": "Tool_Call_for_Google_Prompt_Engineer.json",
+      "status": "cached",
+      "bytes": 6972
+    },
+    {
+      "file": "Tool_Call_for_Other_Models_Prompt_Engineer.json",
+      "status": "cached",
+      "bytes": 5994
+    },
+    {
+      "file": "Prompt_Engineer_Optimized.json",
+      "status": "cached",
+      "bytes": 10647
+    }
+  ],
+  "has_rich_content": true
+}

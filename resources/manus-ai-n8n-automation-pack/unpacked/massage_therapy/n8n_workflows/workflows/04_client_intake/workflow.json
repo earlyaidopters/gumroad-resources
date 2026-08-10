@@ -1,0 +1,433 @@
+{
+  "name": "Client Intake Form Processing",
+  "nodes": [
+    {
+      "parameters": {
+        "path": "intake-form-submission",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "name": "Intake Form Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [
+        250,
+        300
+      ],
+      "webhookId": "intake-form-submission"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Process and validate intake form data\nconst formData = $input.item.json.body || $input.item.json;\n\n// Sanitize and validate client information\nconst clientName = formData.name || '';\nconst clientEmail = formData.email || '';\nconst clientPhone = formData.phone || '';\nconst clientDOB = formData.dateOfBirth || '';\n\n// Format date of birth if provided\nlet formattedDOB = '';\nif (clientDOB) {\n  try {\n    const dobDate = new Date(clientDOB);\n    formattedDOB = dobDate.toISOString().split('T')[0]; // YYYY-MM-DD format\n  } catch (e) {\n    formattedDOB = clientDOB; // Keep as is if parsing fails\n  }\n}\n\n// Process health information\nconst medicalConditions = formData.medicalConditions || [];\nconst medications = formData.medications || [];\nconst allergies = formData.allergies || [];\nconst previousInjuries = formData.previousInjuries || [];\n\n// Process massage preferences\nconst pressurePreference = formData.pressurePreference || 'medium';\nconst focusAreas = formData.focusAreas || [];\nconst avoidAreas = formData.avoidAreas || [];\nconst aromatherapyPreference = formData.aromatherapyPreference || 'none';\n\n// Process appointment information\nconst appointmentId = formData.appointmentId || '';\nconst appointmentDate = formData.appointmentDate || '';\n\n// Generate a unique form submission ID\nconst formId = `INTAKE-${Date.now()}-${Math.floor(Math.random() * 1000)}`;\n\n// Format the final intake data\nconst formattedIntake = {\n  formId: formId,\n  submissionDate: new Date().toISOString(),\n  clientInfo: {\n    name: clientName,\n    email: clientEmail,\n    phone: clientPhone,\n    dateOfBirth: formattedDOB\n  },\n  healthInfo: {\n    medicalConditions: medicalConditions,\n    medications: medications,\n    allergies: allergies,\n    previousInjuries: previousInjuries\n  },\n  massagePreferences: {\n    pressurePreference: pressurePreference,\n    focusAreas: focusAreas,\n    avoidAreas: avoidAreas,\n    aromatherapyPreference: aromatherapyPreference\n  },\n  appointmentInfo: {\n    appointmentId: appointmentId,\n    appointmentDate: appointmentDate\n  },\n  consentGiven: formData.consentGiven === true || formData.consentGiven === 'true',\n  privacyAcknowledged: formData.privacyAcknowledged === true || formData.privacyAcknowledged === 'true'\n};\n\n// Validate required fields\nconst validationErrors = [];\nif (!clientName) validationErrors.push('Client name is required');\nif (!clientEmail) validationErrors.push('Client email is required');\nif (!formattedIntake.consentGiven) validationErrors.push('Consent must be given');\nif (!formattedIntake.privacyAcknowledged) validationErrors.push('Privacy policy must be acknowledged');\n\n// Add validation status\nformattedIntake.isValid = validationErrors.length === 0;\nformattedIntake.validationErrors = validationErrors;\n\nreturn {json: formattedIntake};"
+      },
+      "name": "Process Intake Form",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [
+        450,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "boolean": [
+            {
+              "value1": "={{ $json.isValid }}",
+              "value2": true
+            }
+          ]
+        }
+      },
+      "name": "Is Form Valid?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [
+        650,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "lookup",
+        "sheetName": "Clients",
+        "lookupColumn": "email",
+        "lookupValue": "={{ $json.clientInfo.email }}",
+        "options": {}
+      },
+      "name": "Check Client Database",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 3,
+      "position": [
+        850,
+        200
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "google_sheets_credentials",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{ $node[\"Check Client Database\"].json.id }}",
+              "operation": "exists"
+            }
+          ]
+        }
+      },
+      "name": "Is Existing Client?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [
+        1050,
+        200
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "sheetName": "Clients",
+        "key": "id",
+        "options": {}
+      },
+      "name": "Update Existing Client",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 3,
+      "position": [
+        1250,
+        100
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "google_sheets_credentials",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "sheetName": "Clients",
+        "options": {}
+      },
+      "name": "Add New Client",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 3,
+      "position": [
+        1250,
+        300
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "google_sheets_credentials",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "sheetName": "Intake Forms",
+        "options": {}
+      },
+      "name": "Store Intake Form",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 3,
+      "position": [
+        1450,
+        200
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "google_sheets_credentials",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "event",
+        "operation": "get",
+        "eventId": "={{ $json.appointmentInfo.appointmentId }}",
+        "calendarId": "={{ $env.MASSAGE_CALENDAR_ID }}",
+        "options": {}
+      },
+      "name": "Get Appointment Details",
+      "type": "n8n-nodes-base.googleCalendar",
+      "typeVersion": 1,
+      "position": [
+        1650,
+        200
+      ],
+      "credentials": {
+        "googleCalendarOAuth2Api": {
+          "id": "google_calendar_credentials",
+          "name": "Google Calendar account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "event",
+        "operation": "update",
+        "eventId": "={{ $json.id }}",
+        "calendarId": "={{ $json.calendarId }}",
+        "description": "=Client: {{ $node[\"Process Intake Form\"].json.clientInfo.name }}\nEmail: {{ $node[\"Process Intake Form\"].json.clientInfo.email }}\nPhone: {{ $node[\"Process Intake Form\"].json.clientInfo.phone }}\nService: {{ $json.summary.split('-')[0].trim() }}\nIntake Form: Completed\nForm ID: {{ $node[\"Process Intake Form\"].json.formId }}\n\nMedical Conditions: {{ $node[\"Process Intake Form\"].json.healthInfo.medicalConditions.join(', ') }}\nMedications: {{ $node[\"Process Intake Form\"].json.healthInfo.medications.join(', ') }}\nAllergies: {{ $node[\"Process Intake Form\"].json.healthInfo.allergies.join(', ') }}\nPrevious Injuries: {{ $node[\"Process Intake Form\"].json.healthInfo.previousInjuries.join(', ') }}\n\nPressure Preference: {{ $node[\"Process Intake Form\"].json.massagePreferences.pressurePreference }}\nFocus Areas: {{ $node[\"Process Intake Form\"].json.massagePreferences.focusAreas.join(', ') }}\nAreas to Avoid: {{ $node[\"Process Intake Form\"].json.massagePreferences.avoidAreas.join(', ') }}\nAromatherapy: {{ $node[\"Process Intake Form\"].json.massagePreferences.aromatherapyPreference }}",
+        "options": {
+          "colorId": "10"
+        }
+      },
+      "name": "Update Appointment with Intake Info",
+      "type": "n8n-nodes-base.googleCalendar",
+      "typeVersion": 1,
+      "position": [
+        1850,
+        200
+      ],
+      "credentials": {
+        "googleCalendarOAuth2Api": {
+          "id": "google_calendar_credentials",
+          "name": "Google Calendar account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "fromEmail": "forms@massagetherapy.com",
+        "toEmail": "={{ $json.clientInfo.email }}",
+        "subject": "Your Intake Form Has Been Received",
+        "text": "=Dear {{ $json.clientInfo.name }},\n\nThank you for completing your intake form for your upcoming massage appointment. We have received your information and it will be reviewed by your therapist before your session.\n\nYour form ID for reference is: {{ $json.formId }}\n\n**Appointment Details:**\n- Date: {{ new Date($node[\"Get Appointment Details\"].json.start.dateTime).toLocaleDateString() }}\n- Time: {{ new Date($node[\"Get Appointment Details\"].json.start.dateTime).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) }}\n- Service: {{ $node[\"Get Appointment Details\"].json.summary.split('-')[0].trim() }}\n\n**Your Preferences:**\n- Pressure Preference: {{ $json.massagePreferences.pressurePreference }}\n- Focus Areas: {{ $json.massagePreferences.focusAreas.join(', ') }}\n- Aromatherapy: {{ $json.massagePreferences.aromatherapyPreference }}\n\nIf you need to update any information before your appointment, please reply to this email or call us at (555) 123-4567.\n\nWe look forward to seeing you soon!\n\nWarm regards,\nThe Massage Therapy Team",
+        "options": {}
+      },
+      "name": "Send Confirmation Email",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 1,
+      "position": [
+        2050,
+        200
+      ],
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "gmail_credentials",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "fromEmail": "forms@massagetherapy.com",
+        "toEmail": "therapists@massagetherapy.com",
+        "subject": "=New Intake Form: {{ $json.clientInfo.name }} - {{ new Date($node[\"Get Appointment Details\"].json.start.dateTime).toLocaleDateString() }}",
+        "text": "=A new intake form has been submitted:\n\n**Client Information:**\n- Name: {{ $json.clientInfo.name }}\n- Email: {{ $json.clientInfo.email }}\n- Phone: {{ $json.clientInfo.phone }}\n- Date of Birth: {{ $json.clientInfo.dateOfBirth }}\n\n**Appointment Details:**\n- Date: {{ new Date($node[\"Get Appointment Details\"].json.start.dateTime).toLocaleDateString() }}\n- Time: {{ new Date($node[\"Get Appointment Details\"].json.start.dateTime).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) }}\n- Service: {{ $node[\"Get Appointment Details\"].json.summary.split('-')[0].trim() }}\n\n**Health Information:**\n- Medical Conditions: {{ $json.healthInfo.medicalConditions.join(', ') || 'None reported' }}\n- Medications: {{ $json.healthInfo.medications.join(', ') || 'None reported' }}\n- Allergies: {{ $json.healthInfo.allergies.join(', ') || 'None reported' }}\n- Previous Injuries: {{ $json.healthInfo.previousInjuries.join(', ') || 'None reported' }}\n\n**Massage Preferences:**\n- Pressure Preference: {{ $json.massagePreferences.pressurePreference }}\n- Focus Areas: {{ $json.massagePreferences.focusAreas.join(', ') || 'None specified' }}\n- Areas to Avoid: {{ $json.massagePreferences.avoidAreas.join(', ') || 'None specified' }}\n- Aromatherapy: {{ $json.massagePreferences.aromatherapyPreference }}\n\nPlease review this information before the client's appointment.\n\nForm ID: {{ $json.formId }}\nSubmission Date: {{ new Date($json.submissionDate).toLocaleString() }}",
+        "options": {}
+      },
+      "name": "Notify Therapist",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 1,
+      "position": [
+        2050,
+        400
+      ],
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "gmail_credentials",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "fromEmail": "forms@massagetherapy.com",
+        "toEmail": "={{ $json.clientInfo.email }}",
+        "subject": "Your Intake Form Requires Attention",
+        "text": "=Dear {{ $json.clientInfo.name }},\n\nThank you for submitting your intake form for your upcoming massage appointment. However, we noticed that there are some issues with your submission that need to be addressed:\n\n{% for error in $json.validationErrors %}\n- {{ error }}\n{% endfor %}\n\nPlease click the following link to update your form: [Complete Your Intake Form](https://massagetherapy.com/intake-form?email={{ $json.clientInfo.email | urlencode }})\n\nIf you have any questions or need assistance, please call us at (555) 123-4567.\n\nWarm regards,\nThe Massage Therapy Team",
+        "options": {}
+      },
+      "name": "Send Validation Error Email",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 1,
+      "position": [
+        850,
+        400
+      ],
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "gmail_credentials",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "errorMessage": "=Error in Client Intake Form workflow: {{ $json.error }}"
+      },
+      "name": "Error Handler",
+      "type": "n8n-nodes-base.errorTrigger",
+      "typeVersion": 1,
+      "position": [
+        650,
+        600
+      ]
+    }
+  ],
+  "connections": {
+    "Intake Form Webhook": {
+      "main": [
+        [
+          {
+            "node": "Process Intake Form",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Process Intake Form": {
+      "main": [
+        [
+          {
+            "node": "Is Form Valid?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Is Form Valid?": {
+      "main": [
+        [
+          {
+            "node": "Check Client Database",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Send Validation Error Email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Client Database": {
+      "main": [
+        [
+          {
+            "node": "Is Existing Client?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Is Existing Client?": {
+      "main": [
+        [
+          {
+            "node": "Update Existing Client",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Add New Client",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update Existing Client": {
+      "main": [
+        [
+          {
+            "node": "Store Intake Form",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Add New Client": {
+      "main": [
+        [
+          {
+            "node": "Store Intake Form",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Store Intake Form": {
+      "main": [
+        [
+          {
+            "node": "Get Appointment Details",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Appointment Details": {
+      "main": [
+        [
+          {
+            "node": "Update Appointment with Intake Info",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update Appointment with Intake Info": {
+      "main": [
+        [
+          {
+            "node": "Send Confirmation Email",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Notify Therapist",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "saveManualExecutions": true,
+    "callerPolicy": "workflowsFromSameOwner",
+    "errorWorkflow": "Client Intake Form Error Handler"
+  },
+  "tags": [
+    {
+      "name": "client-intake",
+      "color": "#00ccff"
+    },
+    {
+      "name": "massage-therapy",
+      "color": "#00ccff"
+    }
+  ],
+  "pinData": {},
+  "versionId": "1",
+  "triggerCount": 1,
+  "meta": {
+    "instanceId": "MASSAGE_THERAPY_BUSINESS"
+  },
+  "id": "client-intake-form-processing"
+}

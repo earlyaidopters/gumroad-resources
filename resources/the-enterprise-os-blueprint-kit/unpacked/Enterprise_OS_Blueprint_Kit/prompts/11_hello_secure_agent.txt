@@ -1,0 +1,13 @@
+Now prove the foundation is alive with the smallest possible end-to-end test: a single secure model call that writes its own audit record. This is a hello-world, not the full agent system, just enough to see the loop work in your own account.
+
+Write a tiny, readable script (a local Node or Python script is fine, no framework) that uses my deployed foundation to do three things:
+
+1. Call Amazon Bedrock in my account with a cheap model (Claude Haiku) and a trivial prompt like 'Say hello from inside my own AWS account in one sentence.' Use the AWS SDK and my region.
+
+2. Write one JSON audit record to my write-once audit S3 bucket: a timestamp, the action 'hello_test', the model id, my caller identity, and a short excerpt of the prompt and reply, the same shape the real system's audit trail uses.
+
+3. Print the model's reply, then read the audit object back from S3 and print it, so I can see both the call and its log.
+
+Use my profile or an IAM role for permissions, and hardcode no secrets. After it runs, confirm with me: the reply came from Bedrock in my account, and the audit object exists in the write-once bucket. Stop when I've seen a real model reply and its matching audit record.
+
+This is the moment the foundation stops being plumbing and becomes a secure AI system I own. The orchestrator, multiple agents, the chat surfaces, Jarvis, the dashboard, and the hardened production build are the next layer, and they live in the community.

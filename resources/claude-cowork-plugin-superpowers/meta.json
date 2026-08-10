@@ -1,0 +1,26 @@
+{
+  "name": "Claude Cowork Plugin Superpowers ⚡️",
+  "external_id": "gvEkWValzETyii_WkSJaWw==",
+  "permalink": "byxsu",
+  "unique_permalink": "byxsu",
+  "custom_permalink": "claude-cowork-plugin-superpowers",
+  "url": "https://markkashef.gumroad.com/l/claude-cowork-plugin-superpowers",
+  "status": "published",
+  "archived": false,
+  "kind": "products",
+  "price_formatted": "CAD$0+",
+  "description_md": "# What You Get\n\n- \nClaude Cowork Plugins Guide (PDF): 20+ page guide walking through all 11 Knowledge Work Plugins - what they do, key commands, connectors, and real use cases for each.\n\n- \nPlugin Diagrams (14 Excalidraw Images): Visual breakdowns of every plugin including \"What Are Plugins?\", plugin structure, the 11-plugin overview map, and individual diagrams for Productivity, Sales, Customer Support, Product Management, Marketing, Legal, Finance, Data, Enterprise Search, Bio-Research, and Plugin Management.\n\n- \nExcalidraw Canvas: Ready-to-use .excalidraw file with all diagrams arranged in storytelling order - perfect for presentations or video b-roll.\n\n---\nJoin 800+ builders going deeper on Claude Code:\nhttps://www.skool.com/earlyaidopters/about",
+  "files": [
+    {
+      "file": "claude_cowork_plugins_guide.pdf",
+      "status": "cached",
+      "bytes": 20389
+    },
+    {
+      "file": "diagrams.zip",
+      "status": "cached",
+      "bytes": 37780694
+    }
+  ],
+  "has_rich_content": true
+}

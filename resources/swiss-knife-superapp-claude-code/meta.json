@@ -1,0 +1,66 @@
+{
+  "name": "Swiss Knife Superapp (Claude Code) 🇨🇭",
+  "external_id": "fG4fEpENF-u1jsjAjcLwxA==",
+  "permalink": "lwddew",
+  "unique_permalink": "lwddew",
+  "custom_permalink": "media-toolkit-claude-code-prompts",
+  "url": "https://markkashef.gumroad.com/l/media-toolkit-claude-code-prompts",
+  "status": "published",
+  "archived": false,
+  "kind": "products",
+  "price_formatted": "CAD$0+",
+  "description_md": "# What You Get\n\n- \n9 Production-Ready Prompts: The exact prompts I used to build a complete Media Toolkit with Claude Code - step by step, in the order I executed them.\n\n- \nPlanning Prompt: Creates your implementation roadmap before writing a single line of code. This prevents wasted context and sets you up for a clean build.\n\n- \nProject Setup Prompt: Scaffolds your entire FastAPI backend, dark-themed UI, and folder structure in one shot.\n\n- \nImage Conversion Prompt: Build a tool that handles PNG, JPG, WEBP, GIF, BMP, TIFF, and even iPhone HEIC files. Bulk convert with a single click.\n\n- \nPDF Tools Prompt: Merge multiple PDFs (with drag-to-reorder) and split PDFs by page range or into individual pages.\n\n- \nAudio Extraction Prompt: Extract MP3, AAC, WAV, FLAC, or OGG audio from any video file. Choose your bitrate. No uploads to sketchy websites.\n\n- \nVideo Splitting Prompt: Split large videos into equal parts for Gemini uploads or long-form content. Handles multi-GB files without crashing.\n\n- \nVideo Compression Prompt: Three compression modes - target size, quality preset, or resolution. Turn a 4GB video into 100MB without losing your mind.\n\n- \nAI Image Editor Prompt: Generate and edit images with Google Gemini. Style presets, aspect ratios, background removal, and custom prompts.\n\n- \nPolish and Testing Prompt: Add toast notifications, loading states, error handling, and accessibility. Ship something production-ready.\n\n- \nBaton Pass Technique: The exact prompt structure I use to transfer context between Claude Code sessions without losing progress.\n\nWant to go even deeper?\nInside the Early AI-dopters Community, I drop exclusive tutorials, walk you through builds like this one in detail, and answer your questions in weekly office hours.\nJoin here: https://www.skool.com/earlyaidopters/about",
+  "files": [
+    {
+      "file": "00-planning-prompt.md",
+      "status": "cached",
+      "bytes": 2381
+    },
+    {
+      "file": "01-project-setup.md",
+      "status": "cached",
+      "bytes": 4434
+    },
+    {
+      "file": "02-image-conversion.md",
+      "status": "cached",
+      "bytes": 5950
+    },
+    {
+      "file": "03-pdf-tools.md",
+      "status": "cached",
+      "bytes": 6508
+    },
+    {
+      "file": "04-audio-extraction.md",
+      "status": "cached",
+      "bytes": 5929
+    },
+    {
+      "file": "05-video-splitting.md",
+      "status": "cached",
+      "bytes": 7185
+    },
+    {
+      "file": "06-video-compression.md",
+      "status": "cached",
+      "bytes": 8465
+    },
+    {
+      "file": "07-ai-image-editor.md",
+      "status": "cached",
+      "bytes": 11206
+    },
+    {
+      "file": "08-polish-and-testing.md",
+      "status": "cached",
+      "bytes": 7094
+    },
+    {
+      "file": "gemini_api_documentation_december_2025.md",
+      "status": "cached",
+      "bytes": 31451
+    }
+  ],
+  "has_rich_content": true
+}

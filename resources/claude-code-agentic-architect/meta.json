@@ -1,0 +1,15 @@
+{
+  "name": "Claude Code Agentic Architect 🧱",
+  "external_id": "fAFJS0EWNM0LOwividdCcg==",
+  "permalink": "hnqzrf",
+  "unique_permalink": "hnqzrf",
+  "custom_permalink": "claudecodeagents",
+  "url": "https://markkashef.gumroad.com/l/claudecodeagents",
+  "status": "published",
+  "archived": false,
+  "kind": "products",
+  "price_formatted": "CAD$0+",
+  "description_md": "# What You Get\n\n- A single, plug-and-play prompt that analyzes any scenario and designs a complete 1–3 agent system end-to-end.\n\n- Enforces a two-part output: (1) Required Agent Definitions (name, description, prompt for each) and (2) Initial Execution Prompt to run the whole workflow.\n\n- Agent definitions mirror the “senior-editor” quality bar—tight roles, clear responsibilities, and production-ready prompts.\n\n- Orchestrator section references agents by name and order, specifies the final deliverable, and is ready to paste into your runner.\n\n- Works in Claude Code, Cursor, ChatGPT Projects—just paste and supply your scenario.\n\n- Deliverable: the prompt text only (no extra files).Want even to level up your Claude Code game with a mega course?\n\nJoin Early AI-dopters: https://www.skool.com/earlyaidopters/about",
+  "files": [],
+  "has_rich_content": true
+}

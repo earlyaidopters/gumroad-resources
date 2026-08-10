@@ -1,0 +1,592 @@
+{
+  "name": "Facebook Engagement Content Automation",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "days",
+              "minutesInterval": 0,
+              "hoursInterval": 0,
+              "daysInterval": 7
+            }
+          ],
+          "triggerAtTime": true,
+          "hour": 14,
+          "minute": 0
+        }
+      },
+      "id": "1a5c1e9a-5352-4ab1-a9f5-c29a2e83a0a0",
+      "name": "Schedule Trigger",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1,
+      "position": [
+        250,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "read",
+        "documentId": {
+          "__rl": true,
+          "value": "GOOGLE_SHEET_ID_PLACEHOLDER",
+          "mode": "list",
+          "cachedResultName": "Engagement Topics",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/GOOGLE_SHEET_ID_PLACEHOLDER/edit"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 0,
+          "mode": "list",
+          "cachedResultName": "Topics"
+        },
+        "range": "A:C",
+        "options": {
+          "headerRow": true
+        }
+      },
+      "id": "2b6d2f9b-6463-4bc2-b0f6-d3a3f4b4a0b1",
+      "name": "Google Sheets - Get Topics",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 3,
+      "position": [
+        450,
+        300
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "GOOGLE_SHEETS_CREDENTIAL_ID_PLACEHOLDER",
+          "name": "Google Sheets Account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// Select a topic from the Google Sheet based on date rotation\nconst items = $input.all();\nconst topics = items.map(item => item.json);\n\n// Filter out any empty rows\nconst validTopics = topics.filter(topic => \n  topic.topic && topic.topic.trim() !== '' && \n  topic.description && topic.description.trim() !== ''\n);\n\n// Use the current week number to rotate through topics\nconst now = new Date();\nconst startOfYear = new Date(now.getFullYear(), 0, 1);\nconst days = Math.floor((now - startOfYear) / (24 * 60 * 60 * 1000));\nconst weekNumber = Math.ceil(days / 7);\n\n// Select topic based on week number\nconst topicIndex = weekNumber % validTopics.length;\nconst selectedTopic = validTopics[topicIndex] || {\n  topic: \"Client Engagement Strategies\",\n  description: \"Effective ways to engage with coaching clients\",\n  include_visual: \"yes\"\n};\n\nreturn {\n  topic: selectedTopic.topic,\n  description: selectedTopic.description,\n  includeVisual: selectedTopic.include_visual === 'yes',\n  timestamp: new Date().toISOString(),\n  weekNumber: weekNumber\n};"
+      },
+      "id": "3c7e3f0c-7574-4cd3-c1f7-e4b4f5c5b1c2",
+      "name": "Code - Select Topic",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [
+        650,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialName": "OpenAI API Key",
+        "operation": "message",
+        "model": "gpt-4",
+        "options": {
+          "temperature": 0.8,
+          "maxTokens": 1000
+        },
+        "messages": {
+          "values": [
+            {
+              "role": "system",
+              "content": "You are an expert at creating engaging Facebook posts for coaching businesses. Your posts should be conversational, include questions or calls to action, and encourage audience engagement."
+            },
+            {
+              "role": "user",
+              "content": "=Create an engaging Facebook post for a coaching business on the topic of \"{{$node[\"Code - Select Topic\"].json[\"topic\"]}}\".\n\nDescription: {{$node[\"Code - Select Topic\"].json[\"description\"]}}\n\nThe post should be between 100-250 words, include at least one question or call to action to encourage engagement, and end with 3-5 relevant hashtags. Make the tone conversational and approachable."
+            }
+          ]
+        }
+      },
+      "id": "4d8f4g1d-8685-5de4-d2g8-f5c6g6d7c2d3",
+      "name": "OpenAI - Generate Content",
+      "type": "n8n-nodes-langchain.openai",
+      "typeVersion": 1,
+      "position": [
+        850,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "boolean": [
+            {
+              "value1": "={{$node[\"Code - Select Topic\"].json[\"includeVisual\"]}}",
+              "value2": true
+            }
+          ]
+        }
+      },
+      "id": "5e9g5h2e-9796-6ef5-e3h9-g6d7h7e8d3e4",
+      "name": "IF - Include Visual",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [
+        1050,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://api.canva.com/v1/designs",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialName": "Canva API Key",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "template_id",
+              "value": "FACEBOOK_TEMPLATE_ID_PLACEHOLDER"
+            },
+            {
+              "name": "title",
+              "value": "=Facebook Post - {{$node[\"Code - Select Topic\"].json[\"topic\"]}} - {{$now.format(\"YYYY-MM-DD\")}}"
+            },
+            {
+              "name": "text_elements",
+              "value": "=[\n  {\n    \"element_id\": \"title\",\n    \"text\": {{$node[\"Code - Select Topic\"].json[\"topic\"]}}\n  },\n  {\n    \"element_id\": \"subtitle\",\n    \"text\": \"Coaching Insights\"\n  }\n]"
+            },
+            {
+              "name": "brand_options",
+              "value": "{\n  \"colors\": [\"#4267B2\", \"#898F9C\", \"#FFFFFF\"],\n  \"fonts\": [\"Helvetica\", \"Arial\"]\n}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "6f0h6i3f-0807-7fg6-f4i0-h7e8i8f9e4f5",
+      "name": "HTTP Request - Canva Design",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 3,
+      "position": [
+        1250,
+        200
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Process the Canva response and prepare for Facebook posting\n// In a real implementation, this would handle downloading the image\n\n// Simulate image processing\nconst canvaResponse = $input.item.json;\nconst designId = canvaResponse.id || 'sample-design-id';\nconst designUrl = canvaResponse.url || 'https://example.com/design.jpg';\n\n// In a real implementation, we would download the image here\n\nreturn {\n  designId,\n  designUrl,\n  hasVisual: true,\n  content: $node[\"OpenAI - Generate Content\"].json.text || $node[\"OpenAI - Generate Content\"].json.content\n};"
+      },
+      "id": "7g1i7j4g-1918-8gh7-g5j1-i8f9j9g0f5g6",
+      "name": "Code - Process With Visual",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [
+        1450,
+        200
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Prepare content without visual\nreturn {\n  hasVisual: false,\n  content: $node[\"OpenAI - Generate Content\"].json.text || $node[\"OpenAI - Generate Content\"].json.content\n};"
+      },
+      "id": "8h2j8k5h-2029-9hi8-h6k2-j9g0k0h1g6h7",
+      "name": "Code - Process Without Visual",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [
+        1250,
+        400
+      ]
+    },
+    {
+      "parameters": {
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialName": "Facebook Graph API",
+        "resource": "Default",
+        "operation": "POST",
+        "url": "=/PAGE_ID_PLACEHOLDER/feed",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "message",
+              "value": "={{$node[\"Code - Merge Content\"].json[\"content\"]}}"
+            },
+            {
+              "name": "link",
+              "value": "={{$node[\"Code - Merge Content\"].json[\"hasVisual\"] ? $node[\"Code - Merge Content\"].json[\"designUrl\"] : \"\"}}"
+            }
+          ]
+        }
+      },
+      "id": "9i3k9l6i-3130-0ij9-i7l3-k0h1l1i2h7i8",
+      "name": "Facebook Graph API - Post to Page",
+      "type": "n8n-nodes-base.facebookGraphApi",
+      "typeVersion": 1,
+      "position": [
+        1850,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Merge content from either visual or non-visual path\nconst input = $input.item.json;\n\nreturn {\n  hasVisual: input.hasVisual,\n  content: input.content,\n  designUrl: input.designUrl || null,\n  designId: input.designId || null,\n  topic: $node[\"Code - Select Topic\"].json.topic\n};"
+      },
+      "id": "0j4l0m7j-4241-1jk0-j8m4-l1i2m2j3i8j9",
+      "name": "Code - Merge Content",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [
+        1650,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Store post ID and details for engagement tracking\nconst postResponse = $input.item.json;\nconst postId = postResponse.id || null;\n\nreturn {\n  postId,\n  timestamp: new Date().toISOString(),\n  topic: $node[\"Code - Select Topic\"].json.topic,\n  content: $node[\"Code - Merge Content\"].json.content.substring(0, 100) + '...',\n  hasVisual: $node[\"Code - Merge Content\"].json.hasVisual\n};"
+      },
+      "id": "1k5m1n8k-5352-2kl1-k9n5-m2j3n3k4j9k0",
+      "name": "Code - Track Engagement",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [
+        2050,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "GOOGLE_SHEET_ID_PLACEHOLDER",
+          "mode": "list",
+          "cachedResultName": "Engagement Tracking",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/GOOGLE_SHEET_ID_PLACEHOLDER/edit"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 0,
+          "mode": "list",
+          "cachedResultName": "Posts"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "mappingMode": "defineBelow",
+            "value": {
+              "date": "={{$node[\"Code - Track Engagement\"].json[\"timestamp\"]}}",
+              "post_id": "={{$node[\"Code - Track Engagement\"].json[\"postId\"]}}",
+              "topic": "={{$node[\"Code - Track Engagement\"].json[\"topic\"]}}",
+              "has_visual": "={{$node[\"Code - Track Engagement\"].json[\"hasVisual\"]}}",
+              "content_preview": "={{$node[\"Code - Track Engagement\"].json[\"content\"]}}"
+            }
+          }
+        },
+        "options": {}
+      },
+      "id": "2l6n2o9l-6463-3lm2-l0o6-n3k4o4l5k0l1",
+      "name": "Google Sheets - Log Post",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 3,
+      "position": [
+        2250,
+        300
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "GOOGLE_SHEETS_CREDENTIAL_ID_PLACEHOLDER",
+          "name": "Google Sheets Account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialName": "Slack Account",
+        "channel": "coaching-automation-alerts",
+        "text": "=Facebook engagement post successfully published at {{$now.format(\"YYYY-MM-DD HH:mm:ss\")}}.\n\nTopic: {{$node[\"Code - Select Topic\"].json[\"topic\"]}}\nVisual included: {{$node[\"Code - Merge Content\"].json[\"hasVisual\"] ? \"Yes\" : \"No\"}}",
+        "otherOptions": {}
+      },
+      "id": "3m7o3p0m-7574-4mn3-m1p7-o5l6p5m6l1m2",
+      "name": "Slack - Send Notification",
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 1,
+      "position": [
+        2450,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "boolean": [
+            {
+              "value1": "={{$node[\"Facebook Graph API - Post to Page\"].json.hasOwnProperty('error')}}",
+              "value2": true
+            }
+          ]
+        }
+      },
+      "id": "4n8p4q1n-8685-5no4-n2q8-p6m7q6n7m2n3",
+      "name": "IF - Posting Error",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [
+        1850,
+        500
+      ]
+    },
+    {
+      "parameters": {
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialName": "Slack Account",
+        "channel": "coaching-automation-alerts",
+        "text": "=⚠️ ERROR: Facebook post failed to publish at {{$now.format(\"YYYY-MM-DD HH:mm:ss\")}}.\n\nError details: {{$node[\"Facebook Graph API - Post to Page\"].json.error}}",
+        "otherOptions": {}
+      },
+      "id": "5o9q5r2o-9796-6op5-o3r9-q7n8r7o8n3o4",
+      "name": "Slack - Send Error",
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 1,
+      "position": [
+        2050,
+        500
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "GOOGLE_SHEET_ID_PLACEHOLDER",
+          "mode": "list",
+          "cachedResultName": "Failed Posts",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/GOOGLE_SHEET_ID_PLACEHOLDER/edit"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 0,
+          "mode": "list",
+          "cachedResultName": "Sheet1"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "mappingMode": "defineBelow",
+            "value": {
+              "date": "={{$now.format(\"YYYY-MM-DD HH:mm:ss\")}}",
+              "topic": "={{$node[\"Code - Select Topic\"].json[\"topic\"]}}",
+              "content": "={{$node[\"Code - Merge Content\"].json[\"content\"]}}",
+              "has_visual": "={{$node[\"Code - Merge Content\"].json[\"hasVisual\"]}}",
+              "status": "=Failed",
+              "error": "={{$node[\"Facebook Graph API - Post to Page\"].json.error}}"
+            }
+          }
+        },
+        "options": {}
+      },
+      "id": "6p0r6s3p-0807-7pq6-p4s0-r8o9s8p9o4p5",
+      "name": "Google Sheets - Store Failed Post",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 3,
+      "position": [
+        2250,
+        500
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "GOOGLE_SHEETS_CREDENTIAL_ID_PLACEHOLDER",
+          "name": "Google Sheets Account"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets - Get Topics",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets - Get Topics": {
+      "main": [
+        [
+          {
+            "node": "Code - Select Topic",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code - Select Topic": {
+      "main": [
+        [
+          {
+            "node": "OpenAI - Generate Content",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI - Generate Content": {
+      "main": [
+        [
+          {
+            "node": "IF - Include Visual",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "IF - Include Visual": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request - Canva Design",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Code - Process Without Visual",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request - Canva Design": {
+      "main": [
+        [
+          {
+            "node": "Code - Process With Visual",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code - Process With Visual": {
+      "main": [
+        [
+          {
+            "node": "Code - Merge Content",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code - Process Without Visual": {
+      "main": [
+        [
+          {
+            "node": "Code - Merge Content",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Facebook Graph API - Post to Page": {
+      "main": [
+        [
+          {
+            "node": "Code - Track Engagement",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "IF - Posting Error",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code - Merge Content": {
+      "main": [
+        [
+          {
+            "node": "Facebook Graph API - Post to Page",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code - Track Engagement": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets - Log Post",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets - Log Post": {
+      "main": [
+        [
+          {
+            "node": "Slack - Send Notification",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "IF - Posting Error": {
+      "main": [
+        [
+          {
+            "node": "Slack - Send Error",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Slack - Send Error": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets - Store Failed Post",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1",
+    "saveManualExecutions": true,
+    "callerPolicy": "workflowsFromSameOwner",
+    "errorWorkflow": ""
+  },
+  "staticData": null,
+  "tags": [
+    "content",
+    "facebook",
+    "automation",
+    "coaching",
+    "engagement"
+  ],
+  "triggerCount": 1,
+  "versionId": "4d5e6f7g-8h9i-0j1k-2l3m-4n5o6p7q8r9s"
+}

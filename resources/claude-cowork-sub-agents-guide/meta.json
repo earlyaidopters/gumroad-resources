@@ -1,0 +1,21 @@
+{
+  "name": "Claude CoWork Sub-Agents Guide 🤖",
+  "external_id": "k5D9u4tm8aSHPdvaCSmhdQ==",
+  "permalink": "fvxwx",
+  "unique_permalink": "fvxwx",
+  "custom_permalink": "claude-cowork-subagents-guide",
+  "url": "https://markkashef.gumroad.com/l/claude-cowork-subagents-guide",
+  "status": "published",
+  "archived": false,
+  "kind": "products",
+  "price_formatted": "CAD$0+",
+  "description_md": "# What You Get\n\n- \nComprehensive PDF Guide (30+ Pages): A complete walkthrough of Claude Co-work's sub-agent system with step-by-step instructions\n\n- \nBuilt-In Agents Reference: Detailed breakdown of every pre-configured sub-agent and when to use each one\n\n- \nCustom Agent Templates: Ready-to-use templates for creating your own specialized agents (Research, QA, Analysis, Content)\n\n- \nThe 4-Phase Workflow Pattern: The exact Research > Plan > Execute > QA pattern used by power users\n\n- \n5 Real-World Use Cases: Detailed examples including competitive analysis, content repurposing, proposal generation, and more\n\n- \nPersistence System: How to save your agents and workflows so you can reuse them across sessions\n\n- \nContext Management Strategies: Keep your conversations clean and avoid the dreaded auto-compaction\n\n- \nTroubleshooting Guide: Solutions to the most common sub-agent issues\n\nAfter downloading, join us in the community to share your workflows, get feedback, and stay ahead of the AI curve:\nhttps://www.skool.com/earlyaidopters/about",
+  "files": [
+    {
+      "file": "Claude_CoWork_SubAgents_Guide.pdf",
+      "status": "cached",
+      "bytes": 35318
+    }
+  ],
+  "has_rich_content": true
+}

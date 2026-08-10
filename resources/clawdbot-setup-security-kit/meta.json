@@ -1,0 +1,26 @@
+{
+  "name": "Clawdbot Setup & Security Kit 🦞",
+  "external_id": "o41abrfDuYDbxnc_KXCT4A==",
+  "permalink": "eqlnpa",
+  "unique_permalink": "eqlnpa",
+  "custom_permalink": "clawdbot-jarvis-setup-kit",
+  "url": "https://markkashef.gumroad.com/l/clawdbot-jarvis-setup-kit",
+  "status": "published",
+  "archived": false,
+  "kind": "products",
+  "price_formatted": "CAD$0+",
+  "description_md": "## What You Get\nClawdbot Setup Checklist: Step-by-step deployment guide covering installation, onboarding, channel connection, skill configuration, and going live.\nSecurity Checklist: Production-ready security protocols including sandbox mode, scoped tokens, whitelist configuration, audit logging, and private deployment.\nArchitecture Reference: Visual breakdown of how Clawdbot works - channels, gateway, tools, and Claude integration.\nChannel Integration Guide: Setup instructions for Telegram, WhatsApp, Slack, and Discord connections.\nSkill Configuration Templates: Pre-built configurations for web scraping, calendar management, email handling, and custom API integrations.\nMac Mini Deployment Guide: Hardware recommendations and always-on deployment setup for 24/7 operation.\nWant a deeper dive into my Clawdbot setup? Check out my premium community, Early AI-dopters:\nhttps://www.skool.com/earlyaidopters/about",
+  "files": [
+    {
+      "file": "Mac_Mini_Setup_Guide.pdf",
+      "status": "cached",
+      "bytes": 4837
+    },
+    {
+      "file": "Clawdbot_Security_Checklist.pdf",
+      "status": "cached",
+      "bytes": 9360
+    }
+  ],
+  "has_rich_content": true
+}

@@ -1,0 +1,21 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(claude plugin:*)",
+      "WebFetch(domain:code.claude.com)",
+      "Bash(claude plugins list:*)",
+      "Bash(while read plugin)",
+      "Bash(do if [ -d ~/.claude/plugins/marketplaces/claude-code-plugins/plugins/\"$plugin\" ])",
+      "Bash(then echo \"- $plugin\")",
+      "Bash(fi)",
+      "Bash(done)",
+      "Bash(claude --version:*)"
+    ],
+    "deny": [],
+    "ask": []
+  },
+  "enabledPlugins": {
+    "feature-dev@claude-code-plugins": true,
+    "frontend-design@claude-code-plugins": true
+  }
+}

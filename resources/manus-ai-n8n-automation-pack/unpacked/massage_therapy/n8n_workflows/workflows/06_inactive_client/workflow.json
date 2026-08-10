@@ -1,0 +1,865 @@
+{
+  "name": "Inactive Client Re-engagement",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "days",
+              "dayOfWeek": 1
+            }
+          ]
+        }
+      },
+      "name": "Weekly Inactive Client Check",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1,
+      "position": [
+        250,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "sheetName": "Clients",
+        "options": {}
+      },
+      "name": "Retrieve Client Database",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 3,
+      "position": [
+        450,
+        300
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "google_sheets_credentials",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// Identify inactive clients\nconst clients = $input.item.json.rows || [];\nconst now = new Date();\nconst inactiveClients = [];\n\nfor (const client of clients) {\n  // Skip clients with missing data\n  if (!client.email || !client.lastAppointmentDate) continue;\n  \n  // Skip clients with do-not-contact flag\n  if (client.doNotContact === 'true' || client.doNotContact === true) continue;\n  \n  // Calculate days since last appointment\n  let lastAppointmentDate;\n  try {\n    lastAppointmentDate = new Date(client.lastAppointmentDate);\n  } catch (e) {\n    continue; // Skip if date is invalid\n  }\n  \n  const diffTime = Math.abs(now - lastAppointmentDate);\n  const daysSinceLastAppointment = Math.ceil(diffTime / (1000 * 60 * 60 * 24));\n  \n  // Check if client has future appointments\n  const hasFutureAppointment = client.nextAppointmentDate && new Date(client.nextAppointmentDate) > now;\n  \n  // Check if client has recent re-engagement attempt\n  let lastReengagementDate = null;\n  let daysSinceLastReengagement = 365; // Default to a year if no previous attempt\n  \n  if (client.lastReengagementDate) {\n    try {\n      lastReengagementDate = new Date(client.lastReengagementDate);\n      const reengagementDiffTime = Math.abs(now - lastReengagementDate);\n      daysSinceLastReengagement = Math.ceil(reengagementDiffTime / (1000 * 60 * 60 * 24));\n    } catch (e) {\n      // Invalid date, use default\n    }\n  }\n  \n  // Determine if client is inactive and eligible for re-engagement\n  if (daysSinceLastAppointment >= 60 && !hasFutureAppointment && daysSinceLastReengagement >= 30) {\n    // Determine inactivity segment\n    let segment = '';\n    if (daysSinceLastAppointment >= 180) {\n      segment = 'long-term';\n    } else if (daysSinceLastAppointment >= 90) {\n      segment = 'mid-term';\n    } else {\n      segment = 'early';\n    }\n    \n    // Check for seasonal patterns\n    const isSeasonalClient = client.isSeasonalClient === 'true' || client.isSeasonalClient === true;\n    \n    // Skip seasonal clients unless they're in long-term inactive segment\n    if (isSeasonalClient && segment !== 'long-term') continue;\n    \n    // Add to inactive clients list\n    inactiveClients.push({\n      ...client,\n      daysSinceLastAppointment,\n      lastReengagementDate: lastReengagementDate ? lastReengagementDate.toISOString() : null,\n      daysSinceLastReengagement,\n      inactivitySegment: segment\n    });\n  }\n}\n\nreturn {json: {inactiveClients}};"
+      },
+      "name": "Identify Inactive Clients",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [
+        650,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "lookup",
+        "sheetName": "Client History",
+        "lookupColumn": "clientId",
+        "lookupValue": "={{ $json.id }}",
+        "options": {}
+      },
+      "name": "Retrieve Client History",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 3,
+      "position": [
+        850,
+        300
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "google_sheets_credentials",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// Personalize re-engagement strategy\nconst client = $input.item.json;\nconst clientHistory = $node[\"Retrieve Client History\"].json;\n\n// Determine client value tier\nlet clientValue = 'standard';\nlet lifetimeValue = 0;\n\nif (clientHistory.lifetimeValue) {\n  lifetimeValue = parseFloat(clientHistory.lifetimeValue) || 0;\n  if (lifetimeValue > 1000) {\n    clientValue = 'high';\n  } else if (lifetimeValue > 500) {\n    clientValue = 'medium';\n  }\n}\n\n// Determine visit frequency before inactivity\nlet visitFrequency = 'occasional';\nlet visitCount = parseInt(clientHistory.visitCount) || 0;\n\nif (visitCount > 10) {\n  visitFrequency = 'regular';\n} else if (visitCount > 5) {\n  visitFrequency = 'semi-regular';\n} else if (visitCount <= 2) {\n  visitFrequency = 'new';\n}\n\n// Determine preferred services\nlet preferredServices = [];\nif (clientHistory.preferredServices) {\n  if (typeof clientHistory.preferredServices === 'string') {\n    preferredServices = clientHistory.preferredServices.split(',').map(s => s.trim());\n  } else if (Array.isArray(clientHistory.preferredServices)) {\n    preferredServices = clientHistory.preferredServices;\n  }\n}\n\n// Determine re-engagement strategy based on client profile\nlet strategy = 'service-focused';\nlet incentiveLevel = 'low';\n\n// Determine strategy based on inactivity segment and client value\nif (client.inactivitySegment === 'long-term') {\n  if (clientValue === 'high') {\n    strategy = 'personal';\n    incentiveLevel = 'high';\n  } else {\n    strategy = 'value-focused';\n    incentiveLevel = 'medium';\n  }\n} else if (client.inactivitySegment === 'mid-term') {\n  if (visitFrequency === 'regular') {\n    strategy = 'wellness-focused';\n    incentiveLevel = 'medium';\n  } else {\n    strategy = 'service-focused';\n    incentiveLevel = 'low';\n  }\n} else { // early\n  strategy = 'service-focused';\n  incentiveLevel = 'low';\n}\n\n// Check for seasonal appropriateness\nconst currentMonth = new Date().getMonth();\nconst isWinterSeason = currentMonth >= 10 || currentMonth <= 1; // Nov-Feb\nconst isSpringSeason = currentMonth >= 2 && currentMonth <= 4; // Mar-May\nconst isSummerSeason = currentMonth >= 5 && currentMonth <= 7; // Jun-Aug\nconst isFallSeason = currentMonth >= 8 && currentMonth <= 9; // Sep-Oct\n\nif (isSummerSeason && preferredServices.some(s => s.toLowerCase().includes('hot stone'))) {\n  // Don't promote hot stone in summer\n  preferredServices = preferredServices.filter(s => !s.toLowerCase().includes('hot stone'));\n}\n\nif (isWinterSeason) {\n  // Winter is good for wellness messaging\n  if (strategy === 'service-focused') {\n    strategy = 'wellness-focused';\n  }\n}\n\n// Generate incentive based on level\nlet incentive = '';\nlet incentiveCode = '';\nswitch (incentiveLevel) {\n  case 'high':\n    incentive = '25% off your next massage session';\n    incentiveCode = `WELCOME25-${client.id}`;\n    break;\n  case 'medium':\n    incentive = '15% off your next massage session';\n    incentiveCode = `WELCOME15-${client.id}`;\n    break;\n  case 'low':\n  default:\n    incentive = '10% off your next massage session';\n    incentiveCode = `WELCOME10-${client.id}`;\n}\n\n// Generate personalized subject line\nlet subjectLine = '';\nswitch (strategy) {\n  case 'personal':\n    subjectLine = `${client.firstName}, we've missed you at Massage Therapy`;\n    break;\n  case 'wellness-focused':\n    subjectLine = 'Reconnect with your wellness routine';\n    break;\n  case 'value-focused':\n    subjectLine = `Special offer just for you: ${incentive}`;\n    break;\n  case 'service-focused':\n  default:\n    if (preferredServices.length > 0) {\n      subjectLine = `Time for your next ${preferredServices[0]}?`;\n    } else {\n      subjectLine = 'We've missed you at Massage Therapy';\n    }\n}\n\n// Generate personalized greeting\nlet greeting = `Dear ${client.firstName || client.name}`;\n\n// Generate personalized message based on strategy\nlet message = '';\nswitch (strategy) {\n  case 'personal':\n    message = `It's been ${client.daysSinceLastAppointment} days since your last visit with us, and we wanted to reach out personally. As one of our valued clients, your wellness is important to us, and we'd love to welcome you back.`;\n    break;\n  case 'wellness-focused':\n    message = `We understand that life gets busy, but regular massage therapy is an important part of maintaining your wellness routine. It's been ${client.daysSinceLastAppointment} days since your last massage, and your body might be missing the benefits of regular therapy.`;\n    break;\n  case 'value-focused':\n    message = `We value your business and would love to welcome you back to our massage therapy center. As a special incentive, we're offering you ${incentive} when you book your next appointment.`;\n    break;\n  case 'service-focused':\n  default:\n    if (preferredServices.length > 0) {\n      message = `We noticed it's been a while since your last ${preferredServices[0]}. Many of our clients find that regular sessions provide the best results for managing stress and tension.`;\n    } else {\n      message = `We noticed it's been ${client.daysSinceLastAppointment} days since your last massage therapy session with us. Regular massage therapy can help maintain the benefits you experienced during your previous visits.`;\n    }\n}\n\nreturn {\n  json: {\n    ...client,\n    clientValue,\n    lifetimeValue,\n    visitFrequency,\n    visitCount,\n    preferredServices,\n    reengagementStrategy: strategy,\n    incentiveLevel,\n    incentive,\n    incentiveCode,\n    subjectLine,\n    greeting,\n    personalizedMessage: message\n  }\n};"
+      },
+      "name": "Personalize Re-engagement Strategy",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [
+        1050,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "dataType": "string",
+        "value1": "={{ $json.reengagementStrategy }}",
+        "rules": {
+          "rules": [
+            {
+              "value2": "service-focused",
+              "type": "equal"
+            },
+            {
+              "value2": "wellness-focused",
+              "type": "equal"
+            },
+            {
+              "value2": "value-focused",
+              "type": "equal"
+            },
+            {
+              "value2": "personal",
+              "type": "equal"
+            }
+          ]
+        }
+      },
+      "name": "Route by Strategy",
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 1,
+      "position": [
+        1250,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Generate service-focused email content\nconst client = $input.item.json;\n\n// Get preferred service or default\nlet serviceHighlight = 'massage therapy';\nif (client.preferredServices && client.preferredServices.length > 0) {\n  serviceHighlight = client.preferredServices[0];\n}\n\n// Create email content\nconst emailContent = `${client.greeting},\n\n${client.personalizedMessage}\n\n**Benefits of Regular ${serviceHighlight}:**\n- Reduces muscle tension and pain\n- Improves circulation and flexibility\n- Lowers stress and anxiety levels\n- Enhances overall sense of well-being\n\n**Special Offer Just for You:**\nTo welcome you back, we're offering you ${client.incentive} when you book within the next 14 days. Simply use code **${client.incentiveCode}** when booking.\n\n**Book Your Appointment:**\nSecure your preferred time slot by booking online: [Book Now](https://massagetherapy.com/booking?code=${client.incentiveCode})\n\nOr call us at (555) 123-4567 to schedule your appointment.\n\nWe look forward to seeing you again soon!\n\nWarm regards,\nThe Massage Therapy Team`;\n\nreturn {\n  json: {\n    ...client,\n    emailContent\n  }\n};"
+      },
+      "name": "Create Service-Focused Content",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [
+        1450,
+        100
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Generate wellness-focused email content\nconst client = $input.item.json;\n\n// Create email content\nconst emailContent = `${client.greeting},\n\n${client.personalizedMessage}\n\n**Why Regular Massage Therapy Matters:**\nConsistent massage therapy sessions can help:\n- Maintain your body's natural balance\n- Prevent stress buildup before it becomes problematic\n- Support your immune system function\n- Improve sleep quality and energy levels\n\nYour wellness journey is important to us, and we'd love to help you get back on track.\n\n**Special Wellness Offer:**\nTo help you reconnect with your wellness routine, we're offering you ${client.incentive} when you book within the next 14 days. Simply use code **${client.incentiveCode}** when booking.\n\n**Reconnect with Your Wellness:**\n[Book Your Wellness Session](https://massagetherapy.com/booking?code=${client.incentiveCode})\n\nOr call us at (555) 123-4567 to discuss the best approach for your wellness needs.\n\nWe're here to support your journey to better health!\n\nWarm regards,\nThe Massage Therapy Team`;\n\nreturn {\n  json: {\n    ...client,\n    emailContent\n  }\n};"
+      },
+      "name": "Create Wellness-Focused Content",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [
+        1450,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Generate value-focused email content\nconst client = $input.item.json;\n\n// Create email content\nconst emailContent = `${client.greeting},\n\n${client.personalizedMessage}\n\n**Exclusive Limited-Time Offer:**\nThis special offer of ${client.incentive} is valid for 14 days only and has been extended to select clients like you.\n\n**How to Redeem:**\n1. Book online using code **${client.incentiveCode}**: [Book Now](https://massagetherapy.com/booking?code=${client.incentiveCode})\n2. Or call (555) 123-4567 and mention this email\n\n**Additional Value:**\nBook within 7 days and receive a complimentary aromatherapy enhancement with your session!\n\nOur schedule fills quickly, so we recommend booking soon to secure your preferred time slot.\n\nWe value your business and look forward to welcoming you back!\n\nWarm regards,\nThe Massage Therapy Team`;\n\nreturn {\n  json: {\n    ...client,\n    emailContent\n  }\n};"
+      },
+      "name": "Create Value-Focused Content",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [
+        1450,
+        500
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Generate personal email content\nconst client = $input.item.json;\n\n// Create email content\nconst emailContent = `${client.greeting},\n\n${client.personalizedMessage}\n\nAs someone who has been with us for ${client.visitCount} visits, we truly value your relationship with our massage therapy center. We understand that life gets busy, but we wanted to reach out personally to check in.\n\n**We've Prepared Something Special:**\nTo show our appreciation, we're offering you ${client.incentive} as our valued client. This is our way of saying thank you and welcoming you back.\n\n**Your Exclusive Code:**\nUse **${client.incentiveCode}** when booking your next appointment.\n\n**Book Your Personal Time:**\n[Reserve Your Session](https://massagetherapy.com/booking?code=${client.incentiveCode})\n\nOr if you prefer, call us directly at (555) 123-4567 and ask for Maria, who will personally assist with your booking.\n\nWe hope to see you again soon and continue being part of your wellness journey.\n\nWarm personal regards,\nJennifer Johnson\nOwner, Massage Therapy Center`;\n\nreturn {\n  json: {\n    ...client,\n    emailContent\n  }\n};"
+      },
+      "name": "Create Personal Content",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [
+        1450,
+        700
+      ]
+    },
+    {
+      "parameters": {
+        "fromEmail": "care@massagetherapy.com",
+        "toEmail": "={{ $json.email }}",
+        "subject": "={{ $json.subjectLine }}",
+        "text": "={{ $json.emailContent }}",
+        "options": {}
+      },
+      "name": "Send Initial Re-engagement Email",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 1,
+      "position": [
+        1650,
+        300
+      ],
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "gmail_credentials",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "sheetName": "Clients",
+        "key": "id",
+        "options": {}
+      },
+      "name": "Record Re-engagement Attempt",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 3,
+      "position": [
+        1850,
+        300
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "google_sheets_credentials",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "amount": 7,
+        "unit": "days"
+      },
+      "name": "Wait for Follow-up",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1,
+      "position": [
+        2050,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "lookup",
+        "sheetName": "Clients",
+        "lookupColumn": "id",
+        "lookupValue": "={{ $json.id }}",
+        "options": {}
+      },
+      "name": "Check for Response",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 3,
+      "position": [
+        2250,
+        300
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "google_sheets_credentials",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{ $node[\"Check for Response\"].json.hasResponded }}",
+              "operation": "notEqual",
+              "value2": "true"
+            }
+          ]
+        }
+      },
+      "name": "No Response Yet?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [
+        2450,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "fromEmail": "care@massagetherapy.com",
+        "toEmail": "={{ $json.email }}",
+        "subject": "=Reminder: Your Special Offer Expires Soon",
+        "text": "={{ $json.greeting }},\n\nWe wanted to remind you that your special offer of {{ $json.incentive }} is still available, but it expires soon.\n\n**Your Exclusive Code: {{ $json.incentiveCode }}**\n\nWe understand that life gets busy, but taking time for self-care is important. A massage session can help:\n- Reduce stress and anxiety\n- Relieve muscle tension and pain\n- Improve sleep quality\n- Boost your overall well-being\n\n**Book Your Appointment:**\n[Secure Your Spot Now](https://massagetherapy.com/booking?code={{ $json.incentiveCode }})\n\nOr call us at (555) 123-4567 to schedule.\n\nWe hope to see you again soon!\n\nWarm regards,\nThe Massage Therapy Team",
+        "options": {}
+      },
+      "name": "Send Follow-up Email",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 1,
+      "position": [
+        2650,
+        200
+      ],
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "gmail_credentials",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "sheetName": "Clients",
+        "key": "id",
+        "options": {}
+      },
+      "name": "Record Follow-up Sent",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 3,
+      "position": [
+        2850,
+        200
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "google_sheets_credentials",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "amount": 7,
+        "unit": "days"
+      },
+      "name": "Wait for Final Attempt",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1,
+      "position": [
+        3050,
+        200
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "lookup",
+        "sheetName": "Clients",
+        "lookupColumn": "id",
+        "lookupValue": "={{ $json.id }}",
+        "options": {}
+      },
+      "name": "Check for Final Response",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 3,
+      "position": [
+        3250,
+        200
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "google_sheets_credentials",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{ $node[\"Check for Final Response\"].json.hasResponded }}",
+              "operation": "notEqual",
+              "value2": "true"
+            }
+          ]
+        }
+      },
+      "name": "Still No Response?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [
+        3450,
+        200
+      ]
+    },
+    {
+      "parameters": {
+        "fromEmail": "care@massagetherapy.com",
+        "toEmail": "={{ $json.email }}",
+        "subject": "=Last Chance: Your Exclusive Massage Offer",
+        "text": "={{ $json.greeting }},\n\nThis is your final reminder about your exclusive offer for {{ $json.incentive }}. This offer expires in 48 hours.\n\n**Final Chance to Use Your Code: {{ $json.incentiveCode }}**\n\nWe've saved this offer specifically for you, and we'd love to welcome you back for a relaxing massage session.\n\n**Book Now:**\n[Last Chance to Book](https://massagetherapy.com/booking?code={{ $json.incentiveCode }})\n\nOr call (555) 123-4567 for immediate assistance.\n\n**We Value Your Feedback:**\nIf there's a reason you haven't returned, we'd appreciate your feedback. Simply reply to this email to let us know how we can better serve you.\n\n**Not interested in receiving these emails?**\nYou can update your communication preferences [here](https://massagetherapy.com/preferences?email={{ $json.email | urlencode }}).\n\nWarm regards,\nThe Massage Therapy Team",
+        "options": {}
+      },
+      "name": "Send Final Attempt Email",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 1,
+      "position": [
+        3650,
+        100
+      ],
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "gmail_credentials",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "sheetName": "Clients",
+        "key": "id",
+        "options": {}
+      },
+      "name": "Record Final Attempt",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 3,
+      "position": [
+        3850,
+        100
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "google_sheets_credentials",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "path": "booking-from-reengagement",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "name": "Re-engagement Booking Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [
+        250,
+        700
+      ],
+      "webhookId": "reengagement-booking"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Process successful re-engagement booking\nconst bookingData = $input.item.json.body || $input.item.json;\n\n// Extract booking details\nconst clientId = bookingData.clientId || '';\nconst clientEmail = bookingData.email || '';\nconst clientName = bookingData.name || '';\nconst appointmentDate = bookingData.appointmentDate || '';\nconst serviceType = bookingData.serviceType || '';\nconst promoCode = bookingData.promoCode || '';\n\n// Format the booking data\nconst formattedBooking = {\n  clientId: clientId,\n  clientEmail: clientEmail,\n  clientName: clientName,\n  appointmentDate: appointmentDate,\n  serviceType: serviceType,\n  promoCode: promoCode,\n  reengagementSuccess: true,\n  bookingTimestamp: new Date().toISOString()\n};\n\nreturn {json: formattedBooking};"
+      },
+      "name": "Process Re-engagement Success",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [
+        450,
+        700
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "sheetName": "Clients",
+        "key": "id",
+        "options": {}
+      },
+      "name": "Update Client Status",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 3,
+      "position": [
+        650,
+        700
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "google_sheets_credentials",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "sheetName": "Re-engagement Success",
+        "options": {}
+      },
+      "name": "Record Re-engagement Success",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 3,
+      "position": [
+        850,
+        700
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "google_sheets_credentials",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "fromEmail": "care@massagetherapy.com",
+        "toEmail": "={{ $json.clientEmail }}",
+        "subject": "Welcome Back! Your Appointment is Confirmed",
+        "text": "=Dear {{ $json.clientName }},\n\nThank you for booking your appointment with us! We're delighted to welcome you back to our massage therapy center.\n\n**Your Appointment Details:**\n- Date: {{ new Date($json.appointmentDate).toLocaleDateString() }}\n- Service: {{ $json.serviceType }}\n- Promo Code Applied: {{ $json.promoCode }}\n\n**Special Welcome Back Treatment:**\nAs a welcome back gift, we've added a complimentary hot towel treatment to your session.\n\n**Preparation Tips:**\n- Arrive 10-15 minutes early to complete any necessary paperwork\n- Wear comfortable, loose-fitting clothing\n- Avoid heavy meals before your massage\n- Stay hydrated before your appointment\n\n**Need to reschedule?**\nIf you need to reschedule, please do so at least 24 hours in advance by calling (555) 123-4567.\n\nWe're looking forward to seeing you again and helping you on your wellness journey!\n\nWarm regards,\nThe Massage Therapy Team",
+        "options": {}
+      },
+      "name": "Send Welcome Back Email",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 1,
+      "position": [
+        1050,
+        700
+      ],
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "gmail_credentials",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "sheetName": "Re-engagement Campaign Report",
+        "options": {}
+      },
+      "name": "Generate Campaign Report",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 3,
+      "position": [
+        1250,
+        700
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "google_sheets_credentials",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "errorMessage": "=Error in Inactive Client Re-engagement workflow: {{ $json.error }}"
+      },
+      "name": "Error Handler",
+      "type": "n8n-nodes-base.errorTrigger",
+      "typeVersion": 1,
+      "position": [
+        650,
+        900
+      ]
+    }
+  ],
+  "connections": {
+    "Weekly Inactive Client Check": {
+      "main": [
+        [
+          {
+            "node": "Retrieve Client Database",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Retrieve Client Database": {
+      "main": [
+        [
+          {
+            "node": "Identify Inactive Clients",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Identify Inactive Clients": {
+      "main": [
+        [
+          {
+            "node": "Retrieve Client History",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Retrieve Client History": {
+      "main": [
+        [
+          {
+            "node": "Personalize Re-engagement Strategy",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Personalize Re-engagement Strategy": {
+      "main": [
+        [
+          {
+            "node": "Route by Strategy",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Route by Strategy": {
+      "main": [
+        [
+          {
+            "node": "Create Service-Focused Content",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Create Wellness-Focused Content",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Create Value-Focused Content",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Create Personal Content",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create Service-Focused Content": {
+      "main": [
+        [
+          {
+            "node": "Send Initial Re-engagement Email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create Wellness-Focused Content": {
+      "main": [
+        [
+          {
+            "node": "Send Initial Re-engagement Email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create Value-Focused Content": {
+      "main": [
+        [
+          {
+            "node": "Send Initial Re-engagement Email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create Personal Content": {
+      "main": [
+        [
+          {
+            "node": "Send Initial Re-engagement Email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send Initial Re-engagement Email": {
+      "main": [
+        [
+          {
+            "node": "Record Re-engagement Attempt",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Record Re-engagement Attempt": {
+      "main": [
+        [
+          {
+            "node": "Wait for Follow-up",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait for Follow-up": {
+      "main": [
+        [
+          {
+            "node": "Check for Response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check for Response": {
+      "main": [
+        [
+          {
+            "node": "No Response Yet?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "No Response Yet?": {
+      "main": [
+        [
+          {
+            "node": "Send Follow-up Email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send Follow-up Email": {
+      "main": [
+        [
+          {
+            "node": "Record Follow-up Sent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Record Follow-up Sent": {
+      "main": [
+        [
+          {
+            "node": "Wait for Final Attempt",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait for Final Attempt": {
+      "main": [
+        [
+          {
+            "node": "Check for Final Response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check for Final Response": {
+      "main": [
+        [
+          {
+            "node": "Still No Response?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Still No Response?": {
+      "main": [
+        [
+          {
+            "node": "Send Final Attempt Email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send Final Attempt Email": {
+      "main": [
+        [
+          {
+            "node": "Record Final Attempt",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Re-engagement Booking Webhook": {
+      "main": [
+        [
+          {
+            "node": "Process Re-engagement Success",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Process Re-engagement Success": {
+      "main": [
+        [
+          {
+            "node": "Update Client Status",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update Client Status": {
+      "main": [
+        [
+          {
+            "node": "Record Re-engagement Success",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Record Re-engagement Success": {
+      "main": [
+        [
+          {
+            "node": "Send Welcome Back Email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send Welcome Back Email": {
+      "main": [
+        [
+          {
+            "node": "Generate Campaign Report",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "saveManualExecutions": true,
+    "callerPolicy": "workflowsFromSameOwner",
+    "errorWorkflow": "Inactive Client Re-engagement Error Handler"
+  },
+  "tags": [
+    {
+      "name": "client-reengagement",
+      "color": "#00ccff"
+    },
+    {
+      "name": "massage-therapy",
+      "color": "#00ccff"
+    }
+  ],
+  "pinData": {},
+  "versionId": "1",
+  "triggerCount": 2,
+  "meta": {
+    "instanceId": "MASSAGE_THERAPY_BUSINESS"
+  },
+  "id": "inactive-client-reengagement"
+}

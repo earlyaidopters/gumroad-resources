@@ -1,0 +1,91 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Research API",
+    "description": "This API uses Perplexity AI's model to perform a detailed search and provide summaries on a given topic, with a focus on Canadian content.",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "ENTER YOUR REPLIT URL HERE POST DEPLOYMENT"
+    }
+  ],
+  "paths": {
+    "/research": {
+      "post": {
+        "description": "Conducts detailed research on the provided content topic.",
+        "operationId": "research",
+        "requestBody": {
+          "description": "Payload containing the content topic to be researched",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "content_topic": {
+                    "type": "string",
+                    "description": "The topic or theme for which to conduct research, with a focus on Canadian sources."
+                  }
+                },
+                "required": [
+                  "content_topic"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Research conducted successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "response": {
+                      "type": "string",
+                      "description": "The summary of research results, including URLs and other relevant information."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request when the content topic is missing.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "description": "Error message explaining why the request is invalid."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error when there is a processing error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "description": "Error message explaining the internal error."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

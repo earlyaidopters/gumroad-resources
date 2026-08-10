@@ -1,0 +1,600 @@
+{
+  "name": "Client Session Scheduling Automation",
+  "nodes": [
+    {
+      "parameters": {
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialName": "Google Calendar OAuth2 API",
+        "resource": "event",
+        "operation": "getAll",
+        "calendarId": {
+          "__rl": true,
+          "value": "primary",
+          "mode": "list",
+          "cachedResultName": "primary"
+        },
+        "returnAll": false,
+        "limit": 10,
+        "options": {
+          "q": "coaching session",
+          "timeMin": "={{ $now.format() }}",
+          "timeMax": "={{ $now.plus({days: 7}).format() }}",
+          "singleEvents": true,
+          "orderBy": "startTime"
+        }
+      },
+      "id": "1a5c1e9a-5352-4ab1-a9f5-c29a2e83a0a0",
+      "name": "Google Calendar - Get Upcoming Sessions",
+      "type": "n8n-nodes-base.googleCalendar",
+      "typeVersion": 1,
+      "position": [
+        250,
+        300
+      ],
+      "webhookId": "1a2b3c4d-5e6f-7g8h-9i0j-1k2l3m4n5o6p",
+      "credentials": {
+        "googleCalendarOAuth2Api": {
+          "id": "GOOGLE_CALENDAR_CREDENTIAL_ID_PLACEHOLDER",
+          "name": "Google Calendar Account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// Process calendar events to extract client information\nconst events = $input.all().map(item => item.json);\n\n// Filter for new coaching sessions (created in the last 24 hours)\nconst now = new Date();\nconst oneDayAgo = new Date(now.getTime() - 24 * 60 * 60 * 1000);\n\nconst newSessions = events.filter(event => {\n  // Check if event was created recently\n  const createdTime = new Date(event.created);\n  return createdTime > oneDayAgo;\n});\n\n// Extract client information from event details\nconst processedSessions = newSessions.map(event => {\n  // Extract client email from attendees\n  const clientEmail = event.attendees ? \n    event.attendees.find(a => a.email !== event.organizer.email)?.email : \n    null;\n  \n  // Extract client name from summary or description\n  let clientName = '';\n  const summaryMatch = event.summary.match(/Session with (.+)/i);\n  if (summaryMatch && summaryMatch[1]) {\n    clientName = summaryMatch[1].trim();\n  } else if (event.description) {\n    const descMatch = event.description.match(/Client:\\s*(.+?)(?:\\n|$)/i);\n    if (descMatch && descMatch[1]) {\n      clientName = descMatch[1].trim();\n    }\n  }\n  \n  return {\n    eventId: event.id,\n    summary: event.summary,\n    description: event.description || '',\n    startTime: event.start.dateTime || event.start.date,\n    endTime: event.end.dateTime || event.end.date,\n    clientEmail: clientEmail,\n    clientName: clientName,\n    location: event.location || 'Online',\n    created: event.created,\n    updated: event.updated,\n    status: event.status\n  };\n});\n\n// Return the processed sessions\nreturn {\n  totalNewSessions: processedSessions.length,\n  sessions: processedSessions\n};"
+      },
+      "id": "2b6d2f9b-6463-4bc2-b0f6-d3a3f4b4a0b1",
+      "name": "Code - Process Calendar Events",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [
+        450,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "// Process each session individually\nconst sessions = $node[\"Code - Process Calendar Events\"].json.sessions;\nconst currentIndex = $input.item.index;\n\nif (currentIndex < sessions.length) {\n  return sessions[currentIndex];\n} else {\n  return {};\n}"
+      },
+      "id": "3c7e3f0c-7574-4cd3-c1f7-e4b4f5c5b1c2",
+      "name": "Code - Process Each Session",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [
+        650,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "read",
+        "documentId": {
+          "__rl": true,
+          "value": "GOOGLE_SHEET_ID_PLACEHOLDER",
+          "mode": "list",
+          "cachedResultName": "Client Database",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/GOOGLE_SHEET_ID_PLACEHOLDER/edit"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 0,
+          "mode": "list",
+          "cachedResultName": "Clients"
+        },
+        "range": "A:G",
+        "options": {
+          "headerRow": true
+        }
+      },
+      "id": "4d8f4g1d-8685-5de4-d2g8-f5c6g6d7c2d3",
+      "name": "Google Sheets - Get Client Data",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 3,
+      "position": [
+        850,
+        300
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "GOOGLE_SHEETS_CREDENTIAL_ID_PLACEHOLDER",
+          "name": "Google Sheets Account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// Match client data with session information\nconst session = $input.item.json;\nconst clientsData = $node[\"Google Sheets - Get Client Data\"].json;\n\n// Find client by email or name\nlet clientMatch = null;\nif (session.clientEmail) {\n  clientMatch = clientsData.find(client => \n    client.email && client.email.toLowerCase() === session.clientEmail.toLowerCase()\n  );\n}\n\n// If no match by email, try by name\nif (!clientMatch && session.clientName) {\n  const clientNameLower = session.clientName.toLowerCase();\n  clientMatch = clientsData.find(client => {\n    const fullName = `${client.first_name || ''} ${client.last_name || ''}`.toLowerCase();\n    return fullName.includes(clientNameLower) || clientNameLower.includes(fullName);\n  });\n}\n\n// Prepare client data\nlet clientData = {};\nif (clientMatch) {\n  clientData = {\n    clientId: clientMatch.id || clientMatch.client_id,\n    firstName: clientMatch.first_name || clientMatch.firstName || '',\n    lastName: clientMatch.last_name || clientMatch.lastName || '',\n    email: clientMatch.email || session.clientEmail,\n    phone: clientMatch.phone || '',\n    coachingType: clientMatch.coaching_type || clientMatch.coachingType || 'General',\n    sessionCount: parseInt(clientMatch.session_count || clientMatch.sessionCount || 0),\n    notes: clientMatch.notes || '',\n    status: clientMatch.status || 'Active',\n    clientFound: true\n  };\n} else {\n  // Create temporary client data if not found\n  clientData = {\n    clientId: `TEMP-${Date.now()}`,\n    firstName: session.clientName.split(' ')[0] || 'New',\n    lastName: session.clientName.split(' ').slice(1).join(' ') || 'Client',\n    email: session.clientEmail || '',\n    phone: '',\n    coachingType: 'Unknown',\n    sessionCount: 0,\n    notes: 'Automatically created from calendar event',\n    status: 'Pending',\n    clientFound: false\n  };\n}\n\n// Combine session and client data\nreturn {\n  ...session,\n  ...clientData,\n  fullName: `${clientData.firstName} ${clientData.lastName}`.trim(),\n  sessionDateTime: new Date(session.startTime).toLocaleString(),\n  sessionDuration: calculateDuration(session.startTime, session.endTime),\n  isNewClient: clientData.sessionCount === 0\n};\n\n// Helper function to calculate duration\nfunction calculateDuration(start, end) {\n  const startTime = new Date(start);\n  const endTime = new Date(end);\n  const durationMs = endTime - startTime;\n  const minutes = Math.floor(durationMs / 60000);\n  return `${minutes} minutes`;\n}"
+      },
+      "id": "5e9g5h2e-9796-6ef5-e3h9-g6d7h7e8d3e4",
+      "name": "Code - Match Client Data",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [
+        1050,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialName": "OpenAI API Key",
+        "operation": "message",
+        "model": "gpt-4",
+        "options": {
+          "temperature": 0.7,
+          "maxTokens": 1000
+        },
+        "messages": {
+          "values": [
+            {
+              "role": "system",
+              "content": "You are an expert coaching assistant. Your task is to prepare concise, helpful session preparation notes for a coach based on client information and upcoming session details."
+            },
+            {
+              "role": "user",
+              "content": "=Prepare session notes for an upcoming coaching session with the following details:\n\nClient: {{$node[\"Code - Match Client Data\"].json[\"fullName\"]}}\nCoaching Type: {{$node[\"Code - Match Client Data\"].json[\"coachingType\"]}}\nSession Date/Time: {{$node[\"Code - Match Client Data\"].json[\"sessionDateTime\"]}}\nDuration: {{$node[\"Code - Match Client Data\"].json[\"sessionDuration\"]}}\nLocation: {{$node[\"Code - Match Client Data\"].json[\"location\"]}}\nPrevious Sessions: {{$node[\"Code - Match Client Data\"].json[\"sessionCount\"]}}\nClient Notes: {{$node[\"Code - Match Client Data\"].json[\"notes\"]}}\n\nIs New Client: {{$node[\"Code - Match Client Data\"].json[\"isNewClient\"] ? \"Yes\" : \"No\"}}\n\nPlease provide:\n1. A brief summary of the client's background\n2. Key points to remember from previous sessions (if applicable)\n3. Suggested focus areas for this session\n4. 2-3 powerful questions to ask during the session\n5. Any preparation needed before the session"
+            }
+          ]
+        }
+      },
+      "id": "6f0h6i3f-0807-7fg6-f4i0-h7e8i8f9e4f5",
+      "name": "OpenAI - Generate Session Notes",
+      "type": "n8n-nodes-langchain.openai",
+      "typeVersion": 1,
+      "position": [
+        1250,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialName": "Google Calendar OAuth2 API",
+        "resource": "event",
+        "operation": "update",
+        "calendarId": {
+          "__rl": true,
+          "value": "primary",
+          "mode": "list",
+          "cachedResultName": "primary"
+        },
+        "eventId": "={{$node[\"Code - Match Client Data\"].json[\"eventId\"]}}",
+        "useEventFields": true,
+        "options": {
+          "description": "=Client: {{$node[\"Code - Match Client Data\"].json[\"fullName\"]}}\nEmail: {{$node[\"Code - Match Client Data\"].json[\"email\"]}}\nPhone: {{$node[\"Code - Match Client Data\"].json[\"phone\"]}}\nCoaching Type: {{$node[\"Code - Match Client Data\"].json[\"coachingType\"]}}\nSession Count: {{$node[\"Code - Match Client Data\"].json[\"sessionCount\"]}}\n\n--- COACH PREPARATION NOTES ---\n\n{{$node[\"OpenAI - Generate Session Notes\"].json[\"text\"]}}"
+        }
+      },
+      "id": "7g1i7j4g-1918-8gh7-g5j1-i8f9j9g0f5g6",
+      "name": "Google Calendar - Update Event",
+      "type": "n8n-nodes-base.googleCalendar",
+      "typeVersion": 1,
+      "position": [
+        1450,
+        300
+      ],
+      "credentials": {
+        "googleCalendarOAuth2Api": {
+          "id": "GOOGLE_CALENDAR_CREDENTIAL_ID_PLACEHOLDER",
+          "name": "Google Calendar Account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialName": "Gmail Account",
+        "fromEmail": "YOUR_EMAIL@gmail.com",
+        "toEmail": "={{$node[\"Code - Match Client Data\"].json[\"email\"]}}",
+        "subject": "=Confirmation: Your Coaching Session on {{new Date($node[\"Code - Match Client Data\"].json[\"startTime\"]).toLocaleDateString()}}",
+        "html": "=<div style=\"font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;\">\n  <h2 style=\"color: #4a6da7;\">Your Coaching Session is Confirmed</h2>\n  \n  <p>Hello {{$node[\"Code - Match Client Data\"].json[\"firstName\"]}},</p>\n  \n  <p>This email confirms your upcoming coaching session:</p>\n  \n  <div style=\"background-color: #f5f5f5; padding: 15px; border-radius: 5px; margin: 20px 0;\">\n    <p><strong>Date & Time:</strong> {{new Date($node[\"Code - Match Client Data\"].json[\"startTime\"]).toLocaleString()}}</p>\n    <p><strong>Duration:</strong> {{$node[\"Code - Match Client Data\"].json[\"sessionDuration\"]}}</p>\n    <p><strong>Location:</strong> {{$node[\"Code - Match Client Data\"].json[\"location\"]}}</p>\n    <p><strong>Coaching Type:</strong> {{$node[\"Code - Match Client Data\"].json[\"coachingType\"]}}</p>\n  </div>\n  \n  <p>Please make sure to:</p>\n  <ul>\n    <li>Find a quiet, private space for our session</li>\n    <li>Have a notebook and pen ready</li>\n    <li>Test your audio/video if we're meeting online</li>\n    <li>Come prepared with any questions or topics you'd like to discuss</li>\n  </ul>\n  \n  <p>If you need to reschedule, please do so at least 24 hours in advance.</p>\n  \n  <p>I'm looking forward to our session!</p>\n  \n  <p>Best regards,<br>\nYour Coach</p>\n  \n  <hr style=\"border: 1px solid #eee; margin: 20px 0;\">\n  \n  <p style=\"font-size: 12px; color: #777;\">\n    This is an automated message. Please do not reply directly to this email.\n  </p>\n</div>",
+        "additionalFields": {}
+      },
+      "id": "8h2j8k5h-2029-9hi8-h6k2-j9g0k0h1g6h7",
+      "name": "Gmail - Send Confirmation",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 1,
+      "position": [
+        1650,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "waitFor": {
+          "waitFor": "time",
+          "dateTime": "={{new Date($node[\"Code - Match Client Data\"].json[\"startTime\"]).getTime() - 24 * 60 * 60 * 1000}}"
+        }
+      },
+      "id": "9i3k9l6i-3130-0ij9-i7l3-k0h1l1i2h7i8",
+      "name": "Wait - 24 Hour Reminder",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1,
+      "position": [
+        1850,
+        200
+      ]
+    },
+    {
+      "parameters": {
+        "waitFor": {
+          "waitFor": "time",
+          "dateTime": "={{new Date($node[\"Code - Match Client Data\"].json[\"startTime\"]).getTime() - 1 * 60 * 60 * 1000}}"
+        }
+      },
+      "id": "0j4l0m7j-4241-1jk0-j8m4-l1i2m2j3i8j9",
+      "name": "Wait - 1 Hour Reminder",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1,
+      "position": [
+        1850,
+        400
+      ]
+    },
+    {
+      "parameters": {
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialName": "Gmail Account",
+        "fromEmail": "YOUR_EMAIL@gmail.com",
+        "toEmail": "={{$node[\"Code - Match Client Data\"].json[\"email\"]}}",
+        "subject": "=Reminder: Your Coaching Session Tomorrow",
+        "html": "=<div style=\"font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;\">\n  <h2 style=\"color: #4a6da7;\">Your Coaching Session is Tomorrow</h2>\n  \n  <p>Hello {{$node[\"Code - Match Client Data\"].json[\"firstName\"]}},</p>\n  \n  <p>This is a friendly reminder about your coaching session tomorrow:</p>\n  \n  <div style=\"background-color: #f5f5f5; padding: 15px; border-radius: 5px; margin: 20px 0;\">\n    <p><strong>Date & Time:</strong> {{new Date($node[\"Code - Match Client Data\"].json[\"startTime\"]).toLocaleString()}}</p>\n    <p><strong>Duration:</strong> {{$node[\"Code - Match Client Data\"].json[\"sessionDuration\"]}}</p>\n    <p><strong>Location:</strong> {{$node[\"Code - Match Client Data\"].json[\"location\"]}}</p>\n  </div>\n  \n  <p>Please make sure you're prepared for our session. I'm looking forward to speaking with you!</p>\n  \n  <p>Best regards,<br>\nYour Coach</p>\n  \n  <hr style=\"border: 1px solid #eee; margin: 20px 0;\">\n  \n  <p style=\"font-size: 12px; color: #777;\">\n    This is an automated reminder. Please do not reply directly to this email.\n  </p>\n</div>",
+        "additionalFields": {}
+      },
+      "id": "1k5m1n8k-5352-2kl1-k9n5-m2j3n3k4j9k0",
+      "name": "Gmail - Send 24h Reminder",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 1,
+      "position": [
+        2050,
+        200
+      ]
+    },
+    {
+      "parameters": {
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialName": "Gmail Account",
+        "fromEmail": "YOUR_EMAIL@gmail.com",
+        "toEmail": "={{$node[\"Code - Match Client Data\"].json[\"email\"]}}",
+        "subject": "=Reminder: Your Coaching Session in 1 Hour",
+        "html": "=<div style=\"font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;\">\n  <h2 style=\"color: #4a6da7;\">Your Coaching Session is Starting Soon</h2>\n  \n  <p>Hello {{$node[\"Code - Match Client Data\"].json[\"firstName\"]}},</p>\n  \n  <p>This is a quick reminder that your coaching session will begin in about 1 hour:</p>\n  \n  <div style=\"background-color: #f5f5f5; padding: 15px; border-radius: 5px; margin: 20px 0;\">\n    <p><strong>Date & Time:</strong> {{new Date($node[\"Code - Match Client Data\"].json[\"startTime\"]).toLocaleString()}}</p>\n    <p><strong>Duration:</strong> {{$node[\"Code - Match Client Data\"].json[\"sessionDuration\"]}}</p>\n    <p><strong>Location:</strong> {{$node[\"Code - Match Client Data\"].json[\"location\"]}}</p>\n  </div>\n  \n  <p>Please ensure you're ready for our session. I'm looking forward to our conversation!</p>\n  \n  <p>Best regards,<br>\nYour Coach</p>\n  \n  <hr style=\"border: 1px solid #eee; margin: 20px 0;\">\n  \n  <p style=\"font-size: 12px; color: #777;\">\n    This is an automated reminder. Please do not reply directly to this email.\n  </p>\n</div>",
+        "additionalFields": {}
+      },
+      "id": "2l6n2o9l-6463-3lm2-l0o6-n3k4o4l5k0l1",
+      "name": "Gmail - Send 1h Reminder",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 1,
+      "position": [
+        2050,
+        400
+      ]
+    },
+    {
+      "parameters": {
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialName": "Slack Account",
+        "channel": "coaching-automation-alerts",
+        "text": "=New coaching session scheduled and processed:\n\nClient: {{$node[\"Code - Match Client Data\"].json[\"fullName\"]}}\nEmail: {{$node[\"Code - Match Client Data\"].json[\"email\"]}}\nSession: {{$node[\"Code - Match Client Data\"].json[\"sessionDateTime\"]}}\nDuration: {{$node[\"Code - Match Client Data\"].json[\"sessionDuration\"]}}\nLocation: {{$node[\"Code - Match Client Data\"].json[\"location\"]}}\nNew Client: {{$node[\"Code - Match Client Data\"].json[\"isNewClient\"] ? \"Yes\" : \"No\"}}\n\nCalendar event has been updated with session notes and client information. Confirmation email has been sent to the client.",
+        "otherOptions": {}
+      },
+      "id": "3m7o3p0m-7574-4mn3-m1p7-o5l6p5m6l1m2",
+      "name": "Slack - Send Notification",
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 1,
+      "position": [
+        1850,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "boolean": [
+            {
+              "value1": "={{$node[\"Code - Match Client Data\"].json[\"isNewClient\"]}}",
+              "value2": true
+            }
+          ]
+        }
+      },
+      "id": "4n8p4q1n-8685-5no4-n2q8-p6m7q6n7m2n3",
+      "name": "IF - New Client",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [
+        1650,
+        500
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "GOOGLE_SHEET_ID_PLACEHOLDER",
+          "mode": "list",
+          "cachedResultName": "Client Database",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/GOOGLE_SHEET_ID_PLACEHOLDER/edit"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 0,
+          "mode": "list",
+          "cachedResultName": "Clients"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "mappingMode": "defineBelow",
+            "value": {
+              "id": "={{$node[\"Code - Match Client Data\"].json[\"clientId\"]}}",
+              "first_name": "={{$node[\"Code - Match Client Data\"].json[\"firstName\"]}}",
+              "last_name": "={{$node[\"Code - Match Client Data\"].json[\"lastName\"]}}",
+              "email": "={{$node[\"Code - Match Client Data\"].json[\"email\"]}}",
+              "phone": "={{$node[\"Code - Match Client Data\"].json[\"phone\"]}}",
+              "coaching_type": "={{$node[\"Code - Match Client Data\"].json[\"coachingType\"]}}",
+              "session_count": 1,
+              "status": "Active",
+              "join_date": "={{$now.format(\"YYYY-MM-DD\")}}",
+              "notes": "Automatically added from calendar event"
+            }
+          }
+        },
+        "options": {}
+      },
+      "id": "5o9q5r2o-9796-6op5-o3r9-q7n8r7o8n3o4",
+      "name": "Google Sheets - Add New Client",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 3,
+      "position": [
+        1850,
+        600
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "GOOGLE_SHEETS_CREDENTIAL_ID_PLACEHOLDER",
+          "name": "Google Sheets Account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialName": "Gmail Account",
+        "fromEmail": "YOUR_EMAIL@gmail.com",
+        "toEmail": "YOUR_EMAIL@gmail.com",
+        "subject": "=New Client Added: {{$node[\"Code - Match Client Data\"].json[\"fullName\"]}}",
+        "html": "=<div style=\"font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;\">\n  <h2 style=\"color: #4a6da7;\">New Client Added to Database</h2>\n  \n  <p>A new client has been automatically added to your client database:</p>\n  \n  <div style=\"background-color: #f5f5f5; padding: 15px; border-radius: 5px; margin: 20px 0;\">\n    <p><strong>Name:</strong> {{$node[\"Code - Match Client Data\"].json[\"fullName\"]}}</p>\n    <p><strong>Email:</strong> {{$node[\"Code - Match Client Data\"].json[\"email\"]}}</p>\n    <p><strong>Phone:</strong> {{$node[\"Code - Match Client Data\"].json[\"phone\"]}}</p>\n    <p><strong>Coaching Type:</strong> {{$node[\"Code - Match Client Data\"].json[\"coachingType\"]}}</p>\n    <p><strong>First Session:</strong> {{$node[\"Code - Match Client Data\"].json[\"sessionDateTime\"]}}</p>\n  </div>\n  \n  <p>This client was automatically added because they scheduled a session but were not found in your existing client database.</p>\n  \n  <p>You may want to:</p>\n  <ul>\n    <li>Update their information in your client database</li>\n    <li>Send them a welcome email or onboarding materials</li>\n    <li>Prepare for their first session</li>\n  </ul>\n  \n  <p>Best regards,<br>\nYour Coaching Automation System</p>\n</div>",
+        "additionalFields": {}
+      },
+      "id": "6p0r6s3p-0807-7pq6-p4s0-r8o9s8p9o4p5",
+      "name": "Gmail - Notify About New Client",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 1,
+      "position": [
+        2050,
+        600
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "GOOGLE_SHEET_ID_PLACEHOLDER",
+          "mode": "list",
+          "cachedResultName": "Client Database",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/GOOGLE_SHEET_ID_PLACEHOLDER/edit"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 0,
+          "mode": "list",
+          "cachedResultName": "Clients"
+        },
+        "key": {
+          "property": "id",
+          "value": "={{$node[\"Code - Match Client Data\"].json[\"clientId\"]}}"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "mappingMode": "defineBelow",
+            "value": {
+              "session_count": "={{$node[\"Code - Match Client Data\"].json[\"sessionCount\"] + 1}}",
+              "last_session_date": "={{$now.format(\"YYYY-MM-DD\")}}"
+            }
+          }
+        },
+        "options": {}
+      },
+      "id": "7q1r7t4q-1918-8qr7-q5t1-r8p9t9q0p5q6",
+      "name": "Google Sheets - Update Session Count",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 3,
+      "position": [
+        1850,
+        700
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "GOOGLE_SHEETS_CREDENTIAL_ID_PLACEHOLDER",
+          "name": "Google Sheets Account"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Google Calendar - Get Upcoming Sessions": {
+      "main": [
+        [
+          {
+            "node": "Code - Process Calendar Events",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code - Process Calendar Events": {
+      "main": [
+        [
+          {
+            "node": "Code - Process Each Session",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code - Process Each Session": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets - Get Client Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets - Get Client Data": {
+      "main": [
+        [
+          {
+            "node": "Code - Match Client Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code - Match Client Data": {
+      "main": [
+        [
+          {
+            "node": "OpenAI - Generate Session Notes",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "IF - New Client",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI - Generate Session Notes": {
+      "main": [
+        [
+          {
+            "node": "Google Calendar - Update Event",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Calendar - Update Event": {
+      "main": [
+        [
+          {
+            "node": "Gmail - Send Confirmation",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Gmail - Send Confirmation": {
+      "main": [
+        [
+          {
+            "node": "Wait - 24 Hour Reminder",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Wait - 1 Hour Reminder",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Slack - Send Notification",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait - 24 Hour Reminder": {
+      "main": [
+        [
+          {
+            "node": "Gmail - Send 24h Reminder",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait - 1 Hour Reminder": {
+      "main": [
+        [
+          {
+            "node": "Gmail - Send 1h Reminder",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "IF - New Client": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets - Add New Client",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Google Sheets - Update Session Count",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets - Add New Client": {
+      "main": [
+        [
+          {
+            "node": "Gmail - Notify About New Client",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1",
+    "saveManualExecutions": true,
+    "callerPolicy": "workflowsFromSameOwner",
+    "errorWorkflow": ""
+  },
+  "staticData": null,
+  "tags": [
+    "client",
+    "scheduling",
+    "automation",
+    "coaching",
+    "calendar"
+  ],
+  "triggerCount": 1,
+  "versionId": "6f7g8h9i-0j1k-2l3m-4n5o-6p7q8r9s0t1u"
+}

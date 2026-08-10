@@ -1,0 +1,21 @@
+{
+  "name": "Agent Team Prompts for Claude Code 👥 👥",
+  "external_id": "Q_-4oNPwMOQtw6eT2oj7bA==",
+  "permalink": "xojzt",
+  "unique_permalink": "xojzt",
+  "custom_permalink": "agent-team-prompts",
+  "url": "https://markkashef.gumroad.com/l/agent-team-prompts",
+  "status": "published",
+  "archived": false,
+  "kind": "products",
+  "price_formatted": "CAD$0+",
+  "description_md": "# What You Get\n\n- \n7 Copy-Paste Agent Team Prompts: Ready-to-use prompts that spawn multi-agent teams in Claude Code for real business tasks -- not coding exercises. \n\nContent repurposing, \npitch decks, \nRFP responses, \ncompetitive intel, \nadvisory board debates, \nmarketing campaigns, \nand building a full AI business assistant (aka OpenClaw clone)\n\n- \nClean PDF Format: Every prompt is formatted for easy copying. No hunting through blog posts or Discord threads. Open the PDF, copy the prompt, paste it into Claude Code, and watch the agents go.\n\n---\nWant access to all of my resources, exclusive skills like the Agent Teams Surveillance Dashboard, and a community of 800+ AI builders?\nhttps://www.skool.com/earlyaidopters/about",
+  "files": [
+    {
+      "file": "agent_team_prompts.pdf",
+      "status": "cached",
+      "bytes": 23886
+    }
+  ],
+  "has_rich_content": true
+}

@@ -1,0 +1,31 @@
+{
+  "name": "Bolt.new Dating App A-Z Build 🤖💘",
+  "external_id": "BLWlBLqnj6g9sO1u4Sva_A==",
+  "permalink": "rhcsa",
+  "unique_permalink": "rhcsa",
+  "custom_permalink": "boltdatingapp",
+  "url": "https://markkashef.gumroad.com/l/boltdatingapp",
+  "status": "published",
+  "archived": false,
+  "kind": "products",
+  "price_formatted": "CAD$0+",
+  "description_md": "## What You’ll Get\n\n- 📄 Comprehensive Project Deck\nA detailed walkthrough of the entire project, from planning to deployment. Understand the step-by-step process to create a dynamic matchmaking app. (PDF - 3 MB)\n\n- 🔧 Make.com Scenarios\nPre-built, sanitized Make.com scenarios for:\n- \nHacky Stripe Payment Automation\nSeamlessly handle subscription management and cancellations. (JSON - 22.7 KB)\n\n- \nFirebase Integration Workflow\nA ready-to-use database setup for user authentication and subscription tracking. (JSON - 85.9 KB)\n\n- 🎥 Loom Walkthrough Video\nA detailed, exclusive behind-the-scenes video walking you through the project setup and technical nuances.\n\n## What You’ll Learn\n\n- Integrating Stripe Payments for subscription management.\n\n- Using Make.com for database triggers and automations.\n\n- Implementing user authentication with Firebase.\n\n- Creating AI-powered matchmaking experiences with Bolt and GPT.\n\n- Designing polished user interfaces and deploying apps on custom domains.",
+  "files": [
+    {
+      "file": "datingapp.pdf",
+      "status": "cached",
+      "bytes": 3144796
+    },
+    {
+      "file": "Bolt_Cancellation_Demo_Sanitized.json",
+      "status": "cached",
+      "bytes": 23215
+    },
+    {
+      "file": "Firebase_Integration.json",
+      "status": "cached",
+      "bytes": 87964
+    }
+  ],
+  "has_rich_content": true
+}

@@ -1,0 +1,502 @@
+{
+  "name": "Appointment Scheduling Automation",
+  "nodes": [
+    {
+      "parameters": {
+        "path": "booking-request",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "name": "Booking Request Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [
+        250,
+        300
+      ],
+      "webhookId": "booking-request-form"
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "minutes",
+              "minutesInterval": 15
+            }
+          ]
+        }
+      },
+      "name": "Schedule Sync",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1,
+      "position": [
+        250,
+        500
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Validate and format booking data\nconst bookingData = $input.item.json.body || $input.item.json;\n\n// Format date and time to standard format\nlet requestedDate = bookingData.date || '';\nlet requestedTime = bookingData.time || '';\nlet requestedDateTime = '';\n\nif (requestedDate && requestedTime) {\n  // Convert to ISO format\n  try {\n    const dateObj = new Date(`${requestedDate} ${requestedTime}`);\n    requestedDateTime = dateObj.toISOString();\n  } catch (e) {\n    requestedDateTime = '';\n  }\n}\n\n// Standardize service type\nlet serviceType = bookingData.service || '';\nconst serviceMap = {\n  'deep tissue': 'Deep Tissue Massage',\n  'swedish': 'Swedish Massage',\n  'hot stone': 'Hot Stone Massage',\n  'sports': 'Sports Massage',\n  'prenatal': 'Prenatal Massage',\n  'aromatherapy': 'Aromatherapy Massage'\n};\n\n// Find the best match for service type\nfor (const [key, value] of Object.entries(serviceMap)) {\n  if (serviceType.toLowerCase().includes(key)) {\n    serviceType = value;\n    break;\n  }\n}\n\n// Calculate appointment duration based on service type\nlet duration = 60; // Default duration in minutes\nconst durationMap = {\n  'Deep Tissue Massage': 90,\n  'Hot Stone Massage': 90,\n  'Sports Massage': 60,\n  'Swedish Massage': 60,\n  'Prenatal Massage': 60,\n  'Aromatherapy Massage': 75\n};\n\nif (durationMap[serviceType]) {\n  duration = durationMap[serviceType];\n}\n\n// Generate a unique booking reference ID\nconst bookingId = `BOOK-${Date.now()}-${Math.floor(Math.random() * 1000)}`;\n\n// Format the final booking data\nconst formattedBooking = {\n  bookingId: bookingId,\n  clientName: bookingData.name || '',\n  clientEmail: bookingData.email || '',\n  clientPhone: bookingData.phone || '',\n  serviceType: serviceType,\n  requestedDateTime: requestedDateTime,\n  duration: duration,\n  specialRequests: bookingData.notes || '',\n  status: 'pending',\n  createdAt: new Date().toISOString()\n};\n\nreturn {json: formattedBooking};"
+      },
+      "name": "Validate and Format Booking",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [
+        450,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "lookup",
+        "sheetName": "Clients",
+        "lookupColumn": "email",
+        "lookupValue": "={{ $json.clientEmail }}",
+        "options": {}
+      },
+      "name": "Check Client Database",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 3,
+      "position": [
+        650,
+        300
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "google_sheets_credentials",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "calendar",
+        "operation": "getEvents",
+        "calendarId": "={{ $env.MASSAGE_CALENDAR_ID }}",
+        "timeMin": "={{ $json.requestedDateTime }}",
+        "timeMax": "={{ new Date(new Date($json.requestedDateTime).getTime() + ($json.duration * 60000)).toISOString() }}",
+        "options": {}
+      },
+      "name": "Check Calendar Availability",
+      "type": "n8n-nodes-base.googleCalendar",
+      "typeVersion": 1,
+      "position": [
+        850,
+        300
+      ],
+      "credentials": {
+        "googleCalendarOAuth2Api": {
+          "id": "google_calendar_credentials",
+          "name": "Google Calendar account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "number": [
+            {
+              "value1": "={{ $json.events.length }}",
+              "operation": "equal",
+              "value2": 0
+            }
+          ]
+        }
+      },
+      "name": "Is Time Slot Available?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [
+        1050,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Generate alternative time slots\nconst requestedDateTime = new Date($input.item.json.requestedDateTime);\nconst duration = $input.item.json.duration;\nconst alternatives = [];\n\n// Try same day alternatives\nfor (let i = 1; i <= 3; i++) {\n  // Try 1 hour later\n  const laterSlot = new Date(requestedDateTime);\n  laterSlot.setHours(laterSlot.getHours() + i);\n  alternatives.push({\n    dateTime: laterSlot.toISOString(),\n    label: `${laterSlot.toLocaleDateString()} at ${laterSlot.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}`\n  });\n  \n  // Try earlier if possible\n  if (requestedDateTime.getHours() - i >= 9) { // Assuming business opens at 9 AM\n    const earlierSlot = new Date(requestedDateTime);\n    earlierSlot.setHours(earlierSlot.getHours() - i);\n    alternatives.push({\n      dateTime: earlierSlot.toISOString(),\n      label: `${earlierSlot.toLocaleDateString()} at ${earlierSlot.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}`\n    });\n  }\n}\n\n// Try next day, same time\nconst nextDaySlot = new Date(requestedDateTime);\nnextDaySlot.setDate(nextDaySlot.getDate() + 1);\nalternatives.push({\n  dateTime: nextDaySlot.toISOString(),\n  label: `${nextDaySlot.toLocaleDateString()} at ${nextDaySlot.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}`\n});\n\n// Return the original booking data with alternatives\nreturn {\n  json: {\n    ...($input.item.json),\n    alternatives: alternatives\n  }\n};"
+      },
+      "name": "Generate Alternatives",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [
+        1250,
+        500
+      ]
+    },
+    {
+      "parameters": {
+        "fromEmail": "bookings@massagetherapy.com",
+        "toEmail": "={{ $json.clientEmail }}",
+        "subject": "Alternative Appointment Times - Massage Therapy",
+        "text": "=Dear {{ $json.clientName }},\n\nThank you for your interest in booking a {{ $json.serviceType }}. Unfortunately, the time you requested ({{ new Date($json.requestedDateTime).toLocaleDateString() }} at {{ new Date($json.requestedDateTime).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) }}) is not available.\n\nWe have the following alternative times available:\n\n{% for alt in $json.alternatives %}\n- {{ alt.label }}: [Book this time](https://massagetherapy.com/booking?datetime={{ alt.dateTime | urlencode }}&service={{ $json.serviceType | urlencode }}&name={{ $json.clientName | urlencode }}&email={{ $json.clientEmail | urlencode }})\n{% endfor %}\n\nIf none of these times work for you, please reply to this email or call us at (555) 123-4567 to find a time that suits your schedule.\n\nThese alternative times will be held for 24 hours.\n\nWe look forward to seeing you soon!\n\nWarm regards,\nThe Massage Therapy Team",
+        "options": {}
+      },
+      "name": "Send Alternatives Email",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 1,
+      "position": [
+        1450,
+        500
+      ],
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "gmail_credentials",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "event",
+        "operation": "create",
+        "calendarId": "={{ $env.MASSAGE_CALENDAR_ID }}",
+        "start": "={{ $json.requestedDateTime }}",
+        "end": "={{ new Date(new Date($json.requestedDateTime).getTime() + ($json.duration * 60000)).toISOString() }}",
+        "summary": "={{ $json.serviceType }} - {{ $json.clientName }}",
+        "description": "=Client: {{ $json.clientName }}\nEmail: {{ $json.clientEmail }}\nPhone: {{ $json.clientPhone }}\nService: {{ $json.serviceType }}\nDuration: {{ $json.duration }} minutes\nBooking ID: {{ $json.bookingId }}\nSpecial Requests: {{ $json.specialRequests }}",
+        "options": {
+          "attendees": [
+            {
+              "email": "={{ $json.clientEmail }}"
+            }
+          ],
+          "sendUpdates": "all"
+        }
+      },
+      "name": "Create Calendar Event",
+      "type": "n8n-nodes-base.googleCalendar",
+      "typeVersion": 1,
+      "position": [
+        1250,
+        200
+      ],
+      "credentials": {
+        "googleCalendarOAuth2Api": {
+          "id": "google_calendar_credentials",
+          "name": "Google Calendar account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "sheetName": "Appointments",
+        "options": {}
+      },
+      "name": "Update Appointment Database",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 3,
+      "position": [
+        1450,
+        200
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "google_sheets_credentials",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{ $node[\"Check Client Database\"].json.id }}",
+              "operation": "exists"
+            }
+          ]
+        }
+      },
+      "name": "Is Existing Client?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [
+        1650,
+        200
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "sheetName": "Clients",
+        "key": "id",
+        "options": {}
+      },
+      "name": "Update Existing Client",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 3,
+      "position": [
+        1850,
+        100
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "google_sheets_credentials",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "sheetName": "Clients",
+        "options": {}
+      },
+      "name": "Add New Client",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 3,
+      "position": [
+        1850,
+        300
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "google_sheets_credentials",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "fromEmail": "bookings@massagetherapy.com",
+        "toEmail": "={{ $json.clientEmail }}",
+        "subject": "Your Massage Appointment Confirmation",
+        "text": "=Dear {{ $json.clientName }},\n\nThank you for booking your {{ $json.serviceType }} with us. Your appointment has been confirmed for:\n\n**{{ new Date($json.requestedDateTime).toLocaleDateString() }} at {{ new Date($json.requestedDateTime).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) }}**\n\n**Appointment Details:**\n- Service: {{ $json.serviceType }}\n- Duration: {{ $json.duration }} minutes\n- Booking Reference: {{ $json.bookingId }}\n\n**Preparation Instructions:**\n- Please arrive 10-15 minutes before your appointment time\n- Wear comfortable, loose-fitting clothing\n- Avoid heavy meals before your massage\n- Please inform your therapist of any health concerns or areas needing special attention\n\n**Cancellation Policy:**\nIf you need to reschedule or cancel, please do so at least 24 hours in advance to avoid a cancellation fee. You can reschedule your appointment by clicking here: [Manage My Appointment](https://massagetherapy.com/manage-booking?id={{ $json.bookingId }})\n\nWe look forward to seeing you soon!\n\nWarm regards,\nThe Massage Therapy Team\n\nP.S. If you have any questions, please call us at (555) 123-4567.",
+        "attachments": {
+          "mapTo": "ics",
+          "attachments": [
+            {
+              "binary": "data"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "name": "Send Confirmation Email",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 1,
+      "position": [
+        2050,
+        200
+      ],
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "gmail_credentials",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "fromEmail": "bookings@massagetherapy.com",
+        "toEmail": "therapists@massagetherapy.com",
+        "subject": "=New Appointment: {{ $json.serviceType }} on {{ new Date($json.requestedDateTime).toLocaleDateString() }}",
+        "text": "=A new appointment has been booked:\n\n**Appointment Details:**\n- Client: {{ $json.clientName }}\n- Service: {{ $json.serviceType }}\n- Date: {{ new Date($json.requestedDateTime).toLocaleDateString() }}\n- Time: {{ new Date($json.requestedDateTime).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) }}\n- Duration: {{ $json.duration }} minutes\n- Booking Reference: {{ $json.bookingId }}\n\n**Client Information:**\n- Email: {{ $json.clientEmail }}\n- Phone: {{ $json.clientPhone }}\n{% if $node[\"Is Existing Client?\"].json.id %}\n- Existing Client: Yes\n- Client ID: {{ $node[\"Check Client Database\"].json.id }}\n- View Client History: [Client Profile](https://massagetherapy.com/client?id={{ $node[\"Check Client Database\"].json.id }})\n{% else %}\n- New Client: Yes\n{% endif %}\n\n**Special Requests:**\n{{ $json.specialRequests || \"None provided\" }}\n\nPlease review this appointment and prepare accordingly.",
+        "options": {}
+      },
+      "name": "Notify Therapist",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 1,
+      "position": [
+        2050,
+        400
+      ],
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "gmail_credentials",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "errorMessage": "=Error in Appointment Scheduling workflow: {{ $json.error }}"
+      },
+      "name": "Error Handler",
+      "type": "n8n-nodes-base.errorTrigger",
+      "typeVersion": 1,
+      "position": [
+        1050,
+        700
+      ]
+    }
+  ],
+  "connections": {
+    "Booking Request Webhook": {
+      "main": [
+        [
+          {
+            "node": "Validate and Format Booking",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Schedule Sync": {
+      "main": [
+        []
+      ]
+    },
+    "Validate and Format Booking": {
+      "main": [
+        [
+          {
+            "node": "Check Client Database",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Client Database": {
+      "main": [
+        [
+          {
+            "node": "Check Calendar Availability",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Calendar Availability": {
+      "main": [
+        [
+          {
+            "node": "Is Time Slot Available?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Is Time Slot Available?": {
+      "main": [
+        [
+          {
+            "node": "Create Calendar Event",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Generate Alternatives",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate Alternatives": {
+      "main": [
+        [
+          {
+            "node": "Send Alternatives Email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create Calendar Event": {
+      "main": [
+        [
+          {
+            "node": "Update Appointment Database",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update Appointment Database": {
+      "main": [
+        [
+          {
+            "node": "Is Existing Client?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Is Existing Client?": {
+      "main": [
+        [
+          {
+            "node": "Update Existing Client",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Add New Client",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update Existing Client": {
+      "main": [
+        [
+          {
+            "node": "Send Confirmation Email",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Notify Therapist",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Add New Client": {
+      "main": [
+        [
+          {
+            "node": "Send Confirmation Email",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Notify Therapist",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "saveManualExecutions": true,
+    "callerPolicy": "workflowsFromSameOwner",
+    "errorWorkflow": "Appointment Scheduling Error Handler"
+  },
+  "tags": [
+    {
+      "name": "appointment-scheduling",
+      "color": "#00ccff"
+    },
+    {
+      "name": "massage-therapy",
+      "color": "#00ccff"
+    }
+  ],
+  "pinData": {},
+  "versionId": "1",
+  "triggerCount": 2,
+  "meta": {
+    "instanceId": "MASSAGE_THERAPY_BUSINESS"
+  },
+  "id": "appointment-scheduling-automation"
+}

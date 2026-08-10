@@ -1,0 +1,6 @@
+version: 1
+targets:
+  - adapter: claude
+    path: dist/claude
+  - adapter: codex
+    path: dist/codex

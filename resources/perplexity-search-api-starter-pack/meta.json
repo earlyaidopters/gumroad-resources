@@ -1,0 +1,31 @@
+{
+  "name": "Perplexity Search API Starter Pack 🌐",
+  "external_id": "9P3R0fp9H9Jz6Wj5Y8koRA==",
+  "permalink": "qesbge",
+  "unique_permalink": "qesbge",
+  "custom_permalink": "perplexitysearchapi",
+  "url": "https://markkashef.gumroad.com/l/perplexitysearchapi",
+  "status": "published",
+  "archived": false,
+  "kind": "products",
+  "price_formatted": "CAD$0+",
+  "description_md": "# What You Get\n\n- Plug-and-play n8n workflow: four ready HTTP nodes (raw Search, Grounded Chat, Academic allowlist, Structured JSON output) with timing notes for demos—hit “Execute” and see the API in action instantly.\n\n- Multi-Agent Research Synthesizer: a coordinator + three specialized agents (Academic, Practical, Innovation) wired to Perplexity tools with buffer memory and OpenAI model configs—drop in a query and get a unified synthesis.\n\n- Field-tested API docs (September ’25): endpoint cheatsheets, domain/recency filtering patterns, structured outputs, pricing/tiers, and n8n request templates that mirror the included workflows.\n\n- Bonus: Domain filtering blueprints (allowlist/denylist), JSON schema example for clean parsing, and troubleshooting notes for SDK quirks—perfect for vibe-coded apps and no-code flows.If you want even more AI goodies, join my Early AI-dopters Community — you won’t regret it 😉 https://www.skool.com/earlyaidopters/about",
+  "files": [
+    {
+      "file": "Multi-Agent Prompt Engineering Research Synthesizer.json",
+      "status": "cached",
+      "bytes": 14558
+    },
+    {
+      "file": "Perplexity Search API (Basic).json",
+      "status": "cached",
+      "bytes": 7507
+    },
+    {
+      "file": "perplexity_search_api_documentation.md",
+      "status": "cached",
+      "bytes": 10161
+    }
+  ],
+  "has_rich_content": true
+}

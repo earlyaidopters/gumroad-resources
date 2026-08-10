@@ -1,0 +1,21 @@
+{
+  "name": "Meeting Prep n8n Workflow 🗓️  ➡️ 🎧",
+  "external_id": "GZ2Hhh9JwPU4fpSAK2VxNg==",
+  "permalink": "trowt",
+  "unique_permalink": "trowt",
+  "custom_permalink": "n8ncalendlyautomation",
+  "url": "https://markkashef.gumroad.com/l/n8ncalendlyautomation",
+  "status": "published",
+  "archived": false,
+  "kind": "products",
+  "price_formatted": "CAD$0+",
+  "description_md": "## What You Get\n\n- A plug-and-play n8n workflow that transforms Calendly bookings into personalized audio briefings.\n\n- Automatic research on the attendee and their company using Perplexity and OpenAI.\n\n- AI-generated meeting summary sent straight to your inbox as a short, digestible voice note.\n\n- Seamless Gmail integration to deliver prep materials ahead of every call.\n\n- JSON file included for instant import—no manual config needed.\n\nIf you're looking for this resource and TONs of exclusive videos, resources, goodies, AND coaching, consider joining my Early AI-dopters Community. You won't regret it 😉",
+  "files": [
+    {
+      "file": "Calendly_to_Meeting_Prep__No_Creds_.json",
+      "status": "cached",
+      "bytes": 23055
+    }
+  ],
+  "has_rich_content": true
+}

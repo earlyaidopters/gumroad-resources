@@ -1,0 +1,21 @@
+{
+  "name": "Promptify Chrome Extension ⚙️",
+  "external_id": "ENE2n4eKVtpSdY3mbqrxtg==",
+  "permalink": "yxeqij",
+  "unique_permalink": "yxeqij",
+  "custom_permalink": "promptifyextension",
+  "url": "https://markkashef.gumroad.com/l/promptifyextension",
+  "status": "published",
+  "archived": false,
+  "kind": "products",
+  "price_formatted": "CAD$0+",
+  "description_md": "## What You Get\n\n- \nReady-to-run Chrome extension for instant prompt injection into Windsurf, Replit, Bolt.new, Lovable, and more.\n\n- \nKick-Start Prompt that auto-scaffolds your entire vibe-coding workflow instantly—no setup, no hassle.\n\n- Seamless in-browser AI prompting—no tab-switching or copy-pasting required.\n\n- Flexibly switch between powerful GPT-4o, 4o-mini, or other leading models from OpenAI and Anthropic in seconds.\n\n- Securely encrypted local API keys—your data stays private, always.\n\n- Outputs Markdown or plain text for perfect, hassle-free integration into your projects.",
+  "files": [
+    {
+      "file": "promptify_v1.zip",
+      "status": "cached",
+      "bytes": 29293
+    }
+  ],
+  "has_rich_content": true
+}

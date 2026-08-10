@@ -1,0 +1,272 @@
+{
+  "name": "Monthly Email Newsletter Automation",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "months",
+              "monthDays": [1],
+              "hours": [9],
+              "minutes": [0]
+            }
+          ]
+        }
+      },
+      "name": "Schedule Trigger",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1,
+      "position": [
+        250,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "documentId": {
+          "__rl": true,
+          "value": "YOUR_TRACKING_SHEET_ID",
+          "mode": "list",
+          "cachedResultName": "Content Tracking"
+        },
+        "sheetName": "Content Tracking",
+        "returnAll": true,
+        "options": {
+          "filter": {
+            "values": {
+              "Date": {
+                "operation": "between",
+                "from": "={{ $today.minus({ months: 1 }).format('YYYY-MM-DD') }}",
+                "to": "={{ $today.format('YYYY-MM-DD') }}"
+              }
+            }
+          }
+        }
+      },
+      "name": "Google Sheets - Get Last Month Content",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4,
+      "position": [
+        400,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Format the content from last month into a summary\nconst content = $input.item.json;\nconst platforms = {};\n\n// Group content by platform\ncontent.forEach(item => {\n  if (!platforms[item.Platform]) {\n    platforms[item.Platform] = [];\n  }\n  platforms[item.Platform].push(item);\n});\n\n// Create a summary of content by platform\nlet summary = \"\";\nfor (const [platform, items] of Object.entries(platforms)) {\n  summary += `## ${platform} Highlights (${items.length} posts)\\n\\n`;\n  \n  // Add a few examples from each platform\n  const examples = items.slice(0, 3);\n  examples.forEach(item => {\n    const content = item.Content || 'Content not available';\n    const excerpt = content.substring(0, 100) + (content.length > 100 ? '...' : '');\n    summary += `- **${item.ContentType || item['Content Type']}**: ${excerpt}\\n`;\n  });\n  \n  summary += '\\n';\n}\n\n// If no content was found, provide a fallback\nif (Object.keys(platforms).length === 0) {\n  summary = \"## Content Highlights\\n\\nNo content was published in the last month. This newsletter will focus on new coaching insights and upcoming events.\\n\";\n}\n\nreturn { json: { contentSummary: summary } };"
+      },
+      "name": "Format Content Summary",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [
+        550,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "authentication": "serviceAccount",
+        "operation": "completion",
+        "model": "gpt-4",
+        "prompt": {
+          "value": "Create a monthly newsletter for a coaching business. The newsletter should include:\n\n1. A warm, personalized introduction that mentions it's the monthly newsletter for {{ $today.format('MMMM YYYY') }}.\n\n2. A section highlighting content from the past month across different platforms. Use this summary as a basis:\n{{ $node[\"Format Content Summary\"].json.contentSummary }}\n\n3. A coaching tip of the month - provide one actionable, valuable coaching insight that readers can apply immediately.\n\n4. An announcement about an upcoming webinar or workshop (invent a relevant topic).\n\n5. A client success story (create a brief, anonymized example).\n\n6. A call-to-action encouraging readers to book a coaching session.\n\nFormat the newsletter with appropriate HTML formatting including headers, paragraphs, and bullet points where relevant. The tone should be professional but warm and engaging. The total length should be approximately 500-700 words."
+        },
+        "options": {
+          "temperature": 0.7,
+          "maxTokens": 2000
+        }
+      },
+      "name": "OpenAI - Generate Newsletter",
+      "type": "n8n-nodes-base.openAi",
+      "typeVersion": 1,
+      "position": [
+        700,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "documentId": {
+          "__rl": true,
+          "value": "YOUR_SUBSCRIBERS_SHEET_ID",
+          "mode": "list",
+          "cachedResultName": "Email Subscribers"
+        },
+        "sheetName": "Email Subscribers",
+        "returnAll": true,
+        "options": {
+          "filter": {
+            "values": {
+              "Subscribed": true
+            }
+          }
+        }
+      },
+      "name": "Google Sheets - Get Subscribers",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4,
+      "position": [
+        850,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "fromEmail": "your.coaching.business@example.com",
+        "toEmail": "={{ $node[\"Google Sheets - Get Subscribers\"].json.map(subscriber => subscriber.Email).join(\",\") }}",
+        "subject": "Your Coaching Newsletter for {{ $today.format('MMMM YYYY') }}",
+        "text": "",
+        "html": "={{ $node[\"OpenAI - Generate Newsletter\"].json.text }}",
+        "options": {
+          "attachments": []
+        }
+      },
+      "name": "Gmail - Send Newsletter",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2,
+      "position": [
+        1000,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "YOUR_ARCHIVE_SHEET_ID",
+          "mode": "list",
+          "cachedResultName": "Newsletter Archive"
+        },
+        "sheetName": "Newsletter Archive",
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Date": "={{ $today.format('YYYY-MM-DD') }}",
+            "Month": "={{ $today.format('MMMM YYYY') }}",
+            "Subject": "={{ \"Your Coaching Newsletter for \" + $today.format('MMMM YYYY') }}",
+            "Content": "={{ $node[\"OpenAI - Generate Newsletter\"].json.text }}",
+            "Recipients": "={{ $node[\"Google Sheets - Get Subscribers\"].json.length }}"
+          }
+        }
+      },
+      "name": "Google Sheets - Archive Newsletter",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4,
+      "position": [
+        1150,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "chatId": "YOUR_SLACK_CHANNEL_ID",
+        "text": "✅ Monthly newsletter for {{ $today.format('MMMM YYYY') }} has been sent to {{ $node[\"Google Sheets - Get Subscribers\"].json.length }} subscribers!\n\n*Subject:* Your Coaching Newsletter for {{ $today.format('MMMM YYYY') }}\n*Date:* {{ $today.format('YYYY-MM-DD') }}",
+        "otherOptions": {
+          "parse_mode": "markdown"
+        }
+      },
+      "name": "Slack - Send Notification",
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 2,
+      "position": [
+        1300,
+        300
+      ]
+    }
+  ],
+  "connections": {
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets - Get Last Month Content",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets - Get Last Month Content": {
+      "main": [
+        [
+          {
+            "node": "Format Content Summary",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Format Content Summary": {
+      "main": [
+        [
+          {
+            "node": "OpenAI - Generate Newsletter",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI - Generate Newsletter": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets - Get Subscribers",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets - Get Subscribers": {
+      "main": [
+        [
+          {
+            "node": "Gmail - Send Newsletter",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Gmail - Send Newsletter": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets - Archive Newsletter",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets - Archive Newsletter": {
+      "main": [
+        [
+          {
+            "node": "Slack - Send Notification",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "saveManualExecutions": true,
+    "callerPolicy": "workflowsFromSameOwner",
+    "errorWorkflow": "YOUR_ERROR_WORKFLOW_ID"
+  },
+  "tags": [
+    "content-creation",
+    "email"
+  ],
+  "triggerCount": 1
+}

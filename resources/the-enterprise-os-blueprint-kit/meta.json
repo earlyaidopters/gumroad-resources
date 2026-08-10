@@ -1,0 +1,21 @@
+{
+  "name": "The Enterprise OS Blueprint Kit 🏢",
+  "external_id": "HGAYcysTFecUCeNsi7zXSA==",
+  "permalink": "haacbt",
+  "unique_permalink": "haacbt",
+  "custom_permalink": "enterprise-os-blueprint-kit-cc",
+  "url": "https://markkashef.gumroad.com/l/enterprise-os-blueprint-kit-cc",
+  "status": "published",
+  "archived": false,
+  "kind": "products",
+  "price_formatted": "CAD$0+",
+  "description_md": "# WHAT YOU GET\nCORE GUIDES\n1. The Enterprise OS Blueprint (master guide, landscape, 34 pages, 4 chapters)\n\n- Ch1. Infrastructure. The architecture end to end, with a by-the-numbers map, the 15 CDK stacks, and the leak scan.\n\n- Ch2. Every AWS Service in Plain English. What each service is, what it does here, and the cost or gotcha for each.\n\n- Ch3. What Compliance Actually Looks Like. The mental model plus the evidence an audit actually asks for.\n\n- Ch4. Off-the-Shelf vs In-Your-Account. The honest side by side.\n\n2. The Build-It Prompt Pack (portrait, 17 pages)\n11 copy-paste prompts in 3 parts. Set up AWS from zero, plan it, then draft, deploy, and prove the foundation.\nBUILD FILES\nprompts - the 11 prompts as raw text, copy-paste ready\nspecs - 8 fill-in spec templates (SETUP, SYSTEM, ARCHITECTURE, SECURITY, COST, READINESS, AGENT, BUILD_PLAN) plus a readme\nBlueprint - the whole architecture in markdown, what the prompts read as \"the Blueprint\"\nGUIDED DOCS (so a beginner is never lost)\n\n- Quickstart - start here, the whole kit in order\n\n- Examples - 3 worked spec sets across the tiers (solo T0, law firm T1, clinic T2), each with SYSTEM, ARCHITECTURE, and COST\n\nFirst Session - a realistic 90-minute first-session plan\n\n- Checklist - a printable tick-list of the whole journey\n\n- Commands - copy-paste commands to verify each step\n\n- Troubleshooting - the common snags and the fix for each\n\n- Glossary - every AWS and agent term in plain English\n\n- FAQ - straight answers (cost, security, privacy, free vs paid, Azure or GCP, how long)\n\n- One-Page System Map - the whole system on one printable landscape page\n\nThe actual repo to clone and deploy, the build training, and hands-on coaching live in the Early AI Dopters community.\nJoin here: https://www.skool.com/earlyaidopters/about",
+  "files": [
+    {
+      "file": "Enterprise_OS_Blueprint_Kit.zip",
+      "status": "cached",
+      "bytes": 6823189
+    }
+  ],
+  "has_rich_content": true
+}

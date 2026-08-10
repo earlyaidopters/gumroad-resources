@@ -1,0 +1,438 @@
+{
+  "name": "Instagram Visual Quote Automation",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "days",
+              "minutesInterval": 0,
+              "hoursInterval": 0,
+              "daysInterval": 3
+            }
+          ],
+          "triggerAtTime": true,
+          "hour": 12,
+          "minute": 0
+        }
+      },
+      "id": "1a5c1e9a-5352-4ab1-a9f5-c29a2e83a0a0",
+      "name": "Schedule Trigger",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1,
+      "position": [
+        250,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialName": "OpenAI API Key",
+        "operation": "message",
+        "model": "gpt-4",
+        "options": {
+          "temperature": 0.8,
+          "maxTokens": 500
+        },
+        "messages": {
+          "values": [
+            {
+              "role": "system",
+              "content": "You are an expert at creating inspirational and motivational quotes for coaches and their clients. Your quotes should be concise, impactful, and relevant to personal growth, leadership, and transformation."
+            },
+            {
+              "role": "user",
+              "content": "Generate 3 inspirational quotes about personal growth, coaching, or leadership. Each quote should be between 10-20 words and be impactful enough to stand alone on a visual image. Make them original and thought-provoking."
+            }
+          ]
+        }
+      },
+      "id": "2b6d2f9b-6463-4bc2-b0f6-d3a3f4b4a0b1",
+      "name": "OpenAI - Generate Quotes",
+      "type": "n8n-nodes-langchain.openai",
+      "typeVersion": 1,
+      "position": [
+        450,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Parse the quotes from OpenAI response\nconst content = $input.item.json.text || $input.item.json.content;\n\n// Split the content into individual quotes\nconst quoteRegex = /(\\d+\\.\\s*|\"|\\'|"|"|'|')([^\"\\n]+)(\"|\\'|"|"|'|')/g;\nlet matches = [];\nlet match;\n\nwhile ((match = quoteRegex.exec(content)) !== null) {\n  matches.push(match[2].trim());\n}\n\n// If regex didn't work, try simple line splitting\nif (matches.length === 0) {\n  const lines = content.split('\\n').filter(line => line.trim() !== '');\n  matches = lines.map(line => {\n    // Remove numbers and special characters\n    return line.replace(/^\\d+\\.\\s*/, '').replace(/[\"'""'']/g, '').trim();\n  });\n}\n\n// Ensure we have at least one quote\nif (matches.length === 0) {\n  matches = [\"Your journey of transformation begins with a single step toward self-awareness.\"];\n}\n\n// Select the first quote for this run\nconst selectedQuote = matches[0];\n\n// Store all quotes for potential future use\nreturn {\n  selectedQuote,\n  allQuotes: matches,\n  author: \"Your Coaching Business\" // Can be customized\n};"
+      },
+      "id": "3c7e3f0c-7574-4cd3-c1f7-e4b4f5c5b1c2",
+      "name": "Code - Parse Quotes",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [
+        650,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://api.canva.com/v1/designs",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialName": "Canva API Key",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "template_id",
+              "value": "QUOTE_TEMPLATE_ID_PLACEHOLDER"
+            },
+            {
+              "name": "title",
+              "value": "=Instagram Quote - {{$now.format(\"YYYY-MM-DD\")}}"
+            },
+            {
+              "name": "text_elements",
+              "value": "=[\n  {\n    \"element_id\": \"quote_text\",\n    \"text\": {{$node[\"Code - Parse Quotes\"].json[\"selectedQuote\"]}}\n  },\n  {\n    \"element_id\": \"author\",\n    \"text\": {{$node[\"Code - Parse Quotes\"].json[\"author\"]}}\n  }\n]"
+            },
+            {
+              "name": "brand_options",
+              "value": "{\n  \"colors\": [\"#4A90E2\", \"#50E3C2\", \"#B8E986\"],\n  \"fonts\": [\"Montserrat\", \"Open Sans\"]\n}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "4d8f4g1d-8685-5de4-d2g8-f5c6g6d7c2d3",
+      "name": "HTTP Request - Canva Design",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 3,
+      "position": [
+        850,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Process the Canva response and prepare for Instagram posting\n// In a real implementation, this would handle downloading the image\n// and preparing it for Instagram's API requirements\n\n// Simulate image processing\nconst canvaResponse = $input.item.json;\nconst designId = canvaResponse.id || 'sample-design-id';\nconst designUrl = canvaResponse.url || 'https://example.com/design.jpg';\n\n// In a real implementation, we would download the image here\n// and process it to meet Instagram's requirements\n\nreturn {\n  designId,\n  designUrl,\n  imageBase64: \"PLACEHOLDER_FOR_BASE64_IMAGE_DATA\", // This would be real image data\n  caption: `${$node[\"Code - Parse Quotes\"].json.selectedQuote}\\n\\n—${$node[\"Code - Parse Quotes\"].json.author}\\n\\n#coaching #inspiration #growth #leadership #motivation`\n};"
+      },
+      "id": "5e9g5h2e-9796-6ef5-e3h9-g6d7h7e8d3e4",
+      "name": "Code - Process Image",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [
+        1050,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialName": "Facebook Graph API",
+        "resource": "Default",
+        "operation": "POST",
+        "url": "=/{{$node[\"Code - Get Instagram Business ID\"].json[\"instagramBusinessId\"]}}/media",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "image_url",
+              "value": "={{$node[\"Code - Process Image\"].json[\"designUrl\"]}}"
+            },
+            {
+              "name": "caption",
+              "value": "={{$node[\"Code - Process Image\"].json[\"caption\"]}}"
+            }
+          ]
+        }
+      },
+      "id": "6f0h6i3f-0807-7fg6-f4i0-h7e8i8f9e4f5",
+      "name": "Facebook Graph API - Create Media Container",
+      "type": "n8n-nodes-base.facebookGraphApi",
+      "typeVersion": 1,
+      "position": [
+        1250,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Get Instagram Business Account ID\n// In a real implementation, this would be stored in a credential or configuration\n\nreturn {\n  instagramBusinessId: \"INSTAGRAM_BUSINESS_ID_PLACEHOLDER\"\n};"
+      },
+      "id": "7g1i7j4g-1918-8gh7-g5j1-i8f9j9g0f5g6",
+      "name": "Code - Get Instagram Business ID",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [
+        1050,
+        150
+      ]
+    },
+    {
+      "parameters": {
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialName": "Facebook Graph API",
+        "resource": "Default",
+        "operation": "POST",
+        "url": "=/{{$node[\"Code - Get Instagram Business ID\"].json[\"instagramBusinessId\"]}}/media_publish",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "creation_id",
+              "value": "={{$node[\"Facebook Graph API - Create Media Container\"].json[\"id\"]}}"
+            }
+          ]
+        }
+      },
+      "id": "8h2j8k5h-2029-9hi8-h6k2-j9g0k0h1g6h7",
+      "name": "Facebook Graph API - Publish Media",
+      "type": "n8n-nodes-base.facebookGraphApi",
+      "typeVersion": 1,
+      "position": [
+        1450,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialName": "Slack Account",
+        "channel": "coaching-automation-alerts",
+        "text": "=Instagram quote successfully published at {{$now.format(\"YYYY-MM-DD HH:mm:ss\")}}.\n\nQuote: \"{{$node[\"Code - Parse Quotes\"].json[\"selectedQuote\"]}}\"",
+        "otherOptions": {}
+      },
+      "id": "9i3k9l6i-3130-0ij9-i7l3-k0h1l1i2h7i8",
+      "name": "Slack - Send Notification",
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 1,
+      "position": [
+        1650,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "boolean": [
+            {
+              "value1": "={{$node[\"Facebook Graph API - Publish Media\"].json.hasOwnProperty('error')}}",
+              "value2": true
+            }
+          ]
+        }
+      },
+      "id": "0j4l0m7j-4241-1jk0-j8m4-l1i2m2j3i8j9",
+      "name": "IF - Posting Error",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [
+        1450,
+        500
+      ]
+    },
+    {
+      "parameters": {
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialName": "Slack Account",
+        "channel": "coaching-automation-alerts",
+        "text": "=⚠️ ERROR: Instagram quote failed to publish at {{$now.format(\"YYYY-MM-DD HH:mm:ss\")}}.\n\nError details: {{$node[\"Facebook Graph API - Publish Media\"].json.error}}",
+        "otherOptions": {}
+      },
+      "id": "1k5m1n8k-5352-2kl1-k9n5-m2j3n3k4j9k0",
+      "name": "Slack - Send Error",
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 1,
+      "position": [
+        1650,
+        500
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "GOOGLE_SHEET_ID_PLACEHOLDER",
+          "mode": "list",
+          "cachedResultName": "Backup Quotes",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/GOOGLE_SHEET_ID_PLACEHOLDER/edit"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 0,
+          "mode": "list",
+          "cachedResultName": "Sheet1"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "mappingMode": "defineBelow",
+            "value": {
+              "date": "={{$now.format(\"YYYY-MM-DD HH:mm:ss\")}}",
+              "quote": "={{$node[\"Code - Parse Quotes\"].json[\"selectedQuote\"]}}",
+              "author": "={{$node[\"Code - Parse Quotes\"].json[\"author\"]}}",
+              "status": "=Failed",
+              "error": "={{$node[\"Facebook Graph API - Publish Media\"].json.error}}"
+            }
+          }
+        },
+        "options": {}
+      },
+      "id": "2l6n2o9l-6463-3lm2-l0o6-n3k4o4l5k0l1",
+      "name": "Google Sheets - Store Failed Quote",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 3,
+      "position": [
+        1850,
+        500
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "GOOGLE_SHEETS_CREDENTIAL_ID_PLACEHOLDER",
+          "name": "Google Sheets Account"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "OpenAI - Generate Quotes",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI - Generate Quotes": {
+      "main": [
+        [
+          {
+            "node": "Code - Parse Quotes",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code - Parse Quotes": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request - Canva Design",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request - Canva Design": {
+      "main": [
+        [
+          {
+            "node": "Code - Process Image",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code - Process Image": {
+      "main": [
+        [
+          {
+            "node": "Facebook Graph API - Create Media Container",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Facebook Graph API - Create Media Container": {
+      "main": [
+        [
+          {
+            "node": "Facebook Graph API - Publish Media",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "IF - Posting Error",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Facebook Graph API - Publish Media": {
+      "main": [
+        [
+          {
+            "node": "Slack - Send Notification",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "IF - Posting Error": {
+      "main": [
+        [
+          {
+            "node": "Slack - Send Error",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Slack - Send Error": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets - Store Failed Quote",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code - Get Instagram Business ID": {
+      "main": [
+        [
+          {
+            "node": "Facebook Graph API - Create Media Container",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1",
+    "saveManualExecutions": true,
+    "callerPolicy": "workflowsFromSameOwner",
+    "errorWorkflow": ""
+  },
+  "staticData": null,
+  "tags": [
+    "content",
+    "instagram",
+    "automation",
+    "coaching",
+    "quotes"
+  ],
+  "triggerCount": 1,
+  "versionId": "2b3c4d5e-6f7g-8h9i-0j1k-2l3m4n5o6p7q"
+}

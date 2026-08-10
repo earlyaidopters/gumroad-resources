@@ -1,0 +1,468 @@
+{
+  "name": "Daily RSS News Digest to Slack and Discord",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "triggerAtHour": 8
+            }
+          ]
+        }
+      },
+      "id": "4b8bbb00-48b1-446b-b4fa-5387709135f7",
+      "name": "Daily 8 AM Trigger",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        256,
+        176
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "id-1",
+              "name": "rssFeeds",
+              "value": "https://www.technologyreview.com/feed/",
+              "type": "string"
+            },
+            {
+              "id": "id-2",
+              "name": "keywords",
+              "value": "[\"AI\", \"artificial intelligence\", \"machine learning\", \"technology\", \"software\", \"programming\", \"development\", \"innovation\", \"startup\", \"tech news\"]",
+              "type": "string"
+            },
+            {
+              "id": "id-3",
+              "name": "excludeKeywords",
+              "value": "[\"spam\", \"advertisement\", \"promotion\", \"clickbait\", \"gossip\"]",
+              "type": "string"
+            },
+            {
+              "id": "id-4",
+              "name": "slackChannel",
+              "value": "#social",
+              "type": "string"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "id": "bacc9fe0-112a-4414-b466-d7967b214d93",
+      "name": "Workflow Configuration",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        480,
+        176
+      ]
+    },
+    {
+      "parameters": {
+        "url": "={{ $json.rssFeeds }}",
+        "options": {}
+      },
+      "id": "4dc8074e-5af5-4cc5-9bb0-97dc023fb20b",
+      "name": "Read RSS Feeds",
+      "type": "n8n-nodes-base.rssFeedRead",
+      "typeVersion": 1.2,
+      "position": [
+        704,
+        176
+      ]
+    },
+    {
+      "parameters": {
+        "sortFieldsUi": {
+          "sortField": [
+            {
+              "fieldName": "pubDate",
+              "order": "descending"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "37b45633-1d4d-4aa6-967b-2754ecd18ad8",
+      "name": "Sort by Publication Date",
+      "type": "n8n-nodes-base.sort",
+      "typeVersion": 1,
+      "position": [
+        1152,
+        176
+      ]
+    },
+    {
+      "parameters": {
+        "maxItems": 10
+      },
+      "id": "764ef061-4bfa-4603-8194-1f6282326585",
+      "name": "Limit to Top 10",
+      "type": "n8n-nodes-base.limit",
+      "typeVersion": 1,
+      "position": [
+        1376,
+        176
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "id-1",
+              "leftValue": "={{ $input.all().length }}",
+              "rightValue": 0,
+              "operator": {
+                "type": "number",
+                "operation": "gt"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "c8259ce2-b94d-4842-be84-8cbd10b47b41",
+      "name": "Check if Articles Found",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        1600,
+        176
+      ]
+    },
+    {
+      "parameters": {
+        "select": "channel",
+        "channelId": {
+          "__rl": true,
+          "value": "#social",
+          "mode": "name"
+        },
+        "text": "={{ $json.digestTitle ? $json.digestTitle + '\\n\\n' + $json.digestContent : $json.message }}",
+        "otherOptions": {}
+      },
+      "id": "71041d72-4c42-477f-bcb1-981c77e2a5b2",
+      "name": "Send to Slack",
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 2.3,
+      "position": [
+        2624,
+        176
+      ],
+      "webhookId": "c4e796b1-0675-42d8-8ee8-e54c65ba748b",
+      "credentials": {
+        "slackApi": {
+          "id": "F0bHwgVQe3PyQc",
+          "name": "Slack Token"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "## ⚙️ How to Setup\n\n1. Configure RSS feeds in the Workflow Configuration node - update the rssFeeds array with your preferred tech news sources\n2. Customize keywords in the Workflow Configuration node - modify the keywords and excludeKeywords arrays to match your interests\n3. Set up Slack integration:\n        * Create a Slack app and get an access token\n        * Add Slack credentials in n8n\n        * Update the slackChannel field in Workflow \n4. Adjust the timezone in the Schedule Trigger if needed\n\n## ℹ️ How to Use\n\nThe workflow runs automatically every day at 8 AM. It will:\n\n* Fetch articles from your configured RSS feeds\n* Filter them based on your keywords\n* Send a formatted digest to both Slack and Discord\n* Send a \"no articles found\" message if no matches exist\n\nYou can also trigger it manually by clicking the \"Test workflow\" button.",
+        "height": 608,
+        "width": 576,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -416,
+        -96
+      ],
+      "typeVersion": 1,
+      "id": "2fac24be-b309-4044-9904-5ea7d1c6a270",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "id-1",
+              "name": "message",
+              "value": "=No new articles found matching your criteria for {{ new Date().toLocaleDateString() }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "3debe2c0-6ded-4553-8b21-a6af7a4d9213",
+      "name": "No Articles Message",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        2400,
+        272
+      ]
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "gpt-5-nano",
+          "mode": "list",
+          "cachedResultName": "GPT-5-NANO"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "=You are a content curator formatting a daily RSS digest. Today's date is {{ new Date().toLocaleDateString() }}.\\n\\nArticles data (JSON): {{ $json.data.toJsonString() }}\\n\\nFormat these articles into a clean, readable digest for Slack/Discord. Include:\\n- A title header with today's date\\n- Each article as a bullet point with: clickable title link, source name, brief description, and publication date\\n- Use markdown formatting\\n\\nIf there are NO articles, respond with a friendly \\\"No new articles found\\\" message including today's date.\\n\\nProvide ONLY the formatted digest text, ready to post directly."
+            }
+          ]
+        },
+        "jsonOutput": true,
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.8,
+      "position": [
+        2048,
+        80
+      ],
+      "id": "15b4efcf-cecf-4397-9c85-9ad9d35dddd6",
+      "name": "Format Digest with AI",
+      "credentials": {
+        "openAiApi": {
+          "id": "KSKdcXliKjYZC",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// Get workflow configuration\nconst config = $('Workflow Configuration').first().json;\n\n// Ensure keywords are arrays (handle different formats)\nconst keywords = Array.isArray(config.keywords) \n  ? config.keywords.map(k => k.toLowerCase()) \n  : [];\n\nconst excludeKeywords = Array.isArray(config.excludeKeywords) \n  ? config.excludeKeywords.map(k => k.toLowerCase()) \n  : [];\n\n// Get all RSS items\nconst items = $('Read RSS Feeds').all();\n\n// Filter function\nconst matchesKeywords = (text) => {\n  if (keywords.length === 0) return true; // If no keywords, include all\n  const lowerText = text.toLowerCase();\n  return keywords.some(keyword => lowerText.includes(keyword));\n};\n\nconst containsExcluded = (text) => {\n  if (excludeKeywords.length === 0) return false; // If no exclusions, exclude none\n  const lowerText = text.toLowerCase();\n  return excludeKeywords.some(keyword => lowerText.includes(keyword));\n};\n\n// Filter items\nconst filtered = items.filter(item => {\n  const title = item.json.title || '';\n  const content = item.json['content:encoded'] || item.json.description || '';\n  const fullText = `${title} ${content}`;\n  \n  // Must match at least one keyword AND not contain excluded keywords\n  return matchesKeywords(fullText) && !containsExcluded(fullText);\n});\n\n// Return filtered items\nreturn filtered;"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        928,
+        176
+      ],
+      "id": "5c8f1d68-5abf-48dd-ac15-5c6cbee237d8",
+      "name": "Code in JavaScript"
+    },
+    {
+      "parameters": {
+        "aggregate": "aggregateAllItemData",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        1824,
+        80
+      ],
+      "id": "63e0d04b-ae54-41c5-8784-c82049bd5b0b",
+      "name": "Aggregate"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "9a705d1e-7156-4f37-aba1-8ebcf0c30e5e",
+              "name": "message",
+              "value": "={{ $json.message.content.markdown }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        2400,
+        80
+      ],
+      "id": "d24af86c-61c8-4c84-be6e-b7fb88ab73ee",
+      "name": "Filtered Article Digest"
+    },
+    {
+      "parameters": {
+        "content": "## Add OpenAI API Key",
+        "height": 224,
+        "width": 256
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        2032,
+        -16
+      ],
+      "typeVersion": 1,
+      "id": "75046664-b93c-4daa-abc8-0fe899ca82c7",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "content": "## Add Slack Configuration\n",
+        "height": 224,
+        "width": 304
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        2544,
+        96
+      ],
+      "typeVersion": 1,
+      "id": "25ef7dfb-8c2d-4a0c-8af7-5a3eb4d2af07",
+      "name": "Sticky Note2"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Daily 8 AM Trigger": {
+      "main": [
+        [
+          {
+            "node": "Workflow Configuration",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Workflow Configuration": {
+      "main": [
+        [
+          {
+            "node": "Read RSS Feeds",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Read RSS Feeds": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Sort by Publication Date": {
+      "main": [
+        [
+          {
+            "node": "Limit to Top 10",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Limit to Top 10": {
+      "main": [
+        [
+          {
+            "node": "Check if Articles Found",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check if Articles Found": {
+      "main": [
+        [
+          {
+            "node": "Aggregate",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "No Articles Message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "No Articles Message": {
+      "main": [
+        [
+          {
+            "node": "Send to Slack",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Format Digest with AI": {
+      "main": [
+        [
+          {
+            "node": "Filtered Article Digest",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript": {
+      "main": [
+        [
+          {
+            "node": "Sort by Publication Date",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Aggregate": {
+      "main": [
+        [
+          {
+            "node": "Format Digest with AI",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filtered Article Digest": {
+      "main": [
+        [
+          {
+            "node": "Send to Slack",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "2ce17db7-b97c-43b4-8f8d-5effc4f3c5a8",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "aaadb797535f05587ee95b776c942a7c3f7a46fd7aa0c9b6a9d64e1e595f8af1"
+  },
+  "id": "b0JfPGDAbYgO7FMO",
+  "tags": []
+}

@@ -1,0 +1,1387 @@
+{
+  "name": "Document Signature & Management",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "document-signature-request",
+        "options": {}
+      },
+      "name": "Document Signature Request",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [
+        240,
+        300
+      ],
+      "webhookId": "document-signature-request"
+    },
+    {
+      "parameters": {
+        "functionCode": "// Process document signature request\nconst data = $input.item.json;\n\n// Create a structured document request object\nconst docRequest = {\n  id: `DOC-${Date.now()}`,\n  requestDate: new Date().toISOString(),\n  documentName: data.documentName || 'Untitled Document',\n  documentType: data.documentType || 'Agreement',\n  companyName: data.companyName || '',\n  dealId: data.dealId || '',\n  stage: data.stage || 'Draft',\n  priority: data.priority || 'Normal',\n  dueDate: data.dueDate || new Date(Date.now() + 7*24*60*60*1000).toISOString(),\n  requestedBy: data.requestedBy || '',\n  signers: data.signers || [],\n  reviewers: data.reviewers || [],\n  documentUrl: data.documentUrl || '',\n  documentContent: data.documentContent || '',\n  templateId: data.templateId || '',\n  status: 'Initiated',\n  lastUpdated: new Date().toISOString()\n};\n\n// Ensure signers is an array of objects with email and name\nif (!Array.isArray(docRequest.signers)) {\n  docRequest.signers = [];\n}\n\nif (!Array.isArray(docRequest.reviewers)) {\n  docRequest.reviewers = [];\n}\n\n// Format signers and reviewers as strings for storage\ndocRequest.signersText = docRequest.signers.map(s => `${s.name} <${s.email}>`).join(', ');\ndocRequest.reviewersText = docRequest.reviewers.map(r => `${r.name} <${r.email}>`).join(', ');\n\nreturn { json: docRequest };"
+      },
+      "name": "Process Document Request",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [
+        460,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "sheetName": "Document Tracking",
+        "columns": "={{ Object.keys($json).filter(key => key !== 'signers' && key !== 'reviewers' && key !== 'documentContent') }}",
+        "options": {}
+      },
+      "name": "Log Document Request",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 3,
+      "position": [
+        680,
+        300
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "1",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "folder",
+        "name": "={{ $json.documentName + ' - ' + $json.id }}",
+        "options": {}
+      },
+      "name": "Create Document Folder",
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 2,
+      "position": [
+        680,
+        460
+      ],
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "2",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{ $json.documentUrl }}",
+              "operation": "isNotEmpty"
+            }
+          ]
+        }
+      },
+      "name": "Has Document URL?",
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 1,
+      "position": [
+        900,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{ $json.documentContent }}",
+              "operation": "isNotEmpty"
+            }
+          ]
+        }
+      },
+      "name": "Has Document Content?",
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 1,
+      "position": [
+        900,
+        460
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{ $json.templateId }}",
+              "operation": "isNotEmpty"
+            }
+          ]
+        }
+      },
+      "name": "Has Template ID?",
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 1,
+      "position": [
+        900,
+        620
+      ]
+    },
+    {
+      "parameters": {
+        "url": "={{ $json.documentUrl }}",
+        "options": {}
+      },
+      "name": "Download Document",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 3,
+      "position": [
+        1120,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "resource": "file",
+        "name": "={{ $json.documentName + '.' + ($json.documentUrl.split('.').pop() || 'pdf') }}",
+        "folderId": "={{ $json.folderId }}",
+        "options": {}
+      },
+      "name": "Save Document from URL",
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 2,
+      "position": [
+        1340,
+        300
+      ],
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "2",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "file",
+        "name": "={{ $json.documentName + '.docx' }}",
+        "folderId": "={{ $json.folderId }}",
+        "options": {}
+      },
+      "name": "Create Document from Content",
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 2,
+      "position": [
+        1120,
+        460
+      ],
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "2",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "lookup",
+        "sheetName": "Document Templates",
+        "lookupColumn": "id",
+        "lookupValue": "={{ $json.templateId }}",
+        "options": {}
+      },
+      "name": "Get Template",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 3,
+      "position": [
+        1120,
+        620
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "1",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "file",
+        "name": "={{ $json.documentName + '.docx' }}",
+        "folderId": "={{ $json.folderId }}",
+        "options": {}
+      },
+      "name": "Create Document from Template",
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 2,
+      "position": [
+        1340,
+        620
+      ],
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "2",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "functionCode": "// Prepare document for DocuSign\nconst documentData = $input.first().json;\nconst documentFile = $input.last().json;\n\n// Update document data with file information\nconst updatedDocData = {\n  ...documentData,\n  documentId: documentFile.id,\n  documentUrl: documentFile.webViewLink,\n  documentName: documentFile.name,\n  status: 'Ready for Signature',\n  lastUpdated: new Date().toISOString()\n};\n\n// Parse signers if it's a string\nlet signers = documentData.signers;\nif (typeof signers === 'string') {\n  try {\n    signers = JSON.parse(signers);\n  } catch (e) {\n    signers = [];\n  }\n}\n\n// Ensure signers is an array\nif (!Array.isArray(signers)) {\n  signers = [];\n}\n\n// Add signers to updated document data\nupdatedDocData.signers = signers;\n\nreturn { json: updatedDocData };"
+      },
+      "name": "Prepare for Signature",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [
+        1560,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "resource": "envelope",
+        "operation": "send",
+        "documentDefinition": {
+          "documents": [
+            {
+              "name": "={{ $json.documentName }}",
+              "documentId": "1",
+              "order": 1,
+              "documentBase64": "={{ $binary.data.base64 }}"
+            }
+          ],
+          "recipients": {
+            "signers": "={{ $json.signers.map((signer, i) => ({ email: signer.email, name: signer.name, recipientId: (i+1).toString(), routingOrder: (i+1).toString() })) }}",
+            "carbonCopies": "={{ $json.reviewers.map((reviewer, i) => ({ email: reviewer.email, name: reviewer.name, recipientId: ($json.signers.length + i + 1).toString(), routingOrder: ($json.signers.length + 1).toString() })) }}"
+          },
+          "status": "sent",
+          "emailSubject": "={{ 'Please sign: ' + $json.documentName }}",
+          "emailBlurb": "={{ 'Please review and sign this ' + $json.documentType + ' document.' }}"
+        }
+      },
+      "name": "Send for Signature",
+      "type": "n8n-nodes-base.docuSign",
+      "typeVersion": 1,
+      "position": [
+        1780,
+        300
+      ],
+      "credentials": {
+        "docuSignOAuth2Api": {
+          "id": "3",
+          "name": "DocuSign account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "sheetName": "Document Tracking",
+        "key": "id",
+        "columns": {
+          "values": [
+            {
+              "column": "status",
+              "value": "Sent for Signature"
+            },
+            {
+              "column": "envelopeId",
+              "value": "={{ $json.envelopeId }}"
+            },
+            {
+              "column": "documentUrl",
+              "value": "={{ $json.documentUrl }}"
+            },
+            {
+              "column": "lastUpdated",
+              "value": "={{ $now }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "name": "Update Document Status",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 3,
+      "position": [
+        2000,
+        300
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "1",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "document-management",
+        "text": "=## Document Sent for Signature\n\n**Document:** {{ $json.documentName }}\n**Type:** {{ $json.documentType }}\n**ID:** {{ $json.id }}\n**Company:** {{ $json.companyName }}\n\n**Signers:**\n{{ $json.signersText }}\n\n**Reviewers:**\n{{ $json.reviewersText || 'None' }}\n\n**Due Date:** {{ new Date($json.dueDate).toLocaleDateString() }}\n**Status:** Sent for Signature\n**Envelope ID:** {{ $json.envelopeId }}\n\nThe document has been sent for signature via DocuSign.",
+        "additionalFields": {}
+      },
+      "name": "Send Slack Notification",
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 1,
+      "position": [
+        2220,
+        300
+      ],
+      "credentials": {
+        "slackApi": {
+          "id": "4",
+          "name": "Slack account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "docusign-webhook",
+        "options": {}
+      },
+      "name": "DocuSign Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [
+        240,
+        780
+      ],
+      "webhookId": "docusign-webhook"
+    },
+    {
+      "parameters": {
+        "functionCode": "// Process DocuSign webhook\nconst data = $input.item.json;\n\n// Extract envelope data\nconst envelopeId = data.envelopeId || data.data?.envelopeId || '';\nconst status = data.status || data.data?.status || '';\nconst completedDate = data.completedDate || data.data?.completedDate || '';\nconst recipients = data.recipients || data.data?.recipients || {};\n\n// Create webhook response object\nconst webhookData = {\n  envelopeId,\n  status,\n  completedDate: completedDate ? new Date(completedDate).toISOString() : '',\n  recipients: JSON.stringify(recipients),\n  eventTimestamp: new Date().toISOString(),\n  eventType: status,\n  rawData: JSON.stringify(data)\n};\n\nreturn { json: webhookData };"
+      },
+      "name": "Process DocuSign Webhook",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [
+        460,
+        780
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "lookup",
+        "sheetName": "Document Tracking",
+        "lookupColumn": "envelopeId",
+        "lookupValue": "={{ $json.envelopeId }}",
+        "options": {}
+      },
+      "name": "Get Document Record",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 3,
+      "position": [
+        680,
+        780
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "1",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "functionCode": "// Update document status based on webhook\nconst webhookData = $input.first().json;\nconst documentData = $input.last().json;\n\n// Map DocuSign status to our status\nlet documentStatus = 'In Progress';\nswitch (webhookData.status) {\n  case 'completed':\n    documentStatus = 'Completed';\n    break;\n  case 'declined':\n    documentStatus = 'Declined';\n    break;\n  case 'voided':\n    documentStatus = 'Voided';\n    break;\n  case 'sent':\n    documentStatus = 'Sent for Signature';\n    break;\n  case 'delivered':\n    documentStatus = 'Delivered';\n    break;\n  default:\n    documentStatus = webhookData.status || 'In Progress';\n}\n\n// Combine data\nconst updatedDocumentData = {\n  ...documentData,\n  status: documentStatus,\n  completedDate: webhookData.completedDate || '',\n  lastUpdated: new Date().toISOString(),\n  webhookStatus: webhookData.status,\n  webhookTimestamp: webhookData.eventTimestamp\n};\n\nreturn { json: updatedDocumentData };"
+      },
+      "name": "Update Document Data",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [
+        900,
+        780
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "sheetName": "Document Tracking",
+        "key": "id",
+        "columns": {
+          "values": [
+            {
+              "column": "status",
+              "value": "={{ $json.status }}"
+            },
+            {
+              "column": "completedDate",
+              "value": "={{ $json.completedDate }}"
+            },
+            {
+              "column": "lastUpdated",
+              "value": "={{ $json.lastUpdated }}"
+            },
+            {
+              "column": "webhookStatus",
+              "value": "={{ $json.webhookStatus }}"
+            },
+            {
+              "column": "webhookTimestamp",
+              "value": "={{ $json.webhookTimestamp }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "name": "Update Document Record",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 3,
+      "position": [
+        1120,
+        780
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "1",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{ $json.status }}",
+              "value2": "Completed"
+            }
+          ]
+        }
+      },
+      "name": "Is Completed?",
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 1,
+      "position": [
+        1340,
+        780
+      ]
+    },
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "resource": "envelope",
+        "operation": "get",
+        "envelopeId": "={{ $json.envelopeId }}"
+      },
+      "name": "Get Envelope Details",
+      "type": "n8n-nodes-base.docuSign",
+      "typeVersion": 1,
+      "position": [
+        1560,
+        780
+      ],
+      "credentials": {
+        "docuSignOAuth2Api": {
+          "id": "3",
+          "name": "DocuSign account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "resource": "document",
+        "operation": "download",
+        "envelopeId": "={{ $json.envelopeId }}",
+        "documentId": "combined"
+      },
+      "name": "Download Signed Document",
+      "type": "n8n-nodes-base.docuSign",
+      "typeVersion": 1,
+      "position": [
+        1780,
+        780
+      ],
+      "credentials": {
+        "docuSignOAuth2Api": {
+          "id": "3",
+          "name": "DocuSign account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "file",
+        "name": "={{ $json.documentName + ' - Signed.pdf' }}",
+        "folderId": "={{ $json.folderId }}",
+        "options": {}
+      },
+      "name": "Save Signed Document",
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 2,
+      "position": [
+        2000,
+        780
+      ],
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "2",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "sheetName": "Document Tracking",
+        "key": "id",
+        "columns": {
+          "values": [
+            {
+              "column": "signedDocumentUrl",
+              "value": "={{ $json.webViewLink }}"
+            },
+            {
+              "column": "signedDocumentId",
+              "value": "={{ $json.id }}"
+            },
+            {
+              "column": "lastUpdated",
+              "value": "={{ $now }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "name": "Update with Signed Document",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 3,
+      "position": [
+        2220,
+        780
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "1",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "document-management",
+        "text": "=## Document Signing Completed\n\n**Document:** {{ $json.documentName }}\n**Type:** {{ $json.documentType }}\n**ID:** {{ $json.id }}\n**Company:** {{ $json.companyName }}\n\n**Status:** Completed\n**Completed Date:** {{ new Date($json.completedDate).toLocaleDateString() }}\n\nThe signed document has been saved to Google Drive.",
+        "additionalFields": {}
+      },
+      "name": "Send Completion Notification",
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 1,
+      "position": [
+        2440,
+        780
+      ],
+      "credentials": {
+        "slackApi": {
+          "id": "4",
+          "name": "Slack account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "fromEmail": "documents@vcfirm.com",
+        "toEmail": "={{ $json.requestedBy }}",
+        "ccEmail": "={{ $json.signers.map(s => s.email).join(',') }}",
+        "subject": "={{ 'Document Completed: ' + $json.documentName }}",
+        "text": "=The document \"{{ $json.documentName }}\" has been completed by all signers.\n\n**Document Details:**\n- Type: {{ $json.documentType }}\n- ID: {{ $json.id }}\n- Company: {{ $json.companyName }}\n- Completed Date: {{ new Date($json.completedDate).toLocaleDateString() }}\n\nYou can access the signed document using the following link:\n{{ $json.signedDocumentUrl }}\n\nThank you,\nVC Firm Document Management System",
+        "options": {}
+      },
+      "name": "Send Completion Email",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2,
+      "position": [
+        2660,
+        780
+      ],
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "5",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "triggerTimes": {
+          "item": [
+            {
+              "mode": "everyX",
+              "value": 1,
+              "unit": "days"
+            }
+          ]
+        }
+      },
+      "name": "Daily Document Check",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1,
+      "position": [
+        240,
+        1100
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "sheetName": "Document Tracking",
+        "options": {
+          "filter": {
+            "values": [
+              {
+                "column": "status",
+                "value": "Sent for Signature"
+              }
+            ]
+          }
+        }
+      },
+      "name": "Get Pending Documents",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 3,
+      "position": [
+        460,
+        1100
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "1",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "functionCode": "// Check for documents that need reminders\nconst pendingDocuments = $input.item.json;\n\n// If no pending documents, return empty\nif (!pendingDocuments) {\n  return { json: { needsReminder: false } };\n}\n\n// Check if document is approaching due date\nconst now = new Date();\nconst dueDate = new Date(pendingDocuments.dueDate);\nconst daysToDue = Math.floor((dueDate - now) / (24 * 60 * 60 * 1000));\n\n// Send reminder if 3 days or 1 day before due date\nconst needsReminder = daysToDue === 3 || daysToDue === 1;\n\nreturn {\n  json: {\n    ...pendingDocuments,\n    daysToDue,\n    needsReminder\n  }\n};"
+      },
+      "name": "Check for Reminders",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [
+        680,
+        1100
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "boolean": [
+            {
+              "value1": "={{ $json.needsReminder }}",
+              "value2": true
+            }
+          ]
+        }
+      },
+      "name": "Needs Reminder?",
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 1,
+      "position": [
+        900,
+        1100
+      ]
+    },
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "resource": "envelope",
+        "operation": "get",
+        "envelopeId": "={{ $json.envelopeId }}"
+      },
+      "name": "Get Envelope Status",
+      "type": "n8n-nodes-base.docuSign",
+      "typeVersion": 1,
+      "position": [
+        1120,
+        1100
+      ],
+      "credentials": {
+        "docuSignOAuth2Api": {
+          "id": "3",
+          "name": "DocuSign account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "functionCode": "// Find pending signers\nconst documentData = $input.first().json;\nconst envelopeData = $input.last().json;\n\n// Extract recipients who haven't signed yet\nconst recipients = envelopeData.recipients || {};\nconst signers = recipients.signers || [];\n\n// Filter for pending signers\nconst pendingSigners = signers.filter(signer => \n  signer.status !== 'completed' && \n  signer.status !== 'declined'\n);\n\n// Create reminder data\nconst reminderData = {\n  ...documentData,\n  pendingSigners,\n  pendingSignerCount: pendingSigners.length,\n  pendingSignerEmails: pendingSigners.map(s => s.email).join(','),\n  reminderDate: new Date().toISOString(),\n  reminderType: documentData.daysToDue === 1 ? 'Urgent' : 'Standard',\n  reminderMessage: documentData.daysToDue === 1 ?\n    `URGENT: Your signature is required within 24 hours for \"${documentData.documentName}\"` :\n    `Reminder: Please sign \"${documentData.documentName}\" within ${documentData.daysToDue} days`\n};\n\nreturn { json: reminderData };"
+      },
+      "name": "Prepare Reminder",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [
+        1340,
+        1100
+      ]
+    },
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "resource": "envelope",
+        "operation": "update",
+        "envelopeId": "={{ $json.envelopeId }}",
+        "updateOperations": {
+          "operations": [
+            {
+              "operation": "createRecipientReminder",
+              "recipientId": "={{ $json.pendingSigners.map(s => s.recipientId).join(',') }}"
+            }
+          ]
+        }
+      },
+      "name": "Send DocuSign Reminder",
+      "type": "n8n-nodes-base.docuSign",
+      "typeVersion": 1,
+      "position": [
+        1560,
+        1100
+      ],
+      "credentials": {
+        "docuSignOAuth2Api": {
+          "id": "3",
+          "name": "DocuSign account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "document-management",
+        "text": "=## Document Signature Reminder Sent\n\n**Document:** {{ $json.documentName }}\n**Type:** {{ $json.documentType }}\n**ID:** {{ $json.id }}\n**Company:** {{ $json.companyName }}\n\n**Due Date:** {{ new Date($json.dueDate).toLocaleDateString() }} ({{ $json.daysToDue }} days remaining)\n**Reminder Type:** {{ $json.reminderType }}\n\n**Pending Signers:** {{ $json.pendingSignerCount }}\n{{ $json.pendingSigners.map(s => `- ${s.name} <${s.email}>`).join('\\n') }}\n\nReminders have been sent via DocuSign.",
+        "additionalFields": {}
+      },
+      "name": "Send Reminder Notification",
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 1,
+      "position": [
+        1780,
+        1100
+      ],
+      "credentials": {
+        "slackApi": {
+          "id": "4",
+          "name": "Slack account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "sheetName": "Document Reminders",
+        "columns": "={{ ['id', 'documentName', 'documentType', 'companyName', 'envelopeId', 'dueDate', 'daysToDue', 'reminderDate', 'reminderType', 'pendingSignerCount', 'pendingSignerEmails'] }}",
+        "options": {}
+      },
+      "name": "Log Reminder",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 3,
+      "position": [
+        2000,
+        1100
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "1",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "triggerTimes": {
+          "item": [
+            {
+              "mode": "everyX",
+              "value": 1,
+              "unit": "weeks",
+              "weekDay": 1
+            }
+          ]
+        }
+      },
+      "name": "Weekly Document Report",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1,
+      "position": [
+        240,
+        1260
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "sheetName": "Document Tracking",
+        "options": {}
+      },
+      "name": "Get All Documents",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 3,
+      "position": [
+        460,
+        1260
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "1",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "functionCode": "// Generate document status report\nconst documents = $input.item.json;\n\n// Get documents from the last 30 days\nconst thirtyDaysAgo = new Date();\nthirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);\n\nconst recentDocuments = documents.filter(doc => {\n  const requestDate = new Date(doc.requestDate);\n  return requestDate >= thirtyDaysAgo;\n});\n\n// Count documents by status\nconst statusCount = {};\nfor (const doc of recentDocuments) {\n  statusCount[doc.status] = (statusCount[doc.status] || 0) + 1;\n}\n\n// Count documents by type\nconst typeCount = {};\nfor (const doc of recentDocuments) {\n  typeCount[doc.documentType] = (typeCount[doc.documentType] || 0) + 1;\n}\n\n// Find overdue documents\nconst now = new Date();\nconst overdueDocuments = recentDocuments.filter(doc => {\n  if (doc.status === 'Completed' || doc.status === 'Voided' || doc.status === 'Declined') {\n    return false;\n  }\n  const dueDate = new Date(doc.dueDate);\n  return now > dueDate;\n});\n\n// Find documents due in the next 7 days\nconst sevenDaysFromNow = new Date();\nsevenDaysFromNow.setDate(sevenDaysFromNow.getDate() + 7);\n\nconst upcomingDocuments = recentDocuments.filter(doc => {\n  if (doc.status === 'Completed' || doc.status === 'Voided' || doc.status === 'Declined') {\n    return false;\n  }\n  const dueDate = new Date(doc.dueDate);\n  return dueDate > now && dueDate <= sevenDaysFromNow;\n});\n\n// Create report data\nconst reportData = {\n  reportDate: new Date().toISOString(),\n  reportPeriod: `Last 30 days (${thirtyDaysAgo.toLocaleDateString()} - ${new Date().toLocaleDateString()})`,\n  totalDocuments: recentDocuments.length,\n  completedDocuments: statusCount['Completed'] || 0,\n  pendingDocuments: (statusCount['Sent for Signature'] || 0) + (statusCount['In Progress'] || 0),\n  overdueDocuments: overdueDocuments.length,\n  upcomingDocuments: upcomingDocuments.length,\n  statusDistribution: JSON.stringify(statusCount),\n  typeDistribution: JSON.stringify(typeCount),\n  overdueList: overdueDocuments.map(d => `${d.documentName} (${d.companyName})`).join(', '),\n  upcomingList: upcomingDocuments.map(d => `${d.documentName} (${d.companyName})`).join(', ')\n};\n\nreturn { json: reportData };"
+      },
+      "name": "Generate Document Report",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [
+        680,
+        1260
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "sheetName": "Document Reports",
+        "columns": "={{ Object.keys($json) }}",
+        "options": {}
+      },
+      "name": "Save Document Report",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 3,
+      "position": [
+        900,
+        1260
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "1",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "document-management",
+        "text": "=## Weekly Document Status Report\n\n**Period:** {{ $json.reportPeriod }}\n\n**Document Metrics:**\n- Total Documents: {{ $json.totalDocuments }}\n- Completed: {{ $json.completedDocuments }}\n- Pending: {{ $json.pendingDocuments }}\n- Overdue: {{ $json.overdueDocuments }}\n- Due in Next 7 Days: {{ $json.upcomingDocuments }}\n\n**Overdue Documents:**\n{{ $json.overdueList || 'None' }}\n\n**Documents Due in Next 7 Days:**\n{{ $json.upcomingList || 'None' }}\n\nThe full document report has been saved to the reporting database.",
+        "additionalFields": {}
+      },
+      "name": "Send Report to Slack",
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 1,
+      "position": [
+        1120,
+        1260
+      ],
+      "credentials": {
+        "slackApi": {
+          "id": "4",
+          "name": "Slack account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "fromEmail": "documents@vcfirm.com",
+        "toEmail": "legal@vcfirm.com",
+        "ccEmail": "operations@vcfirm.com",
+        "subject": "Weekly Document Status Report",
+        "text": "=Dear Team,\n\nPlease find below the weekly document status report:\n\n**Period:** {{ $json.reportPeriod }}\n\n**Document Metrics:**\n- Total Documents: {{ $json.totalDocuments }}\n- Completed: {{ $json.completedDocuments }}\n- Pending: {{ $json.pendingDocuments }}\n- Overdue: {{ $json.overdueDocuments }}\n- Due in Next 7 Days: {{ $json.upcomingDocuments }}\n\n**Overdue Documents:**\n{{ $json.overdueList || 'None' }}\n\n**Documents Due in Next 7 Days:**\n{{ $json.upcomingList || 'None' }}\n\nThe full document dashboard has been updated with the latest data and is available in the reporting portal.\n\nBest regards,\nDocument Management System",
+        "options": {}
+      },
+      "name": "Email Report to Team",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2,
+      "position": [
+        1340,
+        1260
+      ],
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "5",
+          "name": "Gmail account"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Document Signature Request": {
+      "main": [
+        [
+          {
+            "node": "Process Document Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Process Document Request": {
+      "main": [
+        [
+          {
+            "node": "Log Document Request",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Create Document Folder",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Log Document Request": {
+      "main": [
+        [
+          {
+            "node": "Has Document URL?",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Has Document Content?",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Has Template ID?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create Document Folder": {
+      "main": [
+        [
+          {
+            "node": "Has Document URL?",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Has Document Content?",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Has Template ID?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Has Document URL?": {
+      "main": [
+        [
+          {
+            "node": "Download Document",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Has Document Content?": {
+      "main": [
+        [
+          {
+            "node": "Create Document from Content",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Has Template ID?": {
+      "main": [
+        [
+          {
+            "node": "Get Template",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Download Document": {
+      "main": [
+        [
+          {
+            "node": "Save Document from URL",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Save Document from URL": {
+      "main": [
+        [
+          {
+            "node": "Prepare for Signature",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create Document from Content": {
+      "main": [
+        [
+          {
+            "node": "Prepare for Signature",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Template": {
+      "main": [
+        [
+          {
+            "node": "Create Document from Template",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create Document from Template": {
+      "main": [
+        [
+          {
+            "node": "Prepare for Signature",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prepare for Signature": {
+      "main": [
+        [
+          {
+            "node": "Send for Signature",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send for Signature": {
+      "main": [
+        [
+          {
+            "node": "Update Document Status",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update Document Status": {
+      "main": [
+        [
+          {
+            "node": "Send Slack Notification",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "DocuSign Webhook": {
+      "main": [
+        [
+          {
+            "node": "Process DocuSign Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Process DocuSign Webhook": {
+      "main": [
+        [
+          {
+            "node": "Get Document Record",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Document Record": {
+      "main": [
+        [
+          {
+            "node": "Update Document Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update Document Data": {
+      "main": [
+        [
+          {
+            "node": "Update Document Record",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update Document Record": {
+      "main": [
+        [
+          {
+            "node": "Is Completed?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Is Completed?": {
+      "main": [
+        [
+          {
+            "node": "Get Envelope Details",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Envelope Details": {
+      "main": [
+        [
+          {
+            "node": "Download Signed Document",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Download Signed Document": {
+      "main": [
+        [
+          {
+            "node": "Save Signed Document",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Save Signed Document": {
+      "main": [
+        [
+          {
+            "node": "Update with Signed Document",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update with Signed Document": {
+      "main": [
+        [
+          {
+            "node": "Send Completion Notification",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send Completion Notification": {
+      "main": [
+        [
+          {
+            "node": "Send Completion Email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Daily Document Check": {
+      "main": [
+        [
+          {
+            "node": "Get Pending Documents",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Pending Documents": {
+      "main": [
+        [
+          {
+            "node": "Check for Reminders",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check for Reminders": {
+      "main": [
+        [
+          {
+            "node": "Needs Reminder?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Needs Reminder?": {
+      "main": [
+        [
+          {
+            "node": "Get Envelope Status",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Envelope Status": {
+      "main": [
+        [
+          {
+            "node": "Prepare Reminder",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prepare Reminder": {
+      "main": [
+        [
+          {
+            "node": "Send DocuSign Reminder",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send DocuSign Reminder": {
+      "main": [
+        [
+          {
+            "node": "Send Reminder Notification",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send Reminder Notification": {
+      "main": [
+        [
+          {
+            "node": "Log Reminder",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Weekly Document Report": {
+      "main": [
+        [
+          {
+            "node": "Get All Documents",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get All Documents": {
+      "main": [
+        [
+          {
+            "node": "Generate Document Report",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate Document Report": {
+      "main": [
+        [
+          {
+            "node": "Save Document Report",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Save Document Report": {
+      "main": [
+        [
+          {
+            "node": "Send Report to Slack",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send Report to Slack": {
+      "main": [
+        [
+          {
+            "node": "Email Report to Team",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "saveManualExecutions": true,
+    "callerPolicy": "workflowsFromSameOwner",
+    "errorWorkflow": "",
+    "saveExecutionProgress": true,
+    "saveDataErrorExecution": "all"
+  },
+  "tags": [
+    {
+      "name": "document management",
+      "color": "#ff00ff"
+    },
+    {
+      "name": "signatures",
+      "color": "#00ffff"
+    }
+  ],
+  "pinData": {},
+  "versionId": "1",
+  "triggerCount": 4,
+  "staticData": null,
+  "id": "7"
+}

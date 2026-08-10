@@ -1,0 +1,81 @@
+{
+  "name": "AI Agent Army Pack (Custom GPTs on Steroids 🦾)",
+  "external_id": "hlIn_RmrLc4Jp4hFAbvC8g==",
+  "permalink": "ytojm",
+  "unique_permalink": "ytojm",
+  "custom_permalink": "customgptarmy",
+  "url": "https://markkashef.gumroad.com/l/customgptarmy",
+  "status": "published",
+  "archived": false,
+  "kind": "products",
+  "price_formatted": "CAD$0+",
+  "description_md": "### What You Get: \nSlide Deck\nA step-by-step breakdown of AI agent workflows, featured in the video.\nProposal Maker Agent\nPre-built prompt & schema for automating proposal creation.\nCustom GPT Schema\nStructured framework to design and optimize your own AI agents.\nMake Blueprints\nPreconfigured automation workflows for seamless execution.\nOpenRouter Agent\nIncludes the prompt, schema, and API integration for OpenRouter-based AI agents.\nAirtable Agent\nAutomate data management with Airtable prompts and schemas.\nKnowledge Master Agent\nPinecone-powered AI memory prompts & schema for knowledge retrieval.\nReplit Links\nDirect access to deployable AI agent scripts.\nGmail Email Drafter\nAI-powered email automation with structured prompt & schema.\nIf this is useful to you, I’d love your support for the channel ❤️‍🔥",
+  "files": [
+    {
+      "file": "proposalmakerprompt.txt",
+      "status": "cached",
+      "bytes": 624
+    },
+    {
+      "file": "proposalmakerschema.txt",
+      "status": "cached",
+      "bytes": 2098
+    },
+    {
+      "file": "openrouterprompt.txt",
+      "status": "cached",
+      "bytes": 151
+    },
+    {
+      "file": "openrouterschema.txt",
+      "status": "cached",
+      "bytes": 3776
+    },
+    {
+      "file": "airtableprompt.txt",
+      "status": "cached",
+      "bytes": 247
+    },
+    {
+      "file": "airtableschema.txt",
+      "status": "cached",
+      "bytes": 3980
+    },
+    {
+      "file": "pineconeprompt.txt",
+      "status": "cached",
+      "bytes": 84
+    },
+    {
+      "file": "pineconereplit.txt",
+      "status": "cached",
+      "bytes": 2686
+    },
+    {
+      "file": "gmailprompt.txt",
+      "status": "cached",
+      "bytes": 446
+    },
+    {
+      "file": "gmaildrafterschema.txt",
+      "status": "cached",
+      "bytes": 2137
+    },
+    {
+      "file": "proposalmaker.json",
+      "status": "cached",
+      "bytes": 30623
+    },
+    {
+      "file": "gmaildrafter.json",
+      "status": "cached",
+      "bytes": 50945
+    },
+    {
+      "file": "GPT Army.pdf",
+      "status": "cached",
+      "bytes": 444787
+    }
+  ],
+  "has_rich_content": true
+}

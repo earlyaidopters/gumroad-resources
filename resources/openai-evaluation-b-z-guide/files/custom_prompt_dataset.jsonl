@@ -1,0 +1,10 @@
+{"input": "Name a primary color that is also associated with the sky.", "output": "Blue", "reference": "Blue"}
+{"input": "What is the square root of 64?", "output": "8", "reference": "8"}
+{"input": "Who was the first president of the United States?", "output": "George Washington was the first president of the United States.", "reference": "George Washington"}
+{"input": "What is the capital of Italy?", "output": "Rome, the capital city of Italy.", "reference": "Rome"}
+{"input": "What is the atomic symbol for Oxygen?", "output": "O", "reference": "O"}
+{"input": "In which continent is Egypt located?", "output": "Egypt is located in Africa.", "reference": "Africa"}
+{"input": "Who wrote 'The Odyssey'?", "output": "Homer, an ancient Greek poet, wrote 'The Odyssey'.", "reference": "Homer"}
+{"input": "What is the boiling point of water in Celsius?", "output": "100 degrees Celsius", "reference": "100"}
+{"input": "What is the chemical formula for common salt?", "output": "NaCl", "reference": "NaCl"}
+{"input": "Which planet is known as the Red Planet?", "output": "Mars is known as the Red Planet.", "reference": "Mars"}

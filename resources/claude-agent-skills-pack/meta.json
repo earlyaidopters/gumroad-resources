@@ -1,0 +1,41 @@
+{
+  "name": "Claude Agent Skills Pack 🧰",
+  "external_id": "Np_HZ8TI7bOEzXNAhv53rw==",
+  "permalink": "nhqbgs",
+  "unique_permalink": "nhqbgs",
+  "custom_permalink": "claudeagentskills",
+  "url": "https://markkashef.gumroad.com/l/claudeagentskills",
+  "status": "published",
+  "archived": false,
+  "kind": "products",
+  "price_formatted": "CAD$0+",
+  "description_md": "# What You Get\n\n- CSV → Slides automator: a ready-to-run skill that turns spreadsheets into presentation-ready PowerPoints (tables + charts).\n\n- Revenue forecaster: ML-powered time-series forecasting (Prophet) with plots, confidence intervals, and CSV outputs for planning.\n\n- Sales pipeline health analyzer: conversion funnels, win-rate by source, cycle-length analysis, and an exportable pipeline report.\n\n- Pitch deck builder: converts rough notes into a polished 10-slide investor or sales deck (.pptx) with customizable styles and speaker notes.\n\n- Editable SKILL.md + install-ready structure you can drop into Claude Code or the ~/.claude/skills folder so your team can reuse and version these skills across Claude apps and the API.",
+  "files": [
+    {
+      "file": "SKILL.md",
+      "status": "downloaded",
+      "bytes": 2980
+    },
+    {
+      "file": "SKILL.md",
+      "status": "downloaded",
+      "bytes": 2396
+    },
+    {
+      "file": "SKILL.md",
+      "status": "downloaded",
+      "bytes": 4083
+    },
+    {
+      "file": "SKILL.md",
+      "status": "downloaded",
+      "bytes": 3677
+    },
+    {
+      "file": "SKILL.md",
+      "status": "downloaded",
+      "bytes": 12003
+    }
+  ],
+  "has_rich_content": true
+}

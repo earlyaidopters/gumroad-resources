@@ -1,0 +1,11 @@
+Now get my machine ready to build infrastructure as code, and bootstrap my account. One step at a time, verifying each.
+
+1. Install the toolchain and verify versions: Node.js LTS (confirm `node --version` is 20 or newer), git, and the AWS CDK (`npm install -g aws-cdk`, confirm `cdk --version`). For anything missing, give me the install command for my OS.
+
+2. Create a clean project folder for the build, run `git init`, and write a .gitignore that excludes node_modules, cdk.out, and any .env files so I never commit secrets or build junk.
+
+3. Explain in one plain-English paragraph what `cdk bootstrap` does (it provisions a small set of resources CDK needs to deploy: an assets bucket and a few roles), then run `cdk bootstrap aws://ACCOUNT_ID/REGION` using my real account id and region from step 1.
+
+4. Scaffold an empty CDK app in TypeScript and confirm `cdk synth` runs cleanly on it, so I know the toolchain works before we build anything real.
+
+Show each command, the expected result, and the fix if it fails. Stop when `cdk --version` works, the account and region are bootstrapped, and `cdk synth` succeeds on the empty app.

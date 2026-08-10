@@ -1,0 +1,21 @@
+{
+  "name": "Make.com to n8n Converter Automation 🔁",
+  "external_id": "KsdarU1tAnpNxthn1gfOfw==",
+  "permalink": "zayel",
+  "unique_permalink": "zayel",
+  "custom_permalink": "maketon8nconverter",
+  "url": "https://markkashef.gumroad.com/l/maketon8nconverter",
+  "status": "published",
+  "archived": false,
+  "kind": "products",
+  "price_formatted": "CAD$0+",
+  "description_md": "## What You’ll Get\n\n- \nn8n Workflow Converter – A pre-built n8n workflow that automatically ingests and converts Make.com JSON files.\n\n- \nLoom Video Tutorial – A concise step-by-step walkthrough for configuring credentials, mapping nodes, and importing your converted workflows into n8n.",
+  "files": [
+    {
+      "file": "make_to_n8n_converter.json",
+      "status": "cached",
+      "bytes": 58864
+    }
+  ],
+  "has_rich_content": true
+}

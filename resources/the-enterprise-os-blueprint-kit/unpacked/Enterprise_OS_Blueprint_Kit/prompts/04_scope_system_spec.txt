@@ -1,0 +1,5 @@
+Read BLUEPRINT.md (the architecture reference in this kit) so you share its vocabulary, then interview me to scope a secure agentic system that will run entirely inside my own AWS account. Ask me in batches, and push back if an answer is vague.
+
+Cover: the data I'll handle and how sensitive it is, and whether any of it is not mine to hand over; my jurisdiction and industry, and any rules that brings (HIPAA, GDPR, and so on); which chat surfaces I want (Telegram, Slack, a web dashboard); which models I'm allowed to use and whether I'm barred from sending prompts to any outside vendor; my team and the roles they need (viewer, analyst, operator, admin, owner); my data retention needs; the off-the-shelf tools I'm replacing; my monthly budget ceiling; and my hard non-negotiables.
+
+Then write a complete SYSTEM_SPEC.md that captures every answer as a clear spec, recommends a deploy tier (roughly: hobby, standard, pro, or enterprise) based on my answers, flags every risky item, and lists the open questions I still need to decide. Build nothing. Stop when SYSTEM_SPEC.md covers every section and names a recommended tier.

@@ -1,0 +1,347 @@
+{
+  "name": "Artisan Production Agent",
+  "nodes": [
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.query }}",
+        "options": {
+          "systemMessage": "# Overview\nYou are the RetroFuture Gadgetry Artisan Production Agent, coordinating the handcrafting process from raw materials to finished retro-futuristic gadgets. You manage workshop schedules, artisan assignments, and ensure quality craftsmanship at every production stage.\n\n## Tools Available\n\n### Airtable - Production Pipeline\n- Track gadgets through production stages\n- Manage artisan workloads\n- Monitor quality checkpoints\n\n### Google Calendar - Workshop Schedule\n- Schedule production slots\n- Book specialized equipment\n- Coordinate artisan availability\n\n### Gmail - Team Communication\n- Send production briefs\n- Coordinate with artisans\n- Share technique updates\n\n### Google Drive - Design Repository\n- Access blueprints and templates\n- Store production photos\n- Share crafting guides\n\n### Slack - Workshop Coordination\n- Real-time production updates\n- Quality issue alerts\n- Technique discussions\n\n## Production Standards\n- Each piece must meet RetroFuture's artisanal quality standards\n- Verify authentic materials and finishes\n- Document unique characteristics of each piece\n- Ensure proper aging and patina processes\n\n## Production Workflow\n1. Design Blueprint Review\n2. Material Preparation\n3. Artisan Assignment\n4. Crafting Timeline\n5. Quality Checkpoints\n6. Finishing & Packaging\n\n## Artisan Specializations\n- Metalworking (brass, copper, steel)\n- Leathercraft (wrapping, embossing)\n- Woodworking (inlays, carving)\n- Electronics Integration\n- Patina & Finishing\n- Gear Mechanism Assembly\n\n## Production Stages\n1. **Material Prep** - Component sourcing and preparation\n2. **Base Construction** - Primary structure assembly\n3. **Detailing** - Adding gears, mechanisms, decorative elements\n4. **Electronics** - LED, USB, or smart component integration\n5. **Finishing** - Patina, polishing, aging effects\n6. **Quality Control** - Final inspection and testing\n7. **Packaging** - Custom presentation boxes\n\nCurrent Date/Time: {{ $now }}"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.7,
+      "position": [
+        -688,
+        -60
+      ],
+      "id": "ffc86ebd-bec0-4673-8ff4-059bc2ac2422",
+      "name": "Artisan Production Agent",
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "model": "gpt-4o",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        -960,
+        160
+      ],
+      "id": "49129223-70b0-47ce-9449-59fece9b7f0d",
+      "name": "OpenAI Chat Model"
+    },
+    {
+      "parameters": {
+        "operation": "search",
+        "base": {
+          "__rl": true,
+          "value": "retrofuture-production-base",
+          "mode": "list",
+          "cachedResultName": "Artisan Production"
+        },
+        "table": {
+          "__rl": true,
+          "value": "production-pipeline-table",
+          "mode": "list",
+          "cachedResultName": "Gadget Projects"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.airtableTool",
+      "typeVersion": 2.1,
+      "position": [
+        -800,
+        160
+      ],
+      "id": "54a0b23a-7cc8-443c-9e95-397c29078c0f",
+      "name": "Search Production Pipeline"
+    },
+    {
+      "parameters": {
+        "operation": "create",
+        "base": {
+          "__rl": true,
+          "value": "retrofuture-production-base",
+          "mode": "list",
+          "cachedResultName": "Artisan Production"
+        },
+        "table": {
+          "__rl": true,
+          "value": "production-pipeline-table",
+          "mode": "list",
+          "cachedResultName": "Gadget Projects"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "orderId": "={{ $fromAI(\"orderId\") }}",
+            "productName": "={{ $fromAI(\"productName\") }}",
+            "gadgetType": "={{ $fromAI(\"gadgetType\") }}",
+            "materials": "={{ $fromAI(\"materials\") }}",
+            "deadline": "={{ $fromAI(\"deadline\") }}",
+            "stage": "={{ $fromAI(\"stage\", \"Material Prep\") }}",
+            "assignedArtisan": "={{ $fromAI(\"assignedArtisan\") }}",
+            "specialTechniques": "={{ $fromAI(\"specialTechniques\") }}",
+            "qualityChecked": "={{ $fromAI(\"qualityChecked\", false) }}"
+          }
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.airtableTool",
+      "typeVersion": 2.1,
+      "position": [
+        -640,
+        160
+      ],
+      "id": "954e746f-3e19-4d71-8a6d-b490fad6021a",
+      "name": "Create Production Job"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "base": {
+          "__rl": true,
+          "value": "retrofuture-production-base",
+          "mode": "list",
+          "cachedResultName": "Artisan Production"
+        },
+        "table": {
+          "__rl": true,
+          "value": "production-pipeline-table",
+          "mode": "list",
+          "cachedResultName": "Gadget Projects"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "stage": "={{ $fromAI(\"stage\") }}",
+            "completionPercentage": "={{ $fromAI(\"completionPercentage\") }}",
+            "notes": "={{ $fromAI(\"notes\") }}"
+          }
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.airtableTool",
+      "typeVersion": 2.1,
+      "position": [
+        -500,
+        160
+      ],
+      "id": "0302e1d0-674f-425a-9736-64603c72d7a4",
+      "name": "Update Production Status"
+    },
+    {
+      "parameters": {
+        "calendar": {
+          "__rl": true,
+          "value": "workshop@retrofuturegadgetry.com",
+          "mode": "list"
+        },
+        "start": "={{ $fromAI(\"sessionStart\") }}",
+        "end": "={{ $fromAI(\"sessionEnd\") }}",
+        "additionalFields": {
+          "attendees": "={{ $fromAI(\"attendees\", []) }}",
+          "description": "={{ $fromAI(\"sessionDescription\") }}",
+          "location": "={{ $fromAI(\"location\", \"RetroFuture Workshop\") }}",
+          "summary": "={{ $fromAI(\"sessionTitle\") }}"
+        }
+      },
+      "type": "n8n-nodes-base.googleCalendarTool",
+      "typeVersion": 1.3,
+      "position": [
+        -360,
+        160
+      ],
+      "id": "d5fae205-472e-452f-89e5-70607c485d29",
+      "name": "Schedule Production"
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $fromAI(\"artisanEmail\") }}",
+        "subject": "={{ $fromAI(\"emailSubject\") }}",
+        "message": "={{ $fromAI(\"emailBody\") }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmailTool",
+      "typeVersion": 2.1,
+      "position": [
+        -220,
+        160
+      ],
+      "id": "4f226c20-a172-4d58-8f1c-c9ff11d028e4",
+      "name": "Send Production Brief",
+      "webhookId": "9c009aab-ada0-475b-9327-1452df4ce1e1"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "response-id",
+              "name": "response",
+              "value": "={{ $json.output }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -100,
+        -160
+      ],
+      "id": "73619a6c-9b71-445f-a5cd-7f58dfe77730",
+      "name": "Response"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "error-response-id",
+              "name": "response",
+              "value": "An error occurred with the artisan production request. Please try again.",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -100,
+        40
+      ],
+      "id": "32d994af-3512-437e-9ca9-2ab805dece4b",
+      "name": "Try Again"
+    },
+    {
+      "parameters": {
+        "inputSource": "passthrough"
+      },
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        -1120,
+        -60
+      ],
+      "id": "2142359f-355d-4122-a285-7b8f662fb72f",
+      "name": "When Executed by Another Workflow"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When Executed by Another Workflow": {
+      "main": [
+        [
+          {
+            "node": "Artisan Production Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Artisan Production Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Search Production Pipeline": {
+      "ai_tool": [
+        [
+          {
+            "node": "Artisan Production Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create Production Job": {
+      "ai_tool": [
+        [
+          {
+            "node": "Artisan Production Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update Production Status": {
+      "ai_tool": [
+        [
+          {
+            "node": "Artisan Production Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Schedule Production": {
+      "ai_tool": [
+        [
+          {
+            "node": "Artisan Production Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send Production Brief": {
+      "ai_tool": [
+        [
+          {
+            "node": "Artisan Production Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Artisan Production Agent": {
+      "main": [
+        [
+          {
+            "node": "Response",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Try Again",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "20303f6a-b1c8-46b4-b2e1-b93fe3e9739c",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "aaadb797535f05587ee95b776c942a7c3f7a46fd7aa0c9b6a9d64e1e595f8af1"
+  },
+  "id": "aVcypxAspbs5NvHU",
+  "tags": []
+}

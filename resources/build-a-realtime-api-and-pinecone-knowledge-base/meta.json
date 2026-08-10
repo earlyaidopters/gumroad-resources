@@ -1,0 +1,21 @@
+{
+  "name": "Build a Realtime API and Pinecone Knowledge Base",
+  "external_id": "bD40XGxc6S9PKenDs9JnhA==",
+  "permalink": "uthqf",
+  "unique_permalink": "uthqf",
+  "custom_permalink": "realtimeapibrain",
+  "url": "https://markkashef.gumroad.com/l/realtimeapibrain",
+  "status": "published",
+  "archived": false,
+  "kind": "products",
+  "price_formatted": "CAD$0+",
+  "description_md": "What You'll Get:\n\n- \nReplit Code for Realtime API Integration:\n- Step-by-step code to set up the OpenAI Realtime API in your projects.\n\n- Easy-to-follow instructions suitable for both beginners and experienced developers.\n\n- \nReplit Code for Pinecone Assistant and Knowledge Base:\n- Code to build and integrate the Pinecone assistant, creating a \"brain\" for your AI phone agent.\n\n- Guidance on ingesting documents so your AI can answer with surgical precision.\n\n- \nComprehensive Slide Deck Presentation:\n- A detailed breakdown of how the entire system works.\n\n- Visual explanations to help you understand each component and how they interact.\n\n- \nResource Links to Essential Tools:\n- Direct links to tools like Twilio and Pinecone.\n\n- Tips on setting up and configuring these tools for your AI assistant.",
+  "files": [
+    {
+      "file": "Realtime API with Knowledge.pdf",
+      "status": "cached",
+      "bytes": 112911
+    }
+  ],
+  "has_rich_content": true
+}

@@ -1,0 +1,21 @@
+{
+  "name": "Agents Explanation: From Chatbots to Autonomous Systems",
+  "external_id": "3eieFIjucGCBuD0AWtOW8g==",
+  "permalink": "wxidi",
+  "unique_permalink": "wxidi",
+  "custom_permalink": "aiagents",
+  "url": "https://markkashef.gumroad.com/l/aiagents",
+  "status": "published",
+  "archived": false,
+  "kind": "products",
+  "price_formatted": "CAD$0+",
+  "description_md": "What You Get:\n\n- \nA PDF of the Deck: As featured in the YouTube video, this deck covers the key insights on AI agents.\n\n- \nClear Definitions: Understand what \"agentic\" means and the spectrum of AI agency.\n\n- \nActionable Frameworks: Practical models like Agent Buffets, Supervisor-Agent workflows, and hierarchical systems.\n\n- \nInsights on Limitations: Common flaws like miscommunication, prompt issues, and tool errors in agent systems.\n\n- \nFuture Outlook: What’s needed to achieve fully autonomous agents and their ideal workflows.\n\n- \nCheat Sheet: A summary of agent types, from chatbots to collaborative multi-agent systems.\n\nPerfect for developers, AI enthusiasts, and business leaders looking to dive into the world of AI agents.",
+  "files": [
+    {
+      "file": "agents.pdf",
+      "status": "cached",
+      "bytes": 1338060
+    }
+  ],
+  "has_rich_content": true
+}

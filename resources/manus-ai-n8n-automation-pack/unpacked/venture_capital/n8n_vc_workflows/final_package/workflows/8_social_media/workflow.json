@@ -1,0 +1,1295 @@
+{
+  "name": "Social Media & Thought Leadership Automation",
+  "nodes": [
+    {
+      "parameters": {
+        "triggerTimes": {
+          "item": [
+            {
+              "mode": "everyX",
+              "value": 1,
+              "unit": "weeks",
+              "weekDay": 1,
+              "hour": 9,
+              "minute": 0
+            }
+          ]
+        }
+      },
+      "name": "Weekly Content Planning",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1,
+      "position": [
+        240,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "sheetName": "Content Calendar",
+        "options": {
+          "filter": {
+            "values": [
+              {
+                "column": "status",
+                "value": "Approved"
+              },
+              {
+                "column": "published",
+                "value": "false"
+              }
+            ]
+          }
+        }
+      },
+      "name": "Get Approved Content",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 3,
+      "position": [
+        460,
+        300
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "1",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "sheetName": "Portfolio Companies",
+        "options": {}
+      },
+      "name": "Get Portfolio Companies",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 3,
+      "position": [
+        460,
+        460
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "1",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "sheetName": "Industry News",
+        "options": {
+          "filter": {
+            "values": [
+              {
+                "column": "shared",
+                "value": "false"
+              }
+            ]
+          }
+        }
+      },
+      "name": "Get Industry News",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 3,
+      "position": [
+        460,
+        620
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "1",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "functionCode": "// Generate weekly content plan\nconst approvedContent = $input.all()[0].json || [];\nconst portfolioCompanies = $input.all()[1].json || [];\nconst industryNews = $input.all()[2].json || [];\n\n// Get current date and next week's date range\nconst now = new Date();\nconst nextWeekStart = new Date(now);\nnextWeekStart.setDate(now.getDate() + 1); // Start from tomorrow\n\nconst nextWeekEnd = new Date(now);\nnextWeekEnd.setDate(now.getDate() + 7); // End one week from today\n\n// Format date range for display\nconst dateRangeString = `${nextWeekStart.toLocaleDateString()} - ${nextWeekEnd.toLocaleDateString()}`;\n\n// Filter content scheduled for next week\nconst nextWeekContent = approvedContent.filter(content => {\n  const publishDate = new Date(content.publishDate);\n  return publishDate >= nextWeekStart && publishDate <= nextWeekEnd;\n});\n\n// Sort by publish date\nnextWeekContent.sort((a, b) => new Date(a.publishDate) - new Date(b.publishDate));\n\n// Prepare portfolio company updates\nconst portfolioUpdates = portfolioCompanies\n  .filter(company => company.recentMilestone && company.shareOnSocial === 'Yes')\n  .map(company => ({\n    type: 'Portfolio Update',\n    title: `${company.name} - ${company.recentMilestone}`,\n    company: company.name,\n    content: `We're excited to share that our portfolio company ${company.name} has ${company.recentMilestone}. ${company.milestoneDetails || ''}`,\n    suggestedDate: new Date(nextWeekStart.getTime() + Math.random() * (nextWeekEnd.getTime() - nextWeekStart.getTime())).toISOString().split('T')[0],\n    platforms: company.preferredPlatforms || 'LinkedIn,Twitter',\n    tags: company.tags || '',\n    url: company.website || '',\n    imageUrl: company.logoUrl || ''\n  }));\n\n// Prepare industry news shares\nconst newsShares = industryNews\n  .slice(0, 3) // Limit to 3 news items\n  .map(news => ({\n    type: 'Industry News',\n    title: news.title,\n    content: `Interesting read: ${news.title}. ${news.summary || ''}`,\n    suggestedDate: new Date(nextWeekStart.getTime() + Math.random() * (nextWeekEnd.getTime() - nextWeekStart.getTime())).toISOString().split('T')[0],\n    platforms: 'LinkedIn,Twitter',\n    tags: news.tags || '',\n    url: news.url || '',\n    imageUrl: news.imageUrl || ''\n  }));\n\n// Combine all content\nconst weeklyPlan = {\n  planDate: now.toISOString(),\n  dateRange: dateRangeString,\n  scheduledContent: nextWeekContent,\n  portfolioUpdates,\n  newsShares,\n  totalPosts: nextWeekContent.length + portfolioUpdates.length + newsShares.length\n};\n\nreturn { json: weeklyPlan };"
+      },
+      "name": "Generate Weekly Plan",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [
+        680,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "chatId": "social-media",
+        "text": "=## Weekly Social Media Content Plan\n\n**Date Range:** {{ $json.dateRange }}\n**Total Planned Posts:** {{ $json.totalPosts }}\n\n### Scheduled Content ({{ $json.scheduledContent.length }})\n{% for post in $json.scheduledContent %}\n- **{{ new Date(post.publishDate).toLocaleDateString() }}**: {{ post.title }} ({{ post.platforms }})\n{% endfor %}\n\n### Portfolio Updates ({{ $json.portfolioUpdates.length }})\n{% for update in $json.portfolioUpdates %}\n- **{{ update.company }}**: {{ update.title }} (Suggested: {{ update.suggestedDate }})\n{% endfor %}\n\n### Industry News ({{ $json.newsShares.length }})\n{% for news in $json.newsShares %}\n- {{ news.title }} (Suggested: {{ news.suggestedDate }})\n{% endfor %}\n\nPlease review the content plan and make any necessary adjustments in the Content Calendar spreadsheet.",
+        "additionalFields": {}
+      },
+      "name": "Send Plan to Slack",
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 1,
+      "position": [
+        900,
+        300
+      ],
+      "credentials": {
+        "slackApi": {
+          "id": "2",
+          "name": "Slack account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "fromEmail": "socialmedia@vcfirm.com",
+        "toEmail": "marketing@vcfirm.com",
+        "subject": "Weekly Social Media Content Plan",
+        "text": "=Dear Marketing Team,\n\nHere is the weekly social media content plan for {{ $json.dateRange }}.\n\n**Total Planned Posts:** {{ $json.totalPosts }}\n\n### Scheduled Content ({{ $json.scheduledContent.length }})\n{% for post in $json.scheduledContent %}\n- **{{ new Date(post.publishDate).toLocaleDateString() }}**: {{ post.title }} ({{ post.platforms }})\n{% endfor %}\n\n### Portfolio Updates ({{ $json.portfolioUpdates.length }})\n{% for update in $json.portfolioUpdates %}\n- **{{ update.company }}**: {{ update.title }} (Suggested: {{ update.suggestedDate }})\n{% endfor %}\n\n### Industry News ({{ $json.newsShares.length }})\n{% for news in $json.newsShares %}\n- {{ news.title }} (Suggested: {{ news.suggestedDate }})\n{% endfor %}\n\nPlease review the content plan and make any necessary adjustments in the Content Calendar spreadsheet.\n\nBest regards,\nSocial Media Automation System",
+        "options": {}
+      },
+      "name": "Email Plan to Team",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2,
+      "position": [
+        1120,
+        300
+      ],
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "3",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "functionCode": "// Prepare portfolio updates for content calendar\nconst weeklyPlan = $input.item.json;\nconst portfolioUpdates = weeklyPlan.portfolioUpdates || [];\n\n// Format updates for content calendar\nconst calendarItems = portfolioUpdates.map(update => ({\n  json: {\n    title: update.title,\n    type: update.type,\n    content: update.content,\n    publishDate: update.suggestedDate,\n    platforms: update.platforms,\n    tags: update.tags,\n    url: update.url,\n    imageUrl: update.imageUrl,\n    status: 'Draft',\n    published: false,\n    createdDate: new Date().toISOString(),\n    author: 'Automation System',\n    notes: 'Automatically generated from portfolio milestone'\n  }\n}));\n\nreturn calendarItems;"
+      },
+      "name": "Prepare Portfolio Updates",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [
+        900,
+        460
+      ]
+    },
+    {
+      "parameters": {
+        "functionCode": "// Prepare news shares for content calendar\nconst weeklyPlan = $input.item.json;\nconst newsShares = weeklyPlan.newsShares || [];\n\n// Format news for content calendar\nconst calendarItems = newsShares.map(news => ({\n  json: {\n    title: news.title,\n    type: news.type,\n    content: news.content,\n    publishDate: news.suggestedDate,\n    platforms: news.platforms,\n    tags: news.tags,\n    url: news.url,\n    imageUrl: news.imageUrl,\n    status: 'Draft',\n    published: false,\n    createdDate: new Date().toISOString(),\n    author: 'Automation System',\n    notes: 'Automatically generated from industry news'\n  }\n}));\n\nreturn calendarItems;"
+      },
+      "name": "Prepare News Shares",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [
+        900,
+        620
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "sheetName": "Content Calendar",
+        "columns": "={{ Object.keys($json) }}",
+        "options": {}
+      },
+      "name": "Add Portfolio Updates to Calendar",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 3,
+      "position": [
+        1120,
+        460
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "1",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "sheetName": "Content Calendar",
+        "columns": "={{ Object.keys($json) }}",
+        "options": {}
+      },
+      "name": "Add News to Calendar",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 3,
+      "position": [
+        1120,
+        620
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "1",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "sheetName": "Industry News",
+        "key": "id",
+        "columns": {
+          "values": [
+            {
+              "column": "shared",
+              "value": "true"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "name": "Mark News as Shared",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 3,
+      "position": [
+        1340,
+        620
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "1",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "triggerTimes": {
+          "item": [
+            {
+              "mode": "everyX",
+              "value": 1,
+              "unit": "hours"
+            }
+          ]
+        }
+      },
+      "name": "Hourly Post Check",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1,
+      "position": [
+        240,
+        780
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "sheetName": "Content Calendar",
+        "options": {
+          "filter": {
+            "values": [
+              {
+                "column": "status",
+                "value": "Approved"
+              },
+              {
+                "column": "published",
+                "value": "false"
+              }
+            ]
+          }
+        }
+      },
+      "name": "Get Pending Posts",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 3,
+      "position": [
+        460,
+        780
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "1",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "functionCode": "// Check for posts due for publishing\nconst pendingPosts = $input.item.json;\n\n// If no pending posts, return empty\nif (!pendingPosts || pendingPosts.length === 0) {\n  return { json: { hasDuePosts: false } };\n}\n\n// Get current time\nconst now = new Date();\n\n// Find posts due for publishing (scheduled within the next hour)\nconst duePosts = pendingPosts.filter(post => {\n  const publishDate = new Date(post.publishDate);\n  \n  // Check if publish date is in the past or within the next hour\n  const timeDiff = publishDate.getTime() - now.getTime();\n  return timeDiff <= 3600000 && timeDiff > -86400000; // Between 1 hour in future and 1 day in past\n});\n\n// If no due posts, return empty\nif (duePosts.length === 0) {\n  return { json: { hasDuePosts: false } };\n}\n\n// Return the due posts\nreturn {\n  json: {\n    hasDuePosts: true,\n    duePosts: duePosts\n  }\n};"
+      },
+      "name": "Check Due Posts",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [
+        680,
+        780
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "boolean": [
+            {
+              "value1": "={{ $json.hasDuePosts }}",
+              "value2": true
+            }
+          ]
+        }
+      },
+      "name": "Has Due Posts?",
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 1,
+      "position": [
+        900,
+        780
+      ]
+    },
+    {
+      "parameters": {
+        "functionCode": "// Prepare posts for publishing\nconst data = $input.item.json;\nconst duePosts = data.duePosts || [];\n\n// Return array of posts to process individually\nreturn duePosts.map(post => ({ json: post }));"
+      },
+      "name": "Prepare Posts",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [
+        1120,
+        780
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{ $json.platforms.includes('LinkedIn') }}",
+              "operation": "boolean",
+              "value2": true
+            }
+          ]
+        }
+      },
+      "name": "Post to LinkedIn?",
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 1,
+      "position": [
+        1340,
+        780
+      ]
+    },
+    {
+      "parameters": {
+        "resource": "post",
+        "text": "={{ $json.content }}",
+        "additionalFields": {
+          "visibility": "PUBLIC"
+        }
+      },
+      "name": "Post to LinkedIn",
+      "type": "n8n-nodes-base.linkedIn",
+      "typeVersion": 1,
+      "position": [
+        1560,
+        780
+      ],
+      "credentials": {
+        "linkedInOAuth2Api": {
+          "id": "4",
+          "name": "LinkedIn account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{ $json.platforms.includes('Twitter') }}",
+              "operation": "boolean",
+              "value2": true
+            }
+          ]
+        }
+      },
+      "name": "Post to Twitter?",
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 1,
+      "position": [
+        1340,
+        940
+      ]
+    },
+    {
+      "parameters": {
+        "text": "={{ $json.content.length > 280 ? $json.content.substring(0, 277) + '...' : $json.content }}",
+        "additionalFields": {
+          "media_ids": "={{ $json.twitterMediaId }}"
+        }
+      },
+      "name": "Post to Twitter",
+      "type": "n8n-nodes-base.twitter",
+      "typeVersion": 1,
+      "position": [
+        1560,
+        940
+      ],
+      "credentials": {
+        "twitterOAuth2Api": {
+          "id": "5",
+          "name": "Twitter account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{ $json.platforms.includes('Facebook') }}",
+              "operation": "boolean",
+              "value2": true
+            }
+          ]
+        }
+      },
+      "name": "Post to Facebook?",
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 1,
+      "position": [
+        1340,
+        1100
+      ]
+    },
+    {
+      "parameters": {
+        "resource": "page",
+        "operation": "post",
+        "pageId": "={{ $json.facebookPageId || '123456789' }}",
+        "text": "={{ $json.content }}"
+      },
+      "name": "Post to Facebook",
+      "type": "n8n-nodes-base.facebook",
+      "typeVersion": 1,
+      "position": [
+        1560,
+        1100
+      ],
+      "credentials": {
+        "facebookGraphAppApi": {
+          "id": "6",
+          "name": "Facebook account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "sheetName": "Content Calendar",
+        "key": "id",
+        "columns": {
+          "values": [
+            {
+              "column": "published",
+              "value": "true"
+            },
+            {
+              "column": "publishedDate",
+              "value": "={{ $now }}"
+            },
+            {
+              "column": "publishedPlatforms",
+              "value": "={{ $json.publishedPlatforms || $json.platforms }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "name": "Mark as Published",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 3,
+      "position": [
+        1780,
+        780
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "1",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "social-media",
+        "text": "=## Post Published\n\n**Title:** {{ $json.title }}\n**Type:** {{ $json.type }}\n**Platforms:** {{ $json.publishedPlatforms || $json.platforms }}\n\n**Content:**\n{{ $json.content }}\n\n{% if $json.url %}\n**URL:** {{ $json.url }}\n{% endif %}",
+        "additionalFields": {}
+      },
+      "name": "Send Publication Notification",
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 1,
+      "position": [
+        2000,
+        780
+      ],
+      "credentials": {
+        "slackApi": {
+          "id": "2",
+          "name": "Slack account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "triggerTimes": {
+          "item": [
+            {
+              "mode": "everyX",
+              "value": 1,
+              "unit": "days",
+              "hour": 8,
+              "minute": 0
+            }
+          ]
+        }
+      },
+      "name": "Daily Industry News Check",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1,
+      "position": [
+        240,
+        1260
+      ]
+    },
+    {
+      "parameters": {
+        "url": "https://newsapi.org/v2/everything",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "queryAuth",
+        "options": {
+          "queryParameters": {
+            "parameters": [
+              {
+                "name": "q",
+                "value": "venture capital OR startup funding OR tech innovation"
+              },
+              {
+                "name": "language",
+                "value": "en"
+              },
+              {
+                "name": "sortBy",
+                "value": "publishedAt"
+              },
+              {
+                "name": "pageSize",
+                "value": "10"
+              }
+            ]
+          }
+        }
+      },
+      "name": "Fetch Industry News",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 3,
+      "position": [
+        460,
+        1260
+      ],
+      "credentials": {
+        "httpQueryAuth": {
+          "id": "7",
+          "name": "News API Key"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "functionCode": "// Process news API response\nconst response = $input.item.json;\nconst articles = response.articles || [];\n\n// Format articles for storage\nconst formattedArticles = articles.map(article => ({\n  title: article.title,\n  source: article.source.name,\n  author: article.author,\n  url: article.url,\n  publishedDate: article.publishedAt,\n  summary: article.description,\n  content: article.content,\n  imageUrl: article.urlToImage,\n  tags: 'industry news, venture capital',\n  relevance: 'medium',\n  shared: false,\n  addedDate: new Date().toISOString(),\n  id: `NEWS-${Date.now()}-${Math.floor(Math.random() * 1000)}`\n}));\n\nreturn formattedArticles.map(article => ({ json: article }));"
+      },
+      "name": "Process News Articles",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [
+        680,
+        1260
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "sheetName": "Industry News",
+        "columns": "={{ Object.keys($json) }}",
+        "options": {}
+      },
+      "name": "Save News Articles",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 3,
+      "position": [
+        900,
+        1260
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "1",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "social-media",
+        "text": "=## New Industry News Added\n\n**Title:** {{ $json.title }}\n**Source:** {{ $json.source }}\n**Published:** {{ new Date($json.publishedDate).toLocaleDateString() }}\n\n**Summary:**\n{{ $json.summary }}\n\n**URL:** {{ $json.url }}\n\nThis article has been added to the Industry News database for potential sharing.",
+        "additionalFields": {}
+      },
+      "name": "Send News Notification",
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 1,
+      "position": [
+        1120,
+        1260
+      ],
+      "credentials": {
+        "slackApi": {
+          "id": "2",
+          "name": "Slack account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "triggerTimes": {
+          "item": [
+            {
+              "mode": "everyX",
+              "value": 1,
+              "unit": "weeks",
+              "weekDay": 5,
+              "hour": 15,
+              "minute": 0
+            }
+          ]
+        }
+      },
+      "name": "Weekly Analytics Check",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1,
+      "position": [
+        240,
+        1420
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "sheetName": "Content Calendar",
+        "options": {
+          "filter": {
+            "values": [
+              {
+                "column": "published",
+                "value": "true"
+              }
+            ]
+          }
+        }
+      },
+      "name": "Get Published Content",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 3,
+      "position": [
+        460,
+        1420
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "1",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "functionCode": "// Generate social media analytics report\nconst publishedContent = $input.item.json || [];\n\n// Get date range for the report (last 7 days)\nconst now = new Date();\nconst lastWeek = new Date(now);\nlastWeek.setDate(now.getDate() - 7);\n\n// Format date range for display\nconst dateRangeString = `${lastWeek.toLocaleDateString()} - ${now.toLocaleDateString()}`;\n\n// Filter content published in the last week\nconst recentContent = publishedContent.filter(content => {\n  const publishDate = new Date(content.publishedDate);\n  return publishDate >= lastWeek && publishDate <= now;\n});\n\n// Count posts by platform\nconst platformCounts = {};\nrecentContent.forEach(content => {\n  const platforms = content.publishedPlatforms || content.platforms || '';\n  platforms.split(',').forEach(platform => {\n    const p = platform.trim();\n    if (p) {\n      platformCounts[p] = (platformCounts[p] || 0) + 1;\n    }\n  });\n});\n\n// Count posts by type\nconst typeCounts = {};\nrecentContent.forEach(content => {\n  const type = content.type || 'Other';\n  typeCounts[type] = (typeCounts[type] || 0) + 1;\n});\n\n// Identify top performing content (mock data - in real implementation, this would come from social media APIs)\nconst topContent = recentContent.map(content => ({\n  ...content,\n  engagement: Math.floor(Math.random() * 100),\n  likes: Math.floor(Math.random() * 50),\n  shares: Math.floor(Math.random() * 20),\n  comments: Math.floor(Math.random() * 10),\n  impressions: Math.floor(Math.random() * 1000)\n}));\n\n// Sort by engagement\ntopContent.sort((a, b) => b.engagement - a.engagement);\n\n// Create analytics report\nconst analyticsReport = {\n  reportDate: now.toISOString(),\n  dateRange: dateRangeString,\n  totalPosts: recentContent.length,\n  platformDistribution: JSON.stringify(platformCounts),\n  typeDistribution: JSON.stringify(typeCounts),\n  topContent: topContent.slice(0, 3),\n  allContent: recentContent\n};\n\nreturn { json: analyticsReport };"
+      },
+      "name": "Generate Analytics Report",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [
+        680,
+        1420
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "sheetName": "Social Media Analytics",
+        "columns": "={{ ['reportDate', 'dateRange', 'totalPosts', 'platformDistribution', 'typeDistribution'] }}",
+        "options": {}
+      },
+      "name": "Save Analytics Report",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 3,
+      "position": [
+        900,
+        1420
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "1",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "social-media",
+        "text": "=## Weekly Social Media Analytics Report\n\n**Period:** {{ $json.dateRange }}\n**Total Posts:** {{ $json.totalPosts }}\n\n### Platform Distribution\n{% set platforms = JSON.parse($json.platformDistribution) %}\n{% for platform, count in platforms %}\n- **{{ platform }}**: {{ count }} posts\n{% endfor %}\n\n### Content Type Distribution\n{% set types = JSON.parse($json.typeDistribution) %}\n{% for type, count in types %}\n- **{{ type }}**: {{ count }} posts\n{% endfor %}\n\n### Top Performing Content\n{% for content in $json.topContent %}\n**{{ content.title }}**\n- Engagement: {{ content.engagement }}\n- Likes: {{ content.likes }}\n- Shares: {{ content.shares }}\n- Comments: {{ content.comments }}\n- Platforms: {{ content.publishedPlatforms || content.platforms }}\n{% endfor %}\n\nThe full analytics report has been saved to the reporting database.",
+        "additionalFields": {}
+      },
+      "name": "Send Analytics to Slack",
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 1,
+      "position": [
+        1120,
+        1420
+      ],
+      "credentials": {
+        "slackApi": {
+          "id": "2",
+          "name": "Slack account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "fromEmail": "socialmedia@vcfirm.com",
+        "toEmail": "marketing@vcfirm.com",
+        "ccEmail": "partners@vcfirm.com",
+        "subject": "Weekly Social Media Analytics Report",
+        "text": "=Dear Team,\n\nPlease find below the weekly social media analytics report:\n\n**Period:** {{ $json.dateRange }}\n**Total Posts:** {{ $json.totalPosts }}\n\n### Platform Distribution\n{% set platforms = JSON.parse($json.platformDistribution) %}\n{% for platform, count in platforms %}\n- **{{ platform }}**: {{ count }} posts\n{% endfor %}\n\n### Content Type Distribution\n{% set types = JSON.parse($json.typeDistribution) %}\n{% for type, count in types %}\n- **{{ type }}**: {{ count }} posts\n{% endfor %}\n\n### Top Performing Content\n{% for content in $json.topContent %}\n**{{ content.title }}**\n- Engagement: {{ content.engagement }}\n- Likes: {{ content.likes }}\n- Shares: {{ content.shares }}\n- Comments: {{ content.comments }}\n- Platforms: {{ content.publishedPlatforms || content.platforms }}\n{% endfor %}\n\nThe full analytics dashboard has been updated with the latest data and is available in the reporting portal.\n\nBest regards,\nSocial Media Automation System",
+        "options": {}
+      },
+      "name": "Email Analytics Report",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2,
+      "position": [
+        1340,
+        1420
+      ],
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "3",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "content-submission",
+        "options": {}
+      },
+      "name": "Content Submission Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [
+        240,
+        1580
+      ],
+      "webhookId": "content-submission"
+    },
+    {
+      "parameters": {
+        "functionCode": "// Process content submission\nconst data = $input.item.json;\n\n// Create a structured content object\nconst contentItem = {\n  id: `CONTENT-${Date.now()}`,\n  title: data.title || 'Untitled Content',\n  type: data.type || 'Blog Post',\n  content: data.content || '',\n  summary: data.summary || '',\n  publishDate: data.publishDate || '',\n  platforms: data.platforms || 'LinkedIn,Twitter',\n  tags: data.tags || '',\n  url: data.url || '',\n  imageUrl: data.imageUrl || '',\n  status: 'Draft',\n  published: false,\n  createdDate: new Date().toISOString(),\n  author: data.author || 'Team Member',\n  notes: data.notes || ''\n};\n\nreturn { json: contentItem };"
+      },
+      "name": "Process Content Submission",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [
+        460,
+        1580
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "sheetName": "Content Calendar",
+        "columns": "={{ Object.keys($json) }}",
+        "options": {}
+      },
+      "name": "Add Content to Calendar",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 3,
+      "position": [
+        680,
+        1580
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "1",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "social-media",
+        "text": "=## New Content Submission\n\n**Title:** {{ $json.title }}\n**Type:** {{ $json.type }}\n**Author:** {{ $json.author }}\n**Platforms:** {{ $json.platforms }}\n\n**Summary:**\n{{ $json.summary }}\n\n{% if $json.url %}\n**URL:** {{ $json.url }}\n{% endif %}\n\nThis content has been added to the Content Calendar as a Draft for review.",
+        "additionalFields": {}
+      },
+      "name": "Send Submission Notification",
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 1,
+      "position": [
+        900,
+        1580
+      ],
+      "credentials": {
+        "slackApi": {
+          "id": "2",
+          "name": "Slack account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "fromEmail": "socialmedia@vcfirm.com",
+        "toEmail": "marketing@vcfirm.com",
+        "subject": "New Content Submission for Review",
+        "text": "=Dear Marketing Team,\n\nA new content item has been submitted for review:\n\n**Title:** {{ $json.title }}\n**Type:** {{ $json.type }}\n**Author:** {{ $json.author }}\n**Platforms:** {{ $json.platforms }}\n\n**Summary:**\n{{ $json.summary }}\n\n{% if $json.content %}\n**Content:**\n{{ $json.content }}\n{% endif %}\n\n{% if $json.url %}\n**URL:** {{ $json.url }}\n{% endif %}\n\n{% if $json.notes %}\n**Notes:**\n{{ $json.notes }}\n{% endif %}\n\nThis content has been added to the Content Calendar as a Draft. Please review and update the status as appropriate.\n\nBest regards,\nSocial Media Automation System",
+        "options": {}
+      },
+      "name": "Email Content for Review",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2,
+      "position": [
+        1120,
+        1580
+      ],
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "3",
+          "name": "Gmail account"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Weekly Content Planning": {
+      "main": [
+        [
+          {
+            "node": "Get Approved Content",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Get Portfolio Companies",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Get Industry News",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Approved Content": {
+      "main": [
+        [
+          {
+            "node": "Generate Weekly Plan",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Portfolio Companies": {
+      "main": [
+        [
+          {
+            "node": "Generate Weekly Plan",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Industry News": {
+      "main": [
+        [
+          {
+            "node": "Generate Weekly Plan",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate Weekly Plan": {
+      "main": [
+        [
+          {
+            "node": "Send Plan to Slack",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Email Plan to Team",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Prepare Portfolio Updates",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Prepare News Shares",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prepare Portfolio Updates": {
+      "main": [
+        [
+          {
+            "node": "Add Portfolio Updates to Calendar",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prepare News Shares": {
+      "main": [
+        [
+          {
+            "node": "Add News to Calendar",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Add News to Calendar": {
+      "main": [
+        [
+          {
+            "node": "Mark News as Shared",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Hourly Post Check": {
+      "main": [
+        [
+          {
+            "node": "Get Pending Posts",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Pending Posts": {
+      "main": [
+        [
+          {
+            "node": "Check Due Posts",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Due Posts": {
+      "main": [
+        [
+          {
+            "node": "Has Due Posts?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Has Due Posts?": {
+      "main": [
+        [
+          {
+            "node": "Prepare Posts",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prepare Posts": {
+      "main": [
+        [
+          {
+            "node": "Post to LinkedIn?",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Post to Twitter?",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Post to Facebook?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Post to LinkedIn?": {
+      "main": [
+        [
+          {
+            "node": "Post to LinkedIn",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Post to LinkedIn": {
+      "main": [
+        [
+          {
+            "node": "Mark as Published",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Post to Twitter?": {
+      "main": [
+        [
+          {
+            "node": "Post to Twitter",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Post to Twitter": {
+      "main": [
+        [
+          {
+            "node": "Mark as Published",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Post to Facebook?": {
+      "main": [
+        [
+          {
+            "node": "Post to Facebook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Post to Facebook": {
+      "main": [
+        [
+          {
+            "node": "Mark as Published",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Mark as Published": {
+      "main": [
+        [
+          {
+            "node": "Send Publication Notification",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Daily Industry News Check": {
+      "main": [
+        [
+          {
+            "node": "Fetch Industry News",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Fetch Industry News": {
+      "main": [
+        [
+          {
+            "node": "Process News Articles",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Process News Articles": {
+      "main": [
+        [
+          {
+            "node": "Save News Articles",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Save News Articles": {
+      "main": [
+        [
+          {
+            "node": "Send News Notification",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Weekly Analytics Check": {
+      "main": [
+        [
+          {
+            "node": "Get Published Content",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Published Content": {
+      "main": [
+        [
+          {
+            "node": "Generate Analytics Report",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate Analytics Report": {
+      "main": [
+        [
+          {
+            "node": "Save Analytics Report",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Save Analytics Report": {
+      "main": [
+        [
+          {
+            "node": "Send Analytics to Slack",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send Analytics to Slack": {
+      "main": [
+        [
+          {
+            "node": "Email Analytics Report",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Content Submission Webhook": {
+      "main": [
+        [
+          {
+            "node": "Process Content Submission",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Process Content Submission": {
+      "main": [
+        [
+          {
+            "node": "Add Content to Calendar",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Add Content to Calendar": {
+      "main": [
+        [
+          {
+            "node": "Send Submission Notification",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send Submission Notification": {
+      "main": [
+        [
+          {
+            "node": "Email Content for Review",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "saveManualExecutions": true,
+    "callerPolicy": "workflowsFromSameOwner",
+    "errorWorkflow": "",
+    "saveExecutionProgress": true,
+    "saveDataErrorExecution": "all"
+  },
+  "tags": [
+    {
+      "name": "social media",
+      "color": "#00ccff"
+    },
+    {
+      "name": "thought leadership",
+      "color": "#ff00cc"
+    }
+  ],
+  "pinData": {},
+  "versionId": "1",
+  "triggerCount": 5,
+  "staticData": null,
+  "id": "8"
+}

@@ -1,0 +1,36 @@
+{
+  "name": "NotebookLM Reimagined - Complete Build Kit 🛠️",
+  "external_id": "MMEaugEdXzAfEfTZ2V64LQ==",
+  "permalink": "vmrahj",
+  "unique_permalink": "vmrahj",
+  "custom_permalink": null,
+  "url": "https://markkashef.gumroad.com/l/vmrahj",
+  "status": "published",
+  "archived": false,
+  "kind": "products",
+  "price_formatted": "CAD$0+",
+  "description_md": "# What You Get\n\n- \n3 Complete PRD Documents: The exact Vision Document, Project Specification, and Implementation Guide used to build the app from scratch - totaling 100+ pages of technical blueprints.\n\n- \n28 Architecture Diagrams: Visual breakdowns of every system - RAG flows, audio/video pipelines, API architecture, settings injection, study materials generation, and more. Perfect for following along or building your own version.\n\n- \n8 Prompt Templates: Battle-tested prompts for every phase - project kickoff, database setup, feature requests, UI feedback, quality control, bug fixes, and API integrations. Copy, paste, customize.\n\n- \nStep-by-Step Implementation Phases: A checklist-driven approach that survives Claude Code context resets. Each phase builds on the last so you can pick up exactly where you left off.\n\n- \nComplete Tech Stack Reference: Supabase schema, Gemini model mappings, FastAPI endpoints, Next.js frontend patterns - all documented with the reasoning behind each decision.\n\n- \nAPI-First Architecture: Every feature is an endpoint. The web UI is just another client. Build automations in n8n, Zapier, or custom apps that hit your own NotebookLM.\n\nWant to one-click clone my build?\nJoin the Early AI-dopters community for video walkthroughs, coaching calls, and more builds like this: https://www.skool.com/earlyaidopters/about",
+  "files": [
+    {
+      "file": "01_VISION_DOCUMENT.md",
+      "status": "cached",
+      "bytes": 16895
+    },
+    {
+      "file": "02_PROJECT_SPECIFICATION.md",
+      "status": "cached",
+      "bytes": 61173
+    },
+    {
+      "file": "03_IMPLEMENTATION_GUIDE.md",
+      "status": "cached",
+      "bytes": 29842
+    },
+    {
+      "file": "Diagrams.zip",
+      "status": "cached",
+      "bytes": 46017040
+    }
+  ],
+  "has_rich_content": true
+}

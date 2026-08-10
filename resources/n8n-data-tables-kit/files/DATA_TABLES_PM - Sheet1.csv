@@ -1,0 +1,8 @@
+taskID,projectName,taskDescription,assignee,dueDate,status,hoursLogged
+101,Website Redesign,Draft homepage wireframe,Alice,2025-09-20,Done,8
+102,Website Redesign,Develop homepage UI,Bob,2025-09-25,In Progress,12
+103,Q4 Marketing,Plan social media campaign,Charlie,2025-09-22,In Progress,6
+104,Website Redesign,Set up staging server,Bob,2025-09-19,Done,4
+105,API Integration,Research payment gateways,Alice,2025-09-28,To Do,0
+106,Q4 Marketing,Write blog post drafts,Charlie,2025-09-30,To Do,0
+107,Website Redesign,QA homepage on mobile,Alice,2025-09-26,In Progress,3

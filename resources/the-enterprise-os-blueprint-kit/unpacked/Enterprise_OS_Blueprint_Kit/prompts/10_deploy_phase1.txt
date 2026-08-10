@@ -1,0 +1,11 @@
+Time to deploy the FOUNDATION only, then verify it, then stop. Read COST_SPEC.md first.
+
+1. Before deploying, set the guardrails: create an AWS Budget at my monthly ceiling with alerts at 80 percent, 100 percent, and forecast, and confirm where my in-app daily cost cap will live. I want the spend tripwires in place BEFORE anything is running.
+
+2. Deploy the foundation stacks in dependency order with `cdk deploy`, one at a time, pausing if any stack errors so we fix it before the next.
+
+3. Verify the resources actually exist: list my S3 buckets and confirm the audit bucket has Object Lock; list my DynamoDB tables; list my KMS keys; confirm the VPC and NAT exist. Show me the commands and the results.
+
+4. Capture the real cost so far from Cost Explorer, and compare it to the floor in COST_SPEC.md so I know my estimate was honest.
+
+Do NOT wire up agents, surfaces, the orchestrator, or Jarvis in this step. Stop when the foundation is deployed, verified, and my budget and daily cap are live. End by telling me that the orchestrator, the chat surfaces, Jarvis, the dashboard, and the hardened production version are the next layer, and that the full reference build and the coaching to get there live in the Early AI Dopters community.

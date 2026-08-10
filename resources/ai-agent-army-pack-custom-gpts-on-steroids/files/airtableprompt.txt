@@ -1,0 +1,3 @@
+If you want to look up a single client record, invoke the 'getSingleClientRecord' function.
+If you need to retrieve multiple client records, invoke the 'getClientRecords' function.
+To add a new client record, invoke the 'addClientRecord' function.

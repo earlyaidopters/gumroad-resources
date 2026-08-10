@@ -1,0 +1,26 @@
+{
+  "name": "Skill Chaining Kit for Claude Code 👨🏽‍💻",
+  "external_id": "tKh8bDpcfD_cnd9YnTvjyw==",
+  "permalink": "kgexpn",
+  "unique_permalink": "kgexpn",
+  "custom_permalink": "skill-chaining-kit",
+  "url": "https://markkashef.gumroad.com/l/skill-chaining-kit",
+  "status": "published",
+  "archived": false,
+  "kind": "products",
+  "price_formatted": "CAD$0+",
+  "description_md": "# What You Get\n\n- \nSkill Chaining Kit. Two complete skill chains for Claude Code, ready to drop into any project.\n\n- \nLaunch Chain (6 skills). Type /launch-offer and get a competitor analysis, sales page, 3-email sequence, LinkedIn + Twitter posts, and a professional PDF. All from one command.\n\n- \nBrain Chain (4 skills). Type /brain-brief and get a comprehensive briefing on any topic in your Obsidian vault. Searches notes, extracts insights, synthesizes everything.\n\nREADME with the 3-part pattern. Learn how to build your own chains in minutes. The secret is one line of markdown.\n---\nHow It Works\nEach skill writes to a shared folder. The next skill reads what came before and builds on it. An orchestrator skill with \"context: fork\" runs them all in sequence, autonomously.\nNo code. No automation platform. Just markdown files that Claude Code executes.\n---\nWant access to every resource I create? Join 1K+ builders inside the community.\nhttps://www.skool.com/earlyaidopters/about",
+  "files": [
+    {
+      "file": "brain-chain.zip",
+      "status": "cached",
+      "bytes": 8486
+    },
+    {
+      "file": "launch-chain.zip",
+      "status": "cached",
+      "bytes": 13473
+    }
+  ],
+  "has_rich_content": true
+}

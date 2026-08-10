@@ -1,0 +1,21 @@
+{
+  "name": "Claude Skills in n8n Workflow Template 🍳",
+  "external_id": "IauNUOj22JbOECaTIh1ZhA==",
+  "permalink": "hqjyzu",
+  "unique_permalink": "hqjyzu",
+  "custom_permalink": "claudeskillsn8n",
+  "url": "https://markkashef.gumroad.com/l/claudeskillsn8n",
+  "status": "published",
+  "archived": false,
+  "kind": "products",
+  "price_formatted": "CAD$0+",
+  "description_md": "# What You Get\n\n- Import-ready n8n template (Anthropic Agent Skills Workflows.json) for PPTX, PDF, DOCX, XLSX.\n\n- One-click flow: Trigger → POST → Parse file_id → Download.\n\n- Clean headers + container.skills setup; easy API key swap.\n\n- Resilient file_id extraction + annotated canvas for fast edits.\n\n- Bonus: List/Get Skill endpoints to verify versions.\n\n- Want the bulk Skill generator in Claude AI? \n\nJoin Early AI-dopters: https://www.skool.com/earlyaidopters/about",
+  "files": [
+    {
+      "file": "Anthropic Agent Skills Workflows.json",
+      "status": "downloaded",
+      "bytes": 24246
+    }
+  ],
+  "has_rich_content": true
+}

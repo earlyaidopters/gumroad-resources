@@ -1,0 +1,168 @@
+{
+  "name": "Lovable Image Editing",
+  "nodes": [
+    {
+      "parameters": {
+        "options": {
+          "responseCode": 200
+        }
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.2,
+      "position": [
+        880,
+        0
+      ],
+      "id": "6146c3b9-9942-49c7-8576-fe19debadf3d",
+      "name": "🪃 Boomerang Response Back to n8n"
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "fdbe4891-5371-4f11-8169-fa1321e6a320",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        0,
+        0
+      ],
+      "id": "72541073-e5da-4017-809c-7f191fe1c89c",
+      "name": "👂🏼 Listening for Lovable Image & Prompt",
+      "webhookId": "fdbe4891-5371-4f11-8169-fa1321e6a320"
+    },
+    {
+      "parameters": {
+        "jsCode": "return items.map(item => {\n  const dataUri = item.json.body.image || '';           // \"data:image/png;base64,AAAA…\"\n  const base64   = dataUri.includes(',') ? dataUri.split(',')[1] : dataUri;\n\n  item.binary = item.binary || {};\n  item.binary.image = {\n    data:      base64,\n    fileName:  'input.png',\n    mimeType:  'image/png',\n  };\n\n  return item;\n});\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        220,
+        0
+      ],
+      "id": "1b7a8fb4-a97d-4d8a-a5db-ca3ee1627290",
+      "name": "🤝 Prep the Image"
+    },
+    {
+      "parameters": {
+        "jsCode": "/**\n * n8n Code node\n * Mode: “Run Once for All Items”\n *\n * Converts data[0].b64_json → binary.image (PNG)\n * so the next node (e.g. “HTTP Response” or “Write Binary File”)\n * can download `edited.png`.\n */\n\nreturn items.map(item => {\n  // 1. grab base-64 string (adjust the path if yours differs)\n  const b64 = item.json.data[0].b64_json;\n\n  // 2. attach it as a binary file\n  item.binary = item.binary || {};\n  item.binary.image = {\n    data:      b64,              // raw base-64\n    fileName:  'edited.png',\n    mimeType:  'image/png',\n  };\n\n  return item;                   // keep the item flowing\n});\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        660,
+        0
+      ],
+      "id": "dda842e3-feec-4da8-84df-59f7f0f9fa35",
+      "name": "🔎 Review the Image"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.openai.com/v1/images/edits",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer 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"
+            }
+          ]
+        },
+        "sendBody": true,
+        "contentType": "multipart-form-data",
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "model",
+              "value": "gpt-image-1"
+            },
+            {
+              "name": "prompt",
+              "value": "={{ $json.body.prompt }}"
+            },
+            {
+              "name": "size",
+              "value": "1024x1024"
+            },
+            {
+              "parameterType": "formBinaryData",
+              "name": "image",
+              "inputDataFieldName": "=image"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        440,
+        0
+      ],
+      "id": "c9cdd458-fe01-44ee-ad07-6c7961fa211b",
+      "name": "✅ Edit Image"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "👂🏼 Listening for Lovable Image & Prompt": {
+      "main": [
+        [
+          {
+            "node": "🤝 Prep the Image",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "🤝 Prep the Image": {
+      "main": [
+        [
+          {
+            "node": "✅ Edit Image",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "🔎 Review the Image": {
+      "main": [
+        [
+          {
+            "node": "🪃 Boomerang Response Back to n8n",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "✅ Edit Image": {
+      "main": [
+        [
+          {
+            "node": "🔎 Review the Image",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "b5336dc2-25cb-4f56-b761-8ffe70a10b70",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "aaadb797535f05587ee95b776c942a7c3f7a46fd7aa0c9b6a9d64e1e595f8af1"
+  },
+  "id": "2JtEorursTeqGovC",
+  "tags": []
+}

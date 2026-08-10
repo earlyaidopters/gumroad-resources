@@ -1,0 +1,383 @@
+#!/usr/bin/env python3
+"""gumroad-pull — companion to the gumroad CLI that pulls product FILES and CONTENT.
+
+The public Gumroad v2 API exposes product metadata only. This tool uses the
+seller's own dashboard session (cookie) to pull what the API can't:
+  - every product's attached files (zip/pdf/etc, via the seller download endpoint)
+  - every product's rich content page (prompts written directly in Gumroad),
+    converted from TipTap JSON to markdown
+
+Auth: put your gumroad.com Cookie header string in ~/.config/gumroad/cookies
+(export with the Cookie-Editor extension -> Header String, must include the
+HttpOnly _gumroad_app_session cookie). Override path with GUMROAD_COOKIE_FILE.
+
+Commands:
+  gumroad-pull check                       verify the session cookie works
+  gumroad-pull products [--archived]       list all products (JSON) w/ internal permalinks
+  gumroad-pull pull <permalink>... --out DIR   pull specific products
+  gumroad-pull pull --all [--archived] --out DIR   pull everything
+Flags: --out DIR (default ./gumroad-export), --skip-existing (default on),
+       --force (re-download), --delay SECONDS (default 0.4)
+"""
+import html
+import json
+import os
+import re
+import sys
+import time
+import urllib.error
+import urllib.parse
+import urllib.request
+
+BASE = "https://gumroad.com"
+UA = ("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 "
+      "(KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36")
+COOKIE_FILE = os.environ.get("GUMROAD_COOKIE_FILE",
+                             os.path.expanduser("~/.config/gumroad/cookies"))
+
+
+def die(msg, code=1):
+    print(f"error: {msg}", file=sys.stderr)
+    sys.exit(code)
+
+
+def load_cookie():
+    if not os.path.exists(COOKIE_FILE):
+        die(f"cookie file not found at {COOKIE_FILE}.\n"
+            "Export gumroad.com cookies with the Cookie-Editor extension "
+            "(Export -> Header String) and save them to that file. "
+            "The _gumroad_app_session cookie is required.")
+    cookie = open(COOKIE_FILE).read().strip()
+    if "_gumroad_app_session" not in cookie:
+        print("warning: cookie file has no _gumroad_app_session; "
+              "requests will likely be unauthenticated", file=sys.stderr)
+    return cookie
+
+
+def http_get(path, cookie, headers=None, binary=False, max_retries=3):
+    url = path if path.startswith("http") else BASE + path
+    h = {"User-Agent": UA, "Cookie": cookie,
+         "Accept": "*/*", "Accept-Language": "en-US,en;q=0.9"}
+    if headers:
+        h.update(headers)
+    req = urllib.request.Request(url, headers=h)
+    for attempt in range(max_retries):
+        try:
+            with urllib.request.urlopen(req, timeout=120) as r:
+                data = r.read()
+                return r.status, data if binary else data.decode("utf-8", "replace"), dict(r.headers)
+        except urllib.error.HTTPError as e:
+            if e.code in (429, 502, 503) and attempt < max_retries - 1:
+                time.sleep(2 ** attempt * 2)
+                continue
+            return e.code, e.read().decode("utf-8", "replace") if not binary else e.read(), dict(e.headers)
+        except urllib.error.URLError as e:
+            if attempt < max_retries - 1:
+                time.sleep(2 ** attempt)
+                continue
+            die(f"network error fetching {url}: {e}")
+
+
+def inertia_page(path, cookie):
+    """Fetch a dashboard page and return its parsed Inertia data-page object."""
+    status, body, _ = http_get(path, cookie)
+    if status in (301, 302, 401, 403) or "login" in body[:2000].lower() and "data-page" not in body:
+        die(f"not authenticated (HTTP {status} on {path}); refresh the cookie file")
+    m = re.search(r'data-page="([^"]+)"', body)
+    if not m:
+        die(f"no Inertia data-page found on {path} (HTTP {status}); "
+            "cookie may be stale or page layout changed")
+    return json.loads(html.unescape(m.group(1)))
+
+
+def inertia_partial(path, cookie, component, prop_names):
+    """Fetch specific (deferred) Inertia props as JSON."""
+    status, body, _ = http_get(path, cookie, headers={
+        "X-Inertia": "true",
+        "X-Inertia-Partial-Component": component,
+        "X-Inertia-Partial-Data": ",".join(prop_names),
+    })
+    if status != 200:
+        die(f"inertia partial fetch failed (HTTP {status}) on {path}")
+    return json.loads(body)
+
+
+def list_products(cookie, archived=False, delay=0.4):
+    """Enumerate all products from the dashboard, returning rows with
+    internal permalink, name, status, url, sales, revenue."""
+    path = "/products/archived" if archived else "/products"
+    page_obj = inertia_page(path, cookie)
+    component = page_obj["component"]
+    deferred = page_obj.get("deferredProps") or {}
+    prop_names = [p for group in deferred.values() for p in group] or \
+                 ["products_data", "memberships_data"]
+    rows = []
+    for data_key in prop_names:
+        page_param = data_key.replace("_data", "") + "_page"  # products_page / memberships_page
+        page_no, pages = 1, 1
+        while page_no <= pages:
+            j = inertia_partial(f"{path}?{page_param}={page_no}", cookie,
+                                component, [data_key])
+            block = j.get("props", {}).get(data_key) or {}
+            items = block.get("products") or block.get("memberships") or []
+            for it in items:
+                it["_kind"] = data_key.replace("_data", "")
+                it["_archived"] = archived
+                rows.append(it)
+            pag = block.get("pagination") or {}
+            pages = pag.get("pages", 1)
+            page_no += 1
+            time.sleep(delay)
+    return rows
+
+
+def get_edit_payload(permalink, cookie):
+    """Fetch a product's edit page and return (external_id, product_props)."""
+    page_obj = inertia_page(f"/products/{permalink}/edit", cookie)
+    props = page_obj.get("props", {})
+    return props.get("id"), props.get("product") or {}, props.get("unique_permalink")
+
+
+def slugify(name):
+    s = re.sub(r"[^\w\s-]", "", name, flags=re.UNICODE).strip().lower()
+    s = re.sub(r"[\s_-]+", "-", s)
+    return s[:80] or "untitled"
+
+
+# ---------- TipTap rich_content -> markdown ----------
+
+def _marks_wrap(text, marks):
+    for mark in marks or []:
+        t = mark.get("type")
+        if t == "bold":
+            text = f"**{text}**"
+        elif t == "italic":
+            text = f"*{text}*"
+        elif t == "code":
+            text = f"`{text}`"
+        elif t == "strike":
+            text = f"~~{text}~~"
+        elif t == "link":
+            href = (mark.get("attrs") or {}).get("href", "")
+            text = f"[{text}]({href})"
+    return text
+
+
+def _node_md(node, files_by_id, depth=0):
+    t = node.get("type")
+    attrs = node.get("attrs") or {}
+    kids = node.get("content") or []
+    inner = lambda: "".join(_node_md(k, files_by_id, depth) for k in kids)
+    if t == "text":
+        return _marks_wrap(node.get("text", ""), node.get("marks"))
+    if t == "paragraph":
+        return inner() + "\n\n"
+    if t == "heading":
+        return "#" * attrs.get("level", 2) + " " + inner().strip() + "\n\n"
+    if t == "bulletList":
+        return "".join("- " + _node_md(li, files_by_id, depth + 1).strip().replace("\n\n", "\n") + "\n"
+                       for li in kids) + "\n"
+    if t == "orderedList":
+        return "".join(f"{i}. " + _node_md(li, files_by_id, depth + 1).strip().replace("\n\n", "\n") + "\n"
+                       for i, li in enumerate(kids, 1)) + "\n"
+    if t == "listItem":
+        return inner()
+    if t == "codeBlock":
+        return "```\n" + inner().rstrip("\n") + "\n```\n\n"
+    if t == "blockquote":
+        return "> " + inner().strip().replace("\n", "\n> ") + "\n\n"
+    if t == "horizontalRule":
+        return "---\n\n"
+    if t == "hardBreak":
+        return "\n"
+    if t == "fileEmbed":
+        fid = attrs.get("id")
+        f = files_by_id.get(fid)
+        if f:
+            fname = f"{f.get('file_name') or f.get('display_name')}.{(f.get('extension') or '').lower()}".rstrip(".")
+            return f"📎 **File:** [`{fname}`](files/{fname})\n\n"
+        return f"📎 **File:** (id {fid})\n\n"
+    if t == "button":
+        return f"[{attrs.get('label') or inner().strip() or 'Link'}]({attrs.get('href', '')})\n\n"
+    if t == "image":
+        return f"![{attrs.get('alt') or ''}]({attrs.get('src', '')})\n\n"
+    if t in ("embed", "mediaEmbed", "externalLinkEmbed"):
+        u = attrs.get("url") or attrs.get("href") or attrs.get("src") or ""
+        return (f"🔗 {u}\n\n") if u else inner()
+    if t in ("licenseKey", "posts", "moreLikeThis", "subscribeButton"):
+        return ""  # widgets with no static content
+    return inner()
+
+
+def rich_content_to_md(rich_pages, files_by_id, product_name):
+    out = []
+    for i, pg in enumerate(rich_pages or []):
+        title = pg.get("title")
+        if title:
+            out.append(f"# {title}\n")
+        elif i == 0:
+            out.append(f"# {product_name}\n")
+        doc = pg.get("description") or {}
+        out.append("".join(_node_md(n, files_by_id) for n in doc.get("content") or []))
+        out.append("\n")
+    return re.sub(r"\n{3,}", "\n\n", "".join(out)).strip() + "\n"
+
+
+def html_description_to_md(desc_html):
+    if not desc_html:
+        return ""
+    txt = desc_html
+    txt = re.sub(r"<br\s*/?>", "\n", txt)
+    txt = re.sub(r"</p>|</li>|</h\d>", "\n", txt)
+    txt = re.sub(r"<li[^>]*>", "- ", txt)
+    txt = re.sub(r"<h1[^>]*>", "# ", txt)
+    txt = re.sub(r"<h2[^>]*>", "## ", txt)
+    txt = re.sub(r"<h3[^>]*>", "### ", txt)
+    txt = re.sub(r"<[^>]+>", "", txt)
+    return html.unescape(re.sub(r"\n{3,}", "\n\n", txt)).strip()
+
+
+def pull_product(row, cookie, out_dir, skip_existing=True, delay=0.4):
+    permalink = row["permalink"]
+    ext_id, product, uniq = get_edit_payload(permalink, cookie)
+    name = product.get("name") or row.get("name") or permalink
+    slug = row.get("_slug") or slugify(name)
+    pdir = os.path.join(out_dir, slug)
+    os.makedirs(os.path.join(pdir, "files"), exist_ok=True)
+
+    files = product.get("files") or []
+    files_by_id = {f.get("id"): f for f in files}
+
+    downloaded = []
+    for f in files:
+        ext = (f.get("extension") or "").lower()
+        fname = f.get("file_name") or f.get("display_name") or "file"
+        fname = f"{fname}.{ext}".rstrip(".")
+        dest = os.path.join(pdir, "files", fname)
+        size = f.get("file_size")
+        if skip_existing and os.path.exists(dest) and size and os.path.getsize(dest) == size:
+            downloaded.append({"file": fname, "status": "cached", "bytes": size})
+            continue
+        q = urllib.parse.urlencode({"product_file_ids[]": f["id"]})
+        status, data, _ = http_get(
+            f"/product_files_utility/product_files/{urllib.parse.quote(ext_id)}?{q}",
+            cookie, binary=True)
+        if status == 200 and data:
+            with open(dest, "wb") as fh:
+                fh.write(data)
+            ok = (not size) or len(data) == size
+            downloaded.append({"file": fname, "status": "downloaded" if ok else "size-mismatch",
+                               "bytes": len(data)})
+        else:
+            downloaded.append({"file": fname, "status": f"failed-http-{status}", "bytes": 0})
+        time.sleep(delay)
+
+    rich = product.get("rich_content") or []
+    content_md = rich_content_to_md(rich, files_by_id, name) if rich else ""
+    if content_md.strip():
+        with open(os.path.join(pdir, "content.md"), "w") as fh:
+            fh.write(content_md)
+
+    desc_md = html_description_to_md(product.get("description"))
+
+    meta = {
+        "name": name,
+        "external_id": ext_id,
+        "permalink": permalink,
+        "unique_permalink": uniq,
+        "custom_permalink": product.get("custom_permalink"),
+        "url": row.get("url"),
+        "status": row.get("status"),
+        "archived": row.get("_archived", False),
+        "kind": row.get("_kind", "products"),
+        "price_formatted": row.get("price_formatted"),
+        "description_md": desc_md,
+        "files": downloaded,
+        "has_rich_content": bool(content_md.strip()),
+    }
+    with open(os.path.join(pdir, "meta.json"), "w") as fh:
+        json.dump(meta, fh, indent=2, ensure_ascii=False)
+    return slug, meta
+
+
+def main():
+    args = sys.argv[1:]
+    if not args or args[0] in ("-h", "--help"):
+        print(__doc__)
+        return
+    cmd = args[0]
+    flags = set(a for a in args[1:] if a.startswith("--") and "=" not in a)
+    kv = dict(a[2:].split("=", 1) for a in args[1:] if a.startswith("--") and "=" in a)
+    positional = [a for a in args[1:] if not a.startswith("--")]
+    out_dir = kv.get("out", "./gumroad-export")
+    delay = float(kv.get("delay", "0.4"))
+    cookie = load_cookie()
+
+    if cmd == "check":
+        page_obj = inertia_page("/products", cookie)
+        seller = (page_obj.get("props") or {}).get("current_seller") or {}
+        print(json.dumps({"ok": bool(seller.get("email")),
+                          "seller": seller.get("email") or None}))
+        return
+
+    if cmd == "products":
+        rows = list_products(cookie, archived="--archived" in flags, delay=delay)
+        print(json.dumps(rows, indent=2, ensure_ascii=False))
+        return
+
+    if cmd == "pull":
+        rows = list_products(cookie, archived=False, delay=delay)
+        if "--archived" in flags:
+            rows += list_products(cookie, archived=True, delay=delay)
+        if "--all" not in flags:
+            if not positional:
+                die("pass one or more permalinks, or --all")
+            want = set(positional)
+            rows = [r for r in rows if r.get("permalink") in want
+                    or slugify(r.get("name", "")) in want]
+            missing = want - {r.get("permalink") for r in rows} - \
+                      {slugify(r.get("name", "")) for r in rows}
+            if missing:
+                die(f"products not found: {', '.join(sorted(missing))}")
+        if "--published-only" in flags:
+            rows = [r for r in rows if r.get("status") == "published"]
+        # collision-safe slugs: if two selected products slugify the same,
+        # disambiguate every member of the group with its permalink suffix
+        from collections import Counter as _C
+        base = {id(r): slugify(r.get("name", "") or r.get("permalink", "")) for r in rows}
+        counts = _C(base.values())
+        for r in rows:
+            b = base[id(r)]
+            r["_slug"] = f"{b}-{r.get('permalink')}" if counts[b] > 1 else b
+        os.makedirs(out_dir, exist_ok=True)
+        results = []
+        for i, row in enumerate(rows, 1):
+            try:
+                slug, meta = pull_product(row, cookie, out_dir,
+                                          skip_existing="--force" not in flags,
+                                          delay=delay)
+                nfiles = sum(1 for f in meta["files"] if f["status"] in ("downloaded", "cached"))
+                print(f"[{i}/{len(rows)}] {slug}  files:{nfiles}/{len(meta['files'])} "
+                      f"content:{'yes' if meta['has_rich_content'] else 'no'}",
+                      file=sys.stderr)
+                results.append({"slug": slug, "ok": True,
+                                "files": meta["files"], "name": meta["name"]})
+            except SystemExit:
+                raise
+            except Exception as e:
+                print(f"[{i}/{len(rows)}] FAILED {row.get('permalink')}: {e}",
+                      file=sys.stderr)
+                results.append({"slug": row.get("permalink"), "ok": False, "error": str(e)})
+            time.sleep(delay)
+        with open(os.path.join(out_dir, "pull-manifest.json"), "w") as fh:
+            json.dump({"pulled_at": time.strftime("%Y-%m-%dT%H:%M:%S%z"),
+                       "results": results}, fh, indent=2, ensure_ascii=False)
+        ok = sum(1 for r in results if r["ok"])
+        print(json.dumps({"ok": ok, "failed": len(results) - ok, "out": out_dir}))
+        return
+
+    die(f"unknown command: {cmd}")
+
+
+if __name__ == "__main__":
+    main()

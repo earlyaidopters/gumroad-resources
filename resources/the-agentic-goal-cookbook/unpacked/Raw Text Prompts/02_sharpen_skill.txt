@@ -1,0 +1,43 @@
+SHARPEN - ITERATE ONE SKILL AGAINST A RUBRIC
+==============================================
+
+When to use:
+- You have a skill that works but you suspect it could be sharper
+- You can write a small rubric (5 criteria, each pass/fail) and a few test inputs
+- You want measurable improvement, not vibe-improvement
+
+What it does:
+- Runs each input in test_inputs.md through the target SKILL.md (simulated)
+- Scores every run against rubric.md (5 criteria, each pass/fail)
+- Logs every run to ITERATION_LOG.md with the score and what to change next
+- Edits SKILL.md to fix the lowest-scoring criterion without regressing
+- Re-runs all 5 tests, repeats until 5 of 5 score 5 out of 5
+
+THE PROMPT (type /goal then paste the body below):
+
+----------------------------------------------------
+
+iterate on .claude/skills/thumbnail-prompt-builder/SKILL.md. For each input in test_inputs.md, simulate the skill's output, then score it against rubric.md. Log every run to ITERATION_LOG.md with score and what you will change next. Edit SKILL.md to fix the lowest-scoring criterion without regressing on previously passing criteria. Re-run all 5 tests. Repeat. Stop when 5 of 5 tests score 5 out of 5 and ITERATION_LOG.md shows the full progression with at least 6 runs. Or stop after 15 turns.
+
+----------------------------------------------------
+
+Setup files you need before running:
+- rubric.md: 5 criteria, each unambiguously pass/fail
+- test_inputs.md: 5 inputs that exercise different parts of the skill
+
+Guardrails:
+- The "without regressing" clause is what prevents over-fitting.
+- ITERATION_LOG.md is the proof. Read it after to see what changed run by run.
+- If runs feel repetitive, tighten the rubric. Each criterion should be unambiguously pass or fail.
+- Cap turns low (15) so the loop ends fast if you wrote a bad rubric.
+
+Wake-up check:
+
+  tail -100 ITERATION_LOG.md
+  git diff .claude/skills/thumbnail-prompt-builder/SKILL.md
+
+Swap the skill path for any skill you want to sharpen. The same prompt works for any skill that has a rubric and test inputs.
+
+If you want the rest of the prompts and the full /goal cookbook, check out the Early AI Dopters community.
+
+https://www.skool.com/earlyaidopters/about

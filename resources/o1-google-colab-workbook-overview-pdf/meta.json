@@ -1,0 +1,21 @@
+{
+  "name": "o1 Google Colab Workbook + Overview PDF",
+  "external_id": "_WJE1A3nVGXKyixyOyiIUQ==",
+  "permalink": "xudju",
+  "unique_permalink": "xudju",
+  "custom_permalink": "o1",
+  "url": "https://markkashef.gumroad.com/l/o1",
+  "status": "published",
+  "archived": false,
+  "kind": "products",
+  "price_formatted": "CAD$0+",
+  "description_md": "o1 Google Colab Workbook - PDF + Python Files\nUnlock the power of advanced AI with this comprehensive workbook designed for users who want to explore Google Colab and Python-based AI workflows. Inside, you'll find detailed explanations, step-by-step prompts, and specialized content to help you master key concepts.\nWhat’s Included:\n\n- \nPDF Workbook: A deep dive into working with OpenAI models, including specialized prompts, best practices, and techniques for optimizing your use of large language models.\n\n- \nPython File (.py): Pre-configured scripts that you can upload directly into Google Colab for hands-on practice and implementation of the concepts covered in the workbook.\n\nIdeal for learners, developers, and researchers in STEM fields who are looking to enhance their practical understanding of AI and machine learning.",
+  "files": [
+    {
+      "file": "OpenAI o1.pdf",
+      "status": "cached",
+      "bytes": 272288
+    }
+  ],
+  "has_rich_content": true
+}

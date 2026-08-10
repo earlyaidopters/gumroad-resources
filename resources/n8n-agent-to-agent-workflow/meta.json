@@ -1,0 +1,26 @@
+{
+  "name": "n8n Agent-to-Agent Workflow 🤖",
+  "external_id": "wJ8loE_b5qaPbLuTBbDU5g==",
+  "permalink": "yygnld",
+  "unique_permalink": "yygnld",
+  "custom_permalink": "agent-to-agent",
+  "url": "https://markkashef.gumroad.com/l/agent-to-agent",
+  "status": "published",
+  "archived": false,
+  "kind": "products",
+  "price_formatted": "CAD$0+",
+  "description_md": "What You’ll Get\n\n- \nMain AI Agent Creator Flow\n- A powerful n8n workflow that dynamically builds AI agents on demand\n\n- A secondary workflow that handles in-depth tasks triggered by the main flow.\n\n- Automatically references relevant automations or connectors for a smooth handoff between flows\n\n- \nAutomation Knowledge Base Creation Script\n- A specialized script that chunks and upserts different automations into Pinecone\n\n- A link to 300 n8n AI automations from their marketplace\n\n- Empowers your AI agent to consult an extensive library of pre-built automations, drastically cutting down setup time\n\n- \nDeep Research Integration\n- Built-in perplexity module for real-time documentation lookups and the latest n8n updates\n\n- Ensures your AI agent stays current on new nodes, best practices, and feature changes in n8n\n\n- \nReady-to-Import Templates\n- Straightforward JSON-based workflow files for both the main flow and sub flow, plus optional expansions\n\n- Simply upload them to n8n and start generating AI agents tailored to your needs—no heavy coding required\n\n## 💖 This took around 15 hours to put together, so feel free to support the channel if you can or wish to.",
+  "files": [
+    {
+      "file": "N8N_Agent_creator.json",
+      "status": "cached",
+      "bytes": 3061
+    },
+    {
+      "file": "N8N_Agent_Creator__Sub_Flow.json",
+      "status": "cached",
+      "bytes": 35604
+    }
+  ],
+  "has_rich_content": true
+}

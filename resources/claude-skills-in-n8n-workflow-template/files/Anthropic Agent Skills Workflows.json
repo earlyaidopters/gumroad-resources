@@ -1,0 +1,633 @@
+{
+  "name": "Anthropic Agent Skills Workflows",
+  "nodes": [
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.anthropic.com/v1/messages",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "x-api-key",
+              "value": "REDACTED_SECRET_replace_with_your_own_key"
+            },
+            {
+              "name": "anthropic-version",
+              "value": "2023-06-01"
+            },
+            {
+              "name": "anthropic-beta",
+              "value": "code-execution-2025-08-25,skills-2025-10-02"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "{\n  \"model\": \"claude-haiku-4-5-20251001\",\n  \"max_tokens\": 50000,\n  \"system\": \"Your job is to create a stunning, professional PowerPoint presentation. Follow the instructions precisely. You are only allowed to create 1 PowerPoint file. Make no other files. I don't need a readme. Create a visually appealing presentation with professional design, clear hierarchy, and excellent use of space. Use modern, clean design principles.\",\n  \"container\": {\n    \"skills\": [\n      {\n        \"type\": \"anthropic\",\n        \"skill_id\": \"pptx\",\n        \"version\": \"latest\"\n      }\n    ]\n  },\n  \"messages\": [\n    {\n      \"role\": \"user\",\n      \"content\": \"Create a 5-slide professional presentation on Prompt Engineering:\\n\\nSlide 1: Title Slide\\n- Title: Mastering Prompt Engineering\\n- Subtitle: A Practical Guide to Getting Better AI Outputs\\n- Include: Your Company Name\\n\\nSlide 2: What is Prompt Engineering?\\n- Definition: The art and science of crafting effective instructions for AI systems\\n- Why it matters: Better prompts = Better results\\n- Key principle: Clear communication drives AI performance\\n\\nSlide 3: The Anatomy of a Great Prompt\\n- Context: Provide relevant background information\\n- Objective: State what you want clearly\\n- Requirements: Specify format, length, style\\n- Examples: Show what good looks like\\n\\nSlide 4: Common Prompt Mistakes\\n- Being too vague or generic\\n- Not specifying output format\\n- Asking multiple questions at once\\n- Forgetting to provide context\\n- Using ambiguous language\\n\\nSlide 5: The CORE Framework\\n- C: Context - Set the scene\\n- O: Objective - State your goal\\n- R: Requirements - Define constraints\\n- E: Examples - Show, don't just tell\\n\\nSlide 6: Advanced Techniques\\n- Chain of Thought: Ask AI to explain reasoning\\n- Few-Shot Learning: Provide multiple examples\\n- Role Assignment: Give AI a specific persona\\n- Iterative Refinement: Build on previous outputs\\n\\nSlide 7: Prompt Engineering for Business\\n- Customer Service: Consistent, branded responses\\n- Content Creation: On-brand marketing materials\\n- Data Analysis: Structured insights from complex data\\n- Code Generation: Efficient development workflows\\n\\nSlide 8: Best Practices\\n- Start simple, then add complexity\\n- Test and iterate your prompts\\n- Document what works\\n- Share learnings with your team\\n- Build a prompt library\\n\\nSlide 9: Real-World Example\\n- Bad Prompt: Write about AI\\n- Good Prompt: Write a 500-word blog post explaining how small businesses can use AI chatbots to improve customer service, including 3 specific use cases and ROI estimates. Target audience: non-technical business owners.\\n- Result: Specific, actionable, targeted content\\n\\nSlide 10: Key Takeaways & Next Steps\\n- Prompt engineering is a learnable skill\\n- Clear communication is the foundation\\n- Practice with the CORE framework\\n- Start building your prompt library today\\n- Resources: promptingguide.ai, learnprompting.org\"\n    }\n  ],\n  \"tools\": [\n    {\n      \"type\": \"code_execution_20250825\",\n      \"name\": \"code_execution\"\n    }\n  ]\n}",
+        "options": {}
+      },
+      "name": "Create PowerPoint",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        704,
+        160
+      ],
+      "id": "20143c06-dbd9-4ab8-865b-180e9bce3f10"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Loop over input items and add a new field called 'myNewField' to the JSON of each one\nfor (const item of $input.all()) {\n  item.json.myNewField = 1;\n}\n\nreturn $input.all();"
+      },
+      "name": "Get File ID",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [
+        896,
+        160
+      ],
+      "id": "9523d6ad-6550-4ec2-93f9-fa99ad18cc5b"
+    },
+    {
+      "parameters": {
+        "url": "=https://api.anthropic.com/v1/files/{{ $json.content[117].content.content[0].file_id }}/content ",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "x-api-key",
+              "value": "REDACTED_SECRET_replace_with_your_own_key"
+            },
+            {
+              "name": "anthropic-version",
+              "value": "2023-06-01"
+            },
+            {
+              "name": "anthropic-beta",
+              "value": "files-api-2025-04-14"
+            }
+          ]
+        },
+        "options": {
+          "response": {
+            "response": {
+              "responseFormat": "file",
+              "outputPropertyName": "presentation.pptx"
+            }
+          }
+        }
+      },
+      "name": "Download File",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        1104,
+        160
+      ],
+      "id": "9464c35b-ac09-4cc0-a73b-78e7d8e007fb"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        496,
+        -272
+      ],
+      "id": "991ae066-736c-4adf-9d2b-dadcb215e437",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "url": "https://api.anthropic.com/v1/skills/skill_01RvZB9NgpZhVTQHCZvjQcH2",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "x-api-key",
+              "value": "REDACTED_SECRET_replace_with_your_own_key"
+            },
+            {
+              "name": "anthropic-version",
+              "value": "2023-06-01"
+            },
+            {
+              "name": "anthropic-beta",
+              "value": "skills-2025-10-02"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "name": "Get Claude Skill",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        704,
+        -272
+      ],
+      "id": "d1d3339b-f9dc-494c-9a85-73dd98721612"
+    },
+    {
+      "parameters": {
+        "url": "https://api.anthropic.com/v1/skills",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "x-api-key",
+              "value": "REDACTED_SECRET_replace_with_your_own_key"
+            },
+            {
+              "name": "anthropic-version",
+              "value": "2023-06-01"
+            },
+            {
+              "name": "anthropic-beta",
+              "value": "skills-2025-10-02"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        704,
+        -64
+      ],
+      "id": "4ad6ad6d-d3d5-4481-9f00-5ec0f34b2946",
+      "name": "Get All Skills"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.anthropic.com/v1/messages",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "x-api-key",
+              "value": "REDACTED_SECRET_replace_with_your_own_key"
+            },
+            {
+              "name": "anthropic-version",
+              "value": "2023-06-01"
+            },
+            {
+              "name": "anthropic-beta",
+              "value": "code-execution-2025-08-25,skills-2025-10-02"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "{\n  \"model\": \"claude-haiku-4-5-20251001\",\n  \"max_tokens\": 4096,\n  \"system\": \"Your job is to create a professional PDF document. Follow the instructions precisely. You are only allowed to create 1 PDF file. Make no other files. I also don't need a read me file. I only need 1 PDF download. Create a clean, well-formatted PDF with proper structure and styling.\",\n  \"container\": {\n    \"skills\": [\n      {\n        \"type\": \"anthropic\",\n        \"skill_id\": \"pdf\",\n        \"version\": \"latest\"\n      }\n    ]\n  },\n  \"messages\": [\n    {\n      \"role\": \"user\",\n      \"content\": \"Create a PDF report with the following content:\\n\\nTitle: Q4 2024 Business Report\\n\\nExecutive Summary:\\nThis report summarizes key business metrics and achievements for Q4 2024.\\n\\nKey Metrics:\\n- Revenue: $2.5M\\n- Growth: 45% YoY\\n- Customer Acquisition: 1,200 new customers\\n\\nConclusion:\\nStrong performance across all metrics with continued growth trajectory.\"\n    }\n  ],\n  \"tools\": [\n    {\n      \"type\": \"code_execution_20250825\",\n      \"name\": \"code_execution\"\n    }\n  ]\n}",
+        "options": {}
+      },
+      "name": "Create PDF",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        704,
+        400
+      ],
+      "id": "27849231-ea6c-400f-9068-df3926fa5c5d"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Extract file_id from Claude's response\nconst response = $input.first().json;\n\n// Find the file_id in the content array\nlet fileId = null;\nif (response.content && Array.isArray(response.content)) {\n  for (const item of response.content) {\n    if (item.type === 'code_execution' && item.content) {\n      for (const subItem of item.content) {\n        if (subItem.type === 'file' && subItem.file_id) {\n          fileId = subItem.file_id;\n          break;\n        }\n      }\n    }\n  }\n}\n\nreturn [{ json: { file_id: fileId, original_response: response } }];"
+      },
+      "name": "Extract File ID",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [
+        896,
+        400
+      ],
+      "id": "2f6bcc77-740e-4893-83b9-4ca5b9cd4352"
+    },
+    {
+      "parameters": {
+        "url": "=https://api.anthropic.com/v1/files/{{ $json.original_response.content[8].content.content[0].file_id }}/content",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "x-api-key",
+              "value": "REDACTED_SECRET_replace_with_your_own_key"
+            },
+            {
+              "name": "anthropic-version",
+              "value": "2023-06-01"
+            },
+            {
+              "name": "anthropic-beta",
+              "value": "files-api-2025-04-14"
+            }
+          ]
+        },
+        "options": {
+          "response": {
+            "response": {
+              "responseFormat": "file",
+              "outputPropertyName": "document.pdf"
+            }
+          }
+        }
+      },
+      "name": "Download PDF",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        1104,
+        400
+      ],
+      "id": "1556ff42-175c-437c-8177-9ea265e198ad"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.anthropic.com/v1/messages",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "x-api-key",
+              "value": "REDACTED_SECRET_replace_with_your_own_key"
+            },
+            {
+              "name": "anthropic-version",
+              "value": "2023-06-01"
+            },
+            {
+              "name": "anthropic-beta",
+              "value": "code-execution-2025-08-25,skills-2025-10-02"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "{\n  \"model\": \"claude-haiku-4-5-20251001\",\n  \"max_tokens\": 4096,\n  \"system\": \"Your job is to create a professional Word document. Follow the instructions precisely. You are only allowed to create 1 DOCX file. Make no other files. I also don't need a read me file. I only need 1 DOCX download. Create a well-formatted document with proper headings, styling, and structure.\",\n  \"container\": {\n    \"skills\": [\n      {\n        \"type\": \"anthropic\",\n        \"skill_id\": \"docx\",\n        \"version\": \"latest\"\n      }\n    ]\n  },\n  \"messages\": [\n    {\n      \"role\": \"user\",\n      \"content\": \"Create a professional business proposal document:\\n\\nTitle: AI Consulting Services Proposal\\n\\nIntroduction:\\nWe are pleased to present our AI consulting services proposal for your organization.\\n\\nServices Offered:\\n1. AI Strategy Development\\n2. Implementation Planning\\n3. Team Training and Support\\n4. Ongoing Optimization\\n\\nTimeline: 12 weeks\\nInvestment: $85,000\\n\\nNext Steps:\\nWe look forward to discussing this proposal with your team.\"\n    }\n  ],\n  \"tools\": [\n    {\n      \"type\": \"code_execution_20250825\",\n      \"name\": \"code_execution\"\n    }\n  ]\n}",
+        "options": {}
+      },
+      "name": "Create Word Doc",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        704,
+        640
+      ],
+      "id": "5937379b-7c57-4dc0-ab2d-29aef5c72239"
+    },
+    {
+      "parameters": {
+        "url": "=https://api.anthropic.com/v1/files/{{ $json.original_response.content[17].content.content[0].file_id }}/content",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "x-api-key",
+              "value": "REDACTED_SECRET_replace_with_your_own_key"
+            },
+            {
+              "name": "anthropic-version",
+              "value": "2023-06-01"
+            },
+            {
+              "name": "anthropic-beta",
+              "value": "files-api-2025-04-14"
+            }
+          ]
+        },
+        "options": {
+          "response": {
+            "response": {
+              "responseFormat": "file",
+              "outputPropertyName": "document.docx"
+            }
+          }
+        }
+      },
+      "name": "Download DOCX",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        1104,
+        640
+      ],
+      "id": "8f262ec4-280a-4fee-b08b-bf4f8ca76440"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Extract file_id from Claude's response\nconst response = $input.first().json;\n\n// Find the file_id in the content array\nlet fileId = null;\nif (response.content && Array.isArray(response.content)) {\n  for (const item of response.content) {\n    if (item.type === 'code_execution' && item.content) {\n      for (const subItem of item.content) {\n        if (subItem.type === 'file' && subItem.file_id) {\n          fileId = subItem.file_id;\n          break;\n        }\n      }\n    }\n  }\n}\n\nreturn [{ json: { file_id: fileId, original_response: response } }];"
+      },
+      "name": "Extract File ID1",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [
+        896,
+        640
+      ],
+      "id": "eb6dc8e2-ad70-4507-b335-e2b4a02d6146"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.anthropic.com/v1/messages",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "x-api-key",
+              "value": "REDACTED_SECRET_replace_with_your_own_key"
+            },
+            {
+              "name": "anthropic-version",
+              "value": "2023-06-01"
+            },
+            {
+              "name": "anthropic-beta",
+              "value": "code-execution-2025-08-25,skills-2025-10-02"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "{\n  \"model\": \"claude-haiku-4-5-20251001\",\n  \"max_tokens\": 4096,\n  \"system\": \"Your job is to create a professional Excel spreadsheet. Follow the instructions precisely. You are only allowed to create 1 XLSX file. Make no other files. I also don't need a read me file. I only need 1 XLSX download. Create a well-formatted spreadsheet with proper formulas, formatting, and data organization.\",\n  \"container\": {\n    \"skills\": [\n      {\n        \"type\": \"anthropic\",\n        \"skill_id\": \"xlsx\",\n        \"version\": \"latest\"\n      }\n    ]\n  },\n  \"messages\": [\n    {\n      \"role\": \"user\",\n      \"content\": \"Create a sales tracking spreadsheet with the following:\\n\\nSheet 1: Monthly Sales\\n- Columns: Month, Product, Units Sold, Price per Unit, Total Revenue\\n- Add data for Q4 2024 (Oct, Nov, Dec)\\n- Include SUM formulas for totals\\n- Format currency columns properly\\n\\nSheet 2: Summary\\n- Total Revenue\\n- Average Monthly Sales\\n- Top Performing Product\"\n    }\n  ],\n  \"tools\": [\n    {\n      \"type\": \"code_execution_20250825\",\n      \"name\": \"code_execution\"\n    }\n  ]\n}",
+        "options": {}
+      },
+      "name": "Create Excel",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        704,
+        880
+      ],
+      "id": "902cfe54-b4f6-41db-9ab5-2b0e331eb73a"
+    },
+    {
+      "parameters": {
+        "url": "=https://api.anthropic.com/v1/files/{{ $json.original_response.content[14].content.content[0].file_id }}/content",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "x-api-key",
+              "value": "REDACTED_SECRET_replace_with_your_own_key"
+            },
+            {
+              "name": "anthropic-version",
+              "value": "2023-06-01"
+            },
+            {
+              "name": "anthropic-beta",
+              "value": "files-api-2025-04-14"
+            }
+          ]
+        },
+        "options": {
+          "response": {
+            "response": {
+              "responseFormat": "file",
+              "outputPropertyName": "spreadsheet.xlsx"
+            }
+          }
+        }
+      },
+      "name": "Download XLSX",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        1104,
+        880
+      ],
+      "id": "9db1c3cc-f182-49a6-8799-42ccec91c1c3"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Extract file_id from Claude's response\nconst response = $input.first().json;\n\n// Find the file_id in the content array\nlet fileId = null;\nif (response.content && Array.isArray(response.content)) {\n  for (const item of response.content) {\n    if (item.type === 'code_execution' && item.content) {\n      for (const subItem of item.content) {\n        if (subItem.type === 'file' && subItem.file_id) {\n          fileId = subItem.file_id;\n          break;\n        }\n      }\n    }\n  }\n}\n\nreturn [{ json: { file_id: fileId, original_response: response } }];"
+      },
+      "name": "Extract File ID2",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [
+        896,
+        880
+      ],
+      "id": "de9f9b0b-8891-4149-a5f1-e5457cc5a114"
+    },
+    {
+      "parameters": {
+        "content": "\n\n\n\n# Get one skill",
+        "height": 176,
+        "width": 768
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        160,
+        -288
+      ],
+      "typeVersion": 1,
+      "id": "56b0ff6f-43e2-4fb8-ac5a-8ae62b006c8f",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "content": "\n\n\n\n# Get All Skills",
+        "height": 176,
+        "width": 768
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        160,
+        -80
+      ],
+      "typeVersion": 1,
+      "id": "af2b1e6d-f1b9-407a-ac01-43d9c4b78943",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "content": "\n\n\n\n# Create PPTX",
+        "height": 192,
+        "width": 1168,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        160,
+        128
+      ],
+      "typeVersion": 1,
+      "id": "69696dae-2c28-4751-88c5-4f5137ba9da5",
+      "name": "Sticky Note2"
+    },
+    {
+      "parameters": {
+        "content": "\n\n\n\n# Create PDF",
+        "height": 192,
+        "width": 1168,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        160,
+        368
+      ],
+      "typeVersion": 1,
+      "id": "d03c74c7-433a-42b3-9a85-7ab6f977739b",
+      "name": "Sticky Note3"
+    },
+    {
+      "parameters": {
+        "content": "\n\n\n\n# Create DOCX",
+        "height": 192,
+        "width": 1168,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        160,
+        608
+      ],
+      "typeVersion": 1,
+      "id": "9c29224e-495d-40a7-9743-aae8ca8261a9",
+      "name": "Sticky Note4"
+    },
+    {
+      "parameters": {
+        "content": "\n\n\n\n# Create XSLX",
+        "height": 192,
+        "width": 1168,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        160,
+        848
+      ],
+      "typeVersion": 1,
+      "id": "c52d9e1a-fb57-45e6-9e7f-d570f3ac94ca",
+      "name": "Sticky Note5"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Create PowerPoint": {
+      "main": [
+        [
+          {
+            "node": "Get File ID",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get File ID": {
+      "main": [
+        [
+          {
+            "node": "Download File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "Get Claude Skill",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Claude Skill": {
+      "main": [
+        []
+      ]
+    },
+    "Create PDF": {
+      "main": [
+        [
+          {
+            "node": "Extract File ID",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract File ID": {
+      "main": [
+        [
+          {
+            "node": "Download PDF",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create Word Doc": {
+      "main": [
+        [
+          {
+            "node": "Extract File ID1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract File ID1": {
+      "main": [
+        [
+          {
+            "node": "Download DOCX",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create Excel": {
+      "main": [
+        [
+          {
+            "node": "Extract File ID2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract File ID2": {
+      "main": [
+        [
+          {
+            "node": "Download XLSX",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "e9d185bf-f2ee-4525-a51b-53f501d2a213",
+  "meta": {
+    "instanceId": "aaadb797535f05587ee95b776c942a7c3f7a46fd7aa0c9b6a9d64e1e595f8af1"
+  },
+  "id": "sHVDBlRGmazzjPrM",
+  "tags": []
+}

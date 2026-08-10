@@ -1,0 +1,21 @@
+{
+  "name": "ChatGPT Atlas → n8n Builder Prompt ⚙️",
+  "external_id": "sxKkuIlSJcGg6YQQ2EQtCw==",
+  "permalink": "lojcv",
+  "unique_permalink": "lojcv",
+  "custom_permalink": "atlasvibeautomation",
+  "url": "https://markkashef.gumroad.com/l/atlasvibeautomation",
+  "status": "published",
+  "archived": false,
+  "kind": "products",
+  "price_formatted": "CAD$0+",
+  "description_md": "# What You Get\n\n- A copy-paste Atlas Agent Mode meta-prompt that clicks n8n “Build with AI”, drafts nodes, configures settings, injects an LLM system prompt (<800 chars), and saves (not activates) the workflow for review.\n\n- \nCredential safety: never auto-select accounts; if any credential is required or missing, the agent stops and reports the exact item in the Atlas sidebar.\n\n- A prefilled Automation Request example (Gmail → extract name/intent → AI qualify → CRM follow-ups) and quick-start steps (open Atlas on macOS → n8n canvas → “Build with AI” → paste + draft).\n\n- \nCompatibility notes baked in: designed for Atlas Agent Mode (preview) on macOS and n8n’s AI Workflow Builder.Want the companion advanced plays (multi-tool chaining, scoring, QA)? \n\nJoin Early AI-dopters Community — you won’t regret it 😉 \nhttps://www.skool.com/earlyaidopters/about",
+  "files": [
+    {
+      "file": "Vibe Automation Prompt.md",
+      "status": "cached",
+      "bytes": 3081
+    }
+  ],
+  "has_rich_content": true
+}

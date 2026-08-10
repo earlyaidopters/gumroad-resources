@@ -1,0 +1,745 @@
+{
+  "business": {
+    "name": "Aldrich & Stone LLP",
+    "archetype": "professional_services",
+    "stack_summary": "12-attorney boutique. Litigation + small-cap M&A. Boston. Bedrock-only Claude."
+  },
+  "pantry": [
+    {
+      "id": "imanage",
+      "tool": "iManage",
+      "format": "PDF/DOCX",
+      "cadence": "real-time",
+      "volume": "high",
+      "feeds": [
+        "matter_briefs"
+      ],
+      "status": "have",
+      "cli_skill": null,
+      "explanation": "All matter content, pleadings, depositions, exhibits, drafts. Each matter is its own folder. Path-scoped walling enforces ethics: no agent reads across matters.",
+      "connection_methods": [
+        {
+          "type": "api",
+          "name": "iManage REST API",
+          "when_to_use": "Required, no CLI exists.",
+          "pros": [
+            "Full document tree access",
+            "Permissions inherited from iManage ACLs",
+            "Standard REST"
+          ],
+          "cons": [
+            "Token rotation policy",
+            "Rate limits on bulk fetches",
+            "Network call per document"
+          ],
+          "install": "iManage Cloud API key from admin. IMANAGE_API_KEY in ~/.env. Wrap in a Claude skill that respects the walling rules.",
+          "example": "GET /work/api/v2/customers/<id>/libraries/<lib>/documents?folder=<matter_id>"
+        }
+      ],
+      "claude_code_recommendation": {
+        "skill_to_write": "sync_imanage_matter",
+        "rationale": "On matter open, sync the matter folder from iManage to local data/matters/<matter>/. Path-scoped rule then walls the agent from cross-matter reads.",
+        "estimated_time_savings": "30 min per matter open (today: copy/paste from iManage manually)"
+      },
+      "volume_friendly": "High volume",
+      "subtitle_friendly": "High volume \u00b7 updates real-time"
+    },
+    {
+      "id": "outlook",
+      "tool": "Outlook 365",
+      "format": "EML/MSG",
+      "cadence": "real-time",
+      "volume": "high",
+      "feeds": [
+        "matter_briefs"
+      ],
+      "status": "have",
+      "cli_skill": "outlook",
+      "explanation": "Client correspondence + opposing counsel. Matter-tagged via Outlook category. The conversion hook turns .eml/.msg into matter-walled markdown.",
+      "connection_methods": [
+        {
+          "type": "cli",
+          "name": "Mark's outlook skill (~/.claude/skills/outlook/)",
+          "when_to_use": "Already wrapped at ~/.claude/skills/outlook/. Pulls categorized threads.",
+          "pros": [
+            "Already installed",
+            "Reuses your Microsoft 365 auth"
+          ],
+          "cons": [
+            "Limited to thread-list operations",
+            "No deep search by content"
+          ],
+          "install": "Already installed.",
+          "example": "outlook threads --category 'Smith v Jones' --since 2025-10-01"
+        },
+        {
+          "type": "api",
+          "name": "Microsoft Graph API",
+          "when_to_use": "When you need full message bodies + attachments.",
+          "pros": [
+            "Full coverage",
+            "Powerful search via $search"
+          ],
+          "cons": [
+            "OAuth complexity",
+            "App registration required"
+          ],
+          "install": "Azure app registration -> token. Already set up in your outlook skill.",
+          "example": "GET /me/messages?$filter=categories/any(c:c eq 'Smith v Jones')"
+        }
+      ],
+      "claude_code_recommendation": {
+        "skill_to_write": "extend outlook skill with matter-categorized pull",
+        "rationale": "Add a /matter-emails <matter_id> command that pulls all categorized threads into data/matters/<matter>/correspondence/.",
+        "estimated_time_savings": "Eliminates the manual 'forward each thread to a matter folder' chore"
+      },
+      "volume_friendly": "High volume",
+      "subtitle_friendly": "High volume \u00b7 updates real-time"
+    },
+    {
+      "id": "bill4time",
+      "tool": "Bill4Time",
+      "format": "XLSX",
+      "cadence": "weekly",
+      "volume": "medium",
+      "feeds": [
+        "billing_summary"
+      ],
+      "status": "have",
+      "cli_skill": null,
+      "explanation": "Time entries by timekeeper / matter. Carol exports XLSX every Friday. The billing assistant reads the silver platter, drafts narratives for late entries.",
+      "connection_methods": [
+        {
+          "type": "api",
+          "name": "Bill4Time REST API",
+          "when_to_use": "Direct programmatic access to time entries.",
+          "pros": [
+            "Real-time",
+            "Bypasses Carol's manual export",
+            "Can post entries back"
+          ],
+          "cons": [
+            "Bill4Time API is dated; REST + XML hybrid",
+            "API key managed in firm admin"
+          ],
+          "install": "BILL4TIME_API_KEY in ~/.env. Wrap as a Claude skill.",
+          "example": "GET /api/v1/timeentries?date_from=2025-10-27&date_to=2025-11-02"
+        }
+      ],
+      "claude_code_recommendation": {
+        "skill_to_write": "ingest_bill4time_entries",
+        "rationale": "Pulls weekly time entries into silver_platters/billing_summary. Same-day conflict checks bake into the silver platter. Carol stops chasing partners for narratives.",
+        "estimated_time_savings": "3-4 hours/week of Carol's escalation pings"
+      },
+      "volume_friendly": "Steady flow",
+      "subtitle_friendly": "Steady flow \u00b7 updates weekly"
+    },
+    {
+      "id": "intake_pdfs",
+      "tool": "Client intake forms",
+      "format": "PDF",
+      "cadence": "weekly",
+      "volume": "low",
+      "feeds": [
+        "matter_briefs"
+      ],
+      "status": "have",
+      "cli_skill": null,
+      "explanation": "Tablet intake scanned to PDF. Define the matter (client, type, conflicts, lead partner, scope). Drop into data/raw_dropzone/; conversion hook reads them.",
+      "connection_methods": [
+        {
+          "type": "api",
+          "name": "Local file + conversion hook",
+          "when_to_use": "Drop the intake PDF into data/raw_dropzone/.",
+          "pros": [
+            "Simple",
+            "No vendor dependency"
+          ],
+          "cons": [
+            "Sally has to remember to drop the file"
+          ],
+          "install": "Already wired via SessionStart hook.",
+          "example": "cp ~/Downloads/intake_castille.pdf data/raw_dropzone/"
+        }
+      ],
+      "claude_code_recommendation": {
+        "skill_to_write": "ingest_intake_pdf + case_launch_orchestrator",
+        "rationale": "On intake drop, the case-launch orchestrator scaffolds data/matters/<slug>/ with the standard skeleton (pleadings/, depositions/, exhibits/, correspondence/, BRIEF.md).",
+        "estimated_time_savings": "3 hours per matter open"
+      },
+      "volume_friendly": "Trickle",
+      "subtitle_friendly": "Trickle \u00b7 updates weekly"
+    },
+    {
+      "id": "lexis",
+      "tool": "LexisNexis AI",
+      "format": "API",
+      "cadence": "ad-hoc",
+      "volume": "low",
+      "feeds": [],
+      "status": "have",
+      "cli_skill": null,
+      "explanation": "Research-only pilot. Doesn't feed matter operations. Mentioned for completeness; not part of the silver-platter chain today.",
+      "connection_methods": [
+        {
+          "type": "api",
+          "name": "LexisNexis AI API",
+          "when_to_use": "When you need primary-source case-law research the agent can cite.",
+          "pros": [
+            "Authoritative",
+            "Citation-backed"
+          ],
+          "cons": [
+            "Expensive per-query",
+            "Not all attorneys have AI license"
+          ],
+          "install": "LEXIS_API_KEY in ~/.env (firm-level).",
+          "example": "Used inside deposition-prep skill when a citation needs source-checking."
+        }
+      ],
+      "claude_code_recommendation": {
+        "skill_to_write": "lexis_citation_check (optional, low priority)",
+        "rationale": "Wraps Lexis as a tool the deposition-prep specialist can call when citing case law.",
+        "estimated_time_savings": "Saves the partner from manually verifying every cite"
+      },
+      "volume_friendly": "Trickle",
+      "subtitle_friendly": "Trickle \u00b7 updates ad-hoc"
+    },
+    {
+      "id": "bedrock_claude",
+      "tool": "AWS Bedrock 3P Claude",
+      "format": "API",
+      "cadence": "real-time",
+      "volume": "high",
+      "feeds": [],
+      "status": "missing",
+      "cli_skill": null,
+      "explanation": "The IT-blessed deployment. Once Bedrock is signed, EVERY skill / agent / hook can run on it. This is the unlock.",
+      "connection_methods": [
+        {
+          "type": "api",
+          "name": "AWS Bedrock invokeModel API",
+          "when_to_use": "Required, no other Claude deployment is approved by IT for matter content.",
+          "pros": [
+            "IT-blessed",
+            "Predictable cost (no enterprise license tax)",
+            "Audit-friendly"
+          ],
+          "cons": [
+            "Higher per-token cost than direct Anthropic API",
+            "Token throttle differs from anthropic.com"
+          ],
+          "install": "AWS account + Bedrock model access (request via AWS console). AWS_PROFILE in ~/.env. Configure Claude Code to use Bedrock backend.",
+          "example": "AWS_BEDROCK_MODEL_ID=anthropic.claude-opus-4-20250514-v1:0 claude code"
+        }
+      ],
+      "claude_code_recommendation": {
+        "skill_to_write": "Configure Claude Code to use Bedrock (no skill, config change)",
+        "rationale": "This is THE unlock. Without it, IT pulls the plug. Set it up first.",
+        "estimated_time_savings": "Enables everything else"
+      },
+      "volume_friendly": "High volume",
+      "subtitle_friendly": "High volume \u00b7 updates real-time"
+    }
+  ],
+  "prep": [
+    {
+      "id": "matter_briefs",
+      "name": "matter_briefs/<matter>_brief.md",
+      "domain": "matters",
+      "sources": [
+        "imanage",
+        "outlook",
+        "intake_pdfs"
+      ],
+      "schedule": "On matter open + weekly refresh",
+      "status": "have",
+      "explanation": "One brief per active matter. Status, lead, opposing counsel, key issues, settlement posture, walling notes. The case-launch orchestrator's primary read.",
+      "sample_content": "# Matter Brief, Smith v Jones (2024-CV-0883)\n\n**Status:** OPEN, active litigation, summary judgment pending\n**Lead attorney:** Marcus Stone (MS01)\n**Second chair:** Sally T (AK01)\n**Opposing counsel:** Daniel Chen, Chen Law Partners\n\n## Posture\n- Discovery substantially complete\n- Jones deposed 2025-10-14 (transcript in data/matters/smith_v_jones/depositions/)\n- MSJ filed 2025-09 on Counts II + III\n- Opposition due 2025-11-21 (Sally drafting parts 1-2)\n\n## Walling notes\nWALLED from Acme acquisition (Marcus is lead on both, MS01 must check same-day conflicts).\nNo agent working Smith v Jones may read Acme files.\n",
+      "governing_rule_excerpt": "---\npaths:\n  - data/matters/**\n  - silver_platters/matter_briefs/**\n---\n\n# Matter Handling, THE HARD RULE\n\nEach data/matters/<name>/ is a walled namespace. An agent working ONE matter NEVER reads files from another. If a question requires cross-matter knowledge, route through post-mortem distiller (closed matters only).",
+      "display_name": "Matter briefs/<matter> brief",
+      "domain_friendly": "Matters",
+      "subtitle_friendly": "A Matters brief Claude writes, On matter open + weekly refresh"
+    },
+    {
+      "id": "billing_summary",
+      "name": "billing_summary_<week>.md",
+      "domain": "billing",
+      "sources": [
+        "bill4time"
+      ],
+      "schedule": "Mon 7am",
+      "status": "have",
+      "explanation": "WIP by timekeeper, by matter. Same-day conflict checks. Drives Carol's billing-narrative drafter.",
+      "sample_content": "# Billing Summary, W44\n\n## WIP by timekeeper\n| Timekeeper | Open hours W44 | Days late |\n|---|---|---|\n| Marcus Stone | 18.4 | 8.2 |\n| Sally T | 16.5 | 3.6 |\n\n## Same-day conflict alerts\n- 2025-10-14: MS01 billed Smith v Jones (5.5h). Zero hours other matters. Clean.\n",
+      "governing_rule_excerpt": "---\npaths:\n  - silver_platters/billing_*.md\n  - data/billing/**\n---\n\n# Billing Format Rules\n- Same-day conflict bar: no timekeeper bills across walled matters in the same calendar day without managing-partner approval.\n",
+      "display_name": "Billing summary",
+      "domain_friendly": "Billing",
+      "subtitle_friendly": "A Billing brief Claude writes, Mon 7am"
+    },
+    {
+      "id": "post_mortem_lessons",
+      "name": "post_mortem_lessons.md",
+      "domain": "knowledge",
+      "sources": [],
+      "schedule": "On matter close",
+      "status": "missing",
+      "explanation": "Cross-matter lessons. The Post-Mortem Distiller writes only on CLOSED matters, with redaction. The firm's institutional memory.",
+      "sample_content": "# Lessons Learned, [Matter Name Redacted] (closed 2025-08)\n\n1. Section 6.2 carve-out doctrine, defense's 'ordinary-course' framing was defeated by deposition admissions, not motion practice. Frontload deposition discovery on carve-out language.\n2. Settlement posture, opposing counsel signaled their range BEFORE MSJ. We could have closed at 80% if we'd accepted before the motion landed.\n3. Vendor [Redacted], billing escalations were inconsistent. For future engagements, lock the rate card and milestone schedule in the engagement letter.\n",
+      "governing_rule_excerpt": "# Post-Mortem Distillation Rules\n\n- Matter MUST be closed.\n- All client-identifying details redacted: client name -> [Client], opposing party -> [Counterparty], specific dollar amounts -> ranges.\n- Managing partner approves before firm-knowledge entry.\n",
+      "display_name": "Post mortem lessons",
+      "domain_friendly": "Knowledge / lessons",
+      "subtitle_friendly": "A Knowledge / lessons brief Claude writes, On matter close"
+    }
+  ],
+  "plate": [
+    {
+      "id": "deposition_prep",
+      "name": "Deposition / focus brief",
+      "agent": "Deposition Prep Specialist",
+      "consumers": [
+        "Marcus Stone",
+        "Sally"
+      ],
+      "approval_gate": "Lead attorney approves before circulation",
+      "reads_from": [
+        "matter_briefs"
+      ],
+      "status": "have",
+      "explanation": "Focus-areas brief from pleadings + depositions for the next motion or hearing. Marcus reads at 7am with coffee.",
+      "sample_output": "# MSJ Opposition Focus, Smith v Jones\n\n## Headline\nThe MSJ stands or falls on Section 6.2. The Jones deposition gave us three direct admissions that defeat the carve-out theory.\n\n## Three admissions to anchor\n1. Customer list disclosure (re: industry context vs list), supports tortious interference Count II.\n2. Section 6.2 awareness ('I was aware of the Section, yes'), eliminates good-faith mistake defense.\n3. Notice timing ('After' the demand letter), establishes pattern of post-hoc concealment.\n",
+      "ideation_loop": [
+        "Marcus opens new matter -> case-launch orchestrator scaffolds data/matters/smith_v_jones/.",
+        "Marcus runs /prep_for_deposition smith_v_jones.",
+        "Case-Launch Orchestrator confirms matter scope (walled).",
+        "Routes to Deposition Prep Specialist with read-only access to that matter folder ONLY.",
+        "Deposition Prep reads the matter brief silver platter, plus all pleadings + depositions in the walled folder.",
+        "Drafts focus-areas brief with cited admissions + carve-out argument + count-by-count framing.",
+        "Returns to orchestrator. Orchestrator saves to outputs/deposition_prep/<matter>_<date>.md.",
+        "Marcus reviews + acknowledges in audit_log before circulation."
+      ],
+      "agent_friendly": "the deposition-prep specialist",
+      "approval_friendly": "Lead attorney approves before send",
+      "subtitle_friendly": "Written by the deposition-prep specialist for Marcus Stone, Sally"
+    },
+    {
+      "id": "billing_drafts",
+      "name": "Time-entry narrative drafts",
+      "agent": "Billing Assistant",
+      "consumers": [
+        "timekeepers"
+      ],
+      "approval_gate": "Timekeeper approves before submission to Bill4Time",
+      "reads_from": [
+        "billing_summary",
+        "matter_briefs"
+      ],
+      "status": "have",
+      "explanation": "Drafts narratives for late entries from matter activity that day. Carol stops chasing.",
+      "sample_output": "# Time-entry Drafts, W44, Marcus Stone\n\n| Date | Matter | Hours | Drafted Narrative |\n|---|---|---|---|\n| 10/14 | Smith v Jones | 5.5 | Conducted deposition of Patricia Jones; primary examiner; covered carve-out admissions and notice-timing line. |\n| 10/15 | Acme acq | 3.0 | Reviewed Acme due diligence package v3 with focus on IP assignments and open-source flagged packages; redlined definitive agreement. |\n",
+      "ideation_loop": [
+        "Carol runs /weekly_billing on Friday 5pm.",
+        "Case-Launch Orchestrator routes to Billing Assistant.",
+        "Billing Assistant reads silver_platters/billing_summary_W44.md.",
+        "For each undrafted entry, reads the corresponding matter folder for that day's activity.",
+        "Drafts a tier-appropriate narrative (12-25 words; action verb + work product + context).",
+        "Same-day conflict check: confirms no timekeeper billed across walled matters same day.",
+        "Saves drafts to outputs/billing_drafts/W44_<timekeeper>.md.",
+        "Each timekeeper reviews + approves their own narratives. Carol pushes to Bill4Time."
+      ],
+      "agent_friendly": "the billing assistant",
+      "approval_friendly": "Timekeeper approves before sending to billing",
+      "subtitle_friendly": "Written by the billing assistant for timekeepers"
+    },
+    {
+      "id": "lessons_learned",
+      "name": "Lessons learned (firm knowledge)",
+      "agent": "Post-Mortem Distiller",
+      "consumers": [
+        "Janet Aldrich"
+      ],
+      "approval_gate": "Managing partner approves before firm-knowledge entry",
+      "reads_from": [
+        "post_mortem_lessons"
+      ],
+      "status": "missing",
+      "explanation": "Closed matters only. Redacted. Builds the firm's institutional memory.",
+      "sample_output": "# Lessons, [Counterparty] vs [Client] (closed 2025-08)\n\n**Durable lessons:**\n1. Carve-out language: deposition admissions defeat ordinary-course defense. Frontload the deposition.\n2. Settlement before motion practice, accept signaled ranges if they're 70%+ of what trial would yield.\n3. Vendor [Redacted], lock rate cards in engagement letter.\n\n**Ephemeral content NOT included:**\n- All correspondence\n- All draft pleadings\n- All billing entries\n",
+      "ideation_loop": [
+        "Matter status flipped to closed in matter brief.",
+        "Janet runs /close_matter <matter>.",
+        "Case-Launch Orchestrator confirms matter is closed (refuses if open).",
+        "Routes to Post-Mortem Distiller (only allowed on closed matters).",
+        "Distiller reads the entire matter folder + brief.",
+        "Clusters content into ephemeral (drafts, correspondence) vs durable (strategic decisions, novel arguments).",
+        "Drafts lessons doc with full client redaction.",
+        "Saves to outputs/lessons_learned/<matter>_lessons.md.",
+        "Janet reviews. Approves. Lessons enter firm-knowledge."
+      ],
+      "agent_friendly": "the post-mortem distiller",
+      "approval_friendly": "Managing partner approves before firm-knowledge entry",
+      "subtitle_friendly": "Written by the post-mortem distiller for Janet Aldrich"
+    }
+  ],
+  "recipes": [
+    {
+      "id": "new_matter_recipe",
+      "name": "New matter scaffolding (when intake comes in)",
+      "goal": "Sally drops an intake PDF; ten minutes later the matter folder is scaffolded with brief, walling, and precedent links, instead of three hours of hand-rolling.",
+      "ingredients": [
+        "Client intake forms",
+        "iManage",
+        "matter_briefs.md",
+        "case-launch orchestrator"
+      ],
+      "claude_code_stack": {
+        "skills": [
+          "ingest_intake_pdf",
+          "sync_imanage_matter"
+        ],
+        "subagents": [
+          "Case-Launch Orchestrator"
+        ],
+        "hooks": [
+          "SessionStart convert_dropzone.sh",
+          "PostToolUse audit_action.sh"
+        ],
+        "rules": [
+          "rules/matter_handling.md",
+          "rules/ethics_compliance.md"
+        ]
+      },
+      "walkthrough": [
+        {
+          "actor": "Sally",
+          "action": "Drops the new client intake PDF into data/raw_dropzone/."
+        },
+        {
+          "actor": "SessionStart hook",
+          "action": "Converts the PDF into clean markdown in data/converted/intake_<client>.md."
+        },
+        {
+          "actor": "Sally, runs /new_matter <client>",
+          "action": "Triggers the case-launch orchestrator."
+        },
+        {
+          "actor": "Case-Launch Orchestrator",
+          "action": "Reads the converted intake. Generates matter slug. Creates data/matters/<slug>/ with the standard skeleton (pleadings/, depositions/, exhibits/, correspondence/)."
+        },
+        {
+          "actor": "Case-Launch Orchestrator",
+          "action": "Calls sync_imanage_matter to populate any precedent files from iManage."
+        },
+        {
+          "actor": "Case-Launch Orchestrator",
+          "action": "Drafts silver_platters/matter_briefs/<slug>_brief.md with status, lead attorney, opposing counsel, conflicts, walling notes."
+        },
+        {
+          "actor": "Case-Launch Orchestrator",
+          "action": "Adds the matter to the firm's master matter index."
+        },
+        {
+          "actor": "Sally, minutes later",
+          "action": "Opens the matter brief, fills in any gaps, and starts working. Folder is walled by the path-scoped rule."
+        }
+      ],
+      "before_claude_code": "Sally hand-rolls every new matter folder, hand-pulls precedent from iManage, hand-formats the case brief. 3 hours per matter. 4-5 matters a month.",
+      "after_claude_code": "Drop the intake PDF, run /new_matter, the folder scaffolds in 10 minutes. Sally reviews and works.",
+      "headline": "New matter scaffolding (when intake comes in)",
+      "ingredients_friendly": [
+        "Client intake forms",
+        "iManage",
+        "matter_briefs.md",
+        "case-launch orchestrator"
+      ]
+    },
+    {
+      "id": "time_entry_recipe",
+      "name": "Time-entry narratives (Friday 5pm)",
+      "goal": "Carol stops chasing partners on Friday. Every late time entry has a drafted narrative ready for the timekeeper to approve.",
+      "ingredients": [
+        "Bill4Time",
+        "matter folders",
+        "billing_summary.md",
+        "Billing Assistant"
+      ],
+      "claude_code_stack": {
+        "skills": [
+          "ingest_bill4time_entries"
+        ],
+        "subagents": [
+          "Case-Launch Orchestrator",
+          "Billing Assistant"
+        ],
+        "hooks": [
+          "PostToolUse audit_action.sh"
+        ],
+        "rules": [
+          "rules/billing_format.md",
+          "rules/ethics_compliance.md"
+        ]
+      },
+      "walkthrough": [
+        {
+          "actor": "Cron, Friday 5pm",
+          "action": "Triggers ingest_bill4time_entries skill, pulls week's time entries via Bill4Time API."
+        },
+        {
+          "actor": "ingest_bill4time_entries",
+          "action": "Writes silver_platters/billing_summary_<week>.md with WIP by timekeeper + same-day conflict checks."
+        },
+        {
+          "actor": "Carol, runs /weekly_billing",
+          "action": "Triggers Case-Launch Orchestrator -> Billing Assistant."
+        },
+        {
+          "actor": "Billing Assistant",
+          "action": "For each undrafted entry, reads the matter folder for that day's activity (within the matter walling)."
+        },
+        {
+          "actor": "Billing Assistant",
+          "action": "Drafts a 12-25 word narrative per entry: action verb + work product + context."
+        },
+        {
+          "actor": "Billing Assistant",
+          "action": "Flags any same-day conflict: refuses to draft narratives that cross walled matters in the same day without managing-partner approval."
+        },
+        {
+          "actor": "Billing Assistant",
+          "action": "Saves drafts to outputs/billing_drafts/<week>_<timekeeper>.md."
+        },
+        {
+          "actor": "Each timekeeper, Friday evening or Monday morning",
+          "action": "Reviews own drafts. Approves. Carol pushes to Bill4Time."
+        }
+      ],
+      "before_claude_code": "Time entries 6-8 days late on average. Carol chases partners with escalation pings. Money lost.",
+      "after_claude_code": "Drafts ready Friday 5pm. Timekeepers approve in minutes. Days-late drops to 1-2.",
+      "headline": "Time-entry narratives (Friday 5pm)",
+      "ingredients_friendly": [
+        "Bill4Time",
+        "matter folders",
+        "billing_summary.md",
+        "Billing Assistant"
+      ]
+    },
+    {
+      "id": "msj_focus_recipe",
+      "name": "MSJ opposition focus brief (when motion lands)",
+      "goal": "Marcus opens his iPad in the morning and sees the focus-areas brief for tomorrow's MSJ argument, three deposition admissions, the carve-out doctrine, the count-by-count framing.",
+      "ingredients": [
+        "Pleadings",
+        "Depositions",
+        "matter_briefs.md",
+        "Deposition Prep Specialist"
+      ],
+      "claude_code_stack": {
+        "skills": [
+          "sync_imanage_matter"
+        ],
+        "subagents": [
+          "Case-Launch Orchestrator",
+          "Deposition Prep Specialist"
+        ],
+        "hooks": [
+          "SessionStart convert_dropzone.sh"
+        ],
+        "rules": [
+          "rules/matter_handling.md (path-scoped walling)"
+        ]
+      },
+      "walkthrough": [
+        {
+          "actor": "Marcus, runs /prep_for_deposition smith_v_jones",
+          "action": "Triggers Case-Launch Orchestrator with explicit matter scope."
+        },
+        {
+          "actor": "Case-Launch Orchestrator",
+          "action": "Verifies matter scope (walled). Refuses if any cross-matter contamination. Routes to Deposition Prep Specialist."
+        },
+        {
+          "actor": "Deposition Prep Specialist",
+          "action": "Reads silver_platters/matter_briefs/smith_v_jones_brief.md plus every file in data/matters/smith_v_jones/pleadings/ and depositions/."
+        },
+        {
+          "actor": "Deposition Prep Specialist",
+          "action": "Identifies 3-5 deposition admissions that bear on the motion. Maps each to the relevant count."
+        },
+        {
+          "actor": "Deposition Prep Specialist",
+          "action": "Drafts the focus brief: headline + admissions + carve-out argument + alternative-pleading framing for each count + open questions for Marcus."
+        },
+        {
+          "actor": "Deposition Prep Specialist",
+          "action": "Saves to outputs/deposition_prep/<matter>_<date>.md with full citations."
+        },
+        {
+          "actor": "Marcus, tomorrow morning",
+          "action": "Reads on iPad. Either circulates as-is or sends a one-line correction. Acknowledges in audit_log."
+        }
+      ],
+      "before_claude_code": "Junior associates reinvent deposition prep for every motion. Three days of grunt work per brief.",
+      "after_claude_code": "Brief lands overnight. Marcus reviews in 15 minutes. Three days reduced to one Marcus-review session.",
+      "headline": "MSJ opposition focus brief (when motion lands)",
+      "ingredients_friendly": [
+        "Pleadings",
+        "Depositions",
+        "matter_briefs.md",
+        "Deposition Prep Specialist"
+      ]
+    },
+    {
+      "id": "post_mortem_recipe",
+      "name": "Post-mortem distillation (matter close)",
+      "goal": "When a matter closes, lessons get distilled into firm knowledge, separated from ephemeral case content, redacted, partner-approved. Knowledge stops dying at the bar.",
+      "ingredients": [
+        "data/matters/<closed_matter>/",
+        "matter_briefs.md",
+        "Post-Mortem Distiller"
+      ],
+      "claude_code_stack": {
+        "skills": [],
+        "subagents": [
+          "Case-Launch Orchestrator",
+          "Post-Mortem Distiller"
+        ],
+        "hooks": [
+          "PostToolUse audit_action.sh",
+          "Stop check_acknowledgment.sh"
+        ],
+        "rules": [
+          "rules/matter_handling.md",
+          "rules/ethics_compliance.md (redaction requirements)"
+        ]
+      },
+      "walkthrough": [
+        {
+          "actor": "Janet, flips matter status to 'closed' in matter brief",
+          "action": "Marker that the matter is eligible for distillation."
+        },
+        {
+          "actor": "Janet, runs /close_matter <matter>",
+          "action": "Triggers Case-Launch Orchestrator."
+        },
+        {
+          "actor": "Case-Launch Orchestrator",
+          "action": "Verifies matter is closed (refuses if open). Routes to Post-Mortem Distiller."
+        },
+        {
+          "actor": "Post-Mortem Distiller",
+          "action": "Reads entire matter folder + brief. Clusters content into ephemeral (drafts, correspondence, billing) vs durable (strategic decisions, novel arguments, vendor experiences)."
+        },
+        {
+          "actor": "Post-Mortem Distiller",
+          "action": "Applies redaction rules: client name -> [Client], opposing party -> [Counterparty], specific dollar amounts -> ranges, specific dates -> relative."
+        },
+        {
+          "actor": "Post-Mortem Distiller",
+          "action": "Drafts ~400-700 word lessons doc. Saves to outputs/lessons_learned/<matter>_lessons.md."
+        },
+        {
+          "actor": "Stop hook",
+          "action": "Warns Janet at session end if the lessons doc isn't acknowledged."
+        },
+        {
+          "actor": "Janet, reviews and approves",
+          "action": "Adds [human_action] line to audit_log. Lessons doc enters firm-knowledge index."
+        }
+      ],
+      "before_claude_code": "Post-mortems happened verbally at the bar after the matter closed. Knowledge died with the partner who held it.",
+      "after_claude_code": "Every closed matter produces a redacted, approved lessons doc. The firm's institutional memory compounds.",
+      "headline": "Post-mortem distillation (matter close)",
+      "ingredients_friendly": [
+        "data/matters/<closed_matter>/",
+        "matter_briefs.md",
+        "Post-Mortem Distiller"
+      ]
+    }
+  ],
+  "setup_priority": [
+    {
+      "step": 1,
+      "title": "Get IT sign-off, Bedrock 3P Claude deployment",
+      "what_to_do": "Configure Claude Code to invoke models via AWS Bedrock instead of Anthropic.com. Sign Anthropic BAA. Get IT/security committee approval.",
+      "why": "This is THE unlock. Without Bedrock, IT pulls the plug on every other step. No matter content can leave the firm tenant.",
+      "install": "# AWS account + Bedrock model access (request via AWS console)\n# Set environment:\nexport ANTHROPIC_BEDROCK_BASE_URL=https://bedrock-runtime.us-east-1.amazonaws.com\nexport AWS_PROFILE=aldrich_stone\n# Configure Claude Code to use Bedrock backend",
+      "before": "IT blocks every AI tool. The 15-user pilot is on borrowed time.",
+      "after": "Claude Code runs on Bedrock. IT/security approves. Pilot expands to firm-wide.",
+      "setup_time": "1-2 weeks (mostly committee review). Community has the deeper walkthrough.",
+      "title_friendly": "Get IT sign-off, Bedrock 3P Claude deployment"
+    },
+    {
+      "step": 2,
+      "title": "Path-scoped matter walling rule",
+      "what_to_do": "Write rules/matter_handling.md with paths: data/matters/**. Defines that an agent reading one matter cannot access another in the same session.",
+      "why": "Ethics walling is non-negotiable for litigation + M&A. Without this rule, the firm cannot use AI on client content.",
+      "install": "# write under .claude/rules/matter_handling.md\n# YAML frontmatter:\n# ---\n# paths:\n#   - data/matters/**\n#   - silver_platters/matter_briefs/**\n# ---\n# Then the rule body (template in demos/02_boutique_law_firm/after/.claude/rules/)",
+      "before": "Walling enforced by 'don't mix matters' instinct. Malpractice exposure.",
+      "after": "Walling enforced by file system. Smith v Jones agent literally cannot load Acme files.",
+      "setup_time": "30 minutes",
+      "title_friendly": "Path-scoped matter walling rule"
+    },
+    {
+      "step": 3,
+      "title": "Wire the conversion hook",
+      "what_to_do": "SessionStart hook that converts pleading PDFs, deposition DOCX, intake PDFs.eml correspondence into markdown.",
+      "why": "Every matter document arrives as PDF or DOCX. Claude can't read these natively. This hook unblocks Step 4.",
+      "install": "cp -r skill/silver-platter/scripts/templates/.. ~/.claude/hooks/\nbrew install pandoc poppler\npip install xlsx2csv",
+      "before": "Pleadings, depositions, intake forms, Claude fails on every one.",
+      "after": "Drop any matter document into data/raw_dropzone/, get clean markdown in data/converted/.",
+      "setup_time": "5 minutes",
+      "title_friendly": "Wire the conversion hook"
+    },
+    {
+      "step": 4,
+      "title": "Case-Launch Orchestrator + Billing Assistant + Deposition Prep + Post-Mortem Distiller",
+      "what_to_do": "Define four subagents under .claude/agents/. Case-Launch is the chief-of-staff. The other three are matter-scoped specialists.",
+      "why": "The orchestrator hierarchy is what makes the system usable. Sally and Marcus only talk to the orchestrator; specialists report up.",
+      "install": "# write under .claude/agents/:\n#   case-launch-orchestrator.md (model: opus, tools: [Read, Glob, Grep, Task])\n#   billing-assistant.md (model: sonnet)\n#   deposition-prep-specialist.md (model: opus, tools include reading whole matter folders)\n#   post-mortem-distiller.md (model: opus, redaction-aware)\n# Hand to @claude-code-guide for the templates.",
+      "before": "Sally has to pre-frame which folder Claude should look at, every time.",
+      "after": "Sally runs /new_matter or /prep_for_deposition or /close_matter. The orchestrator routes.",
+      "setup_time": "2-3 hours",
+      "title_friendly": "Case-Launch Orchestrator + Billing Assistant + Deposition Prep + Post-Mortem Distiller"
+    },
+    {
+      "step": 5,
+      "title": "Audit log + approval-gate hooks",
+      "what_to_do": "PostToolUse hook on Edit|Write that appends every action to outputs/audit_log.md. Stop hook that warns the partner at session end if a draft is unacknowledged.",
+      "why": "For a regulated practice, the audit log is the difference between Bedrock approval and IT pulling the plug. Receipts.",
+      "install": "# Already in business_os_hooks.md reference doc.\n# Paste the three hook entries into .claude/settings.json.\n# chmod +x the three scripts in .claude/hooks/.",
+      "before": "AI did what? Nobody knows. Did Marcus approve last week's brief? Carol can't tell.",
+      "after": "Every action recorded. Stop hook nudges if a draft is unsigned. Bedrock review board sees clean audit trail.",
+      "setup_time": "10 minutes",
+      "title_friendly": "Audit log + approval-gate hooks"
+    }
+  ],
+  "setup_total_time": "Bedrock approval is the long pole (1-2 weeks). Once Bedrock is live, the rest is a focused weekend.",
+  "opportunities": [
+    {
+      "surface": "deployment/bedrock_claude",
+      "type": "community_deep_dive",
+      "title": "Bedrock + IT/security rollout walkthrough",
+      "explanation": "The Bedrock 3P Claude IT-unlock playbook (security memo, sample firm policy, IT-committee FAQs) lives in the Early AI Dopters community as a deeper dive.",
+      "claude_code_feature": "external",
+      "estimated_impact": "Required for the firm to deploy at all"
+    },
+    {
+      "surface": "pantry/imanage",
+      "type": "automate_extraction",
+      "title": "Automate iManage matter sync",
+      "explanation": "Sync iManage matter folders to local data/matters/ on matter open. Skill calls iManage REST API.",
+      "claude_code_feature": "skill",
+      "feature_name": "sync_imanage_matter",
+      "estimated_impact": "30 min/matter open"
+    },
+    {
+      "surface": "prep/post_mortem_lessons",
+      "type": "skill_writing_opportunity",
+      "title": "Build the Post-Mortem Distiller specialist",
+      "explanation": "Closed matters lose their lessons at the bar today. Distiller redacts client identifiers, drafts a 400-word lessons doc for managing-partner review.",
+      "claude_code_feature": "subagent",
+      "feature_name": "post-mortem-distiller",
+      "estimated_impact": "Captures institutional knowledge that currently dies"
+    }
+  ]
+}

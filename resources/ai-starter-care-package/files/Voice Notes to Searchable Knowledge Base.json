@@ -1,0 +1,407 @@
+{
+  "name": "Voice Notes to Searchable Knowledge Base",
+  "nodes": [
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyX",
+              "value": 10,
+              "unit": "minutes"
+            }
+          ]
+        },
+        "triggerOn": "specificFolder",
+        "folderToWatch": {
+          "__rl": true,
+          "value": "1iGPRWm-iQZAmurrkJ5J",
+          "mode": "list",
+          "cachedResultName": "Audio Folder"
+        },
+        "event": "fileCreated",
+        "options": {}
+      },
+      "id": "07ec69c5-a1f8-444e-896c-2d5ec5af6dfd",
+      "name": "Voice Notes Folder Trigger",
+      "type": "n8n-nodes-base.googleDriveTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "OeQme96wgmHza",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "defa4204-17d3-4297-81ce-991110039e8c",
+              "leftValue": "={{ $json.mimeType }}",
+              "rightValue": "mp3",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              }
+            },
+            {
+              "id": "ff34efbe-921e-4d02-8697-547b3efc68ed",
+              "leftValue": "={{ $json.mimeType }}",
+              "rightValue": "wav",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              }
+            },
+            {
+              "id": "433c30fc-ca5f-46eb-a068-b11260e19b1f",
+              "leftValue": "={{ $json.mimeType }}",
+              "rightValue": "m4a",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              }
+            },
+            {
+              "id": "31bddbaa-28c5-43b3-8f05-cad520e9b130",
+              "leftValue": "={{ $json.mimeType }}",
+              "rightValue": "mp4",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              }
+            },
+            {
+              "id": "e049fa09-bc0e-4500-bfb0-555fc8788ce7",
+              "leftValue": "={{ $json.mimeType }}",
+              "rightValue": "ogg",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              }
+            }
+          ],
+          "combinator": "or"
+        },
+        "looseTypeValidation": true,
+        "options": {}
+      },
+      "id": "bc5b7ded-f5ea-4619-b484-21c61d96c9d6",
+      "name": "Check Audio File Type",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        224,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "download",
+        "fileId": {
+          "__rl": true,
+          "mode": "id",
+          "value": "={{ $('Voice Notes Folder Trigger').item.json.id }}"
+        },
+        "options": {
+          "binaryPropertyName": "audioFile"
+        }
+      },
+      "id": "8de4c5e9-606b-4524-a7ef-24bd286880f6",
+      "name": "Download Audio File",
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        448,
+        0
+      ],
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "OeQme96wa",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "audio",
+        "operation": "transcribe",
+        "binaryPropertyName": "audioFile",
+        "options": {}
+      },
+      "id": "f1203bc8-c57d-4d39-9d6a-9991ea7824a1",
+      "name": "Transcribe Audio with Whisper",
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.8,
+      "position": [
+        672,
+        0
+      ],
+      "credentials": {
+        "openAiApi": {
+          "id": "KSKdcXliZC",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "mode": "id",
+          "value": "gpt-4o-mini"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "=Analyze the following voice note transcription and generate a structured response in JSON format with:\n1. A descriptive title (max 60 characters)\n2. A concise summary (2-3 sentences)\n3. 3-5 relevant topic tags\n4. Full Transcript\n\nTranscription: {{ $('Transcribe Audio with Whisper').item.json.text }}\n\nPlease respond with valid JSON in this format:\n{\n  \"title\": \"Brief descriptive title\",\n  \"summary\": \"Concise summary of the main points\",\n  \"tags\": [\"tag1\", \"tag2\", \"tag3\", \"tag4\", \"tag5\"],\n  \"transcript\": \"full transcript\"\n}"
+            }
+          ]
+        },
+        "jsonOutput": true,
+        "options": {}
+      },
+      "id": "496a2ef7-9558-49a8-a487-c1f01fb26fdd",
+      "name": "Generate Summary and Tags",
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.8,
+      "position": [
+        896,
+        0
+      ],
+      "credentials": {
+        "openAiApi": {
+          "id": "KSKdcXliKC",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1u5JCURlkNbWpMchQGGnK6b_0wjQSN0L",
+          "mode": "list",
+          "cachedResultName": "Audio-Based Knowledge Base"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Voice Notes Knowledge Base"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Summary": "={{ $json.message.content.summary }}",
+            "Tags": "={{ $json.message.content.tags }}",
+            "Title": "={{ $json.message.content.title }}",
+            "Transcript": "={{ $json.message.content.transcript }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Title",
+              "displayName": "Title",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Summary",
+              "displayName": "Summary",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Tags",
+              "displayName": "Tags",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Transcript",
+              "displayName": "Transcript",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "id": "33c4f9c7-a9e4-46fb-a595-1826698c73d1",
+      "name": "Add to Knowledge Base",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        1248,
+        0
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "8OvhnecyId05",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "move",
+        "fileId": {
+          "__rl": true,
+          "mode": "id",
+          "value": "={{ $('Voice Notes Folder Trigger').item.json.id }}"
+        },
+        "driveId": {
+          "__rl": true,
+          "mode": "list",
+          "value": "My Drive"
+        },
+        "folderId": {
+          "__rl": true,
+          "value": "1tKkw7XVMU0cI-uOh8U42lBXf2",
+          "mode": "list",
+          "cachedResultName": "Choose A Drive Folder"
+        }
+      },
+      "id": "382fcf70-663a-4a2d-ba72-736e442aedb0",
+      "name": "Move to Processed Folder",
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        1472,
+        0
+      ],
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "OeQme96a",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "## ⚙️ How to Setup\n\n1. Google Drive Trigger: Connect your Google account and select the specific Drive folder used to monitor new audio files\n2. OpenAI Chat Model: Add your OpenAI API key in the credentials\n3. Google Sheets Authentication: Connect your Google account for the Knowledge Base Row creation\n\nThis is a great foundation to create an agent that uses your own audio files as context, allowing you to answer you or your teams question with raw internal knowledge!\n\n## ℹ️ How to Use\n\nAdd a new voice recording to your chosen Drive folder. The workflow will automatically:\n\n* Transcribe the audio\n* Summarize the transcription\n* Add the summary and transcript to your chosen knowledge base spreadsheet\n* Move the audio file to a processed folder to keep your files organized",
+        "height": 544,
+        "width": 480,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -544,
+        -192
+      ],
+      "typeVersion": 1,
+      "id": "a6132ac1-c993-4013-aeb5-4c501ce7acf6",
+      "name": "Sticky Note"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Voice Notes Folder Trigger": {
+      "main": [
+        [
+          {
+            "node": "Check Audio File Type",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Audio File Type": {
+      "main": [
+        [
+          {
+            "node": "Download Audio File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Download Audio File": {
+      "main": [
+        [
+          {
+            "node": "Transcribe Audio with Whisper",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Transcribe Audio with Whisper": {
+      "main": [
+        [
+          {
+            "node": "Generate Summary and Tags",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate Summary and Tags": {
+      "main": [
+        [
+          {
+            "node": "Add to Knowledge Base",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Add to Knowledge Base": {
+      "main": [
+        [
+          {
+            "node": "Move to Processed Folder",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "fb7aa1e9-0208-4ebf-9d9f-ec9c9edb0858",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "aaadb797535f05587ee95b776c942a7c3f7a46fd7aa0c9b6a9d64e1e595f8af1"
+  },
+  "id": "J4Vnm9448swjGd1p",
+  "tags": []
+}

@@ -1,0 +1,532 @@
+{
+  "name": "LinkedIn Content Generator with Industry Research and Post Automation",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "weeks",
+              "triggerAtDay": [
+                1
+              ],
+              "triggerAtHour": 9
+            }
+          ]
+        }
+      },
+      "id": "396b7c4d-ef56-47f6-9d9e-7c8ef44c5304",
+      "name": "Weekly Research Schedule",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -752,
+        -96
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "id-1",
+              "name": "industry",
+              "value": "Your Industry",
+              "type": "string"
+            },
+            {
+              "id": "id-2",
+              "name": "writingStyle",
+              "value": "Your Writing Style",
+              "type": "string"
+            },
+            {
+              "id": "id-3",
+              "name": "tonePreferences",
+              "value": "Your Tone Preferences",
+              "type": "string"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "id": "d83a98a5-67d8-47d7-80f4-c7d0722edfb1",
+      "name": "Workflow Configuration",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -528,
+        -96
+      ]
+    },
+    {
+      "parameters": {
+        "messages": {
+          "message": [
+            {
+              "content": "=What are the latest trending topics, innovations, and industry developments in {{ $('Workflow Configuration').first().json.industry }} for this week? Include specific examples, statistics, and emerging trends that would be valuable for LinkedIn thought leadership content."
+            }
+          ]
+        },
+        "simplify": true,
+        "options": {
+          "returnRelatedQuestions": true
+        },
+        "requestOptions": {}
+      },
+      "id": "3f9f058c-72c0-437e-8df8-81659de222e9",
+      "name": "Industry Research",
+      "type": "n8n-nodes-base.perplexity",
+      "typeVersion": 1,
+      "position": [
+        -304,
+        -96
+      ],
+      "credentials": {
+        "perplexityApi": {
+          "id": "trIL8Z5UO6sLDo",
+          "name": "Perplexity"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Based on the following industry research data: {{ $json.message }}\nSource citations: {{ $json.citations }}\nUser writing style: {{ $('Workflow Configuration').first().json.writingStyle }}\nTone preferences: {{ $('Workflow Configuration').first().json.tonePreferences }}\n\nCreate 5-7 LinkedIn post ideas. For EACH topic/trend identified in the research, generate:\n\n1. **Topic Title**: Clear, engaging title for the trend/insight\n2. **Hook**: Attention-grabbing opening line that stops scrolling (question, surprising stat, bold statement)\n3. **Talking Points**: 3-4 main insights with specific examples and data\n4. **Call-to-Action**: Engaging question or prompt for audience interaction\n5. **Hashtags**: 3-5 relevant, trending hashtags\n6. **Full Sample Post**: Complete LinkedIn post maintaining the user's authentic voice\n7. **Source Links**: Relevant citation URLs from the research\n\nFormat each post idea as a JSON object with these exact fields: topicTitle, hook, talkingPoints (array), callToAction, hashtags (array), fullSamplePost, sourceLinks (array)\n\nReturn ONLY a valid JSON array with no additional text or markdown formatting. Always pass the output to the Output Parser for processing.\n\n**Expected Output Format:**\n\n{\n  \"topicTitle\": \"AI Agents Are Replacing Traditional Automation\",\n  \"hook\": \"73% of businesses are now using AI agents instead of static workflows. Here's why that matters:\",\n  \"talkingPoints\": [\n    \"Traditional automation follows rigid if-this-then-that rules, while AI agents make contextual decisions\",\n    \"Companies report 40% faster problem resolution with agent-based systems\",\n    \"The shift is happening faster than expected - adoption doubled in just 6 months\",\n    \"Tools like n8n and Make are integrating native AI agent capabilities\"\n  ],\n  \"callToAction\": \"Are you still using traditional automation, or have you made the switch to AI agents? What's been your experience?\",\n  \"hashtags\": [\n    \"#AIAutomation\",\n    \"#WorkflowAutomation\",\n    \"#ArtificialIntelligence\",\n    \"#BusinessAutomation\",\n    \"#FutureOfWork\"\n  ],\n  \"fullSamplePost\": \"73% of businesses are now using AI agents instead of static workflows. Here's why that matters:\\n\\nTraditional automation was great for predictable tasks. But here's the problem - it breaks the moment something unexpected happens.\\n\\nAI agents are different:\\n→ They adapt to context instead of following rigid rules\\n→ They can handle exceptions without manual intervention\\n→ They learn from patterns in your data\\n\\nThe numbers don't lie:\\n• 40% faster problem resolution\\n• Adoption doubled in 6 months\\n• Major platforms like n8n now have native agent support\\n\\nThis isn't about replacing humans. It's about giving your team superpowers.\\n\\nThe businesses winning right now? They're the ones experimenting with this technology today, not waiting for it to be \\\"perfect.\\\"\\n\\nAre you still using traditional automation, or have you made the switch to AI agents? What's been your experience?\\n\\n#AIAutomation #WorkflowAutomation #ArtificialIntelligence\",\n  \"sourceLinks\": [\n    \"https://example.com/ai-adoption-report-2025\",\n    \"https://example.com/automation-trends-study\"\n  ]\n}",
+        "hasOutputParser": true,
+        "options": {
+          "systemMessage": "You are an expert LinkedIn content strategist and copywriter. Your task is to analyze industry research and create compelling LinkedIn post ideas that drive engagement and establish thought leadership. Focus on creating content that stops the scroll, provides genuine value, and encourages meaningful discussion."
+        }
+      },
+      "id": "d90d1174-d2f0-40c0-be4a-2b09144c2f03",
+      "name": "LinkedIn Content Generator",
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2.2,
+      "position": [
+        -80,
+        -96
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "id-1",
+              "name": "generationDate",
+              "value": "={{ $now.format('yyyy-MM-dd') }}",
+              "type": "string"
+            },
+            {
+              "id": "id-2",
+              "name": "status",
+              "value": "draft",
+              "type": "string"
+            },
+            {
+              "id": "4d446884-5382-46bb-97f7-bfa76e519bae",
+              "name": "Topic Title",
+              "value": "={{ $json.output.topicTitle }}",
+              "type": "string"
+            },
+            {
+              "id": "d918cdbd-ef5c-4ae3-bf95-a8a8887222e0",
+              "name": "Hook",
+              "value": "={{ $json.output.hook }}",
+              "type": "string"
+            },
+            {
+              "id": "e448bd34-6550-417b-956b-605f9550db2e",
+              "name": "Talking Points",
+              "value": "={{ $json.output.talkingPoints }}",
+              "type": "string"
+            },
+            {
+              "id": "0268023f-231a-40ee-bfc7-40120e0755ce",
+              "name": "Call-to-Action",
+              "value": "={{ $json.output.callToAction }}",
+              "type": "string"
+            },
+            {
+              "id": "004d34d1-fc31-4991-985e-92ad8846ed54",
+              "name": "Hashtags",
+              "value": "={{ $json.output.hashtags }}",
+              "type": "string"
+            },
+            {
+              "id": "85cd63a6-0b96-42f2-b4c1-715f98f544e0",
+              "name": "Full Sample Post",
+              "value": "={{ $json.output.fullSamplePost }}",
+              "type": "string"
+            },
+            {
+              "id": "a715b812-0589-4be3-a32e-2cacf6ae6529",
+              "name": "Source Links",
+              "value": "={{ $json.output.sourceLinks }}",
+              "type": "string"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "id": "a066a692-009f-433a-b71b-66ea8fa6174c",
+      "name": "Format for Sheets",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        272,
+        -96
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1nrJYQpIczJSJ1yUzGHewDEGNQFxe2kOrQXARChXKdS4",
+          "mode": "list"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Generation Date": "={{ $json.generationDate }}",
+            "Status": "={{ $json.status }}",
+            "Topic Title": "={{ $json[\"Topic Title\"] }}",
+            "Hook": "={{ $json.Hook }}",
+            "Talking Points": "={{ $json[\"Talking Points\"] }}",
+            "Call-to-Action": "={{ $json[\"Call-to-Action\"] }}",
+            "Hashtags": "={{ $json.Hashtags }}",
+            "Full Sample Post": "={{ $json[\"Full Sample Post\"] }}",
+            "Source Links": "={{ $json[\"Source Links\"] }}"
+          },
+          "matchingColumns": [
+            {
+              "id": "generationDate",
+              "displayName": "Generation Date",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "topicTitle",
+              "displayName": "Topic Title",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "sourceLinks",
+              "displayName": "Source Links",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": false
+            },
+            {
+              "id": "hook",
+              "displayName": "Hook",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": false
+            },
+            {
+              "id": "talkingPoints",
+              "displayName": "Talking Points",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": false
+            },
+            {
+              "id": "callToAction",
+              "displayName": "CTA",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": false
+            },
+            {
+              "id": "hashtags",
+              "displayName": "Hashtags",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": false
+            },
+            {
+              "id": "fullSamplePost",
+              "displayName": "Full Sample Post",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": false
+            },
+            {
+              "id": "status",
+              "displayName": "Status",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": false
+            }
+          ],
+          "schema": [
+            {
+              "id": "Generation Date",
+              "displayName": "Generation Date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Status",
+              "displayName": "Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Topic Title",
+              "displayName": "Topic Title",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Hook",
+              "displayName": "Hook",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Talking Points",
+              "displayName": "Talking Points",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Call-to-Action",
+              "displayName": "Call-to-Action",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Hashtags",
+              "displayName": "Hashtags",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Full Sample Post",
+              "displayName": "Full Sample Post",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Source Links",
+              "displayName": "Source Links",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "id": "0d86d5c6-bccf-4d43-8dd0-71dea6302fd2",
+      "name": "Save to Content Ideas Sheet",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        512,
+        -96
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "8OvhnecyIUm75",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "claude-sonnet-4-20250514",
+          "cachedResultName": "Claude 4 Sonnet"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatAnthropic",
+      "typeVersion": 1.3,
+      "position": [
+        -144,
+        128
+      ],
+      "id": "c9a87bd1-839e-4121-9a35-4eaa35494fc7",
+      "name": "Anthropic Chat Model",
+      "credentials": {
+        "anthropicApi": {
+          "id": "9KuZnve0MWfL",
+          "name": "Anthropic account 3"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsonSchemaExample": "{\n  \"topicTitle\": \"AI Agents Are Replacing Traditional Automation\",\n  \"hook\": \"73% of businesses are now using AI agents instead of static workflows. Here's why that matters:\",\n  \"talkingPoints\": [\n    \"Traditional automation follows rigid if-this-then-that rules, while AI agents make contextual decisions\",\n    \"Companies report 40% faster problem resolution with agent-based systems\",\n    \"The shift is happening faster than expected - adoption doubled in just 6 months\",\n    \"Tools like n8n and Make are integrating native AI agent capabilities\"\n  ],\n  \"callToAction\": \"Are you still using traditional automation, or have you made the switch to AI agents? What's been your experience?\",\n  \"hashtags\": [\n    \"#AIAutomation\",\n    \"#WorkflowAutomation\",\n    \"#ArtificialIntelligence\",\n    \"#BusinessAutomation\",\n    \"#FutureOfWork\"\n  ],\n  \"fullSamplePost\": \"73% of businesses are now using AI agents instead of static workflows. Here's why that matters:\\n\\nTraditional automation was great for predictable tasks. But here's the problem - it breaks the moment something unexpected happens.\\n\\nAI agents are different:\\n→ They adapt to context instead of following rigid rules\\n→ They can handle exceptions without manual intervention\\n→ They learn from patterns in your data\\n\\nThe numbers don't lie:\\n• 40% faster problem resolution\\n• Adoption doubled in 6 months\\n• Major platforms like n8n now have native agent support\\n\\nThis isn't about replacing humans. It's about giving your team superpowers.\\n\\nThe businesses winning right now? They're the ones experimenting with this technology today, not waiting for it to be \\\"perfect.\\\"\\n\\nAre you still using traditional automation, or have you made the switch to AI agents? What's been your experience?\\n\\n#AIAutomation #WorkflowAutomation #ArtificialIntelligence\",\n  \"sourceLinks\": [\n    \"https://example.com/ai-adoption-report-2025\",\n    \"https://example.com/automation-trends-study\"\n  ]\n}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.3,
+      "position": [
+        112,
+        144
+      ],
+      "id": "2161909b-ba25-4199-b749-590739cfc77c",
+      "name": "Structured Output Parser"
+    },
+    {
+      "parameters": {
+        "content": "## ⚙️ How to Setup\n\n**Configure Workflow Settings:** Update the \"Workflow Configuration\" node with your specific details:\n\n* Replace YOUR_INDUSTRY with your industry (e.g., \"technology\", \"healthcare\", \"finance\")\n* Replace YOUR_WRITING_STYLE with your style (e.g., \"professional yet conversational\", \"thought leadership\")\n* Replace YOUR_TONE with your preferences (e.g., \"inspiring and actionable\", \"analytical\")\n\n1. **Set up Perplexity API:** Add your Perplexity API credentials to the \"Industry Research\" node\n\n2. **Configure Anthropic:** Add your Anthropic API key to the \"OpenAI Chat Model\" node\n\n3. **Google Sheets Authentication:** Connect your Google account for the \"Save to Content Ideas Sheet\" node\n\n4. **Create Google Sheet:** Create a new Google Sheet with these column headers in the first row:\n\n* Generation Date | Topic Title | Source Links | Hook | Talking Points | CTA | Hashtags | Full Sample Post | Status\n\n5. Schedule Settings: Adjust the \"Weekly Research Schedule\" trigger timing if needed (currently set for Monday 9:00 AM)\n\n## ℹ️ How to Use\n\nThe workflow runs automatically on your schedule and saves LinkedIn post ideas to your Google Sheet. Review the generated content, edit as needed, and update the Status column to track which posts you've scheduled or published.",
+        "height": 784,
+        "width": 576,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -1408,
+        -416
+      ],
+      "typeVersion": 1,
+      "id": "c8e29799-61e6-429c-a197-58863d0461a4",
+      "name": "Sticky Note"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Weekly Research Schedule": {
+      "main": [
+        [
+          {
+            "node": "Workflow Configuration",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Workflow Configuration": {
+      "main": [
+        [
+          {
+            "node": "Industry Research",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Industry Research": {
+      "main": [
+        [
+          {
+            "node": "LinkedIn Content Generator",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "LinkedIn Content Generator": {
+      "main": [
+        [
+          {
+            "node": "Format for Sheets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Format for Sheets": {
+      "main": [
+        [
+          {
+            "node": "Save to Content Ideas Sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Anthropic Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "LinkedIn Content Generator",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structured Output Parser": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "LinkedIn Content Generator",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "8e53b70f-6072-4a57-893d-a32335dcda59",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "aaadb797535f05587ee95b776c942a7c3f7a46fd7aa0c9b6a9d64e1e595f8af1"
+  },
+  "id": "v1zC3A9xzVg1ESoW",
+  "tags": []
+}

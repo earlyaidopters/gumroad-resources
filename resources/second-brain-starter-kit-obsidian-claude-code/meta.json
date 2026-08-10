@@ -1,0 +1,26 @@
+{
+  "name": "Second Brain Starter Kit - Obsidian + Claude Code 🧠",
+  "external_id": "0fTSObGjhd0PYj3p_kcGcQ==",
+  "permalink": "oyxuih",
+  "unique_permalink": "oyxuih",
+  "custom_permalink": "second-brain-obsidian-claude-code",
+  "url": "https://markkashef.gumroad.com/l/second-brain-obsidian-claude-code",
+  "status": "published",
+  "archived": false,
+  "kind": "products",
+  "price_formatted": "CAD$0+",
+  "description_md": "# What You Get\n/vault-setup Skill: Paste this into ~/.claude/skills/vault-setup/SKILL.md. Tell Claude Code about yourself in plain text and it generates your personalized vault structure, CLAUDE.md, and slash commands in seconds.\nObsidian Setup Guide (PDF): Step-by-step installation guide for macOS and Windows. Download the app, enable the CLI, create your vault, and connect Claude Code. Everything you need to follow along with the video.\n---\nWhy This Works\nObsidian stores your notes as plain markdown files on your computer. Claude Code reads those same files directly. No sync, no API, no cloud. The /vault-setup skill interviews you and builds a CLAUDE.md that tells Claude exactly who you are every time you open it.\n---\nWant access to every resource I create? Join 800+ builders:\nhttps://www.skool.com/earlyaidopters/about",
+  "files": [
+    {
+      "file": "obsidian-setup-guide.pdf",
+      "status": "cached",
+      "bytes": 16828
+    },
+    {
+      "file": "vault-setup-SKILL.md",
+      "status": "cached",
+      "bytes": 5540
+    }
+  ],
+  "has_rich_content": true
+}

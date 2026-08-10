@@ -1,0 +1,26 @@
+{
+  "name": "Claude Agent Teams Guide + Skill 🦾",
+  "external_id": "Ufd3xdiBdW4X0z-iQERUuw==",
+  "permalink": "weepop",
+  "unique_permalink": "weepop",
+  "custom_permalink": "claude-code-agent-teams-guide",
+  "url": "https://markkashef.gumroad.com/l/claude-code-agent-teams-guide",
+  "status": "published",
+  "archived": false,
+  "kind": "products",
+  "price_formatted": "CAD$0+",
+  "description_md": "# What You Get\nAgent Teams Complete Guide (BUILD-PROMPT.md): The exact prompt I used to build the Agent Surveillance Dashboard - a real-time web dashboard that monitors Claude Code agent teams as they work. Copy it, run it, customize it.\nExcalidraw Diagrams (24 images): Visual breakdowns of Agent Teams architecture, how subagents compare, the team lifecycle, messaging system, shared task lists, display modes, decision flowcharts, and real-world use case examples.\nSetup Walkthrough Diagrams (8 images): Step-by-step visual guide covering prerequisites, enabling the feature flag, model selection, first prompt, display modes, and keyboard shortcuts.\nExcalidraw Canvas: Ready-to-use .excalidraw file with all diagrams arranged for presentations or video b-roll.\nWant my full and access to every resource I create? Join 800+ builders inside the community:\nhttps://www.skool.com/earlyaidopters/about",
+  "files": [
+    {
+      "file": "agent_teams_diagrams.zip",
+      "status": "cached",
+      "bytes": 19069321
+    },
+    {
+      "file": "BUILD-PROMPT.md",
+      "status": "cached",
+      "bytes": 14949
+    }
+  ],
+  "has_rich_content": true
+}

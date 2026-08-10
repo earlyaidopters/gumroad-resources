@@ -1,0 +1,41 @@
+{
+  "name": "ClaudeClaw OS Blueprint Kit 🦀",
+  "external_id": "OglXIQLvloCAEy5gho2qmg==",
+  "permalink": "gnwsm",
+  "unique_permalink": "gnwsm",
+  "custom_permalink": null,
+  "url": "https://markkashef.gumroad.com/l/gnwsm",
+  "status": "published",
+  "archived": false,
+  "kind": "products",
+  "price_formatted": "CAD$0+",
+  "description_md": "# What You Get\nClaudeClaw OS Blueprint Kit - Build Your Own Claude Code Command Center\nThis is the complete blueprint kit from the ClaudeClaw OS video. Everything you need to build your own personal AI command center using your existing Claude Code subscription and the Agent SDK.\nRebuild Mega Prompt\nA single prompt you paste into Claude Code. It asks 6 questions about what you want (channels, voice, memory, agents, advanced features), then builds the entire project from scratch. Includes a deep knowledge base so you can ask questions at any point during setup. Most people are up and running in under an hour.\nPower Packs (8 Modular Feature Prompts)\nAlready have ClaudeClaw v0 running? These 8 self-contained prompts add v2 features one at a time. \nPick the ones you want, paste them in, and Claude reads your existing code and adds the feature. Install in any order.\n1. Memory v2 - Gemini-powered extraction, 768-dim embeddings, 5-layer retrieval, importance-weighted decay, auto-consolidation every 30 minutes\n2. Multi-Agent - 5 specialist agents (Main, Comms, Content, Ops, Research) with their own Telegram bots, personalities, and shared hive mind\n3. War Room - Browser-based voice meeting room with Gemini Live speech-to-speech and intelligent agent routing\n4. Mission Control - Cron scheduler with priority queue, auto-assignment, and dashboard task management\n5. Security - PIN lock, idle auto-lock, emergency kill phrase, 15+ pattern exfiltration guard, full audit log\n6. Voice Upgrade - 4-provider TTS cascade (ElevenLabs, Gradium, Kokoro local, macOS say) with automatic failover\n7. Dashboard - Web control panel on port 3141 with memory timeline, token tracking, agent status, and real-time SSE updates\n8. Meeting Bot - AI avatar joins your Google Meet or Zoom calls with a 75-second pre-flight briefing from Calendar, Gmail, and Memory\nPower Packs Guide\nA companion document explaining what each pack does, why it exists, how it works under the hood, and how the packs connect to each other. Read this first to decide which packs you want.\nVisual Guide (PDF)\n20 pages of hand-drawn architecture diagrams covering every layer of the system. The Bridge, the 5-agent round table, Mission Control kanban, War Room conference table, memory pipeline, security rings, message flow, and competitive comparison. Use it as a reference while building or as a standalone overview.",
+  "files": [
+    {
+      "file": "ClaudeClaw_v2_Visual_Guide.pdf",
+      "status": "cached",
+      "bytes": 12554460
+    },
+    {
+      "file": "POWER_PACKS_GUIDE.md",
+      "status": "cached",
+      "bytes": 43788
+    },
+    {
+      "file": "POWER_PACKS.md",
+      "status": "cached",
+      "bytes": 48649
+    },
+    {
+      "file": "REBUILD_PROMPT_V2.md",
+      "status": "cached",
+      "bytes": 115498
+    },
+    {
+      "file": "CLAUDECLAW_ASSESSMENT_PROMPT.md",
+      "status": "cached",
+      "bytes": 6286
+    }
+  ],
+  "has_rich_content": true
+}

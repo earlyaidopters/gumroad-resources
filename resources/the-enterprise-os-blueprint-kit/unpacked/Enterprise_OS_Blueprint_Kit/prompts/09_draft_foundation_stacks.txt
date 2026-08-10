@@ -1,0 +1,5 @@
+Read ARCHITECTURE.md, SECURITY_SPEC.md (or section 6 of BLUEPRINT.md), and my scaffold. Fill in the FOUNDATION stacks only, the cheap, safe base, in dependency order. Do not deploy yet.
+
+Draft: the Network stack (a VPC with public and private subnets and a NAT gateway, sized for my tier); the Storage stack (S3 buckets, including a dedicated write-once audit bucket with S3 Object Lock and a sensible retention, plus block-all-public and TLS-only policies); the Data stack (the DynamoDB tables from my spec, on-demand billing, encrypted with my key); the Secrets stack (a KMS key, or keys, that I own, and Secrets Manager entries with no real values committed); and the IAM stack (least-privilege roles, each scoped to one job, no wildcards).
+
+After each stack, run `cdk synth` and show me `cdk diff` so I can see exactly what it would create. Keep every secret out of code. Do not run `cdk deploy`. Stop when the five foundation stacks synth cleanly and I've reviewed the diff for each.

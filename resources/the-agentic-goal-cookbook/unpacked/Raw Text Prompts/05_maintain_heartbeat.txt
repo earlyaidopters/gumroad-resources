@@ -1,0 +1,44 @@
+MAINTAIN - /loop + /goal HEARTBEAT
+====================================
+
+When to use:
+- You want the OS to stay clean by itself between audits, forge runs, and recording sessions
+- You're comfortable letting Claude Code run a long cycle in the background
+- You want a maintenance log so future-you can read the trail of what changed
+
+What it does:
+- /loop fires the /goal command on a recurring 30-minute timer
+- Each cycle archives skills not referenced in 30 days, refreshes CLAUDE.md, and resolves new rule contradictions
+- Each cycle appends a paragraph to MAINTENANCE_LOG.md with timestamp and a summary of changes
+- Both /loop and /goal stay live until you type /exit
+
+THE PROMPT (this one starts with /loop, not /goal):
+
+----------------------------------------------------
+
+/loop 30m /goal keep ~/.claude clean. Archive any skill not referenced in 30 days to ~/.claude/_attic/. Refresh ~/.claude/CLAUDE.md to reference every active skill and drop references to anything no longer present. Resolve any new rule contradictions by keeping the more specific. Append a paragraph to MAINTENANCE_LOG.md with timestamp and what changed. Stop the cycle when MAINTENANCE_LOG.md has a new entry and no contradictions remain. Or stop after 8 turns per cycle.
+
+----------------------------------------------------
+
+Guardrails:
+- Tune the 30m cadence to your usage. 6h is fine for slow weeks, 15m for active build sessions.
+- Cap turns per cycle low (8 is conservative) so cycles end fast and don't blow your context.
+- If MAINTENANCE_LOG.md grows past a few hundred lines, rotate it. The agent can do that too.
+- Run this in a dedicated Claude Code window so you can /exit cleanly when you're done.
+
+Wake-up check:
+
+  tail -60 MAINTENANCE_LOG.md
+  ls ~/.claude/skills | wc -l
+
+What good looks like:
+- MAINTENANCE_LOG.md gains a new dated paragraph per cycle
+- Skill count stays in your target range without manual intervention
+- No new rule contradictions accumulate
+- After several cycles the per-cycle diff is small. Equilibrium reached.
+
+The frame: /loop is the heartbeat. /goal is the conscience. The OS stays clean by itself now.
+
+If you want the rest of the prompts and the full /goal cookbook, check out the Early AI Dopters community.
+
+https://www.skool.com/earlyaidopters/about

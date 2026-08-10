@@ -1,0 +1,36 @@
+{
+  "name": "Banana Squad - Image Agent Team 🍌",
+  "external_id": "gi8t96yaCF3xhPsYPGuA2Q==",
+  "permalink": "liwoi",
+  "unique_permalink": "liwoi",
+  "custom_permalink": "banana-squad-agent-team",
+  "url": "https://markkashef.gumroad.com/l/banana-squad-agent-team",
+  "status": "published",
+  "archived": false,
+  "kind": "products",
+  "price_formatted": "CAD$0+",
+  "description_md": "# What You Get\nBanana Squad Spawn Prompt (spawn-team-prompt.md): The exact prompt that spins up a 5-agent team in Claude Code -- a Lead, Researcher, Prompt Architect, Generator, and Critic -- that generates 5 ranked image variants from a single request. Copy it, paste it into Claude Code, done.\nGemini 3 Pro Image API Guide (gemini-3-image-api-guide.md): Complete reference for the Nano Banana Pro API. Authentication, code patterns, aspect ratios, resolution options, reference image handling, and prompting best practices.\n10 Visual Diagrams (diagrams/): B&W doodle-style breakdowns of the entire pipeline -- from the PaperBanana research paper to the agent team architecture, communication flow, project structure, and evaluation dimensions.\nPaperBanana Research Paper (paperbanana.md): The full Google/Peking University paper that this framework is based on. Their 5-agent system beat human designers on 4 out of 5 quality dimensions.\n---\nWant my full and access to every resource I create? Join 800+ builders inside the community:https://www.skool.com/earlyaidopters/about",
+  "files": [
+    {
+      "file": "diagrams.zip",
+      "status": "cached",
+      "bytes": 7106030
+    },
+    {
+      "file": "gemini-3-image-api-guide.md",
+      "status": "cached",
+      "bytes": 11899
+    },
+    {
+      "file": "paperbanana.md",
+      "status": "cached",
+      "bytes": 124675
+    },
+    {
+      "file": "spawn-team-prompt.md",
+      "status": "cached",
+      "bytes": 8360
+    }
+  ],
+  "has_rich_content": true
+}

@@ -1,0 +1,21 @@
+{
+  "name": "X Live Search Vibe Code Pack 🐦",
+  "external_id": "1WmkbRxyhn39bN7sDIQATw==",
+  "permalink": "rwdyho",
+  "unique_permalink": "rwdyho",
+  "custom_permalink": "livesearchvibecoding",
+  "url": "https://markkashef.gumroad.com/l/livesearchvibecoding",
+  "status": "published",
+  "archived": false,
+  "kind": "products",
+  "price_formatted": "CAD$0+",
+  "description_md": "## What You Get\n\n- A comprehensive Cheat Sheet Guide (Google Doc) detailing every prompt and step to build the UI foundation, deploy a Supabase edge function, and configure n8n for a serverless alert system.\n\n- The fully importable n8n workflow JSON file (Live Search Grok API), ready to drop into your n8n instance for instant real-time X data streaming Live_Search_Workflow.json\n\n- Pre-configured “Pulse Agent” logic that maps alert-card presets (Tech Updates, Breaking News, Memes & Trends, etc.) to Grok Live Search, Anthropic reasoning, and GraphQL wrappers.\n\nIf you're looking for a version of this you can directly chat with, vibe coding coaching, and TONs of exclusive goodies, consider joining my Early AI-dopters Community. You won't regret it 😉",
+  "files": [
+    {
+      "file": "Live_Search_Workflow.json",
+      "status": "cached",
+      "bytes": 16694
+    }
+  ],
+  "has_rich_content": true
+}

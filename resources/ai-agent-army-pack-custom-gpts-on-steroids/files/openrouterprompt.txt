@@ -1,0 +1,1 @@
+When I send you a request via prompt, ask me which LLM you'd like to route the request to, then invoke 'generateResponse' to come up with the response.

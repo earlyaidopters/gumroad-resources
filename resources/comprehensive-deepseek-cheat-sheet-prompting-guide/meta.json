@@ -1,0 +1,21 @@
+{
+  "name": "Comprehensive DeepSeek Cheat Sheet & Prompting Guide 🐳",
+  "external_id": "UZpJPMPL2njzKai4uOswQw==",
+  "permalink": "zgajlj",
+  "unique_permalink": "zgajlj",
+  "custom_permalink": "deepseekr1prompting",
+  "url": "https://markkashef.gumroad.com/l/deepseekr1prompting",
+  "status": "published",
+  "archived": false,
+  "kind": "products",
+  "price_formatted": "CAD$0+",
+  "description_md": "DeepSeek R1 is revolutionizing AI with unparalleled reasoning capabilities, designed to \"think before it answers.\" This guide + custom GPT will help you unlock its full potential.\n### What You’ll Get:\n📖 Notion Guide: The Ultimate DeepSeek R1 Playbook\n\n- A deep dive into how DeepSeek R1 works, its reinforcement learning (RL) and supervised fine-tuning (SFT) methodology.\n\n- \nBest practices for structuring prompts to maximize logical reasoning and accuracy.\n\n- \nBreakdown of each DeepSeek R1 model (671B → 1.5B) and their best use cases (coding, math, NLP, research, etc.).\n\n- \nAdvanced prompt engineering strategies: Markdown formatting, optimal temperature settings, and how to structure zero-shot prompts for maximum efficiency.\n\n- \nTroubleshooting & Optimization Tips: Avoid common pitfalls, improve model performance, and refine responses.\n\n🤖 Custom GPT: Promptify-R1 – The Ultimate DeepSeek Prompt Engineer\n\n- An AI-powered assistant that helps you craft optimized prompts for any DeepSeek R1 model.\n\n- \nAsks clarifying questions to refine your input, ensuring the best prompt output for coding, math, research, and writing.\n\n- Generates zero-shot prompts following best practices, with pre-formatted markdown outputs for easy use.\n\n- Automatically suggests ideal temperature settings and model-specific tweaks to enhance performance.\n\n### 💖 This took a few hours, so feel free to support the channel if you can/wish to!",
+  "files": [
+    {
+      "file": "DeepSeek Prompting Guide.pdf",
+      "status": "cached",
+      "bytes": 529961
+    }
+  ],
+  "has_rich_content": true
+}

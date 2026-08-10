@@ -1,0 +1,872 @@
+{
+  "name": "Founder Pitch & Due Diligence Process",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "due-diligence-start",
+        "options": {}
+      },
+      "name": "Due Diligence Trigger",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [
+        240,
+        300
+      ],
+      "webhookId": "due-diligence-start"
+    },
+    {
+      "parameters": {
+        "functionCode": "// Initialize due diligence process with standard structure\nconst data = $input.item.json;\n\n// Create a structured due diligence object\nconst dueDiligence = {\n  id: `DD-${Date.now()}`,\n  companyName: data.companyName,\n  founderName: data.founderName,\n  founderEmail: data.founderEmail,\n  industry: data.industry || '',\n  stage: data.stage || '',\n  investmentAmount: data.investmentAmount || '',\n  valuation: data.valuation || '',\n  dateStarted: new Date().toISOString(),\n  status: 'Started',\n  currentPhase: 'Initial Review',\n  completedPhases: [],\n  assignedTeam: data.assignedTeam || ['partner1@vcfirm.com', 'associate1@vcfirm.com'],\n  leadAssignee: data.leadAssignee || 'associate1@vcfirm.com',\n  dueDiligenceChecklist: [\n    { category: 'Team', items: [\n      { name: 'Founder Background Check', status: 'Pending', assignee: '', notes: '' },\n      { name: 'Team Composition Analysis', status: 'Pending', assignee: '', notes: '' },\n      { name: 'Reference Checks', status: 'Pending', assignee: '', notes: '' }\n    ]},\n    { category: 'Market', items: [\n      { name: 'Market Size Analysis', status: 'Pending', assignee: '', notes: '' },\n      { name: 'Competitive Landscape', status: 'Pending', assignee: '', notes: '' },\n      { name: 'Growth Trends', status: 'Pending', assignee: '', notes: '' }\n    ]},\n    { category: 'Product', items: [\n      { name: 'Product Demo', status: 'Pending', assignee: '', notes: '' },\n      { name: 'Technology Assessment', status: 'Pending', assignee: '', notes: '' },\n      { name: 'IP Review', status: 'Pending', assignee: '', notes: '' }\n    ]},\n    { category: 'Business', items: [\n      { name: 'Business Model Analysis', status: 'Pending', assignee: '', notes: '' },\n      { name: 'Financial Review', status: 'Pending', assignee: '', notes: '' },\n      { name: 'Customer Interviews', status: 'Pending', assignee: '', notes: '' }\n    ]},\n    { category: 'Legal', items: [\n      { name: 'Corporate Structure Review', status: 'Pending', assignee: '', notes: '' },\n      { name: 'Contract Review', status: 'Pending', assignee: '', notes: '' },\n      { name: 'Compliance Check', status: 'Pending', assignee: '', notes: '' }\n    ]}\n  ],\n  documents: [],\n  meetings: [],\n  notes: []\n};\n\n// Create folder structure for documents\nconst folderStructure = {\n  mainFolder: `${dueDiligence.companyName} Due Diligence`,\n  subFolders: [\n    'Team',\n    'Market',\n    'Product',\n    'Business',\n    'Legal',\n    'Meeting Notes',\n    'Final Reports'\n  ]\n};\n\nreturn {\n  json: {\n    dueDiligence,\n    folderStructure\n  }\n};"
+      },
+      "name": "Initialize Due Diligence",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [
+        460,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "resource": "folder",
+        "name": "={{ $json.folderStructure.mainFolder }}",
+        "options": {}
+      },
+      "name": "Create Main Folder",
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 2,
+      "position": [
+        680,
+        300
+      ],
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "1",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "folder",
+        "name": "={{ $json.subFolder }}",
+        "parentId": "={{ $json.mainFolderId }}",
+        "options": {}
+      },
+      "name": "Create Sub Folders",
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 2,
+      "position": [
+        900,
+        300
+      ],
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "1",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "sheetName": "Due Diligence Tracker",
+        "columns": "={{ Object.keys($json.dueDiligence) }}",
+        "options": {}
+      },
+      "name": "Save to Due Diligence Tracker",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 3,
+      "position": [
+        680,
+        460
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "2",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "functionCode": "// Prepare data for creating sub folders\nconst mainFolderId = $input.first().json.id;\nconst folderStructure = $input.first().json.folderStructure;\n\n// Create an array of items for the sub folders\nconst subFolders = folderStructure.subFolders.map(subFolder => {\n  return {\n    json: {\n      subFolder,\n      mainFolderId\n    }\n  };\n});\n\nreturn subFolders;"
+      },
+      "name": "Prepare Sub Folders",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [
+        680,
+        140
+      ]
+    },
+    {
+      "parameters": {
+        "chatId": "due-diligence",
+        "text": "=## New Due Diligence Process Started\n\n**Company:** {{ $json.dueDiligence.companyName }}\n**Founder:** {{ $json.dueDiligence.founderName }}\n**Industry:** {{ $json.dueDiligence.industry }}\n**Stage:** {{ $json.dueDiligence.stage }}\n**Investment Amount:** {{ $json.dueDiligence.investmentAmount }}\n**Valuation:** {{ $json.dueDiligence.valuation }}\n\n**Lead Assignee:** {{ $json.dueDiligence.leadAssignee }}\n**Team:** {{ $json.dueDiligence.assignedTeam.join(', ') }}\n\n**Due Diligence ID:** {{ $json.dueDiligence.id }}",
+        "additionalFields": {}
+      },
+      "name": "Send Slack Notification",
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 1,
+      "position": [
+        900,
+        460
+      ],
+      "credentials": {
+        "slackApi": {
+          "id": "3",
+          "name": "Slack account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "fromEmail": "duediligence@vcfirm.com",
+        "toEmail": "={{ $json.dueDiligence.founderEmail }}",
+        "subject": "={{ 'Due Diligence Process Initiated for ' + $json.dueDiligence.companyName }}",
+        "text": "=Dear {{ $json.dueDiligence.founderName.split(' ')[0] }},\n\nWe're pleased to inform you that we've initiated the due diligence process for {{ $json.dueDiligence.companyName }}. This is an important step in our investment evaluation process.\n\n**Next Steps:**\n\n1. Our team will be reaching out to schedule an initial due diligence meeting\n2. We'll provide a list of documents and information we'll need to review\n3. You'll receive access to a secure folder for document uploads\n\n**Your Due Diligence Team:**\n{{ $json.dueDiligence.assignedTeam.join('\\n') }}\n\n**Lead Contact:** {{ $json.dueDiligence.leadAssignee }}\n\nPlease feel free to reach out to your lead contact with any questions about the process.\n\nBest regards,\nThe VC Firm Team",
+        "options": {}
+      },
+      "name": "Send Founder Email",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2,
+      "position": [
+        1120,
+        300
+      ],
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "4",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "fromEmail": "duediligence@vcfirm.com",
+        "toEmail": "={{ $json.dueDiligence.leadAssignee }}",
+        "ccEmail": "={{ $json.dueDiligence.assignedTeam.join(',') }}",
+        "subject": "={{ 'Due Diligence Assignment: ' + $json.dueDiligence.companyName }}",
+        "text": "=Dear Team,\n\nYou have been assigned to the due diligence process for {{ $json.dueDiligence.companyName }}.\n\n**Company Details:**\n- Founder: {{ $json.dueDiligence.founderName }}\n- Industry: {{ $json.dueDiligence.industry }}\n- Stage: {{ $json.dueDiligence.stage }}\n- Investment Amount: {{ $json.dueDiligence.investmentAmount }}\n- Valuation: {{ $json.dueDiligence.valuation }}\n\n**Due Diligence ID:** {{ $json.dueDiligence.id }}\n\n**Lead Assignee:** {{ $json.dueDiligence.leadAssignee }}\n\nPlease review the due diligence checklist in the shared Google Sheet and begin your assigned tasks. The document folders have been created in Google Drive.\n\nThe initial phase is \"Initial Review\" and should be completed within 5 business days.\n\nBest regards,\nVC Firm Operations",
+        "options": {}
+      },
+      "name": "Send Team Email",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2,
+      "position": [
+        1120,
+        460
+      ],
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "4",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "event",
+        "operation": "create",
+        "calendar": "={{ $json.dueDiligence.leadAssignee }}",
+        "summary": "={{ 'Initial Due Diligence Meeting: ' + $json.dueDiligence.companyName }}",
+        "description": "=Initial due diligence meeting with {{ $json.dueDiligence.companyName }}.\n\nFounder: {{ $json.dueDiligence.founderName }}\nEmail: {{ $json.dueDiligence.founderEmail }}\n\nDue Diligence ID: {{ $json.dueDiligence.id }}\n\nPlease review company materials before the meeting.",
+        "location": "Virtual Meeting",
+        "start": "={{ new Date(Date.now() + 3*24*60*60*1000).toISOString() }}",
+        "end": "={{ new Date(Date.now() + 3*24*60*60*1000 + 60*60*1000).toISOString() }}",
+        "attendees": {
+          "attendees": [
+            {
+              "email": "={{ $json.dueDiligence.founderEmail }}"
+            },
+            {
+              "email": "={{ $json.dueDiligence.assignedTeam.join(',') }}"
+            }
+          ]
+        },
+        "conferenceData": {
+          "createRequest": {
+            "requestId": "={{ $json.dueDiligence.id }}",
+            "conferenceSolutionKey": {
+              "type": "hangoutsMeet"
+            }
+          }
+        },
+        "options": {
+          "sendUpdates": "all"
+        }
+      },
+      "name": "Schedule Initial Meeting",
+      "type": "n8n-nodes-base.googleCalendar",
+      "typeVersion": 1,
+      "position": [
+        1340,
+        300
+      ],
+      "credentials": {
+        "googleCalendarOAuth2Api": {
+          "id": "5",
+          "name": "Google Calendar account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "file",
+        "name": "={{ $json.dueDiligence.companyName + ' - Due Diligence Checklist.xlsx' }}",
+        "folderId": "={{ $json.mainFolderId }}",
+        "options": {}
+      },
+      "name": "Create Checklist File",
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 2,
+      "position": [
+        1340,
+        460
+      ],
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "1",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "document-upload",
+        "options": {}
+      },
+      "name": "Document Upload Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [
+        240,
+        620
+      ],
+      "webhookId": "document-upload"
+    },
+    {
+      "parameters": {
+        "operation": "lookup",
+        "sheetName": "Due Diligence Tracker",
+        "lookupColumn": "id",
+        "lookupValue": "={{ $json.dueDiligenceId }}",
+        "options": {}
+      },
+      "name": "Get Due Diligence Record",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 3,
+      "position": [
+        460,
+        620
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "2",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "file",
+        "name": "={{ $json.documentName }}",
+        "folderId": "={{ $json.folderId }}",
+        "binaryPropertyName": "data",
+        "options": {}
+      },
+      "name": "Upload Document to Drive",
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 2,
+      "position": [
+        680,
+        620
+      ],
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "1",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "functionCode": "// Update due diligence record with new document\nconst dueDiligence = $input.first().json;\nconst documentInfo = $input.last().json;\n\n// Add document to the documents array\ndueDiligence.documents = dueDiligence.documents || [];\ndueDiligence.documents.push({\n  name: documentInfo.name,\n  category: $input.last().json.category,\n  uploadDate: new Date().toISOString(),\n  fileId: documentInfo.id,\n  status: 'Uploaded',\n  reviewStatus: 'Pending Review'\n});\n\n// Update the last modified date\ndueDiligence.lastModified = new Date().toISOString();\n\nreturn { json: dueDiligence };"
+      },
+      "name": "Update Due Diligence Record",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [
+        900,
+        620
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "sheetName": "Due Diligence Tracker",
+        "columns": "={{ Object.keys($json) }}",
+        "options": {}
+      },
+      "name": "Save Updated Record",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 3,
+      "position": [
+        1120,
+        620
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "2",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "due-diligence",
+        "text": "=## New Document Uploaded\n\n**Company:** {{ $json.companyName }}\n**Document:** {{ $json.documents[0].name }}\n**Category:** {{ $json.documents[0].category }}\n**Uploaded:** {{ new Date($json.documents[0].uploadDate).toLocaleString() }}\n\n**Due Diligence ID:** {{ $json.id }}\n**Lead Assignee:** {{ $json.leadAssignee }}",
+        "additionalFields": {}
+      },
+      "name": "Send Document Notification",
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 1,
+      "position": [
+        1340,
+        620
+      ],
+      "credentials": {
+        "slackApi": {
+          "id": "3",
+          "name": "Slack account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "triggerTimes": {
+          "item": [
+            {
+              "mode": "everyX",
+              "value": 1,
+              "unit": "days"
+            }
+          ]
+        }
+      },
+      "name": "Daily Status Check",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1,
+      "position": [
+        240,
+        780
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "lookup",
+        "sheetName": "Due Diligence Tracker",
+        "lookupColumn": "status",
+        "lookupValue": "Started",
+        "options": {}
+      },
+      "name": "Get Active Due Diligence",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 3,
+      "position": [
+        460,
+        780
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "2",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "functionCode": "// Check due diligence progress and send reminders\nconst activeDueDiligence = $input.item.json;\n\n// Calculate days since start\nconst startDate = new Date(activeDueDiligence.dateStarted);\nconst currentDate = new Date();\nconst daysSinceStart = Math.floor((currentDate - startDate) / (1000 * 60 * 60 * 24));\n\n// Check if any reminders need to be sent\nlet reminderNeeded = false;\nlet reminderMessage = '';\n\n// Phase duration limits\nconst phaseDurations = {\n  'Initial Review': 5,\n  'Detailed Analysis': 10,\n  'Final Review': 5\n};\n\n// Check if current phase is taking too long\nif (phaseDurations[activeDueDiligence.currentPhase]) {\n  const phaseLimit = phaseDurations[activeDueDiligence.currentPhase];\n  \n  if (daysSinceStart > phaseLimit) {\n    reminderNeeded = true;\n    reminderMessage = `The ${activeDueDiligence.currentPhase} phase for ${activeDueDiligence.companyName} has exceeded the expected ${phaseLimit} day timeframe. Current duration: ${daysSinceStart} days.`;\n  }\n}\n\n// Check for incomplete checklist items\nlet pendingItems = 0;\nlet totalItems = 0;\n\nif (activeDueDiligence.dueDiligenceChecklist) {\n  for (const category of activeDueDiligence.dueDiligenceChecklist) {\n    for (const item of category.items) {\n      totalItems++;\n      if (item.status === 'Pending') {\n        pendingItems++;\n      }\n    }\n  }\n}\n\n// Calculate completion percentage\nconst completionPercentage = totalItems > 0 ? Math.round(((totalItems - pendingItems) / totalItems) * 100) : 0;\n\n// Add completion data\nactiveDueDiligence.completionPercentage = completionPercentage;\nactiveDueDiligence.pendingItems = pendingItems;\nactiveDueDiligence.totalItems = totalItems;\nactiveDueDiligence.daysSinceStart = daysSinceStart;\nactiveDueDiligence.reminderNeeded = reminderNeeded;\nactiveDueDiligence.reminderMessage = reminderMessage;\n\nreturn { json: activeDueDiligence };"
+      },
+      "name": "Check Due Diligence Progress",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [
+        680,
+        780
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "boolean": [
+            {
+              "value1": "={{ $json.reminderNeeded }}",
+              "value2": true
+            }
+          ]
+        }
+      },
+      "name": "Reminder Needed?",
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 1,
+      "position": [
+        900,
+        780
+      ]
+    },
+    {
+      "parameters": {
+        "chatId": "due-diligence",
+        "text": "=## Due Diligence Reminder\n\n{{ $json.reminderMessage }}\n\n**Company:** {{ $json.companyName }}\n**Current Phase:** {{ $json.currentPhase }}\n**Completion:** {{ $json.completionPercentage }}% ({{ $json.totalItems - $json.pendingItems }}/{{ $json.totalItems }} items)\n**Days Since Start:** {{ $json.daysSinceStart }}\n\n**Lead Assignee:** {{ $json.leadAssignee }}\n**Team:** {{ $json.assignedTeam.join(', ') }}",
+        "additionalFields": {}
+      },
+      "name": "Send Reminder Notification",
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 1,
+      "position": [
+        1120,
+        780
+      ],
+      "credentials": {
+        "slackApi": {
+          "id": "3",
+          "name": "Slack account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "fromEmail": "duediligence@vcfirm.com",
+        "toEmail": "={{ $json.leadAssignee }}",
+        "ccEmail": "={{ $json.assignedTeam.join(',') }}",
+        "subject": "={{ 'Due Diligence Reminder: ' + $json.companyName }}",
+        "text": "=Dear {{ $json.leadAssignee.split('@')[0] }},\n\n{{ $json.reminderMessage }}\n\n**Due Diligence Details:**\n- Company: {{ $json.companyName }}\n- Current Phase: {{ $json.currentPhase }}\n- Completion: {{ $json.completionPercentage }}% ({{ $json.totalItems - $json.pendingItems }}/{{ $json.totalItems }} items)\n- Days Since Start: {{ $json.daysSinceStart }}\n\nPlease update the due diligence checklist with your progress or request additional time if needed.\n\nBest regards,\nVC Firm Operations",
+        "options": {}
+      },
+      "name": "Send Reminder Email",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2,
+      "position": [
+        1340,
+        780
+      ],
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "4",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "due-diligence-complete",
+        "options": {}
+      },
+      "name": "Due Diligence Complete Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [
+        240,
+        940
+      ],
+      "webhookId": "due-diligence-complete"
+    },
+    {
+      "parameters": {
+        "operation": "lookup",
+        "sheetName": "Due Diligence Tracker",
+        "lookupColumn": "id",
+        "lookupValue": "={{ $json.dueDiligenceId }}",
+        "options": {}
+      },
+      "name": "Get Due Diligence for Completion",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 3,
+      "position": [
+        460,
+        940
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "2",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "functionCode": "// Update due diligence record to completed status\nconst dueDiligence = $input.item.json;\n\n// Update status and completion date\ndueDiligence.status = 'Completed';\ndueDiligence.dateCompleted = new Date().toISOString();\ndueDiligence.completedPhases = dueDiligence.completedPhases || [];\ndueDiligence.completedPhases.push(dueDiligence.currentPhase);\ndueDiligence.currentPhase = 'Completed';\n\n// Calculate duration in days\nconst startDate = new Date(dueDiligence.dateStarted);\nconst completionDate = new Date(dueDiligence.dateCompleted);\ndueDiligence.durationDays = Math.floor((completionDate - startDate) / (1000 * 60 * 60 * 24));\n\n// Add recommendation from input\ndueDiligence.recommendation = $input.first().json.recommendation || 'No recommendation provided';\ndueDiligence.recommendationNotes = $input.first().json.recommendationNotes || '';\n\nreturn { json: dueDiligence };"
+      },
+      "name": "Complete Due Diligence",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [
+        680,
+        940
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "sheetName": "Due Diligence Tracker",
+        "columns": "={{ Object.keys($json) }}",
+        "options": {}
+      },
+      "name": "Save Completed Record",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 3,
+      "position": [
+        900,
+        940
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "2",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "due-diligence",
+        "text": "=## Due Diligence Completed\n\n**Company:** {{ $json.companyName }}\n**Recommendation:** {{ $json.recommendation }}\n**Duration:** {{ $json.durationDays }} days\n\n**Notes:** {{ $json.recommendationNotes }}\n\n**Due Diligence ID:** {{ $json.id }}\n**Lead Assignee:** {{ $json.leadAssignee }}",
+        "additionalFields": {}
+      },
+      "name": "Send Completion Notification",
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 1,
+      "position": [
+        1120,
+        940
+      ],
+      "credentials": {
+        "slackApi": {
+          "id": "3",
+          "name": "Slack account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "file",
+        "name": "={{ $json.companyName + ' - Due Diligence Report.pdf' }}",
+        "folderId": "={{ $json.mainFolderId }}/Final Reports",
+        "options": {}
+      },
+      "name": "Generate Final Report",
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 2,
+      "position": [
+        1340,
+        940
+      ],
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "1",
+          "name": "Google Drive account"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Due Diligence Trigger": {
+      "main": [
+        [
+          {
+            "node": "Initialize Due Diligence",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Initialize Due Diligence": {
+      "main": [
+        [
+          {
+            "node": "Create Main Folder",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Save to Due Diligence Tracker",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create Main Folder": {
+      "main": [
+        [
+          {
+            "node": "Prepare Sub Folders",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create Sub Folders": {
+      "main": [
+        [
+          {
+            "node": "Send Founder Email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Save to Due Diligence Tracker": {
+      "main": [
+        [
+          {
+            "node": "Send Slack Notification",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prepare Sub Folders": {
+      "main": [
+        [
+          {
+            "node": "Create Sub Folders",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send Slack Notification": {
+      "main": [
+        [
+          {
+            "node": "Send Team Email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send Founder Email": {
+      "main": [
+        [
+          {
+            "node": "Schedule Initial Meeting",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send Team Email": {
+      "main": [
+        [
+          {
+            "node": "Create Checklist File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Document Upload Webhook": {
+      "main": [
+        [
+          {
+            "node": "Get Due Diligence Record",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Due Diligence Record": {
+      "main": [
+        [
+          {
+            "node": "Upload Document to Drive",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Upload Document to Drive": {
+      "main": [
+        [
+          {
+            "node": "Update Due Diligence Record",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update Due Diligence Record": {
+      "main": [
+        [
+          {
+            "node": "Save Updated Record",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Save Updated Record": {
+      "main": [
+        [
+          {
+            "node": "Send Document Notification",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Daily Status Check": {
+      "main": [
+        [
+          {
+            "node": "Get Active Due Diligence",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Active Due Diligence": {
+      "main": [
+        [
+          {
+            "node": "Check Due Diligence Progress",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Due Diligence Progress": {
+      "main": [
+        [
+          {
+            "node": "Reminder Needed?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Reminder Needed?": {
+      "main": [
+        [
+          {
+            "node": "Send Reminder Notification",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send Reminder Notification": {
+      "main": [
+        [
+          {
+            "node": "Send Reminder Email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Due Diligence Complete Webhook": {
+      "main": [
+        [
+          {
+            "node": "Get Due Diligence for Completion",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Due Diligence for Completion": {
+      "main": [
+        [
+          {
+            "node": "Complete Due Diligence",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Complete Due Diligence": {
+      "main": [
+        [
+          {
+            "node": "Save Completed Record",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Save Completed Record": {
+      "main": [
+        [
+          {
+            "node": "Send Completion Notification",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send Completion Notification": {
+      "main": [
+        [
+          {
+            "node": "Generate Final Report",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "saveManualExecutions": true,
+    "callerPolicy": "workflowsFromSameOwner",
+    "errorWorkflow": "",
+    "saveExecutionProgress": true,
+    "saveDataErrorExecution": "all"
+  },
+  "tags": [
+    {
+      "name": "due diligence",
+      "color": "#ff0000"
+    },
+    {
+      "name": "founder pitch",
+      "color": "#00aaff"
+    }
+  ],
+  "pinData": {},
+  "versionId": "1",
+  "triggerCount": 3,
+  "staticData": null,
+  "id": "3"
+}

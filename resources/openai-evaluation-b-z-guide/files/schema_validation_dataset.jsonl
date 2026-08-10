@@ -1,0 +1,6 @@
+{"input": "Provide user information", "output": "{\"name\": \"Alice Johnson\", \"age\": 29, \"email\": \"alice@example.com\", \"address\": {\"street\": \"123 Elm St\", \"city\": \"Somewhere\", \"postal_code\": \"12345\"}}"}
+{"input": "Show user profile", "output": "{\"name\": \"Bob Smith\", \"age\": 40, \"email\": \"bob@example.com\", \"address\": {\"street\": \"456 Oak St\", \"city\": \"Anywhere\", \"postal_code\": \"67890\"}}"}
+{"input": "Provide user data without address", "output": "{\"name\": \"Charlie Brown\", \"age\": 35, \"email\": \"charlie@example.com\"}"}
+{"input": "Show user profile with incorrect age type", "output": "{\"name\": \"Dana White\", \"age\": \"thirty\", \"email\": \"dana@example.com\", \"address\": {\"street\": \"789 Pine St\", \"city\": \"Everywhere\", \"postal_code\": \"24680\"}}"}
+{"input": "Show user profile with missing city", "output": "{\"name\": \"Eve Adams\", \"age\": 25, \"email\": \"eve@example.com\", \"address\": {\"street\": \"135 Maple St\", \"postal_code\": \"13579\"}}"}
+{"input": "Provide profile with missing email and extra field", "output": "{\"name\": \"Frank Green\", \"age\": 45, \"address\": {\"street\": \"246 Birch St\", \"city\": \"Somewhere\", \"postal_code\": \"97531\"}, \"phone\": \"+1234567890\"}"}

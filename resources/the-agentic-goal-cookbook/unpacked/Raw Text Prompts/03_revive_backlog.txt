@@ -1,0 +1,44 @@
+REVIVE - RESURRECT YOUR PROJECT BACKLOG
+=========================================
+
+When to use:
+- Your ~/Projects folder is full of half-finished work you no longer remember
+- You want a one-line verdict on every dormant folder without opening any of them
+- You'd rather know what's worth reviving than feel guilty about all of it
+
+What it does:
+- Scans every subfolder of ~/Projects
+- For each one, checks git log -1. If the latest commit is over 90 days old OR there is no .git folder, treats it as dormant
+- For each dormant folder, attempts to run it, fixes broken dependencies if it fails
+- Rewrites the README in 3 sentences (what it does, how to run, what is special)
+- Logs a verdict (alive / revived / unfixable) to ALIVE.md with a one-line reason
+- Does NOT commit. The diagnostic is the deliverable.
+
+THE PROMPT (type /goal then paste the body below):
+
+----------------------------------------------------
+
+scan ~/Projects for every subfolder. For each folder, check git log -1. If the latest commit is over 90 days old OR there is no .git folder, treat it as dormant. For each dormant folder, attempt to run it, if it fails fix dependencies to 2026 standards, rewrite the README in 3 sentences (what it does, how to run, what is special), log a verdict (alive / revived / unfixable) to ALIVE.md with a one-line reason. Do not commit. Stop when every dormant folder has a verdict line in ALIVE.md. Or stop after 30 turns.
+
+----------------------------------------------------
+
+Guardrails:
+- The "do not commit" clause is critical. You want the diagnostic, not auto-commits flooding your repos.
+- Tune the 90-day window to match your sense of dormant. 180 is fine for slower-moving projects.
+- If you have hundreds of folders, raise the turn cap to 60 or run in batches by letter.
+- "Unfixable" is a real verdict. Not every old project deserves resurrection.
+
+Wake-up check:
+
+  cat ALIVE.md
+  grep '^- revived' ALIVE.md | wc -l
+  grep '^- unfixable' ALIVE.md | wc -l
+
+What good looks like:
+- ALIVE.md has one verdict line per dormant folder
+- Verdicts split roughly: a third alive-already, a third revived, a third unfixable
+- Revived folders have a fresh 3-sentence README you can actually read
+
+If you want the rest of the prompts and the full /goal cookbook, check out the Early AI Dopters community.
+
+https://www.skool.com/earlyaidopters/about

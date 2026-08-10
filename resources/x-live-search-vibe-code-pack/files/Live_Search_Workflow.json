@@ -1,0 +1,351 @@
+{
+  "name": "Live Search Grok API (Webhook)",
+  "nodes": [
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.x.ai/v1/chat/completions",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer xai-B7TcUGROln5KGzjvGQ5Cr0GjWdokXPNsvSzssdL9AyFHuCo3oXzFMh1KAYdvIAeCZ0NWeX9eMJaw65CP"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "{\n  \"messages\": [\n    {\n      \"role\": \"system\",\n      \"content\": \"You are searching X (Twitter) posts from specific tech leaders and AI experts. Focus on extracting their key insights, opinions, and any debates between them. Provide a balanced summary of different viewpoints.\"\n    },\n    {\n      \"role\": \"user\",\n      \"content\": \"{{$json.chatInput}}\"\n    }\n  ],\n  \"model\": \"grok-3-latest\",\n  \"search_parameters\": {\n    \"mode\": \"on\",\n    \"sources\": [\n      {\n        \"type\": \"x\",\n        \"x_handles\": [\n          \"elonmusk\",\n          \"sama\",\n          \"gdb\",\n          \"ylecun\",\n          \"demishassabis\",\n          \"jeffdean\",\n          \"karpathy\",\n          \"goodfellow_ian\"\n        ]\n      }\n    ],\n    \"return_citations\": true,\n    \"from_date\": \"2025-05-24\"\n  }\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequestTool",
+      "typeVersion": 4.2,
+      "position": [
+        360,
+        220
+      ],
+      "id": "32bbf87d-a65b-4617-98f8-28d318f888ea",
+      "name": "Updates from Tech Leaders"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.x.ai/v1/chat/completions",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer xai-B7TcUGROln5KGzjvGQ5Cr0GjWdokXPNsvSzssdL9AyFHuCo3oXzFMh1KAYdvIAeCZ0NWeX9eMJaw65CP"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "{\n  \"messages\": [\n    {\n      \"role\": \"system\",\n      \"content\": \"You are monitoring X for breaking news and current events. Focus on the most recent and impactful stories. Summarize key developments, public reactions, and overall sentiment. Prioritize accuracy and include multiple perspectives where available.\"\n    },\n    {\n      \"role\": \"user\",\n      \"content\": \"{{$json.chatInput}}\"\n    }\n  ],\n  \"model\": \"grok-3-latest\",\n  \"search_parameters\": {\n    \"mode\": \"on\",\n    \"sources\": [\n      {\n        \"type\": \"x\"\n      }\n    ],\n    \"return_citations\": true,\n    \"max_search_results\": 25\n  }\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequestTool",
+      "typeVersion": 4.2,
+      "position": [
+        720,
+        220
+      ],
+      "id": "5a664aea-8fcc-4160-8d69-283badcd0986",
+      "name": "Real-Time Breaking News"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.x.ai/v1/chat/completions",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer xai-B7TcUGROln5KGzjvGQ5Cr0GjWdokXPNsvSzssdL9AyFHuCo3oXzFMh1KAYdvIAeCZ0NWeX9eMJaw65CP"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "{\n  \"messages\": [\n    {\n      \"role\": \"system\",\n      \"content\": \"You are conducting comprehensive research using X posts, web content, and news sources. Compare and contrast information from different sources. Identify consensus views and conflicting opinions. Provide a balanced, well-researched analysis with clear conclusions.\"\n    },\n    {\n      \"role\": \"user\",\n      \"content\": \"{{$json.chatInput}}\"\n    }\n  ],\n  \"model\": \"grok-3-latest\",\n  \"search_parameters\": {\n    \"mode\": \"on\",\n    \"sources\": [\n      {\n        \"type\": \"x\"\n      },\n      {\n        \"type\": \"web\"\n      },\n      {\n        \"type\": \"news\"\n      }\n    ],\n    \"return_citations\": true,\n    \"max_search_results\": 20,\n    \"from_date\": \"2025-05-20\"\n  }\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequestTool",
+      "typeVersion": 4.2,
+      "position": [
+        900,
+        220
+      ],
+      "id": "4e8ceca0-b365-43d8-9584-11905db0d1fa",
+      "name": "Multi-Source Analysis"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.x.ai/v1/chat/completions",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer xai-B7TcUGROln5KGzjvGQ5Cr0GjWdokXPNsvSzssdL9AyFHuCo3oXzFMh1KAYdvIAeCZ0NWeX9eMJaw65CP"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "{\n  \"messages\": [\n    {\n      \"role\": \"system\",\n      \"content\": \"You are analyzing historical X data to understand how past events unfolded and were perceived. Focus on capturing the timeline of reactions, key moments of discussion, and how sentiment evolved. Provide context about what was happening at that time.\"\n    },\n    {\n      \"role\": \"user\",\n      \"content\": \"{{$json.chatInput}}\"\n    }\n  ],\n  \"model\": \"grok-3-latest\",\n  \"search_parameters\": {\n    \"mode\": \"on\",\n    \"sources\": [\n      {\n        \"type\": \"x\"\n      }\n    ],\n    \"from_date\": \"2025-01-01\",\n    \"to_date\": \"2025-05-25\",\n    \"return_citations\": true,\n    \"max_search_results\": 30\n  }\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequestTool",
+      "typeVersion": 4.2,
+      "position": [
+        1080,
+        220
+      ],
+      "id": "8e1db31e-25f6-41d7-b778-c532f913c908",
+      "name": "Historical Events"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.x.ai/v1/chat/completions",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer xai-B7TcUGROln5KGzjvGQ5Cr0GjWdokXPNsvSzssdL9AyFHuCo3oXzFMh1KAYdvIAeCZ0NWeX9eMJaw65CP"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "{\n  \"messages\": [\n    {\n      \"role\": \"system\",\n      \"content\": \"You are analyzing specific community discussions on X. Focus on technical insights, community consensus, debates, and emerging trends within the specified community. Highlight both popular and contrarian viewpoints to give a complete picture.\"\n    },\n    {\n      \"role\": \"user\",\n      \"content\": \"{{$json.chatInput}}\"\n    }\n  ],\n  \"model\": \"grok-3-latest\",\n  \"search_parameters\": {\n    \"mode\": \"on\",\n    \"sources\": [\n      {\n        \"type\": \"x\"\n      }\n    ],\n    \"return_citations\": true,\n    \"from_date\": \"2025-01-01\"\n  }\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequestTool",
+      "typeVersion": 4.2,
+      "position": [
+        1240,
+        220
+      ],
+      "id": "9ed31d94-6164-44e9-b672-7432423bcef2",
+      "name": "Community Pulse Check"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "claude-3-5-haiku-20241022",
+          "mode": "list",
+          "cachedResultName": "Claude Haiku 3.5"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatAnthropic",
+      "typeVersion": 1.3,
+      "position": [
+        20,
+        220
+      ],
+      "id": "789f2337-600e-4c13-8eec-38c25101e560",
+      "name": "Anthropic Chat Model",
+      "credentials": {
+        "anthropicApi": {
+          "id": "WgEO7Nwjm0SFC3lS",
+          "name": "Anthropic account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.x.ai/v1/chat/completions",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer xai-B7TcUGROln5KGzjvGQ5Cr0GjWdokXPNsvSzssdL9AyFHuCo3oXzFMh1KAYdvIAeCZ0NWeX9eMJaw65CP"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "{\n  \"messages\": [\n    {\n      \"role\": \"system\",\n      \"content\": \"You are analyzing viral content and trending topics on X. Focus on identifying popular memes, funny trends, and viral phenomena. Explain why these are resonating with people and include cultural context where relevant.\"\n    },\n    {\n      \"role\": \"user\",\n      \"content\": \"{{$json.chatInput}}\"\n    }\n  ],\n  \"model\": \"grok-3-latest\",\n  \"search_parameters\": {\n    \"mode\": \"on\",\n    \"sources\": [\n      {\n        \"type\": \"x\"\n      }\n    ],\n    \"max_search_results\": 30,\n    \"from_date\": \"2025-05-20\"\n  }\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequestTool",
+      "typeVersion": 4.2,
+      "position": [
+        540,
+        220
+      ],
+      "id": "05369f57-abe9-4cb6-8fc3-94c97912452f",
+      "name": "Find Memes and Trends"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=You are \"Pulse\" - an intelligent information curator who finds real-time insights from X (Twitter). Your job is to execute the appropriate tool based on the metadata provided.\n\n## USER'S QUESTION: {{$json.body.question}}\n\n## METADATA CONTEXT:\n- Tool Selected: {{ $json.body.metadata.tool }} (may be empty)\n- Category: {{ $json.body.metadata.category }} (may be empty)\n- Timestamp: {{ $json.body.metadata.timestamp }} (may be empty)\n\n## CRITICAL INSTRUCTION: You MUST execute the tool that matches {{ $json.body.metadata.tool }} if provided\n\n## Available Tools and Their Mappings:\n### Updates from Tech Leaders\n- Tool name: techUpdates\n- Execute when metadata.tool = \"techUpdates\"\n- Searches posts from: elonmusk, sama, gdb, ylecun, demishassabis, jeffdean, karpathy, goodfellow_ian\n\n### Find Memes and Trends  \n- Tool name: memes_trends\n- Execute when metadata.tool = \"memes_trends\"\n- Searches for viral content and trending topics\n\n### Real-Time Breaking News\n- Tool name: breaking_news\n- Execute when metadata.tool = \"breaking_news\"\n- Monitors real-time breaking news\n\n### Multi-Source Analysis\n- Tool name: content_analysis\n- Execute when metadata.tool = \"content_analysis\"\n- Searches X, web, and news sources\n\n### Historical Events\n- Tool name: historical_events\n- Execute when metadata.tool = \"historical_events\"\n- Analyzes past events and reactions\n\n### Community Pulse Check\n- Tool name: community_pulse\n- Execute when metadata.tool = \"community_pulse\"\n- Analyzes community sentiment and discussions\n\n## EXECUTION STEPS:\n1. Check if {{ $json.body.metadata.tool }} exists and is not empty\n2. If metadata.tool is provided, execute that specific tool\n3. If metadata.tool is empty, analyze the question to select appropriate tool\n4. Pass the user's question \"{{ $json.body.question }}\" to the selected tool\n5. DO NOT explain what you would do - ACTUALLY EXECUTE THE TOOL\n\n## OUTPUT REQUIREMENTS:\nCRITICAL: Extract SPECIFIC information from the tool results. DO NOT provide generic summaries.\n\nYour response MUST include:\n1. Direct answer to the user's question using SPECIFIC details from the search results\n2. Include actual quotes, numbers, dates, or concrete examples found in the data\n3. NO generic statements like \"people are concerned about\" or \"discussions highlight\"\n4. NO tool name references or disclaimers\n\n## RESPONSE FORMAT:\n1. Start DIRECTLY with the specific finding (no preamble)\n2. Use concrete details: names, numbers, exact quotes, specific events\n3. Present 3 relevant source links naturally integrated into your response\n\nExample of GOOD response:\n\"AGI predictions range from 2027 (Musk's latest estimate) to 2040+ (LeCun remains skeptical). Key developments: OpenAI's o3 model scored 87.5% on ARC-AGI benchmark, while Anthropic launched Claude 3.5 with 95% on graduate-level reasoning.\"\n\nExample of BAD response:\n\"The community is discussing AI ethics and governance concerns. People are worried about implications.\"\n\n## CITATION RULES - CRITICAL:\n- ONLY include citations from x.com or twitter.com domains\n- Ignore ALL other URLs (they are often dead links)\n- Filter citations to show ONLY X/Twitter posts\n- If a citation URL doesn't start with https://x.com/ or https://twitter.com/, skip it\n- Aim for 3 X links, but if fewer valid X links exist, show what's available\n\n## LINK FORMATTING:\n- Only use X/Twitter links in format: [@username's specific point](https://x.com/...)\n- Integrate links naturally within sentences\n- Skip any non-X domain citations entirely\n\n## FORBIDDEN PHRASES:\nNever use:\n- \"Based on the [tool name]\"\n- \"The community seems\"\n- \"Discussions highlight\"\n- \"Growing concerns about\"\n- \"People are talking about\"\n- Any vague, non-specific language\n\n## METADATA HANDLING:\n- If {{ $json.body.metadata.tool }} is empty, select tool based on question content\n- If {{ $json.body.type }} exists, use as fallback for tool selection\n- Proceed with execution regardless of metadata presence",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.9,
+      "position": [
+        560,
+        0
+      ],
+      "id": "73c608d8-524a-4687-8425-cced2566ed57",
+      "name": "Pulse Agent"
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "bafca7c5-dc53-4967-9f1b-c2f5b1048c00",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        160,
+        0
+      ],
+      "id": "67332878-9aba-4bbb-b787-bac9edf6a0a6",
+      "name": "Webhook",
+      "webhookId": "bafca7c5-dc53-4967-9f1b-c2f5b1048c00"
+    },
+    {
+      "parameters": {
+        "respondWith": "allIncomingItems",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.3,
+      "position": [
+        1060,
+        0
+      ],
+      "id": "505de9d1-285f-435b-8246-07952bee5a55",
+      "name": "Respond to Webhook"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Updates from Tech Leaders": {
+      "ai_tool": [
+        [
+          {
+            "node": "Pulse Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Real-Time Breaking News": {
+      "ai_tool": [
+        [
+          {
+            "node": "Pulse Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Multi-Source Analysis": {
+      "ai_tool": [
+        [
+          {
+            "node": "Pulse Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Historical Events": {
+      "ai_tool": [
+        [
+          {
+            "node": "Pulse Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Community Pulse Check": {
+      "ai_tool": [
+        [
+          {
+            "node": "Pulse Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Anthropic Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Pulse Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Find Memes and Trends": {
+      "ai_tool": [
+        [
+          {
+            "node": "Pulse Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Pulse Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Pulse Agent": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "a9cb5609-7c8a-46d5-bf44-6cbf76622767",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "aaadb797535f05587ee95b776c942a7c3f7a46fd7aa0c9b6a9d64e1e595f8af1"
+  },
+  "id": "pKHrIHfzyGRpdrrb",
+  "tags": []
+}

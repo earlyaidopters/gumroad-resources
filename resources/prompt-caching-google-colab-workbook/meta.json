@@ -1,0 +1,26 @@
+{
+  "name": "Prompt Caching Google Colab Workbook",
+  "external_id": "xu2zhq-IrImVUX7ZKMci0w==",
+  "permalink": "rrusmc",
+  "unique_permalink": "rrusmc",
+  "custom_permalink": "promptadvisers",
+  "url": "https://markkashef.gumroad.com/l/promptadvisers",
+  "status": "published",
+  "archived": false,
+  "kind": "products",
+  "price_formatted": "$0+",
+  "description_md": "## What's Inside:\n\n- \nPrompt Caching Implementation: Easily integrate Claude's new prompt caching feature into your projects\n\n- \nCost Savings Calculator: Estimate your potential savings (up to 90%!) when using prompt caching\n\n- \nLatency Reduction Analyzer: See how much faster your API calls can become (up to 85% reduction!)\n\n- \nBest Practices Guide: Learn optimal strategies for structuring your prompts and maximizing cache efficiency\n\n- \nUse Case Examples: Explore real-world applications for conversational agents, coding assistants, document processing, and more\n\n- \nComprehensive PDF Breakdown: A detailed PDF guide that walks you through every aspect of prompt caching optimization",
+  "files": [
+    {
+      "file": "Prompt Caching with Claude.pdf",
+      "status": "cached",
+      "bytes": 329487
+    },
+    {
+      "file": "Prompt_Caching_with_Claude.ipynb",
+      "status": "cached",
+      "bytes": 1431237
+    }
+  ],
+  "has_rich_content": true
+}

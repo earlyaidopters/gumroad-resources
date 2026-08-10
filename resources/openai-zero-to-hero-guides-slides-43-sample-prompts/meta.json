@@ -1,0 +1,21 @@
+{
+  "name": "OpenAI Zero-to-Hero Guides (Slides + 43 Sample Prompts)",
+  "external_id": "40PJk-OyfGxjmIDxO_AyJQ==",
+  "permalink": "pskgm",
+  "unique_permalink": "pskgm",
+  "custom_permalink": "o1zerotohero",
+  "url": "https://markkashef.gumroad.com/l/o1zerotohero",
+  "status": "published",
+  "archived": false,
+  "kind": "products",
+  "price_formatted": "CAD$0+",
+  "description_md": "## What's Included:\n### 1. 43 Optimized o1 Prompts (Notion Format)\n\n- \nReady-to-use prompts tailored for o1 models\n\n- Covers a wide range of applications\n\n- Easily customizable to your needs\n\n### 2. Meta Prompt Guide\n\n- Learn how to craft effective prompts for o1 models\n\n- \nUnlock the full potential of these cutting-edge AI tools\n\n### 3. Slide Deck\n\n- \nDetailed presentation on o1 prompt engineering\n\n- Visual aids to reinforce key concepts\n\n- Perfect for learning or teaching others\n\n### 4. Custom GPT Prompt Converter\n\n- \nExclusive access to a specialized GPT\n\n- \nInstantly convert your existing prompts to o1-optimized versions\n\n- \nSave hours of manual rewriting and testing",
+  "files": [
+    {
+      "file": "How to Prompt Like a Pro.pdf",
+      "status": "cached",
+      "bytes": 276429
+    }
+  ],
+  "has_rich_content": true
+}

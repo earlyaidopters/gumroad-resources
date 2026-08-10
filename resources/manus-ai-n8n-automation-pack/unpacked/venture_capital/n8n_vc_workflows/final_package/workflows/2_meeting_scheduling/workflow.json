@@ -1,0 +1,565 @@
+{
+  "name": "Meeting Scheduling & Calendar Integration",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "minutes",
+              "minutesInterval": 15
+            }
+          ]
+        }
+      },
+      "name": "Check Calendar Every 15 Minutes",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1,
+      "position": [
+        240,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "functionCode": "// Set time range for calendar check\nconst now = new Date();\nconst tomorrow = new Date(now);\ntomorrow.setDate(tomorrow.getDate() + 1);\nconst nextWeek = new Date(now);\nnextWeek.setDate(nextWeek.getDate() + 7);\n\nreturn {\n  json: {\n    timeMin: now.toISOString(),\n    timeMax: nextWeek.toISOString(),\n    calendarId: 'primary',\n    teamMembers: [\n      {\n        name: 'Partner 1',\n        email: 'partner1@vcfirm.com',\n        calendarId: 'partner1@vcfirm.com'\n      },\n      {\n        name: 'Partner 2',\n        email: 'partner2@vcfirm.com',\n        calendarId: 'partner2@vcfirm.com'\n      },\n      {\n        name: 'Associate 1',\n        email: 'associate1@vcfirm.com',\n        calendarId: 'associate1@vcfirm.com'\n      }\n    ]\n  }\n};"
+      },
+      "name": "Set Calendar Parameters",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [
+        460,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "resource": "calendar",
+        "operation": "get",
+        "calendarId": "={{ $json.calendarId }}"
+      },
+      "name": "Get Team Calendars",
+      "type": "n8n-nodes-base.googleCalendar",
+      "typeVersion": 1,
+      "position": [
+        680,
+        300
+      ],
+      "credentials": {
+        "googleCalendarOAuth2Api": {
+          "id": "1",
+          "name": "Google Calendar account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "event",
+        "operation": "getAll",
+        "calendar": "={{ $json.calendarId }}",
+        "timeMin": "={{ $json.timeMin }}",
+        "timeMax": "={{ $json.timeMax }}",
+        "options": {
+          "showDeleted": false,
+          "singleEvents": true
+        },
+        "returnAll": true
+      },
+      "name": "Get Upcoming Events",
+      "type": "n8n-nodes-base.googleCalendar",
+      "typeVersion": 1,
+      "position": [
+        900,
+        300
+      ],
+      "credentials": {
+        "googleCalendarOAuth2Api": {
+          "id": "1",
+          "name": "Google Calendar account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "lookup",
+        "sheetName": "Meeting Requests",
+        "lookupColumn": "Status",
+        "lookupValue": "Pending",
+        "options": {}
+      },
+      "name": "Get Pending Meeting Requests",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 3,
+      "position": [
+        460,
+        460
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "2",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "functionCode": "// Process calendar data and meeting requests to find available slots\nconst teamMembers = $input.first().json.teamMembers;\nconst pendingRequests = $input.last().json;\nconst calendarEvents = $input.first().json;\n\n// Create a map of busy times for each team member\nconst busyTimes = {};\nteamMembers.forEach(member => {\n  busyTimes[member.email] = [];\n});\n\n// Add existing events to busy times\nif (Array.isArray(calendarEvents.items)) {\n  calendarEvents.items.forEach(event => {\n    if (event.start && event.end) {\n      const start = new Date(event.start.dateTime || `${event.start.date}T00:00:00`);\n      const end = new Date(event.end.dateTime || `${event.end.date}T23:59:59`);\n      \n      const calendarId = event.organizer && event.organizer.email;\n      if (calendarId && busyTimes[calendarId]) {\n        busyTimes[calendarId].push({ start, end });\n      }\n    }\n  });\n}\n\n// Process each pending meeting request\nconst processedRequests = [];\n\nif (Array.isArray(pendingRequests)) {\n  pendingRequests.forEach(request => {\n    // Determine which team members should attend based on request details\n    let assignedMembers = [];\n    \n    // Simple assignment logic based on meeting type\n    if (request.meetingType === 'Initial Screening') {\n      assignedMembers = [teamMembers[2]]; // Associate\n    } else if (request.meetingType === 'Pitch Meeting') {\n      assignedMembers = [teamMembers[0], teamMembers[2]]; // Partner 1 and Associate\n    } else if (request.meetingType === 'Due Diligence') {\n      assignedMembers = [teamMembers[0], teamMembers[1], teamMembers[2]]; // All team members\n    } else {\n      assignedMembers = [teamMembers[0]]; // Default to Partner 1\n    }\n    \n    // Find available time slots\n    const availableSlots = findAvailableTimeSlots(busyTimes, assignedMembers, request);\n    \n    // Add processed request to output\n    processedRequests.push({\n      ...request,\n      assignedMembers: assignedMembers.map(m => m.email).join(','),\n      availableSlots: availableSlots,\n      suggestedSlot: availableSlots.length > 0 ? availableSlots[0] : null,\n      status: availableSlots.length > 0 ? 'Ready for Scheduling' : 'No Availability'\n    });\n  });\n}\n\n// Helper function to find available time slots\nfunction findAvailableTimeSlots(busyTimes, teamMembers, request) {\n  const availableSlots = [];\n  const requestDate = new Date(request.preferredDate || Date.now());\n  const startHour = 9; // 9 AM\n  const endHour = 17; // 5 PM\n  const meetingDuration = parseInt(request.duration) || 60; // in minutes\n  \n  // Check the next 5 business days\n  for (let dayOffset = 0; dayOffset < 5; dayOffset++) {\n    const currentDate = new Date(requestDate);\n    currentDate.setDate(requestDate.getDate() + dayOffset);\n    \n    // Skip weekends\n    if (currentDate.getDay() === 0 || currentDate.getDay() === 6) {\n      continue;\n    }\n    \n    // Check each 30-minute slot during business hours\n    for (let hour = startHour; hour < endHour; hour++) {\n      for (let minute = 0; minute < 60; minute += 30) {\n        if (hour === endHour - 1 && minute + meetingDuration > 60) {\n          continue; // Skip if meeting would extend past end of day\n        }\n        \n        const slotStart = new Date(currentDate);\n        slotStart.setHours(hour, minute, 0, 0);\n        \n        const slotEnd = new Date(slotStart);\n        slotEnd.setMinutes(slotStart.getMinutes() + meetingDuration);\n        \n        // Check if all team members are available during this slot\n        let allAvailable = true;\n        for (const member of teamMembers) {\n          if (!isTimeSlotAvailable(busyTimes[member.email], slotStart, slotEnd)) {\n            allAvailable = false;\n            break;\n          }\n        }\n        \n        if (allAvailable) {\n          availableSlots.push({\n            start: slotStart.toISOString(),\n            end: slotEnd.toISOString(),\n            date: slotStart.toDateString(),\n            time: slotStart.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})\n          });\n        }\n      }\n    }\n  }\n  \n  return availableSlots;\n}\n\n// Helper function to check if a time slot conflicts with busy times\nfunction isTimeSlotAvailable(busyTimes, start, end) {\n  for (const busy of busyTimes) {\n    if (start < busy.end && end > busy.start) {\n      return false; // Conflict found\n    }\n  }\n  return true; // No conflicts\n}\n\nreturn { json: { processedRequests } };"
+      },
+      "name": "Process Meeting Requests",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [
+        900,
+        460
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "sheetName": "Meeting Requests",
+        "columns": "={{ Object.keys($json) }}",
+        "options": {}
+      },
+      "name": "Update Meeting Requests Sheet",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 3,
+      "position": [
+        1120,
+        460
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "2",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{ $json.status }}",
+              "operation": "equal",
+              "value2": "Ready for Scheduling"
+            }
+          ]
+        }
+      },
+      "name": "Ready for Scheduling?",
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 1,
+      "position": [
+        1340,
+        460
+      ]
+    },
+    {
+      "parameters": {
+        "resource": "event",
+        "operation": "create",
+        "calendar": "={{ $json.assignedMembers.split(',')[0] }}",
+        "summary": "={{ 'Meeting with ' + $json.companyName + ' - ' + $json.meetingType }}",
+        "description": "={{ 'Meeting with ' + $json.contactName + ' from ' + $json.companyName + '\\n\\nMeeting Type: ' + $json.meetingType + '\\n\\nAgenda: ' + $json.agenda + '\\n\\nContact Email: ' + $json.contactEmail }}",
+        "start": "={{ $json.suggestedSlot.start }}",
+        "end": "={{ $json.suggestedSlot.end }}",
+        "location": "={{ $json.location || 'Virtual Meeting' }}",
+        "attendees": {
+          "attendees": [
+            {
+              "email": "={{ $json.contactEmail }}"
+            },
+            {
+              "email": "={{ $json.assignedMembers }}"
+            }
+          ]
+        },
+        "conferenceData": {
+          "createRequest": {
+            "requestId": "={{ $json.id }}",
+            "conferenceSolutionKey": {
+              "type": "hangoutsMeet"
+            }
+          }
+        },
+        "options": {
+          "sendUpdates": "all"
+        }
+      },
+      "name": "Create Calendar Event",
+      "type": "n8n-nodes-base.googleCalendar",
+      "typeVersion": 1,
+      "position": [
+        1560,
+        380
+      ],
+      "credentials": {
+        "googleCalendarOAuth2Api": {
+          "id": "1",
+          "name": "Google Calendar account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "fromEmail": "meetings@vcfirm.com",
+        "toEmail": "={{ $json.contactEmail }}",
+        "subject": "={{ 'Meeting Confirmation: ' + $json.companyName + ' - ' + $json.meetingType }}",
+        "text": "=Dear {{ $json.contactName.split(' ')[0] }},\n\nWe're pleased to confirm your {{ $json.meetingType }} with our team at VC Firm.\n\n**Meeting Details:**\n- Date: {{ new Date($json.suggestedSlot.start).toDateString() }}\n- Time: {{ new Date($json.suggestedSlot.start).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) }} - {{ new Date($json.suggestedSlot.end).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) }}\n- Location: {{ $json.location || 'Virtual Meeting (see calendar invite for details)' }}\n\n**Attendees from our team:**\n{{ $json.assignedMembers.split(',').join('\\n') }}\n\nPlease review the calendar invitation for complete details and meeting link if applicable. If you need to reschedule, please reply to this email at your earliest convenience.\n\nWe look forward to our conversation!\n\nBest regards,\nThe VC Firm Team",
+        "options": {}
+      },
+      "name": "Send Confirmation Email",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2,
+      "position": [
+        1780,
+        380
+      ],
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "3",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "meeting-scheduling",
+        "text": "=## Meeting Scheduled\n\n**Company:** {{ $json.companyName }}\n**Contact:** {{ $json.contactName }}\n**Meeting Type:** {{ $json.meetingType }}\n**Date/Time:** {{ new Date($json.suggestedSlot.start).toDateString() }} at {{ new Date($json.suggestedSlot.start).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) }}\n**Team Members:** {{ $json.assignedMembers.split(',').join(', ') }}\n\n**Agenda:** {{ $json.agenda }}",
+        "additionalFields": {}
+      },
+      "name": "Send Slack Notification",
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 1,
+      "position": [
+        1780,
+        540
+      ],
+      "credentials": {
+        "slackApi": {
+          "id": "4",
+          "name": "Slack account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "triggerTimes": {
+          "item": [
+            {
+              "mode": "everyX",
+              "value": 1,
+              "unit": "days",
+              "hour": 8,
+              "minute": 0
+            }
+          ]
+        }
+      },
+      "name": "Daily Meeting Reminder",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1,
+      "position": [
+        240,
+        620
+      ]
+    },
+    {
+      "parameters": {
+        "functionCode": "// Set time range for today's meetings\nconst now = new Date();\nconst startOfDay = new Date(now);\nstartOfDay.setHours(0, 0, 0, 0);\nconst endOfDay = new Date(now);\nendOfDay.setHours(23, 59, 59, 999);\n\nreturn {\n  json: {\n    timeMin: startOfDay.toISOString(),\n    timeMax: endOfDay.toISOString(),\n    calendarId: 'primary',\n    teamMembers: [\n      {\n        name: 'Partner 1',\n        email: 'partner1@vcfirm.com',\n        calendarId: 'partner1@vcfirm.com'\n      },\n      {\n        name: 'Partner 2',\n        email: 'partner2@vcfirm.com',\n        calendarId: 'partner2@vcfirm.com'\n      },\n      {\n        name: 'Associate 1',\n        email: 'associate1@vcfirm.com',\n        calendarId: 'associate1@vcfirm.com'\n      }\n    ]\n  }\n};"
+      },
+      "name": "Set Today's Parameters",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [
+        460,
+        620
+      ]
+    },
+    {
+      "parameters": {
+        "resource": "event",
+        "operation": "getAll",
+        "calendar": "={{ $json.calendarId }}",
+        "timeMin": "={{ $json.timeMin }}",
+        "timeMax": "={{ $json.timeMax }}",
+        "options": {
+          "showDeleted": false,
+          "singleEvents": true
+        },
+        "returnAll": true
+      },
+      "name": "Get Today's Meetings",
+      "type": "n8n-nodes-base.googleCalendar",
+      "typeVersion": 1,
+      "position": [
+        680,
+        620
+      ],
+      "credentials": {
+        "googleCalendarOAuth2Api": {
+          "id": "1",
+          "name": "Google Calendar account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "functionCode": "// Process today's meetings to send reminders\nconst meetings = $input.item.json.items || [];\nconst todaysMeetings = [];\n\n// Filter for external meetings (with non-company attendees)\nfor (const meeting of meetings) {\n  if (meeting.attendees && meeting.attendees.length > 0) {\n    const externalAttendees = meeting.attendees.filter(attendee => {\n      return !attendee.email.endsWith('@vcfirm.com');\n    });\n    \n    if (externalAttendees.length > 0) {\n      const startTime = new Date(meeting.start.dateTime || `${meeting.start.date}T00:00:00`);\n      const endTime = new Date(meeting.end.dateTime || `${meeting.end.date}T23:59:59`);\n      \n      todaysMeetings.push({\n        id: meeting.id,\n        summary: meeting.summary,\n        description: meeting.description,\n        startTime: startTime.toISOString(),\n        endTime: endTime.toISOString(),\n        formattedStartTime: startTime.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}),\n        location: meeting.location || 'Virtual Meeting',\n        hangoutLink: meeting.hangoutLink || '',\n        organizer: meeting.organizer ? meeting.organizer.email : '',\n        attendees: meeting.attendees.map(a => a.email).join(', ')\n      });\n    }\n  }\n}\n\n// Sort meetings by start time\ntodaysMeetings.sort((a, b) => new Date(a.startTime) - new Date(b.startTime));\n\nreturn { json: { todaysMeetings } };"
+      },
+      "name": "Process Today's Meetings",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [
+        900,
+        620
+      ]
+    },
+    {
+      "parameters": {
+        "chatId": "meeting-reminders",
+        "text": "=## Today's Meetings\n\n{{ $json.todaysMeetings.length > 0 ? $json.todaysMeetings.map(meeting => `**${meeting.formattedStartTime}**: ${meeting.summary}\\n${meeting.location}${meeting.hangoutLink ? '\\n' + meeting.hangoutLink : ''}`).join('\\n\\n') : 'No external meetings scheduled for today.' }}",
+        "additionalFields": {}
+      },
+      "name": "Send Daily Schedule",
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 1,
+      "position": [
+        1120,
+        620
+      ],
+      "credentials": {
+        "slackApi": {
+          "id": "4",
+          "name": "Slack account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "meeting-request",
+        "options": {}
+      },
+      "name": "Meeting Request Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [
+        240,
+        780
+      ],
+      "webhookId": "meeting-request"
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "sheetName": "Meeting Requests",
+        "columns": "={{ Object.keys($json) }}",
+        "options": {}
+      },
+      "name": "Save Meeting Request",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 3,
+      "position": [
+        460,
+        780
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "2",
+          "name": "Google Sheets account"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Check Calendar Every 15 Minutes": {
+      "main": [
+        [
+          {
+            "node": "Set Calendar Parameters",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set Calendar Parameters": {
+      "main": [
+        [
+          {
+            "node": "Get Team Calendars",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Get Pending Meeting Requests",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Team Calendars": {
+      "main": [
+        [
+          {
+            "node": "Get Upcoming Events",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Upcoming Events": {
+      "main": [
+        [
+          {
+            "node": "Process Meeting Requests",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Pending Meeting Requests": {
+      "main": [
+        [
+          {
+            "node": "Process Meeting Requests",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Process Meeting Requests": {
+      "main": [
+        [
+          {
+            "node": "Update Meeting Requests Sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update Meeting Requests Sheet": {
+      "main": [
+        [
+          {
+            "node": "Ready for Scheduling?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Ready for Scheduling?": {
+      "main": [
+        [
+          {
+            "node": "Create Calendar Event",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create Calendar Event": {
+      "main": [
+        [
+          {
+            "node": "Send Confirmation Email",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Send Slack Notification",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Daily Meeting Reminder": {
+      "main": [
+        [
+          {
+            "node": "Set Today's Parameters",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set Today's Parameters": {
+      "main": [
+        [
+          {
+            "node": "Get Today's Meetings",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Today's Meetings": {
+      "main": [
+        [
+          {
+            "node": "Process Today's Meetings",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Process Today's Meetings": {
+      "main": [
+        [
+          {
+            "node": "Send Daily Schedule",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Meeting Request Webhook": {
+      "main": [
+        [
+          {
+            "node": "Save Meeting Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "saveManualExecutions": true,
+    "callerPolicy": "workflowsFromSameOwner",
+    "errorWorkflow": "",
+    "saveExecutionProgress": true,
+    "saveDataErrorExecution": "all"
+  },
+  "tags": [
+    {
+      "name": "meeting scheduling",
+      "color": "#ff9900"
+    },
+    {
+      "name": "calendar",
+      "color": "#0099cc"
+    }
+  ],
+  "pinData": {},
+  "versionId": "1",
+  "triggerCount": 3,
+  "staticData": null,
+  "id": "2"
+}

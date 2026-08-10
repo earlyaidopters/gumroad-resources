@@ -1,0 +1,414 @@
+{
+  "name": "GPT Edit Image SubFlow Tool",
+  "nodes": [
+    {
+      "parameters": {
+        "workflowInputs": {
+          "values": [
+            {
+              "name": "Prompt"
+            },
+            {
+              "name": "Image"
+            },
+            {
+              "name": "Model"
+            },
+            {
+              "name": "FileName"
+            }
+          ]
+        }
+      },
+      "id": "c055762a-8fe7-4141-a639-df2372f30060",
+      "typeVersion": 1.1,
+      "name": "When Executed by Another Workflow",
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "position": [
+        20,
+        320
+      ]
+    },
+    {
+      "parameters": {
+        "url": "={{ $json.Image }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        440,
+        540
+      ],
+      "id": "41b65869-abf5-4c78-8605-119057f75b37",
+      "name": "Download Image"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "4d7ec0ea-1c30-4a8f-a990-2283f769f9d7",
+              "leftValue": "={{ $json.Image }}",
+              "rightValue": "drive.google.com",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        240,
+        320
+      ],
+      "id": "c36621a4-345f-4bd0-942a-2fff4589f9dc",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "operation": "download",
+        "fileId": {
+          "__rl": true,
+          "value": "={{ $json.Image }}",
+          "mode": "url"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        480,
+        120
+      ],
+      "id": "66e6fd15-8811-4cea-9c4a-25ee04b10b6b",
+      "name": "Google Drive",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "8GZEWzWP6w0WaUF1",
+          "name": "Maaz Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "toBinary",
+        "sourceProperty": "data[0].b64_json",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.convertToFile",
+      "typeVersion": 1.1,
+      "position": [
+        920,
+        540
+      ],
+      "id": "9ceacbbe-d3ff-44f8-b982-fb00cfa90492",
+      "name": "Convert to File"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.openai.com/v1/images/edits",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "openAiApi",
+        "sendBody": true,
+        "contentType": "multipart-form-data",
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "prompt",
+              "value": "={{ $('When Executed by Another Workflow').item.json.Prompt }}"
+            },
+            {
+              "parameterType": "formBinaryData",
+              "name": "image[]",
+              "inputDataFieldName": "data"
+            },
+            {
+              "name": "model",
+              "value": "={{ $('When Executed by Another Workflow').item.json.Model }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        700,
+        540
+      ],
+      "id": "e33293a5-78a3-4629-8d42-6e238ba3292c",
+      "name": "Create Image",
+      "credentials": {
+        "openAiApi": {
+          "id": "bBtD8KtcEPsOhElY",
+          "name": "Prompt Advisers OpenAI Account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "name": "={{ $('When Executed by Another Workflow').item.json.FileName }}",
+        "driveId": {
+          "__rl": true,
+          "mode": "list",
+          "value": "My Drive"
+        },
+        "folderId": {
+          "__rl": true,
+          "value": "1tG2vAn6MO_VX8LHTnettCBnGyAUyA5Sx",
+          "mode": "list",
+          "cachedResultName": "N8N Image Agent",
+          "cachedResultUrl": "https://drive.google.com/drive/folders/1tG2vAn6MO_VX8LHTnettCBnGyAUyA5Sx"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        1200,
+        540
+      ],
+      "id": "d2024929-c341-4082-afbb-aae4ffe47671",
+      "name": "Google Drive1",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "8GZEWzWP6w0WaUF1",
+          "name": "Maaz Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "63bd9ce9-4219-487f-b2f4-c95e733e9252",
+              "name": "Image Link",
+              "value": "={{ $json.webViewLink }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1420,
+        540
+      ],
+      "id": "9b79f4ec-bda9-43ce-a899-f9fa238fd918",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "content": "Checks if the image is from Google Drive or an external URL",
+        "height": 80
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        100,
+        180
+      ],
+      "typeVersion": 1,
+      "id": "4d1ad711-bcc7-493b-9c0c-ba158f15f527",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "content": "If from Google Drive: Downloads directly from Drive",
+        "height": 80
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        660,
+        120
+      ],
+      "typeVersion": 1,
+      "id": "a86e1986-5933-46fb-8d72-ef5152bfc1b7",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "content": "If from external URL: Uses HTTP Request to download",
+        "height": 80,
+        "width": 180
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        400,
+        720
+      ],
+      "typeVersion": 1,
+      "id": "a18bd268-664c-42db-8978-ec854536a43b",
+      "name": "Sticky Note2"
+    },
+    {
+      "parameters": {
+        "content": "Sends image and edit instructions to OpenAI's edit API",
+        "height": 80,
+        "width": 180
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        660,
+        720
+      ],
+      "typeVersion": 1,
+      "id": "c7a333ce-471e-455b-9af7-ad8bf06dd63b",
+      "name": "Sticky Note3"
+    },
+    {
+      "parameters": {
+        "content": "Transforms the edited image response into a file",
+        "height": 80,
+        "width": 180
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        880,
+        720
+      ],
+      "typeVersion": 1,
+      "id": "858c6d9e-4cb8-4c40-ab53-b585c7ec6c9d",
+      "name": "Sticky Note4"
+    },
+    {
+      "parameters": {
+        "content": "Formats the Google Drive link for display to the user",
+        "height": 80,
+        "width": 180
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1380,
+        720
+      ],
+      "typeVersion": 1,
+      "id": "ac397383-9cce-40a3-89ef-548806ffcc61",
+      "name": "Sticky Note5"
+    }
+  ],
+  "pinData": {
+    "When Executed by Another Workflow": [
+      {
+        "json": {
+          "Prompt": "Replace the ball in the dog's mouth with a bone.",
+          "Image": "https://drive.google.com/file/d/1ZvIDBetSMZKieNs_D4GkHQvyLuHPKkJJ/view?usp=drivesdk",
+          "Model": "gpt-image-1",
+          "FileName": "dog"
+        }
+      }
+    ]
+  },
+  "connections": {
+    "When Executed by Another Workflow": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Download Image": {
+      "main": [
+        [
+          {
+            "node": "Create Image",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Google Drive",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Download Image",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Convert to File": {
+      "main": [
+        [
+          {
+            "node": "Google Drive1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create Image": {
+      "main": [
+        [
+          {
+            "node": "Convert to File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Drive1": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Drive": {
+      "main": [
+        [
+          {
+            "node": "Create Image",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "04f7329c-dcc7-43d5-b181-e748c1511590",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "aaadb797535f05587ee95b776c942a7c3f7a46fd7aa0c9b6a9d64e1e595f8af1"
+  },
+  "id": "ga8Er2m809UFpJP4",
+  "tags": []
+}

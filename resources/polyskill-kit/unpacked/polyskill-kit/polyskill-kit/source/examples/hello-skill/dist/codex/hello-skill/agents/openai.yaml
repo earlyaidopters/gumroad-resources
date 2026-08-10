@@ -1,0 +1,10 @@
+interface:
+  short_description: Polyskill round-trip demo
+  default_prompt: Use $hello-skill to ...
+dependencies:
+  tools:
+    - type: mcp
+      value: github
+      description: GitHub MCP server for reading repo state
+      transport: streamable_http
+      url: https://api.githubcopilot.com/mcp/

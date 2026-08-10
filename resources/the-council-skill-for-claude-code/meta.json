@@ -1,0 +1,26 @@
+{
+  "name": "The Council Skill for Claude Code 👑",
+  "external_id": "nahbq54nTP1bdcjLcMMMaw==",
+  "permalink": "zuihmk",
+  "unique_permalink": "zuihmk",
+  "custom_permalink": "council-skill-claude-code",
+  "url": "https://markkashef.gumroad.com/l/council-skill-claude-code",
+  "status": "published",
+  "archived": false,
+  "kind": "products",
+  "price_formatted": "CAD$0+",
+  "description_md": "# What You Get\n\n- \nThe Council Skill (.skill file): Drop it into Claude Code and immediately tap into OpenAI and Google models without leaving your terminal. Invoke with /council or natural language like \"get a second opinion.\"\n\n- \nOpenRouter Config: Pre-configured model routing that sends bug fixes to GPT-5.3-Codex, frontend questions to Gemini 3.1 Pro, and architecture decisions to Claude Opus. Edit one JSON file to change anything.\n\n- \nSetup README: Step-by-step instructions to get your OpenRouter API key and install the skill in under 5 minutes.\n\n---\n## Why This Works\nClaude Code is already your best coding partner. But every model has blind spots. \nCouncil lets you tap into Gemini or Codex for a second opinion without switching apps, switching contexts, or picking sides. Claude stays in charge. The other models advise.\nThe result: better code, better copy, better decisions - using the right model for the right job at the right time.\n---\nWant access to every skill I build and a community of builders using them?\nhttps://www.skool.com/earlyaidopters/about",
+  "files": [
+    {
+      "file": "council.skill",
+      "status": "cached",
+      "bytes": 6944
+    },
+    {
+      "file": "README.md",
+      "status": "cached",
+      "bytes": 1683
+    }
+  ],
+  "has_rich_content": true
+}

@@ -1,0 +1,44 @@
+FORGE - GENERATE SKILLS FROM YOUR OWN SESSION HISTORY
+=======================================================
+
+When to use:
+- You've used Claude Code enough that ~/.claude/projects/ has dozens of session transcripts
+- You suspect you're typing the same kinds of prompts over and over
+- You want Claude to spot those patterns and turn them into skills automatically
+
+What it does:
+- Reads the 50 most recent session transcripts in ~/.claude/projects/
+- Finds 3 recurring patterns of user prompts that appear 5 or more times
+- Filters out patterns that already have a corresponding skill in ~/.claude/skills/
+- For each pattern, writes a new skill folder with SKILL.md (proper YAML frontmatter) and SMOKE_TEST.md
+- Logs each detection to FORGE.md with the pattern and a session count
+
+THE PROMPT (type /goal then paste the body below):
+
+----------------------------------------------------
+
+read the 50 most recent session transcripts in ~/.claude/projects/. Find 3 recurring patterns of user prompts that appear 5 or more times and do NOT have a corresponding skill in ~/.claude/skills/. For each pattern, write a new skill folder at ~/.claude/skills/SKILL_NAME/ with SKILL.md (proper YAML frontmatter - name, description, when-to-trigger) and a SMOKE_TEST.md showing one example. Log each to FORGE.md with the pattern detected and a count of sessions it would have helped. Stop when 3 new skill folders exist, each contains SKILL.md and SMOKE_TEST.md, and FORGE.md is non-empty. Or stop after 25 turns.
+
+----------------------------------------------------
+
+Guardrails:
+- Tighten "5 or more times" if the agent is too eager. Bump to 8 or 10 for stricter pattern detection.
+- SMOKE_TEST.md per skill is what stops Claude from generating skill folders that don't actually run.
+- Review every generated skill before relying on it. The forge produces drafts, not finished work.
+- Pair this with the CLEAN prompt on a heartbeat. CLEAN prunes, FORGE generates, equilibrium holds.
+
+Wake-up check:
+
+  ls ~/.claude/skills | wc -l
+  cat FORGE.md
+  ls ~/.claude/skills/SKILL_NAME/   # for each newly generated skill
+
+What good looks like:
+- 3 new skill folders exist, each with SKILL.md (valid YAML) and SMOKE_TEST.md
+- FORGE.md lists each pattern with a count of sessions it would have helped
+- Each new skill maps to a real recurring task you actually do
+- Running the SMOKE_TEST.md example end-to-end succeeds for each new skill
+
+If you want the rest of the prompts and the full /goal cookbook, check out the Early AI Dopters community.
+
+https://www.skool.com/earlyaidopters/about

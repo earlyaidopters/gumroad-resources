@@ -1,0 +1,21 @@
+{
+  "name": "Personal AI Benchmark Kit 🧪",
+  "external_id": "y0xAIxApKg9WRQU8brCkWg==",
+  "permalink": "bmwjym",
+  "unique_permalink": "bmwjym",
+  "custom_permalink": "personal-ai-benchmark-kit",
+  "url": "https://markkashef.gumroad.com/l/personal-ai-benchmark-kit",
+  "status": "published",
+  "archived": false,
+  "kind": "products",
+  "price_formatted": "CAD$0+",
+  "description_md": "# What You Get\n\n- \nThe /benchmark Skill (full source): The complete Claude Code skill that mines your own conversation history into a personal eval pack and benchmarks any model against it. Every script included, nothing held back.\n\n- \nThe 3-Stage Pipeline: Digests gigabytes of your JSONL history into task patterns, build_eval_pack.py freezes them into a test pack with rubrics mined from your own corrections, and run benchmark.py replays them headlessly against any model or effort level.\n\n- \nBlind Judging That Holds Up: Double-order blind judging with winners derived in code, repeated trials with majority vote, and a vibe check for the intangibles (soul, lecture factor, padding) with verbatim evidence quotes.\n\n- \nReports You Can Show: Scorecard, TLDR verdict, before/after HTML report, live progress page, and a 16:9 share card.\n\n- \nSetup Wizard Included: First run walks you through everything. Works with a Gemini key or falls back to your Claude subscription. Your data never leaves your machine.\n\n---\n## Want my full systems and access to every resource I create? \nJoin 1300+ builders inside the community:\nhttps://www.skool.com/earlyaidopters/about",
+  "files": [
+    {
+      "file": "personal_benchmark_skill.zip",
+      "status": "cached",
+      "bytes": 55861
+    }
+  ],
+  "has_rich_content": true
+}

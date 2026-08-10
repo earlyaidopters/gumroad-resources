@@ -1,0 +1,219 @@
+# Claude Code Build Orchestration Recipes for Three Tasks
+
+**Grounded in official Claude Code docs (June 2026). All effort levels, subagent inheritance, and parallelization mechanics verified.**
+
+---
+
+## EFFORT LEVEL MECHANICS (Verified)
+
+- **Available levels:** `low`, `medium`, `high`, `xhigh`, `max`
+- **Session scope:** Effort is configured at startup via `--effort` flag, env var, or settings.json. Once set, it persists for the session.
+- **Subagent inheritance:** Subagents inherit the parent session's effort UNLESS they have an `effort` field in their frontmatter, which overrides. Each subagent can be independent.
+- **Ultracode:** Setting effort to `ultracode` combines `xhigh` reasoning + automatic workflow orchestration. Only available when workflows are enabled. Workflows don't inherit subagent effort; each agent in a workflow uses your session's model unless you ask Claude to route stages to a different one.
+- **Cost impact:** higher effort = more tokens burned per agent. `max` effort is the most expensive option.
+
+---
+
+## TASK 1: Standard Marketing Website (Next.js/React, 3-4 pages, form)
+
+**Characteristics:**
+- Well-defined scope, clear component hierarchy
+- Pages are mostly independent (nav, hero, features, pricing, footer shared)
+- Form logic is self-contained
+- No real-time or performance-sensitive concerns
+- Testing is straightforward (unit tests, e2e on form submission)
+
+### Recipe
+
+**PLAN phase (session-wide):**
+- Effort level: `high`
+- Plan mode: **YES** (read-first, present blueprint before building)
+- What happens: Claude reads the Next.js template, understands the page structure, designs the component hierarchy, lists the data models for the form, decides on styling approach
+- Duration: ~3-5 turns
+- Output: Concrete blueprint with file list, component names, data flow
+
+**BUILD phase (same session):**
+- Effort level: Drop to `medium` (don't need reasoning depth for structured build)
+- Plan mode: off
+- Sequential: YES, keep in main conversation
+- Why: The build is deterministic given the plan. No parallel speedup, would lose context continuity.
+- Claude: Generates all components, the form handler, the API route. Straightforward.
+- Duration: ~8-15 turns
+- Checkpoint: After 1-2 pages, ask Claude to verify styles match the design, form validation logic is correct
+
+**FAN-OUT phase:**
+- **Parallelization:** NOT recommended here
+- Why: The components share styling context, form state flows through props, the build is fast enough sequential. Subagents would each re-read the codebase; not worth the context cost.
+
+**VERIFY phase:**
+- Effort level: `low` (verification is just running and clicking)
+- Run the dev server locally
+- Walk through: each page loads, form submits, styling looks right
+- Duration: ~1 turn (Claude reads the app in a subagent, reports back)
+
+**Total cost estimate:** medium session; ~20 turns total.
+
+---
+
+## TASK 2: 3D/WebGL Website (Three.js or React-Three-Fiber, interactive scene, performance-sensitive)
+
+**Characteristics:**
+- High technical depth (camera, lighting, shaders, performance budgets)
+- Visuals are load-bearing (the scene IS the product)
+- Performance tuning required (geometry batching, shader optimization, draw calls)
+- Testing is hard (visual correctness is subjective, performance is measurable)
+- Small changes to camera or lighting cascade through the scene
+
+### Recipe
+
+**PLAN phase (session-wide):**
+- Effort level: `xhigh` (this is where it pays off; deep reasoning on 3D architecture is expensive but saves rework)
+- Plan mode: **YES**
+- Subagent: Spawn a read-only `Explore` subagent to scan Three.js docs / React-Three-Fiber patterns from your codebase (if you have prior 3D work). Keep main conversation clean.
+- What happens: Claude reasons through camera positioning strategy, lighting model, shader requirements, performance budgets (target: 60fps, < 5MB assets), which geometries to batch, where LOD matters. Draws an ASCII architecture diagram (composition pattern).
+- Duration: ~5-8 turns in main session + 1 subagent turn for research
+- Output: Explicit decision matrix (camera strategy, light count, geometry strategy, perf targets)
+
+**BUILD phase (fan-out, parallel):**
+- Effort level: `high` (each piece is technically dense)
+- Parallelization: **YES**, fan out subagents per major scene component (not per tiny object, but per semantic layer)
+  - Subagent A: Build the main hero geometry + materials
+  - Subagent B: Build the lighting rig (shadows, ambient, spotlights)
+  - Subagent C: Build camera controls (orbit, pan, zoom) + interaction system
+  - Subagent D: Build postprocessing effects (bloom, tone mapping if needed)
+- Each subagent:
+  - Gets the plan as context (paste it in the delegation message)
+  - Works in isolation
+  - Reports back only the component code + performance metric (draw call count, bundle size)
+- Coordination: Back in main session, Claude assembles the components, tests that they don't conflict (camera vs. interaction, lighting vs. shaders)
+- Duration: ~6-10 turns per subagent (parallel), ~3-5 turns main session for assembly
+- **Sequential bottleneck:** The assembly phase MUST stay in main because each component touches shared state (scene graph, renderer)
+
+**FAN-OUT details (what parallelizes well vs. not):**
+- Parallelizes well: geometry/materials, lighting, camera logic, postprocessing (they're largely independent)
+- Does NOT parallelize: scene graph assembly, performance tuning (tuning touches everything), visual debugging (you need to see the result in the browser to debug)
+
+**VERIFY phase:**
+- Effort level: `high` (performance verification is non-trivial; you need to measure FPS, monitor draw calls, inspect heap)
+- Tools: Open Three.js dev tools in the browser, measure:
+  - FPS (target 60, monitor for dips)
+  - Draw calls (use `renderer.info.render.calls`)
+  - Geometry memory (use Spector.js or Three.js stats)
+  - Asset bundle size (webpack bundleanalyzer)
+- Subagent loop: If a metric misses target, spawn a subagent to optimize that specific area (e.g., "geometry draw calls are 240, target is <100, batch the static objects")
+- Duration: ~2-4 turns
+
+**Total cost estimate:** expensive session; ultracode would be overkill (no parallel reasoning needed), but `xhigh` in plan + `high` in build + parallel subagents. Expect ~40-60 turns across the session + subagents.
+
+---
+
+## TASK 3: CRM App (Auth, DB schema, CRUD, dashboard, integrations)
+
+**Characteristics:**
+- Multiple loosely-coupled domains (auth, contacts, deals, activities, integrations)
+- DB schema is the linchpin (changes ripple through CRUD endpoints, forms, dashboard)
+- Integrations (Slack, email) are side-effect heavy (async, webhook handling)
+- Testing is mandatory (auth flow, role-based access, data integrity)
+- Scaling concerns (query performance, pagination, real-time updates)
+
+### Recipe
+
+**PLAN phase (session-wide):**
+- Effort level: `max` (this is the highest-complexity task; data modeling + architecture is worth the token spend)
+- Plan mode: **YES**
+- Subagent (Explore): Scan your existing schema definitions, auth libraries, any prior CRM code. Keep noise out of main session.
+- What happens: Claude designs the data schema (users, contacts, deals, activities, custom fields). Decides on auth strategy (JWT + refresh tokens, role-based access). Sketches the API endpoint structure (REST or GraphQL). Identifies side-effect zones (async queues, webhooks, caching strategy). Names the critical integration points (Slack, email).
+- Duration: ~8-12 turns in main session
+- Output: Complete data model (SQL schema), API route map, auth flow diagram, integration plan
+
+**BUILD phase (fan-out, heavily parallelized via workflows):**
+- Effort level: Use `/effort ultracode` to let Claude decide when to parallelize
+- Subagent strategy: This is large enough for **dynamic workflows**
+- Fan-out units (by domain, not by CRUD operation):
+  - **Workflow 1: Auth module** (login, signup, password reset, token refresh, role checks)
+    - Subagent A: Auth controller + JWT logic
+    - Subagent B: User schema validation + middleware
+    - Subagent C: Signup + login forms + password reset email
+  - **Workflow 2: Contact CRUD + forms** (list, detail, create, update, delete + search/filter)
+    - Subagent D: Contact schema, queries, API routes
+    - Subagent E: Contact forms (creation, bulk import)
+  - **Workflow 3: Deal pipeline** (stages, activities, forecasting)
+    - Subagent F: Deal schema + stage transitions
+    - Subagent G: Activity logging (linked to deals and contacts)
+  - **Workflow 4: Integrations** (Slack, email)
+    - Subagent H: Slack webhook handler + message formatting
+    - Subagent I: Email service (transactional + notifications)
+  - **Workflow 5: Dashboard** (metrics, charts, real-time updates)
+    - Subagent J: Dashboard API (aggregations, stats)
+    - Subagent K: Frontend dashboard components
+- **Sequential assembly:** Back in main, wire all workflows together, test cross-domain scenarios (a deal update triggers Slack + email + dashboard refresh)
+- Duration: ~10-15 turns per workflow (parallel), ~5-10 turns main session for assembly + testing
+- **Why workflows here:** Dynamic workflows are meant for exactly this: many semi-independent agents that each return a piece of the puzzle, then you assemble them. Subagents alone would flood your context with results from 10 parallel tasks; workflows keep intermediate results out of your conversation.
+
+**FAN-OUT details (what parallelizes well vs. not):**
+- Parallelizes well: auth, contact CRUD, deal pipeline, integrations (largely independent domains, each returns an API contract)
+- Does NOT parallelize: cross-domain tests, schema migrations (they must run after all tables exist), performance tuning (you need to see the bottleneck first)
+
+**VERIFY phase:**
+- Effort level: `high` (CRM verification is end-to-end: auth flow, CRUD operations, integrations, dashboard accuracy)
+- Checklist (Claude runs these in subagents, reports back):
+  - Auth: sign up, log in, log out, role-based access control (admin can see all, user sees own data)
+  - CRUD: create a contact, update it, delete it, list with pagination and filtering
+  - Cross-domain: create a deal linked to a contact, log an activity, check that Slack notification fired and dashboard updated
+  - Performance: large dataset (1000 contacts), pagination works, no N+1 queries
+- Subagent loop: Each test category runs in isolation. If a test fails, spawn a targeted subagent to fix it ("create contact API returns 400, debug why").
+- Duration: ~3-6 turns
+
+**Total cost estimate:** expensive session; workflows are the right tool. Expect ~60-100 turns total across all workflows + main session assembly. `max` effort in plan justified.
+
+---
+
+## SUMMARY MATRIX
+
+| Task | Plan Effort | Build Effort | Build Mode | Parallelization | Total Turns | Notes |
+|---|---|---|---|---|---|---|
+| **Marketing site** | `high` | `medium` | Sequential | None | ~20 | Small scope, no perf concerns. Sequential is faster. |
+| **3D site** | `xhigh` | `high` | Parallel subagents | 4 subagents (geometry, lighting, camera, postprocessing) | ~40-60 | Tech depth justifies `xhigh` plan. Subagents, not workflows, because you need to assembly-test. |
+| **CRM app** | `max` | `xhigh` + ultracode | Workflows | 10 agents fanned per domain (auth, contact, deal, activity, integration, dashboard) | ~60-100 | Largest scope, highest risk. Workflows orchestrate the parallel work. Ultracode handles the decision of when to parallelize. |
+
+---
+
+## KEY DECISION RULES
+
+1. **When to fan out parallel agents:**
+   - Domains are independent (no shared state mutations)
+   - Each agent can return a distinct, testable piece (an API module, a component)
+   - Assembly cost (wire them together) is small vs. execution cost (build each in parallel)
+   - **Rule of thumb:** Fan out if parallel agents save >30% elapsed time vs. sequential
+
+2. **Subagents vs. workflows:**
+   - Use **subagents** if you're delegating a few lightweight side tasks (research, review, debug) and want results back in your main context
+   - Use **workflows** if you have many agents (5+) and want the orchestration itself codified and repeatable
+
+3. **Effort level strategy:**
+   - `low` / `medium`: routine, well-understood tasks
+   - `high`: moderately complex, some ambiguity in approach
+   - `xhigh`: high-risk, high-complexity, novel architecture decisions (3D, CRM schema design)
+   - `max`: only for the most complex planning phase where a rethink saves massive rework
+
+4. **When NOT to parallelize:**
+   - Sequential dependencies exist (schema must exist before CRUD logic)
+   - Assembly cost is high (you need to test interactions constantly)
+   - The task is straightforward (marketing site, simple forms)
+
+---
+
+## GOTCHAS (from docs)
+
+1. **Subagents inherit effort ONLY if you don't override.** If you set a subagent's `effort: medium` in its frontmatter, it uses `medium` regardless of the parent session's `xhigh`. Use this to save tokens on low-risk subagent work.
+
+2. **Workflows don't save effort inheritance decisions.** Each agent in a workflow uses your session's model. You can ask Claude to route specific stages to a faster model (e.g., "use Haiku for the email integration"), but it's manual.
+
+3. **Ultracode (dynamic workflows) is only available on paid Claude Code plans and certain models.** Check `/effort` in your session to see if `ultracode` is available. If not, fall back to explicit workflow requests or subagent parallelization.
+
+4. **Subagents cannot spawn other subagents.** If a subagent needs to delegate, use Skills or chain subagents from the main conversation.
+
+5. **Workflow runs are resumable within the same session, but not across sessions.** If you exit Claude Code mid-workflow, you restart fresh. Plan accordingly for very long runs.
+
+6. **Performance tuning MUST stay sequential.** Parallel agents optimizing different parts of the code can conflict (one agent batches geometry, another adds new geometry, resulting in worse performance). Always tune after assembly.
+

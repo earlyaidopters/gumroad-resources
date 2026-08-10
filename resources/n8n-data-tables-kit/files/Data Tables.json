@@ -1,0 +1,895 @@
+{
+  "name": "Data Tables",
+  "nodes": [
+    {
+      "parameters": {
+        "jsCode": "// Use this in a Function node in n8n to generate 101 individual items\nconst items = [];\nfor (let i = 1; i <= 100; i++) {\n  items.push({\n    json: {\n      count: i,\n      requestId: `request_${i}`,\n      timestamp: new Date().toISOString()\n    }\n  });\n}\nreturn items;"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2128,
+        64
+      ],
+      "id": "3fe16466-619c-46ab-86fb-c94f1df09e31",
+      "name": "100"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        80,
+        -16
+      ],
+      "id": "9aae8fe1-03f3-4404-a0c8-36a18d7f0fcd",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1dMk_b5nFXmg1QqxPj1somICrJblwamxODVeKHgxGwEI",
+          "mode": "list",
+          "cachedResultName": "Contacts",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1dMk_b5nFXmg1QqxPj1somICrJblwamxODVeKHgxGwEI/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1dMk_b5nFXmg1QqxPj1somICrJblwamxODVeKHgxGwEI/edit#gid=0"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        336,
+        -16
+      ],
+      "id": "ed70f7fa-2965-44fd-94bf-4c85425f3312",
+      "name": "Get Contacts",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "HjVClVuIb80XkDR7",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "dataTableId": {
+          "__rl": true,
+          "value": "cOlO41cpE3ouQBkW",
+          "mode": "list",
+          "cachedResultName": "Contacts",
+          "cachedResultUrl": "/projects/XkBRcNWOJDXvpBDd/datatables/cOlO41cpE3ouQBkW"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Number": "={{ $json.PhoneNumber }}",
+            "Name": "={{ $json.Name }}",
+            "Email": "={{ $json.Email }}",
+            "Notes": "={{ $json.Notes }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Name",
+              "displayName": "Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Number",
+              "displayName": "Number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Email",
+              "displayName": "Email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Notes",
+              "displayName": "Notes",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "type": "n8n-nodes-base.dataTable",
+      "typeVersion": 1,
+      "position": [
+        544,
+        -16
+      ],
+      "id": "4f3725ec-6f67-4247-b8b3-48ae11999b8c",
+      "name": "Insert Contacts"
+    },
+    {
+      "parameters": {
+        "content": "## From Sheets to Data Table\n",
+        "height": 256,
+        "width": 800,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -32,
+        -96
+      ],
+      "id": "56fdba76-36f0-49bd-9ef8-9dfeba2a7210",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyMinute"
+            }
+          ]
+        },
+        "simple": false,
+        "filters": {},
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmailTrigger",
+      "typeVersion": 1.3,
+      "position": [
+        48,
+        272
+      ],
+      "id": "49676d7d-7eb7-420f-8191-1acf2cdef886",
+      "name": "Gmail Trigger",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "A90q5wiZCV6uW3ao",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "dataTableId": {
+          "__rl": true,
+          "value": "cOlO41cpE3ouQBkW",
+          "mode": "list",
+          "cachedResultName": "Contacts",
+          "cachedResultUrl": "/projects/XkBRcNWOJDXvpBDd/datatables/cOlO41cpE3ouQBkW"
+        },
+        "matchType": "allConditions",
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "Email",
+              "keyValue": "={{ $json.from.value[0].address }}"
+            }
+          ]
+        },
+        "limit": {}
+      },
+      "type": "n8n-nodes-base.dataTable",
+      "typeVersion": 1,
+      "position": [
+        240,
+        272
+      ],
+      "id": "75467421-1f76-4054-8661-ed05d29a8bbf",
+      "name": "Get row(s)"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Email Subject: {{ $('Gmail Trigger').item.json.headers.subject }}\n\nEmail Body: {{ $('Gmail Trigger').item.json.text }}\n\nName: {{ $json.Name }}\n\nNotes: {{ $json.Notes }}",
+        "options": {
+          "systemMessage": "=Write a friendly email response to the incoming message. Use the notes from this person's CRM data to make the email personalized. Sign off emails as \"Rizon\""
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2.2,
+      "position": [
+        432,
+        272
+      ],
+      "id": "f7bb8e1f-99ee-4a3b-8be0-b192e11795b5",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "content": "## Contact Lookup\n",
+        "height": 288,
+        "width": 800,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -32,
+        192
+      ],
+      "id": "bd6cf371-fea4-4e0c-a89f-6618c4561dcd",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "content": "## Inserting Sales Data\n",
+        "height": 256,
+        "width": 960,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        832,
+        -96
+      ],
+      "id": "4c57e5d6-f3f1-41f2-b0cf-60296dd24d0c",
+      "name": "Sticky Note2"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1_xxE3B-9totlK11nRo8gRRVFlO4RACDYmOTRY4gFX68",
+          "mode": "list",
+          "cachedResultName": "Sales Data",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1_xxE3B-9totlK11nRo8gRRVFlO4RACDYmOTRY4gFX68/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1_xxE3B-9totlK11nRo8gRRVFlO4RACDYmOTRY4gFX68/edit#gid=0"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        1136,
+        -16
+      ],
+      "id": "5da58d95-3738-46e9-b5fe-ea9f1647c1aa",
+      "name": "Get Sales Data",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "HjVClVuIb80XkDR7",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "dataTableId": {
+          "__rl": true,
+          "value": "2OdNPgH6uMKWtwUT",
+          "mode": "list",
+          "cachedResultName": "Sales",
+          "cachedResultUrl": "/projects/XkBRcNWOJDXvpBDd/datatables/2OdNPgH6uMKWtwUT"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "productName": "={{ $json['Product Name'] }}",
+            "dateSold": "={{ $json['Date Sold'] }}",
+            "price": "={{ $json.Price }}",
+            "quantitySold": "={{ $json['Quantity Sold'] }}",
+            "productID": "={{ $json['Product ID'] }}",
+            "totalRevenue": "={{ $json['Total Revenue'] }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "productName",
+              "displayName": "productName",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "dateSold",
+              "displayName": "dateSold",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "price",
+              "displayName": "price",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "quantitySold",
+              "displayName": "quantitySold",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "productID",
+              "displayName": "productID",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "totalRevenue",
+              "displayName": "totalRevenue",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "type": "n8n-nodes-base.dataTable",
+      "typeVersion": 1,
+      "position": [
+        1344,
+        -16
+      ],
+      "id": "6022d9f1-f6eb-4a54-bd4e-446fd446ebd6",
+      "name": "Insert Sales Data"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.3,
+      "position": [
+        912,
+        272
+      ],
+      "id": "de6d30dc-c6ee-44e8-82dd-d68da107aba0",
+      "name": "When chat message received",
+      "webhookId": "76180fca-c02c-4325-93e3-bc4df5863e3f"
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "dataTableId": {
+          "__rl": true,
+          "value": "2OdNPgH6uMKWtwUT",
+          "mode": "list",
+          "cachedResultName": "Sales",
+          "cachedResultUrl": "/projects/XkBRcNWOJDXvpBDd/datatables/2OdNPgH6uMKWtwUT"
+        },
+        "matchType": "allConditions",
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "productName",
+              "keyValue": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('conditions0_Value', ``, 'string') }}"
+            }
+          ]
+        },
+        "limit": {}
+      },
+      "type": "n8n-nodes-base.dataTableTool",
+      "typeVersion": 1,
+      "position": [
+        1264,
+        480
+      ],
+      "id": "3fffc6b8-084d-4b99-a4d3-b42c824fb400",
+      "name": "Product Name Query"
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "dataTableId": {
+          "__rl": true,
+          "value": "2OdNPgH6uMKWtwUT",
+          "mode": "list",
+          "cachedResultName": "Sales",
+          "cachedResultUrl": "/projects/XkBRcNWOJDXvpBDd/datatables/2OdNPgH6uMKWtwUT"
+        },
+        "matchType": "allConditions",
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "dateSold",
+              "keyValue": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('conditions0_Value', ``, 'string') }}"
+            }
+          ]
+        },
+        "limit": {}
+      },
+      "type": "n8n-nodes-base.dataTableTool",
+      "typeVersion": 1,
+      "position": [
+        1408,
+        480
+      ],
+      "id": "2ee94a56-08a0-4d1a-b6da-29e4be4ca469",
+      "name": "Date Query"
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "dataTableId": {
+          "__rl": true,
+          "value": "2OdNPgH6uMKWtwUT",
+          "mode": "list",
+          "cachedResultName": "Sales",
+          "cachedResultUrl": "/projects/XkBRcNWOJDXvpBDd/datatables/2OdNPgH6uMKWtwUT"
+        },
+        "matchType": "allConditions",
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "productID",
+              "keyValue": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('conditions0_Value', ``, 'string') }}"
+            }
+          ]
+        },
+        "limit": {}
+      },
+      "type": "n8n-nodes-base.dataTableTool",
+      "typeVersion": 1,
+      "position": [
+        1536,
+        480
+      ],
+      "id": "79a20fc1-a90e-4dd8-83b8-9eb6cfcb7b48",
+      "name": "Product ID Query"
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "dataTableId": {
+          "__rl": true,
+          "value": "2OdNPgH6uMKWtwUT",
+          "mode": "list",
+          "cachedResultName": "Sales",
+          "cachedResultUrl": "/projects/XkBRcNWOJDXvpBDd/datatables/2OdNPgH6uMKWtwUT"
+        },
+        "limit": {}
+      },
+      "type": "n8n-nodes-base.dataTableTool",
+      "typeVersion": 1,
+      "position": [
+        1120,
+        480
+      ],
+      "id": "bf06a9cf-67fa-4cad-abf3-39475be9a5e1",
+      "name": "All Rows"
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.toolCalculator",
+      "typeVersion": 1,
+      "position": [
+        1664,
+        480
+      ],
+      "id": "a1062e0e-8827-46cb-8336-e80f8bae9a51",
+      "name": "Calculator"
+    },
+    {
+      "parameters": {
+        "options": {
+          "systemMessage": "=# Overview\nYou are **Master Sales Data Analyst AI**, an expert in analyzing sales data and answering user queries with precision.  \nYou have access to the following tools:\n\n1. **AllRows** – returns all rows in the sales database.  \n2. **ProductNameQuery** – returns rows filtered by product name.  \n   - Valid product names: *Wireless Headphones*, *Bluetooth Speaker*, *Phone Case*.  \n3. **DateQuery** – returns rows filtered by a specific date.  \n   - Date format: `YYYY-MM-DD` (e.g., `2025-09-15`).  \n4. **ProductIDQuery** – returns rows filtered by product ID.  \n   - Valid IDs: *WH001* (Wireless Headphones), *BS002* (Bluetooth Speaker), *PC003* (Phone Case).  \n5. **Calculator** – use this whenever you need to perform math operations (e.g., sum, averages, totals, percentages). Never attempt math manually.\n\n---\n\n### Core Instructions:\n- Always **use the most specific tool** available for the user’s query.  \n  - If the query references a product name → use `ProductNameQuery`.  \n  - If the query references a product ID → use `ProductIDQuery`.  \n  - If the query references a date → use `DateQuery`.  \n  - If multiple filters are implied (e.g., “How many Wireless Headphones were sold on 2025-09-15?”), combine multiple queries logically by calling the relevant tools in sequence.  \n  - If no filter is given, or you need to explore broadly, use `AllRows`.  \n- If calculations are required (sums, averages, revenues, comparisons, etc.), **always send the data to the Calculator tool**.  \n- Never assume values—always confirm by retrieving data through the tools.  \n- Be concise, clear, and professional in your explanations.\n\n---\n\n### Example Behaviors:\n- **User**: “How many Wireless Headphones were sold on 2025-09-15?”  \n  - Use `ProductNameQuery` for Wireless Headphones.  \n  - Then filter with `DateQuery` for 2025-09-15.  \n  - Send results to **Calculator** to sum quantities.  \n  - Return the answer with explanation.\n\n- **User**: “What’s the total revenue for product ID BS002?”  \n  - Use `ProductIDQuery` for BS002.  \n  - Multiply *price × quantity* via **Calculator**.  \n  - Provide total revenue.\n\n- **User**: “Show me all sales.”  \n  - Use `AllRows` and return the dataset.\n\n---\n\n### Your Mission:\nYou are the ultimate sales analyst.  \nAnswer questions with precision, use the right tool every time, and provide clear explanations of how results were derived.  \nAlways confirm with data before performing analysis.  \nCurrent date/time: {{ $now }}\n"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2.2,
+      "position": [
+        1104,
+        272
+      ],
+      "id": "307c6b9b-071d-4ddc-84f4-6ae20f5ba890",
+      "name": "Sales Data Agent"
+    },
+    {
+      "parameters": {
+        "content": "## Contact Lookup\n",
+        "height": 448,
+        "width": 960,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        832,
+        192
+      ],
+      "id": "307fc89d-d7da-49f9-a71e-a5b5b6c4e6c0",
+      "name": "Sticky Note3"
+    },
+    {
+      "parameters": {
+        "model": "openai/gpt-5-mini",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenRouter",
+      "typeVersion": 1,
+      "position": [
+        912,
+        480
+      ],
+      "id": "379ec575-7e31-4fa3-a418-f105aea6afde",
+      "name": "GPT-5-mini",
+      "credentials": {
+        "openRouterApi": {
+          "id": "DlXM0HrskrBvG7wt",
+          "name": "OpenRouter account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenRouter",
+      "typeVersion": 1,
+      "position": [
+        432,
+        368
+      ],
+      "id": "5501ebef-f09e-4316-abfd-f353a933c6a6",
+      "name": "GPT-4.1-mini",
+      "credentials": {
+        "openRouterApi": {
+          "id": "DlXM0HrskrBvG7wt",
+          "name": "OpenRouter account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1-NRzibMo16_CleeL-DztCJ_kiloJHVyJ9fmx2hNtkgQ",
+          "mode": "list",
+          "cachedResultName": "Test",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1-NRzibMo16_CleeL-DztCJ_kiloJHVyJ9fmx2hNtkgQ/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1-NRzibMo16_CleeL-DztCJ_kiloJHVyJ9fmx2hNtkgQ/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Number": "={{ $json.count }}"
+          },
+          "matchingColumns": [
+            "Number"
+          ],
+          "schema": [
+            {
+              "id": "Number",
+              "displayName": "Number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        2368,
+        -32
+      ],
+      "id": "df0151c6-5e30-4075-9321-cffe6a33f369",
+      "name": "Append row in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "HjVClVuIb80XkDR7",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "## Speed?\n",
+        "height": 432,
+        "width": 672,
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        1856,
+        -96
+      ],
+      "id": "ae653226-85b8-47ef-bfe0-d9a63acc2f5e",
+      "name": "Sticky Note4"
+    },
+    {
+      "parameters": {
+        "dataTableId": {
+          "__rl": true,
+          "value": "DVLvXrUWl7ZX77Lw",
+          "mode": "list",
+          "cachedResultName": "Test",
+          "cachedResultUrl": "/projects/XkBRcNWOJDXvpBDd/datatables/DVLvXrUWl7ZX77Lw"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Number": "={{ $json.count }}"
+          },
+          "matchingColumns": [
+            "Number"
+          ],
+          "schema": [
+            {
+              "id": "Number",
+              "displayName": "Number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "readOnly": false,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "type": "n8n-nodes-base.dataTable",
+      "typeVersion": 1,
+      "position": [
+        2368,
+        160
+      ],
+      "id": "043de81c-9440-4a37-b7fa-343cecf3b3fa",
+      "name": "Insert row"
+    },
+    {
+      "parameters": {
+        "content": "# ⚙️ Setup Guide  \n**Author:** [Nate Herk](https://www.youtube.com/@nateherk)\n\n> 📝 **Note:** This feature will be releasing in the afternoon of **Monday, September 22**.  \n> If you don't yet see the **Data Tables**, just wait for the official announcement and make sure your instance of n8n is updated to the latest version.\n\n\n---\n\n### 📘 Scenario 1: Sync Google Sheet → n8n Table (Contacts)  \n1. **Make a copy** of the [Contacts Google Sheet](https://docs.google.com/spreadsheets/d/1dMk_b5nFXmg1QqxPj1somICrJblwamxODVeKHgxGwEI/copy).  \n2. **Create a new n8n table** with the *same columns* as the sheet.  \n3. Hook up the **Get Contacts** node to the copied Google Sheet.  \n4. Test the workflow and confirm the contacts are pulled into your n8n table.\n\n---\n\n### 📊 Scenario 2: Analyze Sales Data with AI Agent  \n1. **Copy** the [Sales Data Google Sheet](https://docs.google.com/spreadsheets/d/1_xxE3B-9totlK11nRo8gRRVFlO4RACDYmOTRY4gFX68/copy).  \n2. **Create a new n8n table** with matching columns.  \n3. Set up your workflow to **write sales data into the n8n table**.  \n4. Enable the **AI Agent** to analyze the data and check for accuracy.\n\n---\n\n### 🚀 Scenario 3: Speed Test — Google Sheets vs n8n Table  \n1. **Make a copy** of the [Test Google Sheet](https://docs.google.com/spreadsheets/d/1-NRzibMo16_CleeL-DztCJ_kiloJHVyJ9fmx2hNtkgQ/copy).  \n2. Use the **Code node** to control how many items get generated.  \n3. Write the data into both the copied Google Sheet and your n8n table.  \n4. Compare execution times to see which option is faster.\n",
+        "height": 688,
+        "width": 992
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -1056,
+        -96
+      ],
+      "id": "19ffb26f-61a9-4d32-a622-33ddb3154e67",
+      "name": "Sticky Note5"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "100": {
+      "main": [
+        [
+          {
+            "node": "Insert row",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Append row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "Get Contacts",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Contacts": {
+      "main": [
+        [
+          {
+            "node": "Insert Contacts",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Gmail Trigger": {
+      "main": [
+        [
+          {
+            "node": "Get row(s)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get row(s)": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Sales Data": {
+      "main": [
+        [
+          {
+            "node": "Insert Sales Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "Sales Data Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Product Name Query": {
+      "ai_tool": [
+        [
+          {
+            "node": "Sales Data Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Date Query": {
+      "ai_tool": [
+        [
+          {
+            "node": "Sales Data Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Product ID Query": {
+      "ai_tool": [
+        [
+          {
+            "node": "Sales Data Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "All Rows": {
+      "ai_tool": [
+        [
+          {
+            "node": "Sales Data Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Calculator": {
+      "ai_tool": [
+        [
+          {
+            "node": "Sales Data Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "GPT-5-mini": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Sales Data Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "GPT-4.1-mini": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "f17162ae-8e2d-40d8-985d-87fddd52e64e",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "226f66567cddc490900f448f9cd7b37aac23a17c68b1fff2cd4fa964b4d44321"
+  },
+  "id": "AyxwK6IrzFtidV1B",
+  "tags": []
+}

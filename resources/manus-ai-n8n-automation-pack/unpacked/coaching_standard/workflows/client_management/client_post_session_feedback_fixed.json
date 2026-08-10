@@ -1,0 +1,514 @@
+{
+  "name": "Client Post-Session Feedback Automation",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "hours",
+              "hours": [9, 15],
+              "minutes": [0]
+            }
+          ]
+        }
+      },
+      "name": "Schedule Trigger",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1,
+      "position": [
+        250,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "documentId": {
+          "__rl": true,
+          "value": "YOUR_CLIENT_SESSIONS_SHEET_ID",
+          "mode": "list",
+          "cachedResultName": "Client Sessions"
+        },
+        "sheetName": "Client Sessions",
+        "returnAll": true,
+        "options": {
+          "filter": {
+            "values": {
+              "Status": "Completed",
+              "Feedback Sent": false
+            }
+          }
+        }
+      },
+      "name": "Google Sheets - Get Completed Sessions",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4,
+      "position": [
+        400,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "number": [
+            {
+              "value1": "={{ $json.length }}",
+              "operation": "larger",
+              "value2": 0
+            }
+          ]
+        }
+      },
+      "name": "Any Sessions to Process?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [
+        550,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "mode": "splitInBatches",
+        "batchSize": 1,
+        "options": {}
+      },
+      "name": "Split Into Individual Sessions",
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 2,
+      "position": [
+        700,
+        200
+      ],
+      "executeOnce": false
+    },
+    {
+      "parameters": {
+        "fromEmail": "your.coaching.business@example.com",
+        "toEmail": "={{ $json[\"Client Email\"] }}",
+        "subject": "={{ \"Feedback Request: Your Coaching Session on \" + $json[\"Date\"] }}",
+        "text": "",
+        "html": "<p>Dear {{ $json[\"Client Name\"] }},</p>\n\n<p>Thank you for your recent coaching session. I hope you found it valuable and insightful.</p>\n\n<p>I would greatly appreciate your feedback to help me improve and tailor future sessions to better meet your needs.</p>\n\n<p>Please take a moment to complete this brief feedback form:</p>\n\n<p><a href=\"https://forms.gle/feedbackFormLink?sessionId={{ $json[\"Row Number\"] }}&clientName={{ encodeURIComponent($json[\"Client Name\"]) }}&sessionDate={{ encodeURIComponent($json[\"Date\"]) }}&sessionType={{ encodeURIComponent($json[\"Session Type\"]) }}\">Click here to provide your feedback</a></p>\n\n<p>Your insights are invaluable to me, and I look forward to our continued work together.</p>\n\n<p>Best regards,<br>\nYour Coach</p>",
+        "options": {}
+      },
+      "name": "Gmail - Send Feedback Request",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2,
+      "position": [
+        850,
+        200
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "YOUR_CLIENT_SESSIONS_SHEET_ID",
+          "mode": "list",
+          "cachedResultName": "Client Sessions"
+        },
+        "sheetName": "Client Sessions",
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Feedback Sent": true,
+            "Feedback Sent Date": "={{ $today.format('YYYY-MM-DD') }}"
+          }
+        },
+        "options": {
+          "filter": {
+            "values": {
+              "Row Number": "={{ $json[\"Row Number\"] }}"
+            }
+          }
+        }
+      },
+      "name": "Google Sheets - Update Session",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4,
+      "position": [
+        1000,
+        200
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "boolean": [
+            {
+              "value1": "={{ $node[\"Split Into Individual Sessions\"].context[\"noItemsLeft\"] }}",
+              "value2": true,
+              "operation": "equal"
+            }
+          ]
+        }
+      },
+      "name": "All Sessions Processed?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [
+        1150,
+        200
+      ]
+    },
+    {
+      "parameters": {
+        "chatId": "YOUR_SLACK_CHANNEL_ID",
+        "text": "✅ Feedback requests sent to {{ $node[\"Google Sheets - Get Completed Sessions\"].json.length }} clients for completed coaching sessions.",
+        "otherOptions": {
+          "parse_mode": "markdown"
+        }
+      },
+      "name": "Slack - Send Notification",
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 2,
+      "position": [
+        1300,
+        100
+      ]
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "submit-feedback",
+        "options": {}
+      },
+      "name": "Webhook - Feedback Submission",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [
+        250,
+        500
+      ],
+      "webhookId": "client-feedback-submission"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Validate incoming feedback data\nconst data = $input.item.json;\nconst requiredFields = ['sessionId', 'clientName', 'overallRating', 'feedbackComments'];\n\nlet missingFields = [];\nrequiredFields.forEach(field => {\n  if (!data[field]) {\n    missingFields.push(field);\n  }\n});\n\nif (missingFields.length > 0) {\n  return {\n    json: {\n      success: false,\n      message: `Missing required fields: ${missingFields.join(', ')}`,\n      validationError: true\n    }\n  };\n}\n\nreturn {\n  json: {\n    ...data,\n    success: true,\n    submissionDate: new Date().toISOString()\n  }\n};"
+      },
+      "name": "Validate Feedback Data",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [
+        400,
+        500
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "boolean": [
+            {
+              "value1": "={{ $json.success }}",
+              "value2": true,
+              "operation": "equal"
+            }
+          ]
+        }
+      },
+      "name": "Is Valid Feedback?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [
+        550,
+        500
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "YOUR_FEEDBACK_SHEET_ID",
+          "mode": "list",
+          "cachedResultName": "Client Feedback"
+        },
+        "sheetName": "Client Feedback",
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Session ID": "={{ $json.sessionId }}",
+            "Client Name": "={{ $json.clientName }}",
+            "Submission Date": "={{ $json.submissionDate.split('T')[0] }}",
+            "Overall Rating": "={{ $json.overallRating }}",
+            "Value Rating": "={{ $json.valueRating || \"N/A\" }}",
+            "Coach Rating": "={{ $json.coachRating || \"N/A\" }}",
+            "Comments": "={{ $json.feedbackComments }}",
+            "Improvement Suggestions": "={{ $json.improvementSuggestions || \"None provided\" }}"
+          }
+        }
+      },
+      "name": "Google Sheets - Save Feedback",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4,
+      "position": [
+        700,
+        400
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "YOUR_CLIENT_SESSIONS_SHEET_ID",
+          "mode": "list",
+          "cachedResultName": "Client Sessions"
+        },
+        "sheetName": "Client Sessions",
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Feedback Received": true,
+            "Feedback Rating": "={{ $json.overallRating }}"
+          }
+        },
+        "options": {
+          "filter": {
+            "values": {
+              "Row Number": "={{ $json.sessionId }}"
+            }
+          }
+        }
+      },
+      "name": "Google Sheets - Update Session Status",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4,
+      "position": [
+        850,
+        400
+      ]
+    },
+    {
+      "parameters": {
+        "chatId": "YOUR_SLACK_CHANNEL_ID",
+        "text": "✅ New feedback received from {{ $json.clientName }}!\n\n*Overall Rating:* {{ $json.overallRating }}/5\n*Comments:* {{ $json.feedbackComments }}",
+        "otherOptions": {
+          "parse_mode": "markdown"
+        }
+      },
+      "name": "Slack - Notify About Feedback",
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 2,
+      "position": [
+        1000,
+        400
+      ]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseData": {
+          "value": {
+            "success": true,
+            "message": "Thank you for your feedback! It helps us improve our coaching services."
+          }
+        },
+        "options": {}
+      },
+      "name": "Respond - Success",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [
+        1150,
+        400
+      ]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseData": {
+          "value": {
+            "success": false,
+            "message": "={{ $json.message || \"Invalid feedback data\" }}"
+          }
+        },
+        "options": {
+          "responseCode": 400
+        }
+      },
+      "name": "Respond - Error",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [
+        700,
+        600
+      ]
+    }
+  ],
+  "connections": {
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets - Get Completed Sessions",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets - Get Completed Sessions": {
+      "main": [
+        [
+          {
+            "node": "Any Sessions to Process?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Any Sessions to Process?": {
+      "main": [
+        [
+          {
+            "node": "Split Into Individual Sessions",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        []
+      ]
+    },
+    "Split Into Individual Sessions": {
+      "main": [
+        [
+          {
+            "node": "Gmail - Send Feedback Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Gmail - Send Feedback Request": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets - Update Session",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets - Update Session": {
+      "main": [
+        [
+          {
+            "node": "All Sessions Processed?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "All Sessions Processed?": {
+      "main": [
+        [
+          {
+            "node": "Slack - Send Notification",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Split Into Individual Sessions",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook - Feedback Submission": {
+      "main": [
+        [
+          {
+            "node": "Validate Feedback Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Validate Feedback Data": {
+      "main": [
+        [
+          {
+            "node": "Is Valid Feedback?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Is Valid Feedback?": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets - Save Feedback",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Respond - Error",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets - Save Feedback": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets - Update Session Status",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets - Update Session Status": {
+      "main": [
+        [
+          {
+            "node": "Slack - Notify About Feedback",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Slack - Notify About Feedback": {
+      "main": [
+        [
+          {
+            "node": "Respond - Success",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "saveManualExecutions": true,
+    "callerPolicy": "workflowsFromSameOwner",
+    "errorWorkflow": "YOUR_ERROR_WORKFLOW_ID"
+  },
+  "tags": [
+    "client-management",
+    "feedback"
+  ],
+  "triggerCount": 1
+}

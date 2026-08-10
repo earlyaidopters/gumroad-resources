@@ -1,0 +1,21 @@
+{
+  "name": "Claude Code Monthly Insights Skill 🛠️",
+  "external_id": "74amoLtUuIXmBLZ-1vx7Og==",
+  "permalink": "fvuvpp",
+  "unique_permalink": "fvuvpp",
+  "custom_permalink": "monthly-insights-skill",
+  "url": "https://markkashef.gumroad.com/l/monthly-insights-skill",
+  "status": "published",
+  "archived": false,
+  "kind": "products",
+  "price_formatted": "CAD$0+",
+  "description_md": "# What You Get\n## Monthly Insights Skill for Claude Code: A drop-in skill that turns /insights into a full monthly review system.\nRun one command. \nGet a report on how you've been using Claude Code for the last 30 days. The skill reads the report, pulls out the friction points, suggested rules, and features you should try, saves everything as a dated note in your Obsidian vault, and emails you a clean summary.\nHow It Works:\n1. Runs /insights to generate your 30-day usage report\n2. Extracts the top friction points, suggested CLAUDE.md rules, and features to try\n3. Saves a dated Obsidian note with frontmatter tags for easy searching\n4. Emails you a clean summary via the Google Workspace CLI\nNo complex setup. No external dependencies beyond gws (Google Workspace CLI via Homebrew).\nPair it with /schedule to run automatically on the 1st of every month. Your Claude Code gets better while you sleep.\nWant to go deeper on Claude Code?\nJoin the Early AI Dopters community for live walkthroughs, skill drops, and direct access.\nhttps://www.skool.com/earlyaidopters/about",
+  "files": [
+    {
+      "file": "SKILL.md",
+      "status": "cached",
+      "bytes": 3779
+    }
+  ],
+  "has_rich_content": true
+}

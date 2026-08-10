@@ -1,0 +1,748 @@
+{
+  "name": "Smart Project Task Escalation Manager",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "triggerAtHour": 9
+            }
+          ]
+        }
+      },
+      "id": "c38860ee-9f5e-40c1-8fec-0fedef54e263",
+      "name": "Daily Schedule Trigger",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        0,
+        224
+      ]
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1qxj1r25pTed_EWJSHboNqc_QsoolomAJMUbnejbNJL4",
+          "mode": "list"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list"
+        },
+        "options": {}
+      },
+      "id": "da91a174-5fd6-4b74-b3db-140232da4857",
+      "name": "Read Project Tracker",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        224,
+        224
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "8Ovhnec09Um75",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Analyze the overdue tasks data and determine appropriate escalation actions. For each overdue task, assess the escalation level (1-3) based on delay duration and impact, identify the appropriate recipient, and draft contextual emails.\n\nUse the Calculator Tool to determine the number of days the task is overdue. ({{ $today.format('M/d/yyyy') }} - {{ $json[\"Due Date\"] }}).\n\n### Email Tool\n\nUse the email Email tool to alert the project manager. The tool takes in the recipient_email for the Project Manager Email, the email_subject and email_content can be determined by you and you assessment of the escalation level. \n\n### Escalation Tracker Tool\nThe escalation tracker has the following fields: task, owner, due_date, days_overdue, level, timestamp, recipient, and email_summary. All of these should be determined by you.\n\n##Steps:\n1. Review the Task Information to determine the level of escalation, using the Calculator Tool to determine the number of days overdue.\n** Task Information:\n{{ $json.toJsonString() }}\n\n2. Use the Email Tool to send a concise email to the Project Manager. \n\n3. Use the Escalation Tracker tool to update the tracker with the needed information. \n\n",
+        "options": {
+          "systemMessage": "You are a Project Escalation Manager AI responsible for analyzing overdue tasks and implementing appropriate escalation protocols.\n\nYour responsibilities:\n1. Analyze overdue task data to determine escalation level (1-3)\n2. Identify appropriate Project Manager and Project Manager Email\n3. Draft contextual, professional emails for each escalation level\n4. Log escalation actions in the project tracker\n5. Update task status appropriately\n\nEscalation Levels:\n\nLevel 1 (1-3 days overdue): Empathetic Reminder\n- Send gentle, supportive reminder to task owner\n- Acknowledge potential challenges\n- Offer assistance and resources\n- Maintain positive, collaborative tone\n- Focus on support rather than pressure\n\nLevel 2 (4-7 days overdue): Manager Escalation\n- Escalate to task owner's manager\n- Include delay analysis and impact assessment\n- Provide intervention recommendations\n- Request manager involvement and support\n- Suggest specific actions to get back on track\n\nLevel 3 (8+ days overdue): Executive Summary\n- Escalate to project stakeholders and executives\n- Provide comprehensive delay summary\n- Analyze patterns and systemic issues\n- Assess business impact and risks\n- Recommend strategic interventions\n- Include resource reallocation suggestions\n\nFor each escalation:\n1. Use Gmail Tool to send appropriate emails\n2. Use Google Sheets Tool to log the escalation action\n3. Update the task status in the tracker\n4. Document escalation timestamp and level\n\nAlways maintain professionalism, provide constructive feedback, and focus on solutions rather than blame.",
+          "maxIterations": 15,
+          "returnIntermediateSteps": true,
+          "passthroughBinaryImages": true,
+          "enableStreaming": true
+        }
+      },
+      "id": "2f039cc0-7903-4244-b60e-4be7963a87a0",
+      "name": "Escalation AI Agent",
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2.2,
+      "position": [
+        800,
+        -48
+      ]
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "gpt-5-nano",
+          "mode": "list",
+          "cachedResultName": "gpt-5-nano"
+        },
+        "options": {}
+      },
+      "id": "f35bdf6c-8be7-46ce-bd01-457810c6345c",
+      "name": "OpenAI Chat Model",
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        672,
+        192
+      ],
+      "credentials": {
+        "openAiApi": {
+          "id": "KSKdcXlG4jYZC",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $fromAI('recipient_email', 'Email address of the escalation recipient', 'string') }}",
+        "subject": "={{ $fromAI('email_subject', 'Subject line for the escalation email', 'string') }}",
+        "message": "={{ $fromAI('email_content', 'HTML formatted email content', 'string') }}",
+        "options": {}
+      },
+      "id": "5d48cd34-461a-4af7-a962-b624bf9195c3",
+      "name": "Gmail Tool",
+      "type": "n8n-nodes-base.gmailTool",
+      "typeVersion": 2.1,
+      "position": [
+        832,
+        192
+      ],
+      "webhookId": "e6a76b88-5c34-4844-97ce-7f0",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "ysoJCUNQtbTog",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "id-1",
+              "leftValue": "={{ $json[\"Due Date\"] }}",
+              "rightValue": "={{ $today.format('M/d/yyyy') }}",
+              "operator": {
+                "type": "dateTime",
+                "operation": "before"
+              }
+            },
+            {
+              "id": "7fb95b9f-83f4-4a48-8ac5-7ad787bd1169",
+              "leftValue": "={{ $json[\"Project Manager Email\"] }}",
+              "rightValue": "/^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$/",
+              "operator": {
+                "type": "string",
+                "operation": "regex"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "29174802-9ab9-4a32-96a4-99f411036957",
+      "name": "Check If Overdue Tasks Exist and Valid Emails",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        448,
+        224
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "1qxj1r25pTed_EWJSHboNqc_QsoolomAJMUbnejbNJL4",
+          "mode": "list"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "row_number": "={{ $json.row_number }}",
+            "Checker Status": "Not Overdue/Invalid PM Email"
+          },
+          "matchingColumns": [
+            "row_number"
+          ],
+          "schema": [
+            {
+              "id": "Task ID",
+              "displayName": "Task ID",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Task Name",
+              "displayName": "Task Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Owner",
+              "displayName": "Owner",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Due Date",
+              "displayName": "Due Date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Status",
+              "displayName": "Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Priority",
+              "displayName": "Priority",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Project",
+              "displayName": "Project",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Project Manager",
+              "displayName": "Project Manager",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Project Manager Email",
+              "displayName": "Project Manager Email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Checker Status",
+              "displayName": "Checker Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        640,
+        464
+      ],
+      "id": "cb678f80-ceda-4800-8034-fef31709a77d",
+      "name": "Update row in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "8OvhnecyIUm75",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1qxj15pTed_ENqc_nejbNJL4",
+          "mode": "list"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1545997941,
+          "mode": "list"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Task": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Task', ``, 'string') }}",
+            "Owner": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Owner', ``, 'string') }}",
+            "Days Overdue": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Days_Overdue', ``, 'string') }}",
+            "Due Date": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Due_Date', ``, 'string') }}",
+            "Level": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Level', ``, 'string') }}",
+            "Timestamp": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Timestamp', ``, 'string') }}",
+            "Recipient": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Recipient', ``, 'string') }}",
+            "Email Summary": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Email_Summary', ``, 'string') }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Task",
+              "displayName": "Task",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Owner",
+              "displayName": "Owner",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Due Date",
+              "displayName": "Due Date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Days Overdue",
+              "displayName": "Days Overdue",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Level",
+              "displayName": "Level",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Timestamp",
+              "displayName": "Timestamp",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Recipient",
+              "displayName": "Recipient",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Email Summary",
+              "displayName": "Email Summary",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheetsTool",
+      "typeVersion": 4.7,
+      "position": [
+        960,
+        176
+      ],
+      "id": "2d1c0323-2c5e-4e71-9e11-7cfe94e4916d",
+      "name": "Escalation Tracker Tool",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "8OvhnecyUm75",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.toolCalculator",
+      "typeVersion": 1,
+      "position": [
+        1104,
+        176
+      ],
+      "id": "40009771-9d81-4595-bc88-090c5771bf22",
+      "name": "Calculator Tool"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "1qxj1r25pTed_EWJSHboNqc_QsoolomAJMUbnejbNJL4",
+          "mode": "list"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "row_number": "={{ $('Read Project Tracker').item.json.row_number }}",
+            "Checker Status": "Escalated to Project Manager"
+          },
+          "matchingColumns": [
+            "row_number"
+          ],
+          "schema": [
+            {
+              "id": "Task ID",
+              "displayName": "Task ID",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Task Name",
+              "displayName": "Task Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Owner",
+              "displayName": "Owner",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Due Date",
+              "displayName": "Due Date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Status",
+              "displayName": "Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Priority",
+              "displayName": "Priority",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Project",
+              "displayName": "Project",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Project Manager",
+              "displayName": "Project Manager",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Project Manager Email",
+              "displayName": "Project Manager Email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Checker Status",
+              "displayName": "Checker Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        1152,
+        -48
+      ],
+      "id": "f19b483f-1576-43eb-baf6-da2154f0caec",
+      "name": "Update row in sheet1",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "8OvhnecyUm75",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "## Configure Google Sheet Credentials",
+        "height": 256
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        160,
+        128
+      ],
+      "typeVersion": 1,
+      "id": "ba75a5e0-71ef-43ab-9eb4-c1d95d1562d6",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "content": "\n\n\n\n\n\n\n\n\n\n\n## Configure OpenAI and Gmail Credentials",
+        "height": 240,
+        "width": 320
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        624,
+        176
+      ],
+      "typeVersion": 1,
+      "id": "85ad5b40-c3b7-4360-ad6d-9aedb7213272",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "content": "## This workflow will review any current open tasks for you team and escalate them as a reminder for both the owner and the Project Manager. This is a great start for an automated Project Management system.\n\n## ⚙️ How to Setup\n\n* Configure Google Sheets Credentials\n* Configure OpenAI API key in the OpenAI Chat Model node\n* Configure Gmail credentials in the Email Tool node\n* Edit the prompt as needed to fit your specific Project Management and communication style.\n* Edit the spreadsheets as needed to fit your Project Management workflows.\n\n**Adjust the schedule trigger time if needed (default: 9 AM weekdays)**\n\n\n## ℹ️ How to Use\n\nThe workflow runs automatically every weekday morning at 9 AM. It will:\n\n* Review your project management tracker in Google Sheets\n* Identify any overdue tasks\n* Use AI to analyze and classify the urgency of the overdue tasks\n* Escalate the overdue task via email\n* Update an escalation tracker to watch the team's productivity",
+        "height": 688,
+        "width": 608,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -752,
+        -96
+      ],
+      "typeVersion": 1,
+      "id": "5f3f0715-39b9-4e87-95f4-528d4b2fd2f1",
+      "name": "Sticky Note2"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Daily Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Read Project Tracker",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Read Project Tracker": {
+      "main": [
+        [
+          {
+            "node": "Check If Overdue Tasks Exist and Valid Emails",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Escalation AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Update row in sheet1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Escalation AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Gmail Tool": {
+      "ai_tool": [
+        [
+          {
+            "node": "Escalation AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check If Overdue Tasks Exist and Valid Emails": {
+      "main": [
+        [
+          {
+            "node": "Escalation AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Update row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Escalation Tracker Tool": {
+      "ai_tool": [
+        [
+          {
+            "node": "Escalation AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Calculator Tool": {
+      "ai_tool": [
+        [
+          {
+            "node": "Escalation AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "ca3174a7-6116-4fbd-81a8-f5e19b8380ff",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "aaadb797535f05587ee95b776c942a7c3f7a46fd7aa0c9b6a9d64e1e595f8af1"
+  },
+  "id": "gnJZ14vH7w8AU5Qt",
+  "tags": []
+}

@@ -1,0 +1,1231 @@
+{
+  "name": "LP Communications & Reporting Automation",
+  "nodes": [
+    {
+      "parameters": {
+        "triggerTimes": {
+          "item": [
+            {
+              "mode": "everyX",
+              "value": 3,
+              "unit": "months",
+              "day": 15,
+              "hour": 9,
+              "minute": 0
+            }
+          ]
+        }
+      },
+      "name": "Quarterly Report Trigger",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1,
+      "position": [
+        240,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "functionCode": "// Initialize quarterly reporting process\nconst now = new Date();\n\n// Calculate quarter information\nconst currentQuarter = Math.floor((now.getMonth() + 3) / 3);\nconst currentYear = now.getFullYear();\n\n// Calculate previous quarter (the one we're reporting on)\nlet reportingQuarter, reportingYear;\nif (currentQuarter === 1) {\n  reportingQuarter = 4;\n  reportingYear = currentYear - 1;\n} else {\n  reportingQuarter = currentQuarter - 1;\n  reportingYear = currentYear;\n}\n\n// Format quarter string\nconst quarterString = `Q${reportingQuarter} ${reportingYear}`;\n\n// Calculate quarter date ranges\nconst quarterStartMonth = (reportingQuarter - 1) * 3;\nconst quarterStartDate = new Date(reportingYear, quarterStartMonth, 1);\nconst quarterEndDate = new Date(reportingYear, quarterStartMonth + 3, 0);\n\n// Format date strings\nconst quarterStartString = quarterStartDate.toISOString().split('T')[0];\nconst quarterEndString = quarterEndDate.toISOString().split('T')[0];\n\n// Create reporting object\nconst reportingData = {\n  reportId: `QR-${reportingYear}-${reportingQuarter}`,\n  quarterString,\n  reportingQuarter,\n  reportingYear,\n  quarterStartDate: quarterStartString,\n  quarterEndDate: quarterEndString,\n  generationDate: now.toISOString(),\n  status: 'Initiated',\n  distributionStatus: 'Pending',\n  reportingDeadline: new Date(now.getFullYear(), now.getMonth(), now.getDate() + 30).toISOString()\n};\n\nreturn { json: reportingData };"
+      },
+      "name": "Initialize Quarterly Report",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [
+        460,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "sheetName": "Limited Partners",
+        "options": {}
+      },
+      "name": "Get LP List",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 3,
+      "position": [
+        680,
+        300
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "1",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "sheetName": "Portfolio Companies",
+        "options": {}
+      },
+      "name": "Get Portfolio Companies",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 3,
+      "position": [
+        680,
+        460
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "1",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "sheetName": "Fund Performance",
+        "options": {}
+      },
+      "name": "Get Fund Performance",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 3,
+      "position": [
+        680,
+        620
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "1",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "functionCode": "// Combine all data for quarterly report generation\nconst reportingData = $input.first().json;\nconst limitedPartners = $input.all()[1].json;\nconst portfolioCompanies = $input.all()[2].json;\nconst fundPerformance = $input.all()[3].json;\n\n// Filter portfolio companies for active investments\nconst activeCompanies = portfolioCompanies.filter(company => company.status === 'Active');\n\n// Filter fund performance for the reporting quarter\nconst quarterPerformance = fundPerformance.find(perf => \n  perf.quarter === reportingData.reportingQuarter && \n  perf.year === reportingData.reportingYear\n) || {};\n\n// Calculate fund metrics\nconst totalInvested = activeCompanies.reduce((sum, company) => sum + parseFloat(company.investmentAmount || 0), 0);\nconst totalValuation = activeCompanies.reduce((sum, company) => sum + parseFloat(company.currentValuation || 0), 0);\nconst totalMultiple = totalInvested > 0 ? totalValuation / totalInvested : 1;\n\n// Prepare report data\nconst reportData = {\n  ...reportingData,\n  fundName: 'VC Fund I',\n  fundManager: 'VC Firm Management',\n  lpCount: limitedPartners.length,\n  portfolioCount: activeCompanies.length,\n  totalCommitted: quarterPerformance.totalCommitted || 0,\n  totalCalled: quarterPerformance.totalCalled || 0,\n  totalDistributed: quarterPerformance.totalDistributed || 0,\n  totalInvested,\n  totalValuation,\n  netIRR: quarterPerformance.netIRR || 0,\n  grossIRR: quarterPerformance.grossIRR || 0,\n  tvpi: quarterPerformance.tvpi || totalMultiple,\n  dpi: quarterPerformance.dpi || 0,\n  rvpi: quarterPerformance.rvpi || totalMultiple,\n  moic: quarterPerformance.moic || totalMultiple,\n  newInvestments: quarterPerformance.newInvestments || [],\n  exitedInvestments: quarterPerformance.exitedInvestments || [],\n  followOnInvestments: quarterPerformance.followOnInvestments || [],\n  keyUpdates: quarterPerformance.keyUpdates || ''\n};\n\n// Add LP data for individual reports\nreportData.limitedPartners = limitedPartners.map(lp => ({\n  ...lp,\n  reportId: reportingData.reportId,\n  quarterString: reportingData.quarterString,\n  reportStatus: 'Pending'\n}));\n\nreturn { json: reportData };"
+      },
+      "name": "Prepare Report Data",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [
+        900,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "resource": "folder",
+        "name": "={{ 'LP Reports - ' + $json.quarterString }}",
+        "options": {}
+      },
+      "name": "Create Reports Folder",
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 2,
+      "position": [
+        1120,
+        300
+      ],
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "2",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "sheetName": "Quarterly Reports",
+        "columns": "={{ Object.keys($json).filter(key => key !== 'limitedPartners') }}",
+        "options": {}
+      },
+      "name": "Log Quarterly Report",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 3,
+      "position": [
+        1120,
+        460
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "1",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "lp-communications",
+        "text": "=## Quarterly LP Report Process Initiated\n\n**Quarter:** {{ $json.quarterString }}\n**Report ID:** {{ $json.reportId }}\n**Deadline:** {{ new Date($json.reportingDeadline).toLocaleDateString() }}\n\n**Fund Metrics:**\n- Total Committed: ${{ parseFloat($json.totalCommitted).toLocaleString() }}\n- Total Called: ${{ parseFloat($json.totalCalled).toLocaleString() }}\n- Total Distributed: ${{ parseFloat($json.totalDistributed).toLocaleString() }}\n- Net IRR: {{ parseFloat($json.netIRR).toFixed(2) }}%\n- TVPI: {{ parseFloat($json.tvpi).toFixed(2) }}x\n- DPI: {{ parseFloat($json.dpi).toFixed(2) }}x\n\n**Portfolio:**\n- Active Companies: {{ $json.portfolioCount }}\n- New Investments: {{ $json.newInvestments.length || 0 }}\n- Exited Investments: {{ $json.exitedInvestments.length || 0 }}\n\nThe report generation process has been initiated. LP-specific reports will be generated and distributed by {{ new Date($json.reportingDeadline).toLocaleDateString() }}.",
+        "additionalFields": {}
+      },
+      "name": "Send Slack Notification",
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 1,
+      "position": [
+        1120,
+        620
+      ],
+      "credentials": {
+        "slackApi": {
+          "id": "3",
+          "name": "Slack account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "functionCode": "// Generate individual LP reports\nconst reportData = $input.first().json;\nconst folderId = $input.all()[1].json.id;\n\n// Create an array of items for each LP\nconst lpReports = reportData.limitedPartners.map(lp => {\n  // Calculate LP-specific metrics\n  const lpCommitment = parseFloat(lp.commitment || 0);\n  const lpPercentage = reportData.totalCommitted > 0 ? lpCommitment / reportData.totalCommitted : 0;\n  const lpCalled = reportData.totalCalled * lpPercentage;\n  const lpDistributed = reportData.totalDistributed * lpPercentage;\n  const lpNav = (reportData.totalValuation * lpPercentage) - lpDistributed;\n  \n  return {\n    json: {\n      ...reportData,\n      ...lp,\n      folderId,\n      lpCommitment,\n      lpPercentage,\n      lpCalled,\n      lpDistributed,\n      lpNav,\n      lpTvpi: lpCalled > 0 ? (lpNav + lpDistributed) / lpCalled : 0,\n      lpDpi: lpCalled > 0 ? lpDistributed / lpCalled : 0,\n      lpRvpi: lpCalled > 0 ? lpNav / lpCalled : 0,\n      reportFilename: `${reportData.fundName} - ${reportData.quarterString} - ${lp.name}.pdf`\n    }\n  };\n});\n\nreturn lpReports;"
+      },
+      "name": "Prepare LP Reports",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [
+        1340,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "resource": "file",
+        "name": "={{ $json.reportFilename }}",
+        "folderId": "={{ $json.folderId }}",
+        "options": {}
+      },
+      "name": "Generate LP Report PDF",
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 2,
+      "position": [
+        1560,
+        300
+      ],
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "2",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "sheetName": "LP Report Tracking",
+        "columns": "={{ Object.keys($json).filter(key => !['limitedPartners', 'newInvestments', 'exitedInvestments', 'followOnInvestments'].includes(key)) }}",
+        "options": {}
+      },
+      "name": "Log LP Report",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 3,
+      "position": [
+        1780,
+        300
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "1",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "triggerTimes": {
+          "item": [
+            {
+              "mode": "everyX",
+              "value": 1,
+              "unit": "days"
+            }
+          ]
+        }
+      },
+      "name": "Daily Distribution Check",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1,
+      "position": [
+        240,
+        780
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "lookup",
+        "sheetName": "Quarterly Reports",
+        "lookupColumn": "distributionStatus",
+        "lookupValue": "Pending",
+        "options": {}
+      },
+      "name": "Get Pending Distributions",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 3,
+      "position": [
+        460,
+        780
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "1",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "functionCode": "// Check if reports are ready for distribution\nconst pendingReport = $input.item.json;\n\n// If no pending reports, return empty\nif (!pendingReport) {\n  return { json: { readyForDistribution: false } };\n}\n\n// Check if generation date is at least 2 days ago (giving time for review)\nconst generationDate = new Date(pendingReport.generationDate);\nconst now = new Date();\nconst daysSinceGeneration = Math.floor((now - generationDate) / (24 * 60 * 60 * 1000));\n\n// Reports are ready for distribution if they were generated at least 2 days ago\nconst readyForDistribution = daysSinceGeneration >= 2;\n\nreturn {\n  json: {\n    ...pendingReport,\n    readyForDistribution,\n    daysSinceGeneration\n  }\n};"
+      },
+      "name": "Check Distribution Readiness",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [
+        680,
+        780
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "boolean": [
+            {
+              "value1": "={{ $json.readyForDistribution }}",
+              "value2": true
+            }
+          ]
+        }
+      },
+      "name": "Ready for Distribution?",
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 1,
+      "position": [
+        900,
+        780
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "sheetName": "LP Report Tracking",
+        "options": {
+          "filter": {
+            "values": [
+              {
+                "column": "reportId",
+                "value": "={{ $json.reportId }}"
+              }
+            ]
+          }
+        }
+      },
+      "name": "Get LP Reports",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 3,
+      "position": [
+        1120,
+        780
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "1",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "fromEmail": "investor-relations@vcfirm.com",
+        "toEmail": "={{ $json.email }}",
+        "subject": "={{ $json.fundName + ' - ' + $json.quarterString + ' Quarterly Report' }}",
+        "text": "=Dear {{ $json.name }},\n\nWe are pleased to provide you with the {{ $json.quarterString }} quarterly report for {{ $json.fundName }}.\n\n**Investment Period:** {{ $json.quarterStartDate }} to {{ $json.quarterEndDate }}\n\n**Your Investment Summary:**\n- Total Commitment: ${{ parseFloat($json.lpCommitment).toLocaleString() }}\n- Capital Called to Date: ${{ parseFloat($json.lpCalled).toLocaleString() }} ({{ ($json.lpCalled / $json.lpCommitment * 100).toFixed(1) }}% of commitment)\n- Total Distributions: ${{ parseFloat($json.lpDistributed).toLocaleString() }}\n- Net Asset Value: ${{ parseFloat($json.lpNav).toLocaleString() }}\n- TVPI: {{ parseFloat($json.lpTvpi).toFixed(2) }}x\n- DPI: {{ parseFloat($json.lpDpi).toFixed(2) }}x\n\n**Fund Performance:**\n- Net IRR: {{ parseFloat($json.netIRR).toFixed(2) }}%\n- Gross IRR: {{ parseFloat($json.grossIRR).toFixed(2) }}%\n- MOIC: {{ parseFloat($json.moic).toFixed(2) }}x\n\n**Portfolio Updates:**\n- Active Companies: {{ $json.portfolioCount }}\n- New Investments: {{ $json.newInvestments.length || 0 }}\n- Exited Investments: {{ $json.exitedInvestments.length || 0 }}\n\nPlease find attached the detailed quarterly report with portfolio company updates and financial statements.\n\nIf you have any questions or would like to schedule a call to discuss the fund's performance, please don't hesitate to contact us.\n\nBest regards,\n{{ $json.fundManager }}\nInvestor Relations",
+        "attachments": {
+          "mapTo": "fileProperties",
+          "fileProperties": {
+            "binaryPropertyName": "data"
+          }
+        },
+        "options": {}
+      },
+      "name": "Send LP Email",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2,
+      "position": [
+        1340,
+        780
+      ],
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "4",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "sheetName": "LP Report Tracking",
+        "key": "id",
+        "columns": {
+          "values": [
+            {
+              "column": "distributionDate",
+              "value": "={{ $now }}"
+            },
+            {
+              "column": "distributionStatus",
+              "value": "Distributed"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "name": "Update Distribution Status",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 3,
+      "position": [
+        1560,
+        780
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "1",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "sheetName": "Quarterly Reports",
+        "key": "reportId",
+        "columns": {
+          "values": [
+            {
+              "column": "distributionStatus",
+              "value": "Distributed"
+            },
+            {
+              "column": "distributionDate",
+              "value": "={{ $now }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "name": "Update Report Status",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 3,
+      "position": [
+        1780,
+        780
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "1",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "lp-communications",
+        "text": "=## Quarterly LP Reports Distributed\n\n**Quarter:** {{ $json.quarterString }}\n**Report ID:** {{ $json.reportId }}\n**Distribution Date:** {{ new Date().toLocaleDateString() }}\n\nQuarterly reports have been distributed to {{ $input.all().length }} limited partners. All LP emails have been sent successfully.",
+        "additionalFields": {}
+      },
+      "name": "Send Distribution Notification",
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 1,
+      "position": [
+        2000,
+        780
+      ],
+      "credentials": {
+        "slackApi": {
+          "id": "3",
+          "name": "Slack account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "lp-update-request",
+        "options": {}
+      },
+      "name": "LP Update Request Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [
+        240,
+        940
+      ],
+      "webhookId": "lp-update-request"
+    },
+    {
+      "parameters": {
+        "operation": "lookup",
+        "sheetName": "Limited Partners",
+        "lookupColumn": "email",
+        "lookupValue": "={{ $json.email }}",
+        "options": {}
+      },
+      "name": "Get LP Details",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 3,
+      "position": [
+        460,
+        940
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "1",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "sheetName": "LP Report Tracking",
+        "options": {
+          "filter": {
+            "values": [
+              {
+                "column": "email",
+                "value": "={{ $json.email }}"
+              }
+            ]
+          },
+          "sort": {
+            "column": "generationDate",
+            "direction": "desc"
+          },
+          "limit": 5
+        }
+      },
+      "name": "Get Recent LP Reports",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 3,
+      "position": [
+        680,
+        940
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "1",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "functionCode": "// Process LP update request\nconst lpDetails = $input.first().json;\nconst recentReports = $input.last().json;\nconst requestData = $input.first().json;\n\n// Format LP information\nconst lpInfo = {\n  ...lpDetails,\n  requestDate: new Date().toISOString(),\n  requestType: requestData.requestType || 'General Update',\n  requestDetails: requestData.details || '',\n  recentReports: recentReports.map(report => ({\n    reportId: report.reportId,\n    quarterString: report.quarterString,\n    distributionDate: report.distributionDate,\n    reportUrl: report.reportUrl\n  }))\n};\n\nreturn { json: lpInfo };"
+      },
+      "name": "Process LP Request",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [
+        900,
+        940
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "sheetName": "LP Requests",
+        "columns": "={{ Object.keys($json).filter(key => key !== 'recentReports') }}",
+        "options": {}
+      },
+      "name": "Log LP Request",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 3,
+      "position": [
+        1120,
+        940
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "1",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "lp-communications",
+        "text": "=## New LP Information Request\n\n**LP:** {{ $json.name }}\n**Email:** {{ $json.email }}\n**Request Type:** {{ $json.requestType }}\n**Request Date:** {{ new Date($json.requestDate).toLocaleDateString() }}\n\n**Details:**\n{{ $json.requestDetails }}\n\nPlease follow up with this LP regarding their request.",
+        "additionalFields": {}
+      },
+      "name": "Send Request Notification",
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 1,
+      "position": [
+        1340,
+        940
+      ],
+      "credentials": {
+        "slackApi": {
+          "id": "3",
+          "name": "Slack account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "fromEmail": "investor-relations@vcfirm.com",
+        "toEmail": "ir-team@vcfirm.com",
+        "subject": "={{ 'LP Request: ' + $json.name + ' - ' + $json.requestType }}",
+        "text": "=A new LP information request has been received:\n\n**LP:** {{ $json.name }}\n**Email:** {{ $json.email }}\n**Request Type:** {{ $json.requestType }}\n**Request Date:** {{ new Date($json.requestDate).toLocaleDateString() }}\n\n**Details:**\n{{ $json.requestDetails }}\n\n**Recent Reports:**\n{{ $json.recentReports.map(r => `- ${r.quarterString} (${r.distributionDate ? new Date(r.distributionDate).toLocaleDateString() : 'Not distributed'})`).join('\\n') }}\n\nPlease follow up with this LP regarding their request within 24 hours.\n\nBest regards,\nInvestor Relations System",
+        "options": {}
+      },
+      "name": "Forward Request to IR Team",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2,
+      "position": [
+        1560,
+        940
+      ],
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "4",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "fromEmail": "investor-relations@vcfirm.com",
+        "toEmail": "={{ $json.email }}",
+        "subject": "={{ 'Re: ' + $json.requestType + ' Request - ' + $json.name }}",
+        "text": "=Dear {{ $json.name }},\n\nThank you for your request regarding {{ $json.requestType }}. We have received your inquiry and our Investor Relations team will follow up with you shortly.\n\nYour request details have been logged in our system and a member of our team will contact you within 24 hours.\n\nBest regards,\nInvestor Relations Team\nVC Firm",
+        "options": {}
+      },
+      "name": "Send Acknowledgement to LP",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2,
+      "position": [
+        1780,
+        940
+      ],
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "4",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "triggerTimes": {
+          "item": [
+            {
+              "mode": "everyX",
+              "value": 1,
+              "unit": "years",
+              "month": 1,
+              "day": 15,
+              "hour": 9,
+              "minute": 0
+            }
+          ]
+        }
+      },
+      "name": "Annual Tax Document Trigger",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1,
+      "position": [
+        240,
+        1100
+      ]
+    },
+    {
+      "parameters": {
+        "functionCode": "// Initialize tax document distribution process\nconst now = new Date();\n\n// Calculate tax year (previous year)\nconst taxYear = now.getFullYear() - 1;\n\n// Create tax distribution object\nconst taxData = {\n  distributionId: `TAX-${taxYear}`,\n  taxYear,\n  generationDate: now.toISOString(),\n  status: 'Initiated',\n  distributionStatus: 'Pending',\n  distributionDeadline: new Date(now.getFullYear(), 2, 15).toISOString() // March 15 deadline\n};\n\nreturn { json: taxData };"
+      },
+      "name": "Initialize Tax Distribution",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [
+        460,
+        1100
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "sheetName": "Limited Partners",
+        "options": {}
+      },
+      "name": "Get LP Tax List",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 3,
+      "position": [
+        680,
+        1100
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "1",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "folder",
+        "name": "={{ 'Tax Documents - ' + $json.taxYear }}",
+        "options": {}
+      },
+      "name": "Create Tax Documents Folder",
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 2,
+      "position": [
+        900,
+        1100
+      ],
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "2",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "functionCode": "// Generate individual LP tax documents\nconst taxData = $input.first().json;\nconst limitedPartners = $input.all()[1].json;\nconst folderId = $input.all()[2].json.id;\n\n// Create an array of items for each LP\nconst lpTaxDocs = limitedPartners.map(lp => {\n  return {\n    json: {\n      ...taxData,\n      ...lp,\n      folderId,\n      documentType: lp.entityType === 'Individual' ? 'Schedule K-1' : 'Partnership Tax Return',\n      documentFilename: `${taxData.taxYear} - ${lp.name} - ${lp.entityType === 'Individual' ? 'K1' : 'Tax Return'}.pdf`\n    }\n  };\n});\n\nreturn lpTaxDocs;"
+      },
+      "name": "Prepare Tax Documents",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [
+        1120,
+        1100
+      ]
+    },
+    {
+      "parameters": {
+        "resource": "file",
+        "name": "={{ $json.documentFilename }}",
+        "folderId": "={{ $json.folderId }}",
+        "options": {}
+      },
+      "name": "Generate Tax Document",
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 2,
+      "position": [
+        1340,
+        1100
+      ],
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "2",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "sheetName": "Tax Document Tracking",
+        "columns": "={{ Object.keys($json) }}",
+        "options": {}
+      },
+      "name": "Log Tax Document",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 3,
+      "position": [
+        1560,
+        1100
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "1",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "fromEmail": "investor-relations@vcfirm.com",
+        "toEmail": "={{ $json.email }}",
+        "subject": "={{ 'Tax Year ' + $json.taxYear + ' - ' + $json.documentType + ' for ' + $json.name }}",
+        "text": "=Dear {{ $json.name }},\n\nAttached please find your {{ $json.documentType }} for tax year {{ $json.taxYear }}.\n\nThis document contains important tax information related to your investment in our fund. Please forward this to your tax advisor for inclusion in your tax return.\n\nIf you have any questions about this document or need additional information, please contact our Investor Relations team.\n\nBest regards,\nInvestor Relations Team\nVC Firm",
+        "attachments": {
+          "mapTo": "fileProperties",
+          "fileProperties": {
+            "binaryPropertyName": "data"
+          }
+        },
+        "options": {}
+      },
+      "name": "Send Tax Document Email",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2,
+      "position": [
+        1780,
+        1100
+      ],
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "4",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "sheetName": "Tax Document Tracking",
+        "key": "id",
+        "columns": {
+          "values": [
+            {
+              "column": "distributionDate",
+              "value": "={{ $now }}"
+            },
+            {
+              "column": "distributionStatus",
+              "value": "Distributed"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "name": "Update Tax Distribution Status",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 3,
+      "position": [
+        2000,
+        1100
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "1",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "lp-communications",
+        "text": "=## Tax Documents Distributed\n\n**Tax Year:** {{ $json.taxYear }}\n**Distribution Date:** {{ new Date().toLocaleDateString() }}\n\nTax documents have been distributed to {{ $input.all().length }} limited partners. All emails have been sent successfully.",
+        "additionalFields": {}
+      },
+      "name": "Send Tax Distribution Notification",
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 1,
+      "position": [
+        2220,
+        1100
+      ],
+      "credentials": {
+        "slackApi": {
+          "id": "3",
+          "name": "Slack account"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Quarterly Report Trigger": {
+      "main": [
+        [
+          {
+            "node": "Initialize Quarterly Report",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Initialize Quarterly Report": {
+      "main": [
+        [
+          {
+            "node": "Get LP List",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Get Portfolio Companies",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Get Fund Performance",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get LP List": {
+      "main": [
+        [
+          {
+            "node": "Prepare Report Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Portfolio Companies": {
+      "main": [
+        [
+          {
+            "node": "Prepare Report Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Fund Performance": {
+      "main": [
+        [
+          {
+            "node": "Prepare Report Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prepare Report Data": {
+      "main": [
+        [
+          {
+            "node": "Create Reports Folder",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Log Quarterly Report",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Send Slack Notification",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create Reports Folder": {
+      "main": [
+        [
+          {
+            "node": "Prepare LP Reports",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prepare LP Reports": {
+      "main": [
+        [
+          {
+            "node": "Generate LP Report PDF",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate LP Report PDF": {
+      "main": [
+        [
+          {
+            "node": "Log LP Report",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Daily Distribution Check": {
+      "main": [
+        [
+          {
+            "node": "Get Pending Distributions",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Pending Distributions": {
+      "main": [
+        [
+          {
+            "node": "Check Distribution Readiness",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Distribution Readiness": {
+      "main": [
+        [
+          {
+            "node": "Ready for Distribution?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Ready for Distribution?": {
+      "main": [
+        [
+          {
+            "node": "Get LP Reports",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get LP Reports": {
+      "main": [
+        [
+          {
+            "node": "Send LP Email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send LP Email": {
+      "main": [
+        [
+          {
+            "node": "Update Distribution Status",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update Distribution Status": {
+      "main": [
+        [
+          {
+            "node": "Update Report Status",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update Report Status": {
+      "main": [
+        [
+          {
+            "node": "Send Distribution Notification",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "LP Update Request Webhook": {
+      "main": [
+        [
+          {
+            "node": "Get LP Details",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get LP Details": {
+      "main": [
+        [
+          {
+            "node": "Get Recent LP Reports",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Recent LP Reports": {
+      "main": [
+        [
+          {
+            "node": "Process LP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Process LP Request": {
+      "main": [
+        [
+          {
+            "node": "Log LP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Log LP Request": {
+      "main": [
+        [
+          {
+            "node": "Send Request Notification",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send Request Notification": {
+      "main": [
+        [
+          {
+            "node": "Forward Request to IR Team",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Forward Request to IR Team": {
+      "main": [
+        [
+          {
+            "node": "Send Acknowledgement to LP",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Annual Tax Document Trigger": {
+      "main": [
+        [
+          {
+            "node": "Initialize Tax Distribution",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Initialize Tax Distribution": {
+      "main": [
+        [
+          {
+            "node": "Get LP Tax List",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get LP Tax List": {
+      "main": [
+        [
+          {
+            "node": "Create Tax Documents Folder",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create Tax Documents Folder": {
+      "main": [
+        [
+          {
+            "node": "Prepare Tax Documents",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prepare Tax Documents": {
+      "main": [
+        [
+          {
+            "node": "Generate Tax Document",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate Tax Document": {
+      "main": [
+        [
+          {
+            "node": "Log Tax Document",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Log Tax Document": {
+      "main": [
+        [
+          {
+            "node": "Send Tax Document Email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send Tax Document Email": {
+      "main": [
+        [
+          {
+            "node": "Update Tax Distribution Status",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update Tax Distribution Status": {
+      "main": [
+        [
+          {
+            "node": "Send Tax Distribution Notification",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "saveManualExecutions": true,
+    "callerPolicy": "workflowsFromSameOwner",
+    "errorWorkflow": "",
+    "saveExecutionProgress": true,
+    "saveDataErrorExecution": "all"
+  },
+  "tags": [
+    {
+      "name": "lp communications",
+      "color": "#ff6600"
+    },
+    {
+      "name": "reporting",
+      "color": "#0066ff"
+    }
+  ],
+  "pinData": {},
+  "versionId": "1",
+  "triggerCount": 4,
+  "staticData": null,
+  "id": "6"
+}

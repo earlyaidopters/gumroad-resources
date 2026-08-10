@@ -1,0 +1,21 @@
+{
+  "name": "RAG Ladder Cheat Sheet 📖",
+  "external_id": "igJR2vbp_V_XA9lHqBlCcQ==",
+  "permalink": "skkvfl",
+  "unique_permalink": "skkvfl",
+  "custom_permalink": "ragrealitycheck",
+  "url": "https://markkashef.gumroad.com/l/ragrealitycheck",
+  "status": "published",
+  "archived": false,
+  "kind": "products",
+  "price_formatted": "CAD$0+",
+  "description_md": "# What You Get\n\n- A complete 10-level ladder from simple “just paste it” context dumps to cutting-edge Agentic GraphRAG, with setup time, cost, accuracy, and best-fit use cases at every stage.\n\n- A decision framework that helps you stop over-engineering, cut costs, and pick the simplest RAG level that actually works for your business.\n\n- Pro tips, fatal flaw call-outs, and a cost-reality breakdown so you can scale knowledge retrieval without burning time or budget",
+  "files": [
+    {
+      "file": "The Complete RAG Ladder Cheat Sheet.pdf",
+      "status": "cached",
+      "bytes": 482626
+    }
+  ],
+  "has_rich_content": true
+}

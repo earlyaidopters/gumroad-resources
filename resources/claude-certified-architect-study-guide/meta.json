@@ -1,0 +1,21 @@
+{
+  "name": "📓 Claude Certified Architect Study Guide",
+  "external_id": "w79L-xUeMlWwgjAfXEIJfw==",
+  "permalink": "vorob",
+  "unique_permalink": "vorob",
+  "custom_permalink": "claude-architect-study-guide",
+  "url": "https://markkashef.gumroad.com/l/claude-architect-study-guide",
+  "status": "published",
+  "archived": false,
+  "kind": "products",
+  "price_formatted": "CAD$0+",
+  "description_md": "# What You Get\n\n- \nStudy Guide PDF (17 visual diagrams): Every concept from Anthropic's official certification exam guide broken down with full-page diagrams and plain English summaries. One concept per page. Print it, reference it, study it.\n\n- \nInteractive Study Prompts (link included): Community-created domain-by-domain prompts. Paste them into Claude Code and it interviews you on each section, adapting to your level.\n\n- \nOfficial Exam Guide Link: Direct link to Anthropic's 40-page certification document. Read it alongside this guide for full depth.\n\n---\nWant my full Claude Code course, coaching, and every resource I create? Join 1K+ builders inside the community:https://www.skool.com/earlyaidopters/about",
+  "files": [
+    {
+      "file": "claude_architect_study_guide.pdf",
+      "status": "cached",
+      "bytes": 55693874
+    }
+  ],
+  "has_rich_content": true
+}

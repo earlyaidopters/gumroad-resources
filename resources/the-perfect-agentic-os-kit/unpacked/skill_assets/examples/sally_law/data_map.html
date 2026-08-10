@@ -1,0 +1,1661 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Silver Platter Data Map, Aldrich & Stone LLP</title>
+<style>
+  :root {
+    --bg: #faf9f7;
+    --ink: #1a1a1a;
+    --muted: #6b6b6b;
+    --line: #d4d2cd;
+    --coral: #E07A4F;
+    --coral-soft: rgba(224, 122, 79, 0.12);
+    --coral-border: rgba(224, 122, 79, 0.32);
+    --green: #1f7a4d;
+    --card: #ffffff;
+    --shadow-1: 0 1px 2px rgba(0,0,0,0.04);
+    --shadow-2: 0 1px 3px rgba(0,0,0,0.06), 0 8px 24px rgba(0,0,0,0.04);
+    --radius: 6px;
+  }
+  * { box-sizing: border-box; }
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", Roboto, sans-serif;
+    margin: 0;
+    padding: 0 0 80px;
+    line-height: 1.55;
+    font-size: 14px;
+  }
+  header {
+    padding: 48px 56px 32px;
+    border-bottom: 1px solid var(--line);
+    background: var(--card);
+  }
+  .stack-tag {
+    display: inline-block;
+    font-size: 12px;
+    color: var(--coral);
+    background: var(--coral-soft);
+    border: 1px solid var(--coral-border);
+    border-radius: 999px;
+    padding: 4px 12px;
+    font-weight: 500;
+    margin-bottom: 14px;
+  }
+  h1 {
+    font-size: 30px;
+    font-weight: 600;
+    letter-spacing: -0.015em;
+    margin: 0 0 12px;
+    max-width: 880px;
+    line-height: 1.25;
+  }
+  .lead { color: var(--muted); font-size: 15px; max-width: 760px; margin: 0 0 24px; line-height: 1.55; }
+  .hero-strip {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 32px;
+    margin-top: 8px;
+  }
+  .hero-stat {
+    display: flex;
+    flex-direction: column;
+  }
+  .hero-stat .num {
+    font-size: 28px;
+    font-weight: 600;
+    color: var(--ink);
+    letter-spacing: -0.01em;
+    line-height: 1.1;
+  }
+  .hero-stat .label {
+    font-size: 12px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-top: 4px;
+  }
+  .hero-stat .num.coral { color: var(--coral); }
+
+  nav.tabs {
+    background: var(--card);
+    padding: 0 56px;
+    border-bottom: 1px solid var(--line);
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    display: flex;
+    gap: 4px;
+  }
+  .tab-btn {
+    background: none;
+    border: none;
+    padding: 16px 20px;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--muted);
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    transition: color 0.12s, border-color 0.12s;
+    font-family: inherit;
+  }
+  .tab-btn:hover { color: var(--ink); }
+  .tab-btn.active {
+    color: var(--ink);
+    border-bottom-color: var(--coral);
+  }
+  .legend-bar {
+    background: #f4f2ee;
+    padding: 10px 56px;
+    border-bottom: 1px solid var(--line);
+    display: flex;
+    gap: 24px;
+    font-size: 12px;
+    color: var(--muted);
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  .legend-item { display: flex; align-items: center; gap: 8px; }
+  .legend-swatch {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10.5px;
+    font-weight: 600;
+    border: 1px solid var(--ink);
+    background: white;
+  }
+  .legend-swatch.have { color: var(--green); border-color: var(--green); }
+  .legend-swatch.opportunity {
+    color: white;
+    background: var(--coral);
+    border-color: var(--coral);
+  }
+
+  .tab-panel { display: none; padding: 32px 56px; }
+  .tab-panel.active { display: block; }
+
+  .lane {
+    margin-bottom: 28px;
+  }
+  .lane-banner {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    padding: 10px 14px;
+    border-left: 4px solid var(--coral);
+    background: rgba(224, 122, 79, 0.05);
+    margin-bottom: 16px;
+    border-radius: 0 4px 4px 0;
+  }
+  .lane-banner .lane-title {
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--ink);
+  }
+  .lane-banner .lane-caption {
+    font-size: 13px;
+    color: var(--muted);
+  }
+  .lane-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+  .card {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 14px 16px;
+    width: 250px;
+    box-shadow: var(--shadow-1);
+    cursor: pointer;
+    transition: transform 0.12s ease, box-shadow 0.12s ease, border-color 0.12s;
+    position: relative;
+  }
+  .card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-2);
+    border-color: var(--ink);
+  }
+  .card.is-highlighted {
+    border-color: var(--coral);
+    box-shadow: 0 0 0 2px var(--coral-soft), var(--shadow-2);
+  }
+  .card .tool { font-weight: 600; font-size: 14px; margin-bottom: 4px; }
+  .card .chip {
+    display: inline-block;
+    background: rgba(0,0,0,0.04);
+    border-radius: 3px;
+    padding: 2px 8px;
+    font-size: 10.5px;
+    letter-spacing: 0.04em;
+    color: var(--muted);
+    margin-right: 4px;
+    margin-top: 4px;
+    font-weight: 500;
+  }
+  .card .meta { font-size: 12px; color: var(--muted); margin-top: 8px; line-height: 1.45; }
+  .card .meta strong { color: var(--ink); font-weight: 600; }
+  .card .quick-flag {
+    display: inline-block;
+    margin-top: 8px;
+    padding: 3px 8px;
+    background: var(--coral-soft);
+    color: var(--coral);
+    font-size: 11px;
+    border-radius: 3px;
+    font-weight: 500;
+  }
+  .badge {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 600;
+    border: 1px solid var(--ink);
+    background: white;
+  }
+  .badge.have { color: var(--green); border-color: var(--green); }
+  .badge.missing { color: var(--muted); }
+  .badge.opportunity {
+    color: white;
+    background: var(--coral);
+    border-color: var(--coral);
+  }
+
+  .start-here {
+    background: var(--coral-soft);
+    border: 1px solid var(--coral-border);
+    border-radius: 4px;
+    padding: 12px 16px;
+    margin-bottom: 24px;
+    font-size: 13px;
+    color: var(--ink);
+  }
+  .start-here strong { color: var(--coral); }
+
+  /* Recipes */
+  .recipes-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(420px, 1fr));
+    gap: 20px;
+    margin-top: 16px;
+  }
+  .recipe-card {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 24px;
+    box-shadow: var(--shadow-1);
+    cursor: pointer;
+    transition: transform 0.12s, box-shadow 0.12s, border-color 0.12s;
+    position: relative;
+  }
+  .recipe-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-2);
+    border-color: var(--ink);
+  }
+  .recipe-card .time-saved {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    background: var(--coral);
+    color: white;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 4px 10px;
+    border-radius: 3px;
+    letter-spacing: 0.04em;
+  }
+  .recipe-card h3 {
+    margin: 0 0 4px;
+    font-size: 17px;
+    letter-spacing: -0.01em;
+    padding-right: 96px;
+  }
+  .recipe-goal { color: var(--muted); margin: 0 0 16px; font-size: 13px; line-height: 1.5; }
+  .recipe-flow {
+    background: rgba(0,0,0,0.025);
+    border-radius: 4px;
+    padding: 10px 12px;
+    font-size: 12px;
+    color: var(--ink);
+    line-height: 1.7;
+    margin-bottom: 16px;
+  }
+  .recipe-flow .ingredient {
+    display: inline-block;
+    background: white;
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    padding: 2px 8px;
+    margin: 2px;
+  }
+  .recipe-flow .ingredient.outcome {
+    background: var(--coral);
+    color: white;
+    border-color: var(--coral);
+    font-weight: 600;
+  }
+  .recipe-flow .arrow { color: var(--coral); margin: 0 6px; font-weight: 600; }
+  .recipe-impact {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin-bottom: 14px;
+    font-size: 12px;
+  }
+  .recipe-impact .before.recipe-impact .after {
+    padding: 8px 12px;
+    border-radius: 4px;
+    line-height: 1.4;
+  }
+  .recipe-impact .before { background: rgba(0,0,0,0.04); color: var(--muted); }
+  .recipe-impact .after { background: var(--coral-soft); color: var(--ink); border-left: 3px solid var(--coral); }
+  .recipe-cta {
+    display: inline-block;
+    color: var(--coral);
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+
+  /* Setup */
+  .setup-intro { color: var(--muted); margin-bottom: 24px; max-width: 760px; font-size: 14px; line-height: 1.6; }
+  .setup-step {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 24px 28px;
+    margin-bottom: 20px;
+    display: grid;
+    grid-template-columns: 56px 1fr;
+    gap: 24px;
+    box-shadow: var(--shadow-1);
+  }
+  .step-num {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: var(--ink);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    font-weight: 600;
+  }
+  .setup-step.is-zero {
+    border-color: var(--coral);
+    background: linear-gradient(0deg, var(--coral-soft), white);
+  }
+  .setup-step.is-zero .step-num { background: var(--coral); }
+  .setup-step.is-first .step-num { background: var(--coral); }
+  .setup-step h3 { margin: 4px 0 8px; font-size: 18px; letter-spacing: -0.01em; }
+  .step-pretitle {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    font-weight: 600;
+    color: var(--coral);
+    margin-bottom: 4px;
+  }
+  .step-block { margin-bottom: 12px; }
+  .step-block-label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    font-weight: 600;
+    color: var(--muted);
+    margin-bottom: 4px;
+  }
+  .step-requires {
+    background: rgba(0,0,0,0.03);
+    border-left: 3px solid var(--muted);
+    padding: 8px 12px;
+    margin-bottom: 12px;
+    font-size: 12.5px;
+    color: var(--muted);
+    border-radius: 0 4px 4px 0;
+  }
+  .step-working {
+    background: rgba(31, 122, 77, 0.08);
+    border-left: 3px solid var(--green);
+    padding: 10px 14px;
+    margin-top: 12px;
+    font-size: 13px;
+    border-radius: 0 4px 4px 0;
+  }
+  .step-working strong { color: var(--green); }
+  .step-install {
+    background: var(--ink);
+    color: white;
+    padding: 12px 16px;
+    border-radius: 4px;
+    font-family: 'SF Mono', ui-monospace, Menlo, monospace;
+    font-size: 12.5px;
+    line-height: 1.6;
+    overflow-x: auto;
+    white-space: pre;
+  }
+  .step-impact {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-top: 12px;
+    font-size: 13px;
+  }
+  .step-impact .before.step-impact .after {
+    padding: 10px 14px;
+    border-radius: 4px;
+    line-height: 1.4;
+  }
+  .step-impact .before { background: rgba(0,0,0,0.04); color: var(--muted); }
+  .step-impact .after { background: var(--coral-soft); border-left: 3px solid var(--coral); }
+  .step-time { color: var(--muted); font-size: 12px; margin: 12px 0 0; font-style: italic; }
+  .closing-card {
+    background: var(--card);
+    border: 1px dashed var(--coral);
+    border-radius: var(--radius);
+    padding: 24px 28px;
+    margin-top: 12px;
+    text-align: center;
+  }
+  .closing-card h3 { margin: 0 0 8px; font-size: 16px; }
+  .closing-card p { margin: 0; color: var(--muted); font-size: 13.5px; line-height: 1.55; }
+  .closing-card a { color: var(--coral); font-weight: 600; text-decoration: none; }
+  .closing-card a:hover { text-decoration: underline; }
+
+  /* Modal */
+  .overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(26,26,26,0.46);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    padding: 24px;
+  }
+  .overlay.visible { display: flex; }
+  .modal {
+    background: white;
+    border-radius: 8px;
+    width: 100%;
+    max-width: 720px;
+    max-height: 88vh;
+    overflow-y: auto;
+    padding: 32px;
+    box-shadow: 0 12px 48px rgba(0,0,0,0.18);
+  }
+  .modal-large { max-width: 880px; }
+  .modal h2 { margin: 0 0 6px; font-size: 22px; letter-spacing: -0.015em; }
+  .modal .subtle { color: var(--muted); font-size: 13px; margin-bottom: 20px; }
+  .modal-section { margin-top: 20px; padding-top: 20px; border-top: 1px solid var(--line); }
+  .modal-section:first-of-type { border-top: none; padding-top: 0; }
+  .modal-section h3 {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--muted);
+    margin: 0 0 8px;
+    font-weight: 600;
+  }
+  .modal-section p { margin: 0 0 8px; line-height: 1.6; }
+  .close-btn {
+    background: none;
+    border: 1px solid var(--line);
+    padding: 6px 14px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 24px;
+    font-family: inherit;
+  }
+  .close-btn:hover { color: var(--ink); border-color: var(--ink); }
+
+  .conn-tabs {
+    display: flex;
+    gap: 4px;
+    border-bottom: 1px solid var(--line);
+    margin-bottom: 16px;
+  }
+  .conn-tab {
+    background: none;
+    border: none;
+    border-bottom: 2px solid transparent;
+    padding: 8px 14px;
+    font-size: 13px;
+    cursor: pointer;
+    color: var(--muted);
+    font-family: inherit;
+    font-weight: 500;
+    text-align: left;
+    line-height: 1.3;
+  }
+  .conn-tab small { display: block; font-size: 10.5px; opacity: 0.75; font-weight: 400; }
+  .conn-tab.active { color: var(--ink); border-bottom-color: var(--coral); }
+  .conn-content { display: none; }
+  .conn-content.active { display: block; }
+  .conn-content p { margin: 0 0 10px; }
+  .conn-content ul { margin: 4px 0 12px; padding-left: 18px; }
+  .conn-content li { margin-bottom: 3px; }
+  .conn-content .conn-summary {
+    background: rgba(224, 122, 79, 0.06);
+    border-left: 3px solid var(--coral);
+    padding: 10px 14px;
+    border-radius: 0 4px 4px 0;
+    margin-bottom: 12px;
+    font-size: 13px;
+  }
+  .conn-content code {
+    background: rgba(0,0,0,0.04);
+    padding: 1px 6px;
+    border-radius: 3px;
+    font-size: 12px;
+  }
+  .conn-content pre {
+    background: var(--ink);
+    color: white;
+    padding: 10px 14px;
+    border-radius: 4px;
+    font-size: 12px;
+    overflow-x: auto;
+    margin: 8px 0 12px;
+  }
+  .install-toggle {
+    background: none;
+    border: 1px solid var(--line);
+    padding: 4px 10px;
+    border-radius: 3px;
+    cursor: pointer;
+    font-size: 11px;
+    color: var(--muted);
+    font-family: inherit;
+    margin-bottom: 8px;
+  }
+  .install-block { display: none; }
+  .install-block.visible { display: block; }
+
+  .sample-preview {
+    background: rgba(0,0,0,0.03);
+    border-left: 3px solid var(--coral);
+    padding: 14px 16px;
+    border-radius: 0 4px 4px 0;
+    font-family: 'SF Mono', ui-monospace, Menlo, monospace;
+    font-size: 12px;
+    line-height: 1.55;
+    white-space: pre-wrap;
+    overflow-x: auto;
+    color: var(--ink);
+  }
+  .ideation-list {
+    counter-reset: step;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+  }
+  .ideation-list li {
+    counter-increment: step;
+    padding: 8px 0 8px 36px;
+    position: relative;
+    font-size: 13.5px;
+    line-height: 1.55;
+    border-bottom: 1px dashed var(--line);
+  }
+  .ideation-list li:last-child { border-bottom: none; }
+  .ideation-list li::before {
+    content: counter(step);
+    position: absolute;
+    left: 0;
+    top: 8px;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: var(--coral-soft);
+    color: var(--coral);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-weight: 600;
+  }
+  .ideation-list .actor {
+    display: inline-block;
+    background: var(--ink);
+    color: white;
+    padding: 2px 8px;
+    border-radius: 3px;
+    font-size: 11px;
+    font-weight: 500;
+    margin-right: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+  .stack-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .stack-pill {
+    background: var(--coral-soft);
+    color: var(--coral);
+    border: 1px solid var(--coral-border);
+    border-radius: 4px;
+    padding: 4px 10px;
+    font-size: 12px;
+    font-weight: 500;
+  }
+  .stack-pill.skill { background: rgba(0,90,180,0.08); color: #0a3a78; border-color: rgba(0,90,180,0.2); }
+  .stack-pill.subagent { background: rgba(120,40,160,0.08); color: #501a78; border-color: rgba(120,40,160,0.2); }
+  .stack-pill.hook { background: rgba(180,90,0,0.08); color: #6a3500; border-color: rgba(180,90,0,0.2); }
+  .stack-pill.rule { background: rgba(0,128,80,0.08); color: #15543a; border-color: rgba(0,128,80,0.2); }
+  .primitive-key {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px 16px;
+    font-size: 12px;
+    color: var(--muted);
+    margin-bottom: 16px;
+    padding: 12px;
+    background: rgba(0,0,0,0.025);
+    border-radius: 4px;
+  }
+  .primitive-key div { display: flex; gap: 6px; align-items: center; }
+  .primitive-key .pk-label { font-weight: 600; color: var(--ink); }
+
+  .today-card {
+    background: rgba(0,0,0,0.03);
+    border-radius: 4px;
+    padding: 14px 16px;
+    margin-bottom: 16px;
+    font-size: 13.5px;
+    line-height: 1.55;
+  }
+  .today-card .today-label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); font-weight: 600; margin-bottom: 6px; }
+  .monday-card {
+    background: var(--coral-soft);
+    border-left: 3px solid var(--coral);
+    border-radius: 0 4px 4px 0;
+    padding: 14px 16px;
+    margin-bottom: 16px;
+    font-size: 13.5px;
+    line-height: 1.55;
+  }
+  .monday-card .monday-label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--coral); font-weight: 600; margin-bottom: 6px; }
+
+  /* Sankey */
+  .sankey-legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 24px;
+    margin-bottom: 16px;
+    font-size: 12px;
+    color: var(--muted);
+  }
+  .sankey-legend-col { display: flex; align-items: center; gap: 8px; }
+  .sankey-legend-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 3px;
+    display: inline-block;
+  }
+  .pantry-dot { background: #4a5d7e; }
+  .prep-dot { background: #6b8e6b; }
+  .plate-dot { background: #1a1a1a; }
+  .interact-dot { background: #8a6db6; }
+  .opp-dot { background: var(--coral); }
+  .sankey-wrap {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 24px;
+    box-shadow: var(--shadow-1);
+    overflow-x: auto;
+  }
+  #sankey-svg {
+    width: 100%;
+    height: auto;
+    min-width: 800px;
+    max-height: 720px;
+  }
+  .sankey-node-rect {
+    cursor: pointer;
+    transition: filter 0.15s, opacity 0.15s;
+  }
+  .sankey-node-rect:hover { filter: brightness(1.1); }
+  .sankey-node-label {
+    font-size: 12px;
+    font-weight: 600;
+    fill: var(--ink);
+    pointer-events: none;
+  }
+  .sankey-node-sub {
+    font-size: 10.5px;
+    fill: var(--muted);
+    pointer-events: none;
+  }
+  .sankey-link {
+    fill: none;
+    stroke: #b9b8b3;
+    stroke-opacity: 0.35;
+    transition: stroke-opacity 0.15s, stroke 0.15s;
+    cursor: pointer;
+  }
+  .sankey-link.is-opportunity { stroke: var(--coral); stroke-opacity: 0.5; }
+  .sankey-link:hover, .sankey-link.is-active {
+    stroke-opacity: 0.85;
+    stroke: var(--coral);
+  }
+  .sankey-help {
+    color: var(--muted);
+    font-size: 12.5px;
+    margin-top: 14px;
+    font-style: italic;
+  }
+
+  footer.page-footer {
+    margin-top: 48px;
+    padding: 24px 56px;
+    color: var(--muted);
+    font-size: 12px;
+    border-top: 1px solid var(--line);
+    text-align: center;
+  }
+  footer.page-footer code {
+    background: rgba(0,0,0,0.04);
+    padding: 1px 6px;
+    border-radius: 3px;
+  }
+</style>
+</head>
+<body>
+
+
+<header>
+  <div class="stack-tag">12-attorney boutique. Litigation + small-cap M&A. Boston. Bedrock-only Claude.</div>
+  <h1>Aldrich & Stone LLP, here's how your tools talk to each other today and what to fix first.</h1>
+  <p class="lead">Three sections below. Pantry = your raw data. Prep table = the weekly briefs Claude assembles. Plate = the decisions you actually serve up. Click any card or recipe for plain English.</p>
+  <div class="hero-strip">
+    <div class="hero-stat">
+      <div class="num">6</div>
+      <div class="label">Tools mapped</div>
+    </div>
+    <div class="hero-stat">
+      <div class="num">4</div>
+      <div class="label">Recipes ready to build</div>
+    </div>
+    <div class="hero-stat">
+      <div class="num coral">3</div>
+      <div class="label">Quick wins flagged</div>
+    </div>
+  </div>
+</header>
+
+<nav class="tabs">
+  <button class="tab-btn active" data-tab="map">What you have today</button>
+  <button class="tab-btn" data-tab="flow">Data flow</button>
+  <button class="tab-btn" data-tab="recipes">What we'll build (4)</button>
+  <button class="tab-btn" data-tab="setup">Your 30-day build plan</button>
+</nav>
+
+<div class="legend-bar">
+  <span style="font-weight:600;color:var(--ink);">Legend:</span>
+  <div class="legend-item"><span class="legend-swatch have">&check;</span> You've got it</div>
+  <div class="legend-item"><span class="legend-swatch">?</span> Missing or not set up yet</div>
+  <div class="legend-item"><span class="legend-swatch opportunity">!</span> Quick win, money or hours on the table</div>
+</div>
+
+<section id="tab-map" class="tab-panel active">
+
+  <div class="start-here">
+    <strong>Where to start:</strong> click any card with the orange <span style="background:var(--coral);color:white;padding:1px 7px;border-radius:50%;font-size:11px;font-weight:600;">!</span> badge first, those are the 3 unlocks Claude can earn its keep on.
+  </div>
+
+  <div class="lane" data-lane="pantry">
+    <div class="lane-banner">
+      <div class="lane-title">Pantry</div>
+      <div class="lane-caption">Your raw ingredients, the tools your data already lives in.</div>
+    </div>
+    <div class="lane-row">
+      <div class="card" data-card-id="imanage" data-lane="pantry">
+        <div class="badge opportunity">!</div>
+        <div class="tool">iManage</div>
+        <span class="chip">PDF/DOCX</span>
+        <span class="chip">real-time</span>
+        <div class="meta">High volume</div>
+      </div>
+      <div class="card" data-card-id="outlook" data-lane="pantry">
+        <div class="badge have">&check;</div>
+        <div class="tool">Outlook 365</div>
+        <span class="chip">EML/MSG</span>
+        <span class="chip">real-time</span>
+        <div class="meta">High volume</div>
+      </div>
+      <div class="card" data-card-id="bill4time" data-lane="pantry">
+        <div class="badge have">&check;</div>
+        <div class="tool">Bill4Time</div>
+        <span class="chip">XLSX</span>
+        <span class="chip">weekly</span>
+        <div class="meta">Steady flow</div>
+      </div>
+      <div class="card" data-card-id="intake_pdfs" data-lane="pantry">
+        <div class="badge have">&check;</div>
+        <div class="tool">Client intake forms</div>
+        <span class="chip">PDF</span>
+        <span class="chip">weekly</span>
+        <div class="meta">Trickle</div>
+      </div>
+      <div class="card" data-card-id="lexis" data-lane="pantry">
+        <div class="badge have">&check;</div>
+        <div class="tool">LexisNexis AI</div>
+        <span class="chip">API</span>
+        <span class="chip">ad-hoc</span>
+        <div class="meta">Trickle</div>
+      </div>
+      <div class="card" data-card-id="bedrock_claude" data-lane="pantry">
+        <div class="badge opportunity">!</div>
+        <div class="tool">AWS Bedrock 3P Claude</div>
+        <span class="chip">API</span>
+        <span class="chip">real-time</span>
+        <div class="meta">High volume</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="lane" data-lane="prep">
+    <div class="lane-banner">
+      <div class="lane-title">Prep Table</div>
+      <div class="lane-caption">Where the night's mise-en-place gets done, weekly summaries Claude writes for you.</div>
+    </div>
+    <div class="lane-row">
+      <div class="card" data-card-id="matter_briefs" data-lane="prep">
+        <div class="badge have">&check;</div>
+        <div class="tool">Matter briefs/<matter> brief</div>
+        <span class="chip">Matters</span>
+<span class="chip">On matter open + weekly refresh</span>        <div class="meta">
+          <strong>In:</strong> iManage, Outlook 365, Client intake forms
+        </div>
+      </div>
+      <div class="card" data-card-id="billing_summary" data-lane="prep">
+        <div class="badge have">&check;</div>
+        <div class="tool">Billing summary</div>
+        <span class="chip">Billing</span>
+<span class="chip">Mon 7am</span>        <div class="meta">
+          <strong>In:</strong> Bill4Time
+        </div>
+      </div>
+      <div class="card" data-card-id="post_mortem_lessons" data-lane="prep">
+        <div class="badge opportunity">!</div>
+        <div class="tool">Post mortem lessons</div>
+        <span class="chip">Knowledge / lessons</span>
+<span class="chip">On matter close</span>        <div class="meta">
+          <strong>In:</strong> none yet
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="lane" data-lane="plate">
+    <div class="lane-banner">
+      <div class="lane-title">Plate</div>
+      <div class="lane-caption">What gets served to a human, the briefs and drafts you actually act on.</div>
+    </div>
+    <div class="lane-row">
+      <div class="card" data-card-id="deposition_prep" data-lane="plate">
+        <div class="badge have">&check;</div>
+        <div class="tool">Deposition / focus brief</div>
+        <span class="chip">Written by the deposition-prep specialist</span>
+<span class="chip">For: Marcus Stone, Sally</span>        <div class="meta">🔒 Lead attorney approves before send</div>
+      </div>
+      <div class="card" data-card-id="billing_drafts" data-lane="plate">
+        <div class="badge have">&check;</div>
+        <div class="tool">Time-entry narrative drafts</div>
+        <span class="chip">Written by the billing assistant</span>
+<span class="chip">For: timekeepers</span>        <div class="meta">🔒 Timekeeper approves before sending to billing</div>
+      </div>
+      <div class="card" data-card-id="lessons_learned" data-lane="plate">
+        <div class="badge opportunity">!</div>
+        <div class="tool">Lessons learned (firm knowledge)</div>
+        <span class="chip">Written by the post-mortem distiller</span>
+<span class="chip">For: Janet Aldrich</span>        <div class="meta">🔒 Managing partner approves before firm-knowledge entry</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="tab-flow" class="tab-panel">
+  <p class="setup-intro">The mental model in one picture. Your data moves left to right: <strong>raw sources</strong> feed <strong>weekly silver platters</strong>, platters feed the <strong>briefs and drafts</strong> Claude writes for you, and those land in the <strong>channels you actually use</strong> (Slack, your inbox, your iPad). The AI layer sits on top of the data prep, never the other way around. Hover any line to trace it. Click a node to open the details.</p>
+
+  <div class="sankey-legend">
+    <div class="sankey-legend-col"><span class="sankey-legend-dot pantry-dot"></span> Pantry (raw data)</div>
+    <div class="sankey-legend-col"><span class="sankey-legend-dot prep-dot"></span> Prep (silver platters)</div>
+    <div class="sankey-legend-col"><span class="sankey-legend-dot plate-dot"></span> Plate (briefs you read)</div>
+    <div class="sankey-legend-col"><span class="sankey-legend-dot interact-dot"></span> Where you read it</div>
+    <div class="sankey-legend-col"><span class="sankey-legend-dot opp-dot"></span> Opportunity / suggested</div>
+  </div>
+
+  <div class="sankey-wrap">
+    <svg id="sankey-svg" viewBox="0 0 1500 760" preserveAspectRatio="xMidYMid meet"></svg>
+  </div>
+
+  <p class="sankey-help">If a Pantry box has no line leaving it, that data is sitting unused, those are usually the loudest quick wins. Dashed boxes on the right are channels we suggest adding.</p>
+</section>
+
+<section id="tab-recipes" class="tab-panel">
+  <p class="setup-intro">Aldrich & Stone LLP, these are the briefs and drafts your team can stop building manually. Each one shows the ingredients, the time saved, and the back-and-forth Claude does on your behalf.</p>
+
+  <div class="recipes-grid">
+    <article class="recipe-card" data-recipe-id="new_matter_recipe">
+      <h3>New matter scaffolding (when intake comes in)</h3>
+      <p class="recipe-goal">Sally drops an intake PDF; ten minutes later the matter folder is scaffolded with brief, walling, and precedent links, instead of three hours of hand-rolling.</p>
+      <div class="recipe-flow"><span class="ingredient">Client intake forms</span> <span class="arrow">→</span> <span class="ingredient">iManage</span> <span class="arrow">→</span> <span class="ingredient">matter_briefs.md</span> <span class="arrow">→</span> <span class="ingredient outcome">case-launch orchestrator</span></div>
+      <div class="recipe-impact">
+        <div class="before"><strong>Before:</strong> Sally hand-rolls every new matter folder, hand-pulls precedent from iManage, hand-formats the case brief. 3 hours per matter. 4-5 matters a month.</div>
+        <div class="after"><strong>After:</strong> Drop the intake PDF, run /new_matter, the folder scaffolds in 10 minutes. Sally reviews and works.</div>
+      </div>
+      <span class="recipe-cta">Click for the full walkthrough →</span>
+    </article>
+    <article class="recipe-card" data-recipe-id="time_entry_recipe">
+      <h3>Time-entry narratives (Friday 5pm)</h3>
+      <p class="recipe-goal">Carol stops chasing partners on Friday. Every late time entry has a drafted narrative ready for the timekeeper to approve.</p>
+      <div class="recipe-flow"><span class="ingredient">Bill4Time</span> <span class="arrow">→</span> <span class="ingredient">matter folders</span> <span class="arrow">→</span> <span class="ingredient">billing_summary.md</span> <span class="arrow">→</span> <span class="ingredient outcome">Billing Assistant</span></div>
+      <div class="recipe-impact">
+        <div class="before"><strong>Before:</strong> Time entries 6-8 days late on average. Carol chases partners with escalation pings. Money lost.</div>
+        <div class="after"><strong>After:</strong> Drafts ready Friday 5pm. Timekeepers approve in minutes. Days-late drops to 1-2.</div>
+      </div>
+      <span class="recipe-cta">Click for the full walkthrough →</span>
+    </article>
+    <article class="recipe-card" data-recipe-id="msj_focus_recipe">
+      <h3>MSJ opposition focus brief (when motion lands)</h3>
+      <p class="recipe-goal">Marcus opens his iPad in the morning and sees the focus-areas brief for tomorrow's MSJ argument, three deposition admissions, the carve-out doctrine, the count-by-count framing.</p>
+      <div class="recipe-flow"><span class="ingredient">Pleadings</span> <span class="arrow">→</span> <span class="ingredient">Depositions</span> <span class="arrow">→</span> <span class="ingredient">matter_briefs.md</span> <span class="arrow">→</span> <span class="ingredient outcome">Deposition Prep Specialist</span></div>
+      <div class="recipe-impact">
+        <div class="before"><strong>Before:</strong> Junior associates reinvent deposition prep for every motion. Three days of grunt work per brief.</div>
+        <div class="after"><strong>After:</strong> Brief lands overnight. Marcus reviews in 15 minutes. Three days reduced to one Marcus-review session.</div>
+      </div>
+      <span class="recipe-cta">Click for the full walkthrough →</span>
+    </article>
+    <article class="recipe-card" data-recipe-id="post_mortem_recipe">
+      <h3>Post-mortem distillation (matter close)</h3>
+      <p class="recipe-goal">When a matter closes, lessons get distilled into firm knowledge, separated from ephemeral case content, redacted, partner-approved. Knowledge stops dying at the bar.</p>
+      <div class="recipe-flow"><span class="ingredient">data/matters/<closed_matter>/</span> <span class="arrow">→</span> <span class="ingredient">matter_briefs.md</span> <span class="arrow">→</span> <span class="ingredient outcome">Post-Mortem Distiller</span></div>
+      <div class="recipe-impact">
+        <div class="before"><strong>Before:</strong> Post-mortems happened verbally at the bar after the matter closed. Knowledge died with the partner who held it.</div>
+        <div class="after"><strong>After:</strong> Every closed matter produces a redacted, approved lessons doc. The firm's institutional memory compounds.</div>
+      </div>
+      <span class="recipe-cta">Click for the full walkthrough →</span>
+    </article>
+  </div>
+</section>
+
+<section id="tab-setup" class="tab-panel">
+  <p class="setup-intro">Aldrich & Stone LLP, here's the order to build this in. Each step builds on the last, total: Bedrock approval is the long pole (1-2 weeks). Once Bedrock is live, the rest is a focused weekend.. If a step looks like a cliff, hand it to <code>@claude-code-guide</code>.</p>
+
+  <ol class="setup-steps" style="list-style: none; padding: 0;">
+    <li class="setup-step is-zero">
+      <div class="step-num">0</div>
+      <div>
+        <div class="step-pretitle">Pre-step (skip if you already have Claude Code)</div>
+        <h3>Get Claude Code on your machine</h3>
+        <div class="step-block">
+          <div class="step-block-label">What</div>
+          <p>Install the Claude Code CLI. It's the tool that runs everything below. If you've never opened Terminal, that's fine, this is the only command-line moment until you're set up.</p>
+        </div>
+        <div class="step-block">
+          <div class="step-block-label">Install</div>
+          <pre class="step-install">npm install -g @anthropic-ai/claude-code
+claude --version  # should print a version number</pre>
+        </div>
+        <div class="step-working">
+          <strong>You'll know it's working when:</strong> typing <code>claude --version</code> in Terminal prints a version number instead of an error.
+        </div>
+        <p class="step-time">Setup time: 5 minutes.</p>
+      </div>
+    </li>
+
+    <li class="setup-step is-first">
+      <div class="step-num">1</div>
+      <div>
+        <h3>Get IT sign-off, Bedrock 3P Claude deployment</h3>
+
+
+        <div class="step-block">
+          <div class="step-block-label">What</div>
+          <p>Configure Claude Code to invoke models via AWS Bedrock instead of Anthropic.com. Sign Anthropic BAA. Get IT/security committee approval.</p>
+        </div>
+
+        <div class="step-block">
+          <div class="step-block-label">Why this first</div>
+          <p>This is THE unlock. Without Bedrock, IT pulls the plug on every other step. No matter content can leave the firm tenant.</p>
+        </div>
+
+        <div class="step-block">
+          <div class="step-block-label">Install</div>
+          <pre class="step-install"># AWS account + Bedrock model access (request via AWS console)
+# Set environment:
+export ANTHROPIC_BEDROCK_BASE_URL=https://bedrock-runtime.us-east-1.amazonaws.com
+export AWS_PROFILE=aldrich_stone
+# Configure Claude Code to use Bedrock backend</pre>
+        </div>
+
+        <div class="step-impact">
+          <div class="before"><strong>Before:</strong> IT blocks every AI tool. The 15-user pilot is on borrowed time.</div>
+          <div class="after"><strong>After:</strong> Claude Code runs on Bedrock. IT/security approves. Pilot expands to firm-wide.</div>
+        </div>
+
+
+        <p class="step-time">Setup time: 1-2 weeks (mostly committee review). Community has the deeper walkthrough.</p>
+      </div>
+    </li>
+    <li class="setup-step">
+      <div class="step-num">2</div>
+      <div>
+        <h3>Path-scoped matter walling rule</h3>
+
+
+        <div class="step-block">
+          <div class="step-block-label">What</div>
+          <p>Write rules/matter_handling.md with paths: data/matters/**. Defines that an agent reading one matter cannot access another in the same session.</p>
+        </div>
+
+        <div class="step-block">
+          <div class="step-block-label">Why this first</div>
+          <p>Ethics walling is non-negotiable for litigation + M&A. Without this rule, the firm cannot use AI on client content.</p>
+        </div>
+
+        <div class="step-block">
+          <div class="step-block-label">Install</div>
+          <pre class="step-install"># write under .claude/rules/matter_handling.md
+# YAML frontmatter:
+# ---
+# paths:
+#   - data/matters/**
+#   - silver_platters/matter_briefs/**
+# ---
+# Then the rule body (template in demos/02_boutique_law_firm/after/.claude/rules/)</pre>
+        </div>
+
+        <div class="step-impact">
+          <div class="before"><strong>Before:</strong> Walling enforced by 'don't mix matters' instinct. Malpractice exposure.</div>
+          <div class="after"><strong>After:</strong> Walling enforced by file system. Smith v Jones agent literally cannot load Acme files.</div>
+        </div>
+
+
+        <p class="step-time">Setup time: 30 minutes</p>
+      </div>
+    </li>
+    <li class="setup-step">
+      <div class="step-num">3</div>
+      <div>
+        <h3>Wire the conversion hook</h3>
+
+
+        <div class="step-block">
+          <div class="step-block-label">What</div>
+          <p>SessionStart hook that converts pleading PDFs, deposition DOCX, intake PDFs.eml correspondence into markdown.</p>
+        </div>
+
+        <div class="step-block">
+          <div class="step-block-label">Why this first</div>
+          <p>Every matter document arrives as PDF or DOCX. Claude can't read these natively. This hook unblocks Step 4.</p>
+        </div>
+
+        <div class="step-block">
+          <div class="step-block-label">Install</div>
+          <pre class="step-install">cp -r skill/silver-platter/scripts/templates/.. ~/.claude/hooks/
+brew install pandoc poppler
+pip install xlsx2csv</pre>
+        </div>
+
+        <div class="step-impact">
+          <div class="before"><strong>Before:</strong> Pleadings, depositions, intake forms, Claude fails on every one.</div>
+          <div class="after"><strong>After:</strong> Drop any matter document into data/raw_dropzone/, get clean markdown in data/converted/.</div>
+        </div>
+
+
+        <p class="step-time">Setup time: 5 minutes</p>
+      </div>
+    </li>
+    <li class="setup-step">
+      <div class="step-num">4</div>
+      <div>
+        <h3>Case-Launch Orchestrator + Billing Assistant + Deposition Prep + Post-Mortem Distiller</h3>
+
+
+        <div class="step-block">
+          <div class="step-block-label">What</div>
+          <p>Define four subagents under .claude/agents/. Case-Launch is the chief-of-staff. The other three are matter-scoped specialists.</p>
+        </div>
+
+        <div class="step-block">
+          <div class="step-block-label">Why this first</div>
+          <p>The orchestrator hierarchy is what makes the system usable. Sally and Marcus only talk to the orchestrator; specialists report up.</p>
+        </div>
+
+        <div class="step-block">
+          <div class="step-block-label">Install</div>
+          <pre class="step-install"># write under .claude/agents/:
+#   case-launch-orchestrator.md (model: opus, tools: [Read, Glob, Grep, Task])
+#   billing-assistant.md (model: sonnet)
+#   deposition-prep-specialist.md (model: opus, tools include reading whole matter folders)
+#   post-mortem-distiller.md (model: opus, redaction-aware)
+# Hand to @claude-code-guide for the templates.</pre>
+        </div>
+
+        <div class="step-impact">
+          <div class="before"><strong>Before:</strong> Sally has to pre-frame which folder Claude should look at, every time.</div>
+          <div class="after"><strong>After:</strong> Sally runs /new_matter or /prep_for_deposition or /close_matter. The orchestrator routes.</div>
+        </div>
+
+
+        <p class="step-time">Setup time: 2-3 hours</p>
+      </div>
+    </li>
+    <li class="setup-step">
+      <div class="step-num">5</div>
+      <div>
+        <h3>Audit log + approval-gate hooks</h3>
+
+
+        <div class="step-block">
+          <div class="step-block-label">What</div>
+          <p>PostToolUse hook on Edit|Write that appends every action to outputs/audit_log.md. Stop hook that warns the partner at session end if a draft is unacknowledged.</p>
+        </div>
+
+        <div class="step-block">
+          <div class="step-block-label">Why this first</div>
+          <p>For a regulated practice, the audit log is the difference between Bedrock approval and IT pulling the plug. Receipts.</p>
+        </div>
+
+        <div class="step-block">
+          <div class="step-block-label">Install</div>
+          <pre class="step-install"># Already in business_os_hooks.md reference doc.
+# Paste the three hook entries into .claude/settings.json.
+# chmod +x the three scripts in .claude/hooks/.</pre>
+        </div>
+
+        <div class="step-impact">
+          <div class="before"><strong>Before:</strong> AI did what? Nobody knows. Did Marcus approve last week's brief? Carol can't tell.</div>
+          <div class="after"><strong>After:</strong> Every action recorded. Stop hook nudges if a draft is unsigned. Bedrock review board sees clean audit trail.</div>
+        </div>
+
+
+        <p class="step-time">Setup time: 10 minutes</p>
+      </div>
+    </li>
+
+    <li class="closing-card">
+      <h3>You've shipped your back-of-house.</h3>
+      <p>Next: hand <code>@claude-code-guide</code> a one-line ask for your next skill, or join the <a href="https://www.skool.com/earlyaidopters/about" target="_blank">Early AI Dopters community</a> to see how other operators evolved theirs.</p>
+    </li>
+  </ol>
+</section>
+
+<div class="overlay" id="card-modal" onclick="if(event.target.id==='card-modal') closeAll()">
+  <div class="modal">
+    <h2 id="cm-title"></h2>
+    <div class="subtle" id="cm-subtitle"></div>
+    <div id="cm-body"></div>
+    <button class="close-btn" onclick="closeAll()">Close</button>
+  </div>
+</div>
+
+<div class="overlay" id="recipe-modal" onclick="if(event.target.id==='recipe-modal') closeAll()">
+  <div class="modal modal-large">
+    <h2 id="rm-title"></h2>
+    <div class="subtle" id="rm-goal"></div>
+    <div id="rm-body"></div>
+    <button class="close-btn" onclick="closeAll()">Close</button>
+  </div>
+</div>
+
+<footer class="page-footer">
+  Generated by <code>/silver-platter</code> &middot; Click any card or recipe for plain-English details
+</footer>
+
+<script>
+  const DATA = {
+    pantry: [{"cadence": "real-time", "claude_code_recommendation": {"estimated_time_savings": "30 min per matter open (today: copy/paste from iManage manually)", "rationale": "On matter open, sync the matter folder from iManage to local data/matters/\u003cmatter\u003e/. Path-scoped rule then walls the agent from cross-matter reads.", "skill_to_write": "sync_imanage_matter"}, "cli_skill": null, "connection_methods": [{"cons": ["Token rotation policy", "Rate limits on bulk fetches", "Network call per document"], "example": "GET /work/api/v2/customers/\u003cid\u003e/libraries/\u003clib\u003e/documents?folder=\u003cmatter_id\u003e", "install": "iManage Cloud API key from admin. IMANAGE_API_KEY in ~/.env. Wrap in a Claude skill that respects the walling rules.", "name": "iManage REST API", "pros": ["Full document tree access", "Permissions inherited from iManage ACLs", "Standard REST"], "type": "api", "when_to_use": "Required, no CLI exists."}], "explanation": "All matter content, pleadings, depositions, exhibits, drafts. Each matter is its own folder. Path-scoped walling enforces ethics: no agent reads across matters.", "feeds": ["matter_briefs"], "format": "PDF/DOCX", "id": "imanage", "status": "have", "subtitle_friendly": "High volume \u00b7 updates real-time", "tool": "iManage", "volume": "high", "volume_friendly": "High volume"}, {"cadence": "real-time", "claude_code_recommendation": {"estimated_time_savings": "Eliminates the manual \u0027forward each thread to a matter folder\u0027 chore", "rationale": "Add a /matter-emails \u003cmatter_id\u003e command that pulls all categorized threads into data/matters/\u003cmatter\u003e/correspondence/.", "skill_to_write": "extend outlook skill with matter-categorized pull"}, "cli_skill": "outlook", "connection_methods": [{"cons": ["Limited to thread-list operations", "No deep search by content"], "example": "outlook threads --category \u0027Smith v Jones\u0027 --since 2025-10-01", "install": "Already installed.", "name": "Mark\u0027s outlook skill (~/.claude/skills/outlook/)", "pros": ["Already installed", "Reuses your Microsoft 365 auth"], "type": "cli", "when_to_use": "Already wrapped at ~/.claude/skills/outlook/. Pulls categorized threads."}, {"cons": ["OAuth complexity", "App registration required"], "example": "GET /me/messages?$filter=categories/any(c:c eq \u0027Smith v Jones\u0027)", "install": "Azure app registration -\u003e token. Already set up in your outlook skill.", "name": "Microsoft Graph API", "pros": ["Full coverage", "Powerful search via $search"], "type": "api", "when_to_use": "When you need full message bodies + attachments."}], "explanation": "Client correspondence + opposing counsel. Matter-tagged via Outlook category. The conversion hook turns .eml/.msg into matter-walled markdown.", "feeds": ["matter_briefs"], "format": "EML/MSG", "id": "outlook", "status": "have", "subtitle_friendly": "High volume \u00b7 updates real-time", "tool": "Outlook 365", "volume": "high", "volume_friendly": "High volume"}, {"cadence": "weekly", "claude_code_recommendation": {"estimated_time_savings": "3-4 hours/week of Carol\u0027s escalation pings", "rationale": "Pulls weekly time entries into silver_platters/billing_summary. Same-day conflict checks bake into the silver platter. Carol stops chasing partners for narratives.", "skill_to_write": "ingest_bill4time_entries"}, "cli_skill": null, "connection_methods": [{"cons": ["Bill4Time API is dated; REST + XML hybrid", "API key managed in firm admin"], "example": "GET /api/v1/timeentries?date_from=2025-10-27\u0026date_to=2025-11-02", "install": "BILL4TIME_API_KEY in ~/.env. Wrap as a Claude skill.", "name": "Bill4Time REST API", "pros": ["Real-time", "Bypasses Carol\u0027s manual export", "Can post entries back"], "type": "api", "when_to_use": "Direct programmatic access to time entries."}], "explanation": "Time entries by timekeeper / matter. Carol exports XLSX every Friday. The billing assistant reads the silver platter, drafts narratives for late entries.", "feeds": ["billing_summary"], "format": "XLSX", "id": "bill4time", "status": "have", "subtitle_friendly": "Steady flow \u00b7 updates weekly", "tool": "Bill4Time", "volume": "medium", "volume_friendly": "Steady flow"}, {"cadence": "weekly", "claude_code_recommendation": {"estimated_time_savings": "3 hours per matter open", "rationale": "On intake drop, the case-launch orchestrator scaffolds data/matters/\u003cslug\u003e/ with the standard skeleton (pleadings/, depositions/, exhibits/, correspondence/, BRIEF.md).", "skill_to_write": "ingest_intake_pdf + case_launch_orchestrator"}, "cli_skill": null, "connection_methods": [{"cons": ["Sally has to remember to drop the file"], "example": "cp ~/Downloads/intake_castille.pdf data/raw_dropzone/", "install": "Already wired via SessionStart hook.", "name": "Local file + conversion hook", "pros": ["Simple", "No vendor dependency"], "type": "api", "when_to_use": "Drop the intake PDF into data/raw_dropzone/."}], "explanation": "Tablet intake scanned to PDF. Define the matter (client, type, conflicts, lead partner, scope). Drop into data/raw_dropzone/; conversion hook reads them.", "feeds": ["matter_briefs"], "format": "PDF", "id": "intake_pdfs", "status": "have", "subtitle_friendly": "Trickle \u00b7 updates weekly", "tool": "Client intake forms", "volume": "low", "volume_friendly": "Trickle"}, {"cadence": "ad-hoc", "claude_code_recommendation": {"estimated_time_savings": "Saves the partner from manually verifying every cite", "rationale": "Wraps Lexis as a tool the deposition-prep specialist can call when citing case law.", "skill_to_write": "lexis_citation_check (optional, low priority)"}, "cli_skill": null, "connection_methods": [{"cons": ["Expensive per-query", "Not all attorneys have AI license"], "example": "Used inside deposition-prep skill when a citation needs source-checking.", "install": "LEXIS_API_KEY in ~/.env (firm-level).", "name": "LexisNexis AI API", "pros": ["Authoritative", "Citation-backed"], "type": "api", "when_to_use": "When you need primary-source case-law research the agent can cite."}], "explanation": "Research-only pilot. Doesn\u0027t feed matter operations. Mentioned for completeness; not part of the silver-platter chain today.", "feeds": [], "format": "API", "id": "lexis", "status": "have", "subtitle_friendly": "Trickle \u00b7 updates ad-hoc", "tool": "LexisNexis AI", "volume": "low", "volume_friendly": "Trickle"}, {"cadence": "real-time", "claude_code_recommendation": {"estimated_time_savings": "Enables everything else", "rationale": "This is THE unlock. Without it, IT pulls the plug. Set it up first.", "skill_to_write": "Configure Claude Code to use Bedrock (no skill, config change)"}, "cli_skill": null, "connection_methods": [{"cons": ["Higher per-token cost than direct Anthropic API", "Token throttle differs from anthropic.com"], "example": "AWS_BEDROCK_MODEL_ID=anthropic.claude-opus-4-20250514-v1:0 claude code", "install": "AWS account + Bedrock model access (request via AWS console). AWS_PROFILE in ~/.env. Configure Claude Code to use Bedrock backend.", "name": "AWS Bedrock invokeModel API", "pros": ["IT-blessed", "Predictable cost (no enterprise license tax)", "Audit-friendly"], "type": "api", "when_to_use": "Required, no other Claude deployment is approved by IT for matter content."}], "explanation": "The IT-blessed deployment. Once Bedrock is signed, EVERY skill / agent / hook can run on it. This is the unlock.", "feeds": [], "format": "API", "id": "bedrock_claude", "status": "missing", "subtitle_friendly": "High volume \u00b7 updates real-time", "tool": "AWS Bedrock 3P Claude", "volume": "high", "volume_friendly": "High volume"}],
+    prep: [{"display_name": "Matter briefs/\u003cmatter\u003e brief", "domain": "matters", "domain_friendly": "Matters", "explanation": "One brief per active matter. Status, lead, opposing counsel, key issues, settlement posture, walling notes. The case-launch orchestrator\u0027s primary read.", "governing_rule_excerpt": "---\npaths:\n  - data/matters/**\n  - silver_platters/matter_briefs/**\n---\n\n# Matter Handling, THE HARD RULE\n\nEach data/matters/\u003cname\u003e/ is a walled namespace. An agent working ONE matter NEVER reads files from another. If a question requires cross-matter knowledge, route through post-mortem distiller (closed matters only).", "id": "matter_briefs", "name": "matter_briefs/\u003cmatter\u003e_brief.md", "sample_content": "# Matter Brief, Smith v Jones (2024-CV-0883)\n\n**Status:** OPEN, active litigation, summary judgment pending\n**Lead attorney:** Marcus Stone (MS01)\n**Second chair:** Sally T (AK01)\n**Opposing counsel:** Daniel Chen, Chen Law Partners\n\n## Posture\n- Discovery substantially complete\n- Jones deposed 2025-10-14 (transcript in data/matters/smith_v_jones/depositions/)\n- MSJ filed 2025-09 on Counts II + III\n- Opposition due 2025-11-21 (Sally drafting parts 1-2)\n\n## Walling notes\nWALLED from Acme acquisition (Marcus is lead on both, MS01 must check same-day conflicts).\nNo agent working Smith v Jones may read Acme files.\n", "schedule": "On matter open + weekly refresh", "sources": ["imanage", "outlook", "intake_pdfs"], "status": "have", "subtitle_friendly": "A Matters brief Claude writes, On matter open + weekly refresh"}, {"display_name": "Billing summary", "domain": "billing", "domain_friendly": "Billing", "explanation": "WIP by timekeeper, by matter. Same-day conflict checks. Drives Carol\u0027s billing-narrative drafter.", "governing_rule_excerpt": "---\npaths:\n  - silver_platters/billing_*.md\n  - data/billing/**\n---\n\n# Billing Format Rules\n- Same-day conflict bar: no timekeeper bills across walled matters in the same calendar day without managing-partner approval.\n", "id": "billing_summary", "name": "billing_summary_\u003cweek\u003e.md", "sample_content": "# Billing Summary, W44\n\n## WIP by timekeeper\n| Timekeeper | Open hours W44 | Days late |\n|---|---|---|\n| Marcus Stone | 18.4 | 8.2 |\n| Sally T | 16.5 | 3.6 |\n\n## Same-day conflict alerts\n- 2025-10-14: MS01 billed Smith v Jones (5.5h). Zero hours other matters. Clean.\n", "schedule": "Mon 7am", "sources": ["bill4time"], "status": "have", "subtitle_friendly": "A Billing brief Claude writes, Mon 7am"}, {"display_name": "Post mortem lessons", "domain": "knowledge", "domain_friendly": "Knowledge / lessons", "explanation": "Cross-matter lessons. The Post-Mortem Distiller writes only on CLOSED matters, with redaction. The firm\u0027s institutional memory.", "governing_rule_excerpt": "# Post-Mortem Distillation Rules\n\n- Matter MUST be closed.\n- All client-identifying details redacted: client name -\u003e [Client], opposing party -\u003e [Counterparty], specific dollar amounts -\u003e ranges.\n- Managing partner approves before firm-knowledge entry.\n", "id": "post_mortem_lessons", "name": "post_mortem_lessons.md", "sample_content": "# Lessons Learned, [Matter Name Redacted] (closed 2025-08)\n\n1. Section 6.2 carve-out doctrine, defense\u0027s \u0027ordinary-course\u0027 framing was defeated by deposition admissions, not motion practice. Frontload deposition discovery on carve-out language.\n2. Settlement posture, opposing counsel signaled their range BEFORE MSJ. We could have closed at 80% if we\u0027d accepted before the motion landed.\n3. Vendor [Redacted], billing escalations were inconsistent. For future engagements, lock the rate card and milestone schedule in the engagement letter.\n", "schedule": "On matter close", "sources": [], "status": "missing", "subtitle_friendly": "A Knowledge / lessons brief Claude writes, On matter close"}],
+    plate: [{"agent": "Deposition Prep Specialist", "agent_friendly": "the deposition-prep specialist", "approval_friendly": "Lead attorney approves before send", "approval_gate": "Lead attorney approves before circulation", "consumers": ["Marcus Stone", "Sally"], "explanation": "Focus-areas brief from pleadings + depositions for the next motion or hearing. Marcus reads at 7am with coffee.", "id": "deposition_prep", "ideation_loop": ["Marcus opens new matter -\u003e case-launch orchestrator scaffolds data/matters/smith_v_jones/.", "Marcus runs /prep_for_deposition smith_v_jones.", "Case-Launch Orchestrator confirms matter scope (walled).", "Routes to Deposition Prep Specialist with read-only access to that matter folder ONLY.", "Deposition Prep reads the matter brief silver platter, plus all pleadings + depositions in the walled folder.", "Drafts focus-areas brief with cited admissions + carve-out argument + count-by-count framing.", "Returns to orchestrator. Orchestrator saves to outputs/deposition_prep/\u003cmatter\u003e_\u003cdate\u003e.md.", "Marcus reviews + acknowledges in audit_log before circulation."], "name": "Deposition / focus brief", "reads_from": ["matter_briefs"], "sample_output": "# MSJ Opposition Focus, Smith v Jones\n\n## Headline\nThe MSJ stands or falls on Section 6.2. The Jones deposition gave us three direct admissions that defeat the carve-out theory.\n\n## Three admissions to anchor\n1. Customer list disclosure (re: industry context vs list), supports tortious interference Count II.\n2. Section 6.2 awareness (\u0027I was aware of the Section, yes\u0027), eliminates good-faith mistake defense.\n3. Notice timing (\u0027After\u0027 the demand letter), establishes pattern of post-hoc concealment.\n", "status": "have", "subtitle_friendly": "Written by the deposition-prep specialist for Marcus Stone, Sally"}, {"agent": "Billing Assistant", "agent_friendly": "the billing assistant", "approval_friendly": "Timekeeper approves before sending to billing", "approval_gate": "Timekeeper approves before submission to Bill4Time", "consumers": ["timekeepers"], "explanation": "Drafts narratives for late entries from matter activity that day. Carol stops chasing.", "id": "billing_drafts", "ideation_loop": ["Carol runs /weekly_billing on Friday 5pm.", "Case-Launch Orchestrator routes to Billing Assistant.", "Billing Assistant reads silver_platters/billing_summary_W44.md.", "For each undrafted entry, reads the corresponding matter folder for that day\u0027s activity.", "Drafts a tier-appropriate narrative (12-25 words; action verb + work product + context).", "Same-day conflict check: confirms no timekeeper billed across walled matters same day.", "Saves drafts to outputs/billing_drafts/W44_\u003ctimekeeper\u003e.md.", "Each timekeeper reviews + approves their own narratives. Carol pushes to Bill4Time."], "name": "Time-entry narrative drafts", "reads_from": ["billing_summary", "matter_briefs"], "sample_output": "# Time-entry Drafts, W44, Marcus Stone\n\n| Date | Matter | Hours | Drafted Narrative |\n|---|---|---|---|\n| 10/14 | Smith v Jones | 5.5 | Conducted deposition of Patricia Jones; primary examiner; covered carve-out admissions and notice-timing line. |\n| 10/15 | Acme acq | 3.0 | Reviewed Acme due diligence package v3 with focus on IP assignments and open-source flagged packages; redlined definitive agreement. |\n", "status": "have", "subtitle_friendly": "Written by the billing assistant for timekeepers"}, {"agent": "Post-Mortem Distiller", "agent_friendly": "the post-mortem distiller", "approval_friendly": "Managing partner approves before firm-knowledge entry", "approval_gate": "Managing partner approves before firm-knowledge entry", "consumers": ["Janet Aldrich"], "explanation": "Closed matters only. Redacted. Builds the firm\u0027s institutional memory.", "id": "lessons_learned", "ideation_loop": ["Matter status flipped to closed in matter brief.", "Janet runs /close_matter \u003cmatter\u003e.", "Case-Launch Orchestrator confirms matter is closed (refuses if open).", "Routes to Post-Mortem Distiller (only allowed on closed matters).", "Distiller reads the entire matter folder + brief.", "Clusters content into ephemeral (drafts, correspondence) vs durable (strategic decisions, novel arguments).", "Drafts lessons doc with full client redaction.", "Saves to outputs/lessons_learned/\u003cmatter\u003e_lessons.md.", "Janet reviews. Approves. Lessons enter firm-knowledge."], "name": "Lessons learned (firm knowledge)", "reads_from": ["post_mortem_lessons"], "sample_output": "# Lessons, [Counterparty] vs [Client] (closed 2025-08)\n\n**Durable lessons:**\n1. Carve-out language: deposition admissions defeat ordinary-course defense. Frontload the deposition.\n2. Settlement before motion practice, accept signaled ranges if they\u0027re 70%+ of what trial would yield.\n3. Vendor [Redacted], lock rate cards in engagement letter.\n\n**Ephemeral content NOT included:**\n- All correspondence\n- All draft pleadings\n- All billing entries\n", "status": "missing", "subtitle_friendly": "Written by the post-mortem distiller for Janet Aldrich"}],
+    recipes: [{"after_claude_code": "Drop the intake PDF, run /new_matter, the folder scaffolds in 10 minutes. Sally reviews and works.", "before_claude_code": "Sally hand-rolls every new matter folder, hand-pulls precedent from iManage, hand-formats the case brief. 3 hours per matter. 4-5 matters a month.", "claude_code_stack": {"hooks": ["SessionStart convert_dropzone.sh", "PostToolUse audit_action.sh"], "rules": ["rules/matter_handling.md", "rules/ethics_compliance.md"], "skills": ["ingest_intake_pdf", "sync_imanage_matter"], "subagents": ["Case-Launch Orchestrator"]}, "goal": "Sally drops an intake PDF; ten minutes later the matter folder is scaffolded with brief, walling, and precedent links, instead of three hours of hand-rolling.", "headline": "New matter scaffolding (when intake comes in)", "id": "new_matter_recipe", "ingredients": ["Client intake forms", "iManage", "matter_briefs.md", "case-launch orchestrator"], "ingredients_friendly": ["Client intake forms", "iManage", "matter_briefs.md", "case-launch orchestrator"], "name": "New matter scaffolding (when intake comes in)", "walkthrough": [{"action": "Drops the new client intake PDF into data/raw_dropzone/.", "actor": "Sally"}, {"action": "Converts the PDF into clean markdown in data/converted/intake_\u003cclient\u003e.md.", "actor": "SessionStart hook"}, {"action": "Triggers the case-launch orchestrator.", "actor": "Sally, runs /new_matter \u003cclient\u003e"}, {"action": "Reads the converted intake. Generates matter slug. Creates data/matters/\u003cslug\u003e/ with the standard skeleton (pleadings/, depositions/, exhibits/, correspondence/).", "actor": "Case-Launch Orchestrator"}, {"action": "Calls sync_imanage_matter to populate any precedent files from iManage.", "actor": "Case-Launch Orchestrator"}, {"action": "Drafts silver_platters/matter_briefs/\u003cslug\u003e_brief.md with status, lead attorney, opposing counsel, conflicts, walling notes.", "actor": "Case-Launch Orchestrator"}, {"action": "Adds the matter to the firm\u0027s master matter index.", "actor": "Case-Launch Orchestrator"}, {"action": "Opens the matter brief, fills in any gaps, and starts working. Folder is walled by the path-scoped rule.", "actor": "Sally, minutes later"}]}, {"after_claude_code": "Drafts ready Friday 5pm. Timekeepers approve in minutes. Days-late drops to 1-2.", "before_claude_code": "Time entries 6-8 days late on average. Carol chases partners with escalation pings. Money lost.", "claude_code_stack": {"hooks": ["PostToolUse audit_action.sh"], "rules": ["rules/billing_format.md", "rules/ethics_compliance.md"], "skills": ["ingest_bill4time_entries"], "subagents": ["Case-Launch Orchestrator", "Billing Assistant"]}, "goal": "Carol stops chasing partners on Friday. Every late time entry has a drafted narrative ready for the timekeeper to approve.", "headline": "Time-entry narratives (Friday 5pm)", "id": "time_entry_recipe", "ingredients": ["Bill4Time", "matter folders", "billing_summary.md", "Billing Assistant"], "ingredients_friendly": ["Bill4Time", "matter folders", "billing_summary.md", "Billing Assistant"], "name": "Time-entry narratives (Friday 5pm)", "walkthrough": [{"action": "Triggers ingest_bill4time_entries skill, pulls week\u0027s time entries via Bill4Time API.", "actor": "Cron, Friday 5pm"}, {"action": "Writes silver_platters/billing_summary_\u003cweek\u003e.md with WIP by timekeeper + same-day conflict checks.", "actor": "ingest_bill4time_entries"}, {"action": "Triggers Case-Launch Orchestrator -\u003e Billing Assistant.", "actor": "Carol, runs /weekly_billing"}, {"action": "For each undrafted entry, reads the matter folder for that day\u0027s activity (within the matter walling).", "actor": "Billing Assistant"}, {"action": "Drafts a 12-25 word narrative per entry: action verb + work product + context.", "actor": "Billing Assistant"}, {"action": "Flags any same-day conflict: refuses to draft narratives that cross walled matters in the same day without managing-partner approval.", "actor": "Billing Assistant"}, {"action": "Saves drafts to outputs/billing_drafts/\u003cweek\u003e_\u003ctimekeeper\u003e.md.", "actor": "Billing Assistant"}, {"action": "Reviews own drafts. Approves. Carol pushes to Bill4Time.", "actor": "Each timekeeper, Friday evening or Monday morning"}]}, {"after_claude_code": "Brief lands overnight. Marcus reviews in 15 minutes. Three days reduced to one Marcus-review session.", "before_claude_code": "Junior associates reinvent deposition prep for every motion. Three days of grunt work per brief.", "claude_code_stack": {"hooks": ["SessionStart convert_dropzone.sh"], "rules": ["rules/matter_handling.md (path-scoped walling)"], "skills": ["sync_imanage_matter"], "subagents": ["Case-Launch Orchestrator", "Deposition Prep Specialist"]}, "goal": "Marcus opens his iPad in the morning and sees the focus-areas brief for tomorrow\u0027s MSJ argument, three deposition admissions, the carve-out doctrine, the count-by-count framing.", "headline": "MSJ opposition focus brief (when motion lands)", "id": "msj_focus_recipe", "ingredients": ["Pleadings", "Depositions", "matter_briefs.md", "Deposition Prep Specialist"], "ingredients_friendly": ["Pleadings", "Depositions", "matter_briefs.md", "Deposition Prep Specialist"], "name": "MSJ opposition focus brief (when motion lands)", "walkthrough": [{"action": "Triggers Case-Launch Orchestrator with explicit matter scope.", "actor": "Marcus, runs /prep_for_deposition smith_v_jones"}, {"action": "Verifies matter scope (walled). Refuses if any cross-matter contamination. Routes to Deposition Prep Specialist.", "actor": "Case-Launch Orchestrator"}, {"action": "Reads silver_platters/matter_briefs/smith_v_jones_brief.md plus every file in data/matters/smith_v_jones/pleadings/ and depositions/.", "actor": "Deposition Prep Specialist"}, {"action": "Identifies 3-5 deposition admissions that bear on the motion. Maps each to the relevant count.", "actor": "Deposition Prep Specialist"}, {"action": "Drafts the focus brief: headline + admissions + carve-out argument + alternative-pleading framing for each count + open questions for Marcus.", "actor": "Deposition Prep Specialist"}, {"action": "Saves to outputs/deposition_prep/\u003cmatter\u003e_\u003cdate\u003e.md with full citations.", "actor": "Deposition Prep Specialist"}, {"action": "Reads on iPad. Either circulates as-is or sends a one-line correction. Acknowledges in audit_log.", "actor": "Marcus, tomorrow morning"}]}, {"after_claude_code": "Every closed matter produces a redacted, approved lessons doc. The firm\u0027s institutional memory compounds.", "before_claude_code": "Post-mortems happened verbally at the bar after the matter closed. Knowledge died with the partner who held it.", "claude_code_stack": {"hooks": ["PostToolUse audit_action.sh", "Stop check_acknowledgment.sh"], "rules": ["rules/matter_handling.md", "rules/ethics_compliance.md (redaction requirements)"], "skills": [], "subagents": ["Case-Launch Orchestrator", "Post-Mortem Distiller"]}, "goal": "When a matter closes, lessons get distilled into firm knowledge, separated from ephemeral case content, redacted, partner-approved. Knowledge stops dying at the bar.", "headline": "Post-mortem distillation (matter close)", "id": "post_mortem_recipe", "ingredients": ["data/matters/\u003cclosed_matter\u003e/", "matter_briefs.md", "Post-Mortem Distiller"], "ingredients_friendly": ["data/matters/\u003cclosed_matter\u003e/", "matter_briefs.md", "Post-Mortem Distiller"], "name": "Post-mortem distillation (matter close)", "walkthrough": [{"action": "Marker that the matter is eligible for distillation.", "actor": "Janet, flips matter status to \u0027closed\u0027 in matter brief"}, {"action": "Triggers Case-Launch Orchestrator.", "actor": "Janet, runs /close_matter \u003cmatter\u003e"}, {"action": "Verifies matter is closed (refuses if open). Routes to Post-Mortem Distiller.", "actor": "Case-Launch Orchestrator"}, {"action": "Reads entire matter folder + brief. Clusters content into ephemeral (drafts, correspondence, billing) vs durable (strategic decisions, novel arguments, vendor experiences).", "actor": "Post-Mortem Distiller"}, {"action": "Applies redaction rules: client name -\u003e [Client], opposing party -\u003e [Counterparty], specific dollar amounts -\u003e ranges, specific dates -\u003e relative.", "actor": "Post-Mortem Distiller"}, {"action": "Drafts ~400-700 word lessons doc. Saves to outputs/lessons_learned/\u003cmatter\u003e_lessons.md.", "actor": "Post-Mortem Distiller"}, {"action": "Warns Janet at session end if the lessons doc isn\u0027t acknowledged.", "actor": "Stop hook"}, {"action": "Adds [human_action] line to audit_log. Lessons doc enters firm-knowledge index.", "actor": "Janet, reviews and approves"}]}],
+    opp_by_id: {"bedrock_claude": [{"claude_code_feature": "external", "estimated_impact": "Required for the firm to deploy at all", "explanation": "The Bedrock 3P Claude IT-unlock playbook (security memo, sample firm policy, IT-committee FAQs) lives in the Early AI Dopters community as a deeper dive.", "surface": "deployment/bedrock_claude", "title": "Bedrock + IT/security rollout walkthrough", "type": "community_deep_dive"}], "imanage": [{"claude_code_feature": "skill", "estimated_impact": "30 min/matter open", "explanation": "Sync iManage matter folders to local data/matters/ on matter open. Skill calls iManage REST API.", "feature_name": "sync_imanage_matter", "surface": "pantry/imanage", "title": "Automate iManage matter sync", "type": "automate_extraction"}], "post_mortem_lessons": [{"claude_code_feature": "subagent", "estimated_impact": "Captures institutional knowledge that currently dies", "explanation": "Closed matters lose their lessons at the bar today. Distiller redacts client identifiers, drafts a 400-word lessons doc for managing-partner review.", "feature_name": "post-mortem-distiller", "surface": "prep/post_mortem_lessons", "title": "Build the Post-Mortem Distiller specialist", "type": "skill_writing_opportunity"}]},
+    interaction: []
+  };
+
+  const CONN_FRIENDLY = {
+    mcp: { label: 'Easiest setup', summary: 'A pre-built bridge. You add a few lines to a config file once and Claude can ask the tool questions live.' },
+    cli: { label: 'If you live in the terminal', summary: 'A command-line wrapper. Best when your developer is comfortable in Terminal and wants speed.' },
+    api: { label: 'Custom build', summary: 'Direct API calls. Most flexibility, most code. Use when nothing else fits.' }
+  };
+
+  const PRIMITIVE_KEY = `
+    <div class="primitive-key">
+      <div><span class="stack-pill skill">skill</span><span>= a reusable mini-tool</span></div>
+      <div><span class="stack-pill subagent">subagent</span><span>= a specialist staffer</span></div>
+      <div><span class="stack-pill hook">hook</span><span>= an auto-trigger</span></div>
+      <div><span class="stack-pill rule">rule</span><span>= guardrails Claude follows</span></div>
+    </div>`;
+
+  document.querySelectorAll('.tab-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
+      if (btn.dataset.tab === 'flow') renderSankey();
+    });
+  });
+
+  // ---------- Sankey ----------
+  function renderSankey() {
+    const svg = document.getElementById('sankey-svg');
+    if (!svg || svg.dataset.rendered === '1') return;
+
+    const hasInteract = (DATA.interaction || []).length > 0;
+    const W = hasInteract ? 1500 : 1200;
+    const H = hasInteract ? 760 : 700;
+    const colX = hasInteract
+      ? { pantry: 60, prep: 460, plate: 860, interaction: 1260 }
+      : { pantry: 80, prep: 540, plate: 1000 };
+    const colW = 160;
+    const padTop = 44, padBot = 40;
+    const usableH = H - padTop - padBot;
+    const NODE_GAP = 8;
+    const ribbonStrokeMin = 6;
+
+    svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
+
+    const nodes = {};
+
+    function isOpp(item, lane) {
+      const opps = DATA.opp_by_id[item.id] || [];
+      if (opps.length) return true;
+      if (lane !== 'pantry' && item.status === 'missing') return true;
+      if (lane === 'interaction' && item.status === 'could-add') return true;
+      return false;
+    }
+    function nodeFill(item, lane) {
+      if (lane === 'interaction' && item.status === 'could-add') return '#E07A4F';
+      if (isOpp(item, lane)) return '#E07A4F';
+      if (lane === 'pantry') return '#4a5d7e';
+      if (lane === 'prep')   return '#6b8e6b';
+      if (lane === 'interaction') return '#8a6db6';
+      return '#1a1a1a';
+    }
+
+    // Build link list (pantry->prep, prep->plate, plate->interaction)
+    const links = [];
+    DATA.prep.forEach(p => {
+      (p.sources || []).forEach(sid => {
+        if (DATA.pantry.find(x => x.id === sid)) {
+          links.push({ from: sid, to: p.id, opp: isOpp(p, 'prep') });
+        }
+      });
+    });
+    DATA.plate.forEach(pl => {
+      (pl.reads_from || []).forEach(pid => {
+        if (DATA.prep.find(x => x.id === pid)) {
+          links.push({ from: pid, to: pl.id, opp: isOpp(pl, 'plate') });
+        }
+      });
+    });
+    if (hasInteract) {
+      DATA.interaction.forEach(ix => {
+        (ix.consumes || []).forEach(pid => {
+          if (DATA.plate.find(x => x.id === pid)) {
+            links.push({ from: pid, to: ix.id, opp: ix.status === 'could-add' });
+          }
+        });
+      });
+    }
+
+    // Weight per node = max(1, links touching it)
+    const weights = {};
+    function bumpW(id) { weights[id] = (weights[id] || 0) + 1; }
+    DATA.pantry.forEach(p => weights[p.id] = 0);
+    DATA.prep.forEach(p => weights[p.id] = 0);
+    DATA.plate.forEach(p => weights[p.id] = 0);
+    if (hasInteract) DATA.interaction.forEach(p => weights[p.id] = 0);
+    links.forEach(l => { bumpW(l.from); bumpW(l.to); });
+    Object.keys(weights).forEach(k => { if (!weights[k]) weights[k] = 1; });
+
+    // Layout each column
+    function layoutCol(lane, items) {
+      const totalW = items.reduce((s, x) => s + weights[x.id], 0);
+      const totalGaps = (items.length - 1) * NODE_GAP;
+      const scale = (usableH - totalGaps) / Math.max(1, totalW);
+      let y = padTop;
+      items.forEach(it => {
+        const h = Math.max(28, weights[it.id] * scale);
+        nodes[it.id] = {
+          id: it.id,
+          lane,
+          item: it,
+          x: colX[lane],
+          y,
+          w: colW,
+          h,
+          fill: nodeFill(it, lane),
+          opp: isOpp(it, lane),
+          // running pointers for ribbon stacking
+          outY: y,
+          inY: y,
+        };
+        y += h + NODE_GAP;
+      });
+    }
+    layoutCol('pantry', DATA.pantry);
+    layoutCol('prep',   DATA.prep);
+    layoutCol('plate',  DATA.plate);
+    if (hasInteract) layoutCol('interaction', DATA.interaction);
+
+    // Ribbon thickness = source/target node height divided by their link count, but clamped
+    const outCounts = {}, inCounts = {};
+    DATA.pantry.forEach(p => outCounts[p.id] = 0);
+    DATA.prep.forEach(p => { outCounts[p.id] = 0; inCounts[p.id] = 0; });
+    DATA.plate.forEach(p => { outCounts[p.id] = 0; inCounts[p.id] = 0; });
+    if (hasInteract) DATA.interaction.forEach(p => inCounts[p.id] = 0);
+    links.forEach(l => { outCounts[l.from] = (outCounts[l.from] || 0) + 1; inCounts[l.to] = (inCounts[l.to] || 0) + 1; });
+
+    function ribbonThickness(linkId, fromId, toId) {
+      const sNode = nodes[fromId], tNode = nodes[toId];
+      const sT = sNode.h / Math.max(1, outCounts[fromId]);
+      const tT = tNode.h / Math.max(1, inCounts[toId]);
+      return Math.max(ribbonStrokeMin, Math.min(sT, tT));
+    }
+
+    // Build SVG markup
+    let parts = [];
+
+    // Column headers + sub-captions
+    function colHeader(x, label, sub) {
+      parts.push(`<text x="${x + colW/2}" y="22" text-anchor="middle" style="font-size:11px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;fill:#1a1a1a;">${label}</text>`);
+      parts.push(`<text x="${x + colW/2}" y="36" text-anchor="middle" style="font-size:10px;fill:#6b6b6b;">${sub}</text>`);
+    }
+    colHeader(colX.pantry, 'Pantry', 'raw data');
+    colHeader(colX.prep,   'Prep table', 'silver platters');
+    colHeader(colX.plate,  'Plate', 'briefs you read');
+    if (hasInteract) colHeader(colX.interaction, 'Where you read it', 'Slack / inbox / iPad');
+
+    // Ribbons (drawn first so nodes sit on top)
+    const linkPaths = [];
+    links.forEach((l, i) => {
+      const s = nodes[l.from], t = nodes[l.to];
+      const thick = ribbonThickness(i, l.from, l.to);
+      const sy = s.outY + thick / 2;
+      const ty = t.inY + thick / 2;
+      s.outY += thick;
+      t.inY += thick;
+      const x1 = s.x + s.w;
+      const x2 = t.x;
+      const cx1 = x1 + (x2 - x1) * 0.45;
+      const cx2 = x1 + (x2 - x1) * 0.55;
+      const path = `M ${x1} ${sy} C ${cx1} ${sy}, ${cx2} ${ty}, ${x2} ${ty}`;
+      const cls = l.opp ? 'sankey-link is-opportunity' : 'sankey-link';
+      linkPaths.push(`<path class="${cls}" d="${path}" stroke-width="${thick}" data-from="${l.from}" data-to="${l.to}"></path>`);
+    });
+    parts.push(linkPaths.join(''));
+
+    // Nodes
+    function escapeText(s) { return String(s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+    function truncate(s, n) { s = String(s || ''); return s.length > n ? s.slice(0, n - 1) + '…' : s; }
+
+    Object.values(nodes).forEach(n => {
+      const labelMain = n.lane === 'pantry'
+        ? n.item.tool
+        : n.lane === 'interaction'
+          ? n.item.channel
+          : (n.item.display_name || n.item.name || n.item.tool);
+      const labelSub = n.lane === 'pantry'
+        ? (n.item.format || '')
+        : n.lane === 'prep'
+          ? (n.item.domain_friendly || n.item.domain || '')
+          : n.lane === 'interaction'
+            ? (n.item.status === 'could-add' ? 'suggested add' : (n.item.type || ''))
+            : (n.item.agent_friendly || n.item.agent || '');
+      const labelOnLeft = (n.lane === 'plate' || n.lane === 'interaction');
+      const labelX = labelOnLeft ? n.x - 8 : n.x + n.w + 8;
+      const anchor = labelOnLeft ? 'end' : 'start';
+      const isSuggested = n.lane === 'interaction' && n.item.status === 'could-add';
+      const rectStyle = isSuggested ? 'stroke-dasharray:4 3;stroke:#E07A4F;stroke-width:2;fill:white;' : '';
+      const textFill = isSuggested ? 'fill:#E07A4F;' : '';
+      const rectFill = isSuggested ? 'white' : n.fill;
+      parts.push(
+        `<g class="sankey-node" data-card-id="${n.id}" data-lane="${n.lane}" style="cursor:pointer;">` +
+        `<rect class="sankey-node-rect" x="${n.x}" y="${n.y}" width="${n.w}" height="${n.h}" rx="3" fill="${rectFill}" style="${rectStyle}" data-card-id="${n.id}" data-lane="${n.lane}"></rect>` +
+        `<text class="sankey-node-label" x="${labelX}" y="${n.y + n.h/2 - 2}" text-anchor="${anchor}" dominant-baseline="middle" style="${textFill}">${escapeText(truncate(labelMain, 32))}</text>` +
+        (labelSub ? `<text class="sankey-node-sub" x="${labelX}" y="${n.y + n.h/2 + 12}" text-anchor="${anchor}" dominant-baseline="middle">${escapeText(truncate(labelSub, 32))}</text>` : '') +
+        `</g>`
+      );
+    });
+
+    svg.innerHTML = parts.join('');
+    svg.dataset.rendered = '1';
+
+    // Click handlers, opens the same card modal
+    svg.querySelectorAll('.sankey-node').forEach(g => {
+      g.addEventListener('click', () => openCardModal(g.dataset.cardId, g.dataset.lane));
+    });
+
+    // Hover highlighting, dim siblings
+    svg.querySelectorAll('.sankey-link').forEach(p => {
+      p.addEventListener('mouseenter', () => {
+        svg.querySelectorAll('.sankey-link').forEach(x => x.classList.remove('is-active'));
+        p.classList.add('is-active');
+      });
+      p.addEventListener('mouseleave', () => p.classList.remove('is-active'));
+    });
+    svg.querySelectorAll('.sankey-node').forEach(g => {
+      g.addEventListener('mouseenter', () => {
+        const id = g.dataset.cardId;
+        svg.querySelectorAll('.sankey-link').forEach(x => {
+          const match = x.getAttribute('data-from') === id || x.getAttribute('data-to') === id;
+          x.classList.toggle('is-active', match);
+        });
+      });
+      g.addEventListener('mouseleave', () => svg.querySelectorAll('.sankey-link').forEach(x => x.classList.remove('is-active')));
+    });
+  }
+  // -------- end Sankey --------
+
+  document.querySelectorAll('.card').forEach(c => {
+    c.addEventListener('click', () => openCardModal(c.dataset.cardId, c.dataset.lane));
+  });
+
+  document.querySelectorAll('.recipe-card').forEach(r => {
+    r.addEventListener('click', () => openRecipeModal(r.dataset.recipeId));
+  });
+
+  function findItem(lane, id) {
+    return DATA[lane].find(x => x.id === id);
+  }
+
+  function escapeHtml(s) {
+    if (s == null) return '';
+    return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+
+  function openCardModal(id, lane) {
+    if (lane === 'interaction') {
+      const ix = (DATA.interaction || []).find(x => x.id === id);
+      if (!ix) return;
+      document.getElementById('cm-title').textContent = ix.channel;
+      document.getElementById('cm-subtitle').textContent =
+        ix.status === 'could-add' ? 'Suggested add-on, not yet wired' : 'Already in use';
+      let body = `<div class="modal-section"><h3>What this is</h3><p>${escapeHtml(ix.description)}</p></div>`;
+      const consumes = (ix.consumes || []).map(pid => {
+        const pl = DATA.plate.find(x => x.id === pid);
+        return pl ? pl.name : pid;
+      });
+      if (consumes.length) {
+        body += `<div class="modal-section"><h3>Carries which briefs</h3><p>${consumes.map(n => '<code>' + escapeHtml(n) + '</code>').join(' &nbsp;·&nbsp; ')}</p></div>`;
+      }
+      if (ix.status === 'could-add') {
+        body += `<div class="modal-section"><h3>Why suggest this</h3><p>${escapeHtml(ix.description)}</p></div>`;
+      }
+      document.getElementById('cm-body').innerHTML = body;
+      document.getElementById('card-modal').classList.add('visible');
+      return;
+    }
+    const item = findItem(lane, id);
+    if (!item) return;
+    const opps = (DATA.opp_by_id[id] || []);
+
+    document.getElementById('cm-title').textContent = item.tool || item.display_name || item.name;
+
+    const subtitle =
+      lane === 'pantry'
+        ? (item.subtitle_friendly || `${item.volume_friendly || (item.volume + ' volume')} · updates ${item.cadence}`)
+        : lane === 'prep'
+          ? (item.subtitle_friendly || `A ${item.domain_friendly || item.domain} brief Claude writes ${item.schedule || ''}`)
+          : (item.subtitle_friendly || `Written by ${item.agent_friendly || item.agent || 'an assistant'} for ${(item.consumers || []).join(', ') || 'you'}`);
+    document.getElementById('cm-subtitle').textContent = subtitle;
+
+    let body = '';
+
+    if (item.explanation) {
+      body += `<div class="modal-section"><h3>What this is</h3><p>${escapeHtml(item.explanation)}</p></div>`;
+    }
+
+    if (lane === 'pantry' && item.connection_methods && item.connection_methods.length) {
+      body += `<div class="modal-section"><h3>How to connect this to Claude</h3>`;
+      body += `<div class="conn-tabs">`;
+      item.connection_methods.forEach((cm, i) => {
+        const friendly = CONN_FRIENDLY[cm.type] || { label: cm.type.toUpperCase() };
+        body += `<button class="conn-tab ${i===0?'active':''}" data-conn="${cm.type}">${friendly.label}<small>${cm.type.toUpperCase()}</small></button>`;
+      });
+      body += `</div>`;
+      item.connection_methods.forEach((cm, i) => {
+        const friendly = CONN_FRIENDLY[cm.type] || { summary: '' };
+        body += `<div class="conn-content ${i===0?'active':''}" data-conn-content="${cm.type}">`;
+        if (friendly.summary) {
+          body += `<div class="conn-summary">${escapeHtml(friendly.summary)}</div>`;
+        }
+        body += `<p><strong>${escapeHtml(cm.name)}</strong></p>`;
+        if (cm.when_to_use) body += `<p>${escapeHtml(cm.when_to_use)}</p>`;
+        if (cm.pros && cm.pros.length) {
+          body += `<p style="margin-top:8px;"><strong>Pros:</strong></p><ul>` + cm.pros.map(x => `<li>${escapeHtml(x)}</li>`).join('') + `</ul>`;
+        }
+        if (cm.cons && cm.cons.length) {
+          body += `<p><strong>Tradeoffs:</strong></p><ul>` + cm.cons.map(x => `<li>${escapeHtml(x)}</li>`).join('') + `</ul>`;
+        }
+        if (cm.install || cm.example) {
+          const tid = `inst-${id}-${cm.type}`;
+          body += `<button class="install-toggle" onclick="document.getElementById('${tid}').classList.toggle('visible')">Show install steps ▾</button>`;
+          body += `<div class="install-block" id="${tid}">`;
+          if (cm.install) body += `<p style="font-size:12px;color:var(--muted);">Install:</p><pre>${escapeHtml(cm.install)}</pre>`;
+          if (cm.example) body += `<p style="font-size:12px;color:var(--muted);">Example:</p><pre>${escapeHtml(cm.example)}</pre>`;
+          body += `</div>`;
+        }
+        body += `</div>`;
+      });
+      body += `</div>`;
+    }
+
+    if (lane === 'pantry') {
+      const downstream_prep = DATA.prep.filter(p => (p.sources || []).includes(id));
+      const downstream_plate_ids = new Set();
+      downstream_prep.forEach(p => DATA.plate.filter(pl => (pl.reads_from || []).includes(p.id)).forEach(pl => downstream_plate_ids.add(pl.id)));
+      const downstream_plates = DATA.plate.filter(pl => downstream_plate_ids.has(pl.id));
+      if (downstream_prep.length || downstream_plates.length) {
+        body += `<div class="modal-section"><h3>Where this data ends up</h3>`;
+        if (downstream_prep.length) body += `<p><strong>Feeds into:</strong> ${downstream_prep.map(p => '<code>' + escapeHtml(p.display_name || p.name) + '</code>').join(' · ')}</p>`;
+        if (downstream_plates.length) body += `<p><strong>Shows up in:</strong> ${downstream_plates.map(p => '<code>' + escapeHtml(p.name) + '</code>').join(' · ')}</p>`;
+        body += `</div>`;
+      }
+    }
+
+    if (lane === 'prep' && item.sample_content) {
+      body += `<div class="modal-section"><h3>What's inside ${escapeHtml(item.display_name || item.name)}</h3>`;
+      body += `<div class="sample-preview">${escapeHtml(item.sample_content)}</div></div>`;
+    }
+    if (lane === 'prep' && item.governing_rule_excerpt) {
+      body += `<div class="modal-section"><h3>The rules Claude follows when touching this file</h3>`;
+      body += `<p style="font-size:13px;color:var(--muted);margin-bottom:8px;">Claude reads these rules automatically anytime it opens this brief. Keeps it from quoting numbers it can't trace.</p>`;
+      body += `<div class="sample-preview">${escapeHtml(item.governing_rule_excerpt)}</div></div>`;
+    }
+    if (lane === 'prep' && item.sources && item.sources.length) {
+      const sourceNames = item.sources.map(sid => {
+        const src = DATA.pantry.find(p => p.id === sid);
+        return src ? src.tool : sid;
+      });
+      body += `<div class="modal-section"><h3>Pulls from</h3><p>${sourceNames.map(n => '<code>' + escapeHtml(n) + '</code>').join(' &nbsp;·&nbsp; ')}</p></div>`;
+    }
+
+    if (lane === 'plate' && item.sample_output) {
+      body += `<div class="modal-section"><h3>Sample output</h3>`;
+      body += `<div class="sample-preview">${escapeHtml(item.sample_output)}</div></div>`;
+    }
+    if (lane === 'plate' && item.ideation_loop && item.ideation_loop.length) {
+      body += `<div class="modal-section"><h3>How Claude builds this for you, step by step</h3>`;
+      body += `<ol class="ideation-list">` + item.ideation_loop.map(s => `<li>${escapeHtml(s)}</li>`).join('') + `</ol></div>`;
+    }
+    if (lane === 'plate' && item.approval_gate) {
+      body += `<div class="modal-section"><h3>Sign-off</h3><p>🔒 ${escapeHtml(item.approval_friendly || item.approval_gate)}</p></div>`;
+    }
+
+    if (opps.length) {
+      body += `<div class="modal-section"><h3>Quick wins on this card</h3>`;
+      opps.forEach(o => {
+        body += `<p><strong>${escapeHtml(o.title)}.</strong> ${escapeHtml(o.explanation || '')}</p>`;
+      });
+      body += `</div>`;
+    }
+
+    if (item.claude_code_recommendation) {
+      const r = item.claude_code_recommendation;
+      body += `<div class="modal-section"><h3>What we'd build for this</h3>`;
+      body += `<p><strong>${escapeHtml(r.skill_to_write || r.feature || '')}</strong>${r.rationale ? ', ' + escapeHtml(r.rationale) : ''}</p>`;
+      if (r.estimated_time_savings) body += `<p style="margin-top:8px;"><span class="stack-pill" style="background:var(--coral-soft);color:var(--coral);border-color:var(--coral-border);">Saves ${escapeHtml(r.estimated_time_savings)}</span></p>`;
+      body += `</div>`;
+    }
+
+    document.getElementById('cm-body').innerHTML = body;
+
+    document.querySelectorAll('.conn-tab').forEach(t => {
+      t.addEventListener('click', () => {
+        document.querySelectorAll('.conn-tab').forEach(x => x.classList.remove('active'));
+        document.querySelectorAll('.conn-content').forEach(x => x.classList.remove('active'));
+        t.classList.add('active');
+        document.querySelector(`.conn-content[data-conn-content="${t.dataset.conn}"]`).classList.add('active');
+      });
+    });
+
+    document.getElementById('card-modal').classList.add('visible');
+  }
+
+  function openRecipeModal(id) {
+    const r = DATA.recipes.find(x => x.id === id);
+    if (!r) return;
+    document.getElementById('rm-title').textContent = r.headline || r.name;
+    document.getElementById('rm-goal').textContent = r.goal;
+
+    let body = '';
+
+    if (r.manual_today) {
+      body += `<div class="today-card"><div class="today-label">Today, manually</div>${escapeHtml(r.manual_today)}</div>`;
+    }
+    if (r.monday_difference) {
+      body += `<div class="monday-card"><div class="monday-label">Next Monday, with this live</div>${escapeHtml(r.monday_difference)}</div>`;
+    }
+
+    if (r.claude_code_stack) {
+      const cs = r.claude_code_stack;
+      body += `<div class="modal-section"><h3>What Claude Code parts power this</h3>`;
+      body += PRIMITIVE_KEY;
+      body += `<div class="stack-pills">`;
+      (cs.skills || []).forEach(s => body += `<span class="stack-pill skill">skill: ${escapeHtml(s)}</span>`);
+      (cs.subagents || []).forEach(s => body += `<span class="stack-pill subagent">subagent: ${escapeHtml(s)}</span>`);
+      (cs.hooks || []).forEach(s => body += `<span class="stack-pill hook">hook: ${escapeHtml(s)}</span>`);
+      (cs.rules || []).forEach(s => body += `<span class="stack-pill rule">rule: ${escapeHtml(s)}</span>`);
+      body += `</div></div>`;
+    }
+
+    if (r.walkthrough && r.walkthrough.length) {
+      body += `<div class="modal-section"><h3>The chain (back-and-forth between agents)</h3>`;
+      body += `<ol class="ideation-list">`;
+      r.walkthrough.forEach(step => {
+        body += `<li><span class="actor">${escapeHtml(step.actor)}</span> ${escapeHtml(step.action)}</li>`;
+      });
+      body += `</ol></div>`;
+    }
+
+    if (r.before_claude_code || r.after_claude_code) {
+      body += `<div class="modal-section"><h3>Before vs After Claude Code</h3>`;
+      body += `<div class="recipe-impact">`;
+      body += `<div class="before"><strong>Before:</strong> ${escapeHtml(r.before_claude_code || '')}</div>`;
+      body += `<div class="after"><strong>After:</strong> ${escapeHtml(r.after_claude_code || '')}</div>`;
+      body += `</div></div>`;
+    }
+
+    document.getElementById('rm-body').innerHTML = body;
+    document.getElementById('recipe-modal').classList.add('visible');
+  }
+
+  function closeAll() {
+    document.querySelectorAll('.overlay').forEach(o => o.classList.remove('visible'));
+  }
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeAll(); });
+</script>
+
+</body>
+</html>

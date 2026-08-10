@@ -1,0 +1,785 @@
+{
+  "name": "Marketing Campaign Automation",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "days",
+              "dayOfWeek": 1
+            }
+          ]
+        }
+      },
+      "name": "Weekly Campaign Scheduler",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1,
+      "position": [
+        250,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "sheetName": "Marketing Campaigns",
+        "options": {}
+      },
+      "name": "Retrieve Campaign Schedule",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 3,
+      "position": [
+        450,
+        300
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "google_sheets_credentials",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// Process campaign schedule\nconst campaigns = $input.item.json.rows || [];\nconst now = new Date();\nconst upcomingCampaigns = [];\n\n// Process each campaign\nfor (const campaign of campaigns) {\n  // Skip campaigns with missing data\n  if (!campaign.campaignName || !campaign.startDate || !campaign.status) continue;\n  \n  // Skip inactive campaigns\n  if (campaign.status.toLowerCase() !== 'active') continue;\n  \n  // Parse dates\n  let startDate, endDate;\n  try {\n    startDate = new Date(campaign.startDate);\n    endDate = campaign.endDate ? new Date(campaign.endDate) : null;\n  } catch (e) {\n    continue; // Skip if dates are invalid\n  }\n  \n  // Check if campaign is current or upcoming\n  const isStarted = startDate <= now;\n  const isEnded = endDate && endDate < now;\n  \n  if (isStarted && !isEnded) {\n    // Campaign is active, check for scheduled content\n    const scheduledContent = [];\n    \n    // Parse content schedule\n    if (campaign.contentSchedule) {\n      let contentItems = [];\n      \n      // Handle different formats of content schedule\n      if (typeof campaign.contentSchedule === 'string') {\n        try {\n          contentItems = JSON.parse(campaign.contentSchedule);\n        } catch (e) {\n          // If not valid JSON, try to parse as comma-separated list\n          contentItems = campaign.contentSchedule.split(',').map(item => item.trim());\n        }\n      } else if (Array.isArray(campaign.contentSchedule)) {\n        contentItems = campaign.contentSchedule;\n      }\n      \n      // Process each content item\n      for (const item of contentItems) {\n        let contentDate, contentType, contentText, contentImage, contentPlatforms;\n        \n        // Handle different item formats\n        if (typeof item === 'string') {\n          // Simple string format\n          contentDate = new Date();\n          contentType = 'text';\n          contentText = item;\n          contentPlatforms = ['facebook', 'instagram'];\n        } else if (typeof item === 'object') {\n          // Object format with detailed properties\n          try {\n            contentDate = item.date ? new Date(item.date) : new Date();\n            contentType = item.type || 'text';\n            contentText = item.text || '';\n            contentImage = item.image || '';\n            contentPlatforms = item.platforms || ['facebook', 'instagram'];\n          } catch (e) {\n            continue; // Skip invalid items\n          }\n        } else {\n          continue; // Skip invalid items\n        }\n        \n        // Check if content is due for posting (today or in the past but within 7 days)\n        const isContentDue = contentDate <= now && (now - contentDate) <= 7 * 24 * 60 * 60 * 1000;\n        \n        if (isContentDue) {\n          scheduledContent.push({\n            date: contentDate.toISOString(),\n            type: contentType,\n            text: contentText,\n            image: contentImage,\n            platforms: contentPlatforms\n          });\n        }\n      }\n    }\n    \n    // Add campaign to upcoming list if it has scheduled content\n    if (scheduledContent.length > 0) {\n      upcomingCampaigns.push({\n        id: campaign.id,\n        name: campaign.campaignName,\n        description: campaign.description || '',\n        startDate: startDate.toISOString(),\n        endDate: endDate ? endDate.toISOString() : null,\n        targetAudience: campaign.targetAudience || 'all',\n        goals: campaign.goals || '',\n        budget: campaign.budget || '0',\n        scheduledContent: scheduledContent,\n        trackingLinks: campaign.trackingLinks || '',\n        owner: campaign.owner || 'marketing',\n        status: campaign.status\n      });\n    }\n  }\n}\n\nreturn {json: {campaigns: upcomingCampaigns}};"
+      },
+      "name": "Process Campaign Schedule",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [
+        650,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "path": "campaign-content-submission",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "name": "Content Submission Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [
+        250,
+        500
+      ],
+      "webhookId": "campaign-content-submission"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Process content submission\nconst contentData = $input.item.json.body || $input.item.json;\n\n// Extract content details\nconst campaignId = contentData.campaignId || '';\nconst contentType = contentData.contentType || 'text';\nconst contentText = contentData.contentText || '';\nconst contentImage = contentData.contentImage || '';\nconst scheduledDate = contentData.scheduledDate || new Date().toISOString();\nconst platforms = contentData.platforms || ['facebook', 'instagram'];\nconst submittedBy = contentData.submittedBy || '';\n\n// Format the content data\nconst formattedContent = {\n  contentId: `CONTENT-${Date.now()}-${Math.floor(Math.random() * 1000)}`,\n  campaignId: campaignId,\n  contentType: contentType,\n  contentText: contentText,\n  contentImage: contentImage,\n  scheduledDate: scheduledDate,\n  platforms: platforms,\n  submittedBy: submittedBy,\n  status: 'pending',\n  submissionDate: new Date().toISOString()\n};\n\nreturn {json: formattedContent};"
+      },
+      "name": "Process Content Submission",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [
+        450,
+        500
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "sheetName": "Campaign Content",
+        "options": {}
+      },
+      "name": "Store Content Submission",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 3,
+      "position": [
+        650,
+        500
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "google_sheets_credentials",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "fromEmail": "marketing@massagetherapy.com",
+        "toEmail": "marketing@massagetherapy.com",
+        "subject": "=New Content Submission for Campaign: {{ $json.campaignId }}",
+        "text": "=A new content submission has been received for your marketing campaign:\n\n**Content Details:**\n- Campaign ID: {{ $json.campaignId }}\n- Content Type: {{ $json.contentType }}\n- Scheduled Date: {{ new Date($json.scheduledDate).toLocaleDateString() }}\n- Platforms: {{ $json.platforms.join(', ') }}\n- Submitted By: {{ $json.submittedBy }}\n- Submission Date: {{ new Date($json.submissionDate).toLocaleDateString() }}\n\n**Content:**\n{{ $json.contentText }}\n\n{% if $json.contentImage %}\n**Image URL:** {{ $json.contentImage }}\n{% endif %}\n\nPlease review this content in the marketing dashboard before scheduling it for publication.\n\n[Review Content](https://massagetherapy.com/marketing/content/{{ $json.contentId }})",
+        "options": {}
+      },
+      "name": "Notify Marketing Team",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 1,
+      "position": [
+        850,
+        500
+      ],
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "gmail_credentials",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// Process scheduled content for posting\nconst campaigns = $node[\"Process Campaign Schedule\"].json.campaigns || [];\nconst contentToPost = [];\n\n// Flatten all scheduled content from all campaigns\nfor (const campaign of campaigns) {\n  for (const content of campaign.scheduledContent) {\n    contentToPost.push({\n      ...content,\n      campaignId: campaign.id,\n      campaignName: campaign.name\n    });\n  }\n}\n\n// Sort by date\ncontentToPost.sort((a, b) => new Date(a.date) - new Date(b.date));\n\nreturn {json: {contentToPost}};"
+      },
+      "name": "Prepare Content for Posting",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [
+        850,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "lookup",
+        "sheetName": "Posted Content",
+        "lookupColumn": "contentId",
+        "lookupValue": "={{ $json.contentId || $json.text.substring(0, 20) + $json.date }}",
+        "options": {}
+      },
+      "name": "Check If Already Posted",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 3,
+      "position": [
+        1050,
+        300
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "google_sheets_credentials",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{ $node[\"Check If Already Posted\"].json.id }}",
+              "operation": "notExists"
+            }
+          ]
+        }
+      },
+      "name": "Not Posted Yet?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [
+        1250,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "dataType": "string",
+        "value1": "={{ $json.platforms.includes('facebook') }}",
+        "rules": {
+          "rules": [
+            {
+              "value2": "true",
+              "type": "equal"
+            }
+          ]
+        }
+      },
+      "name": "Post to Facebook?",
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 1,
+      "position": [
+        1450,
+        200
+      ]
+    },
+    {
+      "parameters": {
+        "url": "https://graph.facebook.com/v16.0/{{ $env.FACEBOOK_PAGE_ID }}/feed",
+        "method": "POST",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "message",
+              "value": "={{ $json.text }}"
+            },
+            {
+              "name": "link",
+              "value": "={{ $json.trackingLink || 'https://massagetherapy.com/?utm_source=facebook&utm_medium=social&utm_campaign=' + $json.campaignName.replace(/\\s+/g, '-').toLowerCase() }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "name": "Post to Facebook",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 1,
+      "position": [
+        1650,
+        100
+      ],
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "facebook_credentials",
+          "name": "Facebook API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "dataType": "string",
+        "value1": "={{ $json.platforms.includes('instagram') }}",
+        "rules": {
+          "rules": [
+            {
+              "value2": "true",
+              "type": "equal"
+            }
+          ]
+        }
+      },
+      "name": "Post to Instagram?",
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 1,
+      "position": [
+        1450,
+        400
+      ]
+    },
+    {
+      "parameters": {
+        "url": "https://graph.facebook.com/v16.0/{{ $env.INSTAGRAM_ACCOUNT_ID }}/media",
+        "method": "POST",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "caption",
+              "value": "={{ $json.text }}"
+            },
+            {
+              "name": "image_url",
+              "value": "={{ $json.image || 'https://massagetherapy.com/images/default-campaign-image.jpg' }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "name": "Create Instagram Media",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 1,
+      "position": [
+        1650,
+        300
+      ],
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "instagram_credentials",
+          "name": "Instagram API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "https://graph.facebook.com/v16.0/{{ $env.INSTAGRAM_ACCOUNT_ID }}/media_publish",
+        "method": "POST",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "creation_id",
+              "value": "={{ $json.id }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "name": "Publish Instagram Media",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 1,
+      "position": [
+        1850,
+        300
+      ],
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "instagram_credentials",
+          "name": "Instagram API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "dataType": "string",
+        "value1": "={{ $json.platforms.includes('twitter') }}",
+        "rules": {
+          "rules": [
+            {
+              "value2": "true",
+              "type": "equal"
+            }
+          ]
+        }
+      },
+      "name": "Post to Twitter?",
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 1,
+      "position": [
+        1450,
+        600
+      ]
+    },
+    {
+      "parameters": {
+        "url": "https://api.twitter.com/2/tweets",
+        "method": "POST",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "text",
+              "value": "={{ $json.text.length > 280 ? $json.text.substring(0, 277) + '...' : $json.text }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "name": "Post to Twitter",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 1,
+      "position": [
+        1650,
+        500
+      ],
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "twitter_credentials",
+          "name": "Twitter API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "sheetName": "Posted Content",
+        "options": {}
+      },
+      "name": "Record Posted Content",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 3,
+      "position": [
+        2050,
+        300
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "google_sheets_credentials",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "days",
+              "dayOfWeek": 1
+            }
+          ]
+        }
+      },
+      "name": "Weekly Campaign Report Scheduler",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1,
+      "position": [
+        250,
+        700
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "sheetName": "Marketing Campaigns",
+        "options": {}
+      },
+      "name": "Get Active Campaigns",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 3,
+      "position": [
+        450,
+        700
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "google_sheets_credentials",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "sheetName": "Posted Content",
+        "options": {}
+      },
+      "name": "Get Posted Content",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 3,
+      "position": [
+        650,
+        700
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "google_sheets_credentials",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// Generate campaign performance report\nconst campaigns = $node[\"Get Active Campaigns\"].json.rows || [];\nconst postedContent = $node[\"Get Posted Content\"].json.rows || [];\nconst now = new Date();\nconst lastWeek = new Date(now);\nlastWeek.setDate(lastWeek.getDate() - 7);\n\n// Filter active campaigns\nconst activeCampaigns = campaigns.filter(campaign => campaign.status === 'active');\n\n// Generate report for each campaign\nconst campaignReports = [];\n\nfor (const campaign of activeCampaigns) {\n  // Filter content for this campaign\n  const campaignContent = postedContent.filter(content => {\n    return content.campaignId === campaign.id && new Date(content.postDate) >= lastWeek;\n  });\n  \n  // Count posts by platform\n  const platformCounts = {};\n  campaignContent.forEach(content => {\n    if (content.platform) {\n      platformCounts[content.platform] = (platformCounts[content.platform] || 0) + 1;\n    }\n  });\n  \n  // Calculate engagement metrics\n  let totalLikes = 0;\n  let totalComments = 0;\n  let totalShares = 0;\n  let totalClicks = 0;\n  \n  campaignContent.forEach(content => {\n    totalLikes += parseInt(content.likes || 0);\n    totalComments += parseInt(content.comments || 0);\n    totalShares += parseInt(content.shares || 0);\n    totalClicks += parseInt(content.clicks || 0);\n  });\n  \n  // Calculate engagement rate\n  const totalEngagements = totalLikes + totalComments + totalShares;\n  const engagementRate = campaignContent.length > 0 ? (totalEngagements / campaignContent.length).toFixed(2) : 0;\n  \n  // Add to reports\n  campaignReports.push({\n    campaignId: campaign.id,\n    campaignName: campaign.campaignName,\n    reportPeriod: `${lastWeek.toLocaleDateString()} to ${now.toLocaleDateString()}`,\n    totalPosts: campaignContent.length,\n    platformBreakdown: platformCounts,\n    engagementMetrics: {\n      likes: totalLikes,\n      comments: totalComments,\n      shares: totalShares,\n      clicks: totalClicks,\n      engagementRate: engagementRate\n    },\n    generatedDate: now.toISOString()\n  });\n}\n\nreturn {json: {campaignReports}};"
+      },
+      "name": "Generate Campaign Reports",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [
+        850,
+        700
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "sheetName": "Campaign Reports",
+        "options": {}
+      },
+      "name": "Store Campaign Reports",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 3,
+      "position": [
+        1050,
+        700
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "google_sheets_credentials",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "fromEmail": "marketing@massagetherapy.com",
+        "toEmail": "management@massagetherapy.com",
+        "subject": "Weekly Marketing Campaign Performance Report",
+        "text": "=Dear Management Team,\n\nHere is the weekly performance report for our active marketing campaigns:\n\n{% for report in $json.campaignReports %}\n**Campaign: {{ report.campaignName }}**\nReport Period: {{ report.reportPeriod }}\n\n- Total Posts: {{ report.totalPosts }}\n- Platform Breakdown: {% for platform, count in report.platformBreakdown %}{{ platform }}: {{ count }}{% if not loop.last %}, {% endif %}{% endfor %}\n\n**Engagement Metrics:**\n- Likes: {{ report.engagementMetrics.likes }}\n- Comments: {{ report.engagementMetrics.comments }}\n- Shares: {{ report.engagementMetrics.shares }}\n- Clicks: {{ report.engagementMetrics.clicks }}\n- Engagement Rate: {{ report.engagementMetrics.engagementRate }}\n\n{% endfor %}\n\nFor more detailed analytics, please visit the marketing dashboard:\n[View Marketing Dashboard](https://massagetherapy.com/marketing/dashboard)\n\nBest regards,\nMarketing Automation System",
+        "options": {}
+      },
+      "name": "Email Campaign Report",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 1,
+      "position": [
+        1250,
+        700
+      ],
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "gmail_credentials",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "errorMessage": "=Error in Marketing Campaign Automation workflow: {{ $json.error }}"
+      },
+      "name": "Error Handler",
+      "type": "n8n-nodes-base.errorTrigger",
+      "typeVersion": 1,
+      "position": [
+        450,
+        900
+      ]
+    }
+  ],
+  "connections": {
+    "Weekly Campaign Scheduler": {
+      "main": [
+        [
+          {
+            "node": "Retrieve Campaign Schedule",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Retrieve Campaign Schedule": {
+      "main": [
+        [
+          {
+            "node": "Process Campaign Schedule",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Process Campaign Schedule": {
+      "main": [
+        [
+          {
+            "node": "Prepare Content for Posting",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Content Submission Webhook": {
+      "main": [
+        [
+          {
+            "node": "Process Content Submission",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Process Content Submission": {
+      "main": [
+        [
+          {
+            "node": "Store Content Submission",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Store Content Submission": {
+      "main": [
+        [
+          {
+            "node": "Notify Marketing Team",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prepare Content for Posting": {
+      "main": [
+        [
+          {
+            "node": "Check If Already Posted",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check If Already Posted": {
+      "main": [
+        [
+          {
+            "node": "Not Posted Yet?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Not Posted Yet?": {
+      "main": [
+        [
+          {
+            "node": "Post to Facebook?",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Post to Instagram?",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Post to Twitter?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Post to Facebook?": {
+      "main": [
+        [
+          {
+            "node": "Post to Facebook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Post to Facebook": {
+      "main": [
+        [
+          {
+            "node": "Record Posted Content",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Post to Instagram?": {
+      "main": [
+        [
+          {
+            "node": "Create Instagram Media",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create Instagram Media": {
+      "main": [
+        [
+          {
+            "node": "Publish Instagram Media",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Publish Instagram Media": {
+      "main": [
+        [
+          {
+            "node": "Record Posted Content",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Post to Twitter?": {
+      "main": [
+        [
+          {
+            "node": "Post to Twitter",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Post to Twitter": {
+      "main": [
+        [
+          {
+            "node": "Record Posted Content",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Weekly Campaign Report Scheduler": {
+      "main": [
+        [
+          {
+            "node": "Get Active Campaigns",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Active Campaigns": {
+      "main": [
+        [
+          {
+            "node": "Get Posted Content",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Posted Content": {
+      "main": [
+        [
+          {
+            "node": "Generate Campaign Reports",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate Campaign Reports": {
+      "main": [
+        [
+          {
+            "node": "Store Campaign Reports",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Store Campaign Reports": {
+      "main": [
+        [
+          {
+            "node": "Email Campaign Report",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "saveManualExecutions": true,
+    "callerPolicy": "workflowsFromSameOwner",
+    "errorWorkflow": "Marketing Campaign Automation Error Handler"
+  },
+  "tags": [
+    {
+      "name": "marketing",
+      "color": "#00ccff"
+    },
+    {
+      "name": "massage-therapy",
+      "color": "#00ccff"
+    }
+  ],
+  "pinData": {},
+  "versionId": "1",
+  "triggerCount": 3,
+  "meta": {
+    "instanceId": "MASSAGE_THERAPY_BUSINESS"
+  },
+  "id": "marketing-campaign-automation"
+}

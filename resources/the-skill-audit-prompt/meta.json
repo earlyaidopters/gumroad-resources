@@ -1,0 +1,21 @@
+{
+  "name": "The Skill Audit Prompt 🔍",
+  "external_id": "PeW8K6dNAwveCNCI916R4Q==",
+  "permalink": "kknact",
+  "unique_permalink": "kknact",
+  "custom_permalink": "skill-audit-prompt",
+  "url": "https://markkashef.gumroad.com/l/skill-audit-prompt",
+  "status": "published",
+  "archived": false,
+  "kind": "products",
+  "price_formatted": "CAD$0+",
+  "description_md": "# What You Get\n\n- \nThe Skill Audit Prompt: A copy paste prompt that tags the claude-code-guide subagent and runs a full structural review on any Claude Code skill you have installed. Returns a critique, a concrete diff to the SKILL.md.\n\n- \nThe Maintenance Ritual: This is the loop most people are missing. Build the skill once. Run it cold. Paste this prompt. Apply the diff. Re-run. Watch a dead generic skill turn into one that actually fires reliably.\n\n- \nAnchored to Anthropic Docs: The prompt forces the auditor to cite the official Claude Code skills guidance, the description-budget cliff, and the wrong-primitive question. No vague advice. Every recommendation translates to specific edits you can apply.\n\nWant the full to master Claude Code, implementing the best Agentic OS system, and direct access to me when your skill breaks? \nJoin the Early AI Dopters community\nhttps://www.skool.com/earlyaidopters/about",
+  "files": [
+    {
+      "file": "optimize_skill_prompt.md",
+      "status": "cached",
+      "bytes": 5252
+    }
+  ],
+  "has_rich_content": true
+}

@@ -1,0 +1,21 @@
+{
+  "name": "Prompt Compression Guide 🗂️",
+  "external_id": "upGkEbDMmZ8ZENFn_HXp0g==",
+  "permalink": "abfzpy",
+  "unique_permalink": "abfzpy",
+  "custom_permalink": "promptcompression",
+  "url": "https://markkashef.gumroad.com/l/promptcompression",
+  "status": "published",
+  "archived": false,
+  "kind": "products",
+  "price_formatted": "CAD$0+",
+  "description_md": "With the Prompt Compression Guide, you’ll gain access to a comprehensive set of experimental tools and resources designed to help you explore prompt compression techniques. While the results are not guaranteed, these resources can help reduce token usage and, at best, minimize performance loss. Here’s what’s included:\n\n- \nPrompt Compression Slide Deck (PDF - 527.3 KB): A downloadable slide deck covering the fundamentals of prompt compression, including token optimization strategies and methods for balancing brevity with information retention. Visual diagrams and summaries illustrate the core principles.\n\n- \nPrompt Compression GPT: A custom GPT model specifically designed to assist in prompt compression tasks. While experimental, this model provides a foundation for exploring ways to make prompts more concise.\n\n- \nPrompt for Prompt Compression Custom GPT: A Google Doc with example prompts optimized for custom GPT applications, providing a practical guide for experimenting with compressed prompt structures.\n\n- \nPrompt Compression Google Colab: An interactive environment on Google Colab, allowing hands-on experimentation with prompt compression techniques. This space enables you to test different methods and receive immediate feedback on your results.\n\n- \nPrompt Compression App: A dedicated web application for testing and applying prompt compression strategies, enabling you to evaluate the impact of these techniques in a controlled, user-friendly setting.\n\n- \nConversation with bolt.new: Documentation of a real-world conversation example using bolt.new, showcasing how compressed prompts can be applied in actual dialogue scenarios while aiming to retain performance quality.",
+  "files": [
+    {
+      "file": "Prompt Compression.pdf",
+      "status": "cached",
+      "bytes": 539962
+    }
+  ],
+  "has_rich_content": true
+}

@@ -1,0 +1,246 @@
+{
+  "name": "Automated LinkedIn Thought-Leadership Workflow",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "days",
+              "days": [2, 4],
+              "hours": [9],
+              "minutes": [0]
+            }
+          ]
+        }
+      },
+      "name": "Schedule Trigger",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1,
+      "position": [
+        250,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "documentId": {
+          "__rl": true,
+          "value": "YOUR_CONTENT_CALENDAR_SHEET_ID",
+          "mode": "list",
+          "cachedResultName": "Content Calendar"
+        },
+        "sheetName": "Content Calendar",
+        "returnAll": false,
+        "options": {
+          "filter": {
+            "values": {
+              "Date": "={{ $today }}"
+            }
+          }
+        }
+      },
+      "name": "Google Sheets - Get Content Calendar",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4,
+      "position": [
+        400,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "authentication": "serviceAccount",
+        "operation": "completion",
+        "model": "gpt-4",
+        "prompt": {
+          "value": "Generate a thought leadership post for LinkedIn about coaching. The post should be insightful, engaging, and demonstrate expertise in coaching practices. Include a hook at the beginning, 2-3 key points in the middle, and a call to action at the end. The post should be between 1200-1500 characters. Format it with appropriate line breaks and emojis where relevant. The tone should be professional but conversational.\n\n{% if $node[\"Google Sheets - Get Content Calendar\"].json.length > 0 %}\nFocus on this topic: {{ $node[\"Google Sheets - Get Content Calendar\"].json[0].Topic }}\n{% endif %}"
+        },
+        "options": {
+          "temperature": 0.7,
+          "maxTokens": 1000
+        }
+      },
+      "name": "OpenAI - Generate Content",
+      "type": "n8n-nodes-base.openAi",
+      "typeVersion": 1,
+      "position": [
+        550,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "resource": "design",
+        "operation": "create",
+        "designType": "social-media",
+        "templateId": "YOUR_CANVA_TEMPLATE_ID",
+        "elements": {
+          "values": {
+            "mainText": "={{ $node[\"OpenAI - Generate Content\"].json.text.substring(0, 100) + \"...\" }}",
+            "brandName": "Your Coaching Business",
+            "brandLogo": "YOUR_LOGO_URL"
+          }
+        },
+        "additionalFields": {
+          "format": "png",
+          "width": 1200,
+          "height": 627
+        }
+      },
+      "name": "Canva - Create Image",
+      "type": "n8n-nodes-base.canva",
+      "typeVersion": 1,
+      "position": [
+        700,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "resource": "post",
+        "text": "={{ $node[\"OpenAI - Generate Content\"].json.text }}",
+        "media": "={{ $node[\"Canva - Create Image\"].json.url }}",
+        "additionalFields": {
+          "visibility": "PUBLIC",
+          "hashtags": ["coaching", "leadership", "professionaldevelopment"]
+        }
+      },
+      "name": "LinkedIn - Post Content",
+      "type": "n8n-nodes-base.linkedin",
+      "typeVersion": 2,
+      "position": [
+        850,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "YOUR_TRACKING_SHEET_ID",
+          "mode": "list",
+          "cachedResultName": "Content Tracking"
+        },
+        "sheetName": "Content Tracking",
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Date": "={{ $now.toISOString().split('T')[0] }}",
+            "Platform": "LinkedIn",
+            "Content Type": "Thought Leadership",
+            "Topic": "={{ $node[\"Google Sheets - Get Content Calendar\"].json.length > 0 ? $node[\"Google Sheets - Get Content Calendar\"].json[0].Topic : 'Generated Topic' }}",
+            "Post ID": "={{ $node[\"LinkedIn - Post Content\"].json.id }}",
+            "URL": "={{ $node[\"LinkedIn - Post Content\"].json.postUrl }}"
+          }
+        }
+      },
+      "name": "Google Sheets - Log Post",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4,
+      "position": [
+        1000,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "chatId": "YOUR_SLACK_CHANNEL_ID",
+        "text": "✅ LinkedIn thought leadership post published successfully!\n\n*Topic:* {{ $node[\"Google Sheets - Get Content Calendar\"].json.length > 0 ? $node[\"Google Sheets - Get Content Calendar\"].json[0].Topic : 'Generated Topic' }}\n*Date:* {{ $now.toISOString().split('T')[0] }}\n*URL:* {{ $node[\"LinkedIn - Post Content\"].json.postUrl }}",
+        "otherOptions": {
+          "parse_mode": "markdown"
+        }
+      },
+      "name": "Slack - Send Notification",
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 2,
+      "position": [
+        1150,
+        300
+      ]
+    }
+  ],
+  "connections": {
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets - Get Content Calendar",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets - Get Content Calendar": {
+      "main": [
+        [
+          {
+            "node": "OpenAI - Generate Content",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI - Generate Content": {
+      "main": [
+        [
+          {
+            "node": "Canva - Create Image",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Canva - Create Image": {
+      "main": [
+        [
+          {
+            "node": "LinkedIn - Post Content",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "LinkedIn - Post Content": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets - Log Post",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets - Log Post": {
+      "main": [
+        [
+          {
+            "node": "Slack - Send Notification",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "saveManualExecutions": true,
+    "callerPolicy": "workflowsFromSameOwner",
+    "errorWorkflow": "YOUR_ERROR_WORKFLOW_ID"
+  },
+  "tags": [
+    "content-creation",
+    "linkedin"
+  ],
+  "triggerCount": 1
+}

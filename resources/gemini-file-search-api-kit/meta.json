@@ -1,0 +1,26 @@
+{
+  "name": "Gemini File Search API Kit 🔎",
+  "external_id": "S3A45lg6qYaZpEvHP7p5Cg==",
+  "permalink": "mcfepa",
+  "unique_permalink": "mcfepa",
+  "custom_permalink": "geminifilesearchapi",
+  "url": "https://markkashef.gumroad.com/l/geminifilesearchapi",
+  "status": "published",
+  "archived": false,
+  "kind": "products",
+  "price_formatted": "CAD$0+",
+  "description_md": "# What You Get\n\n- Plug and play n8n workflow for uploads, File Search Store management, and an agent that chats with your docs with metadata filters, custom chunking, and citations.\n\n- Master Cursor or Claude Code prompt that builds a production web app with drag and drop uploads, real time chat, system prompts, metadata controls, file manager, and conversation history in a clean white label UI.\n\n- Built in API and cURL endpoint so you can connect your Store to Make.com, Zapier, or any custom app in minutes.\n\n- Proven patterns for multi document retrieval, grounding metadata for source attribution, and defaults that take you from zero to production in under an hour.\n\n- Exclusive GitHub repo inside the Early AI-dopters community with the import ready project and extras. \n\nJoin here: https://www.skool.com/earlyaidopters/about",
+  "files": [
+    {
+      "file": "PDF and Text File Upload to Google Gemini File Search Store.json",
+      "status": "downloaded",
+      "bytes": 15091
+    },
+    {
+      "file": "MEGA_PROMPT.md",
+      "status": "cached",
+      "bytes": 55796
+    }
+  ],
+  "has_rich_content": true
+}

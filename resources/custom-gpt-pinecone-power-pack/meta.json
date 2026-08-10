@@ -1,0 +1,31 @@
+{
+  "name": "Custom GPT Pinecone Power Pack",
+  "external_id": "uV-QhEcTall3QjSk-a6v6g==",
+  "permalink": "gmnyu",
+  "unique_permalink": "gmnyu",
+  "custom_permalink": "pineconeassistant",
+  "url": "https://markkashef.gumroad.com/l/pineconeassistant",
+  "status": "published",
+  "archived": false,
+  "kind": "products",
+  "price_formatted": "CAD$0+",
+  "description_md": "Revolutionize your AI document interactions with this comprehensive Pinecone Assistant toolkit. \nDesigned for AI enthusiasts, developers, and businesses, this package enables you to build custom GPTs that provide 100% accurate answers from your documents. Master the art of creating AI knowledge bases that understand and respond to complex queries with unprecedented precision.\nWhat's Included:\n\n- \nReplit Code for Custom GPT Integration\n- Step-by-step guide to connect Pinecone Assistant with custom GPTs\n\n- Optimized for seamless integration and high-performance\n\n- Adaptable to various document types and industries\n\n- \nDetailed Slide Deck on Document Processing\n- In-depth explanation of how AI tools like ChatGPT process documents\n\n- Comprehensive breakdown of the vectorization process\n\n- Visual aids to enhance understanding of complex concepts\n\n- \nPinecone Assistant Orchestration Prompt\n- Carefully crafted prompt to maximize Pinecone Assistant's capabilities\n\n- Instructions for fine-tuning responses and improving accuracy\n\n- Best practices for prompt engineering with document-based AI\n\n- \nLoom Tutorial on Pinecone Assistant Usage\n- Detailed video guide on setting up and running Pinecone Assistant\n\n- Tips and tricks for optimal performance\n\n- Real-world examples and use cases",
+  "files": [
+    {
+      "file": "Talk to Any Document.pdf",
+      "status": "cached",
+      "bytes": 1175472
+    },
+    {
+      "file": "pinecone-gdrive.json",
+      "status": "cached",
+      "bytes": 22142
+    },
+    {
+      "file": "pinecone_schema.txt",
+      "status": "cached",
+      "bytes": 2700
+    }
+  ],
+  "has_rich_content": true
+}

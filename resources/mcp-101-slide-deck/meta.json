@@ -1,0 +1,21 @@
+{
+  "name": "MCP 101 Slide Deck",
+  "external_id": "2y5yXwQV1NwT_ped0J9h-g==",
+  "permalink": "oclra",
+  "unique_permalink": "oclra",
+  "custom_permalink": "mcp101",
+  "url": "https://markkashef.gumroad.com/l/mcp101",
+  "status": "published",
+  "archived": false,
+  "kind": "products",
+  "price_formatted": "CAD$0+",
+  "description_md": "## What You Get\n\n- A clear, conversational slide deck explaining Model Context Protocols (MCPs) in plain English.\n\n- Insight into why MCPs matter, from enhancing AI-to-app communication to automating your digital workflow effortlessly.\n\n- Detailed breakdowns of how MCP works at various technical levels—high, medium, and lower—for all audience types.\n\n- Exploration of exciting opportunities, including middleware vendors, MCP servers, and emerging MCP marketplaces.",
+  "files": [
+    {
+      "file": "MCPs.pdf",
+      "status": "cached",
+      "bytes": 1795222
+    }
+  ],
+  "has_rich_content": true
+}

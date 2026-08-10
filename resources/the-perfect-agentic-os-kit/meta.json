@@ -1,0 +1,21 @@
+{
+  "name": "The Perfect Agentic OS Kit 🧱",
+  "external_id": "AXDZ-VBZXkrOzBJ3OAQCIg==",
+  "permalink": "cmzgj",
+  "unique_permalink": "cmzgj",
+  "custom_permalink": "perfect-agentic-os-kit",
+  "url": "https://markkashef.gumroad.com/l/perfect-agentic-os-kit",
+  "status": "published",
+  "archived": false,
+  "kind": "products",
+  "price_formatted": "CAD$0+",
+  "description_md": "# What You Get\n\n- \n/silver-platter Skill: Drop it in any Claude Code project. It interviews you about your tools, builds a Pantry > Prep > Plate data map, generates a tailored 30-day build plan with recipes, and renders a self-contained HTML visualization you can open in any browser. Same skill I've given to multiple clients to self-serve.\n\n- \n3 Fully-Built Demo Folders: Marco (e-commerce, Shopify + Meta + TikTok), Sally (boutique law firm, Bedrock + matter walling), Dr. Anwar (dermatology clinic, PHI scoping + controlled bridges). Each demo has realistic before/after data, silver platters, orchestrator + specialist agents, hooks, and the resulting data_map.html you can study.\n\n- \nThe 4-Layer Agentic OS Reference: Identity (CLAUDE.md + path-scoped rules), Knowledge (skills + MCPs), Workers (subagents with chief-of-staff routing), Automation (hooks). The mental model from the video, documented and copy-paste ready.\n\n- \ndata_map.html for Each Demo: Open in your browser. Four tabs. Click any card for plain English. The Data Flow tab shows exactly how data moves from raw sources through silver platters to the briefs you read. The Recipes tab shows what you'll stop doing manually, with time-saved estimates\n\n---\nWant to go deeper on building Agentic OS for real businesses? 🛠️\nInside the Early AI Dopters community, you get the full LIVING Claude Code Magic course plus the complete ClaudeClaw Business operating system:\n- The Agentic OS building blocks (CLAUDE.md hierarchy, skills, subagents, hooks, path-scoped rules) taught from zero\n- The full ClaudeClaw system, my personal AI operating system, walked through module by module\n- Direct access to me and my team of coaches when your back of house won't cooperate\n- A working group of operators shipping their own Agentic OS builds\nJoin here: https://www.skool.com/earlyaidopters/about",
+  "files": [
+    {
+      "file": "skill_assets.zip",
+      "status": "cached",
+      "bytes": 266245
+    }
+  ],
+  "has_rich_content": true
+}

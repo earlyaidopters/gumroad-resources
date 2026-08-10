@@ -1,0 +1,3 @@
+interface:
+  short_description: Cross-runtime Agent Skill optimizer
+  default_prompt: Use $polyskill to ...

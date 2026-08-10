@@ -1,0 +1,26 @@
+{
+  "name": "Claude Code Masterclass Guide 🧞‍♂️",
+  "external_id": "KZZaxwOTrJ0rVa3nmA1nEg==",
+  "permalink": "reuwh",
+  "unique_permalink": "reuwh",
+  "custom_permalink": "claudecodemasterclass",
+  "url": "https://markkashef.gumroad.com/l/claudecodemasterclass",
+  "status": "published",
+  "archived": false,
+  "kind": "products",
+  "price_formatted": "CAD$0+",
+  "description_md": "# What You Get\n\n- \nClaude Code Mastery Guide (PDF) – a 9-hack, 4-act blueprint that walks you through multiplier workflows, multimodal setups, “replicate anything” patterns, and real-world team lessons so you can actually build an AI factory, not just vibe code.\n\n- \nTokens LLM Presentation repo – a Claude Code-ready project that clones Claude.ai’s slide-creation magic so you can spin up clean, minimal PPT decks on tokens (or any topic you swap in) with one prompt.\n\n- \nSales Call Analyzer repo – a Gemini-powered video app template that ingests MP4s of sales calls and returns structured breakdowns, scores, and coaching-style feedback you can rebrand for your own clients.\n\n- \nDrop-in settings.local JSON – the exact plugin and YOLO-mode configuration from the video so your Claude Code environment behaves like mine without you having to debug plugin hell.\n\n- \nCopy-paste prompts & patterns – ready-made slash commands, project-memory rules, agent setups, MCP shortcuts, and planning checklists you can lift straight into any repo to cut weeks off your learning curve.\n\n- If you want the companion Claude Creations course, hackathon replays, and way more Claude Code builds than I can fit into one Gumroad, join the Early AI-dopters Community: https://www.skool.com/earlyaidopters/about 😉",
+  "files": [
+    {
+      "file": "settings.local.json",
+      "status": "cached",
+      "bytes": 550
+    },
+    {
+      "file": "Claude_Code_Mastery_Guide.pdf",
+      "status": "cached",
+      "bytes": 139473
+    }
+  ],
+  "has_rich_content": true
+}

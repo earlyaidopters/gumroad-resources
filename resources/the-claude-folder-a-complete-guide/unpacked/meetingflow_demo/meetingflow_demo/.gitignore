@@ -1,0 +1,10 @@
+node_modules/
+.env
+.env.*
+dist/
+
+# Personal Claude Code overrides (not auto-gitignored, add manually)
+CLAUDE.local.md
+
+# This one IS auto-managed by Claude Code
+.claude/settings.local.json

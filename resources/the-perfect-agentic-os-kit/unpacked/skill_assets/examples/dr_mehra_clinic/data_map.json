@@ -1,0 +1,794 @@
+{
+  "business": {
+    "name": "Northbrook Reproductive Health",
+    "archetype": "healthcare_clinic",
+    "stack_summary": "Single-site fertility clinic. 6 providers. ~40 IVF cycles/month. Bedrock-only."
+  },
+  "pantry": [
+    {
+      "id": "ecw",
+      "tool": "eClinicalWorks EHR",
+      "format": "DOCX",
+      "cadence": "real-time",
+      "volume": "high",
+      "feeds": [
+        "intake_pipeline",
+        "lab_review"
+      ],
+      "status": "have",
+      "cli_skill": null,
+      "explanation": "Clinical notes export to DOCX. PHI. The conversion hook turns each note into clean markdown, but ONLY in the PHI-scoped clinical/ folder. Cannot leak.",
+      "connection_methods": [
+        {
+          "type": "api",
+          "name": "eCW REST API (or HL7 for older tenants)",
+          "when_to_use": "Required, no CLI, no MCP for eCW.",
+          "pros": [
+            "Direct programmatic access",
+            "Avoids manual export"
+          ],
+          "cons": [
+            "eCW API access requires vendor approval",
+            "HL7 is verbose for older tenants"
+          ],
+          "install": "Vendor-provided API key + endpoint. ECW_API_KEY in ~/.env. Token must stay in the Bedrock-tenant only.",
+          "example": "GET /ecw/api/v1/encounters?patient_id=<mrn>&since=2025-10-01"
+        }
+      ],
+      "claude_code_recommendation": {
+        "skill_to_write": "ingest_ecw_notes",
+        "rationale": "Skill watches a vendor-provided drop folder; converts DOCX clinical notes to structured markdown under data/clinical/. Path-scoped rule prevents the agent from loading these in non-clinical contexts.",
+        "estimated_time_savings": "Eliminates the manual DOCX export every morning. Currently ~30 min."
+      },
+      "volume_friendly": "High volume",
+      "subtitle_friendly": "High volume \u00b7 updates real-time"
+    },
+    {
+      "id": "centricity",
+      "tool": "Centricity Practice Solution",
+      "format": "XLSX",
+      "cadence": "weekly",
+      "volume": "medium",
+      "feeds": [
+        "billing_reconciliation"
+      ],
+      "status": "have",
+      "cli_skill": null,
+      "explanation": "Billing + scheduling. ERA reconciliation here. Marisol exports XLSX every Friday. Not PHI-tagged in the same way as clinical notes, billing context is allowed cross-domain only via the Billing-Appeals Specialist's controlled bridge.",
+      "connection_methods": [
+        {
+          "type": "api",
+          "name": "Centricity REST API",
+          "when_to_use": "Pulls billing entries + ERA files programmatically.",
+          "pros": [
+            "Bypasses Marisol's manual export",
+            "Real-time reconciliation possible"
+          ],
+          "cons": [
+            "Centricity API is dated; auth is per-tenant"
+          ],
+          "install": "Vendor-provided credentials. CENTRICITY_API_KEY in ~/.env.",
+          "example": "GET /centricity/api/v1/era?date_from=2025-10-01"
+        }
+      ],
+      "claude_code_recommendation": {
+        "skill_to_write": "ingest_centricity_billing",
+        "rationale": "Pulls weekly ERA + billing entries. Marisol stops exporting manually.",
+        "estimated_time_savings": "1-2 hours/week of Marisol's manual reconciliation"
+      },
+      "volume_friendly": "Steady flow",
+      "subtitle_friendly": "Steady flow \u00b7 updates weekly"
+    },
+    {
+      "id": "intake_pdfs",
+      "tool": "Patient intake forms",
+      "format": "PDF",
+      "cadence": "daily",
+      "volume": "medium",
+      "feeds": [
+        "intake_pipeline"
+      ],
+      "status": "have",
+      "cli_skill": null,
+      "explanation": "Tablet intake at the front desk. Scanned to PDF, lives in SharePoint. Becca pulls each morning and walks them down the hall. Goes into data/raw_dropzone/ for the conversion hook to handle.",
+      "connection_methods": [
+        {
+          "type": "api",
+          "name": "Local file + conversion hook",
+          "when_to_use": "Drop PDFs into data/raw_dropzone/ each morning (or schedule a SharePoint sync).",
+          "pros": [
+            "Simple, works today"
+          ],
+          "cons": [
+            "Becca has to remember to drop the files (or build a sync)"
+          ],
+          "install": "Already wired via SessionStart hook.",
+          "example": "cp ~/SharePoint/intake/*.pdf data/raw_dropzone/"
+        }
+      ],
+      "claude_code_recommendation": {
+        "skill_to_write": "intake_pipeline_distill",
+        "rationale": "Reads converted intake markdown + cross-references with eCW for returning patients. Writes silver_platters/intake_pipeline_<week>.md.",
+        "estimated_time_savings": "Becca's 90-minute morning print-and-walk routine drops to 10 minutes of review"
+      },
+      "volume_friendly": "Steady flow",
+      "subtitle_friendly": "Steady flow \u00b7 updates daily"
+    },
+    {
+      "id": "lab_pdfs",
+      "tool": "Lab vendor results",
+      "format": "PDF",
+      "cadence": "daily",
+      "volume": "high",
+      "feeds": [
+        "lab_review"
+      ],
+      "status": "have",
+      "cli_skill": null,
+      "explanation": "AMH, semen analyses, hormone panels. Lab summarizer pulls overnight, flags abnormals only.",
+      "connection_methods": [
+        {
+          "type": "api",
+          "name": "Lab vendor's HL7 / FHIR feed",
+          "when_to_use": "If your lab supports FHIR. Most modern labs do.",
+          "pros": [
+            "Structured data, not OCR'd PDFs",
+            "Real-time"
+          ],
+          "cons": [
+            "Vendor-specific setup",
+            "FHIR mapping work"
+          ],
+          "install": "Vendor-provided FHIR endpoint. Token managed via the EHR integration layer.",
+          "example": "GET /fhir/Observation?patient=<mrn>&date=ge2025-10-01"
+        }
+      ],
+      "claude_code_recommendation": {
+        "skill_to_write": "lab_result_summarizer",
+        "rationale": "Reads lab PDFs (or FHIR feed). Tags LOW / HIGH / NORMAL with provider review status. Only abnormals surface in morning briefs.",
+        "estimated_time_savings": "Providers stop clicking through 14 panels per patient. ~20 min/provider/morning."
+      },
+      "volume_friendly": "High volume",
+      "subtitle_friendly": "High volume \u00b7 updates daily"
+    },
+    {
+      "id": "fax_appeals",
+      "tool": "Insurance appeal templates",
+      "format": "DOCX",
+      "cadence": "weekly",
+      "volume": "low",
+      "feeds": [
+        "insurance_appeals"
+      ],
+      "status": "have",
+      "cli_skill": null,
+      "explanation": "Marisol's appeal templates. Today she writes each appeal from scratch (4-5 hours each). The drafter cuts it to days.",
+      "connection_methods": [
+        {
+          "type": "api",
+          "name": "Local file + conversion hook",
+          "when_to_use": "Templates live in SharePoint; drop into raw_dropzone/.",
+          "pros": [
+            "Simple"
+          ],
+          "cons": [
+            "No automation on the fax side, that's the human's job"
+          ],
+          "install": "Already wired.",
+          "example": "cp ~/SharePoint/appeals/template.docx data/raw_dropzone/"
+        }
+      ],
+      "claude_code_recommendation": {
+        "skill_to_write": "(no extraction skill needed, drafted by the Billing-Appeals Specialist)",
+        "rationale": "Templates feed into the appeal drafter. The agent fills in patient case + denial reason + clinical justification + medical society citation.",
+        "estimated_time_savings": "4 hours per appeal -> 30 min review"
+      },
+      "volume_friendly": "Trickle",
+      "subtitle_friendly": "Trickle \u00b7 updates weekly"
+    },
+    {
+      "id": "staff_schedule",
+      "tool": "Staff Google Sheets",
+      "format": "XLSX",
+      "cadence": "weekly",
+      "volume": "low",
+      "feeds": [],
+      "status": "have",
+      "cli_skill": "gws",
+      "explanation": "Provider + tech schedule. Cross-referenced for morning briefs ('which provider is on which day?'). Not PHI-tagged.",
+      "connection_methods": [
+        {
+          "type": "cli",
+          "name": "Mark's gws (Google Workspace) CLI",
+          "when_to_use": "Already wrapped at ~/.claude/skills/gws-cli/. Pulls Sheets directly.",
+          "pros": [
+            "Already installed",
+            "Reuses your Google auth"
+          ],
+          "cons": [
+            "Light on real-time collaboration features"
+          ],
+          "install": "Already installed.",
+          "example": "gws sheets get <sheet_id> --range 'Schedule!A1:Z100'"
+        }
+      ],
+      "claude_code_recommendation": {
+        "skill_to_write": "Use gws directly to pull schedule into morning brief flow",
+        "rationale": "No new skill needed. The morning brief reads the schedule via gws.",
+        "estimated_time_savings": "n/a, already efficient"
+      },
+      "volume_friendly": "Trickle",
+      "subtitle_friendly": "Trickle \u00b7 updates weekly"
+    },
+    {
+      "id": "hipaa_policy",
+      "tool": "HIPAA compliance policy",
+      "format": "PDF",
+      "cadence": "rare",
+      "volume": "low",
+      "feeds": [],
+      "status": "have",
+      "cli_skill": null,
+      "explanation": "Read into rules/phi_scoping.md as the always-on PHI rule. Updated only when policy changes (rare).",
+      "connection_methods": [
+        {
+          "type": "api",
+          "name": "Local file (read once into rule)",
+          "when_to_use": "Read once into the rule body. Don't re-read every session.",
+          "pros": [
+            "Simple"
+          ],
+          "cons": [
+            "Manual update when policy revs"
+          ],
+          "install": "n/a",
+          "example": "n/a"
+        }
+      ],
+      "claude_code_recommendation": {
+        "skill_to_write": null,
+        "rationale": "n/a, content lives in the path-scoped rule itself.",
+        "estimated_time_savings": "n/a"
+      },
+      "volume_friendly": "Trickle",
+      "subtitle_friendly": "Trickle \u00b7 updates rare"
+    },
+    {
+      "id": "bedrock_claude",
+      "tool": "AWS Bedrock 3P Claude (with BAA)",
+      "format": "API",
+      "cadence": "real-time",
+      "volume": "high",
+      "feeds": [],
+      "status": "have",
+      "cli_skill": null,
+      "explanation": "Dr. Mehra's BAA with Anthropic + Bedrock deployment is THE unlock. Without it, no PHI touches AI. With it, every skill / agent / hook runs PHI-safely.",
+      "connection_methods": [
+        {
+          "type": "api",
+          "name": "AWS Bedrock invokeModel API",
+          "when_to_use": "Required, only HIPAA-compliant Claude deployment.",
+          "pros": [
+            "BAA-covered",
+            "Audit-friendly"
+          ],
+          "cons": [
+            "Slightly higher per-token cost"
+          ],
+          "install": "AWS account + Bedrock model access. AWS_PROFILE in ~/.env. Configure Claude Code backend.",
+          "example": "AWS_BEDROCK_MODEL_ID=anthropic.claude-opus-4-20250514-v1:0 claude code"
+        }
+      ],
+      "claude_code_recommendation": {
+        "skill_to_write": "(config change, not a skill)",
+        "rationale": "Already configured for the clinic. Required precondition for everything below.",
+        "estimated_time_savings": "Enables everything"
+      },
+      "volume_friendly": "High volume",
+      "subtitle_friendly": "High volume \u00b7 updates real-time"
+    }
+  ],
+  "prep": [
+    {
+      "id": "intake_pipeline",
+      "name": "intake_pipeline_<week>.md",
+      "domain": "intake",
+      "sources": [
+        "intake_pdfs",
+        "ecw"
+      ],
+      "schedule": "Mon 6am",
+      "status": "have",
+      "explanation": "New patients this week + returning patients with status changes. Becca reads this once instead of printing each form.",
+      "sample_content": "# Intake Pipeline, W44\n\n## New patients (3)\n| MRN | Initials | DOB | Reason | Provider | Day 1 |\n|---|---|---|---|---|---|\n| NB-44218 | JC | 1989-04-12 | Secondary infertility, post-cycle 1 IUI failed | Dr. Mehra | 2025-11-03 |\n| NB-44263 | MS | 1986-07-30 | Repeat SA after abnormal initial | Dr. Mehra | 2025-11-03 |\n\n## Insurance / billing flags (clinical-impacting)\n- NB-43009 (SS): IVF cycle denial CO-167 (experimental). Active appeal with Aetna. Cycle is mid-stim, do NOT pause based on billing.\n",
+      "governing_rule_excerpt": "---\npaths:\n  - data/intake/**\n  - data/clinical/**\n  - data/labs/**\n  - silver_platters/intake_*.md\n  - outputs/morning_briefs/**\n---\n\n# PHI Scoping, THE HARD RULE\n\nPatient health information stays in clinical, intake, labs paths. Billing / scheduling / admin contexts NEVER load PHI in the same session, except via the Billing-Appeals Specialist's controlled cross-domain pathway.",
+      "display_name": "Intake pipeline",
+      "domain_friendly": "Patient intake",
+      "subtitle_friendly": "A Patient intake brief Claude writes, Mon 6am"
+    },
+    {
+      "id": "lab_review",
+      "name": "lab_review_pending.md",
+      "domain": "labs",
+      "sources": [
+        "lab_pdfs",
+        "ecw"
+      ],
+      "schedule": "Daily 5:30am",
+      "status": "have",
+      "explanation": "Tagged LOW / HIGH / NORMAL with provider review status. Only abnormals surface in morning brief.",
+      "sample_content": "# Lab Review Queue, 2025-11-03 (overnight)\n\n## Abnormal, provider sign-off needed\n- JC / NB-44218, AMH 0.84 ng/mL, LOW for age (DOR). Dr. Mehra to review.\n- MS / NB-44263, SA repeat, persistent asthenospermia. Refer urology.\n\n## Trending normal (no action)\n4 routine in-range labs auto-confirmed.\n",
+      "governing_rule_excerpt": "(governed by phi_scoping.md, always-on for clinical paths)",
+      "display_name": "Lab review pending",
+      "domain_friendly": "Lab results",
+      "subtitle_friendly": "A Lab results brief Claude writes, Daily 5:30am"
+    },
+    {
+      "id": "billing_reconciliation",
+      "name": "billing_reconciliation_<week>.md",
+      "domain": "billing",
+      "sources": [
+        "centricity"
+      ],
+      "schedule": "Fri 5pm",
+      "status": "have",
+      "explanation": "ERA mismatches flagged. Doesn't touch the books. Marisol reviews Friday afternoon.",
+      "sample_content": "# Billing Reconciliation, W44\n\n## ERA mismatches (3)\n- CL-9822 (JC AMH), denied CO-50, allowed $75 not paid. APPEAL candidate.\n- CL-9825 + CL-9826 (SS IVF cycle), denied CO-167 'experimental.' APPEAL urgent, pre-auth was approved before service.\n\n## Patient-deductible holds\n- CL-9824 (MS SA), PR-1, $142 to patient.\n",
+      "governing_rule_excerpt": "---\npaths:\n  - data/billing/**\n  - silver_platters/billing_*.md\n---\n\n# Billing Codes Rules\n- CO-167 'experimental' is appeal-worthy if pre-auth was approved.\n- Cross-domain: only Billing-Appeals Specialist may join billing + clinical.\n",
+      "display_name": "Billing reconciliation",
+      "domain_friendly": "Billing",
+      "subtitle_friendly": "A Billing brief Claude writes, Fri 5pm"
+    },
+    {
+      "id": "insurance_appeals",
+      "name": "insurance_appeal_status.md",
+      "domain": "appeals",
+      "sources": [
+        "centricity",
+        "fax_appeals",
+        "ecw"
+      ],
+      "schedule": "Weekly",
+      "status": "have",
+      "explanation": "Active appeals list. Controlled cross-domain (clinical + billing) for the appeal drafter only.",
+      "sample_content": "# Insurance Appeal Status, W44\n\n## Active appeals (3)\n- JC / NB-44218 / Aetna / CL-9822 (CO-50 AMH denial), drafted, Marisol reviewing.\n- SS / NB-43009 / Aetna / CL-9825+9826 (CO-167 IVF), URGENT. Pre-auth was approved. Drafted today.\n- AB / NB-42855 / Cigna / CL-9788 (CO-97 bundling), pending Marisol's research.\n",
+      "governing_rule_excerpt": "(governed by billing_codes.md, controlled cross-domain via the Billing-Appeals Specialist only)",
+      "display_name": "Insurance appeal status",
+      "domain_friendly": "Insurance appeals",
+      "subtitle_friendly": "A Insurance appeals brief Claude writes, Weekly"
+    }
+  ],
+  "plate": [
+    {
+      "id": "morning_brief",
+      "name": "Morning brief per provider",
+      "agent": "Intake-Prep Specialist",
+      "consumers": [
+        "Dr. Mehra",
+        "providers"
+      ],
+      "approval_gate": "Provider initials before rounds",
+      "reads_from": [
+        "intake_pipeline",
+        "lab_review"
+      ],
+      "status": "have",
+      "explanation": "Today's patients, intake highlights, lab flags, action items. Initials + MRN, never full names. Replaces Becca's 90-minute print-and-walk.",
+      "sample_output": "# Morning Brief, Dr. AK, 2025-11-03\n\nToday's clinic: 9 patients (3 new, 6 returning). 2 retrievals.\n\n## New patients\n### JC / NB-44218 (8:00 AM)\n- 36yo, secondary infertility eval, IUI failed.\n- AMH back this weekend: 0.84 ng/mL, LOW (DOR).\n- Action: discuss accelerated IVF; sign off AMH in EMR.\n\n## Pending labs (3)\n- JC AMH, LOW, your sign-off.\n",
+      "ideation_loop": [
+        "Daily 5:30am cron triggers ingest_intake_pdf + lab_result_summarizer.",
+        "Silver platters update: intake_pipeline_<week>.md and lab_review_pending.md.",
+        "Cron 5:45am triggers /morning_brief for each provider.",
+        "Care Coordinator Orchestrator confirms PHI scope (clinical only). Routes to Intake-Prep Specialist.",
+        "Intake-Prep reads intake_pipeline + lab_review + (via gws) staff_schedule.",
+        "For each patient on the provider's day, assembles: initials/MRN, reason for visit, lab flags, action items.",
+        "Drafts outputs/morning_briefs/<date>_<provider>.md.",
+        "Provider reads on iPad before rounds. Initials at top of file. [provider_action] line in audit_log."
+      ],
+      "agent_friendly": "the intake-prep specialist",
+      "approval_friendly": "Provider initials before rounds",
+      "subtitle_friendly": "Written by the intake-prep specialist for Dr. Mehra, providers"
+    },
+    {
+      "id": "appeal_draft",
+      "name": "Insurance appeal letter draft",
+      "agent": "Billing-Appeals Specialist",
+      "consumers": [
+        "Marisol",
+        "Dr. Mehra"
+      ],
+      "approval_gate": "Marisol reviews + Dr. Mehra co-signs before fax",
+      "reads_from": [
+        "insurance_appeals"
+      ],
+      "status": "have",
+      "explanation": "Drafts a 7-section appeal letter from billing denial + clinical justification. The ONLY agent allowed cross-domain access, and only for this purpose.",
+      "sample_output": "# Appeal, JC / NB-44218, Aetna, CL-9822 (CO-50)\n\n## 1. Patient identifier\nJC / NB-44218 / Aetna POS / Group 884442\n\n## 2. Date of service\n2025-10-29 / CPT 82397 (AMH)\n\n## 3. Denial reason\nCO-50, Medical necessity not met\n\n## 4. Clinical justification\n36yo G1P1 with secondary infertility, TTC 14 months. AMH testing is standard-of-care in evaluation of diminished ovarian reserve per ASRM Practice Committee guidelines.\n\n## 5. Medical society citation\nASRM Practice Committee, 'Testing and interpreting measures of ovarian reserve' (Fertil Steril 2020;114:1151).\n",
+      "ideation_loop": [
+        "Friday 5pm: Centricity ERA file produces a denial. ingest_centricity_billing flags CL-9822 in billing_reconciliation_<week>.md.",
+        "Marisol, Mon 9am, runs /draft_appeal CL-9822.",
+        "Care Coordinator Orchestrator routes to Billing-Appeals Specialist (the ONLY agent cleared for cross-domain).",
+        "Billing-Appeals reads the denial in billing_reconciliation. Identifies appeal grounds.",
+        "Billing-Appeals reads relevant clinical context (encounter notes for the service date), strictly the minimum needed.",
+        "Drafts the 7-section appeal letter per the firm template. Saves to outputs/insurance_appeals_drafts/<initials>_<carrier>_<date>.md.",
+        "Marisol reviews. Dr. Mehra co-signs (clinical justification accuracy).",
+        "Marisol faxes (the human's job). Audit log captures draft + both approvals."
+      ],
+      "agent_friendly": "the billing-appeals specialist",
+      "approval_friendly": "Marisol reviews + Dr. Mehra co-signs before sending",
+      "subtitle_friendly": "Written by the billing-appeals specialist for Marisol, Dr. Mehra"
+    }
+  ],
+  "recipes": [
+    {
+      "id": "morning_brief_recipe",
+      "name": "Morning brief per provider (5:30am)",
+      "goal": "Each provider opens their iPad before rounds and sees today's patients, lab flags, and action items, initials + MRN only. No more Becca printing forms and walking them down the hall.",
+      "ingredients": [
+        "Patient intake forms",
+        "eClinicalWorks notes",
+        "Lab vendor results",
+        "Staff schedule",
+        "intake_pipeline.md",
+        "lab_review_pending.md",
+        "Intake-Prep Specialist"
+      ],
+      "claude_code_stack": {
+        "skills": [
+          "ingest_intake_pdf",
+          "ingest_ecw_notes",
+          "lab_result_summarizer"
+        ],
+        "subagents": [
+          "Care Coordinator Orchestrator",
+          "Intake-Prep Specialist"
+        ],
+        "hooks": [
+          "SessionStart convert_dropzone.sh",
+          "PostToolUse audit_action.sh"
+        ],
+        "rules": [
+          "rules/phi_scoping.md (path-scoped, always-on for clinical)"
+        ]
+      },
+      "walkthrough": [
+        {
+          "actor": "Daily 5:30am cron",
+          "action": "Triggers ingest_intake_pdf + ingest_ecw_notes + lab_result_summarizer."
+        },
+        {
+          "actor": "Skills",
+          "action": "Update intake_pipeline_<week>.md and lab_review_pending.md silver platters."
+        },
+        {
+          "actor": "Daily 5:45am cron, runs /morning_brief",
+          "action": "Triggers Care Coordinator Orchestrator."
+        },
+        {
+          "actor": "Care Coordinator Orchestrator",
+          "action": "Confirms domain = clinical. PHI-scoping rule loads. Routes to Intake-Prep Specialist."
+        },
+        {
+          "actor": "Intake-Prep Specialist",
+          "action": "Reads silver platters + (via gws skill) the day's staff schedule."
+        },
+        {
+          "actor": "Intake-Prep Specialist",
+          "action": "For each patient on each provider's day, assembles: initials + MRN (never full name in headers), reason for visit, lab flags, action items, insurance flags affecting today's care."
+        },
+        {
+          "actor": "Intake-Prep Specialist",
+          "action": "Drafts outputs/morning_briefs/<date>_<provider>.md per provider."
+        },
+        {
+          "actor": "Audit_action hook",
+          "action": "Logs every read to outputs/audit_log.md (the audit log is itself PHI; stays in Bedrock tenant)."
+        },
+        {
+          "actor": "Provider, 7am, before rounds",
+          "action": "Opens brief on iPad. Initials at top. [provider_action] line in audit_log."
+        }
+      ],
+      "before_claude_code": "Becca prints intake forms each morning, hand-summarizes for providers, walks them down the hall. 90 minutes daily. Providers click through 14 lab panels per cycle patient.",
+      "after_claude_code": "Brief on iPad at 6am. 90 minutes back to clinical work. Providers see only abnormals.",
+      "headline": "Morning brief per provider (5:30am)",
+      "ingredients_friendly": [
+        "Patient intake forms",
+        "eClinicalWorks notes",
+        "Lab vendor results",
+        "Staff schedule",
+        "intake_pipeline.md",
+        "lab_review_pending.md",
+        "Intake-Prep Specialist"
+      ]
+    },
+    {
+      "id": "lab_triage_recipe",
+      "name": "Lab review queue (overnight)",
+      "goal": "Abnormal labs get flagged for provider sign-off before they walk in. Routine in-range labs auto-confirm. Providers stop clicking through 14 panels per patient.",
+      "ingredients": [
+        "Lab vendor results",
+        "eClinicalWorks",
+        "lab_review_pending.md"
+      ],
+      "claude_code_stack": {
+        "skills": [
+          "lab_result_summarizer"
+        ],
+        "subagents": [
+          "Care Coordinator Orchestrator",
+          "Lab Review Specialist"
+        ],
+        "hooks": [
+          "SessionStart convert_dropzone.sh"
+        ],
+        "rules": [
+          "rules/phi_scoping.md"
+        ]
+      },
+      "walkthrough": [
+        {
+          "actor": "Lab vendor, overnight",
+          "action": "Drops result PDFs (or FHIR feed) into data/raw_dropzone/."
+        },
+        {
+          "actor": "SessionStart hook",
+          "action": "Converts each lab PDF into structured markdown in data/labs/."
+        },
+        {
+          "actor": "Daily 5:30am cron, lab_result_summarizer skill",
+          "action": "Reads each lab. Compares to reference range for patient age + sex."
+        },
+        {
+          "actor": "Skill",
+          "action": "Tags each panel: LOW / HIGH / NORMAL. Cross-references with patient's prior labs to spot trends."
+        },
+        {
+          "actor": "Skill",
+          "action": "Writes silver_platters/lab_review_pending.md with abnormals at top, normals collapsed."
+        },
+        {
+          "actor": "Provider, morning",
+          "action": "Sees abnormals in morning brief. Reviews + signs off in EMR. Routine labs auto-confirm in audit log."
+        }
+      ],
+      "before_claude_code": "Providers click through 14 panels per cycle patient before AM rounds. ~20 min/provider/morning.",
+      "after_claude_code": "Only abnormals surface. Provider review takes 5 min.",
+      "headline": "Lab review queue (overnight)",
+      "ingredients_friendly": [
+        "Lab vendor results",
+        "eClinicalWorks",
+        "lab_review_pending.md"
+      ]
+    },
+    {
+      "id": "appeal_draft_recipe",
+      "name": "Insurance appeal draft (when denial lands)",
+      "goal": "Marisol stops writing appeals from scratch. Each denial triggers a drafted letter with the 7 required sections within hours. Marisol reviews, Dr. Mehra co-signs, fax.",
+      "ingredients": [
+        "Centricity ERA",
+        "eClinicalWorks notes",
+        "fax_appeal templates",
+        "billing_reconciliation.md",
+        "insurance_appeal_status.md",
+        "Billing-Appeals Specialist"
+      ],
+      "claude_code_stack": {
+        "skills": [
+          "ingest_centricity_billing"
+        ],
+        "subagents": [
+          "Care Coordinator Orchestrator",
+          "Billing-Appeals Specialist"
+        ],
+        "hooks": [
+          "PostToolUse audit_action.sh"
+        ],
+        "rules": [
+          "rules/phi_scoping.md",
+          "rules/billing_codes.md (controlled cross-domain pathway)"
+        ]
+      },
+      "walkthrough": [
+        {
+          "actor": "Friday 5pm, Centricity ERA file produces a denial",
+          "action": "ingest_centricity_billing flags the denial in billing_reconciliation_<week>.md."
+        },
+        {
+          "actor": "Marisol, Monday 9am, runs /draft_appeal <claim_id>",
+          "action": "Triggers Care Coordinator Orchestrator."
+        },
+        {
+          "actor": "Care Coordinator Orchestrator",
+          "action": "Detects this is the controlled cross-domain pathway (appeal). Routes to Billing-Appeals Specialist."
+        },
+        {
+          "actor": "Billing-Appeals Specialist",
+          "action": "Reads the denial entry in billing_reconciliation. Identifies appeal grounds (CO-50, CO-167, etc.)."
+        },
+        {
+          "actor": "Billing-Appeals Specialist",
+          "action": "Reads relevant clinical context, minimum-necessary: encounter notes for the service date, lab results that document medical necessity. PHI scope active throughout."
+        },
+        {
+          "actor": "Billing-Appeals Specialist",
+          "action": "Drafts the 7-section appeal letter per the firm template: patient ID + DOS + denial reason + clinical justification + medical society citation + pre-auth reference + escalation request."
+        },
+        {
+          "actor": "Billing-Appeals Specialist",
+          "action": "Saves to outputs/insurance_appeals_drafts/<initials>_<carrier>_<date>.md. Adds [pending_marisol_review] line to audit_log."
+        },
+        {
+          "actor": "Marisol",
+          "action": "Reviews the draft. Edits as needed."
+        },
+        {
+          "actor": "Dr. Mehra",
+          "action": "Co-signs (clinical justification accuracy). Adds [provider_action] line to audit_log."
+        },
+        {
+          "actor": "Marisol",
+          "action": "Faxes (the human's job). Tracks confirmation."
+        }
+      ],
+      "before_claude_code": "Marisol writes each appeal from scratch. 4-5 hours per appeal. 6-8 weeks to resolution. Many denials never get appealed because she runs out of time.",
+      "after_claude_code": "Draft ready within hours of denial landing. Marisol's review = 30 min. More denials get appealed. More money recovered.",
+      "headline": "Insurance appeal draft (when denial lands)",
+      "ingredients_friendly": [
+        "Centricity ERA",
+        "eClinicalWorks notes",
+        "fax_appeal templates",
+        "billing_reconciliation.md",
+        "insurance_appeal_status.md",
+        "Billing-Appeals Specialist"
+      ]
+    },
+    {
+      "id": "weekly_pnl_recipe",
+      "name": "Weekly clinic P&L (Friday close)",
+      "goal": "Dr. Mehra opens her phone Friday afternoon and sees clinic P&L for the week, collections, denials, outstanding A/R, payroll burden. Today she has no single weekly view.",
+      "ingredients": [
+        "Centricity billing",
+        "Staff schedule",
+        "billing_reconciliation.md",
+        "Care Coordinator Orchestrator"
+      ],
+      "claude_code_stack": {
+        "skills": [
+          "ingest_centricity_billing",
+          "weekly_pnl_assembler"
+        ],
+        "subagents": [
+          "Care Coordinator Orchestrator"
+        ],
+        "hooks": [
+          "PostToolUse audit_action.sh"
+        ],
+        "rules": [
+          "rules/billing_codes.md"
+        ]
+      },
+      "walkthrough": [
+        {
+          "actor": "Friday 4pm cron",
+          "action": "Triggers ingest_centricity_billing for the week's collections + denials."
+        },
+        {
+          "actor": "Friday 4:15pm, runs /weekly_clinic_pnl",
+          "action": "Triggers Care Coordinator Orchestrator."
+        },
+        {
+          "actor": "Care Coordinator Orchestrator",
+          "action": "Routes to a weekly_pnl_assembler skill (lightweight, no specialist needed)."
+        },
+        {
+          "actor": "Skill",
+          "action": "Reads billing_reconciliation + staff schedule. Computes: gross collections, denials outstanding, A/R aging, payroll burden estimate."
+        },
+        {
+          "actor": "Skill",
+          "action": "Drafts outputs/clinic_weekly_pnl_<week>.md. NOT auto-distributed. Read-only."
+        },
+        {
+          "actor": "Dr. Mehra, Friday 5pm",
+          "action": "Opens on phone. Strategic visibility."
+        }
+      ],
+      "before_claude_code": "Dr. Mehra has no single weekly view of clinic financial performance. Reads end-of-month from Marisol.",
+      "after_claude_code": "Weekly P&L on Friday. 5-min read. Strategic decisions land sooner.",
+      "headline": "Weekly clinic P&L (Friday close)",
+      "ingredients_friendly": [
+        "Centricity billing",
+        "Staff schedule",
+        "billing_reconciliation.md",
+        "Care Coordinator Orchestrator"
+      ]
+    }
+  ],
+  "setup_priority": [
+    {
+      "step": 1,
+      "title": "Confirm Bedrock + BAA deployment is live",
+      "what_to_do": "Verify the AWS Bedrock 3P Claude tenant is active, BAA with Anthropic is signed, and audit-log retention policy is in place.",
+      "why": "PHI cannot touch Claude any other way. This is the IT precondition. Already done for Dr. Mehra, verify before building.",
+      "install": "# Verify configuration:\necho $ANTHROPIC_BEDROCK_BASE_URL\necho $AWS_PROFILE\n# Confirm BAA filed with Anthropic legal.\n# Confirm audit log retention policy (typically 6 years for HIPAA).",
+      "before": "PHI cannot touch AI. Tony pulls the plug on any pilot.",
+      "after": "Compliant deployment. IT/compliance approves.",
+      "setup_time": "1-2 hours of verification (assuming BAA already signed)",
+      "title_friendly": "Confirm Bedrock + BAA deployment is live"
+    },
+    {
+      "step": 2,
+      "title": "Lock the PHI-scoping rule (rules/phi_scoping.md)",
+      "what_to_do": "Write rules/phi_scoping.md with paths: data/clinical/**, data/intake/**, data/labs/**, outputs/morning_briefs/**, outputs/insurance_appeals_drafts/**.",
+      "why": "Clinical and billing data physically cannot mix in the same session, except via the Billing-Appeals Specialist's controlled bridge. File system enforces what hope used to.",
+      "install": "# write under .claude/rules/phi_scoping.md\n# YAML frontmatter:\n# ---\n# paths:\n#   - data/clinical/**\n#   - data/intake/**\n#   - data/labs/**\n#   - outputs/morning_briefs/**\n# ---\n# Body: PHI scoping rules + minimum-necessary principle (template in demos/04_healthcare_clinic/after/.claude/rules/)",
+      "before": "PHI scoping enforced by 'be careful' instinct. HIPAA risk.",
+      "after": "Agent reading data/billing/ literally cannot load data/clinical/ in the same session. Walling enforced by file system.",
+      "setup_time": "30 minutes",
+      "title_friendly": "Lock the PHI-scoping rule (rules/phi_scoping.md)"
+    },
+    {
+      "step": 3,
+      "title": "Wire the conversion hook + ingest_intake_pdf + lab_result_summarizer",
+      "what_to_do": "SessionStart hook for raw_dropzone. Then write ingest_intake_pdf and lab_result_summarizer skills.",
+      "why": "Intake PDFs and lab PDFs are the highest-volume PHI inputs. Without ingestion, the morning brief has nothing to read.",
+      "install": "# 1. Hook setup\nbrew install pandoc poppler && pip install xlsx2csv\n# 2. Skills\n# write under .claude/skills/ingest_intake_pdf/ and .claude/skills/lab_result_summarizer/\n# Both write to PHI-scoped folders only.",
+      "before": "Becca prints + walks intake forms. Providers click through 14 lab panels per patient.",
+      "after": "Daily 5:30am, intake_pipeline + lab_review silver platters refresh. Brief ready 6am.",
+      "setup_time": "1 day for both skills",
+      "title_friendly": "Wire the conversion hook + ingest_intake_pdf + lab_result_summarizer"
+    },
+    {
+      "step": 4,
+      "title": "Care Coordinator Orchestrator + Intake-Prep + Lab-Review + Billing-Appeals specialists",
+      "what_to_do": "Define four subagents under .claude/agents/. Care Coordinator is the chief-of-staff. Three specialists, each scoped to its domain. Billing-Appeals has the controlled cross-domain pathway.",
+      "why": "Domain scoping enforces minimum-necessary. Becca and Dr. Mehra talk to the orchestrator; specialists report up.",
+      "install": "# write under .claude/agents/:\n#   care-coordinator-orchestrator.md (model: opus, tools: [Read, Glob, Grep, Task])\n#   intake-prep-specialist.md (model: sonnet, scoped to clinical+intake)\n#   lab-review-specialist.md (model: sonnet, scoped to labs+clinical)\n#   billing-appeals-specialist.md (model: opus, controlled cross-domain, only allowed for appeals)\n# Hand to @claude-code-guide for templates.",
+      "before": "Becca asks a question, has to pre-frame which folder Claude should look at.",
+      "after": "Becca runs /morning_brief or /draft_appeal. Orchestrator routes per minimum-necessary scope.",
+      "setup_time": "2 hours",
+      "title_friendly": "Care Coordinator Orchestrator + Intake-Prep + Lab-Review + Billing-Appeals specialists"
+    },
+    {
+      "step": 5,
+      "title": "Audit log + retention + break-glass procedure",
+      "what_to_do": "PostToolUse hook captures every action. Stop hook warns on unsigned drafts. Define break-glass procedure for emergency cross-domain queries (medical-director-only override).",
+      "why": "HIPAA audit-log retention is non-negotiable. Stop hook is the human-gate. Break-glass is for clinical emergencies that justify cross-domain access.",
+      "install": "# hooks per business_os_hooks.md (already written)\n# define break-glass: a slash command /break_glass that requires Dr. Mehra's explicit invocation + writes a special audit_log entry",
+      "before": "AI did what? Nobody knows. Did Dr. Mehra approve this morning's brief? No record.",
+      "after": "Every action recorded. Stop hook nudges if a draft is unsigned. Break-glass is auditable.",
+      "setup_time": "1 hour",
+      "title_friendly": "Audit log + retention + break-glass procedure"
+    }
+  ],
+  "setup_total_time": "Bedrock + BAA is the precondition (already done). Beyond that, ~3-4 days of focused work, mostly the skill writing.",
+  "opportunities": [
+    {
+      "surface": "deployment/bedrock_claude",
+      "type": "community_deep_dive",
+      "title": "Bedrock + BAA setup walkthrough for clinics",
+      "explanation": "Clinic-specific Bedrock setup, BAA template, audit-log review cadence, break-glass procedure live in the Early AI Dopters community as a deeper dive.",
+      "claude_code_feature": "external",
+      "estimated_impact": "Required for clinic deployment"
+    },
+    {
+      "surface": "rules/phi_scoping",
+      "type": "path_scoped_rule",
+      "title": "Lock the PHI scoping rule",
+      "explanation": "The rule is the file-system enforcement of HIPAA minimum-necessary. Without it, every other step is theoretical.",
+      "claude_code_feature": "rule",
+      "feature_name": "rules/phi_scoping.md",
+      "estimated_impact": "Required, non-optional"
+    },
+    {
+      "surface": "pantry/ecw",
+      "type": "skill_writing_opportunity",
+      "title": "Write an EHR-export-to-markdown skill",
+      "explanation": "eClinicalWorks doesn't have a clean export. The skill watches a vendor-provided drop folder and converts DOCX clinical notes to structured markdown.",
+      "claude_code_feature": "skill",
+      "feature_name": "ingest_ecw_notes",
+      "estimated_impact": "Eliminates daily manual export ~30 min"
+    }
+  ]
+}

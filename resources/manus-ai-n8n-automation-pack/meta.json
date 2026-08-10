@@ -1,0 +1,36 @@
+{
+  "name": "Manus AI n8n Automation Pack 🤖 🫰🏽",
+  "external_id": "Ku3Q9VyQthylhv55gV0Fog==",
+  "permalink": "whwdkn",
+  "unique_permalink": "whwdkn",
+  "custom_permalink": "manus2n8n",
+  "url": "https://markkashef.gumroad.com/l/manus2n8n",
+  "status": "published",
+  "archived": false,
+  "kind": "products",
+  "price_formatted": "CAD$0+",
+  "description_md": "## What You Get\n\n- \n3 comprehensive sets of n8n workflow automations (10 automations per set), fully created by the autonomous Manus AI system.\n\n- \nJSON implementation files, ready for instant import to n8n, including client onboarding, milestone recognition, session scheduling, social media automation, and content engagement workflows.\n\n- \nDetailed workflow documentation, clearly explaining the functionality and integration process for every automation.\n\n- \nOriginal prompts used to generate each batch of workflows—allowing you to replicate or customize additional automations effortlessly.\n\n- \nMassive time savings and reduced costs compared to manually creating or purchasing workflow templates, making automation accessible even with no coding experience.",
+  "files": [
+    {
+      "file": "massage_therapy.zip",
+      "status": "cached",
+      "bytes": 89691
+    },
+    {
+      "file": "venture_capital.zip",
+      "status": "cached",
+      "bytes": 99236
+    },
+    {
+      "file": "coaching_standard.zip",
+      "status": "cached",
+      "bytes": 70706
+    },
+    {
+      "file": "coaching_high.zip",
+      "status": "cached",
+      "bytes": 58639
+    }
+  ],
+  "has_rich_content": true
+}

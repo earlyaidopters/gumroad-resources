@@ -1,0 +1,21 @@
+{
+  "name": "Claudemaxxing Guide 🧠 🦾",
+  "external_id": "hImzHKi1xIs-z9UIjP09hA==",
+  "permalink": "cxcrgb",
+  "unique_permalink": "cxcrgb",
+  "custom_permalink": "claudemaxxing-hidden-features-guide",
+  "url": "https://markkashef.gumroad.com/l/claudemaxxing-hidden-features-guide",
+  "status": "published",
+  "archived": false,
+  "kind": "products",
+  "price_formatted": "CAD$0+",
+  "description_md": "# What You Get\n\n- \nComplete Visual Guide (PDF): Every hidden and underutilized Claude Code feature from Boris Cherny's viral thread, broken down with explanations, exact commands, and pro tips.\n\n- \n15 Features Explained: Mobile app, session teleportation, /loop and /schedule, hooks, cowork dispatch, Chrome extension, web server testing, session forking, /btw side queries, git worktrees, batch command, --bare flag, --add-dir, custom agents, and voice input.\n\n- \nEvery Command, Copy-Paste Ready: All 13 commands formatted in dark code blocks. No guessing, no typos. Copy, paste, run.\n\n- \nPro Tips for Each Feature: Not just what the feature does, but how to actually use it in your workflow. Practical advice for each one.\n\n- \nCheat Sheet: All commands on one page. Print it, bookmark it, tape it to your monitor.\n\nThese aren't random tips. They come directly from Boris Cherny, the creator of Claude Code. He shared his personal favorite hidden features in a thread that hit 2M views. This guide is the structured, actionable version of that thread.\nWant to go deeper? Join the Early AI Dopters community for live walkthroughs, new setups, and direct access to the team.\nJoin here: https://www.skool.com/earlyaidopters/about",
+  "files": [
+    {
+      "file": "claudemaxxing_guide.pdf",
+      "status": "cached",
+      "bytes": 32605
+    }
+  ],
+  "has_rich_content": true
+}

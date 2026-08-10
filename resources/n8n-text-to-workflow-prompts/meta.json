@@ -1,0 +1,15 @@
+{
+  "name": "n8n Text-to-Workflow Prompts ⚡️",
+  "external_id": "MGCAW7XmU1GfCbe_Zg3VJw==",
+  "permalink": "caoexn",
+  "unique_permalink": "caoexn",
+  "custom_permalink": "n8ntext2workflowprompts",
+  "url": "https://markkashef.gumroad.com/l/n8ntext2workflowprompts",
+  "status": "published",
+  "archived": false,
+  "kind": "products",
+  "price_formatted": "$0+",
+  "description_md": "## What You Get\n\n- 3 ready-to-copy prompts built for n8n’s new Text-to-Workflow: Lead Qualification, Mock Calendly Webhook JSON, and Fireflies Transcript → Nurture Branching.\n\n- Lead Qualification: Calendly → GoHighLevel with OpenAI + Perplexity enrichment (domain extraction, deep company research, reputation checks), CRM field logging, Outlook alerts, and explicit “reputable company” rules.\n\n- Mock Data: A realistic Calendly booking webhook JSON payload to drop into a test node and validate your trigger end-to-end.\n\n- Transcript Intelligence: Listen for Fireflies notes, auto-score prospect fit, and branch to a done-for-you nurture sequence when they’re not ideal.\nWant my import-ready n8n workflow JSONs and extra variations? They live in my Early AI-dopters Community — join here: https://www.skool.com/earlyaidopters/about",
+  "files": [],
+  "has_rich_content": true
+}

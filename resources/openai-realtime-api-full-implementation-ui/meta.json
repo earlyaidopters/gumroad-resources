@@ -1,0 +1,21 @@
+{
+  "name": "OpenAI Realtime API Full Implementation + UI",
+  "external_id": "YA2rfG-u5gXV3s08zxg7AA==",
+  "permalink": "uvwxd",
+  "unique_permalink": "uvwxd",
+  "custom_permalink": "realtimeapi",
+  "url": "https://markkashef.gumroad.com/l/realtimeapi",
+  "status": "published",
+  "archived": false,
+  "kind": "products",
+  "price_formatted": "CAD$0+",
+  "description_md": "Designed for AI enthusiasts, developers, and businesses, this package enables you to build custom voice agents that provide engaging, real-time conversations over the phone. Master the art of creating AI voice assistants that understand and respond to complex queries with unprecedented natural language processing.\nWhat's Included:\n\n- \nReplit Code for OpenAI Realtime API Integration\n- Step-by-step guide to connect OpenAI Realtime API with Twilio\n\n- Optimized for seamless integration and high-performance\n\n- Adaptable to various use cases and industries\n\n- \nDetailed Configuration UI\n- User-friendly interface for customizing your AI voice agent\n\n- Easy setup of voice, response times, and conversation parameters\n\n- Visual dashboard for managing your AI assistant\n\n- \nOpenAI Realtime API Orchestration Guide\n- Carefully crafted instructions to maximize the Realtime API's capabilities\n\n- Guidelines for fine-tuning responses and improving conversation flow\n\n- Best practices for prompt engineering with voice-based AI\n\n- \nVideo Tutorial on Implementation and Usage\n- Detailed video guide on setting up and running your AI voice agent\n\n- Tips and tricks for optimal performance\n\n- Real-world examples and use cases\n\nThis toolkit provides everything you need to harness the power of OpenAI's Realtime API, allowing you to create sophisticated AI voice agents without extensive coding knowledge. Whether you're prototyping a new application or exploring the frontiers of AI communication, this package offers a streamlined path to bringing your ideas to life.",
+  "files": [
+    {
+      "file": "Realtime API Breakdown.pdf",
+      "status": "cached",
+      "bytes": 653961
+    }
+  ],
+  "has_rich_content": true
+}

@@ -1,0 +1,181 @@
+{
+  "name": "Tool Call for Anthropic Prompt Engineer",
+  "nodes": [
+    {
+      "parameters": {
+        "inputSource": "passthrough"
+      },
+      "id": "fc832c5b-c709-4090-9683-bd3a936fde8f",
+      "typeVersion": 1.1,
+      "name": "Workflow Input Trigger",
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "position": [
+        260,
+        340
+      ]
+    },
+    {
+      "parameters": {
+        "agent": "conversationalAgent",
+        "promptType": "define",
+        "text": "={{ $json.query }}",
+        "options": {
+          "systemMessage": "You are an intelligent Prompt Engineer with deep expertise in optimizing AI prompts for a wide variety of AI models, including Anthropic models. Your primary role is to analyze the task at hand and construct **precise, structured, and highly effective prompts** that maximize the model's performance while ensuring accuracy, clarity, and adherence to user intent.\n\n### **Guidelines for Generating the Best Prompt:**\n- **Context Optimization:** Ensure that all relevant background information needed for the task is **included at the beginning** of the prompt, so the AI has the necessary understanding before executing the instruction.\n- **Explicit Instructions:** Clearly define the **desired output format, style, tone, and constraints** in a structured way (e.g., JSON, markdown, bulleted lists, concise summary, step-by-step reasoning, etc.).\n- **Few-Shot Learning (if needed):** If the task benefits from examples, provide **1-3 well-structured examples** for style matching, **1-5 for coding tasks**, and **1-2 for structured outputs** (e.g., JSON, tabular data).\n- **Structured Prompt Formatting:** Use **delimiters (XML-style tags, newlines, or section headers)** to separate instructions, examples, and task queries for clarity.\n- **Concise but Complete:** The prompt should be **as short as possible while retaining full clarity**. Avoid redundant wording but ensure **no ambiguity** exists in what is being asked.\n- **Encourage Thought Process (if necessary):** If the task requires reasoning, explicitly instruct the AI to break down its response step by step before providing the final output.\n- **Control Output Length:** Use explicit length constraints, such as:\n- *“Summarize in exactly 3 bullet points.”*\n- *“Provide a 50-word answer with no additional commentary.”*\n- **Avoid Model Ambiguity & Overthinking:** Direct the AI on how to handle uncertainty:\n- *\"If the answer is unknown or uncertain, respond with 'I don't know' rather than making assumptions.\"*\n- **Handle Refinement Iterations:** When given feedback on a previously generated prompt, refine it by:\n- **Maintaining core instructions** while improving precision, structure, and alignment with feedback.\n- **Eliminating ambiguity, verbosity, or unnecessary complexity** that may hinder clarity.\n- **Adjusting output format, examples, or step-by-step guidance** to better match the desired AI behavior.\n\nEach prompt should be structured to **minimize errors, reduce hallucinations, and maximize adherence to user intent** while leveraging OpenAI’s strengths in language generation, reasoning, and structured output.\n"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.7,
+      "position": [
+        480,
+        340
+      ],
+      "id": "e66a5861-e833-4cec-a3fe-4767930aa8b2",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-2.0-flash",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        400,
+        600
+      ],
+      "id": "35f0885f-d93d-4e11-bfb5-274c55764e50",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "OBe43kvkH4bfuXPT",
+          "name": "Prompt Advisers Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "o3-mini",
+          "mode": "id"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "You are to refine the prompt for an Anthropic model to ensure it is clear, structured, and optimized for the task, maximizing accuracy and efficiency. Enhance specificity, format instructions explicitly, and structure context effectively so the model executes the task flawlessly.",
+              "role": "system"
+            },
+            {
+              "content": "=Here's the prompt generated:\n{{ $json.output }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.8,
+      "position": [
+        840,
+        340
+      ],
+      "id": "960fd480-9f60-4fb2-844a-89a7d4ae8721",
+      "name": "OpenAI",
+      "credentials": {
+        "openAiApi": {
+          "id": "bBtD8KtcEPsOhElY",
+          "name": "Prompt Advisers OpenAI Account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "a1bb9538-09c4-4736-b79b-fd56898229e4",
+              "name": "Prompt",
+              "value": "={{ $json.message.content }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1200,
+        340
+      ],
+      "id": "1d36459d-8aeb-40a7-9454-bbf6cb85a0e2",
+      "name": "Edit Fields"
+    }
+  ],
+  "pinData": {
+    "Workflow Input Trigger": [
+      {
+        "json": {
+          "query": "Create a comprehensive action plan based on internal business documents, broken down into a step-by-step process for evaluating and synthesizing the information needed. The action plan should consist of three parts: 1-month, 6-month, and 1-year plans. The steps should include: 1. **Document Skimming**: Analyze key themes, objectives, and priorities from the business documents. 2. **Goal Identification**: Identify major objectives for each time frame based on the skimming process. 3. **Prioritization**: Rank the identified goals in order of urgency and importance to ensure focus on high-impact initiatives. 4. **Strategy Development**: Formulate strategies to achieve each goal, detailing methods and approaches. 5. **Milestones and Timelines**: Set specific milestones for monitoring progress within each timeframe. 6. **Resource Allocation**: Determine resources needed, including personnel, budget, and tools, to support the implementation of the action plan. 7. **Key Performance Indicators (KPIs)**: Establish metrics to track success and measure outcomes for each objective. 8. **Review and Adjust**: Include a process for reviewing the action plan regularly and adjusting it based on progress and changing circumstances. Each section should clearly outline the action steps, responsible parties, and timelines."
+        }
+      }
+    ]
+  },
+  "connections": {
+    "Workflow Input Trigger": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "OpenAI",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "d1d042d1-00a3-4e0e-8869-42969b9c7e60",
+  "meta": {
+    "templateId": "VMiAxXa3lCAizGB5f7dVZQSFfg3FtHkdTKvLuupqBls=",
+    "templateCredsSetupCompleted": true,
+    "instanceId": "aaadb797535f05587ee95b776c942a7c3f7a46fd7aa0c9b6a9d64e1e595f8af1"
+  },
+  "id": "0zrIEZ7Is3AYfsBy",
+  "tags": []
+}

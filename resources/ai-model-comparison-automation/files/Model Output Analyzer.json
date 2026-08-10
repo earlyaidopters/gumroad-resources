@@ -1,0 +1,737 @@
+{
+  "name": "1. Model Output Analyzer",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {}
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        0,
+        160
+      ],
+      "id": "261fbbf4-2dd4-481c-864a-775eeeaeedb8",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "url": "https://openrouter.ai/api/v1/models",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1100,
+        -120
+      ],
+      "id": "071b3a84-b764-4a98-bf6a-7cbbaaa1b134",
+      "name": "OpenRouter: List all Models"
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "data",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        1320,
+        -120
+      ],
+      "id": "23a87cd2-ec65-4118-bb68-849908332e02",
+      "name": "Split Out"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "1d9418cd-b9bb-419f-bdd2-291bb69a12a3",
+              "leftValue": "={{ $json.id }}",
+              "rightValue": "anthropic",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              }
+            },
+            {
+              "id": "48eab6bc-932b-4ace-bb5b-52541e60126c",
+              "leftValue": "={{ $json.id }}",
+              "rightValue": "google",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              }
+            },
+            {
+              "id": "8f876279-c257-47e0-95ec-83bdcd776ba4",
+              "leftValue": "={{ $json.id }}",
+              "rightValue": "openai",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              }
+            }
+          ],
+          "combinator": "or"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.2,
+      "position": [
+        1760,
+        -120
+      ],
+      "id": "bdd7d70c-9950-4ad0-a54c-5464869950de",
+      "name": "Filter",
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "model": "={{ $json.id }}",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenRouter",
+      "typeVersion": 1,
+      "position": [
+        2288,
+        100
+      ],
+      "id": "1e079967-59f7-42a3-8656-40fbf6433268",
+      "name": "OpenRouter Chat Model",
+      "credentials": {
+        "openRouterApi": {
+          "id": "tMW9YB3g1fQEy5Jt",
+          "name": "Promptadvisers MarkOpenRouter account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "f572a38e-f6fa-4ac6-99f4-7d8837d71f5c",
+              "name": "row_number",
+              "value": "={{ $('Loop Over Items').first().json.row_number }}",
+              "type": "number"
+            },
+            {
+              "id": "15bc7528-69d6-49b0-b2e1-e461767472ab",
+              "name": "={{ $('Filter').all()[$itemIndex].json.id }}",
+              "value": "={{ $json.output }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {
+          "dotNotation": false
+        }
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        2576,
+        -120
+      ],
+      "id": "d3da4252-e2e2-400e-bcd0-2e56a8a493d8",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "fieldsToAggregate": {
+          "fieldToAggregate": [
+            {
+              "fieldToAggregate": "Models"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        880,
+        -120
+      ],
+      "id": "319bc7a5-e11e-4c28-89f2-bbc69b27814e",
+      "name": "Aggregate"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "165v2ctoGUd3Zkx54vLpd27PKGUMM6fvJf9oK5lkceV4",
+          "mode": "list",
+          "cachedResultName": "Models' Output Analyzer",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/165v2ctoGUd3Zkx54vLpd27PKGUMM6fvJf9oK5lkceV4/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/165v2ctoGUd3Zkx54vLpd27PKGUMM6fvJf9oK5lkceV4/edit#gid=0"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        220,
+        160
+      ],
+      "id": "8e07c629-0473-41b1-b7e1-646112aa25d5",
+      "name": "Get Prompt",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "csxkrTkckZHfm18t",
+          "name": "Maaz Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "165v2ctoGUd3Zkx54vLpd27PKGUMM6fvJf9oK5lkceV4",
+          "mode": "list",
+          "cachedResultName": "Models' Output Analyzer",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/165v2ctoGUd3Zkx54vLpd27PKGUMM6fvJf9oK5lkceV4/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 2111551382,
+          "mode": "list",
+          "cachedResultName": "Models",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/165v2ctoGUd3Zkx54vLpd27PKGUMM6fvJf9oK5lkceV4/edit#gid=2111551382"
+        },
+        "filtersUI": {
+          "values": [
+            {
+              "lookupColumn": "Prompt",
+              "lookupValue": "={{ $json.Prompt }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        660,
+        -120
+      ],
+      "id": "ab0f41f6-d2a2-425c-8b00-11caa2eb0bb6",
+      "name": "Get Previous Used Models",
+      "alwaysOutputData": true,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "csxkrTkckZHfm18t",
+          "name": "Maaz Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "d1a5132e-49f8-4e58-b0b3-4b924eca4aa3",
+              "leftValue": "={{ $('Aggregate').item.json.Models }}",
+              "rightValue": "={{ $json.id }}",
+              "operator": {
+                "type": "array",
+                "operation": "notContains",
+                "rightType": "any"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.2,
+      "position": [
+        1540,
+        -120
+      ],
+      "id": "97e5abfa-32ba-4c48-88e7-6ebc9f1ac9ab",
+      "name": "Discard Used Models"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "165v2ctoGUd3Zkx54vLpd27PKGUMM6fvJf9oK5lkceV4",
+          "mode": "list",
+          "cachedResultName": "Models' Output Analyzer",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/165v2ctoGUd3Zkx54vLpd27PKGUMM6fvJf9oK5lkceV4/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/165v2ctoGUd3Zkx54vLpd27PKGUMM6fvJf9oK5lkceV4/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "autoMapInputData",
+          "value": {},
+          "matchingColumns": [
+            "row_number"
+          ],
+          "schema": [
+            {
+              "id": "Prompt",
+              "displayName": "Prompt",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "google/gemma-3n-e4b-it:free",
+              "displayName": "google/gemma-3n-e4b-it:free",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {
+          "handlingExtraData": "insertInNewColumn"
+        }
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        2796,
+        -120
+      ],
+      "id": "204e48c5-af85-44c9-bb26-1c0f059be664",
+      "name": "Add Model Output",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "csxkrTkckZHfm18t",
+          "name": "Maaz Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "165v2ctoGUd3Zkx54vLpd27PKGUMM6fvJf9oK5lkceV4",
+          "mode": "list",
+          "cachedResultName": "Models' Output Analyzer",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/165v2ctoGUd3Zkx54vLpd27PKGUMM6fvJf9oK5lkceV4/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 2111551382,
+          "mode": "list",
+          "cachedResultName": "Models",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/165v2ctoGUd3Zkx54vLpd27PKGUMM6fvJf9oK5lkceV4/edit#gid=2111551382"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Models": "={{ $('Filter').all()[$itemIndex].json.id }}",
+            "Prompt": "={{ $('Loop Over Items').first().json.Prompt }}"
+          },
+          "matchingColumns": [
+            "Models"
+          ],
+          "schema": [
+            {
+              "id": "Prompt",
+              "displayName": "Prompt",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Models",
+              "displayName": "Models",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        3016,
+        55
+      ],
+      "id": "a4da33c5-e2a2-47b3-a64d-aacb7f247148",
+      "name": "Add Model to Used Sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "csxkrTkckZHfm18t",
+          "name": "Maaz Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        440,
+        100
+      ],
+      "id": "08d18f94-8d00-4a7b-9f0e-6b9c7308da19",
+      "name": "Loop Over Items"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.id }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "string",
+                      "operation": "exists",
+                      "singleValue": true
+                    },
+                    "id": "fe637907-a7e5-4fed-a030-624e7ef07268"
+                  }
+                ],
+                "combinator": "and"
+              }
+            }
+          ]
+        },
+        "options": {
+          "fallbackOutput": "extra"
+        }
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        1980,
+        -120
+      ],
+      "id": "3ceb6c37-9553-4817-a3dc-9e78264806ec",
+      "name": "Switch"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "2QcmB9ogUHbIUAn9",
+          "mode": "list",
+          "cachedResultName": "2. Model Output Analyzer: Judge"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {},
+          "matchingColumns": [],
+          "schema": [],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "mode": "each",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.2,
+      "position": [
+        720,
+        320
+      ],
+      "id": "a7897df7-e50d-4964-92d7-dfd05fcc2ce4",
+      "name": "Execute Workflow",
+      "executeOnce": true
+    },
+    {
+      "parameters": {
+        "content": "## 🤖 What This Automation Does:\n\n**Purpose:** Test different AI models with the same questions\n\n### Step-by-Step Process:\n\n1. **📅 Runs on Schedule**\n   - Automatically starts at set times\n\n2. **📄 Gets Test Questions**\n   - Reads prompts from your Google Sheet\n\n3. **🔍 Checks Previous Tests**\n   - Looks up which AI models were already tested\n   - Avoids wasting time on duplicates\n\n4. **📋 Gets Available Models**\n   - Fetches list of AI models from OpenRouter\n   - Filters for Google, OpenAI, and Anthropic only\n\n5. **🤖 Tests Each Model**\n   - Sends the same prompt to each new model\n   - Gets their responses\n\n6. **💾 Saves Results**\n   - Stores each AI's answer in the spreadsheet\n   - Records which model was tested\n\n# 💡 TLDR\n\n- Tests multiple AIs fairly with identical questions\n- Builds a database of model responses\n- Prepares data for blind evaluation\n- Saves hours of manual testing",
+        "height": 840,
+        "width": 490
+      },
+      "id": "7637f82b-8216-451a-a0e5-da86c7168ad0",
+      "name": "Sticky Note",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -560,
+        -220
+      ]
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $('Get Prompt').item.json.Prompt }}",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.9,
+      "position": [
+        2200,
+        -120
+      ],
+      "id": "f32b03db-ecfb-48ff-a756-ac8167c333ed",
+      "name": "Test Model with Prompt",
+      "retryOnFail": true,
+      "onError": "continueErrorOutput"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Get Prompt",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenRouter: List all Models": {
+      "main": [
+        [
+          {
+            "node": "Split Out",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Out": {
+      "main": [
+        [
+          {
+            "node": "Discard Used Models",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenRouter Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Test Model with Prompt",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter": {
+      "main": [
+        [
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Add Model Output",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Aggregate": {
+      "main": [
+        [
+          {
+            "node": "OpenRouter: List all Models",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Prompt": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Previous Used Models": {
+      "main": [
+        [
+          {
+            "node": "Aggregate",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Discard Used Models": {
+      "main": [
+        [
+          {
+            "node": "Filter",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Add Model Output": {
+      "main": [
+        [
+          {
+            "node": "Add Model to Used Sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items": {
+      "main": [
+        [
+          {
+            "node": "Execute Workflow",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Get Previous Used Models",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Add Model to Used Sheet": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch": {
+      "main": [
+        [
+          {
+            "node": "Test Model with Prompt",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Test Model with Prompt": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "42ac2cd9-c41f-4326-9353-9132fe1bd142",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "aaadb797535f05587ee95b776c942a7c3f7a46fd7aa0c9b6a9d64e1e595f8af1"
+  },
+  "id": "OvXkMcxECykzDAPW",
+  "tags": []
+}

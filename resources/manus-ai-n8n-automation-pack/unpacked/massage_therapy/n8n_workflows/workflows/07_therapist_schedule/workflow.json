@@ -1,0 +1,835 @@
+{
+  "name": "Therapist Schedule Management",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "hours",
+              "hoursInterval": 1
+            }
+          ]
+        }
+      },
+      "name": "Schedule Monitor",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1,
+      "position": [
+        250,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "hours",
+              "hoursInterval": 24,
+              "hour": 5
+            }
+          ]
+        }
+      },
+      "name": "Daily Schedule Generator",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1,
+      "position": [
+        250,
+        500
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "sheetName": "Therapists",
+        "options": {}
+      },
+      "name": "Retrieve Therapist Information",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 3,
+      "position": [
+        450,
+        500
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "google_sheets_credentials",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "calendar",
+        "operation": "getEvents",
+        "calendarId": "={{ $env.MASSAGE_CALENDAR_ID }}",
+        "timeMin": "={{ new Date().setHours(0,0,0,0) }}",
+        "timeMax": "={{ new Date().setHours(23,59,59,999) }}",
+        "options": {}
+      },
+      "name": "Get Daily Appointments",
+      "type": "n8n-nodes-base.googleCalendar",
+      "typeVersion": 1,
+      "position": [
+        650,
+        500
+      ],
+      "credentials": {
+        "googleCalendarOAuth2Api": {
+          "id": "google_calendar_credentials",
+          "name": "Google Calendar account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// Format therapist schedules\nconst therapists = $node[\"Retrieve Therapist Information\"].json.rows || [];\nconst appointments = $node[\"Get Daily Appointments\"].json.events || [];\nconst formattedSchedules = [];\n\n// Get today's date in readable format\nconst today = new Date();\nconst dateString = today.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });\n\n// Process each therapist\nfor (const therapist of therapists) {\n  // Skip inactive therapists\n  if (therapist.status !== 'active') continue;\n  \n  // Filter appointments for this therapist\n  const therapistAppointments = appointments.filter(appointment => {\n    // Check if therapist is assigned to this appointment\n    if (appointment.description && appointment.description.includes(`Therapist: ${therapist.name}`)) {\n      return true;\n    }\n    \n    // If no specific therapist is assigned in description, check if this therapist handles this service type\n    if (appointment.summary) {\n      const servicePart = appointment.summary.split('-')[0].trim();\n      const therapistSpecialties = therapist.specialties ? therapist.specialties.split(',').map(s => s.trim()) : [];\n      return therapistSpecialties.some(specialty => servicePart.toLowerCase().includes(specialty.toLowerCase()));\n    }\n    \n    return false;\n  });\n  \n  // Sort appointments by start time\n  therapistAppointments.sort((a, b) => {\n    return new Date(a.start.dateTime) - new Date(b.start.dateTime);\n  });\n  \n  // Format appointments\n  const formattedAppointments = therapistAppointments.map(appointment => {\n    const startTime = new Date(appointment.start.dateTime);\n    const endTime = new Date(appointment.end.dateTime);\n    \n    // Extract client name from summary or description\n    let clientName = '';\n    if (appointment.summary) {\n      const parts = appointment.summary.split('-');\n      if (parts.length > 1) {\n        clientName = parts[1].trim();\n      }\n    }\n    \n    if (!clientName && appointment.description) {\n      const descLines = appointment.description.split('\\n');\n      for (const line of descLines) {\n        if (line.startsWith('Client:')) {\n          clientName = line.replace('Client:', '').trim();\n          break;\n        }\n      }\n    }\n    \n    // Extract service type from summary\n    let serviceType = '';\n    if (appointment.summary) {\n      const parts = appointment.summary.split('-');\n      if (parts.length > 0) {\n        serviceType = parts[0].trim();\n      }\n    }\n    \n    // Extract room assignment from description\n    let roomAssignment = 'TBD';\n    if (appointment.description) {\n      const descLines = appointment.description.split('\\n');\n      for (const line of descLines) {\n        if (line.startsWith('Room:')) {\n          roomAssignment = line.replace('Room:', '').trim();\n          break;\n        }\n      }\n    }\n    \n    // Extract special requests from description\n    let specialRequests = '';\n    if (appointment.description) {\n      const descLines = appointment.description.split('\\n');\n      for (const line of descLines) {\n        if (line.startsWith('Special Requests:') || line.startsWith('Special Requests:')) {\n          specialRequests = line.replace(/Special Requests:|Special Requests:/, '').trim();\n          break;\n        }\n      }\n    }\n    \n    return {\n      startTime: startTime.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}),\n      endTime: endTime.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}),\n      duration: Math.round((endTime - startTime) / (1000 * 60)) + ' min',\n      clientName: clientName,\n      serviceType: serviceType,\n      roomAssignment: roomAssignment,\n      specialRequests: specialRequests,\n      appointmentId: appointment.id,\n      calendarId: appointment.calendarId\n    };\n  });\n  \n  // Calculate gaps and optimization opportunities\n  const gaps = [];\n  for (let i = 0; i < formattedAppointments.length - 1; i++) {\n    const currentEnd = new Date(`${today.toDateString()} ${formattedAppointments[i].endTime}`);\n    const nextStart = new Date(`${today.toDateString()} ${formattedAppointments[i+1].startTime}`);\n    const gapMinutes = Math.round((nextStart - currentEnd) / (1000 * 60));\n    \n    if (gapMinutes > 15) { // Only count gaps larger than 15 minutes\n      gaps.push({\n        startTime: formattedAppointments[i].endTime,\n        endTime: formattedAppointments[i+1].startTime,\n        duration: gapMinutes + ' min'\n      });\n    }\n  }\n  \n  // Calculate daily totals\n  const totalAppointments = formattedAppointments.length;\n  let totalHours = 0;\n  const serviceTypes = {};\n  \n  for (const appointment of formattedAppointments) {\n    // Extract duration in minutes\n    const durationMinutes = parseInt(appointment.duration);\n    if (!isNaN(durationMinutes)) {\n      totalHours += durationMinutes / 60;\n    }\n    \n    // Count service types\n    if (appointment.serviceType) {\n      serviceTypes[appointment.serviceType] = (serviceTypes[appointment.serviceType] || 0) + 1;\n    }\n  }\n  \n  // Format service type counts\n  const serviceTypeCounts = Object.entries(serviceTypes).map(([type, count]) => `${type}: ${count}`);\n  \n  // Create the formatted schedule\n  formattedSchedules.push({\n    therapistId: therapist.id,\n    therapistName: therapist.name,\n    therapistEmail: therapist.email,\n    therapistPhone: therapist.phone,\n    communicationPreference: therapist.communicationPreference || 'email',\n    dateString: dateString,\n    appointments: formattedAppointments,\n    gaps: gaps,\n    dailyTotals: {\n      appointments: totalAppointments,\n      hours: totalHours.toFixed(1),\n      serviceTypes: serviceTypeCounts\n    }\n  });\n}\n\nreturn {json: {schedules: formattedSchedules}};"
+      },
+      "name": "Format Therapist Schedules",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [
+        850,
+        500
+      ]
+    },
+    {
+      "parameters": {
+        "dataType": "string",
+        "value1": "={{ $json.communicationPreference }}",
+        "rules": {
+          "rules": [
+            {
+              "value2": "email",
+              "type": "equal"
+            },
+            {
+              "value2": "sms",
+              "type": "equal"
+            },
+            {
+              "value2": "both",
+              "type": "equal"
+            }
+          ]
+        }
+      },
+      "name": "Route by Communication Preference",
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 1,
+      "position": [
+        1050,
+        500
+      ]
+    },
+    {
+      "parameters": {
+        "fromEmail": "schedules@massagetherapy.com",
+        "toEmail": "={{ $json.therapistEmail }}",
+        "subject": "=Your Schedule for {{ $json.dateString }}",
+        "text": "=Dear {{ $json.therapistName }},\n\nHere is your schedule for {{ $json.dateString }}:\n\n**Appointments:**\n{% if $json.appointments.length === 0 %}\nYou have no appointments scheduled for today.\n{% else %}\n{% for appointment in $json.appointments %}\n{{ appointment.startTime }} - {{ appointment.endTime }} ({{ appointment.duration }})\nClient: {{ appointment.clientName }}\nService: {{ appointment.serviceType }}\nRoom: {{ appointment.roomAssignment }}\n{% if appointment.specialRequests %}Special Requests: {{ appointment.specialRequests }}{% endif %}\n\n{% endfor %}\n{% endif %}\n\n{% if $json.gaps.length > 0 %}\n**Gaps in Schedule:**\n{% for gap in $json.gaps %}\n{{ gap.startTime }} - {{ gap.endTime }} ({{ gap.duration }})\n{% endfor %}\n{% endif %}\n\n**Daily Totals:**\n- Total Appointments: {{ $json.dailyTotals.appointments }}\n- Total Hours: {{ $json.dailyTotals.hours }}\n{% if $json.dailyTotals.serviceTypes.length > 0 %}\n- Services: {{ $json.dailyTotals.serviceTypes.join(', ') }}\n{% endif %}\n\nPlease arrive 15 minutes before your first appointment to prepare.\n\nIf you have any questions or need to make changes to your schedule, please contact the manager at (555) 123-4567.\n\nThank you,\nMassage Therapy Management",
+        "options": {}
+      },
+      "name": "Send Email Schedule",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 1,
+      "position": [
+        1250,
+        300
+      ],
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "gmail_credentials",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "https://api.twilio.com/2010-04-01/Accounts/{{ $env.TWILIO_ACCOUNT_SID }}/Messages.json",
+        "method": "POST",
+        "authentication": "basicAuth",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "To",
+              "value": "={{ $json.therapistPhone }}"
+            },
+            {
+              "name": "From",
+              "value": "={{ $env.TWILIO_PHONE_NUMBER }}"
+            },
+            {
+              "name": "Body",
+              "value": "=Schedule for {{ $json.dateString }}:\n\n{% if $json.appointments.length === 0 %}No appointments today.{% else %}{% for appointment in $json.appointments %}{{ appointment.startTime }}-{{ appointment.endTime }}: {{ appointment.clientName }} ({{ appointment.serviceType }}) Room {{ appointment.roomAssignment }}\n{% endfor %}{% endif %}\n\nTotal: {{ $json.dailyTotals.appointments }} appts, {{ $json.dailyTotals.hours }} hrs"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "name": "Send SMS Schedule",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 1,
+      "position": [
+        1250,
+        500
+      ],
+      "credentials": {
+        "httpBasicAuth": {
+          "id": "twilio_credentials",
+          "name": "Twilio API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "path": "schedule-change",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "name": "Schedule Change Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [
+        250,
+        700
+      ],
+      "webhookId": "schedule-change"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Process schedule changes\nconst changeData = $input.item.json.body || $input.item.json;\n\n// Extract change details\nconst changeType = changeData.changeType || ''; // new, modified, canceled, availability\nconst appointmentId = changeData.appointmentId || '';\nconst therapistId = changeData.therapistId || '';\nconst clientName = changeData.clientName || '';\nconst clientEmail = changeData.clientEmail || '';\nconst serviceType = changeData.serviceType || '';\nconst startTime = changeData.startTime || '';\nconst endTime = changeData.endTime || '';\nconst roomAssignment = changeData.roomAssignment || '';\nconst notes = changeData.notes || '';\n\n// Format the change data\nconst formattedChange = {\n  changeId: `CHANGE-${Date.now()}-${Math.floor(Math.random() * 1000)}`,\n  changeType: changeType,\n  appointmentId: appointmentId,\n  therapistId: therapistId,\n  clientName: clientName,\n  clientEmail: clientEmail,\n  serviceType: serviceType,\n  startTime: startTime,\n  endTime: endTime,\n  roomAssignment: roomAssignment,\n  notes: notes,\n  timestamp: new Date().toISOString()\n};\n\nreturn {json: formattedChange};"
+      },
+      "name": "Process Schedule Change",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [
+        450,
+        700
+      ]
+    },
+    {
+      "parameters": {
+        "dataType": "string",
+        "value1": "={{ $json.changeType }}",
+        "rules": {
+          "rules": [
+            {
+              "value2": "new",
+              "type": "equal"
+            },
+            {
+              "value2": "modified",
+              "type": "equal"
+            },
+            {
+              "value2": "canceled",
+              "type": "equal"
+            },
+            {
+              "value2": "availability",
+              "type": "equal"
+            }
+          ]
+        }
+      },
+      "name": "Route by Change Type",
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 1,
+      "position": [
+        650,
+        700
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "lookup",
+        "sheetName": "Therapists",
+        "lookupColumn": "id",
+        "lookupValue": "={{ $json.therapistId }}",
+        "options": {}
+      },
+      "name": "Get Therapist Details",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 3,
+      "position": [
+        850,
+        600
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "google_sheets_credentials",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "calendar",
+        "operation": "getEvents",
+        "calendarId": "={{ $env.MASSAGE_CALENDAR_ID }}",
+        "timeMin": "={{ new Date($json.startTime).toISOString() }}",
+        "timeMax": "={{ new Date($json.endTime).toISOString() }}",
+        "options": {}
+      },
+      "name": "Check for Conflicts",
+      "type": "n8n-nodes-base.googleCalendar",
+      "typeVersion": 1,
+      "position": [
+        850,
+        400
+      ],
+      "credentials": {
+        "googleCalendarOAuth2Api": {
+          "id": "google_calendar_credentials",
+          "name": "Google Calendar account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "number": [
+            {
+              "value1": "={{ $json.events.length }}",
+              "operation": "equal",
+              "value2": 0
+            }
+          ]
+        }
+      },
+      "name": "Is Time Slot Available?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [
+        1050,
+        400
+      ]
+    },
+    {
+      "parameters": {
+        "resource": "event",
+        "operation": "create",
+        "calendarId": "={{ $env.MASSAGE_CALENDAR_ID }}",
+        "start": "={{ $json.startTime }}",
+        "end": "={{ $json.endTime }}",
+        "summary": "={{ $json.serviceType }} - {{ $json.clientName }}",
+        "description": "=Client: {{ $json.clientName }}\nEmail: {{ $json.clientEmail }}\nService: {{ $json.serviceType }}\nRoom: {{ $json.roomAssignment }}\nTherapist: {{ $node[\"Get Therapist Details\"].json.name }}\nNotes: {{ $json.notes }}",
+        "options": {}
+      },
+      "name": "Create New Appointment",
+      "type": "n8n-nodes-base.googleCalendar",
+      "typeVersion": 1,
+      "position": [
+        1250,
+        400
+      ],
+      "credentials": {
+        "googleCalendarOAuth2Api": {
+          "id": "google_calendar_credentials",
+          "name": "Google Calendar account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "fromEmail": "schedules@massagetherapy.com",
+        "toEmail": "={{ $node[\"Get Therapist Details\"].json.email }}",
+        "subject": "New Appointment Added to Your Schedule",
+        "text": "=Dear {{ $node[\"Get Therapist Details\"].json.name }},\n\nA new appointment has been added to your schedule:\n\n**Appointment Details:**\n- Date: {{ new Date($json.startTime).toLocaleDateString() }}\n- Time: {{ new Date($json.startTime).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) }} - {{ new Date($json.endTime).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) }}\n- Client: {{ $json.clientName }}\n- Service: {{ $json.serviceType }}\n- Room: {{ $json.roomAssignment }}\n{% if $json.notes %}- Notes: {{ $json.notes }}{% endif %}\n\nPlease review this appointment and prepare accordingly.\n\nIf you have any questions or concerns, please contact the manager at (555) 123-4567.\n\nThank you,\nMassage Therapy Management",
+        "options": {}
+      },
+      "name": "Notify Therapist of New Appointment",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 1,
+      "position": [
+        1450,
+        400
+      ],
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "gmail_credentials",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "event",
+        "operation": "update",
+        "eventId": "={{ $json.appointmentId }}",
+        "calendarId": "={{ $env.MASSAGE_CALENDAR_ID }}",
+        "start": "={{ $json.startTime }}",
+        "end": "={{ $json.endTime }}",
+        "summary": "={{ $json.serviceType }} - {{ $json.clientName }}",
+        "description": "=Client: {{ $json.clientName }}\nEmail: {{ $json.clientEmail }}\nService: {{ $json.serviceType }}\nRoom: {{ $json.roomAssignment }}\nTherapist: {{ $node[\"Get Therapist Details\"].json.name }}\nNotes: {{ $json.notes }}\n\nModified: {{ new Date().toLocaleString() }}",
+        "options": {}
+      },
+      "name": "Update Appointment",
+      "type": "n8n-nodes-base.googleCalendar",
+      "typeVersion": 1,
+      "position": [
+        850,
+        800
+      ],
+      "credentials": {
+        "googleCalendarOAuth2Api": {
+          "id": "google_calendar_credentials",
+          "name": "Google Calendar account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "fromEmail": "schedules@massagetherapy.com",
+        "toEmail": "={{ $node[\"Get Therapist Details\"].json.email }}",
+        "subject": "Appointment Modified in Your Schedule",
+        "text": "=Dear {{ $node[\"Get Therapist Details\"].json.name }},\n\nAn appointment in your schedule has been modified:\n\n**Updated Appointment Details:**\n- Date: {{ new Date($json.startTime).toLocaleDateString() }}\n- Time: {{ new Date($json.startTime).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) }} - {{ new Date($json.endTime).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) }}\n- Client: {{ $json.clientName }}\n- Service: {{ $json.serviceType }}\n- Room: {{ $json.roomAssignment }}\n{% if $json.notes %}- Notes: {{ $json.notes }}{% endif %}\n\nPlease review this updated appointment and adjust your preparations accordingly.\n\nIf you have any questions or concerns, please contact the manager at (555) 123-4567.\n\nThank you,\nMassage Therapy Management",
+        "options": {}
+      },
+      "name": "Notify Therapist of Modified Appointment",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 1,
+      "position": [
+        1050,
+        800
+      ],
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "gmail_credentials",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "event",
+        "operation": "delete",
+        "eventId": "={{ $json.appointmentId }}",
+        "calendarId": "={{ $env.MASSAGE_CALENDAR_ID }}",
+        "options": {}
+      },
+      "name": "Cancel Appointment",
+      "type": "n8n-nodes-base.googleCalendar",
+      "typeVersion": 1,
+      "position": [
+        850,
+        1000
+      ],
+      "credentials": {
+        "googleCalendarOAuth2Api": {
+          "id": "google_calendar_credentials",
+          "name": "Google Calendar account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "fromEmail": "schedules@massagetherapy.com",
+        "toEmail": "={{ $node[\"Get Therapist Details\"].json.email }}",
+        "subject": "Appointment Canceled in Your Schedule",
+        "text": "=Dear {{ $node[\"Get Therapist Details\"].json.name }},\n\nAn appointment in your schedule has been canceled:\n\n**Canceled Appointment Details:**\n- Date: {{ new Date($json.startTime).toLocaleDateString() }}\n- Time: {{ new Date($json.startTime).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) }} - {{ new Date($json.endTime).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) }}\n- Client: {{ $json.clientName }}\n- Service: {{ $json.serviceType }}\n\nYour schedule has been updated to reflect this cancellation.\n\nIf you have any questions, please contact the manager at (555) 123-4567.\n\nThank you,\nMassage Therapy Management",
+        "options": {}
+      },
+      "name": "Notify Therapist of Cancellation",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 1,
+      "position": [
+        1050,
+        1000
+      ],
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "gmail_credentials",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "event",
+        "operation": "create",
+        "calendarId": "={{ $env.MASSAGE_CALENDAR_ID }}",
+        "start": "={{ $json.startTime }}",
+        "end": "={{ $json.endTime }}",
+        "summary": "UNAVAILABLE - {{ $node[\"Get Therapist Details\"].json.name }}",
+        "description": "=Therapist: {{ $node[\"Get Therapist Details\"].json.name }}\nUnavailable Time\nReason: {{ $json.notes }}",
+        "options": {
+          "colorId": "8"
+        }
+      },
+      "name": "Block Calendar for Time-Off",
+      "type": "n8n-nodes-base.googleCalendar",
+      "typeVersion": 1,
+      "position": [
+        850,
+        1200
+      ],
+      "credentials": {
+        "googleCalendarOAuth2Api": {
+          "id": "google_calendar_credentials",
+          "name": "Google Calendar account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "fromEmail": "schedules@massagetherapy.com",
+        "toEmail": "={{ $node[\"Get Therapist Details\"].json.email }}",
+        "subject": "Time-Off Request Confirmed",
+        "text": "=Dear {{ $node[\"Get Therapist Details\"].json.name }},\n\nYour time-off request has been approved and scheduled:\n\n**Time-Off Details:**\n- Date: {{ new Date($json.startTime).toLocaleDateString() }}\n- Time: {{ new Date($json.startTime).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) }} - {{ new Date($json.endTime).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) }}\n{% if $json.notes %}- Reason: {{ $json.notes }}{% endif %}\n\nYour calendar has been blocked for this time period, and no appointments will be scheduled during this time.\n\nIf you need to make any changes to this time-off request, please contact the manager at (555) 123-4567.\n\nThank you,\nMassage Therapy Management",
+        "options": {}
+      },
+      "name": "Confirm Time-Off Request",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 1,
+      "position": [
+        1050,
+        1200
+      ],
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "gmail_credentials",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "fromEmail": "schedules@massagetherapy.com",
+        "toEmail": "manager@massagetherapy.com",
+        "subject": "=ALERT: Double-Booking Detected for {{ $json.therapistId }}",
+        "text": "=A scheduling conflict has been detected:\n\n**Attempted Booking:**\n- Therapist: {{ $node[\"Get Therapist Details\"].json.name }}\n- Date: {{ new Date($json.startTime).toLocaleDateString() }}\n- Time: {{ new Date($json.startTime).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) }} - {{ new Date($json.endTime).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) }}\n- Client: {{ $json.clientName }}\n- Service: {{ $json.serviceType }}\n\n**Conflicting Appointments:**\n{% for event in $node[\"Check for Conflicts\"].json.events %}\n- {{ event.summary }}: {{ new Date(event.start.dateTime).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) }} - {{ new Date(event.end.dateTime).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) }}\n{% endfor %}\n\nThis booking was prevented to avoid a double-booking. Please contact the client to reschedule or assign a different therapist.\n\nClient Email: {{ $json.clientEmail }}",
+        "options": {}
+      },
+      "name": "Send Double-Booking Alert",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 1,
+      "position": [
+        1250,
+        200
+      ],
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "gmail_credentials",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// Analyze therapist utilization and scheduling patterns\nconst therapists = $node[\"Retrieve Therapist Information\"].json.rows || [];\nconst appointments = $node[\"Get Daily Appointments\"].json.events || [];\nconst analytics = [];\n\n// Get date range for analysis (last 7 days)\nconst today = new Date();\nconst lastWeek = new Date(today);\nlastWeek.setDate(lastWeek.getDate() - 7);\n\n// Process each therapist\nfor (const therapist of therapists) {\n  // Skip inactive therapists\n  if (therapist.status !== 'active') continue;\n  \n  // Calculate utilization rate\n  const workingHours = parseFloat(therapist.workingHoursPerDay) || 8;\n  const totalAppointments = appointments.filter(appointment => {\n    return appointment.description && appointment.description.includes(`Therapist: ${therapist.name}`);\n  }).length;\n  \n  // Calculate total appointment hours\n  let totalAppointmentHours = 0;\n  appointments.filter(appointment => {\n    return appointment.description && appointment.description.includes(`Therapist: ${therapist.name}`);\n  }).forEach(appointment => {\n    const startTime = new Date(appointment.start.dateTime);\n    const endTime = new Date(appointment.end.dateTime);\n    const durationHours = (endTime - startTime) / (1000 * 60 * 60);\n    totalAppointmentHours += durationHours;\n  });\n  \n  // Calculate utilization rate\n  const utilizationRate = (totalAppointmentHours / workingHours) * 100;\n  \n  // Add to analytics\n  analytics.push({\n    therapistId: therapist.id,\n    therapistName: therapist.name,\n    totalAppointments: totalAppointments,\n    totalAppointmentHours: totalAppointmentHours.toFixed(1),\n    utilizationRate: utilizationRate.toFixed(1) + '%',\n    workingHours: workingHours,\n    date: today.toLocaleDateString()\n  });\n}\n\nreturn {json: {analytics}};"
+      },
+      "name": "Generate Schedule Analytics",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [
+        1050,
+        1400
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "sheetName": "Schedule Analytics",
+        "options": {}
+      },
+      "name": "Store Analytics",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 3,
+      "position": [
+        1250,
+        1400
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "google_sheets_credentials",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "errorMessage": "=Error in Therapist Schedule Management workflow: {{ $json.error }}"
+      },
+      "name": "Error Handler",
+      "type": "n8n-nodes-base.errorTrigger",
+      "typeVersion": 1,
+      "position": [
+        450,
+        900
+      ]
+    }
+  ],
+  "connections": {
+    "Schedule Monitor": {
+      "main": [
+        []
+      ]
+    },
+    "Daily Schedule Generator": {
+      "main": [
+        [
+          {
+            "node": "Retrieve Therapist Information",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Retrieve Therapist Information": {
+      "main": [
+        [
+          {
+            "node": "Get Daily Appointments",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Daily Appointments": {
+      "main": [
+        [
+          {
+            "node": "Format Therapist Schedules",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Format Therapist Schedules": {
+      "main": [
+        [
+          {
+            "node": "Route by Communication Preference",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Route by Communication Preference": {
+      "main": [
+        [
+          {
+            "node": "Send Email Schedule",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Send SMS Schedule",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Send Email Schedule",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Send SMS Schedule",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Schedule Change Webhook": {
+      "main": [
+        [
+          {
+            "node": "Process Schedule Change",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Process Schedule Change": {
+      "main": [
+        [
+          {
+            "node": "Route by Change Type",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Route by Change Type": {
+      "main": [
+        [
+          {
+            "node": "Get Therapist Details",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Check for Conflicts",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Get Therapist Details",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Update Appointment",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Get Therapist Details",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Cancel Appointment",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Get Therapist Details",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Block Calendar for Time-Off",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Therapist Details": {
+      "main": [
+        []
+      ]
+    },
+    "Check for Conflicts": {
+      "main": [
+        [
+          {
+            "node": "Is Time Slot Available?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Is Time Slot Available?": {
+      "main": [
+        [
+          {
+            "node": "Create New Appointment",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Send Double-Booking Alert",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create New Appointment": {
+      "main": [
+        [
+          {
+            "node": "Notify Therapist of New Appointment",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update Appointment": {
+      "main": [
+        [
+          {
+            "node": "Notify Therapist of Modified Appointment",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Cancel Appointment": {
+      "main": [
+        [
+          {
+            "node": "Notify Therapist of Cancellation",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Block Calendar for Time-Off": {
+      "main": [
+        [
+          {
+            "node": "Confirm Time-Off Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate Schedule Analytics": {
+      "main": [
+        [
+          {
+            "node": "Store Analytics",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "saveManualExecutions": true,
+    "callerPolicy": "workflowsFromSameOwner",
+    "errorWorkflow": "Therapist Schedule Management Error Handler"
+  },
+  "tags": [
+    {
+      "name": "schedule-management",
+      "color": "#00ccff"
+    },
+    {
+      "name": "massage-therapy",
+      "color": "#00ccff"
+    }
+  ],
+  "pinData": {},
+  "versionId": "1",
+  "triggerCount": 2,
+  "meta": {
+    "instanceId": "MASSAGE_THERAPY_BUSINESS"
+  },
+  "id": "therapist-schedule-management"
+}

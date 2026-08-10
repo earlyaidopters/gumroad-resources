@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Local AI Architectures · System Blueprints</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700;9..144,900&family=Spline+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#F4F3EE;--paper-2:#ECEAE2;--card:#FFFFFF;--ink:#141413;--ink-soft:#3b3a36;
+  --muted:#6c695f;--taupe:#8a877c;--coral:#C15F3C;--coral-deep:#A24A2C;--coral-tint:#F3DDD2;
+  --charcoal:#1A1917;--green:#5b8266;--blue:#6b7a8f;--amber:#9a6a3c;
+  --line:rgba(20,20,19,.12);
+  --shadow:0 1px 2px rgba(20,20,19,.04),0 12px 32px -12px rgba(20,20,19,.16);
+  --shadow-lift:0 2px 4px rgba(20,20,19,.06),0 28px 56px -20px rgba(20,20,19,.28);
+  --mono:'JetBrains Mono',ui-monospace,Menlo,monospace;--sans:'Spline Sans',-apple-system,sans-serif;--serif:'Fraunces',Georgia,serif;
+  --maxw:1080px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:17px;line-height:1.62;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+body::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);background-size:46px 46px;opacity:.3;mask-image:radial-gradient(ellipse 120% 90% at 50% 0%,#000 0%,transparent 75%)}
+::selection{background:var(--coral);color:#fff}
+a{color:var(--coral)}
+.skip{position:absolute;left:-9999px;top:8px;z-index:60;background:var(--charcoal);color:#fff;font-family:var(--mono);font-size:13px;padding:11px 18px;border-radius:9px;text-decoration:none}
+.skip:focus{left:12px}
+a:focus-visible,button:focus-visible{outline:3px solid var(--coral);outline-offset:3px;border-radius:6px}
+
+.topbar{position:sticky;top:0;z-index:40;background:rgba(244,243,238,.85);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+.topbar-inner{max-width:var(--maxw);margin:0 auto;padding:0 28px;height:56px;display:flex;align-items:center;justify-content:space-between;gap:16px}
+.topbar .wm{font-family:var(--mono);font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink);font-weight:700}
+.topbar .wm b{color:var(--coral)}
+.topbar .back{font-family:var(--mono);font-size:12px;letter-spacing:.04em;text-decoration:none;color:var(--ink-soft);border:1px solid var(--line);background:var(--card);padding:8px 15px;border-radius:999px;box-shadow:var(--shadow)}
+.topbar .back:hover{border-color:var(--coral);color:var(--coral)}
+
+.wrap{position:relative;z-index:1;max-width:var(--maxw);margin:0 auto;padding:0 28px}
+header.hero{padding:74px 0 28px}
+.kicker{font-family:var(--mono);font-size:12px;letter-spacing:.22em;text-transform:uppercase;color:var(--coral);font-weight:700;display:inline-flex;align-items:center;gap:10px}
+.kicker::before{content:"";width:26px;height:1.5px;background:var(--coral)}
+h1{font-family:var(--serif);font-weight:900;font-size:clamp(40px,6.5vw,76px);line-height:.97;letter-spacing:-.02em;margin:20px 0 10px}
+h1 em{font-style:italic;color:var(--coral)}
+.dek{font-family:var(--serif);font-weight:400;font-style:italic;font-size:clamp(19px,2.3vw,25px);color:var(--ink-soft);max-width:52ch;line-height:1.4}
+.plain-banner{margin:30px 0 0;background:var(--card);border:1px solid var(--line);border-left:4px solid var(--green);border-radius:0 14px 14px 0;padding:18px 22px;box-shadow:var(--shadow);max-width:760px}
+.plain-banner b{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--green);display:block;margin-bottom:6px}
+.plain-banner p{font-size:16px;color:var(--ink-soft);margin:0}
+
+/* blueprint */
+.bp{padding:46px 0;border-top:1px solid var(--line)}
+.bp-head{display:flex;align-items:baseline;gap:16px;margin-bottom:4px;flex-wrap:wrap}
+.bp-num{font-family:var(--mono);font-weight:700;font-size:13px;color:var(--coral);border:1.5px solid var(--coral);border-radius:8px;padding:4px 8px;background:var(--coral-tint)}
+.bp-head h2{font-family:var(--serif);font-weight:700;font-size:clamp(25px,3.6vw,38px);line-height:1.04;letter-spacing:-.018em}
+.bp-tag{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin:6px 0 18px}
+
+/* diagram engine */
+.diagram{background:var(--paper-2);border:1px solid var(--line);border-radius:16px;padding:30px 22px;margin:8px 0 22px;box-shadow:inset 0 1px 0 rgba(255,255,255,.6)}
+.tier{display:flex;justify-content:center;align-items:stretch;gap:14px;flex-wrap:wrap}
+.node{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--taupe);border-radius:11px;padding:12px 16px;min-width:140px;max-width:230px;box-shadow:var(--shadow);text-align:left}
+.node .k{font-family:var(--mono);font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:700}
+.node .n{font-family:var(--serif);font-size:17px;font-weight:600;line-height:1.15;margin-top:2px}
+.node .s{font-size:12.5px;color:var(--ink-soft);margin-top:4px;line-height:1.35}
+.node.you{border-left-color:var(--taupe)}
+.node.client{border-left-color:var(--ink)}
+.node.local{border-left-color:var(--green)}
+.node.engine{border-left-color:var(--coral)}
+.node.model{border-left-color:var(--coral-deep);background:linear-gradient(180deg,#fff,#fdf3ee)}
+.node.cloud{border-left-color:var(--charcoal);background:var(--charcoal);color:#ece9e0}
+.node.cloud .k{color:#b9b4a6}.node.cloud .s{color:#bdb9ac}
+.node.guard{border-left-color:var(--amber)}
+.node.store{border-left-color:var(--blue)}
+.arrow{display:flex;align-items:center;justify-content:center;color:var(--coral);font-size:20px;font-weight:700;padding:6px 0}
+.arrow .lbl{font-family:var(--mono);font-size:10px;letter-spacing:.06em;color:var(--muted);text-transform:uppercase}
+.arrow.v{flex-direction:column;gap:2px}
+.arrow.h{flex-direction:column;gap:1px;padding:0 2px}
+.flowrow{display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap}
+.brace{font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);text-align:center;margin:4px 0}
+
+/* plain-english trio */
+.trio{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:4px}
+.box{background:var(--card);border:1px solid var(--line);border-radius:13px;padding:16px 17px;box-shadow:var(--shadow)}
+.box h4{font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;font-weight:700;margin-bottom:8px}
+.box.pe h4{color:var(--green)}.box.bf h4{color:var(--coral)}.box.tc h4{color:var(--amber)}
+.box p{font-size:14px;color:var(--ink-soft);margin:0;line-height:1.5}
+
+/* comparison + legend */
+.section{padding:46px 0;border-top:1px solid var(--line)}
+.section h2{font-family:var(--serif);font-weight:700;font-size:clamp(24px,3.4vw,34px);letter-spacing:-.018em;margin-bottom:18px}
+.tbl-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow);background:var(--card)}
+table{border-collapse:collapse;width:100%;font-size:13.5px;min-width:680px}
+th,td{text-align:left;padding:12px 15px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);background:var(--paper-2);font-weight:700}
+tr:last-child td{border-bottom:none}tbody tr:hover{background:#faf9f4}
+td b{color:var(--coral);font-family:var(--mono);font-size:13px}
+.legend{display:flex;flex-wrap:wrap;gap:10px;margin-top:6px}
+.chip{display:flex;align-items:center;gap:8px;font-family:var(--mono);font-size:12px;color:var(--ink-soft);background:var(--card);border:1px solid var(--line);border-radius:999px;padding:7px 14px;box-shadow:var(--shadow)}
+.swatch{width:12px;height:12px;border-radius:3px;flex:none}
+
+footer{position:relative;z-index:1;background:var(--paper-2);border-top:1px solid var(--line);margin-top:10px}
+.foot{max-width:var(--maxw);margin:0 auto;padding:48px 28px}
+.foot .big{font-family:var(--serif);font-weight:700;font-size:clamp(22px,3.2vw,32px);letter-spacing:-.02em;max-width:24ch;line-height:1.14;margin-bottom:18px}
+.foot .big span{color:var(--coral)}
+.foot .m{font-family:var(--mono);font-size:12px;color:var(--muted);line-height:1.8}
+
+.reveal{opacity:0;transform:translateY(20px);transition:opacity .7s cubic-bezier(.2,.7,.2,1),transform .7s cubic-bezier(.2,.7,.2,1)}
+.reveal.in{opacity:1;transform:none}
+@media(max-width:760px){.trio{grid-template-columns:1fr}.node{min-width:120px}}
+@media(prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none}html{scroll-behavior:auto}*{transition-duration:.001ms!important}}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<div class="topbar"><div class="topbar-inner">
+  <div class="wm">LOCAL AI <b>ARCHITECTURES</b></div>
+  <a class="back" href="local_ai_engineering_guide.html">&larr; Back to the guide</a>
+</div></div>
+
+<div class="wrap">
+  <header class="hero" id="main">
+    <div class="kicker reveal">Ten ways to wire it, drawn out</div>
+    <h1 class="reveal">System <em>Blueprints</em></h1>
+    <p class="dek reveal">The same idea, owning your AI, can be built ten different ways. Here is what each one actually looks like, from a single laptop to a cluster in your closet, with the plumbing drawn and explained in plain English.</p>
+    <div class="plain-banner reveal">
+      <b>Read the diagrams like this</b>
+      <p>Each box is a piece of the system. Arrows are the path a request takes, top to bottom. Color tells you where a box lives: grey is you, green is local, coral is the engine and model on your hardware, dark is the cloud, amber is a safety gate, blue is storage. Start small at the top of the page and add pieces only when something hurts.</p>
+    </div>
+  </header>
+
+  <!-- 1 -->
+  <section class="bp reveal">
+    <div class="bp-head"><span class="bp-num">01</span><h2>The Single Laptop</h2></div>
+    <div class="bp-tag">the on-ramp · one machine · zero cloud</div>
+    <div class="diagram">
+      <div class="tier"><div class="node you"><div class="k">You</div><div class="n">Your editor or chat</div><div class="s">VS Code, a terminal, a browser tab</div></div></div>
+      <div class="arrow v" aria-hidden="true"><span>&darr;</span><span class="lbl">localhost</span></div>
+      <div class="tier"><div class="node engine"><div class="n">llama.cpp</div><div class="s">runs the model, serves a local API</div></div></div>
+      <div class="arrow v" aria-hidden="true"><span>&darr;</span></div>
+      <div class="tier"><div class="node model"><div class="k">Model</div><div class="n">One GGUF model</div><div class="s">Qwen3-Coder or GLM-4.7-Flash</div></div></div>
+    </div>
+    <div class="trio">
+      <div class="box pe"><h4>In plain English</h4><p>It is one app running one AI on the computer you already have. Nothing ever leaves the machine. Like a calculator, but it writes code.</p></div>
+      <div class="box bf"><h4>Best for</h4><p>Trying local AI for the first time, working offline or on a plane, and keeping private code fully private.</p></div>
+      <div class="box tc"><h4>The catch</h4><p>One person at a time, and speed depends on your laptop. Good enough to learn on, not to serve a team.</p></div>
+    </div>
+  </section>
+
+  <!-- 2 -->
+  <section class="bp reveal">
+    <div class="bp-head"><span class="bp-num">02</span><h2>The Workstation Server</h2></div>
+    <div class="bp-tag">team of one to a few · one GPU box does the thinking</div>
+    <div class="diagram">
+      <div class="tier">
+        <div class="node client"><div class="k">Client</div><div class="n">Claude Code</div></div>
+        <div class="node client"><div class="k">Client</div><div class="n">opencode</div></div>
+        <div class="node client"><div class="k">Client</div><div class="n">Cursor / Cline</div></div>
+      </div>
+      <div class="arrow v" aria-hidden="true"><span>&darr;</span><span class="lbl">OpenAI-style API over the network</span></div>
+      <div class="tier"><div class="node engine"><div class="n">vLLM server</div><div class="s">batches many requests, reuses a prefix cache so repeat context is near-free</div></div></div>
+      <div class="arrow v" aria-hidden="true"><span>&darr;</span></div>
+      <div class="tier">
+        <div class="node model"><div class="k">Model</div><div class="n">Qwen3-Coder-Next</div></div>
+        <div class="node store"><div class="k">Memory</div><div class="n">KV cache</div><div class="s">the model's short-term memory</div></div>
+      </div>
+    </div>
+    <div class="trio">
+      <div class="box pe"><h4>In plain English</h4><p>One strong computer in the corner does all the thinking. Everyone's tools phone it instead of the cloud, the way office printers share one machine.</p></div>
+      <div class="box bf"><h4>Best for</h4><p>A solo builder with a GPU box, or a small team that wants one shared, no-bill AI endpoint.</p></div>
+      <div class="box tc"><h4>The catch</h4><p>You now run a server. You tune batching and cache settings, and if the box is down, everyone is down.</p></div>
+    </div>
+  </section>
+
+  <!-- 3 -->
+  <section class="bp reveal">
+    <div class="bp-head"><span class="bp-num">03</span><h2>The Hybrid</h2></div>
+    <div class="bp-tag">local-first · cloud only for the hard 10 percent</div>
+    <div class="diagram">
+      <div class="tier"><div class="node client"><div class="k">Client</div><div class="n">Your agent</div></div></div>
+      <div class="arrow v" aria-hidden="true"><span>&darr;</span></div>
+      <div class="tier"><div class="node guard"><div class="k">Router</div><div class="n">Decide: easy or hard?</div><div class="s">sends most work local, hard problems out</div></div></div>
+      <div class="brace">splits the traffic</div>
+      <div class="flowrow">
+        <div class="node local"><div class="k">~90%</div><div class="n">Local vLLM</div><div class="s">everyday coding, refactors, tests</div></div>
+        <div class="node cloud"><div class="k">~10%</div><div class="n">Cloud API</div><div class="s">the rare genuinely hard problem</div></div>
+      </div>
+    </div>
+    <div class="trio">
+      <div class="box pe"><h4>In plain English</h4><p>Do the everyday work at home for free, and only mail the few really hard problems to a paid expert. You get most of the savings and keep a safety valve.</p></div>
+      <div class="box bf"><h4>Best for</h4><p>Real production work where you want low cost and privacy by default, but still want a frontier model on call.</p></div>
+      <div class="box tc"><h4>The catch</h4><p>The router has to judge "hard" well, and anything sent to the cloud leaves your machine, so route deliberately.</p></div>
+    </div>
+  </section>
+
+  <!-- 4 -->
+  <section class="bp reveal">
+    <div class="bp-head"><span class="bp-num">04</span><h2>The Context Compiler</h2></div>
+    <div class="bp-tag">huge codebases · give the model an environment, not a giant prompt</div>
+    <div class="diagram">
+      <div class="tier"><div class="node client"><div class="k">Client</div><div class="n">Claude Code</div></div></div>
+      <div class="arrow v" aria-hidden="true"><span>&darr;</span></div>
+      <div class="tier"><div class="node guard"><div class="k">Gateway</div><div class="n">RLM gateway</div><div class="s">writes code to search the repo instead of pasting it</div></div></div>
+      <div class="flowrow">
+        <div class="arrow h" aria-hidden="true"><span>&rarr;</span></div>
+        <div class="node store"><div class="k">Workspace</div><div class="n">The whole repo as a variable</div><div class="s">millions of tokens the model never reads directly</div></div>
+      </div>
+      <div class="arrow v" aria-hidden="true"><span>&darr;</span><span class="lbl">tiny distilled context pack</span></div>
+      <div class="tier"><div class="node engine"><div class="n">vLLM + model</div><div class="s">sees a clean, small prompt every time</div></div></div>
+    </div>
+    <div class="trio">
+      <div class="box pe"><h4>In plain English</h4><p>Instead of making the AI read the whole library to answer one question, it writes a little program to look things up and hands back just the answer. The window never clogs.</p></div>
+      <div class="box bf"><h4>Best for</h4><p>Giant or legacy codebases where stuffing everything into the prompt makes the model slow, expensive, and forgetful.</p></div>
+      <div class="box tc"><h4>The catch</h4><p>More moving parts to run, and it shines on big repos, not on a quick one-file edit.</p></div>
+    </div>
+  </section>
+
+  <!-- 5 -->
+  <section class="bp reveal">
+    <div class="bp-head"><span class="bp-num">05</span><h2>The Agent Swarm</h2></div>
+    <div class="bp-tag">many agents at once · the backlog is the interface</div>
+    <div class="diagram">
+      <div class="tier"><div class="node store"><div class="k">State</div><div class="n">Issue queue</div><div class="s">tickets labeled approved, queued, done</div></div></div>
+      <div class="arrow v" aria-hidden="true"><span>&darr;</span></div>
+      <div class="tier"><div class="node client"><div class="k">Orchestrator</div><div class="n">Hands out tasks</div><div class="s">spawn, work, report, retire</div></div></div>
+      <div class="brace">one sealed room per worker</div>
+      <div class="tier">
+        <div class="node local"><div class="k">Agent</div><div class="n">Worker + AgentFS</div></div>
+        <div class="node local"><div class="k">Agent</div><div class="n">Worker + AgentFS</div></div>
+        <div class="node local"><div class="k">Agent</div><div class="n">Worker + AgentFS</div></div>
+      </div>
+      <div class="arrow v" aria-hidden="true"><span>&darr;</span><span class="lbl">all share one</span></div>
+      <div class="tier"><div class="node engine"><div class="n">Shared vLLM server</div></div></div>
+    </div>
+    <div class="trio">
+      <div class="box pe"><h4>In plain English</h4><p>One foreman hands jobs to a crew. Each worker works in its own sealed room (so one cannot break another), and they all ask the same engine for thinking.</p></div>
+      <div class="box bf"><h4>Best for</h4><p>Big sweeps: reviewing a whole repo, fixing many files, or auditing in parallel instead of one step at a time.</p></div>
+      <div class="box tc"><h4>The catch</h4><p>Your job shifts from coding to herding. Coordination, not raw speed, becomes the bottleneck.</p></div>
+    </div>
+  </section>
+
+  <!-- 6 -->
+  <section class="bp reveal">
+    <div class="bp-head"><span class="bp-num">06</span><h2>The Zero-Trust Sandbox</h2></div>
+    <div class="bp-tag">agents that touch your machine · the AI suggests, code decides</div>
+    <div class="diagram">
+      <div class="tier"><div class="node model"><div class="k">Model</div><div class="n">Proposes a plan</div><div class="s">"run these commands"</div></div></div>
+      <div class="arrow v" aria-hidden="true"><span>&darr;</span><span class="lbl">signed, logged plan</span></div>
+      <div class="tier"><div class="node guard"><div class="k">Gate</div><div class="n">Aegis</div><div class="s">checks and signs every action, blocks risky ones, never gives the AI root</div></div></div>
+      <div class="arrow v" aria-hidden="true"><span>&darr;</span></div>
+      <div class="tier"><div class="node store"><div class="k">Sandbox</div><div class="n">Hyperlight micro-VM</div><div class="s">a throwaway room you can rewind in microseconds</div></div></div>
+      <div class="arrow v" aria-hidden="true"><span>&darr;</span><span class="lbl">only approved actions reach</span></div>
+      <div class="tier"><div class="node you"><div class="k">Host</div><div class="n">Your real machine</div></div></div>
+    </div>
+    <div class="trio">
+      <div class="box pe"><h4>In plain English</h4><p>The AI can ask to do things, but a bouncer checks every request, signs it, and runs it in a room you can undo. A bad command rewinds instead of wrecking your computer.</p></div>
+      <div class="box bf"><h4>Best for</h4><p>Any agent allowed to run commands, install packages, or edit files, especially unattended.</p></div>
+      <div class="box tc"><h4>The catch</h4><p>Extra setup, and the gate adds a small delay. Worth it the first time it stops a mistake.</p></div>
+    </div>
+  </section>
+
+  <!-- 7 -->
+  <section class="bp reveal">
+    <div class="bp-head"><span class="bp-num">07</span><h2>The Home Cluster</h2></div>
+    <div class="bp-tag">hyperscale at home · many machines acting as one</div>
+    <div class="diagram">
+      <div class="tier"><div class="node client"><div class="k">Clients</div><div class="n">Your whole team</div></div></div>
+      <div class="arrow v" aria-hidden="true"><span>&darr;</span></div>
+      <div class="tier"><div class="node guard"><div class="k">Control plane</div><div class="n">Kubernetes + AIBrix</div><div class="s">routes by cache, adds or drops workers with demand</div></div></div>
+      <div class="brace">scheduled across mixed hardware</div>
+      <div class="tier">
+        <div class="node engine"><div class="k">Node</div><div class="n">NVIDIA GPU box</div></div>
+        <div class="node engine"><div class="k">Node</div><div class="n">NVIDIA GPU box</div></div>
+        <div class="node local"><div class="k">Node</div><div class="n">AMD GPU box</div></div>
+      </div>
+      <div class="arrow v" aria-hidden="true"><span>&darr;</span></div>
+      <div class="tier"><div class="node store"><div class="k">Shared</div><div class="n">Distributed KV cache</div><div class="s">memory pooled across machines</div></div></div>
+    </div>
+    <div class="trio">
+      <div class="box pe"><h4>In plain English</h4><p>Several computers act like one big one. A manager sends each request to the best free worker and spins workers up or down as the team gets busy.</p></div>
+      <div class="box bf"><h4>Best for</h4><p>Serving a whole team or product with high availability, when one box is genuinely the bottleneck.</p></div>
+      <div class="box tc"><h4>The catch</h4><p>Real operations work: Kubernetes, failover, monitoring. Do not reach here until a single box is truly maxed out.</p></div>
+    </div>
+  </section>
+
+  <!-- 8 -->
+  <section class="bp reveal">
+    <div class="bp-head"><span class="bp-num">08</span><h2>The Edge &amp; Kernel Tier</h2></div>
+    <div class="bp-tag">the frontier · tiny decisions on the spot, hard ones escalate</div>
+    <div class="diagram">
+      <div class="tier"><div class="node you"><div class="k">Event</div><div class="n">A keystroke, packet, or signal</div></div></div>
+      <div class="arrow v" aria-hidden="true"><span>&darr;</span></div>
+      <div class="tier"><div class="node local"><div class="k">Tier 0</div><div class="n">Tiny net in the kernel</div><div class="s">answers in under 100 microseconds, handles ~80%</div></div></div>
+      <div class="arrow v" aria-hidden="true"><span>&darr;</span><span class="lbl">only if it is not sure</span></div>
+      <div class="tier"><div class="node engine"><div class="k">Tier 1</div><div class="n">CPU model</div><div class="s">llama.cpp on the same machine</div></div></div>
+      <div class="arrow v" aria-hidden="true"><span>&darr;</span><span class="lbl">only the genuinely hard cases</span></div>
+      <div class="tier"><div class="node model"><div class="k">Tier 2</div><div class="n">GPU cluster</div><div class="s">full power, reached over the network</div></div></div>
+    </div>
+    <div class="trio">
+      <div class="box pe"><h4>In plain English</h4><p>Most decisions are easy, so a tiny brain handles them instantly right where they happen. Only the rare hard ones travel up to bigger, slower, more powerful brains.</p></div>
+      <div class="box bf"><h4>Best for</h4><p>Real-time and edge work where waiting on a GPU round-trip is too slow, and most calls are routine.</p></div>
+      <div class="box tc"><h4>The catch</h4><p>The most advanced and experimental of the eight. Great mental model today, deep engineering to build.</p></div>
+    </div>
+  </section>
+
+  <!-- 9 -->
+  <section class="bp reveal">
+    <div class="bp-head"><span class="bp-num">09</span><h2>The On-Device Tab</h2></div>
+    <div class="bp-tag">nothing installed · runs inside a web page · fully offline</div>
+    <div class="diagram">
+      <div class="tier"><div class="node you"><div class="k">You</div><div class="n">A web page or app</div><div class="s">just open it, nothing to set up</div></div></div>
+      <div class="arrow v" aria-hidden="true"><span>&darr;</span><span class="lbl">no server, no install</span></div>
+      <div class="tier"><div class="node local"><div class="k">In the browser</div><div class="n">WebGPU runtime</div><div class="s">uses the device's own graphics chip</div></div></div>
+      <div class="arrow v" aria-hidden="true"><span>&darr;</span></div>
+      <div class="tier"><div class="node model"><div class="k">Model</div><div class="n">A small model in the tab</div><div class="s">e.g. a 2B model at ~80 words a second</div></div></div>
+    </div>
+    <div class="trio">
+      <div class="box pe"><h4>In plain English</h4><p>The AI runs inside a web page, the way a video plays in a tab. Nothing to install, and nothing leaves the device. The simplest possible setup.</p></div>
+      <div class="box bf"><h4>Best for</h4><p>Phones, locked-down work laptops, quick demos, and fully offline use where simple is the whole point.</p></div>
+      <div class="box tc"><h4>The catch</h4><p>Only small models fit in a browser tab, so it handles light tasks, not heavy coding or long documents.</p></div>
+    </div>
+  </section>
+
+  <!-- 10 -->
+  <section class="bp reveal">
+    <div class="bp-head"><span class="bp-num">10</span><h2>The Multi-Provider Router</h2></div>
+    <div class="bp-tag">never depend on one source · automatic failover</div>
+    <div class="diagram">
+      <div class="tier"><div class="node client"><div class="k">Client</div><div class="n">Your agent or app</div></div></div>
+      <div class="arrow v" aria-hidden="true"><span>&darr;</span></div>
+      <div class="tier"><div class="node guard"><div class="k">Router</div><div class="n">Pick best, cheapest, or available</div><div class="s">reroutes if one is down, slow, or pricey</div></div></div>
+      <div class="brace">one switchboard in front of many brains</div>
+      <div class="flowrow">
+        <div class="node local"><div class="n">Local vLLM</div><div class="s">first choice, free and private</div></div>
+        <div class="node cloud"><div class="n">Cloud provider A</div></div>
+        <div class="node cloud"><div class="n">Cloud provider B</div></div>
+      </div>
+    </div>
+    <div class="trio">
+      <div class="box pe"><h4>In plain English</h4><p>One smart switchboard sits in front of several brains: your local one plus a couple of cloud options. If one is down, slow, or expensive, it quietly uses another. You never hang on a single provider.</p></div>
+      <div class="box bf"><h4>Best for</h4><p>Teams that cannot afford an outage, and anyone who wants to dodge any one vendor's price changes or sudden policy shifts.</p></div>
+      <div class="box tc"><h4>The catch</h4><p>More to configure, and you must make sure the truly private work still stays on the local path, not a cloud one.</p></div>
+    </div>
+  </section>
+
+  <!-- growth path -->
+  <section class="section reveal">
+    <h2>How to grow</h2>
+    <p class="dek" style="font-size:18px;font-style:normal;max-width:62ch;margin-bottom:18px">You do not build the big one on day one. Start at blueprint 1 and add a piece only when something actually hurts.</p>
+    <div class="diagram">
+      <div class="flowrow">
+        <div class="node you"><div class="k">Start</div><div class="n">01 Laptop</div></div>
+        <div class="arrow h" aria-hidden="true"><span>&rarr;</span><span class="lbl">need to share it</span></div>
+        <div class="node engine"><div class="n">02 Workstation</div></div>
+        <div class="arrow h" aria-hidden="true"><span>&rarr;</span><span class="lbl">want cheap + a safety valve</span></div>
+        <div class="node guard"><div class="n">03 Hybrid</div></div>
+        <div class="arrow h" aria-hidden="true"><span>&rarr;</span><span class="lbl">one box maxes out</span></div>
+        <div class="node engine"><div class="n">07 Cluster</div></div>
+      </div>
+      <div class="brace">add any of these at any stage, whenever they apply</div>
+      <div class="tier">
+        <div class="node store"><div class="n">04 Context Compiler</div><div class="s">when the codebase is too big for the prompt</div></div>
+        <div class="node local"><div class="n">05 Agent Swarm</div><div class="s">when you need lots of work done at once</div></div>
+        <div class="node guard"><div class="n">06 Zero-Trust Sandbox</div><div class="s">the moment an agent can run commands</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- comparison -->
+  <section class="section reveal">
+    <h2>Pick by what hurts</h2>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Blueprint</th><th>Users</th><th>Hardware</th><th>Reach for it when</th></tr></thead>
+        <tbody>
+          <tr><td><b>01 Single Laptop</b></td><td>1</td><td>any laptop</td><td>you just want to try local AI today</td></tr>
+          <tr><td><b>02 Workstation Server</b></td><td>1 to a few</td><td>1 GPU box</td><td>more than one tool or person needs the model</td></tr>
+          <tr><td><b>03 Hybrid</b></td><td>any</td><td>1 GPU box + cloud key</td><td>you want low cost and privacy, with a frontier safety valve</td></tr>
+          <tr><td><b>04 Context Compiler</b></td><td>any</td><td>1 GPU box</td><td>the codebase is too big to fit in a prompt</td></tr>
+          <tr><td><b>05 Agent Swarm</b></td><td>1 driver</td><td>1 strong box</td><td>you need many tasks done in parallel</td></tr>
+          <tr><td><b>06 Zero-Trust Sandbox</b></td><td>any</td><td>any</td><td>an agent can run commands or edit files</td></tr>
+          <tr><td><b>07 Home Cluster</b></td><td>a team</td><td>several GPU boxes</td><td>one machine can no longer keep up</td></tr>
+          <tr><td><b>08 Edge &amp; Kernel</b></td><td>any</td><td>edge device + cluster</td><td>you need answers in microseconds, most of them easy</td></tr>
+          <tr><td><b>09 On-Device Tab</b></td><td>1</td><td>phone / laptop browser</td><td>you want zero install and fully offline simple tasks</td></tr>
+          <tr><td><b>10 Multi-Provider Router</b></td><td>any</td><td>local + cloud keys</td><td>you cannot afford to depend on a single provider</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- legend -->
+  <section class="section reveal">
+    <h2>The color key</h2>
+    <div class="legend">
+      <span class="chip"><span class="swatch" style="background:var(--taupe)"></span> You / the trigger</span>
+      <span class="chip"><span class="swatch" style="background:var(--ink)"></span> Client tool</span>
+      <span class="chip"><span class="swatch" style="background:var(--green)"></span> Local component</span>
+      <span class="chip"><span class="swatch" style="background:var(--coral)"></span> Serving engine</span>
+      <span class="chip"><span class="swatch" style="background:var(--coral-deep)"></span> Model</span>
+      <span class="chip"><span class="swatch" style="background:var(--charcoal)"></span> Cloud</span>
+      <span class="chip"><span class="swatch" style="background:var(--amber)"></span> Safety gate / router</span>
+      <span class="chip"><span class="swatch" style="background:var(--blue)"></span> Storage / memory</span>
+    </div>
+  </section>
+</div>
+
+<footer>
+  <div class="foot">
+    <div class="big reveal">Start at blueprint <span>one</span>. Add a piece only when something actually hurts.</div>
+    <div class="m reveal">A companion to the Local AI Engineering Guide &nbsp;&middot;&nbsp; 2026 edition &nbsp;&middot;&nbsp; <a href="local_ai_engineering_guide.html">back to the guide</a></div>
+  </div>
+</footer>
+
+<script>
+const ro=new IntersectionObserver((es)=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');ro.unobserve(e.target);}});},{threshold:.1,rootMargin:'0px 0px -6% 0px'});
+document.querySelectorAll('.reveal').forEach(el=>ro.observe(el));
+</script>
+</body>
+</html>

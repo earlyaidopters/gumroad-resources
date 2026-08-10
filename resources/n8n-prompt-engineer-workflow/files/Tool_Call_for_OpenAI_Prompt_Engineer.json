@@ -1,0 +1,182 @@
+{
+  "name": "Tool Call for OpenAI Prompt Engineer",
+  "nodes": [
+    {
+      "parameters": {
+        "inputSource": "passthrough"
+      },
+      "id": "c055762a-8fe7-4141-a639-df2372f30060",
+      "typeVersion": 1.1,
+      "name": "Workflow Input Trigger",
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "position": [
+        260,
+        340
+      ]
+    },
+    {
+      "parameters": {
+        "agent": "conversationalAgent",
+        "promptType": "define",
+        "text": "={{ $json.query }}",
+        "options": {
+          "systemMessage": "You are an intelligent Prompt Engineer for a wide variety of AI models. Your task is to generate a very refined prompt specifically for OpenAI AI models. When generating or refining prompts, adhere to the following additional guidelines without altering the core instructions:\n\n- Analyze the task by identifying key objectives and context; include only the essential background and details.\n- Clearly separate instructions from any context or data using delimiters (e.g., triple quotes) to avoid ambiguity.\n- If using a conversational interface, incorporate a system or role directive to set tone and style (e.g., \"You are an expert AI assistant\" or similar).\n- Include 1–3 targeted examples when the task benefits from demonstration, especially for format-sensitive or structured outputs.\n- Maintain clarity by using step-by-step instructions or chain-of-thought cues for complex tasks.\n- Ensure the prompt is as concise as possible while still providing all necessary details—avoid filler and redundancy.\n- Tailor your prompt style based on the model: allow advanced models to infer intent with minimal examples, but be explicit for cost-sensitive models that require clear, direct instructions.\n- Emphasize the desired output format, tone, and any constraints explicitly to guide the AI toward generating optimal results.\n- Be prepared to iterate: if the user provides feedback, refine the prompt further by integrating additional context, clarifications, or structural adjustments.\n\nEach time you get an input, you will analyze the job and task the AI model needs to do and create a good prompt for OpenAI so that it will generate the best results when performing the job required.\n\nThe user can also go back and forth with feedback on the generated prompt and refine it further. In that case you will be provided with the previously generated prompt and you will have to refine it further according to the feedback."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.7,
+      "position": [
+        480,
+        340
+      ],
+      "id": "a86f5112-ec72-42fd-9e24-ab79194ddb23",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-2.0-flash",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        400,
+        600
+      ],
+      "id": "66913a3c-eb00-4ac5-9488-c71edff1151b",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "OBe43kvkH4bfuXPT",
+          "name": "Prompt Advisers Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "o3-mini",
+          "mode": "id"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "You are to refine the prompt for OpenAI model for a specific job/task so that the said model executes the work perfectly.",
+              "role": "system"
+            },
+            {
+              "content": "=Here's the prompt generated:\n{{ $json.output }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.8,
+      "position": [
+        840,
+        340
+      ],
+      "id": "60bdfe1d-5f01-46fe-a288-bf5cff9f9ecb",
+      "name": "OpenAI",
+      "credentials": {
+        "openAiApi": {
+          "id": "bBtD8KtcEPsOhElY",
+          "name": "Prompt Advisers OpenAI Account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "a1bb9538-09c4-4736-b79b-fd56898229e4",
+              "name": "Prompt",
+              "value": "={{ $json.message.content }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1200,
+        340
+      ],
+      "id": "5a06b311-1ac5-424c-a674-f284dfea97eb",
+      "name": "Edit Fields"
+    }
+  ],
+  "pinData": {
+    "Workflow Input Trigger": [
+      {
+        "json": {
+          "query": "Create a comprehensive action plan based on internal business documents, broken down into a step-by-step process for evaluating and synthesizing the information needed. The action plan should consist of three parts: 1-month, 6-month, and 1-year plans. The steps should include: 1. **Document Skimming**: Analyze key themes, objectives, and priorities from the business documents. 2. **Goal Identification**: Identify major objectives for each time frame based on the skimming process. 3. **Prioritization**: Rank the identified goals in order of urgency and importance to ensure focus on high-impact initiatives. 4. **Strategy Development**: Formulate strategies to achieve each goal, detailing methods and approaches. 5. **Milestones and Timelines**: Set specific milestones for monitoring progress within each timeframe. 6. **Resource Allocation**: Determine resources needed, including personnel, budget, and tools, to support the implementation of the action plan. 7. **Key Performance Indicators (KPIs)**: Establish metrics to track success and measure outcomes for each objective. 8. **Review and Adjust**: Include a process for reviewing the action plan regularly and adjusting it based on progress and changing circumstances. Each section should clearly outline the action steps, responsible parties, and timelines."
+        }
+      }
+    ]
+  },
+  "connections": {
+    "Workflow Input Trigger": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "OpenAI",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "callerPolicy": "any"
+  },
+  "versionId": "de8818d0-3722-4f05-88a7-851aaf0ea583",
+  "meta": {
+    "templateId": "VMiAxXa3lCAizGB5f7dVZQSFfg3FtHkdTKvLuupqBls=",
+    "templateCredsSetupCompleted": true,
+    "instanceId": "aaadb797535f05587ee95b776c942a7c3f7a46fd7aa0c9b6a9d64e1e595f8af1"
+  },
+  "id": "7vnvCbRQku9Hfm3D",
+  "tags": []
+}

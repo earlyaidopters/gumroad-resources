@@ -1,0 +1,26 @@
+{
+  "name": "Claude Code Foundations Kit 🛠️",
+  "external_id": "Fg62uwvezslg08Oc335r8Q==",
+  "permalink": "bjnmfn",
+  "unique_permalink": "bjnmfn",
+  "custom_permalink": "claude-code-deep-dive-guide",
+  "url": "https://markkashef.gumroad.com/l/claude-code-deep-dive-guide",
+  "status": "published",
+  "archived": false,
+  "kind": "products",
+  "price_formatted": "CAD$0+",
+  "description_md": "# What You Get\nClaude Code Deep Dive Guide (PDF): 25-page visual breakdown of how Claude Code actually works - the CLI architecture, tool system, context management, sessions, and customization layers.\n9 System Diagrams: Visual maps of the Gather-Act-Verify loop, tool calling flow, context bucket model, compaction process, and permission layers.\nPlain English Explanations: Every software engineering concept translated into analogies that make sense whether you code or not.\n---\nJoin 800+ builders going deeper on Claude Code:\nhttps://www.skool.com/earlyaidopters/about",
+  "files": [
+    {
+      "file": "claude_diagrams.zip",
+      "status": "downloaded",
+      "bytes": 134665919
+    },
+    {
+      "file": "Claude_Code_Deep_Dive_Guide.pdf",
+      "status": "cached",
+      "bytes": 93333
+    }
+  ],
+  "has_rich_content": true
+}

@@ -1,0 +1,26 @@
+{
+  "name": "Vapiception Voice Agent Builder Kit: Make Automation, Prompts & Slide Deck",
+  "external_id": "OE8wrK97XN6TsWyMnCUqiA==",
+  "permalink": "qxkibf",
+  "unique_permalink": "qxkibf",
+  "custom_permalink": "vapiception",
+  "url": "https://markkashef.gumroad.com/l/vapiception",
+  "status": "published",
+  "archived": false,
+  "kind": "products",
+  "price_formatted": "CAD$0+",
+  "description_md": "What You'll Get:\n\n- \nMake Automation Workflow:\n- Complete, ready-to-use automation for Vapi voice agent setup\n\n- Step-by-step integration guide\n\n- Customizable nodes for easy adaptation to your specific needs\n\n- \nCurated Prompt Collection:\n- Set of fine-tuned prompts for natural conversation flow\n\n- Context-specific prompts for various business scenarios\n\n- Guidelines for creating and optimizing your own prompts\n\n- Slide Deck of Agent Builder Design",
+  "files": [
+    {
+      "file": "VAPIception.pdf",
+      "status": "cached",
+      "bytes": 59402
+    },
+    {
+      "file": "agentbuilder.json",
+      "status": "cached",
+      "bytes": 58453
+    }
+  ],
+  "has_rich_content": true
+}

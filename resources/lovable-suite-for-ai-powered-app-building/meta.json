@@ -1,0 +1,15 @@
+{
+  "name": "Lovable Suite for AI-Powered App Building",
+  "external_id": "Fl_olKCtKYIMBMplBYJ8wQ==",
+  "permalink": "kffqv",
+  "unique_permalink": "kffqv",
+  "custom_permalink": "lovablevisualedits",
+  "url": "https://markkashef.gumroad.com/l/lovablevisualedits",
+  "status": "published",
+  "archived": false,
+  "kind": "products",
+  "price_formatted": "CAD$0+",
+  "description_md": "What You’ll Get:\n\n- \nLovable Prompt Engineer Assistant\n- A comprehensive, shell-first guide with codeblock outputs that walks you through framing your project, setting up backend services (like Supabase and SQL schemas), and building the app’s basic structure.\n\n- Step-by-step prompts to integrate key functionalities such as database storage, OpenAI-powered features, and even Stripe-based premium logic for scalable applications.\n\n- \nLovable Visual Editor\n- An expert Tailwind CSS generator that transforms your plain-language UI style descriptions into a single-line, optimized utility class string.\n\n- Perfect for making visual edits quickly and creating responsive, modern designs without manual CSS hassle.\n\n- \nGroq Integration Code Snippet\n- A ready-to-run Google Colab script that demonstrates how to integrate Groq’s API into your prompt-to-webapp tool, ensuring blazing fast LLM performance.\n\n- Simply copy-paste the script to power your app with rapid chat completions and enjoy enhanced speed and efficiency.",
+  "files": [],
+  "has_rich_content": true
+}

@@ -1,0 +1,327 @@
+{
+  "name": "Client Session Scheduling Automation",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "schedule-session",
+        "options": {}
+      },
+      "name": "Webhook - Session Request",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [
+        250,
+        300
+      ],
+      "webhookId": "client-session-scheduling"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Validate incoming data\nconst data = $input.item.json;\nconst requiredFields = ['clientName', 'clientEmail', 'sessionType', 'preferredDate', 'preferredTime'];\n\nlet missingFields = [];\nrequiredFields.forEach(field => {\n  if (!data[field]) {\n    missingFields.push(field);\n  }\n});\n\nif (missingFields.length > 0) {\n  return {\n    json: {\n      success: false,\n      message: `Missing required fields: ${missingFields.join(', ')}`,\n      validationError: true\n    }\n  };\n}\n\n// Format date and time for Google Calendar\nconst dateStr = data.preferredDate;\nconst timeStr = data.preferredTime;\n\n// Parse date (assuming format YYYY-MM-DD)\nconst [year, month, day] = dateStr.split('-').map(num => parseInt(num, 10));\n\n// Parse time (assuming format HH:MM)\nlet [hours, minutes] = timeStr.split(':').map(num => parseInt(num, 10));\n\n// Create start date/time\nconst startDateTime = new Date(year, month - 1, day, hours, minutes);\n\n// End time is 1 hour later\nconst endDateTime = new Date(startDateTime.getTime() + 60 * 60 * 1000);\n\n// Format for Google Calendar\nconst formattedStart = startDateTime.toISOString();\nconst formattedEnd = endDateTime.toISOString();\n\nreturn {\n  json: {\n    ...data,\n    startDateTime: formattedStart,\n    endDateTime: formattedEnd,\n    success: true\n  }\n};"
+      },
+      "name": "Validate and Format Data",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [
+        450,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "boolean": [
+            {
+              "value1": "={{ $json.success }}",
+              "value2": true,
+              "operation": "equal"
+            }
+          ]
+        }
+      },
+      "name": "Is Valid Request?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [
+        650,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "calendarId": "primary"
+      },
+      "name": "Google Calendar - Get Calendar",
+      "type": "n8n-nodes-base.googleCalendar",
+      "typeVersion": 3,
+      "position": [
+        850,
+        200
+      ]
+    },
+    {
+      "parameters": {
+        "calendarId": "={{ $node[\"Google Calendar - Get Calendar\"].json.id }}",
+        "event": {
+          "start": {
+            "dateTime": "={{ $json.startDateTime }}"
+          },
+          "end": {
+            "dateTime": "={{ $json.endDateTime }}"
+          },
+          "summary": "={{ \"Coaching Session: \" + $json.sessionType + \" with \" + $json.clientName }}",
+          "description": "={{ \"Client Email: \" + $json.clientEmail + \"\\n\\nSession Type: \" + $json.sessionType + \"\\n\\nNotes: \" + ($json.notes || \"None\") }}",
+          "attendees": [
+            {
+              "email": "={{ $json.clientEmail }}"
+            }
+          ]
+        },
+        "options": {
+          "sendUpdates": "all",
+          "reminders": {
+            "useDefault": false,
+            "overrides": [
+              {
+                "method": "email",
+                "minutes": 1440
+              },
+              {
+                "method": "popup",
+                "minutes": 60
+              }
+            ]
+          }
+        }
+      },
+      "name": "Google Calendar - Create Event",
+      "type": "n8n-nodes-base.googleCalendar",
+      "typeVersion": 3,
+      "position": [
+        1050,
+        200
+      ]
+    },
+    {
+      "parameters": {
+        "fromEmail": "your.coaching.business@example.com",
+        "toEmail": "={{ $json.clientEmail }}",
+        "subject": "={{ \"Your Coaching Session is Confirmed: \" + $json.sessionType + \" on \" + $json.preferredDate }}",
+        "text": "",
+        "html": "<p>Dear {{ $json.clientName }},</p>\n\n<p>Your coaching session has been confirmed!</p>\n\n<p><strong>Session Details:</strong></p>\n<ul>\n  <li><strong>Type:</strong> {{ $json.sessionType }}</li>\n  <li><strong>Date:</strong> {{ $json.preferredDate }}</li>\n  <li><strong>Time:</strong> {{ $json.preferredTime }}</li>\n</ul>\n\n<p>This session has been added to your calendar. You should receive a calendar invitation shortly.</p>\n\n<p>Please prepare for our session by:</p>\n<ul>\n  <li>Finding a quiet space where you won't be interrupted</li>\n  <li>Having a notebook and pen ready</li>\n  <li>Reflecting on what you'd like to achieve during our session</li>\n</ul>\n\n<p>If you need to reschedule, please do so at least 24 hours in advance.</p>\n\n<p>Looking forward to our session!</p>\n\n<p>Best regards,<br>\nYour Coach</p>",
+        "options": {}
+      },
+      "name": "Gmail - Send Confirmation",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2,
+      "position": [
+        1250,
+        200
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "YOUR_CLIENT_SESSIONS_SHEET_ID",
+          "mode": "list",
+          "cachedResultName": "Client Sessions"
+        },
+        "sheetName": "Client Sessions",
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Date": "={{ $json.preferredDate }}",
+            "Time": "={{ $json.preferredTime }}",
+            "Client Name": "={{ $json.clientName }}",
+            "Client Email": "={{ $json.clientEmail }}",
+            "Session Type": "={{ $json.sessionType }}",
+            "Status": "Scheduled",
+            "Calendar Event ID": "={{ $node[\"Google Calendar - Create Event\"].json.id }}",
+            "Notes": "={{ $json.notes || \"\" }}"
+          }
+        }
+      },
+      "name": "Google Sheets - Log Session",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4,
+      "position": [
+        1450,
+        200
+      ]
+    },
+    {
+      "parameters": {
+        "chatId": "YOUR_SLACK_CHANNEL_ID",
+        "text": "✅ New coaching session scheduled!\n\n*Client:* {{ $json.clientName }}\n*Session Type:* {{ $json.sessionType }}\n*Date/Time:* {{ $json.preferredDate }} at {{ $json.preferredTime }}",
+        "otherOptions": {
+          "parse_mode": "markdown"
+        }
+      },
+      "name": "Slack - Send Notification",
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 2,
+      "position": [
+        1650,
+        200
+      ]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseData": {
+          "value": {
+            "success": true,
+            "message": "Session scheduled successfully",
+            "details": {
+              "sessionType": "={{ $json.sessionType }}",
+              "date": "={{ $json.preferredDate }}",
+              "time": "={{ $json.preferredTime }}",
+              "calendarEventId": "={{ $node[\"Google Calendar - Create Event\"].json.id }}"
+            }
+          }
+        },
+        "options": {}
+      },
+      "name": "Respond - Success",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [
+        1850,
+        200
+      ]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseData": {
+          "value": {
+            "success": false,
+            "message": "={{ $json.message || \"Invalid request data\" }}"
+          }
+        },
+        "options": {
+          "responseCode": 400
+        }
+      },
+      "name": "Respond - Error",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [
+        850,
+        400
+      ]
+    }
+  ],
+  "connections": {
+    "Webhook - Session Request": {
+      "main": [
+        [
+          {
+            "node": "Validate and Format Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Validate and Format Data": {
+      "main": [
+        [
+          {
+            "node": "Is Valid Request?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Is Valid Request?": {
+      "main": [
+        [
+          {
+            "node": "Google Calendar - Get Calendar",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Respond - Error",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Calendar - Get Calendar": {
+      "main": [
+        [
+          {
+            "node": "Google Calendar - Create Event",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Calendar - Create Event": {
+      "main": [
+        [
+          {
+            "node": "Gmail - Send Confirmation",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Gmail - Send Confirmation": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets - Log Session",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets - Log Session": {
+      "main": [
+        [
+          {
+            "node": "Slack - Send Notification",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Slack - Send Notification": {
+      "main": [
+        [
+          {
+            "node": "Respond - Success",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "saveManualExecutions": true,
+    "callerPolicy": "workflowsFromSameOwner",
+    "errorWorkflow": "YOUR_ERROR_WORKFLOW_ID"
+  },
+  "tags": [
+    "client-management",
+    "scheduling"
+  ],
+  "triggerCount": 1
+}

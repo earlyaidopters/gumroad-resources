@@ -1,0 +1,436 @@
+{
+  "name": "Sales Design Agent",
+  "nodes": [
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.query }}",
+        "options": {
+          "systemMessage": "# Overview\nYou are the RetroFuture Gadgetry Sales & Design Agent, responsible for managing new design launches, limited edition drops, customer acquisition, and partnership opportunities. You create excitement around our handcrafted gadgets and drive sustainable growth through strategic releases.\n\n## Tools Available\n\n### Shopify Store Management\n- Product launches\n- Inventory tracking\n- Sales analytics\n- Customer data\n\n### Design Launch API\n- Schedule drops\n- Manage waitlists\n- Limited edition tracking\n- Pre-order management\n\n### Mailchimp Marketing\n- Email campaigns\n- Launch announcements\n- Waitlist management\n- Customer segmentation\n\n### Calendly Consultations\n- Design consultations\n- Custom order meetings\n- Partnership discussions\n\n### Instagram Integration\n- Product showcases\n- Behind-the-scenes content\n- Launch teasers\n- Customer features\n\n### Slack Design Team\n- New concept alerts\n- Launch coordination\n- Sales celebrations\n\n## Sales Focus Areas\n\n### Design Categories\n- **Steampunk Collection**\n  - Victorian-inspired pieces\n  - Brass and copper themes\n  - Gear-driven mechanisms\n  \n- **Art Deco Line**\n  - Geometric patterns\n  - Chrome and black finishes\n  - Elegant minimalism\n  \n- **Dieselpunk Series**\n  - Industrial aesthetics\n  - Rugged materials\n  - Military-inspired designs\n  \n- **Atompunk Edition**\n  - Retro-futuristic themes\n  - Atomic age styling\n  - Space-age materials\n\n### Launch Strategies\n\n#### Limited Editions\n- Batch sizes: 10-50 pieces\n- Pre-announcement teasers\n- Waitlist management\n- First-come allocation\n\n#### Surprise Drops\n- Unannounced releases\n- Social media reveals\n- 24-hour availability\n- Exclusive to subscribers\n\n#### Custom Commissions\n- One-of-a-kind pieces\n- Collaborative design process\n- Premium pricing tier\n- 3-6 month timeline\n\n### Target Customers\n- Collectors & enthusiasts\n- Gift buyers (unique/luxury)\n- Corporate clients\n- Interior designers\n- Museum gift shops\n\n### Pricing Strategy\n- Entry pieces: $150-300\n- Signature items: $300-800\n- Limited editions: $500-1500\n- Custom commissions: $1000+\n\n## Partnership Opportunities\n- Boutique retailers\n- Gallery exhibitions\n- Convention vendors\n- Subscription boxes\n- Corporate gifts\n\nMinimum wholesale orders: $2,500\nPartnership commission: 40% margin\n\nCurrent Date/Time: {{ $now }}"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.7,
+      "position": [
+        -120,
+        -140
+      ],
+      "id": "6b3456fe-d0c4-4c4e-b767-82d11f475b2f",
+      "name": "Sales Design Agent",
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "model": "gpt-4o",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        -380,
+        60
+      ],
+      "id": "b7f6e345-a346-42bf-ac74-55500ba5965f",
+      "name": "OpenAI Chat Model"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.shopifyTool",
+      "typeVersion": 1.1,
+      "position": [
+        -500,
+        460
+      ],
+      "id": "90639716-46be-4368-b2d8-7dc025e32307",
+      "name": "Search Products",
+      "credentials": {}
+    },
+    {
+      "parameters": {
+        "toolDescription": "Schedule a new design drop",
+        "url": "https://api.retrofuturegadgetry.com/v2/launches/schedule",
+        "sendQuery": true,
+        "parametersQuery": {
+          "values": [
+            {}
+          ]
+        },
+        "sendHeaders": true,
+        "parametersHeaders": {
+          "values": [
+            {}
+          ]
+        },
+        "placeholderDefinitions": {
+          "values": [
+            {
+              "name": "designName",
+              "description": "Name of new design",
+              "type": "string"
+            },
+            {
+              "name": "launchType",
+              "description": "Type of launch (limited/surprise/regular)",
+              "type": "string"
+            },
+            {
+              "name": "quantity",
+              "description": "Number of pieces",
+              "type": "number"
+            },
+            {
+              "name": "launchDate",
+              "description": "Launch date and time",
+              "type": "string"
+            },
+            {
+              "name": "pricing",
+              "description": "Price point",
+              "type": "number"
+            },
+            {
+              "name": "waitlistEnabled",
+              "description": "Enable waitlist",
+              "type": "boolean"
+            },
+            {
+              "name": "apiKey",
+              "description": "RetroFuture API Key",
+              "type": "string"
+            }
+          ]
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolHttpRequest",
+      "typeVersion": 1.1,
+      "position": [
+        -220,
+        140
+      ],
+      "id": "75cd8dbb-4039-49a8-b2f1-e4864b2e3953",
+      "name": "Schedule Design Drop"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.mailchimpTool",
+      "typeVersion": 1.1,
+      "position": [
+        -500,
+        700
+      ],
+      "id": "f3f6c170-c4a8-4df5-9bf0-78202d353a64",
+      "name": "Email Campaign",
+      "credentials": {}
+    },
+    {
+      "parameters": {
+        "toolDescription": "Schedule a design consultation",
+        "method": "POST",
+        "url": "https://api.calendly.com/scheduled_events",
+        "sendHeaders": true,
+        "parametersHeaders": {
+          "values": [
+            {}
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "{\n  \"event_type\": \"{eventType}\",\n  \"invitee\": {\n    \"email\": \"{inviteeEmail}\",\n    \"name\": \"{inviteeName}\"\n  },\n  \"start_time\": \"{startTime}\",\n  \"timezone\": \"{timezone}\",\n  \"location\": \"{location}\",\n  \"questions_and_answers\": {\n    \"design_interest\": \"{designInterest}\",\n    \"budget_range\": \"{budgetRange}\",\n    \"timeline\": \"{timeline}\"\n  }\n}",
+        "placeholderDefinitions": {
+          "values": [
+            {
+              "name": "eventType",
+              "description": "Type of consultation",
+              "type": "string"
+            },
+            {
+              "name": "inviteeEmail",
+              "description": "Customer email",
+              "type": "string"
+            },
+            {
+              "name": "inviteeName",
+              "description": "Customer name",
+              "type": "string"
+            },
+            {
+              "name": "startTime",
+              "description": "Consultation start time",
+              "type": "string"
+            },
+            {
+              "name": "timezone",
+              "description": "Meeting timezone",
+              "type": "string"
+            },
+            {
+              "name": "location",
+              "description": "Meeting location/link",
+              "type": "string"
+            },
+            {
+              "name": "designInterest",
+              "description": "Design preferences",
+              "type": "string"
+            },
+            {
+              "name": "budgetRange",
+              "description": "Customer budget",
+              "type": "string"
+            },
+            {
+              "name": "timeline",
+              "description": "Desired timeline",
+              "type": "string"
+            },
+            {
+              "name": "calendlyApiKey",
+              "description": "Calendly API key",
+              "type": "string"
+            }
+          ]
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolHttpRequest",
+      "typeVersion": 1.1,
+      "position": [
+        -20,
+        160
+      ],
+      "id": "9a2a26fa-c1e2-4521-94a3-bf87e156ec89",
+      "name": "Schedule Consultation"
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $fromAI(\"customerEmail\") }}",
+        "subject": "{{ $fromAI(\"emailSubject\", \"Exclusive: New RetroFuture Design Launch\") }}",
+        "message": "={{ $fromAI(\"emailContent\") }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmailTool",
+      "typeVersion": 2.1,
+      "position": [
+        120,
+        120
+      ],
+      "id": "0d45655c-b613-47c9-83b8-72a32e3762fd",
+      "name": "Send Launch Email",
+      "webhookId": "5e56c94a-161b-4213-8448-01be6cb31621"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.googleDocsTool",
+      "typeVersion": 1.1,
+      "position": [
+        -500,
+        940
+      ],
+      "id": "41bea86e-0b3f-4aaf-b923-08d8defd32fb",
+      "name": "Generate Catalog",
+      "credentials": {}
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.instagramTool",
+      "typeVersion": 1.1,
+      "position": [
+        -500,
+        1180
+      ],
+      "id": "e96466cb-f6c5-4107-9156-70f7c49c62de",
+      "name": "Post Design Teaser",
+      "credentials": {}
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.slackTool",
+      "typeVersion": 1.4,
+      "position": [
+        -500,
+        1440
+      ],
+      "id": "ad9ad21b-4707-461a-b85a-de8f0b0603b3",
+      "name": "Notify Design Team",
+      "credentials": {}
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "mode": "list",
+          "value": ""
+        },
+        "sheetName": {
+          "__rl": true,
+          "mode": "list",
+          "value": ""
+        }
+      },
+      "type": "n8n-nodes-base.googleSheetsTool",
+      "typeVersion": 4.4,
+      "position": [
+        260,
+        100
+      ],
+      "id": "9f9d4f6b-04f0-435d-a232-09cfccdad75f",
+      "name": "Update Sales Pipeline"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "response-id",
+              "name": "response",
+              "value": "={{ $json.output }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        400,
+        -240
+      ],
+      "id": "0a3bce43-b22e-4be5-9d95-2b792beb8c9f",
+      "name": "Response"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "error-response-id",
+              "name": "response",
+              "value": "Unable to process sales design request. Please try again.",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        400,
+        -40
+      ],
+      "id": "fcf8f5f3-f9e5-492a-81d3-801a28dbed85",
+      "name": "Try Again"
+    },
+    {
+      "parameters": {
+        "inputSource": "passthrough"
+      },
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        -500,
+        -140
+      ],
+      "id": "cab28ce7-3a22-4798-b33b-dd2d97e7b2f5",
+      "name": "When Executed by Another Workflow"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When Executed by Another Workflow": {
+      "main": [
+        [
+          {
+            "node": "Sales Design Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Sales Design Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Schedule Design Drop": {
+      "ai_tool": [
+        [
+          {
+            "node": "Sales Design Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Schedule Consultation": {
+      "ai_tool": [
+        [
+          {
+            "node": "Sales Design Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send Launch Email": {
+      "ai_tool": [
+        [
+          {
+            "node": "Sales Design Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update Sales Pipeline": {
+      "ai_tool": [
+        [
+          {
+            "node": "Sales Design Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Sales Design Agent": {
+      "main": [
+        [
+          {
+            "node": "Response",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Try Again",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "58937ca7-4570-4487-9768-c4b12c6c3741",
+  "meta": {
+    "instanceId": "aaadb797535f05587ee95b776c942a7c3f7a46fd7aa0c9b6a9d64e1e595f8af1"
+  },
+  "id": "9pXnq8b07xyOncQ2",
+  "tags": []
+}

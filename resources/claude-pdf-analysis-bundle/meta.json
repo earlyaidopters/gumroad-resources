@@ -1,0 +1,21 @@
+{
+  "name": "Claude PDF Analysis Bundle 📜",
+  "external_id": "2VkXd4kU_L20SOPNzz5jAg==",
+  "permalink": "smrhn",
+  "unique_permalink": "smrhn",
+  "custom_permalink": "claudevisualpdfbundle",
+  "url": "https://markkashef.gumroad.com/l/claudevisualpdfbundle",
+  "status": "published",
+  "archived": false,
+  "kind": "products",
+  "price_formatted": "CAD$0+",
+  "description_md": "What You Get 🚀\nHere’s what’s included:\nPDFs Used in Demos\nAccess to the same PDFs used in the video demonstrations.\nGoogle Drive Integration\nStep-by-step guide to uploading, sharing, and analyzing PDFs from Google Drive.\nClaude Analysis Replit\nA deployable Replit project for running Claude-powered PDF analysis.\nReplit Link\nDirect access to the Replit workspace used in the demo.\nGoogle Colab Integration\nRun AI-driven PDF analysis in a cloud-based environment with minimal setup.\nClaude PDF Analysis\nCustom workflows to extract insights from PDFs using Claude AI.\nCustom GPT Schema & Prompt\nStructured templates for integrating PDF analysis into your own custom GPTs.\nBonus: Sample Postman Request\nEasily test and interact with the Claude PDF analysis API.\nIf this is useful to you, I’d love your support for the channel ❤️‍🔥",
+  "files": [
+    {
+      "file": "gptschema.txt",
+      "status": "cached",
+      "bytes": 2152
+    }
+  ],
+  "has_rich_content": true
+}

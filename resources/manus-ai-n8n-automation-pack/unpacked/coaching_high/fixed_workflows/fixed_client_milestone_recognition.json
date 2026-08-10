@@ -1,0 +1,641 @@
+{
+  "name": "Client Milestone Recognition Automation",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "days",
+              "minutesInterval": 0,
+              "hoursInterval": 0,
+              "daysInterval": 1
+            }
+          ],
+          "triggerAtTime": true,
+          "hour": 8,
+          "minute": 0
+        }
+      },
+      "id": "1a5c1e9a-5352-4ab1-a9f5-c29a2e83a0a0",
+      "name": "Schedule Trigger - Daily Check",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1,
+      "position": [
+        250,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "read",
+        "documentId": {
+          "__rl": true,
+          "value": "GOOGLE_SHEET_ID_PLACEHOLDER",
+          "mode": "list",
+          "cachedResultName": "Client Database",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/GOOGLE_SHEET_ID_PLACEHOLDER/edit"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 0,
+          "mode": "list",
+          "cachedResultName": "Clients"
+        },
+        "range": "A:J",
+        "options": {
+          "headerRow": true
+        }
+      },
+      "id": "2b6d2f9b-6463-4bc2-b0f6-d3a3f4b4a0b1",
+      "name": "Google Sheets - Get All Clients",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 3,
+      "position": [
+        450,
+        300
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "GOOGLE_SHEETS_CREDENTIAL_ID_PLACEHOLDER",
+          "name": "Google Sheets Account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "read",
+        "documentId": {
+          "__rl": true,
+          "value": "GOOGLE_SHEET_ID_PLACEHOLDER",
+          "mode": "list",
+          "cachedResultName": "Session Log",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/GOOGLE_SHEET_ID_PLACEHOLDER/edit"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 0,
+          "mode": "list",
+          "cachedResultName": "Sessions"
+        },
+        "range": "A:H",
+        "options": {
+          "headerRow": true
+        }
+      },
+      "id": "3c7e3f0c-7574-4cd3-c1f7-e4b4f5c5b1c2",
+      "name": "Google Sheets - Get Session History",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 3,
+      "position": [
+        450,
+        500
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "GOOGLE_SHEETS_CREDENTIAL_ID_PLACEHOLDER",
+          "name": "Google Sheets Account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "read",
+        "documentId": {
+          "__rl": true,
+          "value": "GOOGLE_SHEET_ID_PLACEHOLDER",
+          "mode": "list",
+          "cachedResultName": "Goal Achievements",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/GOOGLE_SHEET_ID_PLACEHOLDER/edit"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 0,
+          "mode": "list",
+          "cachedResultName": "Achievements"
+        },
+        "range": "A:G",
+        "options": {
+          "headerRow": true
+        }
+      },
+      "id": "4d8f4g1d-8685-5de4-d2g8-f5c6g6d7c2d3",
+      "name": "Google Sheets - Get Goal Achievements",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 3,
+      "position": [
+        450,
+        700
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "GOOGLE_SHEETS_CREDENTIAL_ID_PLACEHOLDER",
+          "name": "Google Sheets Account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "read",
+        "documentId": {
+          "__rl": true,
+          "value": "GOOGLE_SHEET_ID_PLACEHOLDER",
+          "mode": "list",
+          "cachedResultName": "Milestone Tracking",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/GOOGLE_SHEET_ID_PLACEHOLDER/edit"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 0,
+          "mode": "list",
+          "cachedResultName": "Milestones"
+        },
+        "range": "A:H",
+        "options": {
+          "headerRow": true
+        }
+      },
+      "id": "5e9g5h2e-9796-6ef5-e3h9-g6d7h7e8d3e4",
+      "name": "Google Sheets - Get Milestone History",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 3,
+      "position": [
+        450,
+        900
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "GOOGLE_SHEETS_CREDENTIAL_ID_PLACEHOLDER",
+          "name": "Google Sheets Account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// Identify client milestones\nconst clients = $node[\"Google Sheets - Get All Clients\"].json;\nconst sessions = $node[\"Google Sheets - Get Session History\"].json;\nconst achievements = $node[\"Google Sheets - Get Goal Achievements\"].json;\nconst milestoneHistory = $node[\"Google Sheets - Get Milestone History\"].json;\n\n// Current date for calculations\nconst now = new Date();\nconst today = new Date(now.getFullYear(), now.getMonth(), now.getDate());\nconst todayStr = today.toISOString().split('T')[0];\n\n// Create a map of client IDs to their session counts\nconst sessionCountMap = new Map();\nsessions.forEach(session => {\n  if (session.client_id) {\n    if (!sessionCountMap.has(session.client_id)) {\n      sessionCountMap.set(session.client_id, 0);\n    }\n    sessionCountMap.set(session.client_id, sessionCountMap.get(session.client_id) + 1);\n  }\n});\n\n// Create a map of client IDs to their last milestone recognition date by type\nconst lastMilestoneMap = new Map();\nmilestoneHistory.forEach(milestone => {\n  if (milestone.client_id && milestone.date && milestone.milestone_type) {\n    const clientId = milestone.client_id;\n    const milestoneType = milestone.milestone_type;\n    const milestoneDate = new Date(milestone.date);\n    \n    if (!lastMilestoneMap.has(clientId)) {\n      lastMilestoneMap.set(clientId, {});\n    }\n    \n    const clientMilestones = lastMilestoneMap.get(clientId);\n    if (!clientMilestones[milestoneType] || milestoneDate > new Date(clientMilestones[milestoneType])) {\n      clientMilestones[milestoneType] = milestone.date;\n    }\n  }\n});\n\n// Find clients with milestones\nconst clientMilestones = [];\n\n// 1. Session count milestones (5, 10, 25, 50, 100)\nconst sessionMilestones = [5, 10, 25, 50, 100];\nclients.forEach(client => {\n  // Skip inactive clients\n  if (client.status && (client.status.toLowerCase() === 'inactive' || client.status.toLowerCase() === 'unsubscribed')) {\n    return;\n  }\n  \n  const clientId = client.id || client.client_id;\n  if (!clientId) return;\n  \n  // Check session count milestones\n  const sessionCount = sessionCountMap.get(clientId) || 0;\n  const clientMilestoneHistory = lastMilestoneMap.get(clientId) || {};\n  \n  for (const milestoneSessions of sessionMilestones) {\n    if (sessionCount === milestoneSessions) {\n      const milestoneType = `session-${milestoneSessions}`;\n      \n      // Check if this milestone has already been recognized\n      if (!clientMilestoneHistory[milestoneType]) {\n        clientMilestones.push({\n          clientId,\n          firstName: client.first_name || client.firstName || '',\n          lastName: client.last_name || client.lastName || '',\n          email: client.email || '',\n          phone: client.phone || '',\n          coachingType: client.coaching_type || client.coachingType || 'General',\n          milestoneType,\n          milestoneValue: milestoneSessions,\n          milestoneCategory: 'session-count',\n          description: `Completed ${milestoneSessions} coaching sessions`\n        });\n      }\n    }\n  }\n  \n  // 2. Anniversary milestones (30 days, 90 days, 6 months, 1 year)\n  const createdDate = client.created_date || client.createdDate;\n  if (createdDate) {\n    const clientCreatedDate = new Date(createdDate);\n    const daysSinceCreation = Math.floor((today - clientCreatedDate) / (1000 * 60 * 60 * 24));\n    \n    // Check for anniversaries\n    const anniversaryMilestones = [\n      { days: 30, type: 'anniversary-30-days' },\n      { days: 90, type: 'anniversary-90-days' },\n      { days: 180, type: 'anniversary-6-months' },\n      { days: 365, type: 'anniversary-1-year' },\n      { days: 730, type: 'anniversary-2-years' }\n    ];\n    \n    for (const milestone of anniversaryMilestones) {\n      if (daysSinceCreation === milestone.days) {\n        // Check if this milestone has already been recognized\n        if (!clientMilestoneHistory[milestone.type]) {\n          let description = '';\n          if (milestone.days === 30) description = '30 days of coaching partnership';\n          else if (milestone.days === 90) description = '90 days of coaching partnership';\n          else if (milestone.days === 180) description = '6 months of coaching partnership';\n          else if (milestone.days === 365) description = '1 year of coaching partnership';\n          else if (milestone.days === 730) description = '2 years of coaching partnership';\n          \n          clientMilestones.push({\n            clientId,\n            firstName: client.first_name || client.firstName || '',\n            lastName: client.last_name || client.lastName || '',\n            email: client.email || '',\n            phone: client.phone || '',\n            coachingType: client.coaching_type || client.coachingType || 'General',\n            milestoneType: milestone.type,\n            milestoneValue: milestone.days,\n            milestoneCategory: 'anniversary',\n            description\n          });\n        }\n      }\n    }\n  }\n});\n\n// 3. Goal achievement milestones\nachievements.forEach(achievement => {\n  if (achievement.client_id && achievement.achievement_date && achievement.achievement_date === todayStr) {\n    const clientId = achievement.client_id;\n    \n    // Find client details\n    const client = clients.find(c => (c.id || c.client_id) === clientId);\n    if (!client) return;\n    \n    // Skip inactive clients\n    if (client.status && (client.status.toLowerCase() === 'inactive' || client.status.toLowerCase() === 'unsubscribed')) {\n      return;\n    }\n    \n    const milestoneType = `goal-${achievement.goal_id || 'achievement'}`;\n    const clientMilestoneHistory = lastMilestoneMap.get(clientId) || {};\n    \n    // Check if this specific goal achievement has already been recognized\n    if (!clientMilestoneHistory[milestoneType]) {\n      clientMilestones.push({\n        clientId,\n        firstName: client.first_name || client.firstName || '',\n        lastName: client.last_name || client.lastName || '',\n        email: client.email || '',\n        phone: client.phone || '',\n        coachingType: client.coaching_type || client.coachingType || 'General',\n        milestoneType,\n        milestoneValue: achievement.goal_id || '',\n        milestoneCategory: 'goal-achievement',\n        description: achievement.achievement_description || 'Goal achievement',\n        goalDetails: achievement.goal_details || ''\n      });\n    }\n  }\n});\n\nreturn {\n  totalMilestones: clientMilestones.length,\n  milestones: clientMilestones\n};"
+      },
+      "id": "6f0h6i3f-0807-7fg6-f4i0-h7e8i8f9e4f5",
+      "name": "Code - Identify Milestones",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [
+        650,
+        600
+      ]
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "// Process each milestone individually\nconst milestones = $node[\"Code - Identify Milestones\"].json.milestones;\nconst currentIndex = $input.item.index;\n\nif (currentIndex < milestones.length) {\n  return milestones[currentIndex];\n} else {\n  return {};\n}"
+      },
+      "id": "7g1i7j4g-1918-8gh7-g5j1-i8f9j9g0f5g6",
+      "name": "Code - Process Each Milestone",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [
+        850,
+        600
+      ]
+    },
+    {
+      "parameters": {
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialName": "OpenAI API Key",
+        "operation": "message",
+        "model": "gpt-4",
+        "options": {
+          "temperature": 0.7,
+          "maxTokens": 1000
+        },
+        "messages": {
+          "values": [
+            {
+              "role": "system",
+              "content": "You are an expert in client engagement for coaching businesses. Your task is to create a personalized, celebratory message for a client who has reached an important milestone in their coaching journey."
+            },
+            {
+              "role": "user",
+              "content": "=Create a personalized congratulatory email for a client who has reached a milestone with the following details:\n\nClient Name: {{$node[\"Code - Process Each Milestone\"].json[\"firstName\"]}} {{$node[\"Code - Process Each Milestone\"].json[\"lastName\"]}}\nCoaching Type: {{$node[\"Code - Process Each Milestone\"].json[\"coachingType\"]}}\nMilestone: {{$node[\"Code - Process Each Milestone\"].json[\"description\"]}}\n{% if $node[\"Code - Process Each Milestone\"].json[\"milestoneCategory\"] === 'goal-achievement' %}\nGoal Details: {{$node[\"Code - Process Each Milestone\"].json[\"goalDetails\"]}}\n{% endif %}\n\nThe email should:\n1. Be celebratory and enthusiastic\n2. Acknowledge their specific achievement\n3. Highlight the significance of this milestone\n4. Encourage continued progress\n5. Express genuine appreciation for their commitment\n6. Be written in a conversational, personal tone\n\nThe email should be formatted in HTML for a Gmail message."
+            }
+          ]
+        }
+      },
+      "id": "8h2j8k5h-2029-9hi8-h6k2-j9g0k0h1g6h7",
+      "name": "OpenAI - Generate Milestone Email",
+      "type": "n8n-nodes-langchain.openai",
+      "typeVersion": 1,
+      "position": [
+        1050,
+        600
+      ]
+    },
+    {
+      "parameters": {
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialName": "Gmail Account",
+        "fromEmail": "YOUR_EMAIL@gmail.com",
+        "toEmail": "={{$node[\"Code - Process Each Milestone\"].json[\"email\"]}}",
+        "subject": "=Congratulations on your milestone, {{$node[\"Code - Process Each Milestone\"].json[\"firstName\"]}}!",
+        "html": "={{$node[\"OpenAI - Generate Milestone Email\"].json[\"text\"]}}",
+        "additionalFields": {}
+      },
+      "id": "9i3k9l6i-3130-0ij9-i7l3-k0h1l1i2h7i8",
+      "name": "Gmail - Send Milestone Email",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 1,
+      "position": [
+        1250,
+        600
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "GOOGLE_SHEET_ID_PLACEHOLDER",
+          "mode": "list",
+          "cachedResultName": "Milestone Tracking",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/GOOGLE_SHEET_ID_PLACEHOLDER/edit"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 0,
+          "mode": "list",
+          "cachedResultName": "Milestones"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "mappingMode": "defineBelow",
+            "value": {
+              "date": "={{$now.format(\"YYYY-MM-DD HH:mm:ss\")}}",
+              "client_id": "={{$node[\"Code - Process Each Milestone\"].json[\"clientId\"]}}",
+              "client_name": "={{$node[\"Code - Process Each Milestone\"].json[\"firstName\"]}} {{$node[\"Code - Process Each Milestone\"].json[\"lastName\"]}}",
+              "email": "={{$node[\"Code - Process Each Milestone\"].json[\"email\"]}}",
+              "milestone_type": "={{$node[\"Code - Process Each Milestone\"].json[\"milestoneType\"]}}",
+              "milestone_category": "={{$node[\"Code - Process Each Milestone\"].json[\"milestoneCategory\"]}}",
+              "description": "={{$node[\"Code - Process Each Milestone\"].json[\"description\"]}}",
+              "email_sent": "Yes"
+            }
+          }
+        },
+        "options": {}
+      },
+      "id": "0j4l0m7j-4241-1jk0-j8m4-l1i2m2j3i8j9",
+      "name": "Google Sheets - Log Milestone",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 3,
+      "position": [
+        1450,
+        600
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "GOOGLE_SHEETS_CREDENTIAL_ID_PLACEHOLDER",
+          "name": "Google Sheets Account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{$node[\"Code - Process Each Milestone\"].json[\"milestoneCategory\"]}}",
+              "operation": "isNotEmpty"
+            }
+          ],
+          "number": [
+            {
+              "value1": "={{$node[\"Code - Identify Milestones\"].json[\"totalMilestones\"]}}",
+              "operation": "larger",
+              "value2": 0
+            }
+          ]
+        }
+      },
+      "id": "1k5m1n8k-5352-2kl1-k9n5-m2j3n3k4j9k0",
+      "name": "IF - Milestones Found",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [
+        650,
+        800
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "or": [
+            {
+              "string": [
+                {
+                  "value1": "={{$node[\"Code - Process Each Milestone\"].json[\"milestoneType\"]}}",
+                  "operation": "contains",
+                  "value2": "session-25"
+                },
+                {
+                  "value1": "={{$node[\"Code - Process Each Milestone\"].json[\"milestoneType\"]}}",
+                  "operation": "contains",
+                  "value2": "session-50"
+                },
+                {
+                  "value1": "={{$node[\"Code - Process Each Milestone\"].json[\"milestoneType\"]}}",
+                  "operation": "contains",
+                  "value2": "session-100"
+                },
+                {
+                  "value1": "={{$node[\"Code - Process Each Milestone\"].json[\"milestoneType\"]}}",
+                  "operation": "contains",
+                  "value2": "anniversary-1-year"
+                },
+                {
+                  "value1": "={{$node[\"Code - Process Each Milestone\"].json[\"milestoneType\"]}}",
+                  "operation": "contains",
+                  "value2": "anniversary-2-years"
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "id": "2l6n2o9l-6463-3lm2-l0o6-n3k4o4l5k0l1",
+      "name": "IF - Major Milestone",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [
+        850,
+        800
+      ]
+    },
+    {
+      "parameters": {
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialName": "OpenAI API Key",
+        "operation": "message",
+        "model": "gpt-4",
+        "options": {
+          "temperature": 0.7,
+          "maxTokens": 1000
+        },
+        "messages": {
+          "values": [
+            {
+              "role": "system",
+              "content": "You are an expert in social media marketing for coaching businesses. Your task is to create a short, engaging social media post celebrating a client's milestone (with their permission)."
+            },
+            {
+              "role": "user",
+              "content": "=Create a social media post celebrating a client milestone with the following details:\n\nClient First Name: {{$node[\"Code - Process Each Milestone\"].json[\"firstName\"]}}\nMilestone: {{$node[\"Code - Process Each Milestone\"].json[\"description\"]}}\n\nThe post should:\n1. Be celebratory and positive\n2. Highlight the client's achievement without sharing personal details\n3. Use the milestone as inspiration for others\n4. Include 2-3 relevant hashtags\n5. Be brief (under 280 characters for Twitter compatibility)\n6. Not include any personal or identifying information beyond first name\n\nThis post will be reviewed and only shared with explicit client permission."
+            }
+          ]
+        }
+      },
+      "id": "3m7o3p0m-7574-4mn3-m1p7-o5l6p5m6l1m2",
+      "name": "OpenAI - Generate Social Post",
+      "type": "n8n-nodes-langchain.openai",
+      "typeVersion": 1,
+      "position": [
+        1050,
+        800
+      ]
+    },
+    {
+      "parameters": {
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialName": "Slack Account",
+        "channel": "coaching-social",
+        "text": "=Suggested social media post for {{$node[\"Code - Process Each Milestone\"].json[\"firstName\"]}}'s {{$node[\"Code - Process Each Milestone\"].json[\"description\"]}} milestone",
+        "otherOptions": {}
+      },
+      "id": "4n8p4q1n-8685-5no4-n2q8-p6m7q6n7m2n3",
+      "name": "Slack - Suggest Social Post",
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 1,
+      "position": [
+        1250,
+        800
+      ]
+    },
+    {
+      "parameters": {
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialName": "Slack Account",
+        "channel": "coaching-milestones",
+        "text": "=Client Milestone Alert: {{$node[\"Code - Process Each Milestone\"].json[\"firstName\"]}} {{$node[\"Code - Process Each Milestone\"].json[\"lastName\"]}} - {{$node[\"Code - Process Each Milestone\"].json[\"description\"]}}",
+        "otherOptions": {}
+      },
+      "id": "5o9q5r2o-9796-6op5-o3r9-q7n8r7o8n3o4",
+      "name": "Slack - Notify About Milestone",
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 1,
+      "position": [
+        1050,
+        950
+      ]
+    },
+    {
+      "parameters": {
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialName": "Slack Account",
+        "channel": "coaching-milestones",
+        "text": "=Daily Milestone Check Complete - No milestones found for today",
+        "otherOptions": {}
+      },
+      "id": "6p0r6s3p-0807-7pq6-p4s0-r8o9s8p9o4p5",
+      "name": "Slack - Daily Summary",
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 1,
+      "position": [
+        850,
+        1050
+      ]
+    }
+  ],
+  "connections": {
+    "Schedule Trigger - Daily Check": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets - Get All Clients",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Google Sheets - Get Session History",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Google Sheets - Get Goal Achievements",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Google Sheets - Get Milestone History",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets - Get All Clients": {
+      "main": [
+        [
+          {
+            "node": "Code - Identify Milestones",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets - Get Session History": {
+      "main": [
+        [
+          {
+            "node": "Code - Identify Milestones",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets - Get Goal Achievements": {
+      "main": [
+        [
+          {
+            "node": "Code - Identify Milestones",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets - Get Milestone History": {
+      "main": [
+        [
+          {
+            "node": "Code - Identify Milestones",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code - Identify Milestones": {
+      "main": [
+        [
+          {
+            "node": "IF - Milestones Found",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code - Process Each Milestone": {
+      "main": [
+        [
+          {
+            "node": "OpenAI - Generate Milestone Email",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "IF - Major Milestone",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI - Generate Milestone Email": {
+      "main": [
+        [
+          {
+            "node": "Gmail - Send Milestone Email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Gmail - Send Milestone Email": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets - Log Milestone",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "IF - Major Milestone": {
+      "main": [
+        [
+          {
+            "node": "OpenAI - Generate Social Post",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Slack - Notify About Milestone",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI - Generate Social Post": {
+      "main": [
+        [
+          {
+            "node": "Slack - Suggest Social Post",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "IF - Milestones Found": {
+      "main": [
+        [
+          {
+            "node": "Code - Process Each Milestone",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Slack - Daily Summary",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1",
+    "saveManualExecutions": true,
+    "callerPolicy": "workflowsFromSameOwner",
+    "errorWorkflow": ""
+  },
+  "staticData": null,
+  "tags": [
+    "client",
+    "milestone",
+    "automation",
+    "coaching",
+    "recognition"
+  ],
+  "triggerCount": 1,
+  "versionId": "0j1k2l3m-4n5o-6p7q-8r9s-0t1u2v3w4x5y"
+}

@@ -1,0 +1,64 @@
+openapi: 3.1.0
+info:
+  title: Prompt Advisers Proposal API
+  version: 1.0.0
+  description: API for submitting essential variables required to generate a Prompt Advisers proposal
+
+servers:
+  - url: ENTER YOUR WEBHOOK HERE
+
+paths:
+  /:
+    post:
+      operationId: submitProposalVariables
+      summary: Submit essential proposal variables
+      description: Submit the necessary variables for generating a basic Prompt Advisers proposal
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                clientName:
+                  type: string
+                  description: Name of the client
+                clientCompanyName:
+                  type: string
+                  description: Name of the client's company
+                clientObjectives:
+                  type: string
+                  description: Brief description of the client's objectives and challenges
+                servicesNeeded:
+                  type: string
+                  description: List of services the client requires (e.g., AI audits, consulting)
+                budget:
+                  type: string
+                  description: Client’s allocated budget for the project
+              required:
+                - clientName
+                - clientCompanyName
+                - clientObjectives
+                - servicesNeeded
+                - budget
+      responses:
+        '200':
+          description: Successful submission
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Webhook successfully triggered. Data has been received."
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Invalid input data."

@@ -1,0 +1,447 @@
+{
+  "name": "Deal Sourcing & Lead Capture Automation",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "lead-capture",
+        "options": {}
+      },
+      "name": "Website Form Trigger",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [
+        240,
+        300
+      ],
+      "webhookId": "lead-capture-form"
+    },
+    {
+      "parameters": {
+        "triggerOn": "form",
+        "formTitle": "Startup Lead Submission",
+        "formDescription": "Submit your startup for potential investment consideration",
+        "formFields": {
+          "values": [
+            {
+              "fieldType": "text",
+              "fieldTypeOptions": {
+                "required": true
+              },
+              "fieldName": "companyName",
+              "fieldTitle": "Company Name"
+            },
+            {
+              "fieldType": "text",
+              "fieldTypeOptions": {
+                "required": true
+              },
+              "fieldName": "founderName",
+              "fieldTitle": "Founder Name"
+            },
+            {
+              "fieldType": "email",
+              "fieldTypeOptions": {
+                "required": true
+              },
+              "fieldName": "email",
+              "fieldTitle": "Email Address"
+            },
+            {
+              "fieldType": "text",
+              "fieldTypeOptions": {},
+              "fieldName": "website",
+              "fieldTitle": "Website URL"
+            },
+            {
+              "fieldType": "options",
+              "fieldTypeOptions": {
+                "required": true,
+                "multipleValues": false
+              },
+              "fieldName": "stage",
+              "fieldTitle": "Funding Stage",
+              "fieldOptions": [
+                "Pre-seed",
+                "Seed",
+                "Series A",
+                "Series B+",
+                "Other"
+              ]
+            },
+            {
+              "fieldType": "options",
+              "fieldTypeOptions": {
+                "required": true,
+                "multipleValues": true
+              },
+              "fieldName": "industry",
+              "fieldTitle": "Industry",
+              "fieldOptions": [
+                "SaaS",
+                "Fintech",
+                "Healthcare",
+                "E-commerce",
+                "AI/ML",
+                "Climate Tech",
+                "Other"
+              ]
+            },
+            {
+              "fieldType": "textarea",
+              "fieldTypeOptions": {
+                "required": true
+              },
+              "fieldName": "description",
+              "fieldTitle": "Company Description"
+            },
+            {
+              "fieldType": "options",
+              "fieldTypeOptions": {
+                "required": true,
+                "multipleValues": false
+              },
+              "fieldName": "referralSource",
+              "fieldTitle": "How did you hear about us?",
+              "fieldOptions": [
+                "Website",
+                "LinkedIn",
+                "Twitter/X",
+                "Event",
+                "Referral",
+                "Other"
+              ]
+            }
+          ]
+        },
+        "formSubmitButtonText": "Submit",
+        "formSuccessResponseBody": "Thank you for your submission. Our team will review your information and get back to you if there's a potential fit.",
+        "options": {}
+      },
+      "name": "Form Trigger",
+      "type": "n8n-nodes-base.formTrigger",
+      "typeVersion": 1,
+      "position": [
+        240,
+        460
+      ]
+    },
+    {
+      "parameters": {
+        "resource": "post",
+        "operation": "get",
+        "returnAll": true,
+        "additionalFields": {
+          "keywords": "=\"funding startup \"+ $json.industry"
+        }
+      },
+      "name": "LinkedIn Posts",
+      "type": "n8n-nodes-base.linkedIn",
+      "typeVersion": 1,
+      "position": [
+        240,
+        620
+      ],
+      "credentials": {
+        "linkedInOAuth2Api": {
+          "id": "1",
+          "name": "LinkedIn account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{$json.source}}",
+              "operation": "contains",
+              "value2": "website"
+            }
+          ]
+        }
+      },
+      "name": "Route by Source",
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 1,
+      "position": [
+        460,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "functionCode": "// Combine data from all sources into a standardized format\nconst standardizedData = {\n  timestamp: new Date().toISOString(),\n  source: $input.item ? $input.item.json.source || 'website' : 'linkedin',\n  companyName: $input.item ? $input.item.json.companyName : $input.item.json.companyName || $input.item.json.content.split('\\n')[0],\n  founderName: $input.item ? $input.item.json.founderName : $input.item.json.authorName,\n  email: $input.item ? $input.item.json.email : '',\n  website: $input.item ? $input.item.json.website : '',\n  stage: $input.item ? $input.item.json.stage : '',\n  industry: $input.item ? $input.item.json.industry : '',\n  description: $input.item ? $input.item.json.description : $input.item.json.content,\n  referralSource: $input.item ? $input.item.json.referralSource : 'LinkedIn',\n  rawData: $input.item.json,\n  qualificationScore: 0,\n  status: 'New'\n};\n\n// Calculate initial qualification score based on available data\nlet score = 0;\n\n// Industry match\nconst targetIndustries = ['SaaS', 'Fintech', 'AI/ML'];\nif (Array.isArray(standardizedData.industry)) {\n  for (const industry of standardizedData.industry) {\n    if (targetIndustries.includes(industry)) {\n      score += 20;\n      break;\n    }\n  }\n} else if (typeof standardizedData.industry === 'string') {\n  for (const industry of targetIndustries) {\n    if (standardizedData.industry.includes(industry)) {\n      score += 20;\n      break;\n    }\n  }\n}\n\n// Stage match\nconst targetStages = ['Pre-seed', 'Seed'];\nif (targetStages.includes(standardizedData.stage)) {\n  score += 20;\n}\n\n// Referral bonus\nif (standardizedData.referralSource === 'Referral') {\n  score += 15;\n}\n\n// Complete data bonus\nif (standardizedData.email && standardizedData.website && standardizedData.description) {\n  score += 15;\n}\n\nstandardizedData.qualificationScore = score;\n\n// Set initial status based on score\nif (score >= 50) {\n  standardizedData.status = 'Qualified';\n} else if (score >= 30) {\n  standardizedData.status = 'Review';\n} else {\n  standardizedData.status = 'Low Priority';\n}\n\nreturn {json: standardizedData};"
+      },
+      "name": "Standardize Lead Data",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [
+        680,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "sheetName": "Leads",
+        "options": {}
+      },
+      "name": "Save to Google Sheets",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 3,
+      "position": [
+        900,
+        300
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "2",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "contact",
+        "operation": "create",
+        "additionalFields": {
+          "firstName": "={{ $json.founderName.split(' ')[0] }}",
+          "lastName": "={{ $json.founderName.split(' ').slice(1).join(' ') }}",
+          "email": "={{ $json.email }}",
+          "tags": "={{ ['Lead', $json.industry, $json.stage] }}",
+          "company": "={{ $json.companyName }}",
+          "url": "={{ $json.website }}",
+          "description": "={{ $json.description }}"
+        }
+      },
+      "name": "Create CRM Contact",
+      "type": "n8n-nodes-base.agileCrm",
+      "typeVersion": 1,
+      "position": [
+        900,
+        460
+      ],
+      "credentials": {
+        "agileCrmApi": {
+          "id": "3",
+          "name": "Agile CRM account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "number": [
+            {
+              "value1": "={{ $json.qualificationScore }}",
+              "operation": "larger",
+              "value2": 50
+            }
+          ]
+        }
+      },
+      "name": "Route by Score",
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 1,
+      "position": [
+        1120,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "chatId": "deal-sourcing",
+        "text": "=## New Qualified Lead\n\n**Company:** {{ $json.companyName }}\n**Founder:** {{ $json.founderName }}\n**Industry:** {{ $json.industry }}\n**Stage:** {{ $json.stage }}\n**Score:** {{ $json.qualificationScore }}\n\n{{ $json.description }}\n\nSource: {{ $json.source }}",
+        "additionalFields": {}
+      },
+      "name": "Send Slack Notification",
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 1,
+      "position": [
+        1340,
+        180
+      ],
+      "credentials": {
+        "slackApi": {
+          "id": "4",
+          "name": "Slack account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "fromEmail": "deals@vcfirm.com",
+        "toEmail": "={{ $json.email }}",
+        "subject": "Thank you for your submission to VC Firm",
+        "text": "=Dear {{ $json.founderName.split(' ')[0] }},\n\nThank you for submitting information about {{ $json.companyName }} to our deal sourcing platform. We've reviewed your initial submission and are interested in learning more about your company.\n\nOne of our investment team members will be reaching out to schedule a call in the next few days.\n\nBest regards,\nThe VC Firm Team",
+        "options": {}
+      },
+      "name": "Send Follow-up Email",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2,
+      "position": [
+        1340,
+        380
+      ],
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "5",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "triggerTimes": {
+          "item": [
+            {
+              "mode": "everyX",
+              "value": 1,
+              "unit": "days"
+            }
+          ]
+        }
+      },
+      "name": "Daily LinkedIn Check",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1,
+      "position": [
+        240,
+        140
+      ]
+    }
+  ],
+  "connections": {
+    "Website Form Trigger": {
+      "main": [
+        [
+          {
+            "node": "Route by Source",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Form Trigger": {
+      "main": [
+        [
+          {
+            "node": "Route by Source",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "LinkedIn Posts": {
+      "main": [
+        [
+          {
+            "node": "Standardize Lead Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Route by Source": {
+      "main": [
+        [
+          {
+            "node": "Standardize Lead Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Standardize Lead Data": {
+      "main": [
+        [
+          {
+            "node": "Save to Google Sheets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Save to Google Sheets": {
+      "main": [
+        [
+          {
+            "node": "Create CRM Contact",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create CRM Contact": {
+      "main": [
+        [
+          {
+            "node": "Route by Score",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Route by Score": {
+      "main": [
+        [
+          {
+            "node": "Send Slack Notification",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Send Follow-up Email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Daily LinkedIn Check": {
+      "main": [
+        [
+          {
+            "node": "LinkedIn Posts",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "saveManualExecutions": true,
+    "callerPolicy": "workflowsFromSameOwner",
+    "errorWorkflow": "",
+    "saveExecutionProgress": true,
+    "saveDataErrorExecution": "all"
+  },
+  "tags": [
+    {
+      "name": "deal sourcing",
+      "color": "#00cc00"
+    },
+    {
+      "name": "lead capture",
+      "color": "#0000cc"
+    }
+  ],
+  "pinData": {},
+  "versionId": "1",
+  "triggerCount": 3,
+  "staticData": null,
+  "id": "1"
+}

@@ -1,0 +1,45 @@
+{
+  "manifest_version": 3,
+  "name": "Prompt-ify",
+  "version": "1.0",
+  "description": "Optimises plain-language ideas into production-ready prompts for low-code web-app builders.",
+  "permissions": [
+    "storage",
+    "scripting",
+    "activeTab"
+  ],
+  "host_permissions": [
+    "https://lovable.dev/*",
+    "https://bolt.new/*",
+    "https://replit.com/*",
+    "https://api.openai.com/*"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://lovable.dev/*",
+        "https://bolt.new/*",
+        "https://replit.com/*"
+      ],
+      "js": ["content.js"],
+      "css": ["inject.css"]
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": ["prompt_templates.json"],
+      "matches": ["<all_urls>"]
+    }
+  ],
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "action": {
+    "default_title": "Prompt-ify (No Popup Action)"
+  }
+}

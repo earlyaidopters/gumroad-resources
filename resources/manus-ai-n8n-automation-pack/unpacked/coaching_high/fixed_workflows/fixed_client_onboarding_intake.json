@@ -1,0 +1,802 @@
+{
+  "name": "Client Onboarding Intake Automation",
+  "nodes": [
+    {
+      "parameters": {
+        "operation": "read",
+        "documentId": {
+          "__rl": true,
+          "value": "GOOGLE_SHEET_ID_PLACEHOLDER",
+          "mode": "list",
+          "cachedResultName": "New Clients",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/GOOGLE_SHEET_ID_PLACEHOLDER/edit"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 0,
+          "mode": "list",
+          "cachedResultName": "Registrations"
+        },
+        "range": "A:G",
+        "options": {
+          "headerRow": true
+        }
+      },
+      "id": "1a5c1e9a-5352-4ab1-a9f5-c29a2e83a0a0",
+      "name": "Google Sheets - Check New Registrations",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 3,
+      "position": [
+        250,
+        300
+      ],
+      "webhookId": "1a2b3c4d-5e6f-7g8h-9i0j-1k2l3m4n5o6p",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "GOOGLE_SHEETS_CREDENTIAL_ID_PLACEHOLDER",
+          "name": "Google Sheets Account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// Process new client registrations\nconst registrations = $input.all().map(item => item.json);\n\n// Filter for new registrations that haven't been processed\nconst newRegistrations = registrations.filter(reg => \n  reg.status && reg.status.toLowerCase() === 'new' && \n  reg.email && reg.email.includes('@')\n);\n\n// Format the registrations for processing\nconst formattedRegistrations = newRegistrations.map(reg => ({\n  id: reg.id || `REG-${Date.now()}-${Math.floor(Math.random() * 1000)}`,\n  firstName: reg.first_name || reg.firstName || '',\n  lastName: reg.last_name || reg.lastName || '',\n  email: reg.email || '',\n  phone: reg.phone || '',\n  coachingInterest: reg.coaching_interest || reg.coachingInterest || 'General',\n  source: reg.source || 'Website',\n  registrationDate: reg.registration_date || reg.registrationDate || new Date().toISOString().split('T')[0],\n  rowIndex: registrations.indexOf(reg) + 2 // +2 for header row and 1-based indexing\n}));\n\nreturn {\n  totalNewRegistrations: formattedRegistrations.length,\n  registrations: formattedRegistrations\n};"
+      },
+      "id": "2b6d2f9b-6463-4bc2-b0f6-d3a3f4b4a0b1",
+      "name": "Code - Process Registrations",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [
+        450,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "// Process each registration individually\nconst registrations = $node[\"Code - Process Registrations\"].json.registrations;\nconst currentIndex = $input.item.index;\n\nif (currentIndex < registrations.length) {\n  return registrations[currentIndex];\n} else {\n  return {};\n}"
+      },
+      "id": "3c7e3f0c-7574-4cd3-c1f7-e4b4f5c5b1c2",
+      "name": "Code - Process Each Registration",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [
+        650,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialName": "Gmail Account",
+        "fromEmail": "YOUR_EMAIL@gmail.com",
+        "toEmail": "={{$node[\"Code - Process Each Registration\"].json[\"email\"]}}",
+        "subject": "=Welcome to Your Coaching Journey!",
+        "html": "=<div style=\"font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;\">\n  <h2 style=\"color: #4a6da7;\">Welcome to Your Coaching Journey</h2>\n  \n  <p>Hello {{$node[\"Code - Process Each Registration\"].json[\"firstName\"]}},</p>\n  \n  <p>Thank you for taking the first step on your coaching journey with us! I'm excited to work with you and help you achieve your goals.</p>\n  \n  <p>To get started, I'd like to learn more about you and your specific goals. Please take a few minutes to complete our intake form:</p>\n  \n  <div style=\"text-align: center; margin: 30px 0;\">\n    <a href=\"https://forms.example.com/intake?id={{$node[\"Code - Process Each Registration\"].json[\"id\"]}}\" style=\"background-color: #4a6da7; color: white; padding: 12px 25px; text-decoration: none; border-radius: 4px; font-weight: bold;\">Complete Intake Form</a>\n  </div>\n  \n  <p>This information will help me tailor our coaching sessions to your specific needs and ensure we make the most of our time together.</p>\n  \n  <p>Here's what you can expect next:</p>\n  <ol>\n    <li>Complete the intake form</li>\n    <li>Receive an email to schedule your first session</li>\n    <li>Attend your initial coaching session</li>\n    <li>Receive a personalized coaching plan</li>\n  </ol>\n  \n  <p>If you have any questions before we begin, please don't hesitate to reach out.</p>\n  \n  <p>I'm looking forward to our work together!</p>\n  \n  <p>Best regards,<br>\nYour Coach</p>\n  \n  <hr style=\"border: 1px solid #eee; margin: 20px 0;\">\n  \n  <p style=\"font-size: 12px; color: #777;\">\n    If the button above doesn't work, you can copy and paste this link into your browser: https://forms.example.com/intake?id={{$node[\"Code - Process Each Registration\"].json[\"id\"]}}\n  </p>\n</div>",
+        "additionalFields": {}
+      },
+      "id": "4d8f4g1d-8685-5de4-d2g8-f5c6g6d7c2d3",
+      "name": "Gmail - Send Welcome Email",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 1,
+      "position": [
+        850,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "GOOGLE_SHEET_ID_PLACEHOLDER",
+          "mode": "list",
+          "cachedResultName": "New Clients",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/GOOGLE_SHEET_ID_PLACEHOLDER/edit"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 0,
+          "mode": "list",
+          "cachedResultName": "Registrations"
+        },
+        "range": "={{\"A\" + $node[\"Code - Process Each Registration\"].json[\"rowIndex\"] + \":G\" + $node[\"Code - Process Each Registration\"].json[\"rowIndex\"]}}",
+        "options": {
+          "valueInputMode": "RAW"
+        },
+        "valueInputMode": "RAW",
+        "dataMode": "autoMapAll"
+      },
+      "id": "5e9g5h2e-9796-6ef5-e3h9-g6d7h7e8d3e4",
+      "name": "Google Sheets - Update Registration Status",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 3,
+      "position": [
+        1050,
+        300
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "GOOGLE_SHEETS_CREDENTIAL_ID_PLACEHOLDER",
+          "name": "Google Sheets Account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "GOOGLE_SHEET_ID_PLACEHOLDER",
+          "mode": "list",
+          "cachedResultName": "Onboarding Tracking",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/GOOGLE_SHEET_ID_PLACEHOLDER/edit"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 0,
+          "mode": "list",
+          "cachedResultName": "Tracking"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "mappingMode": "defineBelow",
+            "value": {
+              "date": "={{$now.format(\"YYYY-MM-DD HH:mm:ss\")}}",
+              "client_id": "={{$node[\"Code - Process Each Registration\"].json[\"id\"]}}",
+              "first_name": "={{$node[\"Code - Process Each Registration\"].json[\"firstName\"]}}",
+              "last_name": "={{$node[\"Code - Process Each Registration\"].json[\"lastName\"]}}",
+              "email": "={{$node[\"Code - Process Each Registration\"].json[\"email\"]}}",
+              "welcome_email_sent": "Yes",
+              "intake_form_completed": "No",
+              "initial_session_scheduled": "No",
+              "resources_sent": "No",
+              "status": "Onboarding"
+            }
+          }
+        },
+        "options": {}
+      },
+      "id": "6f0h6i3f-0807-7fg6-f4i0-h7e8i8f9e4f5",
+      "name": "Google Sheets - Log Onboarding",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 3,
+      "position": [
+        1250,
+        300
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "GOOGLE_SHEETS_CREDENTIAL_ID_PLACEHOLDER",
+          "name": "Google Sheets Account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialName": "Slack Account",
+        "channel": "coaching-onboarding",
+        "text": "=New client onboarding started: {{$node[\"Code - Process Each Registration\"].json[\"firstName\"]}} {{$node[\"Code - Process Each Registration\"].json[\"lastName\"]}}",
+        "otherOptions": {}
+      },
+      "id": "7g1i7j4g-1918-8gh7-g5j1-i8f9j9g0f5g6",
+      "name": "Slack - Notify About New Client",
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 1,
+      "position": [
+        1450,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "read",
+        "documentId": {
+          "__rl": true,
+          "value": "GOOGLE_SHEET_ID_PLACEHOLDER",
+          "mode": "list",
+          "cachedResultName": "Intake Forms",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/GOOGLE_SHEET_ID_PLACEHOLDER/edit"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 0,
+          "mode": "list",
+          "cachedResultName": "Responses"
+        },
+        "range": "A:Z",
+        "options": {
+          "headerRow": true
+        }
+      },
+      "id": "8h2j8k5h-2029-9hi8-h6k2-j9g0k0h1g6h7",
+      "name": "Google Sheets - Check Intake Forms",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 3,
+      "position": [
+        250,
+        600
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "GOOGLE_SHEETS_CREDENTIAL_ID_PLACEHOLDER",
+          "name": "Google Sheets Account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "read",
+        "documentId": {
+          "__rl": true,
+          "value": "GOOGLE_SHEET_ID_PLACEHOLDER",
+          "mode": "list",
+          "cachedResultName": "Onboarding Tracking",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/GOOGLE_SHEET_ID_PLACEHOLDER/edit"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 0,
+          "mode": "list",
+          "cachedResultName": "Tracking"
+        },
+        "range": "A:J",
+        "options": {
+          "headerRow": true
+        }
+      },
+      "id": "9i3k9l6i-3130-0ij9-i7l3-k0h1l1i2h7i8",
+      "name": "Google Sheets - Get Onboarding Status",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 3,
+      "position": [
+        450,
+        600
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "GOOGLE_SHEETS_CREDENTIAL_ID_PLACEHOLDER",
+          "name": "Google Sheets Account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// Process intake form submissions\nconst intakeForms = $node[\"Google Sheets - Check Intake Forms\"].json;\nconst onboardingStatus = $node[\"Google Sheets - Get Onboarding Status\"].json;\n\n// Create a map of client IDs to onboarding status\nconst onboardingMap = new Map();\nonboardingStatus.forEach((status, index) => {\n  if (status.client_id && status.intake_form_completed !== 'Yes') {\n    onboardingMap.set(status.client_id, {\n      ...status,\n      rowIndex: index + 2 // +2 for header row and 1-based indexing\n    });\n  }\n});\n\n// Find new intake form submissions\nconst newSubmissions = [];\nintakeForms.forEach(form => {\n  if (form.client_id && onboardingMap.has(form.client_id)) {\n    const clientStatus = onboardingMap.get(form.client_id);\n    newSubmissions.push({\n      clientId: form.client_id,\n      firstName: form.first_name || clientStatus.first_name,\n      lastName: form.last_name || clientStatus.last_name,\n      email: form.email || clientStatus.email,\n      phone: form.phone || '',\n      coachingGoals: form.coaching_goals || '',\n      preferredSchedule: form.preferred_schedule || '',\n      additionalInfo: form.additional_info || '',\n      submissionDate: form.submission_date || new Date().toISOString().split('T')[0],\n      onboardingRowIndex: clientStatus.rowIndex\n    });\n  }\n});\n\nreturn {\n  totalNewSubmissions: newSubmissions.length,\n  submissions: newSubmissions\n};"
+      },
+      "id": "0j4l0m7j-4241-1jk0-j8m4-l1i2m2j3i8j9",
+      "name": "Code - Process Intake Forms",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [
+        650,
+        600
+      ]
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "// Process each intake form submission individually\nconst submissions = $node[\"Code - Process Intake Forms\"].json.submissions;\nconst currentIndex = $input.item.index;\n\nif (currentIndex < submissions.length) {\n  return submissions[currentIndex];\n} else {\n  return {};\n}"
+      },
+      "id": "1k5m1n8k-5352-2kl1-k9n5-m2j3n3k4j9k0",
+      "name": "Code - Process Each Submission",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [
+        850,
+        600
+      ]
+    },
+    {
+      "parameters": {
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialName": "OpenAI API Key",
+        "operation": "message",
+        "model": "gpt-4",
+        "options": {
+          "temperature": 0.7,
+          "maxTokens": 1000
+        },
+        "messages": {
+          "values": [
+            {
+              "role": "system",
+              "content": "You are an expert coaching assistant. Your task is to analyze client intake information and prepare a concise, helpful briefing for a coach who will be working with this new client."
+            },
+            {
+              "role": "user",
+              "content": "=Create a coach briefing for a new client with the following information:\n\nClient: {{$node[\"Code - Process Each Submission\"].json[\"firstName\"]}} {{$node[\"Code - Process Each Submission\"].json[\"lastName\"]}}\nEmail: {{$node[\"Code - Process Each Submission\"].json[\"email\"]}}\nPhone: {{$node[\"Code - Process Each Submission\"].json[\"phone\"]}}\n\nCoaching Goals: {{$node[\"Code - Process Each Submission\"].json[\"coachingGoals\"]}}\n\nPreferred Schedule: {{$node[\"Code - Process Each Submission\"].json[\"preferredSchedule\"]}}\n\nAdditional Information: {{$node[\"Code - Process Each Submission\"].json[\"additionalInfo\"]}}\n\nPlease provide:\n1. A brief summary of the client's background and goals\n2. 3-5 key areas to focus on in initial sessions\n3. Suggested coaching approach based on the information provided\n4. 2-3 powerful questions to ask in the first session\n5. Recommended resources that might benefit this client"
+            }
+          ]
+        }
+      },
+      "id": "2l6n2o9l-6463-3lm2-l0o6-n3k4o4l5k0l1",
+      "name": "OpenAI - Generate Coach Briefing",
+      "type": "n8n-nodes-langchain.openai",
+      "typeVersion": 1,
+      "position": [
+        1050,
+        600
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "GOOGLE_SHEET_ID_PLACEHOLDER",
+          "mode": "list",
+          "cachedResultName": "Onboarding Tracking",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/GOOGLE_SHEET_ID_PLACEHOLDER/edit"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 0,
+          "mode": "list",
+          "cachedResultName": "Tracking"
+        },
+        "range": "={{\"G\" + $node[\"Code - Process Each Submission\"].json[\"onboardingRowIndex\"]}}",
+        "options": {
+          "valueInputMode": "RAW"
+        },
+        "cellFormat": "={{\"Yes\"}}",
+        "valueInputOption": "USER_ENTERED"
+      },
+      "id": "3m7o3p0m-7574-4mn3-m1p7-o5l6p5m6l1m2",
+      "name": "Google Sheets - Update Intake Status",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 3,
+      "position": [
+        1250,
+        600
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "GOOGLE_SHEETS_CREDENTIAL_ID_PLACEHOLDER",
+          "name": "Google Sheets Account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialName": "Gmail Account",
+        "fromEmail": "YOUR_EMAIL@gmail.com",
+        "toEmail": "={{$node[\"Code - Process Each Submission\"].json[\"email\"]}}",
+        "subject": "=Next Steps in Your Coaching Journey",
+        "html": "=<div style=\"font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;\">\n  <h2 style=\"color: #4a6da7;\">Thank You for Completing Your Intake Form</h2>\n  \n  <p>Hello {{$node[\"Code - Process Each Submission\"].json[\"firstName\"]}},</p>\n  \n  <p>Thank you for taking the time to complete your coaching intake form. The information you've provided will help me tailor our sessions to your specific needs and goals.</p>\n  \n  <p>I'm excited to begin our coaching journey together! The next step is to schedule your first session.</p>\n  \n  <div style=\"text-align: center; margin: 30px 0;\">\n    <a href=\"https://calendly.com/example-coach/initial-session\" style=\"background-color: #4a6da7; color: white; padding: 12px 25px; text-decoration: none; border-radius: 4px; font-weight: bold;\">Schedule Your First Session</a>\n  </div>\n  \n  <p>During this initial 60-minute session, we'll:</p>\n  <ul>\n    <li>Discuss your goals in more detail</li>\n    <li>Establish our coaching relationship</li>\n    <li>Create a preliminary action plan</li>\n    <li>Set expectations for our ongoing work together</li>\n  </ul>\n  \n  <p>I've also attached some resources that might be helpful as you prepare for our first session.</p>\n  \n  <p>I'm looking forward to working with you!</p>\n  \n  <p>Best regards,<br>\nYour Coach</p>\n  \n  <hr style=\"border: 1px solid #eee; margin: 20px 0;\">\n  \n  <p style=\"font-size: 12px; color: #777;\">\n    If the button above doesn't work, you can copy and paste this link into your browser: https://calendly.com/example-coach/initial-session\n  </p>\n</div>",
+        "additionalFields": {}
+      },
+      "id": "4n8p4q1n-8685-5no4-n2q8-p6m7q6n7m2n3",
+      "name": "Gmail - Send Scheduling Email",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 1,
+      "position": [
+        1450,
+        600
+      ]
+    },
+    {
+      "parameters": {
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialName": "Slack Account",
+        "channel": "coaching-onboarding",
+        "text": "=New client intake form completed: {{$node[\"Code - Process Each Submission\"].json[\"firstName\"]}} {{$node[\"Code - Process Each Submission\"].json[\"lastName\"]}}",
+        "otherOptions": {}
+      },
+      "id": "5o9q5r2o-9796-6op5-o3r9-q7n8r7o8n3o4",
+      "name": "Slack - Send Coach Briefing",
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 1,
+      "position": [
+        1650,
+        600
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "GOOGLE_SHEET_ID_PLACEHOLDER",
+          "mode": "list",
+          "cachedResultName": "Client Database",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/GOOGLE_SHEET_ID_PLACEHOLDER/edit"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 0,
+          "mode": "list",
+          "cachedResultName": "Clients"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "mappingMode": "defineBelow",
+            "value": {
+              "id": "={{$node[\"Code - Process Each Submission\"].json[\"clientId\"]}}",
+              "first_name": "={{$node[\"Code - Process Each Submission\"].json[\"firstName\"]}}",
+              "last_name": "={{$node[\"Code - Process Each Submission\"].json[\"lastName\"]}}",
+              "email": "={{$node[\"Code - Process Each Submission\"].json[\"email\"]}}",
+              "phone": "={{$node[\"Code - Process Each Submission\"].json[\"phone\"]}}",
+              "coaching_type": "General",
+              "session_count": 0,
+              "status": "Active",
+              "join_date": "={{$now.format(\"YYYY-MM-DD\")}}",
+              "notes": "={{$node[\"Code - Process Each Submission\"].json[\"coachingGoals\"]}}"
+            }
+          }
+        },
+        "options": {}
+      },
+      "id": "6p0r6s3p-0807-7pq6-p4s0-r8o9s8p9o4p5",
+      "name": "Google Sheets - Add to Client Database",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 3,
+      "position": [
+        1850,
+        600
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "GOOGLE_SHEETS_CREDENTIAL_ID_PLACEHOLDER",
+          "name": "Google Sheets Account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "days",
+              "minutesInterval": 0,
+              "hoursInterval": 0,
+              "daysInterval": 1
+            }
+          ],
+          "triggerAtTime": true,
+          "hour": 9,
+          "minute": 0
+        }
+      },
+      "id": "7q1r7t4q-1918-8qr7-q5t1-r8p9t9q0p5q6",
+      "name": "Schedule Trigger - Daily Check",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1,
+      "position": [
+        250,
+        900
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "read",
+        "documentId": {
+          "__rl": true,
+          "value": "GOOGLE_SHEET_ID_PLACEHOLDER",
+          "mode": "list",
+          "cachedResultName": "Onboarding Tracking",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/GOOGLE_SHEET_ID_PLACEHOLDER/edit"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 0,
+          "mode": "list",
+          "cachedResultName": "Tracking"
+        },
+        "range": "A:J",
+        "options": {
+          "headerRow": true
+        }
+      },
+      "id": "8r2t8u5r-2029-9rs8-r6u2-t0q1u0r1q6r7",
+      "name": "Google Sheets - Check Pending Intakes",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 3,
+      "position": [
+        450,
+        900
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "GOOGLE_SHEETS_CREDENTIAL_ID_PLACEHOLDER",
+          "name": "Google Sheets Account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// Find clients who need reminders\nconst onboardingStatus = $node[\"Google Sheets - Check Pending Intakes\"].json;\n\n// Find clients who received welcome email but haven't completed intake form\nconst needsIntakeReminder = [];\nconst now = new Date();\n\nonboardingStatus.forEach((status, index) => {\n  if (status.welcome_email_sent === 'Yes' && status.intake_form_completed !== 'Yes') {\n    // Check if welcome email was sent more than 3 days ago\n    const emailDate = new Date(status.date);\n    const daysSinceEmail = Math.floor((now - emailDate) / (1000 * 60 * 60 * 24));\n    \n    if (daysSinceEmail >= 3) {\n      needsIntakeReminder.push({\n        clientId: status.client_id,\n        firstName: status.first_name,\n        lastName: status.last_name,\n        email: status.email,\n        daysSinceEmail,\n        rowIndex: index + 2 // +2 for header row and 1-based indexing\n      });\n    }\n  }\n});\n\nreturn {\n  totalNeedsReminder: needsIntakeReminder.length,\n  reminders: needsIntakeReminder\n};"
+      },
+      "id": "9s3u9v6s-3130-0st9-s7v3-u1r2v1s2r7s8",
+      "name": "Code - Find Pending Intakes",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [
+        650,
+        900
+      ]
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "// Process each reminder individually\nconst reminders = $node[\"Code - Find Pending Intakes\"].json.reminders;\nconst currentIndex = $input.item.index;\n\nif (currentIndex < reminders.length) {\n  return reminders[currentIndex];\n} else {\n  return {};\n}"
+      },
+      "id": "0t4v0w7t-4241-1tu0-t8w4-v2s3w2t3s8t9",
+      "name": "Code - Process Each Reminder",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [
+        850,
+        900
+      ]
+    },
+    {
+      "parameters": {
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialName": "Gmail Account",
+        "fromEmail": "YOUR_EMAIL@gmail.com",
+        "toEmail": "={{$node[\"Code - Process Each Reminder\"].json[\"email\"]}}",
+        "subject": "=Reminder: Complete Your Coaching Intake Form",
+        "html": "=<div style=\"font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;\">\n  <h2 style=\"color: #4a6da7;\">Your Coaching Journey Awaits</h2>\n  \n  <p>Hello {{$node[\"Code - Process Each Reminder\"].json[\"firstName\"]}},</p>\n  \n  <p>I noticed you haven't had a chance to complete your coaching intake form yet. This information is essential for us to make the most of our coaching relationship.</p>\n  \n  <p>To get started with your coaching sessions, please take a few minutes to complete the form:</p>\n  \n  <div style=\"text-align: center; margin: 30px 0;\">\n    <a href=\"https://forms.example.com/intake?id={{$node[\"Code - Process Each Reminder\"].json[\"clientId\"]}}\" style=\"background-color: #4a6da7; color: white; padding: 12px 25px; text-decoration: none; border-radius: 4px; font-weight: bold;\">Complete Intake Form</a>\n  </div>\n  \n  <p>If you're having any difficulties with the form or have questions about the coaching process, please don't hesitate to reach out.</p>\n  \n  <p>I'm looking forward to working with you!</p>\n  \n  <p>Best regards,<br>\nYour Coach</p>\n  \n  <hr style=\"border: 1px solid #eee; margin: 20px 0;\">\n  \n  <p style=\"font-size: 12px; color: #777;\">\n    If the button above doesn't work, you can copy and paste this link into your browser: https://forms.example.com/intake?id={{$node[\"Code - Process Each Reminder\"].json[\"clientId\"]}}\n  </p>\n</div>",
+        "additionalFields": {}
+      },
+      "id": "1u5v1w8u-5352-2uv1-u9w5-v3t4w3u4t9u0",
+      "name": "Gmail - Send Intake Reminder",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 1,
+      "position": [
+        1050,
+        900
+      ]
+    },
+    {
+      "parameters": {
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialName": "Slack Account",
+        "channel": "coaching-admin",
+        "text": "=Reminder sent to client who hasn't completed intake: {{$node[\"Code - Process Each Reminder\"].json[\"firstName\"]}} {{$node[\"Code - Process Each Reminder\"].json[\"lastName\"]}}",
+        "otherOptions": {}
+      },
+      "id": "2v6w2x9v-6463-3vw2-v0x6-w4u5x4v5u0v1",
+      "name": "Slack - Notify About Reminder",
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 1,
+      "position": [
+        1250,
+        900
+      ]
+    }
+  ],
+  "connections": {
+    "Google Sheets - Check New Registrations": {
+      "main": [
+        [
+          {
+            "node": "Code - Process Registrations",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code - Process Registrations": {
+      "main": [
+        [
+          {
+            "node": "Code - Process Each Registration",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code - Process Each Registration": {
+      "main": [
+        [
+          {
+            "node": "Gmail - Send Welcome Email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Gmail - Send Welcome Email": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets - Update Registration Status",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets - Update Registration Status": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets - Log Onboarding",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets - Log Onboarding": {
+      "main": [
+        [
+          {
+            "node": "Slack - Notify About New Client",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets - Check Intake Forms": {
+      "main": [
+        [
+          {
+            "node": "Code - Process Intake Forms",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets - Get Onboarding Status": {
+      "main": [
+        [
+          {
+            "node": "Code - Process Intake Forms",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code - Process Intake Forms": {
+      "main": [
+        [
+          {
+            "node": "Code - Process Each Submission",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code - Process Each Submission": {
+      "main": [
+        [
+          {
+            "node": "OpenAI - Generate Coach Briefing",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI - Generate Coach Briefing": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets - Update Intake Status",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets - Update Intake Status": {
+      "main": [
+        [
+          {
+            "node": "Gmail - Send Scheduling Email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Gmail - Send Scheduling Email": {
+      "main": [
+        [
+          {
+            "node": "Slack - Send Coach Briefing",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Slack - Send Coach Briefing": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets - Add to Client Database",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Schedule Trigger - Daily Check": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets - Check Pending Intakes",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets - Check Pending Intakes": {
+      "main": [
+        [
+          {
+            "node": "Code - Find Pending Intakes",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code - Find Pending Intakes": {
+      "main": [
+        [
+          {
+            "node": "Code - Process Each Reminder",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code - Process Each Reminder": {
+      "main": [
+        [
+          {
+            "node": "Gmail - Send Intake Reminder",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Gmail - Send Intake Reminder": {
+      "main": [
+        [
+          {
+            "node": "Slack - Notify About Reminder",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1",
+    "saveManualExecutions": true,
+    "callerPolicy": "workflowsFromSameOwner",
+    "errorWorkflow": ""
+  },
+  "staticData": null,
+  "tags": [
+    "client",
+    "onboarding",
+    "automation",
+    "coaching",
+    "intake"
+  ],
+  "triggerCount": 2,
+  "versionId": "8h9i0j1k-2l3m-4n5o-6p7q-8r9s0t1u2v3w"
+}

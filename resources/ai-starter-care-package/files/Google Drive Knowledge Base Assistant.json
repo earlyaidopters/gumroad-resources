@@ -1,0 +1,531 @@
+{
+  "name": "Google Drive Knowledge Base Assistant",
+  "nodes": [
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {}
+          ]
+        },
+        "triggerOn": "specificFolder",
+        "folderToWatch": {
+          "__rl": true,
+          "value": "",
+          "mode": "list"
+        },
+        "event": "fileCreated",
+        "options": {}
+      },
+      "id": "9368d893-6d14-438a-83c9-0a6e9948610f",
+      "name": "Google Drive File Monitor",
+      "type": "n8n-nodes-base.googleDriveTrigger",
+      "typeVersion": 1,
+      "position": [
+        368,
+        112
+      ],
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "OeQme96wMza",
+          "name": "Google Drive"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "download",
+        "fileId": {
+          "__rl": true,
+          "mode": "id",
+          "value": "={{ $json.id }}"
+        },
+        "options": {
+          "binaryPropertyName": "data"
+        }
+      },
+      "id": "8f75ebb2-812b-412b-96fb-4b4b969aba73",
+      "name": "Download File Content",
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        944,
+        112
+      ],
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "OeQme96wgma",
+          "name": "Google Drive"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "id-1",
+              "name": "documentKey",
+              "value": "={{ $json.name }}",
+              "type": "string"
+            },
+            {
+              "id": "id-2",
+              "name": "uploadDate",
+              "value": "={{ new Date().toISOString() }}",
+              "type": "string"
+            },
+            {
+              "id": "id-3",
+              "name": "fileType",
+              "value": "={{ $json.mimeType }}",
+              "type": "string"
+            },
+            {
+              "id": "id-4",
+              "name": "fileSize",
+              "value": "={{ $json.size }}",
+              "type": "number"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "id": "323676bc-a7a8-4e71-b6c7-3fad735c8402",
+      "name": "Add File Metadata",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1200,
+        112
+      ]
+    },
+    {
+      "parameters": {
+        "chunkSize": "={{ $('RAG Processing Specifications').first().json.chunkSize }}",
+        "chunkOverlap": "={{ $('RAG Processing Specifications').first().json.chunkOverlap }}"
+      },
+      "id": "01fa9643-ea32-4426-9d33-ced535ff873c",
+      "name": "Token Splitter",
+      "type": "@n8n/n8n-nodes-langchain.textSplitterTokenSplitter",
+      "typeVersion": 1,
+      "position": [
+        1792,
+        528
+      ]
+    },
+    {
+      "parameters": {
+        "dataType": "binary",
+        "textSplittingMode": "custom",
+        "options": {
+          "metadata": {
+            "metadataValues": [
+              {
+                "name": "fileType",
+                "value": "={{ $('Add File Metadata').item.json.fileType }}"
+              },
+              {
+                "name": "fileName",
+                "value": "={{ $('Add File Metadata').item.json.documentKey }}"
+              },
+              {
+                "name": "fileSize",
+                "value": "={{ $('Add File Metadata').item.json.fileSize }}"
+              }
+            ]
+          }
+        }
+      },
+      "id": "6553f753-1fa9-4fef-bb5e-fd160246c54d",
+      "name": "Document Loader",
+      "type": "@n8n/n8n-nodes-langchain.documentDefaultDataLoader",
+      "typeVersion": 1.1,
+      "position": [
+        1696,
+        288
+      ]
+    },
+    {
+      "parameters": {
+        "options": {
+          "batchSize": 512
+        }
+      },
+      "id": "ac06da5d-062c-4d47-8568-2f7880907e27",
+      "name": "OpenAI Embeddings",
+      "type": "@n8n/n8n-nodes-langchain.embeddingsOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        1392,
+        336
+      ],
+      "credentials": {
+        "openAiApi": {
+          "id": "KSKdcYZC",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "insert",
+        "memoryKey": {
+          "__rl": true,
+          "value": "vector_store_key",
+          "mode": "list",
+          "cachedResultName": "vector_store_key"
+        }
+      },
+      "id": "16e85008-4b04-468d-9463-2e987ca742b6",
+      "name": "Vector Store",
+      "type": "@n8n/n8n-nodes-langchain.vectorStoreInMemory",
+      "typeVersion": 1.3,
+      "position": [
+        1424,
+        112
+      ]
+    },
+    {
+      "parameters": {
+        "public": true,
+        "initialMessages": "Hello! I can help you find information from your uploaded documents. What would you like to know?",
+        "options": {
+          "title": "Knowledge Base Assistant"
+        }
+      },
+      "id": "fb9bfa35-3235-4e32-9367-3cab4895bff7",
+      "name": "Chatbot Interface",
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.3,
+      "position": [
+        288,
+        448
+      ],
+      "webhookId": "0c1ff1b4-7199-4857-99cb-8857b35cead2"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "id",
+          "value": "gpt-4o-mini"
+        },
+        "options": {
+          "maxTokens": 1000,
+          "temperature": 0.1
+        }
+      },
+      "id": "479571df-dec4-4bae-be6f-2b593e794801",
+      "name": "OpenAI Chat Model",
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        512,
+        672
+      ],
+      "credentials": {
+        "openAiApi": {
+          "id": "KSKdcXZC",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "contextWindowLength": 10
+      },
+      "id": "08a3467d-2204-4ddb-ba5a-8562c5991457",
+      "name": "Chat Memory",
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        784,
+        672
+      ]
+    },
+    {
+      "parameters": {
+        "options": {
+          "systemMessage": "You are a helpful knowledge base assistant. Use the knowledge_search tool to find relevant information from uploaded documents. Always cite the fileName and speaker as the source when providing answers. If you cannot find relevant information, say so clearly. Log the steps you took to find the relevant information.",
+          "returnIntermediateSteps": true
+        }
+      },
+      "id": "f6052120-c9a2-4459-9073-aac877b8dcf7",
+      "name": "Knowledge Search Agent",
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2.2,
+      "position": [
+        576,
+        448
+      ]
+    },
+    {
+      "parameters": {
+        "mode": "retrieve-as-tool",
+        "toolDescription": "Search the vector store for relevant information. Always retrieve metadata.",
+        "memoryKey": {
+          "__rl": true,
+          "value": "document_knowledge_base",
+          "mode": "list",
+          "cachedResultName": "document_knowledge_base"
+        },
+        "topK": 5
+      },
+      "id": "a54ee204-8a50-4409-8504-35dd6dc2a020",
+      "name": "Knowledge Search Tool",
+      "type": "@n8n/n8n-nodes-langchain.vectorStoreInMemory",
+      "typeVersion": 1.3,
+      "position": [
+        1040,
+        608
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "id-1",
+              "name": "chunkSize",
+              "value": 1000,
+              "type": "number"
+            },
+            {
+              "id": "id-2",
+              "name": "chunkOverlap",
+              "value": 200,
+              "type": "number"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "id": "2df42d52-3c1c-4f05-aa00-5670eed447d1",
+      "name": "RAG Processing Specifications",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        656,
+        112
+      ]
+    },
+    {
+      "parameters": {
+        "content": "## Connect Google Drive\nFind out more in this [guide](https://docs.n8n.io/integrations/builtin/trigger-nodes/n8n-nodes-base.googledrivetrigger).",
+        "height": 288,
+        "width": 272
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        272,
+        0
+      ],
+      "typeVersion": 1,
+      "id": "0523e9f1-c1ba-4d10-bb53-e97288c4870f",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "content": "## Connect Google Drive\nFind out more in this [guide](https://docs.n8n.io/integrations/builtin/trigger-nodes/n8n-nodes-base.googledrivetrigger).",
+        "height": 288,
+        "width": 272
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        848,
+        0
+      ],
+      "typeVersion": 1,
+      "id": "94920ef6-ef3e-4e35-81b7-fce9e523c1ed",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "content": "## Enter your OpenAI API Key\nFind your OpenAI API Key in your\n [API Dashboard](https://platform.openai.com/api-keys)",
+        "width": 448
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        192,
+        640
+      ],
+      "typeVersion": 1,
+      "id": "9d28d641-3007-4ec7-a893-1effef070ab4",
+      "name": "Sticky Note2"
+    },
+    {
+      "parameters": {
+        "content": "\n\n\n\n\n\n\n\n\n\n\n## Enter your OpenAI API Key\nFind your OpenAI API Key in your\n [API Dashboard](https://platform.openai.com/api-keys)",
+        "height": 288,
+        "width": 272
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1296,
+        320
+      ],
+      "typeVersion": 1,
+      "id": "fb7dda78-36cb-445c-a403-a3f6309a1a64",
+      "name": "Sticky Note3"
+    },
+    {
+      "parameters": {
+        "content": "## Readme\n### Load your data into a vector database from your Google Drive, and then use your data as context for your own knowledge assistant.\n\n1. Connect your Google and OpenAI credentials in the highlighted nodes. \n\n**Note** Once you connect your credentials, you will be able to use those credentials repeatedly in the nodes for the same service. e.g. Google Drive credentials can be reused in each Google Drive node. \n\n2. Check that your required files are in the correct Google Drive Folder. \n\n3. Execute the workflow to begin loading your Vector Store. \n\n4. Test is out with the Chatbot Interface!\n\nOnce you are ready, set the workflow to \"active\" the workflow will periodically check for new Drive Files. \n\n**Note** You can adjust the frequency of checks in the Google Drive File Monitor node. ",
+        "height": 492,
+        "width": 536,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -400,
+        64
+      ],
+      "typeVersion": 1,
+      "id": "912cf9c8-55fd-4622-8d40-403cd07f6cec",
+      "name": "Sticky Note4"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Google Drive File Monitor": {
+      "main": [
+        [
+          {
+            "node": "RAG Processing Specifications",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Download File Content": {
+      "main": [
+        [
+          {
+            "node": "Add File Metadata",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Add File Metadata": {
+      "main": [
+        [
+          {
+            "node": "Vector Store",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Token Splitter": {
+      "ai_textSplitter": [
+        [
+          {
+            "node": "Document Loader",
+            "type": "ai_textSplitter",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Document Loader": {
+      "ai_document": [
+        [
+          {
+            "node": "Vector Store",
+            "type": "ai_document",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Embeddings": {
+      "ai_embedding": [
+        [
+          {
+            "node": "Vector Store",
+            "type": "ai_embedding",
+            "index": 0
+          },
+          {
+            "node": "Knowledge Search Tool",
+            "type": "ai_embedding",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Chatbot Interface": {
+      "main": [
+        [
+          {
+            "node": "Knowledge Search Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Knowledge Search Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Chat Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "Knowledge Search Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Knowledge Search Tool": {
+      "ai_tool": [
+        [
+          {
+            "node": "Knowledge Search Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "RAG Processing Specifications": {
+      "main": [
+        [
+          {
+            "node": "Download File Content",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "a51acd13-d867-4db2-a74a-88917b8dfbec",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "aaadb797535f05587ee95b776c942a7c3f7a46fd7aa0c9b6a9d64e1e595f8af1"
+  },
+  "id": "KJsnFmCSKfxRuPYY",
+  "tags": []
+}

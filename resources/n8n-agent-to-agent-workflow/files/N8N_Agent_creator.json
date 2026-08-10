@@ -1,0 +1,133 @@
+{
+  "name": "N8N Agent creator",
+  "nodes": [
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        -340,
+        0
+      ],
+      "id": "0890a4b2-9bf0-4cf7-9478-9c2df59200e7",
+      "name": "When chat message received",
+      "webhookId": "2892f8b8-fd03-4c02-bef4-f207e52f5e74"
+    },
+    {
+      "parameters": {
+        "options": {
+          "systemMessage": "You are a helpful assistant"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.7,
+      "position": [
+        200,
+        0
+      ],
+      "id": "0cf29866-d6c5-42da-93ce-b1f4522795da",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "gpt-4o-mini",
+          "mode": "id"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        160,
+        260
+      ],
+      "id": "beb981b1-fc42-4b9a-ba1f-830c30d535cc",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "bBtD8KtcEPsOhElY",
+          "name": "Prompt Advisers OpenAI Account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "name": "N8N_agent_Creator",
+        "description": "Call this tool to create a AI agent after you have received the 'query' variable.\n",
+        "workflowId": {
+          "__rl": true,
+          "value": "m3VURatpsyZna9N6",
+          "mode": "list",
+          "cachedResultName": "N8N Agent Creator (Sub-Flow)"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {},
+          "matchingColumns": [],
+          "schema": [],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 2,
+      "position": [
+        540,
+        320
+      ],
+      "id": "61ff3241-a50c-4f11-bc6a-e8093707211d",
+      "name": "Create AI Agent"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create AI Agent": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "0a82db76-cfab-4483-802c-e5957d32a589",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "aaadb797535f05587ee95b776c942a7c3f7a46fd7aa0c9b6a9d64e1e595f8af1"
+  },
+  "id": "G6ab3xs0kjSsg00h",
+  "tags": []
+}

@@ -1,0 +1,439 @@
+{
+  "name": "AI Social Media Content Calendar Generator with Airtable Integration",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "d9787a4f-49d9-4c28-94f7-5995aa90732f",
+      "name": "Manual Trigger",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "id-1",
+              "name": "niche",
+              "value": "YOUR_CONTENT_NICHE",
+              "type": "string"
+            },
+            {
+              "id": "id-2",
+              "name": "brandVoice",
+              "value": "YOUR_BRAND_VOICE",
+              "type": "string"
+            },
+            {
+              "id": "id-3",
+              "name": "targetAudience",
+              "value": "YOUR_TARGET_AUDIENCE",
+              "type": "string"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "id": "89ae9d04-ebfb-4600-81de-0fbc51864963",
+      "name": "Workflow Configuration",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        224,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "gpt-5-nano",
+          "mode": "list",
+          "cachedResultName": "GPT-5-NANO"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "=Generate 2 engaging content topic ideas for the {{ $('Workflow Configuration').first().json.niche }} niche. For each topic, include: 1) A compelling title, 2) A brief description of the content angle, 3) A suggested posting date for the upcoming week (starting from next Monday), 4) A content category (Educational, Inspirational, Behind-the-scenes, Product-focused, Industry-news, etc.). Target audience: {{ $('Workflow Configuration').first().json.targetAudience }}. Brand voice: {{ $('Workflow Configuration').first().json.brandVoice }}. Return as a JSON array with objects containing: title, description, suggestedDate, category."
+            }
+          ]
+        },
+        "jsonOutput": true,
+        "options": {}
+      },
+      "id": "2e2a44d0-275e-4134-bf5c-288b43a6074c",
+      "name": "Generate Content Topics",
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.8,
+      "position": [
+        448,
+        0
+      ],
+      "credentials": {
+        "openAiApi": {
+          "id": "KSKdcXl4jY",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "gpt-5-nano",
+          "mode": "list",
+          "cachedResultName": "GPT-5-NANO"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "=For each content topic from the previous step, create platform-specific post versions optimized for LinkedIn, Twitter, and Instagram. Use this data: {{ $('Generate Content Topics').item.json.toJsonString() }} . \n\nFor each topic, create 1 post version with: LinkedIn: Professional tone, 1-3 paragraphs, industry hashtags, call-to-action for engagement. Twitter: Concise, under 280 chars, trending hashtags, clear CTA. Instagram: Visual-focused copy, engaging caption, lifestyle hashtags, story-worthy CTA. Include relevant hashtags (5-10 per platform) and strong calls-to-action. Return as JSON array with objects: originalTitle, platform, postContent, hashtags, callToAction, suggestedDate, category, image prompt for a corresponding image."
+            }
+          ]
+        },
+        "jsonOutput": true,
+        "options": {}
+      },
+      "id": "23068e6b-d38f-445e-aeb4-17f7880cb4cb",
+      "name": "Create Platform-Specific Content",
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.8,
+      "position": [
+        800,
+        0
+      ],
+      "credentials": {
+        "openAiApi": {
+          "id": "KSKdcXliG4j",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.openai.com/v1/images/generations",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "openAiApi",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "prompt",
+              "value": "={{ $json.imagePrompt }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "71bd64b6-1352-44b5-a07b-a0fcd833e42d",
+      "name": "Generate Images with DALL-E",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1376,
+        0
+      ],
+      "credentials": {
+        "openAiApi": {
+          "id": "KSKdcXjY",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "create",
+        "base": {
+          "__rl": true,
+          "value": "appJX3q5Oi7",
+          "mode": "list",
+          "cachedResultName": "Content Base"
+        },
+        "table": {
+          "__rl": true,
+          "value": "tblmZDFpJ",
+          "mode": "list",
+          "cachedResultName": "Post Schedule"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Date": "={{ $('Split Out').item.json.suggestedDate }}",
+            "Title": "={{ $('Split Out').item.json.originalTitle }}",
+            "Post Content": "={{ $('Split Out').item.json.postContent }}",
+            "Hashtags": "={{ $('Split Out').item.json.hashtags }}",
+            "Status": "Draft",
+            "Category": "={{ $('Split Out').item.json.category }}",
+            "Attachment URL": "={{ $json.data[0].url }}",
+            "Platform": "={{ $('Split Out').item.json.platform }}",
+            "Call To Action": "={{ $('Split Out').item.json.callToAction }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Title",
+              "displayName": "Title",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Date",
+              "displayName": "Date",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "dateTime",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Post Content",
+              "displayName": "Post Content",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Hashtags",
+              "displayName": "Hashtags",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Status",
+              "displayName": "Status",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "options",
+              "options": [
+                {
+                  "name": "Todo",
+                  "value": "Todo"
+                },
+                {
+                  "name": "Draft",
+                  "value": "Draft"
+                },
+                {
+                  "name": "In progress",
+                  "value": "In progress"
+                },
+                {
+                  "name": "Done",
+                  "value": "Done"
+                }
+              ],
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Category",
+              "displayName": "Category",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Attachment URL",
+              "displayName": "Attachment URL",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Platform",
+              "displayName": "Platform",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Call To Action",
+              "displayName": "Call To Action",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {
+          "typecast": true
+        }
+      },
+      "id": "46984244-c6bb-413c-8373-93c80ea80164",
+      "name": "Save to Airtable",
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2.1,
+      "position": [
+        1600,
+        0
+      ],
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "Hd79JpNF78d",
+          "name": "Airtable Access Token account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "## ⚙️ How to Setup\n\n1. OpenAI API Configuration: Add your OpenAI API credentials to both AI nodes (Generate Content Topics and Create Platform-Specific Content)\n\n2. Workflow Configuration: Update the placeholder values:\n\n        * Replace \"YOUR_CONTENT_NICHE\" with your specific niche (e.g., \"fitness\", \"marketing\", \"cooking\")\n        * Replace \"YOUR_BRAND_VOICE\" with your brand tone (e.g., \"professional and friendly\", \"casual and humorous\")\n        * Replace \"YOUR_TARGET_AUDIENCE\" with your audience description (e.g., \"small business owners\", \"fitness enthusiasts\")\n\n3. Airtable Configuration:\n\n        * Connect your Airtable account credentials\n        * Select your target base and table\n        * Ensure your Airtable has columns: Date, Platform, Title, Post Content, Hashtags, Status, Category, Image URL\n\n## ℹ️ How to Use\n\nClick the \"Test workflow\" button on the Manual Trigger node to generate a complete batch of social media content. The workflow will create 5-7 content topics, generate platform-specific versions for LinkedIn, Twitter, and Instagram, create accompanying images, and save everything to your Airtable as draft posts ready for review and scheduling.",
+        "height": 640,
+        "width": 608,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -688,
+        -192
+      ],
+      "typeVersion": 1,
+      "id": "ae5120ed-f132-45c0-8134-dd02b0bf0a46",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "message.content.posts",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        1152,
+        0
+      ],
+      "id": "48edde1b-5de7-48ef-a36b-1692108a7b62",
+      "name": "Split Out"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Manual Trigger": {
+      "main": [
+        [
+          {
+            "node": "Workflow Configuration",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Workflow Configuration": {
+      "main": [
+        [
+          {
+            "node": "Generate Content Topics",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate Content Topics": {
+      "main": [
+        [
+          {
+            "node": "Create Platform-Specific Content",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create Platform-Specific Content": {
+      "main": [
+        [
+          {
+            "node": "Split Out",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate Images with DALL-E": {
+      "main": [
+        [
+          {
+            "node": "Save to Airtable",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Out": {
+      "main": [
+        [
+          {
+            "node": "Generate Images with DALL-E",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "e53849be-cb5e-45a6-87e5-61647c8e9626",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "aaadb797535f05587ee95b776c942a7c3f7a46fd7aa0c9b6a9d64e1e595f8af1"
+  },
+  "id": "FOOFkuMPfnsB64QN",
+  "tags": []
+}

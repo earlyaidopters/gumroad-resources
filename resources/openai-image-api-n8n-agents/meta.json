@@ -1,0 +1,36 @@
+{
+  "name": "OpenAI Image API n8n Agents 🤖 🖼️",
+  "external_id": "gv4apWOWCtg-P0Sn6A9ykg==",
+  "permalink": "kwdjm",
+  "unique_permalink": "kwdjm",
+  "custom_permalink": "n8nimageapi",
+  "url": "https://markkashef.gumroad.com/l/n8nimageapi",
+  "status": "published",
+  "archived": false,
+  "kind": "products",
+  "price_formatted": "CAD$0+",
+  "description_md": "## What You Get\n\n- A complete n8n automation bundle to generate and edit high-quality images using OpenAI's new Image API (gpt-image-1, dall-e-3, and dall-e-2 supported).\n\n- \nImage Creation Subflow: Just plug in a prompt, model, and settings to create stunning visuals—automatically saved to your Google Drive.\n\n- \nImage Editing Subflow: Modify existing images with detailed prompts (e.g., “replace ball with bone”) and push the results straight to the cloud.\n\n- \nGoogle Sheets Logging Subflow: Every prompt, model, and output link is stored automatically in a Google Sheet—perfect for audits or inspiration libraries.\n\n- \nMain AI Orchestrator Flow: A smart router that takes natural language prompts and sends them to the right tool (create/edit) based on the task.\n\n- All JSON files for the workflows are included so you can import, modify, and scale instantly.\n\n- No extra setup needed—includes pre-mapped credentials and folder logic for Google Drive workflows.\n\n❤️ My team and I put serious time into crafting this pack to make your AI journey smoother—if it helps, we'd really appreciate your support by grabbing it and sharing it with others.",
+  "files": [
+    {
+      "file": "Main AI Agent Orchestrator.json",
+      "status": "cached",
+      "bytes": 15156
+    },
+    {
+      "file": "Create Image Subflow.json",
+      "status": "cached",
+      "bytes": 8576
+    },
+    {
+      "file": "Edit Image Subflow.json",
+      "status": "cached",
+      "bytes": 9641
+    },
+    {
+      "file": "Write to Google Sheet Subflow.json",
+      "status": "cached",
+      "bytes": 11075
+    }
+  ],
+  "has_rich_content": true
+}

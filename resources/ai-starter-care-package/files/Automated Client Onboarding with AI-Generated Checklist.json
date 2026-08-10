@@ -1,0 +1,390 @@
+{
+  "name": "Automated Client Onboarding with AI-Generated Checklist",
+  "nodes": [
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyMinute"
+            }
+          ]
+        },
+        "documentId": {
+          "__rl": true,
+          "value": "1--bOE3Doqoxti6LTG63",
+          "mode": "list",
+          "cachedResultName": "New Clients"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Client Roster"
+        },
+        "event": "rowAdded",
+        "options": {}
+      },
+      "id": "8cfd41dc-c2c7-4beb-86fc-0d843eacc1ff",
+      "name": "New Client Added",
+      "type": "n8n-nodes-base.googleSheetsTrigger",
+      "typeVersion": 1,
+      "position": [
+        112,
+        -16
+      ],
+      "credentials": {
+        "googleSheetsTriggerOAuth2Api": {
+          "id": "SQ3AbdCbmvjga35v",
+          "name": "Google Sheets Trigger account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "id-1",
+              "name": "teamEmail",
+              "value": "={{ $json['Project Manager Email'] }}",
+              "type": "string"
+            },
+            {
+              "id": "id-2",
+              "name": "companyName",
+              "value": "Your Company Name",
+              "type": "string"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "id": "811d9d57-e7f3-4fb8-ab4e-d4c1843fb043",
+      "name": "Workflow Configuration",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        336,
+        -16
+      ]
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=You are a client onboarding assistant. A new client has been added with the following information:\n\nClient Name: {{ $json['Client Name'] }}\nEmail: {{ $json.Email }}\nCompany: {{ $json.Company }}\nProject Type: {{ $json['Project Details'] }}\n\nYou have access to two tools to complete the onboarding process. Use them in this exact sequence:\n\nTOOL 1: Gmail Tool\nUse this tool to send a welcome email to the new client.\nRequired parameters you must provide:\n- TO_EMAIL: The client's email address ({{ $json.Email }})\n- subject: A professional, welcoming subject line (e.g., \"Welcome to [Your Company] - Let's Get Started!\")\n- message_html: A full HTML-formatted email body that includes:\n  * Warm welcome greeting using their name\n  * Brief introduction to your company and team\n  * Overview of what they can expect from the {{ $json['Project Details'] }} project\n  * Next steps and timeline\n  * Professional closing with company name - {{ $json.companyName }}\n  Use proper HTML tags like <p>, <strong>, <ul>, <li> for formatting.\n\nTOOL 2: Google Drive Tool\nUse this tool to create a dedicated folder for the client's project files.\nRequired parameters you must provide:\n- folderName: Create a folder name in this exact format: \"{{ $json['Client Name'] }} - {{ $json.Company }}\"\n\nExecute both tools in sequence. After creating the folder, confirm that both tasks completed successfully. Be professional, warm, and personalized in all content. Tailor the welcome email specifically to their project type to show you understand their needs.\n\nLastly generate the following outputs in valid JSON format:\n\n{\n  \"createdFolderId\": \"the ID from the Drive folder you created\",\n  \"documentTitle\": \"A professional title for the onboarding checklist document\",\n  \"documentContents\": \"Full onboarding checklist in markdown format with sections for: Welcome, Project Timeline, Key Contacts, Next Steps, Important Links, and Success Metrics. Tailor to the project type.\",\n  \"emailSubject\": \"Professional subject line for team notification about this new client\",\n  \"emailBodyHTML\": \"HTML-formatted email body notifying the team about the new client. Include client details, project overview, and mention that their folder has been created (link will be inserted automatically). Use professional formatting with headers, bullet points, and a friendly tone.\"\n}\n\nReturn ONLY valid JSON with these exact keys. Make all content professional, personalized, and actionable.",
+        "hasOutputParser": true,
+        "options": {
+          "systemMessage": "You are a client onboarding specialist. When a new client is added, you will: 1) Send a personalized welcome email to the client with next steps, 2) Create a folder structure in Google Drive with subfolders: Contracts, Deliverables, Meeting Notes, Assets, 3) Generate a personalized onboarding checklist based on project type and save it as a Google Doc, 4) Send a team notification email with client details and folder link. Always be professional and welcoming."
+        }
+      },
+      "id": "5fcb1cff-15ad-4235-bdef-2b37ba76d4cc",
+      "name": "Client Onboarding Agent",
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2.2,
+      "position": [
+        688,
+        -16
+      ]
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "gpt-4o-mini",
+          "mode": "list",
+          "cachedResultName": "gpt-4o-mini"
+        },
+        "options": {}
+      },
+      "id": "83a355f8-1ee7-4cf6-a81c-a5e44bac323c",
+      "name": "OpenAI Chat Model",
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        560,
+        208
+      ],
+      "credentials": {
+        "openAiApi": {
+          "id": "KSKdcXliKsG4jYZC",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "draft",
+        "subject": "={{ $fromAI('subject') }}",
+        "emailType": "html",
+        "message": "={{ $fromAI('message_html') }}",
+        "options": {
+          "sendTo": "={{ $fromAI('To_Email', ``, 'string') }}"
+        }
+      },
+      "id": "ad52c6ee-e05a-4244-9907-a99b516d32c5",
+      "name": "Gmail Tool",
+      "type": "n8n-nodes-base.gmailTool",
+      "typeVersion": 2.1,
+      "position": [
+        688,
+        208
+      ],
+      "webhookId": "63110888-b224-4f93-a07d-1522d60c20d8",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "ysoJCUNQtRUTog",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "folder",
+        "name": "={{ $fromAI('folderName') }}",
+        "driveId": {
+          "__rl": true,
+          "mode": "list",
+          "value": "My Drive"
+        },
+        "folderId": {
+          "__rl": true,
+          "value": "1tKkw7XVMU0cI-uOlO",
+          "mode": "list",
+          "cachedResultName": "Choose A Drive Folder"
+        },
+        "options": {}
+      },
+      "id": "a34c9f92-ccea-46d8-adbc-b4de5c75eb68",
+      "name": "Google Drive Tool",
+      "type": "n8n-nodes-base.googleDriveTool",
+      "typeVersion": 3,
+      "position": [
+        816,
+        208
+      ],
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "OeQme96gma",
+          "name": "Google Drive account 3"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsonSchemaExample": "{\n  \"createdFolderId\": \"the ID from the Drive folder you created\",\n  \"documentTitle\": \"A professional title for the onboarding checklist document\",\n  \"documentContents\": \"Full onboarding checklist in markdown format with sections for: Welcome, Project Timeline, Key Contacts, Next Steps, Important Links, and Success Metrics. Tailor to the project type.\",\n  \"emailSubject\": \"Professional subject line for team notification about this new client\",\n  \"emailBodyHTML\": \"HTML-formatted email body notifying the team about the new client. Include client details, project overview, and mention that their folder has been created (link will be inserted automatically). Use professional formatting with headers, bullet points, and a friendly tone.\"\n}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.3,
+      "position": [
+        960,
+        192
+      ],
+      "id": "1b3db8cf-4d29-4c93-b24c-56a49eb2ffa9",
+      "name": "Structured Output Parser"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentURL": "={{ $json.id }}",
+        "actionsUi": {
+          "actionFields": [
+            {
+              "action": "insert",
+              "text": "={{ $('Client Onboarding Agent').item.json.output.documentContents }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.googleDocs",
+      "typeVersion": 2,
+      "position": [
+        1248,
+        -16
+      ],
+      "id": "77d8c431-139d-4070-a05e-9176452f6",
+      "name": "Update Client Document",
+      "credentials": {
+        "googleDocsOAuth2Api": {
+          "id": "dNa0esbBdxGzU3w",
+          "name": "Google Docs account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "folderId": "={{ $json.output.createdFolderId }}",
+        "title": "={{ $json.output.documentTitle }}"
+      },
+      "type": "n8n-nodes-base.googleDocs",
+      "typeVersion": 2,
+      "position": [
+        1040,
+        -16
+      ],
+      "id": "3c0626f3-ed1e-421b-b38f-66d509c",
+      "name": "Create Client Document",
+      "credentials": {
+        "googleDocsOAuth2Api": {
+          "id": "dNa0esbBdxU3w",
+          "name": "Google Docs account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "draft",
+        "subject": "={{ $('Client Onboarding Agent').item.json.output.emailSubject }}",
+        "message": "={{ $('Client Onboarding Agent').item.json.output.emailBodyHTML }}",
+        "options": {
+          "sendTo": "={{ $('Workflow Configuration').item.json.teamEmail }}"
+        }
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        1456,
+        -16
+      ],
+      "id": "c5335313-6437-4222-a6e9-61e5417",
+      "name": "Create a team email draft",
+      "webhookId": "9deb8b97-5dbe-4a90-babe-55f92ed1",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "ysoJCUNQtRUg",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "## ⚙️ How to Setup\n\n1. Google Sheets Trigger: Connect your Google account and select the specific spreadsheet and sheet to monitor for new client rows\n2. OpenAI Chat Model: Add your OpenAI API key in the credentials\n3. Gmail Tool: Connect your Gmail account for sending emails\n4. Google Drive Tool: Connect your Google account for folder creation\n5. Google Docs Tool: Connect your Google account for document creation\n6. Workflow Configuration: Update the team email, company name, and base folder name to match your organization\n7. Google Sheets: Ensure your sheet has columns for client name, email, company, project details, project manager, and project team contact email\n\n## ℹ️ How to Use\n\nAdd a new row to your Google Sheets with client information. The AI agent will automatically:\n\n* Send a welcome email to the client\n* Create a project folder\n* Generate a personalized onboarding checklist with kickoff call, 1-week check, and 1-month review\n* Notify your team with client details and folder link",
+        "height": 576,
+        "width": 560,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -512,
+        -272
+      ],
+      "typeVersion": 1,
+      "id": "08312363-3c33-4326-ac8c-48b71312b63b",
+      "name": "Sticky Note"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "New Client Added": {
+      "main": [
+        [
+          {
+            "node": "Workflow Configuration",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Workflow Configuration": {
+      "main": [
+        [
+          {
+            "node": "Client Onboarding Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Client Onboarding Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Gmail Tool": {
+      "ai_tool": [
+        [
+          {
+            "node": "Client Onboarding Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Drive Tool": {
+      "ai_tool": [
+        [
+          {
+            "node": "Client Onboarding Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Client Onboarding Agent": {
+      "main": [
+        [
+          {
+            "node": "Create Client Document",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structured Output Parser": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "Client Onboarding Agent",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create Client Document": {
+      "main": [
+        [
+          {
+            "node": "Update Client Document",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update Client Document": {
+      "main": [
+        [
+          {
+            "node": "Create a team email draft",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "97926264-d87d-4f23-9a0a-a4a3e7355264",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "aaadb797535f05587ee95b776c942a7c3f7a46fd7aa0c9b6a9d64e1e595f8af1"
+  },
+  "id": "SvpZMh2w5XOqra9l",
+  "tags": []
+}

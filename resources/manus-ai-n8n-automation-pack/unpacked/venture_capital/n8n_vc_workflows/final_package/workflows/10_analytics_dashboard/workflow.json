@@ -1,0 +1,924 @@
+{
+  "name": "Analytics & Investment Performance Dashboard",
+  "nodes": [
+    {
+      "parameters": {
+        "triggerTimes": {
+          "item": [
+            {
+              "mode": "everyX",
+              "value": 1,
+              "unit": "days",
+              "hour": 1,
+              "minute": 0
+            }
+          ]
+        }
+      },
+      "name": "Daily Data Refresh",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1,
+      "position": [
+        240,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "sheetName": "Portfolio Companies",
+        "options": {}
+      },
+      "name": "Get Portfolio Companies",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 3,
+      "position": [
+        460,
+        300
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "1",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "sheetName": "Investments",
+        "options": {}
+      },
+      "name": "Get Investment Data",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 3,
+      "position": [
+        460,
+        460
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "1",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "sheetName": "Fund Performance",
+        "options": {}
+      },
+      "name": "Get Fund Performance",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 3,
+      "position": [
+        460,
+        620
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "1",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "sheetName": "Deal Flow",
+        "options": {}
+      },
+      "name": "Get Deal Flow Data",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 3,
+      "position": [
+        460,
+        780
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "1",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "functionCode": "// Process portfolio company data\nconst portfolioCompanies = $input.item.json;\n\n// If no data, return empty\nif (!portfolioCompanies || !Array.isArray(portfolioCompanies)) {\n  return { json: { success: false, error: 'No portfolio company data found' } };\n}\n\n// Calculate portfolio metrics\nconst totalCompanies = portfolioCompanies.length;\nlet activeCompanies = 0;\nlet exitedCompanies = 0;\nlet acquiredCompanies = 0;\nlet ipoCompanies = 0;\nlet failedCompanies = 0;\n\n// Count by sector\nconst sectorCounts = {};\n\n// Count by stage\nconst stageCounts = {};\n\n// Count by investment year\nconst yearCounts = {};\n\n// Calculate metrics\nportfolioCompanies.forEach(company => {\n  // Count by status\n  const status = company.status || 'Unknown';\n  if (status.toLowerCase() === 'active') activeCompanies++;\n  if (status.toLowerCase().includes('exit')) exitedCompanies++;\n  if (status.toLowerCase().includes('acquired')) acquiredCompanies++;\n  if (status.toLowerCase().includes('ipo')) ipoCompanies++;\n  if (status.toLowerCase().includes('fail')) failedCompanies++;\n  \n  // Count by sector\n  const sector = company.sector || 'Unknown';\n  sectorCounts[sector] = (sectorCounts[sector] || 0) + 1;\n  \n  // Count by stage\n  const stage = company.stage || 'Unknown';\n  stageCounts[stage] = (stageCounts[stage] || 0) + 1;\n  \n  // Count by investment year\n  if (company.initialInvestmentDate) {\n    const year = new Date(company.initialInvestmentDate).getFullYear();\n    yearCounts[year] = (yearCounts[year] || 0) + 1;\n  }\n});\n\n// Calculate success rate\nconst successRate = totalCompanies > 0 ? Math.round((exitedCompanies / totalCompanies) * 100) : 0;\n\n// Format results\nconst portfolioMetrics = {\n  totalCompanies,\n  activeCompanies,\n  exitedCompanies,\n  acquiredCompanies,\n  ipoCompanies,\n  failedCompanies,\n  successRate,\n  sectorDistribution: JSON.stringify(sectorCounts),\n  stageDistribution: JSON.stringify(stageCounts),\n  yearDistribution: JSON.stringify(yearCounts),\n  lastUpdated: new Date().toISOString()\n};\n\nreturn { json: portfolioMetrics };"
+      },
+      "name": "Process Portfolio Metrics",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [
+        680,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "functionCode": "// Process investment data\nconst investments = $input.item.json;\n\n// If no data, return empty\nif (!investments || !Array.isArray(investments)) {\n  return { json: { success: false, error: 'No investment data found' } };\n}\n\n// Calculate investment metrics\nlet totalInvested = 0;\nlet totalReturned = 0;\nlet unrealizedValue = 0;\n\n// Count by round type\nconst roundCounts = {};\n\n// Track investments by year\nconst investmentsByYear = {};\n\n// Calculate metrics\ninvestments.forEach(investment => {\n  // Sum investment amounts\n  const amount = parseFloat(investment.amount) || 0;\n  totalInvested += amount;\n  \n  // Sum returns\n  const returned = parseFloat(investment.returned) || 0;\n  totalReturned += returned;\n  \n  // Sum unrealized value\n  const unrealized = parseFloat(investment.unrealizedValue) || 0;\n  unrealizedValue += unrealized;\n  \n  // Count by round type\n  const roundType = investment.roundType || 'Unknown';\n  roundCounts[roundType] = (roundCounts[roundType] || 0) + 1;\n  \n  // Track by year\n  if (investment.date) {\n    const year = new Date(investment.date).getFullYear();\n    if (!investmentsByYear[year]) {\n      investmentsByYear[year] = {\n        count: 0,\n        amount: 0\n      };\n    }\n    investmentsByYear[year].count++;\n    investmentsByYear[year].amount += amount;\n  }\n});\n\n// Calculate total value\nconst totalValue = totalReturned + unrealizedValue;\n\n// Calculate TVPI (Total Value to Paid-In)\nconst tvpi = totalInvested > 0 ? (totalValue / totalInvested).toFixed(2) : 0;\n\n// Calculate DPI (Distributions to Paid-In)\nconst dpi = totalInvested > 0 ? (totalReturned / totalInvested).toFixed(2) : 0;\n\n// Calculate RVPI (Remaining Value to Paid-In)\nconst rvpi = totalInvested > 0 ? (unrealizedValue / totalInvested).toFixed(2) : 0;\n\n// Format results\nconst investmentMetrics = {\n  totalInvested,\n  totalReturned,\n  unrealizedValue,\n  totalValue,\n  tvpi,\n  dpi,\n  rvpi,\n  totalInvestments: investments.length,\n  roundDistribution: JSON.stringify(roundCounts),\n  investmentsByYear: JSON.stringify(investmentsByYear),\n  lastUpdated: new Date().toISOString()\n};\n\nreturn { json: investmentMetrics };"
+      },
+      "name": "Process Investment Metrics",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [
+        680,
+        460
+      ]
+    },
+    {
+      "parameters": {
+        "functionCode": "// Process fund performance data\nconst fundData = $input.item.json;\n\n// If no data, return empty\nif (!fundData || !Array.isArray(fundData)) {\n  return { json: { success: false, error: 'No fund performance data found' } };\n}\n\n// Calculate fund metrics\nconst fundMetrics = {};\nconst fundReturns = {};\nconst fundComparisons = {};\n\n// Process each fund\nfundData.forEach(fund => {\n  const fundName = fund.fundName || 'Unknown';\n  \n  // Store fund metrics\n  fundMetrics[fundName] = {\n    size: parseFloat(fund.fundSize) || 0,\n    vintage: fund.vintage || 'Unknown',\n    committed: parseFloat(fund.committed) || 0,\n    called: parseFloat(fund.called) || 0,\n    distributed: parseFloat(fund.distributed) || 0,\n    nav: parseFloat(fund.nav) || 0,\n    tvpi: parseFloat(fund.tvpi) || 0,\n    dpi: parseFloat(fund.dpi) || 0,\n    irr: parseFloat(fund.irr) || 0\n  };\n  \n  // Store historical returns if available\n  if (fund.quarterlyReturns) {\n    try {\n      fundReturns[fundName] = JSON.parse(fund.quarterlyReturns);\n    } catch (e) {\n      fundReturns[fundName] = {};\n    }\n  }\n  \n  // Store benchmark comparisons if available\n  if (fund.benchmarkComparisons) {\n    try {\n      fundComparisons[fundName] = JSON.parse(fund.benchmarkComparisons);\n    } catch (e) {\n      fundComparisons[fundName] = {};\n    }\n  }\n});\n\n// Calculate aggregate metrics across all funds\nlet totalFundSize = 0;\nlet totalCommitted = 0;\nlet totalCalled = 0;\nlet totalDistributed = 0;\nlet totalNAV = 0;\nlet weightedTVPI = 0;\nlet weightedIRR = 0;\nlet totalWeight = 0;\n\nObject.values(fundMetrics).forEach(fund => {\n  totalFundSize += fund.size;\n  totalCommitted += fund.committed;\n  totalCalled += fund.called;\n  totalDistributed += fund.distributed;\n  totalNAV += fund.nav;\n  \n  // Calculate weighted metrics\n  if (fund.size > 0) {\n    weightedTVPI += fund.tvpi * fund.size;\n    weightedIRR += fund.irr * fund.size;\n    totalWeight += fund.size;\n  }\n});\n\n// Calculate final weighted metrics\nconst avgTVPI = totalWeight > 0 ? (weightedTVPI / totalWeight).toFixed(2) : 0;\nconst avgIRR = totalWeight > 0 ? (weightedIRR / totalWeight).toFixed(2) : 0;\n\n// Format results\nconst fundPerformanceMetrics = {\n  totalFunds: fundData.length,\n  totalFundSize,\n  totalCommitted,\n  totalCalled,\n  totalDistributed,\n  totalNAV,\n  avgTVPI,\n  avgIRR,\n  callRatio: totalCommitted > 0 ? ((totalCalled / totalCommitted) * 100).toFixed(2) : 0,\n  distributionRatio: totalCalled > 0 ? ((totalDistributed / totalCalled) * 100).toFixed(2) : 0,\n  fundMetrics: JSON.stringify(fundMetrics),\n  fundReturns: JSON.stringify(fundReturns),\n  fundComparisons: JSON.stringify(fundComparisons),\n  lastUpdated: new Date().toISOString()\n};\n\nreturn { json: fundPerformanceMetrics };"
+      },
+      "name": "Process Fund Metrics",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [
+        680,
+        620
+      ]
+    },
+    {
+      "parameters": {
+        "functionCode": "// Process deal flow data\nconst dealFlowData = $input.item.json;\n\n// If no data, return empty\nif (!dealFlowData || !Array.isArray(dealFlowData)) {\n  return { json: { success: false, error: 'No deal flow data found' } };\n}\n\n// Get current date for filtering\nconst now = new Date();\nconst currentYear = now.getFullYear();\nconst currentMonth = now.getMonth();\n\n// Filter for deals in current year\nconst currentYearDeals = dealFlowData.filter(deal => {\n  if (!deal.date) return false;\n  const dealDate = new Date(deal.date);\n  return dealDate.getFullYear() === currentYear;\n});\n\n// Filter for deals in current quarter\nconst currentQuarter = Math.floor(currentMonth / 3) + 1;\nconst currentQuarterDeals = currentYearDeals.filter(deal => {\n  if (!deal.date) return false;\n  const dealDate = new Date(deal.date);\n  const dealQuarter = Math.floor(dealDate.getMonth() / 3) + 1;\n  return dealQuarter === currentQuarter;\n});\n\n// Filter for deals in current month\nconst currentMonthDeals = currentYearDeals.filter(deal => {\n  if (!deal.date) return false;\n  const dealDate = new Date(deal.date);\n  return dealDate.getMonth() === currentMonth;\n});\n\n// Count deals by stage\nconst stageCount = {};\ndealFlowData.forEach(deal => {\n  const stage = deal.stage || 'Unknown';\n  stageCount[stage] = (stageCount[stage] || 0) + 1;\n});\n\n// Count deals by source\nconst sourceCount = {};\ndealFlowData.forEach(deal => {\n  const source = deal.source || 'Unknown';\n  sourceCount[source] = (sourceCount[source] || 0) + 1;\n});\n\n// Count deals by sector\nconst sectorCount = {};\ndealFlowData.forEach(deal => {\n  const sector = deal.sector || 'Unknown';\n  sectorCount[sector] = (sectorCount[sector] || 0) + 1;\n});\n\n// Calculate conversion rates\nconst totalDeals = dealFlowData.length;\nconst pitchMeetings = dealFlowData.filter(deal => \n  deal.stage && deal.stage.toLowerCase().includes('pitch')).length;\nconst dueDiligence = dealFlowData.filter(deal => \n  deal.stage && deal.stage.toLowerCase().includes('diligence')).length;\nconst termSheet = dealFlowData.filter(deal => \n  deal.stage && deal.stage.toLowerCase().includes('term')).length;\nconst closed = dealFlowData.filter(deal => \n  deal.stage && deal.stage.toLowerCase().includes('closed')).length;\n\n// Calculate conversion rates\nconst pitchToDDRate = pitchMeetings > 0 ? ((dueDiligence / pitchMeetings) * 100).toFixed(2) : 0;\nconst ddToTermRate = dueDiligence > 0 ? ((termSheet / dueDiligence) * 100).toFixed(2) : 0;\nconst termToCloseRate = termSheet > 0 ? ((closed / termSheet) * 100).toFixed(2) : 0;\nconst overallConversionRate = totalDeals > 0 ? ((closed / totalDeals) * 100).toFixed(2) : 0;\n\n// Group deals by month for trend analysis\nconst dealsByMonth = {};\ndealFlowData.forEach(deal => {\n  if (!deal.date) return;\n  const dealDate = new Date(deal.date);\n  const yearMonth = `${dealDate.getFullYear()}-${String(dealDate.getMonth() + 1).padStart(2, '0')}`;\n  \n  if (!dealsByMonth[yearMonth]) {\n    dealsByMonth[yearMonth] = {\n      total: 0,\n      byStage: {}\n    };\n  }\n  \n  dealsByMonth[yearMonth].total++;\n  \n  const stage = deal.stage || 'Unknown';\n  dealsByMonth[yearMonth].byStage[stage] = (dealsByMonth[yearMonth].byStage[stage] || 0) + 1;\n});\n\n// Format results\nconst dealFlowMetrics = {\n  totalDeals,\n  currentYearDeals: currentYearDeals.length,\n  currentQuarterDeals: currentQuarterDeals.length,\n  currentMonthDeals: currentMonthDeals.length,\n  pitchMeetings,\n  dueDiligence,\n  termSheet,\n  closed,\n  pitchToDDRate,\n  ddToTermRate,\n  termToCloseRate,\n  overallConversionRate,\n  stageDistribution: JSON.stringify(stageCount),\n  sourceDistribution: JSON.stringify(sourceCount),\n  sectorDistribution: JSON.stringify(sectorCount),\n  dealsByMonth: JSON.stringify(dealsByMonth),\n  lastUpdated: new Date().toISOString()\n};\n\nreturn { json: dealFlowMetrics };"
+      },
+      "name": "Process Deal Flow Metrics",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [
+        680,
+        780
+      ]
+    },
+    {
+      "parameters": {
+        "functionCode": "// Combine all metrics into a single dashboard dataset\nconst portfolioMetrics = $input.all()[0].json;\nconst investmentMetrics = $input.all()[1].json;\nconst fundMetrics = $input.all()[2].json;\nconst dealFlowMetrics = $input.all()[3].json;\n\n// Create dashboard data object\nconst dashboardData = {\n  generatedAt: new Date().toISOString(),\n  portfolio: portfolioMetrics,\n  investments: investmentMetrics,\n  funds: fundMetrics,\n  dealFlow: dealFlowMetrics\n};\n\n// Add summary metrics for quick access\nconst summaryMetrics = {\n  totalPortfolioCompanies: portfolioMetrics.totalCompanies || 0,\n  activePortfolioCompanies: portfolioMetrics.activeCompanies || 0,\n  exitedCompanies: portfolioMetrics.exitedCompanies || 0,\n  totalInvested: investmentMetrics.totalInvested || 0,\n  totalValue: investmentMetrics.totalValue || 0,\n  overallTVPI: investmentMetrics.tvpi || 0,\n  avgFundIRR: fundMetrics.avgIRR || 0,\n  totalDeals: dealFlowMetrics.totalDeals || 0,\n  currentYearDeals: dealFlowMetrics.currentYearDeals || 0,\n  dealConversionRate: dealFlowMetrics.overallConversionRate || 0\n};\n\ndashboardData.summary = summaryMetrics;\n\nreturn { json: dashboardData };"
+      },
+      "name": "Combine Dashboard Data",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [
+        900,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "sheetName": "Dashboard",
+        "key": "id",
+        "columns": {
+          "values": [
+            {
+              "column": "data",
+              "value": "={{ JSON.stringify($json) }}"
+            },
+            {
+              "column": "lastUpdated",
+              "value": "={{ $json.generatedAt }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "name": "Update Dashboard Data",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 3,
+      "position": [
+        1120,
+        300
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "1",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "functionCode": "// Generate dashboard HTML\nconst dashboardData = $input.item.json;\n\n// Format currency function\nconst formatCurrency = (amount) => {\n  return new Intl.NumberFormat('en-US', {\n    style: 'currency',\n    currency: 'USD',\n    minimumFractionDigits: 0,\n    maximumFractionDigits: 0\n  }).format(amount);\n};\n\n// Format percentage function\nconst formatPercent = (value) => {\n  return new Intl.NumberFormat('en-US', {\n    style: 'percent',\n    minimumFractionDigits: 1,\n    maximumFractionDigits: 1\n  }).format(value / 100);\n};\n\n// Format date\nconst formatDate = (dateString) => {\n  const date = new Date(dateString);\n  return date.toLocaleDateString('en-US', { \n    year: 'numeric', \n    month: 'short', \n    day: 'numeric',\n    hour: '2-digit',\n    minute: '2-digit'\n  });\n};\n\n// Generate HTML\nconst html = `<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n  <title>VC Firm Investment Dashboard</title>\n  <link href=\"https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css\" rel=\"stylesheet\">\n  <script src=\"https://cdn.jsdelivr.net/npm/chart.js\"></script>\n  <style>\n    body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }\n    .card { margin-bottom: 20px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }\n    .card-header { background-color: #f8f9fa; font-weight: bold; }\n    .metric-value { font-size: 24px; font-weight: bold; }\n    .metric-label { font-size: 14px; color: #6c757d; }\n    .positive { color: #28a745; }\n    .negative { color: #dc3545; }\n    .neutral { color: #6c757d; }\n    .last-updated { font-size: 12px; color: #6c757d; font-style: italic; }\n  </style>\n</head>\n<body>\n  <div class=\"container-fluid py-4\">\n    <div class=\"row mb-4\">\n      <div class=\"col\">\n        <h1 class=\"display-5\">VC Firm Investment Dashboard</h1>\n        <p class=\"text-muted\">Last updated: ${formatDate(dashboardData.generatedAt)}</p>\n      </div>\n    </div>\n    \n    <!-- Summary Metrics -->\n    <div class=\"row mb-4\">\n      <div class=\"col-md-3\">\n        <div class=\"card h-100\">\n          <div class=\"card-body text-center\">\n            <div class=\"metric-label\">Portfolio Companies</div>\n            <div class=\"metric-value\">${dashboardData.summary.totalPortfolioCompanies}</div>\n            <div class=\"small\">${dashboardData.summary.activePortfolioCompanies} Active / ${dashboardData.summary.exitedCompanies} Exited</div>\n          </div>\n        </div>\n      </div>\n      <div class=\"col-md-3\">\n        <div class=\"card h-100\">\n          <div class=\"card-body text-center\">\n            <div class=\"metric-label\">Total Value</div>\n            <div class=\"metric-value\">${formatCurrency(dashboardData.summary.totalValue)}</div>\n            <div class=\"small\">TVPI: ${dashboardData.summary.overallTVPI}x</div>\n          </div>\n        </div>\n      </div>\n      <div class=\"col-md-3\">\n        <div class=\"card h-100\">\n          <div class=\"card-body text-center\">\n            <div class=\"metric-label\">Fund Performance</div>\n            <div class=\"metric-value\">${dashboardData.summary.avgFundIRR}%</div>\n            <div class=\"small\">Average IRR</div>\n          </div>\n        </div>\n      </div>\n      <div class=\"col-md-3\">\n        <div class=\"card h-100\">\n          <div class=\"card-body text-center\">\n            <div class=\"metric-label\">Deal Flow</div>\n            <div class=\"metric-value\">${dashboardData.summary.currentYearDeals}</div>\n            <div class=\"small\">This Year (${dashboardData.summary.dealConversionRate}% Conversion)</div>\n          </div>\n        </div>\n      </div>\n    </div>\n    \n    <!-- Portfolio Section -->\n    <div class=\"row mb-4\">\n      <div class=\"col-12\">\n        <div class=\"card\">\n          <div class=\"card-header\">Portfolio Overview</div>\n          <div class=\"card-body\">\n            <div class=\"row\">\n              <div class=\"col-md-4\">\n                <canvas id=\"portfolioStatusChart\"></canvas>\n              </div>\n              <div class=\"col-md-4\">\n                <canvas id=\"portfolioSectorChart\"></canvas>\n              </div>\n              <div class=\"col-md-4\">\n                <canvas id=\"portfolioStageChart\"></canvas>\n              </div>\n            </div>\n          </div>\n        </div>\n      </div>\n    </div>\n    \n    <!-- Investment Performance Section -->\n    <div class=\"row mb-4\">\n      <div class=\"col-12\">\n        <div class=\"card\">\n          <div class=\"card-header\">Investment Performance</div>\n          <div class=\"card-body\">\n            <div class=\"row\">\n              <div class=\"col-md-6\">\n                <div class=\"table-responsive\">\n                  <table class=\"table table-sm\">\n                    <thead>\n                      <tr>\n                        <th>Metric</th>\n                        <th class=\"text-end\">Value</th>\n                      </tr>\n                    </thead>\n                    <tbody>\n                      <tr>\n                        <td>Total Invested</td>\n                        <td class=\"text-end\">${formatCurrency(dashboardData.investments.totalInvested)}</td>\n                      </tr>\n                      <tr>\n                        <td>Total Returned</td>\n                        <td class=\"text-end\">${formatCurrency(dashboardData.investments.totalReturned)}</td>\n                      </tr>\n                      <tr>\n                        <td>Unrealized Value</td>\n                        <td class=\"text-end\">${formatCurrency(dashboardData.investments.unrealizedValue)}</td>\n                      </tr>\n                      <tr>\n                        <td>Total Value</td>\n                        <td class=\"text-end fw-bold\">${formatCurrency(dashboardData.investments.totalValue)}</td>\n                      </tr>\n                      <tr>\n                        <td>TVPI</td>\n                        <td class=\"text-end fw-bold\">${dashboardData.investments.tvpi}x</td>\n                      </tr>\n                      <tr>\n                        <td>DPI</td>\n                        <td class=\"text-end\">${dashboardData.investments.dpi}x</td>\n                      </tr>\n                      <tr>\n                        <td>RVPI</td>\n                        <td class=\"text-end\">${dashboardData.investments.rvpi}x</td>\n                      </tr>\n                    </tbody>\n                  </table>\n                </div>\n              </div>\n              <div class=\"col-md-6\">\n                <canvas id=\"investmentsByYearChart\"></canvas>\n              </div>\n            </div>\n          </div>\n        </div>\n      </div>\n    </div>\n    \n    <!-- Fund Performance Section -->\n    <div class=\"row mb-4\">\n      <div class=\"col-12\">\n        <div class=\"card\">\n          <div class=\"card-header\">Fund Performance</div>\n          <div class=\"card-body\">\n            <div class=\"row\">\n              <div class=\"col-md-6\">\n                <div class=\"table-responsive\">\n                  <table class=\"table table-sm\">\n                    <thead>\n                      <tr>\n                        <th>Metric</th>\n                        <th class=\"text-end\">Value</th>\n                      </tr>\n                    </thead>\n                    <tbody>\n                      <tr>\n                        <td>Total Funds</td>\n                        <td class=\"text-end\">${dashboardData.funds.totalFunds}</td>\n                      </tr>\n                      <tr>\n                        <td>Total Fund Size</td>\n                        <td class=\"text-end\">${formatCurrency(dashboardData.funds.totalFundSize)}</td>\n                      </tr>\n                      <tr>\n                        <td>Total Committed</td>\n                        <td class=\"text-end\">${formatCurrency(dashboardData.funds.totalCommitted)}</td>\n                      </tr>\n                      <tr>\n                        <td>Total Called</td>\n                        <td class=\"text-end\">${formatCurrency(dashboardData.funds.totalCalled)}</td>\n                      </tr>\n                      <tr>\n                        <td>Total Distributed</td>\n                        <td class=\"text-end\">${formatCurrency(dashboardData.funds.totalDistributed)}</td>\n                      </tr>\n                      <tr>\n                        <td>Total NAV</td>\n                        <td class=\"text-end\">${formatCurrency(dashboardData.funds.totalNAV)}</td>\n                      </tr>\n                      <tr>\n                        <td>Average TVPI</td>\n                        <td class=\"text-end fw-bold\">${dashboardData.funds.avgTVPI}x</td>\n                      </tr>\n                      <tr>\n                        <td>Average IRR</td>\n                        <td class=\"text-end fw-bold\">${dashboardData.funds.avgIRR}%</td>\n                      </tr>\n                    </tbody>\n                  </table>\n                </div>\n              </div>\n              <div class=\"col-md-6\">\n                <canvas id=\"fundPerformanceChart\"></canvas>\n              </div>\n            </div>\n          </div>\n        </div>\n      </div>\n    </div>\n    \n    <!-- Deal Flow Section -->\n    <div class=\"row mb-4\">\n      <div class=\"col-12\">\n        <div class=\"card\">\n          <div class=\"card-header\">Deal Flow</div>\n          <div class=\"card-body\">\n            <div class=\"row\">\n              <div class=\"col-md-4\">\n                <canvas id=\"dealStageChart\"></canvas>\n              </div>\n              <div class=\"col-md-4\">\n                <canvas id=\"dealSourceChart\"></canvas>\n              </div>\n              <div class=\"col-md-4\">\n                <div class=\"table-responsive\">\n                  <table class=\"table table-sm\">\n                    <thead>\n                      <tr>\n                        <th>Conversion Metric</th>\n                        <th class=\"text-end\">Rate</th>\n                      </tr>\n                    </thead>\n                    <tbody>\n                      <tr>\n                        <td>Pitch to Due Diligence</td>\n                        <td class=\"text-end\">${dashboardData.dealFlow.pitchToDDRate}%</td>\n                      </tr>\n                      <tr>\n                        <td>Due Diligence to Term Sheet</td>\n                        <td class=\"text-end\">${dashboardData.dealFlow.ddToTermRate}%</td>\n                      </tr>\n                      <tr>\n                        <td>Term Sheet to Close</td>\n                        <td class=\"text-end\">${dashboardData.dealFlow.termToCloseRate}%</td>\n                      </tr>\n                      <tr>\n                        <td>Overall Conversion</td>\n                        <td class=\"text-end fw-bold\">${dashboardData.dealFlow.overallConversionRate}%</td>\n                      </tr>\n                    </tbody>\n                  </table>\n                </div>\n              </div>\n            </div>\n          </div>\n        </div>\n      </div>\n    </div>\n  </div>\n  \n  <script>\n    // Parse data for charts\n    const portfolioData = ${JSON.stringify(dashboardData.portfolio)};\n    const investmentData = ${JSON.stringify(dashboardData.investments)};\n    const fundData = ${JSON.stringify(dashboardData.funds)};\n    const dealFlowData = ${JSON.stringify(dashboardData.dealFlow)};\n    \n    // Parse JSON strings\n    const sectorDistribution = JSON.parse(portfolioData.sectorDistribution || '{}');\n    const stageDistribution = JSON.parse(portfolioData.stageDistribution || '{}');\n    const investmentsByYear = JSON.parse(investmentData.investmentsByYear || '{}');\n    const fundMetrics = JSON.parse(fundData.fundMetrics || '{}');\n    const stageCount = JSON.parse(dealFlowData.stageDistribution || '{}');\n    const sourceCount = JSON.parse(dealFlowData.sourceDistribution || '{}');\n    \n    // Portfolio Status Chart\n    new Chart(document.getElementById('portfolioStatusChart'), {\n      type: 'pie',\n      data: {\n        labels: ['Active', 'Exited', 'Failed'],\n        datasets: [{\n          data: [portfolioData.activeCompanies, portfolioData.exitedCompanies, portfolioData.failedCompanies],\n          backgroundColor: ['#4e73df', '#1cc88a', '#e74a3b']\n        }]\n      },\n      options: {\n        responsive: true,\n        plugins: {\n          legend: { position: 'bottom' },\n          title: { display: true, text: 'Portfolio Status' }\n        }\n      }\n    });\n    \n    // Portfolio Sector Chart\n    new Chart(document.getElementById('portfolioSectorChart'), {\n      type: 'pie',\n      data: {\n        labels: Object.keys(sectorDistribution),\n        datasets: [{\n          data: Object.values(sectorDistribution),\n          backgroundColor: ['#4e73df', '#1cc88a', '#36b9cc', '#f6c23e', '#e74a3b', '#858796']\n        }]\n      },\n      options: {\n        responsive: true,\n        plugins: {\n          legend: { position: 'bottom' },\n          title: { display: true, text: 'Portfolio by Sector' }\n        }\n      }\n    });\n    \n    // Portfolio Stage Chart\n    new Chart(document.getElementById('portfolioStageChart'), {\n      type: 'pie',\n      data: {\n        labels: Object.keys(stageDistribution),\n        datasets: [{\n          data: Object.values(stageDistribution),\n          backgroundColor: ['#4e73df', '#1cc88a', '#36b9cc', '#f6c23e', '#e74a3b', '#858796']\n        }]\n      },\n      options: {\n        responsive: true,\n        plugins: {\n          legend: { position: 'bottom' },\n          title: { display: true, text: 'Portfolio by Stage' }\n        }\n      }\n    });\n    \n    // Investments by Year Chart\n    const yearLabels = Object.keys(investmentsByYear).sort();\n    const yearAmounts = yearLabels.map(year => investmentsByYear[year].amount);\n    const yearCounts = yearLabels.map(year => investmentsByYear[year].count);\n    \n    new Chart(document.getElementById('investmentsByYearChart'), {\n      type: 'bar',\n      data: {\n        labels: yearLabels,\n        datasets: [\n          {\n            label: 'Amount Invested',\n            data: yearAmounts,\n            backgroundColor: '#4e73df',\n            yAxisID: 'y'\n          },\n          {\n            label: 'Number of Investments',\n            data: yearCounts,\n            backgroundColor: '#1cc88a',\n            type: 'line',\n            yAxisID: 'y1'\n          }\n        ]\n      },\n      options: {\n        responsive: true,\n        plugins: {\n          legend: { position: 'bottom' },\n          title: { display: true, text: 'Investments by Year' }\n        },\n        scales: {\n          y: {\n            type: 'linear',\n            position: 'left',\n            title: { display: true, text: 'Amount ($)' }\n          },\n          y1: {\n            type: 'linear',\n            position: 'right',\n            title: { display: true, text: 'Count' },\n            grid: { drawOnChartArea: false }\n          }\n        }\n      }\n    });\n    \n    // Fund Performance Chart\n    const fundNames = Object.keys(fundMetrics);\n    const fundTVPIs = fundNames.map(name => fundMetrics[name].tvpi);\n    const fundIRRs = fundNames.map(name => fundMetrics[name].irr);\n    \n    new Chart(document.getElementById('fundPerformanceChart'), {\n      type: 'bar',\n      data: {\n        labels: fundNames,\n        datasets: [\n          {\n            label: 'TVPI',\n            data: fundTVPIs,\n            backgroundColor: '#4e73df'\n          },\n          {\n            label: 'IRR (%)',\n            data: fundIRRs,\n            backgroundColor: '#1cc88a',\n            type: 'line'\n          }\n        ]\n      },\n      options: {\n        responsive: true,\n        plugins: {\n          legend: { position: 'bottom' },\n          title: { display: true, text: 'Fund Performance' }\n        }\n      }\n    });\n    \n    // Deal Stage Chart\n    new Chart(document.getElementById('dealStageChart'), {\n      type: 'pie',\n      data: {\n        labels: Object.keys(stageCount),\n        datasets: [{\n          data: Object.values(stageCount),\n          backgroundColor: ['#4e73df', '#1cc88a', '#36b9cc', '#f6c23e', '#e74a3b', '#858796']\n        }]\n      },\n      options: {\n        responsive: true,\n        plugins: {\n          legend: { position: 'bottom' },\n          title: { display: true, text: 'Deals by Stage' }\n        }\n      }\n    });\n    \n    // Deal Source Chart\n    new Chart(document.getElementById('dealSourceChart'), {\n      type: 'pie',\n      data: {\n        labels: Object.keys(sourceCount),\n        datasets: [{\n          data: Object.values(sourceCount),\n          backgroundColor: ['#4e73df', '#1cc88a', '#36b9cc', '#f6c23e', '#e74a3b', '#858796']\n        }]\n      },\n      options: {\n        responsive: true,\n        plugins: {\n          legend: { position: 'bottom' },\n          title: { display: true, text: 'Deals by Source' }\n        }\n      }\n    });\n  </script>\n</body>\n</html>`;\n\nreturn { json: { html } };"
+      },
+      "name": "Generate Dashboard HTML",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [
+        1340,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "content": "={{ $json.html }}",
+        "file": "/home/ubuntu/dashboard.html",
+        "options": {}
+      },
+      "name": "Save Dashboard HTML",
+      "type": "n8n-nodes-base.writeFile",
+      "typeVersion": 1,
+      "position": [
+        1560,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "functionCode": "// Generate API data for external consumption\nconst dashboardData = $input.item.json;\n\n// Create a simplified API response with key metrics\nconst apiData = {\n  lastUpdated: dashboardData.generatedAt,\n  summary: dashboardData.summary,\n  portfolio: {\n    totalCompanies: dashboardData.portfolio.totalCompanies,\n    activeCompanies: dashboardData.portfolio.activeCompanies,\n    exitedCompanies: dashboardData.portfolio.exitedCompanies,\n    successRate: dashboardData.portfolio.successRate,\n    sectorDistribution: JSON.parse(dashboardData.portfolio.sectorDistribution || '{}')\n  },\n  investments: {\n    totalInvested: dashboardData.investments.totalInvested,\n    totalReturned: dashboardData.investments.totalReturned,\n    unrealizedValue: dashboardData.investments.unrealizedValue,\n    totalValue: dashboardData.investments.totalValue,\n    tvpi: dashboardData.investments.tvpi,\n    dpi: dashboardData.investments.dpi,\n    rvpi: dashboardData.investments.rvpi\n  },\n  funds: {\n    totalFunds: dashboardData.funds.totalFunds,\n    totalFundSize: dashboardData.funds.totalFundSize,\n    avgTVPI: dashboardData.funds.avgTVPI,\n    avgIRR: dashboardData.funds.avgIRR\n  },\n  dealFlow: {\n    totalDeals: dashboardData.dealFlow.totalDeals,\n    currentYearDeals: dashboardData.dealFlow.currentYearDeals,\n    currentQuarterDeals: dashboardData.dealFlow.currentQuarterDeals,\n    overallConversionRate: dashboardData.dealFlow.overallConversionRate\n  }\n};\n\nreturn { json: apiData };"
+      },
+      "name": "Generate API Data",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [
+        1340,
+        460
+      ]
+    },
+    {
+      "parameters": {
+        "content": "={{ JSON.stringify($json, null, 2) }}",
+        "file": "/home/ubuntu/dashboard-api.json",
+        "options": {}
+      },
+      "name": "Save API Data",
+      "type": "n8n-nodes-base.writeFile",
+      "typeVersion": 1,
+      "position": [
+        1560,
+        460
+      ]
+    },
+    {
+      "parameters": {
+        "triggerTimes": {
+          "item": [
+            {
+              "mode": "everyX",
+              "value": 1,
+              "unit": "weeks",
+              "weekDay": 1,
+              "hour": 8,
+              "minute": 0
+            }
+          ]
+        }
+      },
+      "name": "Weekly Report Trigger",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1,
+      "position": [
+        240,
+        940
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "sheetName": "Dashboard",
+        "options": {}
+      },
+      "name": "Get Dashboard Data",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 3,
+      "position": [
+        460,
+        940
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "1",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "functionCode": "// Parse dashboard data for weekly report\nconst dashboardRow = $input.item.json;\n\n// Parse the JSON data from the dashboard\nlet dashboardData;\ntry {\n  dashboardData = JSON.parse(dashboardRow.data);\n} catch (e) {\n  return { json: { error: 'Failed to parse dashboard data' } };\n}\n\n// Format currency function\nconst formatCurrency = (amount) => {\n  return new Intl.NumberFormat('en-US', {\n    style: 'currency',\n    currency: 'USD',\n    minimumFractionDigits: 0,\n    maximumFractionDigits: 0\n  }).format(amount);\n};\n\n// Get current date for report title\nconst now = new Date();\nconst reportDate = now.toLocaleDateString('en-US', { \n  year: 'numeric', \n  month: 'long', \n  day: 'numeric'\n});\n\n// Generate weekly report content\nconst reportContent = `# VC Firm Weekly Investment Performance Report\n## ${reportDate}\n\n## Executive Summary\n\nThis report provides a weekly overview of our investment portfolio performance, fund metrics, and deal flow activity.\n\n### Key Highlights:\n\n- **Portfolio Companies:** ${dashboardData.summary.totalPortfolioCompanies} total (${dashboardData.summary.activeCompanies} active, ${dashboardData.summary.exitedCompanies} exited)\n- **Total Portfolio Value:** ${formatCurrency(dashboardData.summary.totalValue)}\n- **Overall TVPI:** ${dashboardData.summary.overallTVPI}x\n- **Average Fund IRR:** ${dashboardData.summary.avgFundIRR}%\n- **Deal Flow This Year:** ${dashboardData.summary.currentYearDeals} deals (${dashboardData.summary.dealConversionRate}% conversion rate)\n\n## Portfolio Performance\n\nOur portfolio currently consists of ${dashboardData.portfolio.totalCompanies} companies, with ${dashboardData.portfolio.activeCompanies} active investments and ${dashboardData.portfolio.exitedCompanies} exits to date. The overall portfolio success rate stands at ${dashboardData.portfolio.successRate}%.\n\n### Portfolio Composition:\n\n- **Exits:** ${dashboardData.portfolio.acquiredCompanies} acquisitions and ${dashboardData.portfolio.ipoCompanies} IPOs\n- **Failed Investments:** ${dashboardData.portfolio.failedCompanies} companies\n\n## Investment Performance\n\n- **Total Capital Invested:** ${formatCurrency(dashboardData.investments.totalInvested)}\n- **Total Capital Returned:** ${formatCurrency(dashboardData.investments.totalReturned)}\n- **Unrealized Value:** ${formatCurrency(dashboardData.investments.unrealizedValue)}\n- **Total Value:** ${formatCurrency(dashboardData.investments.totalValue)}\n\n### Performance Metrics:\n\n- **TVPI (Total Value to Paid-In):** ${dashboardData.investments.tvpi}x\n- **DPI (Distributions to Paid-In):** ${dashboardData.investments.dpi}x\n- **RVPI (Remaining Value to Paid-In):** ${dashboardData.investments.rvpi}x\n\n## Fund Performance\n\nAcross our ${dashboardData.funds.totalFunds} funds with a total size of ${formatCurrency(dashboardData.funds.totalFundSize)}:\n\n- **Total Capital Called:** ${formatCurrency(dashboardData.funds.totalCalled)} (${dashboardData.funds.callRatio}% of committed capital)\n- **Total Distributions:** ${formatCurrency(dashboardData.funds.totalDistributed)} (${dashboardData.funds.distributionRatio}% of called capital)\n- **Total NAV:** ${formatCurrency(dashboardData.funds.totalNAV)}\n- **Average TVPI:** ${dashboardData.funds.avgTVPI}x\n- **Average IRR:** ${dashboardData.funds.avgIRR}%\n\n## Deal Flow Activity\n\n- **Total Deals Evaluated:** ${dashboardData.dealFlow.totalDeals}\n- **Current Year Deals:** ${dashboardData.dealFlow.currentYearDeals}\n- **Current Quarter Deals:** ${dashboardData.dealFlow.currentQuarterDeals}\n- **Current Month Deals:** ${dashboardData.dealFlow.currentMonthDeals}\n\n### Deal Pipeline:\n\n- **Pitch Meetings:** ${dashboardData.dealFlow.pitchMeetings}\n- **Due Diligence:** ${dashboardData.dealFlow.dueDiligence}\n- **Term Sheet:** ${dashboardData.dealFlow.termSheet}\n- **Closed Deals:** ${dashboardData.dealFlow.closed}\n\n### Conversion Metrics:\n\n- **Pitch to Due Diligence:** ${dashboardData.dealFlow.pitchToDDRate}%\n- **Due Diligence to Term Sheet:** ${dashboardData.dealFlow.ddToTermRate}%\n- **Term Sheet to Close:** ${dashboardData.dealFlow.termToCloseRate}%\n- **Overall Conversion Rate:** ${dashboardData.dealFlow.overallConversionRate}%\n\n## Conclusion\n\nThis report reflects our portfolio and investment performance as of ${reportDate}. For more detailed analytics and interactive visualizations, please visit our investment dashboard.\n\n---\n\n*This report was automatically generated by the VC Firm Analytics System.*\n`;\n\nreturn { json: { reportContent, reportDate } };"
+      },
+      "name": "Generate Weekly Report",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [
+        680,
+        940
+      ]
+    },
+    {
+      "parameters": {
+        "content": "={{ $json.reportContent }}",
+        "file": "/home/ubuntu/weekly-report.md",
+        "options": {}
+      },
+      "name": "Save Weekly Report",
+      "type": "n8n-nodes-base.writeFile",
+      "typeVersion": 1,
+      "position": [
+        900,
+        940
+      ]
+    },
+    {
+      "parameters": {
+        "fromEmail": "analytics@vcfirm.com",
+        "toEmail": "partners@vcfirm.com",
+        "ccEmail": "investors@vcfirm.com",
+        "subject": "={{ 'Weekly Investment Performance Report - ' + $json.reportDate }}",
+        "text": "={{ $json.reportContent }}",
+        "options": {}
+      },
+      "name": "Email Weekly Report",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2,
+      "position": [
+        1120,
+        940
+      ],
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "2",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "investment-analytics",
+        "text": "=## Weekly Investment Performance Report\n\nThe weekly investment performance report for {{ $json.reportDate }} has been generated and distributed to partners and investors.\n\nKey highlights:\n\n- Portfolio Companies: {{ $json.portfolioCompanies }} total\n- Total Portfolio Value: {{ $json.portfolioValue }}\n- Overall TVPI: {{ $json.tvpi }}x\n- Average Fund IRR: {{ $json.irr }}%\n\nThe full report is available in the shared drive and has been emailed to the distribution list.",
+        "additionalFields": {}
+      },
+      "name": "Send Slack Notification",
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 1,
+      "position": [
+        1340,
+        940
+      ],
+      "credentials": {
+        "slackApi": {
+          "id": "3",
+          "name": "Slack account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "httpMethod": "GET",
+        "path": "dashboard-api",
+        "options": {}
+      },
+      "name": "Dashboard API Endpoint",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [
+        240,
+        1100
+      ],
+      "webhookId": "dashboard-api"
+    },
+    {
+      "parameters": {
+        "filePath": "/home/ubuntu/dashboard-api.json"
+      },
+      "name": "Read API Data",
+      "type": "n8n-nodes-base.readFile",
+      "typeVersion": 1,
+      "position": [
+        460,
+        1100
+      ]
+    },
+    {
+      "parameters": {
+        "functionCode": "// Parse API data for response\nconst fileData = $input.item.json;\n\n// Parse the JSON data from the file\nlet apiData;\ntry {\n  apiData = JSON.parse(fileData.data);\n} catch (e) {\n  return { json: { error: 'Failed to parse API data', status: 'error' } };\n}\n\n// Add API response metadata\napiData.status = 'success';\napiData.timestamp = new Date().toISOString();\n\nreturn { json: apiData };"
+      },
+      "name": "Format API Response",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [
+        680,
+        1100
+      ]
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "name": "Respond with API Data",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [
+        900,
+        1100
+      ]
+    },
+    {
+      "parameters": {
+        "httpMethod": "GET",
+        "path": "dashboard",
+        "options": {}
+      },
+      "name": "Dashboard Web Endpoint",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [
+        240,
+        1260
+      ],
+      "webhookId": "dashboard"
+    },
+    {
+      "parameters": {
+        "filePath": "/home/ubuntu/dashboard.html"
+      },
+      "name": "Read Dashboard HTML",
+      "type": "n8n-nodes-base.readFile",
+      "typeVersion": 1,
+      "position": [
+        460,
+        1260
+      ]
+    },
+    {
+      "parameters": {
+        "options": {
+          "responseCode": 200,
+          "responseHeaders": {
+            "entries": [
+              {
+                "name": "Content-Type",
+                "value": "text/html"
+              }
+            ]
+          }
+        }
+      },
+      "name": "Respond with Dashboard HTML",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [
+        680,
+        1260
+      ]
+    },
+    {
+      "parameters": {
+        "triggerTimes": {
+          "item": [
+            {
+              "mode": "everyX",
+              "value": 1,
+              "unit": "months",
+              "day": 1,
+              "hour": 1,
+              "minute": 0
+            }
+          ]
+        }
+      },
+      "name": "Monthly Report Trigger",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1,
+      "position": [
+        240,
+        1420
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "sheetName": "Dashboard",
+        "options": {}
+      },
+      "name": "Get Monthly Dashboard Data",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 3,
+      "position": [
+        460,
+        1420
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "1",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "functionCode": "// Generate monthly investor report\nconst dashboardRow = $input.item.json;\n\n// Parse the JSON data from the dashboard\nlet dashboardData;\ntry {\n  dashboardData = JSON.parse(dashboardRow.data);\n} catch (e) {\n  return { json: { error: 'Failed to parse dashboard data' } };\n}\n\n// Format currency function\nconst formatCurrency = (amount) => {\n  return new Intl.NumberFormat('en-US', {\n    style: 'currency',\n    currency: 'USD',\n    minimumFractionDigits: 0,\n    maximumFractionDigits: 0\n  }).format(amount);\n};\n\n// Get current date for report title\nconst now = new Date();\nconst previousMonth = new Date(now);\npreviousMonth.setMonth(now.getMonth() - 1);\n\nconst monthName = previousMonth.toLocaleDateString('en-US', { month: 'long' });\nconst year = previousMonth.getFullYear();\nconst reportTitle = `${monthName} ${year} Investor Report`;\n\n// Parse sector distribution\nlet sectorDistribution = {};\ntry {\n  sectorDistribution = JSON.parse(dashboardData.portfolio.sectorDistribution || '{}');\n} catch (e) {\n  sectorDistribution = {};\n}\n\n// Format sector distribution for report\nconst sectorText = Object.entries(sectorDistribution)\n  .map(([sector, count]) => `- ${sector}: ${count} companies`)\n  .join('\\n');\n\n// Generate monthly report content\nconst reportContent = `# ${reportTitle}\n\n## Investment Performance Summary\n\nDear Limited Partners,\n\nWe are pleased to present our monthly investor report for ${monthName} ${year}. This report provides a comprehensive overview of our fund's performance, portfolio updates, and market insights.\n\n## Fund Performance\n\n### Key Metrics:\n\n- **Total Fund Size:** ${formatCurrency(dashboardData.funds.totalFundSize)}\n- **Total Capital Called:** ${formatCurrency(dashboardData.funds.totalCalled)} (${dashboardData.funds.callRatio}% of committed capital)\n- **Total Distributions:** ${formatCurrency(dashboardData.funds.totalDistributed)}\n- **Current NAV:** ${formatCurrency(dashboardData.funds.totalNAV)}\n- **TVPI:** ${dashboardData.funds.avgTVPI}x\n- **DPI:** ${dashboardData.investments.dpi}x\n- **RVPI:** ${dashboardData.investments.rvpi}x\n- **Net IRR:** ${dashboardData.funds.avgIRR}%\n\n## Portfolio Overview\n\nOur portfolio currently consists of ${dashboardData.portfolio.totalCompanies} companies across various sectors and stages:\n\n- **Active Companies:** ${dashboardData.portfolio.activeCompanies}\n- **Realized Investments:** ${dashboardData.portfolio.exitedCompanies}\n- **Acquisitions:** ${dashboardData.portfolio.acquiredCompanies}\n- **IPOs:** ${dashboardData.portfolio.ipoCompanies}\n\n### Sector Allocation:\n\n${sectorText}\n\n## Investment Activity\n\nDuring ${monthName}, our investment team evaluated ${dashboardData.dealFlow.currentMonthDeals} new opportunities and conducted ${dashboardData.dealFlow.dueDiligence} due diligence processes. We closed ${dashboardData.dealFlow.closed} new investments.\n\n### Deal Pipeline:\n\n- **Pitch Meetings:** ${dashboardData.dealFlow.pitchMeetings}\n- **Due Diligence:** ${dashboardData.dealFlow.dueDiligence}\n- **Term Sheet:** ${dashboardData.dealFlow.termSheet}\n- **Closed Deals:** ${dashboardData.dealFlow.closed}\n\n## Market Outlook\n\nAs we look ahead to the coming months, we remain focused on identifying high-potential investment opportunities while supporting our existing portfolio companies through strategic guidance and operational support.\n\n## Conclusion\n\nWe appreciate your continued trust and partnership. If you have any questions about this report or would like additional information about our investments, please don't hesitate to contact our investor relations team.\n\nSincerely,\n\nThe VC Firm Management Team\n\n---\n\n*This report was generated on ${now.toLocaleDateString()} and reflects data as of the end of ${monthName} ${year}.*\n`;\n\nreturn { json: { reportContent, reportTitle } };"
+      },
+      "name": "Generate Monthly Report",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [
+        680,
+        1420
+      ]
+    },
+    {
+      "parameters": {
+        "content": "={{ $json.reportContent }}",
+        "file": "/home/ubuntu/monthly-investor-report.md",
+        "options": {}
+      },
+      "name": "Save Monthly Report",
+      "type": "n8n-nodes-base.writeFile",
+      "typeVersion": 1,
+      "position": [
+        900,
+        1420
+      ]
+    },
+    {
+      "parameters": {
+        "fromEmail": "investorrelations@vcfirm.com",
+        "toEmail": "investors@vcfirm.com",
+        "ccEmail": "partners@vcfirm.com",
+        "subject": "={{ $json.reportTitle }}",
+        "text": "={{ $json.reportContent }}",
+        "options": {}
+      },
+      "name": "Email Monthly Report",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2,
+      "position": [
+        1120,
+        1420
+      ],
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "2",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "investment-analytics",
+        "text": "=## Monthly Investor Report Distributed\n\nThe monthly investor report for {{ $json.reportTitle }} has been generated and distributed to all limited partners.\n\nThe report includes comprehensive fund performance metrics, portfolio updates, and investment activity for the past month.\n\nThe full report is available in the shared drive and has been emailed to all investors.",
+        "additionalFields": {}
+      },
+      "name": "Send Monthly Report Notification",
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 1,
+      "position": [
+        1340,
+        1420
+      ],
+      "credentials": {
+        "slackApi": {
+          "id": "3",
+          "name": "Slack account"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Daily Data Refresh": {
+      "main": [
+        [
+          {
+            "node": "Get Portfolio Companies",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Get Investment Data",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Get Fund Performance",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Get Deal Flow Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Portfolio Companies": {
+      "main": [
+        [
+          {
+            "node": "Process Portfolio Metrics",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Investment Data": {
+      "main": [
+        [
+          {
+            "node": "Process Investment Metrics",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Fund Performance": {
+      "main": [
+        [
+          {
+            "node": "Process Fund Metrics",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Deal Flow Data": {
+      "main": [
+        [
+          {
+            "node": "Process Deal Flow Metrics",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Process Portfolio Metrics": {
+      "main": [
+        [
+          {
+            "node": "Combine Dashboard Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Process Investment Metrics": {
+      "main": [
+        [
+          {
+            "node": "Combine Dashboard Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Process Fund Metrics": {
+      "main": [
+        [
+          {
+            "node": "Combine Dashboard Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Process Deal Flow Metrics": {
+      "main": [
+        [
+          {
+            "node": "Combine Dashboard Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Combine Dashboard Data": {
+      "main": [
+        [
+          {
+            "node": "Update Dashboard Data",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Generate Dashboard HTML",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Generate API Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate Dashboard HTML": {
+      "main": [
+        [
+          {
+            "node": "Save Dashboard HTML",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate API Data": {
+      "main": [
+        [
+          {
+            "node": "Save API Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Weekly Report Trigger": {
+      "main": [
+        [
+          {
+            "node": "Get Dashboard Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Dashboard Data": {
+      "main": [
+        [
+          {
+            "node": "Generate Weekly Report",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate Weekly Report": {
+      "main": [
+        [
+          {
+            "node": "Save Weekly Report",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Save Weekly Report": {
+      "main": [
+        [
+          {
+            "node": "Email Weekly Report",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Email Weekly Report": {
+      "main": [
+        [
+          {
+            "node": "Send Slack Notification",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Dashboard API Endpoint": {
+      "main": [
+        [
+          {
+            "node": "Read API Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Read API Data": {
+      "main": [
+        [
+          {
+            "node": "Format API Response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Format API Response": {
+      "main": [
+        [
+          {
+            "node": "Respond with API Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Dashboard Web Endpoint": {
+      "main": [
+        [
+          {
+            "node": "Read Dashboard HTML",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Read Dashboard HTML": {
+      "main": [
+        [
+          {
+            "node": "Respond with Dashboard HTML",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Monthly Report Trigger": {
+      "main": [
+        [
+          {
+            "node": "Get Monthly Dashboard Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Monthly Dashboard Data": {
+      "main": [
+        [
+          {
+            "node": "Generate Monthly Report",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate Monthly Report": {
+      "main": [
+        [
+          {
+            "node": "Save Monthly Report",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Save Monthly Report": {
+      "main": [
+        [
+          {
+            "node": "Email Monthly Report",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Email Monthly Report": {
+      "main": [
+        [
+          {
+            "node": "Send Monthly Report Notification",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "saveManualExecutions": true,
+    "callerPolicy": "workflowsFromSameOwner",
+    "errorWorkflow": "",
+    "saveExecutionProgress": true,
+    "saveDataErrorExecution": "all"
+  },
+  "tags": [
+    {
+      "name": "analytics",
+      "color": "#0000ff"
+    },
+    {
+      "name": "dashboard",
+      "color": "#00ff00"
+    }
+  ],
+  "pinData": {},
+  "versionId": "1",
+  "triggerCount": 4,
+  "staticData": null,
+  "id": "10"
+}

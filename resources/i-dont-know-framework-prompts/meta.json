@@ -1,0 +1,21 @@
+{
+  "name": "'I Don't Know' Framework Prompts",
+  "external_id": "AK5xxUHsWLNsuwUYQezvrQ==",
+  "permalink": "grpge",
+  "unique_permalink": "grpge",
+  "custom_permalink": "idontknow",
+  "url": "https://markkashef.gumroad.com/l/idontknow",
+  "status": "published",
+  "archived": false,
+  "kind": "products",
+  "price_formatted": "CAD$0+",
+  "description_md": "What You'll Get:\n\n- A detailed framework for prompting AI to say \"I don't know.\"\n\n- Step-by-step instructions for creating clear, uncertainty-reflecting prompts.\n\n- Practical examples and use cases to guide your learning.\n\n- Tips on refining and optimizing AI responses for accuracy and honesty.",
+  "files": [
+    {
+      "file": "I Dont Know.pdf",
+      "status": "cached",
+      "bytes": 2481702
+    }
+  ],
+  "has_rich_content": true
+}

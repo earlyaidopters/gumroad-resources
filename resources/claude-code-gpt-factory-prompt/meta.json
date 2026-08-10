@@ -1,0 +1,15 @@
+{
+  "name": "Claude Code GPT Factory Prompt ⚙️",
+  "external_id": "AEJRqkyWu8ude4wNJ8KV3w==",
+  "permalink": "lojspb",
+  "unique_permalink": "lojspb",
+  "custom_permalink": null,
+  "url": "https://markkashef.gumroad.com/l/lojspb",
+  "status": "published",
+  "archived": false,
+  "kind": "products",
+  "price_formatted": "CAD$0+",
+  "description_md": "# What You Get\n\n- The exact mega-prompt that auto-generates a complete custom GPT project (concise instructions + research-backed knowledge base) in minutes.\n\n- Enforces core instructions under 7,500 characters with explicit references to knowledge-base .md files for every answer and workflow.\n\n- Produces a clean folder tree in Markdown (instructions, knowledge-base with core-concepts/procedures/best-practices/troubleshooting/resources, examples, project overview).\n\n- Built-in research guidelines so your agent pulls from authoritative sources, adds frontmatter, and cross-links related docs.\n\n- Drop-in [BUSINESS/USE CASE CONTEXT] placeholder—paste your business/tasks and get tailored assistants instantly.\n\n- Works smoothly in Claude Code or Cursor (or any AI editor with file generation & web search): just paste and run.\n\n- Deliverable: the prompt text only\nWant even more AI goodness? \n\nJoin Early AI-dopters: https://www.skool.com/earlyaidopters/about",
+  "files": [],
+  "has_rich_content": true
+}

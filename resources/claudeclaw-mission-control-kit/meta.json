@@ -1,0 +1,66 @@
+{
+  "name": "ClaudeClaw Mission Control Kit 🧠",
+  "external_id": "aXNrMjdZOYrsKuMOas2cGA==",
+  "permalink": "nhtuh",
+  "unique_permalink": "nhtuh",
+  "custom_permalink": "hive-mind-blueprint-kit",
+  "url": "https://markkashef.gumroad.com/l/hive-mind-blueprint-kit",
+  "status": "published",
+  "archived": false,
+  "kind": "products",
+  "price_formatted": "CAD$0+",
+  "description_md": "# What You Get\n\n- \nREBUILD_PROMPT_V3: A 30+ KB mega-prompt you paste into a fresh Claude Code session. It walks you through 6 questions, then scaffolds ClaudeClaw V3 from scratch. Same pattern as my V2 kit, evolved with the new V3 features (Hive Mind shared memory state, war room with slash standup and slash discuss, three-layer memory, suggestions feature, kill switches, audit log, exfiltration guard).\n\n- \nMemory Designer Skill: A skill you can feed to Claude Code to help it interview you to build your ideal memory system.\n\n- \nCLAUDECLAW_V3_BLUEPRINT: The architectural blueprint of ClaudeClaw V3 written down. What the system is, why it works, the data engineering frame. Without this you wonder why the prompts say what they say.\n\n- \nPOWER_PACKS_V3: 12 modular feature packs you can add one at a time without rebuilding. War room, kill switches, audit log, suggestions feature, three-layer memory, exfiltration guard, scheduled tasks, hive mind visualizations, CLI integration pattern, telegram bridge, backup and restore.\n\n- \nCLAUDECLAW_ASSESSMENT_PROMPT_V3: A diagnostic prompt for people who already have a setup. Audit your existing config against V3 patterns and surface what to upgrade.\n\n- \nClaudeClaw_V3_Visual_Guide.pdf: All 19 diagrams from the V3 video compiled into one landscape reference document with explanatory notes per page.\n\n- \nterminal_prompts.md: Copy-paste prompts for common setup, agent management, memory operations, kill switch toggling, audit log queries, scheduled task management, and emergency procedures.\n\n## Want the Carbon-Copy Always-Updated Repo?\nThe full working repo, weekly updates as I evolve it, direct access to me and a team of coaches, plus the Claude Code Magic course covering everything from skills to plugins to hooks lives in the community.\nJoin here: https://www.skool.com/earlyaidopters/about",
+  "files": [
+    {
+      "file": "DISCLAIMER.md",
+      "status": "cached",
+      "bytes": 5090
+    },
+    {
+      "file": "ClaudeClaw_V3_Visual_Guide.pdf",
+      "status": "cached",
+      "bytes": 14030653
+    },
+    {
+      "file": "REBUILD_PROMPT_V3.md",
+      "status": "cached",
+      "bytes": 33865
+    },
+    {
+      "file": "POWER_PACKS_V3.md",
+      "status": "cached",
+      "bytes": 23166
+    },
+    {
+      "file": "README.md",
+      "status": "cached",
+      "bytes": 4793
+    },
+    {
+      "file": "terminal_prompts.md",
+      "status": "cached",
+      "bytes": 7827
+    },
+    {
+      "file": "memory.zip",
+      "status": "cached",
+      "bytes": 35909
+    },
+    {
+      "file": "5_STEP_JOURNEY.md",
+      "status": "cached",
+      "bytes": 8528
+    },
+    {
+      "file": "CLAUDECLAW_ASSESSMENT_PROMPT_V3.md",
+      "status": "cached",
+      "bytes": 6265
+    },
+    {
+      "file": "CLAUDECLAW_V3_BLUEPRINT.md",
+      "status": "cached",
+      "bytes": 16207
+    }
+  ],
+  "has_rich_content": true
+}

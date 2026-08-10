@@ -1,0 +1,26 @@
+{
+  "name": "Open Source AI Crash Course Kit 🧰",
+  "external_id": "eVGyPcTP6wXEIyS5a56zbA==",
+  "permalink": "rcufxb",
+  "unique_permalink": "rcufxb",
+  "custom_permalink": "open-source-ai-crash-course-kit",
+  "url": "https://markkashef.gumroad.com/l/open-source-ai-crash-course-kit",
+  "status": "published",
+  "archived": false,
+  "kind": "products",
+  "price_formatted": "CAD$0+",
+  "description_md": "# What You Get\n\n- \nThe Crash Course Guide (PDF): A 21-page visual companion to the video. Every concept from the course as a one-page spread with the exact diagram from the video plus plain-English notes. \n- Why local, the five-floor stack, engines, the switchboard, the private mesh, the model roster, parameters, quantization, GGUF vs MLX, KV cache, sparse attention, tokens per second, harnesses, evals, and the one-command local command center.\n\n- \nLink to Open Source Command Centre Shown (ODS)\n\n- \nThe Local AI Engineering Guide (HTML): The deep reference. \n- A full interactive guide you open in any browser with four views: the complete 15-section guide, a can-I-run-this calculator, a TLDR walkthrough of the whole build process, and an engine-by-engine decision guide. \n- This is the sophisticated documentation mentioned in the video, distilled end to end.\n\n- \nThe Can-I-Run-This Calculator: Built into the HTML guide. \n- Pick your hardware, see which models actually fit your memory and what speed to expect before you download anything.\n\n- \nPlain-English Everywhere: Every intimidating term (quantization, KV cache, MLX, inference engines) explained with the same analogies used in the video, so you can reference them any time without rewatching.\n\n## Want to go deeper than the free resources?\nInside the Early AI Dopters community you get the full living AI course, direct access to me and my team of coaches, and a working group of builders setting up their own local rigs: https://www.skool.com/earlyaidopters/about",
+  "files": [
+    {
+      "file": "open_source_ai_crash_course_guide.pdf",
+      "status": "cached",
+      "bytes": 4991764
+    },
+    {
+      "file": "open_source_ai_crash_course_kit.zip",
+      "status": "cached",
+      "bytes": 3975541
+    }
+  ],
+  "has_rich_content": true
+}

@@ -1,0 +1,750 @@
+{
+  "name": "Daily Standup Automation with AI Summary and Archive",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "weeks",
+              "triggerAtDay": [
+                1,
+                2,
+                3,
+                4,
+                5
+              ],
+              "triggerAtHour": 9
+            }
+          ]
+        }
+      },
+      "id": "d970cfa2-8be7-403f-9ebe-8ae779318265",
+      "name": "Daily Standup Schedule",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -64,
+        -32
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "id-1",
+              "name": "slackChannel",
+              "value": "#standup",
+              "type": "string"
+            },
+            {
+              "id": "id-2",
+              "name": "responseWindowHours",
+              "value": 2,
+              "type": "number"
+            },
+            {
+              "id": "id-3",
+              "name": "archiveToGoogleDocs",
+              "value": true,
+              "type": "boolean"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "id": "18aa5802-5ef7-4aa5-9f91-69aae30b1b9b",
+      "name": "Workflow Configuration",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        160,
+        -32
+      ]
+    },
+    {
+      "parameters": {
+        "select": "channel",
+        "channelId": {
+          "__rl": true,
+          "mode": "name",
+          "value": "={{ $('Workflow Configuration').first().json.slackChannel }}"
+        },
+        "text": "Good morning team! 🌅 Time for our daily standup. Please share your updates:\n\n📝 **What did you accomplish yesterday?**\n🎯 **What are you working on today?**\n🚧 **Any blockers or challenges?**\n\nI'll collect responses for the next 2 hours and provide a summary. Thanks!",
+        "otherOptions": {}
+      },
+      "id": "58edc7b1-368b-4db7-8a7b-01b33c988e8d",
+      "name": "Send Standup Request",
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 2.3,
+      "position": [
+        384,
+        -32
+      ],
+      "webhookId": "1b93651c-ba97-41de-beb8-3c5e",
+      "credentials": {
+        "slackApi": {
+          "id": "F0bHQc",
+          "name": "Stand up Token"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "amount": "={{ $('Workflow Configuration').first().json.responseWindowHours }}",
+        "unit": "hours"
+      },
+      "id": "6de570ab-8e51-4750-a020-bfa393251133",
+      "name": "Wait for Responses",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        608,
+        -32
+      ],
+      "webhookId": "55442392-668b-4b96-a8a3-59f899c"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=You are a standup meeting assistant. Analyze the Slack messages from team members and create a comprehensive daily standup summary. For each team member who responded, extract their: 1) Yesterday's accomplishments, 2) Today's focus/goals, 3) Blockers or challenges. Then identify: - Common themes across the team, - Cross-team dependencies, - Urgent blockers requiring immediate attention. Format the summary with clear sections, use @mentions for people with blockers, and highlight dependencies between team members. \n\nUse the Slack Tool to post a threaded reply to the original standup message with the formatted summary. The Slack Tool will take Message_Text as an input for the Slack reply.\n\nLastly, use the Google Docs Tool to append this summary to the specified document with a timestamp.The Google Docs Tool will take archive_content as an input.\n\nDo not ask the team for any replies, confirmations, or edits - instead, direct them to speak to threir direct manager for clarifications and changes. \n\nTeam Member Slack Replies:\n{{ $json.standupReplies.toJsonString() }}",
+        "options": {}
+      },
+      "id": "e622c8b8-7761-4654-8212-dcc60d6e79b7",
+      "name": "AI Standup Analyzer",
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2.2,
+      "position": [
+        2456,
+        -32
+      ]
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "gpt-5-nano",
+          "mode": "list",
+          "cachedResultName": "gpt-5-nano"
+        },
+        "options": {}
+      },
+      "id": "f24333f8-ba87-4e67-90ca-9d25353ee700",
+      "name": "OpenAI Chat Model",
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        2256,
+        192
+      ],
+      "credentials": {
+        "openAiApi": {
+          "id": "KSKdcXliKsG4jYZC",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "select": "channel",
+        "channelId": {
+          "__rl": true,
+          "value": "#standup",
+          "mode": "name"
+        },
+        "text": "={{ $fromAI('Message_Text', ``, 'string') }}",
+        "otherOptions": {}
+      },
+      "id": "fd88870c-1db8-414c-bae1-0251b6b753d9",
+      "name": "Slack Tool",
+      "type": "n8n-nodes-base.slackTool",
+      "typeVersion": 2.3,
+      "position": [
+        2528,
+        192
+      ],
+      "webhookId": "9684f44f-328e-45bf-a1ef-7db9ddc91e",
+      "credentials": {
+        "slackApi": {
+          "id": "F0bHwyQc",
+          "name": "Stand up Token"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentURL": "=your document url",
+        "actionsUi": {
+          "actionFields": [
+            {
+              "action": "insert",
+              "text": "={{ $fromAI('archive_content') }}"
+            }
+          ]
+        }
+      },
+      "id": "1ba43823-4cc1-4be6-a1a0-b80e81acd10f",
+      "name": "Google Docs Tool",
+      "type": "n8n-nodes-base.googleDocsTool",
+      "typeVersion": 2,
+      "position": [
+        2832,
+        192
+      ],
+      "credentials": {
+        "googleDocsOAuth2Api": {
+          "id": "dNa0esbBdxG",
+          "name": "Google Docs account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "channel",
+        "operation": "history",
+        "channelId": {
+          "__rl": true,
+          "value": "={{ $('Send Standup Request').item.json.channel }}",
+          "mode": "id"
+        },
+        "returnAll": true,
+        "filters": {
+          "oldest": "={{ $('Send Standup Request').item.json.message.ts.toDateTime('s') }}"
+        }
+      },
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 2.3,
+      "position": [
+        1056,
+        -128
+      ],
+      "id": "363132de-4615-485f-9f48-2817a67be377",
+      "name": "Get Replies",
+      "webhookId": "806e1fac-d203-4535-b6be-bae",
+      "credentials": {
+        "slackApi": {
+          "id": "F0bHwQc",
+          "name": "Stand up Token"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        1728,
+        -32
+      ],
+      "id": "bd9dfe7c-edb2-4934-8287-8d32ccb7d45f",
+      "name": "Merge"
+    },
+    {
+      "parameters": {
+        "resource": "channel",
+        "operation": "replies",
+        "channelId": {
+          "__rl": true,
+          "value": "={{ $('Send Standup Request').item.json.channel }}",
+          "mode": "id"
+        },
+        "ts": "={{ $('Send Standup Request').item.json.message.ts }}",
+        "returnAll": true,
+        "filters": {}
+      },
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 2.3,
+      "position": [
+        1056,
+        64
+      ],
+      "id": "3f7bdf2f-0740-41a4-ac5a-21444825f3c4",
+      "name": "Get Thread Replies",
+      "webhookId": "806e1fac-d203-4535-b6be-b9e",
+      "credentials": {
+        "slackApi": {
+          "id": "F0bHRyQc",
+          "name": "Stand up Token"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "9a16420f-8e0a-474b-b9ed-4b2a144cd6c2",
+              "name": "messageID",
+              "value": "={{ $json.message.ts }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        832,
+        -32
+      ],
+      "id": "9665b24b-dd47-4dc2-9e4b-98eaf7ddb813",
+      "name": "Set Original Message ID"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "5c9d1573-54b4-46ba-a5ae-8e8ceed06bba",
+              "leftValue": "={{ $('Set Original Message ID').item.json.messageID }}",
+              "rightValue": "={{ $json['Message ID'] }}",
+              "operator": {
+                "type": "string",
+                "operation": "notEquals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.2,
+      "position": [
+        1952,
+        -32
+      ],
+      "id": "794835bc-886e-4e89-9079-bdb4f13d2d71",
+      "name": "Filter Out Original Message"
+    },
+    {
+      "parameters": {
+        "resource": "user",
+        "operation": "getProfile",
+        "user": {
+          "__rl": true,
+          "value": "={{ $json.user }}",
+          "mode": "id"
+        }
+      },
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 2.3,
+      "position": [
+        1280,
+        -128
+      ],
+      "id": "44f0ac23-87f9-401b-b78f-15e3fd013713",
+      "name": "Get a user's profile",
+      "webhookId": "a186bdb1-a139-4322-b67d-4555",
+      "credentials": {
+        "slackApi": {
+          "id": "F0bHwgc",
+          "name": "Stand up Token"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "9c6a728b-00e1-4326-b185-7a26cb0159ab",
+              "name": "Teammate",
+              "value": "={{ $json.real_name_normalized }}",
+              "type": "string"
+            },
+            {
+              "id": "73517988-2388-44fe-8710-c930453737e8",
+              "name": "Reply",
+              "value": "={{ $('Get Replies').item.json.text }}",
+              "type": "string"
+            },
+            {
+              "id": "6a89ffd5-68a3-4090-b87f-d92f58b8a1fd",
+              "name": "Time",
+              "value": "={{ $('Get Replies').item.json.ts.toDateTime('s') }}",
+              "type": "string"
+            },
+            {
+              "id": "ff7018aa-c9ba-4e45-af1e-a20d88f70999",
+              "name": "Message ID",
+              "value": "={{ $('Get Replies').item.json.ts }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1504,
+        -128
+      ],
+      "id": "7f727fdf-e092-4f1a-ba40-d6605cea6b75",
+      "name": "Set Reply Info"
+    },
+    {
+      "parameters": {
+        "resource": "user",
+        "operation": "getProfile",
+        "user": {
+          "__rl": true,
+          "value": "={{ $json.user }}",
+          "mode": "id"
+        }
+      },
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 2.3,
+      "position": [
+        1280,
+        64
+      ],
+      "id": "9199ade2-2f45-4389-ab07-f904b78e8f04",
+      "name": "Get Thread Reply User",
+      "webhookId": "a186bdb1-a139-4322-b7d-455",
+      "credentials": {
+        "slackApi": {
+          "id": "F0bHwgVc",
+          "name": "Stand up Token"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "9c6a728b-00e1-4326-b185-7a26cb0159ab",
+              "name": "Teammate",
+              "value": "={{ $json.real_name_normalized }}",
+              "type": "string"
+            },
+            {
+              "id": "73517988-2388-44fe-8710-c930453737e8",
+              "name": "Reply",
+              "value": "={{ $('Get Thread Replies').item.json.text }}",
+              "type": "string"
+            },
+            {
+              "id": "6a89ffd5-68a3-4090-b87f-d92f58b8a1fd",
+              "name": "Time",
+              "value": "={{ $('Get Thread Replies').item.json.ts.toDateTime('s') }}",
+              "type": "string"
+            },
+            {
+              "id": "6f9e724e-c780-4a53-afd9-056aa9d5591d",
+              "name": "Message ID",
+              "value": "={{ $('Get Thread Replies').item.json.ts }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1504,
+        64
+      ],
+      "id": "a4719f1c-d8ad-492e-b370-618f7e13d529",
+      "name": "Set Thread Reply Info"
+    },
+    {
+      "parameters": {
+        "aggregate": "aggregateAllItemData",
+        "destinationFieldName": "standupReplies",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        2176,
+        -32
+      ],
+      "id": "8ad548e1-df98-4f5b-886c-8f035c385aa9",
+      "name": "Aggregate"
+    },
+    {
+      "parameters": {
+        "content": "## Configure Slack Credentials\nSee Slack Credential Walkthrough here [Slack Connection Guide](https://docs.n8n.io/integrations/builtin/credentials/slack)",
+        "height": 352
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        320,
+        -192
+      ],
+      "typeVersion": 1,
+      "id": "f64dfc89-6f4f-4937-8f66-1efbf8af8da5",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "content": "\n\n\n\n\n\n\n\n\n\n## Connect Google Docs Credentials\n",
+        "height": 256,
+        "width": 176
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        2784,
+        192
+      ],
+      "typeVersion": 1,
+      "id": "ff47a0e9-3e2e-436c-85cb-83d81345ec67",
+      "name": "Sticky Note2"
+    },
+    {
+      "parameters": {
+        "content": "\n\n\n\n\n\n\n\n\n\n## Connect OpenAI API Key\n",
+        "height": 256,
+        "width": 192
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        2208,
+        176
+      ],
+      "typeVersion": 1,
+      "id": "3bdf60df-6e3b-4b0d-9919-bcf83722af60",
+      "name": "Sticky Note3"
+    },
+    {
+      "parameters": {
+        "content": "## ⚙️ How to Setup\n\n* Configure Slack credentials in the Slack nodes (Send Standup Request, Collect Responses)\n* Configure OpenAI API key in the OpenAI Chat Model node\n* Configure Slack credentials in the Slack Tool node\n* Configure Google Docs credentials in the Google Docs Tool node\n* Update the Workflow Configuration node:\n* Set slackChannel to your desired channel (e.g., \"#standup\")\n* Set responseWindowHours to your preferred collection time (default: 2)\n* Set googleDocsId to your Google Docs document ID for archiving\n* Set archiveToGoogleDocs to true/false based on your preference\n\n**Adjust the schedule trigger time if needed (default: 9 AM weekdays)**\n\n\n## ℹ️ How to Use\n\nThe workflow runs automatically every weekday morning at 9 AM. It will:\n\n* Send a standup request message to your designated Slack channel\n* Wait for the configured response window (2 hours by default)\n* Collect all responses from the channel\n* Use AI to analyze and create a structured summary\n* Post the summary as a threaded reply to the original message\n* Optionally archive the summary to Google Docs with timestamps",
+        "height": 592,
+        "width": 704
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -880,
+        -128
+      ],
+      "typeVersion": 1,
+      "id": "4568f48b-42ce-44d8-9783-f75591bd24c3",
+      "name": "Sticky Note1"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Daily Standup Schedule": {
+      "main": [
+        [
+          {
+            "node": "Workflow Configuration",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Workflow Configuration": {
+      "main": [
+        [
+          {
+            "node": "Send Standup Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send Standup Request": {
+      "main": [
+        [
+          {
+            "node": "Wait for Responses",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait for Responses": {
+      "main": [
+        [
+          {
+            "node": "Set Original Message ID",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Standup Analyzer",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Slack Tool": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Standup Analyzer",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Docs Tool": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Standup Analyzer",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Standup Analyzer": {
+      "main": [
+        []
+      ]
+    },
+    "Get Replies": {
+      "main": [
+        [
+          {
+            "node": "Get a user's profile",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge": {
+      "main": [
+        [
+          {
+            "node": "Filter Out Original Message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Thread Replies": {
+      "main": [
+        [
+          {
+            "node": "Get Thread Reply User",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set Original Message ID": {
+      "main": [
+        [
+          {
+            "node": "Get Replies",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Get Thread Replies",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter Out Original Message": {
+      "main": [
+        [
+          {
+            "node": "Aggregate",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get a user's profile": {
+      "main": [
+        [
+          {
+            "node": "Set Reply Info",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set Reply Info": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Thread Reply User": {
+      "main": [
+        [
+          {
+            "node": "Set Thread Reply Info",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set Thread Reply Info": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Aggregate": {
+      "main": [
+        [
+          {
+            "node": "AI Standup Analyzer",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "463e4fac-7c79-4031-8ccd-b7a1ea82aca8",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "aaadb797535f05587ee95b776c942a7c3f7a46fd7aa0c9b6a9d64e1e595f8af1"
+  },
+  "id": "ESyNL0KzG4K1STkB",
+  "tags": []
+}

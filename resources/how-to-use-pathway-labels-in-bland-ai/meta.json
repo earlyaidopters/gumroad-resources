@@ -1,0 +1,15 @@
+{
+  "name": "How to use Pathway Labels in Bland AI",
+  "external_id": "h1ujAsZUxY-USq85E7LX7w==",
+  "permalink": "yqevap",
+  "unique_permalink": "yqevap",
+  "custom_permalink": "HowtousePathwayLabelsinBlandAI",
+  "url": "https://markkashef.gumroad.com/l/HowtousePathwayLabelsinBlandAI",
+  "status": "published",
+  "archived": false,
+  "kind": "products",
+  "price_formatted": "CAD$0+",
+  "description_md": "Master the use of pathway labels in Bland AI with this comprehensive guide. Designed for AI developers and conversational designers, this resource provides step-by-step instructions on how to use labels effectively as rail guards for guiding Bland AI’s decision-making process. Learn how to set conditions, avoid premature advancement, and handle different user intents, all while fine-tuning Bland's pathways to create seamless, user-friendly conversations.\n\nWhat's Inside:\n\n- \nLabeling Best Practices: Learn how to create concise and clear labels that act as navigation signposts while avoiding overly descriptive or complicated labels.\n\n- \nCondition Setting: Discover how to ensure that Bland considers labels only after current node conditions are met, improving flow and accuracy in the conversation.\n\n- \nPrevent Premature Advancement: Understand how Bland’s bias to move forward can lead to premature decisions and how to set up labels and conditions to prevent this.\n\n- \nHandling Multiple Intents: Use labels to guide Bland in managing various user intents within a single node, ensuring the conversation stays on track.\n\n- \nIterative Label Testing: Explore strategies for testing, refining, and adjusting labeled pathways to improve Bland’s conversation flow and user experience.\n\n- \nFine-Tuning: Learn how to fine-tune Bland AI by running multiple iterations to ensure it follows the desired pathway consistently and accurately.",
+  "files": [],
+  "has_rich_content": true
+}

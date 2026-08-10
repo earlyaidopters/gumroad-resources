@@ -1,0 +1,31 @@
+{
+  "name": "Claude Project to n8n Workflow 🤖",
+  "external_id": "Hf4mVcDWI8EWmrefTkM6YQ==",
+  "permalink": "vbmzku",
+  "unique_permalink": "vbmzku",
+  "custom_permalink": "claudeprojectn8nworkflows",
+  "url": "https://markkashef.gumroad.com/l/claudeprojectn8nworkflows",
+  "status": "published",
+  "archived": false,
+  "kind": "products",
+  "price_formatted": "CAD$0+",
+  "description_md": "## What You Get\n\n- A complete prompt and setup guide to transform Claude project instructions into valid n8n JSON—no screenshots, no fluff, just working workflows.\n\n- Step-by-step instructions to build AI Agent workflows with chat triggers, sticky notes, memory modules, and dynamic tool integrations like calendars and APIs.\n\n- Pre-built examples for feedback analysis, Notion updates, and text-processing ETL pipelines to get you rolling fast.\n\n- A full reference index of every unique n8n node for rapid lookup and integration planning.\n\n- Deep technical support from two robust resources:\n→ Tips & Tricks Guide: Covers node structure, expressions, memory, and error handling.\n→ Cheat Sheet PDF: Packed with hundreds of JSON examples across AI, APIs, webhooks, databases, Slack, Notion, and more.\n\n💖 This actually took a while to put together—if you can support the channel, it’d mean a lot!\nOr better yet, join the Early AI-dopters community for exclusive access and deeper insights.\nWe’re doing our best to democratize AI for everyone 🦾",
+  "files": [
+    {
+      "file": "n8n Cheat Sheet Guide.pdf",
+      "status": "cached",
+      "bytes": 669794
+    },
+    {
+      "file": "n8n_Tips_and_Tricks.txt",
+      "status": "cached",
+      "bytes": 17053
+    },
+    {
+      "file": "ALL_unique_nodes.txt",
+      "status": "cached",
+      "bytes": 4165856
+    }
+  ],
+  "has_rich_content": true
+}

@@ -1,0 +1,836 @@
+{
+  "business": {
+    "name": "Bright Skin Dermatology",
+    "archetype": "healthcare_clinic",
+    "stack_summary": "Solo dermatology practice. 1 NP, 1 office manager. ~30-40 patients/day. Bedrock-only.",
+    "headline": "Sana, here's how Bright Skin's tools talk to each other today, and where AI actually earns its keep.",
+    "lead": "Three sections below. Pantry is your raw clinical and billing data. Prep table is the weekly briefs Claude assembles. Plate is what each provider reads on iPad before rounds and what the office manager works from on Mondays.",
+    "hours_back_per_week": "~10"
+  },
+  "pantry": [
+    {
+      "id": "athena_ehr",
+      "tool": "Athena Health EHR",
+      "format": "DOCX/HL7",
+      "cadence": "real-time",
+      "volume": "high",
+      "feeds": [
+        "patient_pipeline",
+        "biopsy_review"
+      ],
+      "status": "have",
+      "cli_skill": null,
+      "explanation": "All clinical notes, encounters, charts. PHI. The conversion hook turns each encounter note into clean markdown ONLY inside the PHI-scoped clinical/ folder. Never leaves the Bedrock tenant.",
+      "connection_methods": [
+        {
+          "type": "api",
+          "name": "Athena Health REST API",
+          "when_to_use": "Standard for any modern Athena tenant. Vendor approval required for the API key.",
+          "pros": [
+            "Direct programmatic access",
+            "Avoids manual export of PHI"
+          ],
+          "cons": [
+            "Vendor approval lead time",
+            "Rate limits per practice"
+          ],
+          "install": "Athena vendor portal grants API key. ATHENA_API_KEY in ~/.env, scoped to the Bedrock tenant only.",
+          "example": "GET /v1/{practiceid}/chart/{patientid}/encounters?since=2025-10-01"
+        }
+      ],
+      "claude_code_recommendation": {
+        "skill_to_write": "ingest_athena_encounters",
+        "rationale": "Pulls each day's encounters into the PHI-scoped folder for the conversion hook to convert.",
+        "estimated_time_savings": "30 min/day of manual chart export"
+      },
+      "volume_friendly": "High volume",
+      "subtitle_friendly": "High volume \u00b7 updates real-time"
+    },
+    {
+      "id": "athena_billing",
+      "tool": "Athena Practice Management",
+      "format": "XLSX",
+      "cadence": "weekly",
+      "volume": "medium",
+      "feeds": [
+        "billing_reconciliation"
+      ],
+      "status": "have",
+      "cli_skill": null,
+      "explanation": "Billing, scheduling, ERA reconciliation. Maya exports XLSX every Friday. Billing-context only. Allowed cross-domain ONLY through the Billing-Appeals Specialist, never general workflow.",
+      "connection_methods": [
+        {
+          "type": "api",
+          "name": "Athena PM module REST",
+          "when_to_use": "Same vendor key as EHR.",
+          "pros": [
+            "Same auth"
+          ],
+          "cons": [
+            "Some endpoints require additional scopes"
+          ],
+          "install": "Same ATHENA_API_KEY, additional billing scope.",
+          "example": "GET /v1/{practiceid}/financial/era?date_range=last_30"
+        }
+      ],
+      "claude_code_recommendation": {
+        "skill_to_write": "ingest_athena_billing",
+        "rationale": "Pulls weekly ERAs + denied claims into the billing/ folder.",
+        "estimated_time_savings": "1 hour/week of Maya's XLSX wrangling"
+      },
+      "volume_friendly": "Steady flow",
+      "subtitle_friendly": "Steady flow \u00b7 updates weekly"
+    },
+    {
+      "id": "dermpath_lab",
+      "tool": "External dermpath lab (PDF results)",
+      "format": "PDF",
+      "cadence": "daily",
+      "volume": "medium",
+      "feeds": [
+        "biopsy_review"
+      ],
+      "status": "have",
+      "cli_skill": null,
+      "explanation": "Biopsy results faxed and emailed as PDFs from the dermpath partner lab. Conversion hook converts each PDF to markdown into clinical/biopsy/. The biopsy summarizer flags malignant or atypical results immediately.",
+      "connection_methods": [
+        {
+          "type": "api",
+          "name": "Lab partner HL7 feed (if available)",
+          "when_to_use": "Some partner labs offer direct HL7 to your EHR. Check vendor.",
+          "pros": [
+            "No PDF parsing"
+          ],
+          "cons": [
+            "Not all partners offer it"
+          ],
+          "install": "Coordinate with lab vendor; HL7 endpoint configured in EHR.",
+          "example": "OBR/OBX HL7 segments delivered to Athena inbox"
+        }
+      ],
+      "claude_code_recommendation": {
+        "skill_to_write": "summarize_biopsy_pdf",
+        "rationale": "Extract the diagnosis line, severity, and recommendation. Flag malignant/atypical results loudly.",
+        "estimated_time_savings": "20 min per biopsy, plus zero missed flags"
+      },
+      "volume_friendly": "Steady flow",
+      "subtitle_friendly": "Steady flow \u00b7 updates daily"
+    },
+    {
+      "id": "intake_pdfs",
+      "tool": "Patient intake forms",
+      "format": "PDF",
+      "cadence": "daily",
+      "volume": "medium",
+      "feeds": [
+        "patient_pipeline"
+      ],
+      "status": "have",
+      "cli_skill": null,
+      "explanation": "Tablet intake at front desk, scanned to PDF. Conversion hook turns into structured markdown. Aimee no longer retypes anything.",
+      "connection_methods": [
+        {
+          "type": "api",
+          "name": "iPad intake -> S3 (Bedrock tenant) via tablet app",
+          "when_to_use": "Standard tablet intake app exports to S3 or a folder.",
+          "pros": [
+            "Already in workflow"
+          ],
+          "cons": [
+            "Requires S3 bucket inside the Bedrock tenant"
+          ],
+          "install": "Configure tablet app to upload to s3://brightskin-intake/.",
+          "example": "Daily uploads land in s3, hook converts to markdown"
+        }
+      ],
+      "claude_code_recommendation": {
+        "skill_to_write": "ingest_intake_forms",
+        "rationale": "Watches the dropzone, structures key fields (chief complaint, allergies, current meds, family history of skin cancer).",
+        "estimated_time_savings": "Aimee saves 1 hr/day of retyping"
+      },
+      "volume_friendly": "Steady flow",
+      "subtitle_friendly": "Steady flow \u00b7 updates daily"
+    },
+    {
+      "id": "appeal_templates",
+      "tool": "Insurance appeal templates",
+      "format": "DOCX",
+      "cadence": "weekly",
+      "volume": "low",
+      "feeds": [
+        "insurance_appeals"
+      ],
+      "status": "have",
+      "cli_skill": null,
+      "explanation": "Maya's existing appeal templates for biologics (Dupixent, Skyrizi, Cosentyx) and Mohs referrals. Appeals drafted by the Billing-Appeals Specialist save 4-6 weeks per case.",
+      "connection_methods": [
+        {
+          "type": "api",
+          "name": "Local file system",
+          "when_to_use": "Templates live in shared Drive folder.",
+          "pros": [
+            "Already exists"
+          ],
+          "cons": [
+            "No sync with EHR"
+          ],
+          "install": "Symlink shared Drive folder into data/billing/templates/.",
+          "example": "data/billing/templates/dupixent_eczema_appeal.docx"
+        }
+      ],
+      "claude_code_recommendation": {
+        "skill_to_write": "draft_insurance_appeal",
+        "rationale": "Reads the denied claim + matching template + clinical justification (cross-domain, controlled bridge), drafts a 7-section appeal.",
+        "estimated_time_savings": "4-6 weeks saved per appeal"
+      },
+      "volume_friendly": "Trickle",
+      "subtitle_friendly": "Trickle \u00b7 updates weekly"
+    },
+    {
+      "id": "staff_schedule",
+      "tool": "Staff schedule (Google Sheets)",
+      "format": "XLSX",
+      "cadence": "weekly",
+      "volume": "low",
+      "feeds": [],
+      "status": "have",
+      "cli_skill": "gws",
+      "explanation": "Provider + NP + MA schedule. Cross-referenced for the morning brief.",
+      "connection_methods": [
+        {
+          "type": "cli",
+          "name": "gws Google Workspace CLI",
+          "when_to_use": "Already wrapped at ~/.claude/skills/gws-cli/.",
+          "pros": [
+            "Already installed"
+          ],
+          "cons": [
+            "None"
+          ],
+          "install": "Already installed.",
+          "example": "gws sheets values get --spreadsheet brightskin-schedule"
+        }
+      ],
+      "claude_code_recommendation": {
+        "skill_to_write": "Already covered by gws",
+        "rationale": "No new skill needed."
+      },
+      "volume_friendly": "Trickle",
+      "subtitle_friendly": "Trickle \u00b7 updates weekly"
+    },
+    {
+      "id": "hipaa_policy",
+      "tool": "HIPAA compliance policy",
+      "format": "PDF",
+      "cadence": "rare",
+      "volume": "low",
+      "feeds": [],
+      "status": "have",
+      "cli_skill": null,
+      "explanation": "Read once into rules/phi_scoping.md as the always-on PHI rule. Locks the agent boundary.",
+      "connection_methods": [
+        {
+          "type": "api",
+          "name": "Manual paste (one-time)",
+          "when_to_use": "Read once at setup.",
+          "pros": [
+            "No integration needed"
+          ],
+          "cons": [
+            "None"
+          ],
+          "install": "Paste into rules/phi_scoping.md.",
+          "example": "rules/phi_scoping.md is always-on for any data/clinical/* path"
+        }
+      ],
+      "claude_code_recommendation": {
+        "skill_to_write": "n/a",
+        "rationale": "Policy lives as a rule, not a skill."
+      },
+      "volume_friendly": "Trickle",
+      "subtitle_friendly": "Trickle \u00b7 updates rare"
+    }
+  ],
+  "prep": [
+    {
+      "id": "patient_pipeline",
+      "name": "patient_pipeline_<week>.md",
+      "domain": "intake",
+      "sources": [
+        "intake_pdfs",
+        "athena_ehr"
+      ],
+      "schedule": "Mon 6am",
+      "status": "have",
+      "explanation": "New patients this week + returning patients with status changes. Maya reads this once Monday morning to plan rooming and pre-auth follow-ups.",
+      "sample_content": "# Patient Pipeline, W44\n\n## New (this week)\n- BR / NB-9112: 34F, eczema referral, Aetna PPO, prefers Tue/Thu evenings\n- KT / NB-9114: 52M, suspicious mole right shoulder, BCBS HMO, on Eliquis\n\n## Returning, status change\n- LP / NB-8821: Dupixent appeal denied 2nd time, Maya re-submits with new cytokine panel\n- HG / NB-8702: Mohs follow-up, sutures out 11/06\n",
+      "governing_rule_excerpt": "paths:\n  - silver_platters/patient_pipeline_*.md\nalways_on: 'Initials and MRN only. Never full names. Never dates of birth.'",
+      "display_name": "Patient pipeline",
+      "domain_friendly": "Patient intake",
+      "subtitle_friendly": "A Patient intake brief Claude writes, Mon 6am"
+    },
+    {
+      "id": "biopsy_review",
+      "name": "biopsy_review_pending.md",
+      "domain": "labs",
+      "sources": [
+        "dermpath_lab",
+        "athena_ehr"
+      ],
+      "schedule": "Daily 5:30am",
+      "status": "have",
+      "explanation": "Tagged BENIGN / ATYPICAL / MALIGNANT with provider sign-off status. Only abnormals surface in the morning brief, and any malignant flag pages Sana immediately.",
+      "sample_content": "# Biopsy Review, 2025-11-03 (overnight)\n\n## Malignant, provider sign-off needed\n- KT / NB-9114, right shoulder, BCC superficial type, 0.6mm. Schedule excision within 14 days.\n\n## Atypical, provider sign-off needed\n- RM / NB-9087, left forearm, dysplastic nevus moderate. Re-excision recommended.\n\n## Benign, auto-confirmed\n- 4 results, see appendix.\n",
+      "governing_rule_excerpt": "(governed by phi_scoping.md, always-on for clinical paths)",
+      "display_name": "Biopsy review pending",
+      "domain_friendly": "Lab results",
+      "subtitle_friendly": "A Lab results brief Claude writes, Daily 5:30am"
+    },
+    {
+      "id": "billing_reconciliation",
+      "name": "billing_reconciliation_<week>.md",
+      "domain": "billing",
+      "sources": [
+        "athena_billing"
+      ],
+      "schedule": "Fri 5pm",
+      "status": "have",
+      "explanation": "ERA mismatches and denied claims flagged. Maya works from this Monday morning. Doesn't touch the books.",
+      "sample_content": "# Billing Reconciliation, W44\n\n## Denied this week, appeal candidates\n- CL-3401 (LP Dupixent): denied CO-167 'experimental'. Pre-auth was on file. APPEAL.\n- CL-3415 (KT shave biopsy): bundling denial CO-97. APPEAL.\n\n## Posted, no action\n- 38 ERAs, all clean.\n",
+      "governing_rule_excerpt": "(billing_codes.md, controlled cross-domain via Billing-Appeals Specialist only)",
+      "display_name": "Billing reconciliation",
+      "domain_friendly": "Billing",
+      "subtitle_friendly": "A Billing brief Claude writes, Fri 5pm"
+    },
+    {
+      "id": "insurance_appeals",
+      "name": "insurance_appeal_status.md",
+      "domain": "appeals",
+      "sources": [
+        "athena_billing",
+        "appeal_templates",
+        "athena_ehr"
+      ],
+      "schedule": "Weekly",
+      "status": "have",
+      "explanation": "Active appeals list. Controlled cross-domain (clinical + billing) for the Billing-Appeals Specialist only. Every read is logged.",
+      "sample_content": "# Insurance Appeal Status, W44\n\n## Drafted, Maya reviewing\n- LP / NB-8821 / Aetna / CL-3401 (Dupixent CO-167): drafted Mon, send Tue.\n- KT / NB-9114 / BCBS / CL-3415 (CO-97 bundling): drafted, sending today.\n\n## Pending payer response\n- HG / NB-8702 / Cigna / Mohs referral pre-auth: 30-day clock started 10/24.\n",
+      "governing_rule_excerpt": "(controlled cross-domain bridge, logged on every read)",
+      "display_name": "Insurance appeal status",
+      "domain_friendly": "Insurance appeals",
+      "subtitle_friendly": "A Insurance appeals brief Claude writes, Weekly"
+    }
+  ],
+  "plate": [
+    {
+      "id": "morning_brief",
+      "name": "Morning brief per provider",
+      "agent": "Intake-Prep Specialist",
+      "consumers": [
+        "Dr. Sana Anwar",
+        "NP Aimee"
+      ],
+      "approval_gate": "Provider initials at top of brief before rounds",
+      "reads_from": [
+        "patient_pipeline",
+        "biopsy_review"
+      ],
+      "status": "have",
+      "explanation": "Today's patients, intake highlights, biopsy flags, action items. Initials and MRN only. Sana reads on iPad with coffee at 7am.",
+      "sample_output": "# Morning Brief, Dr. Anwar, 2025-11-03\n\nToday: 14 scheduled, 2 walk-in slots\n\n## Action items, top of mind\n- KT / NB-9114: BCC biopsy back overnight, excision booked next Tue, talk to him today.\n- LP / NB-8821: Dupixent appeal #2 drafted by Maya, 2pm patient slot to discuss timeline.\n\n## New today\n- BR / NB-9112: eczema referral, complex history, allow extra time.\n",
+      "ideation_loop": [
+        "Daily 5:45am cron triggers /morning_brief",
+        "Care Coordinator routes to Intake-Prep Specialist with provider scope",
+        "Specialist reads patient_pipeline and biopsy_review, scoped to this provider's panel",
+        "Specialist drafts brief; flags any malignant biopsy at the top",
+        "Provider initials at 7am, action items become the day's plan"
+      ],
+      "agent_friendly": "the intake-prep specialist",
+      "approval_friendly": "Provider initials at top of brief before rounds",
+      "subtitle_friendly": "Written by the intake-prep specialist for Dr. Sana Anwar, NP Aimee"
+    },
+    {
+      "id": "biopsy_alert",
+      "name": "Malignant biopsy alert",
+      "agent": "Biopsy Result Summarizer",
+      "consumers": [
+        "Dr. Sana Anwar"
+      ],
+      "approval_gate": "Sana acknowledges in audit_log before patient is contacted",
+      "reads_from": [
+        "biopsy_review"
+      ],
+      "status": "have",
+      "explanation": "Real-time. As soon as a malignant or high-grade atypical result lands, Sana gets a Telegram ping with the summary, suggested next-step, and a draft patient call script.",
+      "sample_output": "# Biopsy Alert, KT / NB-9114\n\nResult: superficial BCC, right shoulder, 0.6mm.\nRecommendation: surgical excision within 14 days, primary closure expected.\nSuggested call script: 'Hi Mr. T, your biopsy came back, it's a basal cell carcinoma which is a slow-growing skin cancer. Very treatable. We need to schedule a small excision in the next two weeks...'\nPre-auth status: BCBS plan auto-covers excision under PPO; no pre-auth needed.\n",
+      "ideation_loop": [
+        "Lab vendor PDF lands in raw_dropzone",
+        "SessionStart hook converts to markdown in clinical/biopsy/",
+        "Biopsy Summarizer flags severity, drafts call script and pre-auth check",
+        "If MALIGNANT: Telegram push to Sana within 60 seconds",
+        "Sana reviews, acknowledges, calls patient"
+      ],
+      "agent_friendly": "Biopsy Result Summarizer",
+      "approval_friendly": "Sana acknowledges in the audit log before patient is contacted",
+      "subtitle_friendly": "Written by Biopsy Result Summarizer for Dr. Sana Anwar"
+    },
+    {
+      "id": "insurance_appeal_draft",
+      "name": "Insurance appeal letter draft",
+      "agent": "Billing-Appeals Specialist",
+      "consumers": [
+        "Maya (office manager)",
+        "Dr. Sana Anwar"
+      ],
+      "approval_gate": "Maya reviews + Sana co-signs before send",
+      "reads_from": [
+        "insurance_appeals"
+      ],
+      "status": "have",
+      "explanation": "7-section appeal letter (member info, denial reference, clinical context, medical necessity, prior auth chain, requested action, supporting docs). The ONLY agent allowed cross-domain access. Logs every clinical read.",
+      "sample_output": "# Appeal, LP / NB-8821, Aetna, CL-3401 (Dupixent CO-167)\n\nMember: LP, NB-8821, plan ID redacted in audit log\nDenial reason: CO-167 'experimental/investigational'\nClinical context: 8 months severe atopic dermatitis, EASI score 22 at baseline, failed topical steroids and TCIs per documented trial.\nMedical necessity: per Aetna 2025 medical policy 0654, Dupixent is on-label for adults with moderate-to-severe AD inadequately controlled by topicals.\nPre-auth: was approved 2025-08-14 for first 12 weeks; current denial is for continuation.\nRequested: continuation authorization for 16 additional weeks.\nSupporting: EASI photos, clinical notes from 09-12, 10-08, 10-30.\n",
+      "ideation_loop": [
+        "Maya runs /draft_appeal CL-3401",
+        "Care Coordinator routes to Billing-Appeals Specialist (the controlled bridge)",
+        "Specialist reads denied claim, plus encounter notes for the relevant service date, plus the matching template",
+        "Specialist drafts 7-section letter; logs every clinical read in audit log",
+        "Maya reviews, Sana co-signs, faxes via the existing workflow"
+      ],
+      "agent_friendly": "the billing-appeals specialist",
+      "approval_friendly": "Maya reviews + Sana co-signs before send",
+      "subtitle_friendly": "Written by the billing-appeals specialist for Maya (office manager), Dr. Sana Anwar"
+    },
+    {
+      "id": "weekly_pnl",
+      "name": "Weekly clinic P&L",
+      "agent": "(read-only summary)",
+      "consumers": [
+        "Dr. Sana Anwar"
+      ],
+      "approval_gate": "Read-only, not auto-distributed",
+      "reads_from": [
+        "billing_reconciliation"
+      ],
+      "status": "have",
+      "explanation": "Aggregate clinic P&L Maya emails Sana every Monday. Patient encounters, ERA breakdown, denied claims, appeal recovery. Numbers only, no PHI.",
+      "sample_output": "# Bright Skin, Weekly P&L, W44\n\nEncounters: 162 (avg 32/day, 5 walk-ins recovered)\nGross billed: $94,200\nERA posted: $58,400\nDenials this week: 3 (2 in appeal, 1 corrected)\nAppeal recovery YTD: $42,000\n",
+      "ideation_loop": [
+        "Friday 5pm cron pulls billing_reconciliation",
+        "P&L assembler aggregates totals; never touches PHI",
+        "Brief lands in Sana's iPad-readable folder Monday 6am"
+      ],
+      "agent_friendly": "(read-only summary)",
+      "approval_friendly": "Read-only, not auto-distributed",
+      "subtitle_friendly": "Written by (read-only summary) for Dr. Sana Anwar"
+    }
+  ],
+  "recipes": [
+    {
+      "id": "morning_brief_recipe",
+      "name": "Morning brief on iPad",
+      "headline": "Sana reads the day on iPad before her first patient at 8",
+      "time_saved_per_week": "~30 min/day per provider",
+      "manual_today": "Maya prints the patient list at 7:30am and walks it down the hall. Sana skims while gowning up. Often misses the biopsy flag because it's buried in Athena.",
+      "monday_difference": "Sana opens iPad at 7am with coffee. Brief is already there. Initials at top. Action items first, schedule second. Biopsy flags at the very top in coral.",
+      "goal": "Provider reads a one-page morning brief on iPad before rounds, with initials and MRN only.",
+      "ingredients": [
+        "athena_ehr",
+        "intake_pdfs",
+        "patient_pipeline",
+        "biopsy_review",
+        "intake_prep_specialist"
+      ],
+      "ingredients_friendly": [
+        "Athena EHR",
+        "Intake forms",
+        "Patient pipeline summary",
+        "Biopsy review queue",
+        "Intake-Prep Specialist",
+        "Morning brief"
+      ],
+      "claude_code_stack": {
+        "skills": [
+          "ingest_athena_encounters",
+          "ingest_intake_forms"
+        ],
+        "subagents": [
+          "Care Coordinator Orchestrator",
+          "Intake-Prep Specialist"
+        ],
+        "hooks": [
+          "SessionStart convert_dropzone.sh",
+          "PostToolUse audit_action.sh"
+        ],
+        "rules": [
+          "rules/phi_scoping.md (always-on, path-scoped)"
+        ]
+      },
+      "walkthrough": [
+        {
+          "actor": "Daily 5:45am cron",
+          "action": "Triggers /morning_brief"
+        },
+        {
+          "actor": "Care Coordinator",
+          "action": "Routes to Intake-Prep Specialist scoped to this provider"
+        },
+        {
+          "actor": "Intake-Prep Specialist",
+          "action": "Reads patient_pipeline and biopsy_review, drafts brief, flags malignants at top in coral"
+        },
+        {
+          "actor": "Provider, 7am",
+          "action": "Opens iPad, initials brief, action items become the day's plan"
+        }
+      ],
+      "before_claude_code": "Maya prints the list at 7:30am, Sana skims, often misses the buried biopsy flag.",
+      "after_claude_code": "Brief is on Sana's iPad at 6am. Malignant flags at the top. Zero misses."
+    },
+    {
+      "id": "biopsy_triage_recipe",
+      "name": "Malignant biopsy alert",
+      "headline": "Malignant biopsies page Sana within 60 seconds, with a draft patient call script",
+      "time_saved_per_week": "Hours, plus zero missed-flag risk",
+      "manual_today": "Lab fax lands, Maya files it, Sana sees it 1-3 days later when she opens that chart. Patient call delayed.",
+      "monday_difference": "Lab PDF arrives, summarizer flags malignancy, Telegram ping to Sana within a minute with a suggested call script and pre-auth status. She calls the same morning.",
+      "goal": "When a biopsy comes back malignant, Sana is paged within 60 seconds with the summary, recommendation, draft call script, and pre-auth check.",
+      "ingredients": [
+        "dermpath_lab",
+        "athena_ehr",
+        "biopsy_review",
+        "biopsy_alert"
+      ],
+      "ingredients_friendly": [
+        "Dermpath PDF result",
+        "Athena chart context",
+        "Biopsy review queue",
+        "Telegram alert + call script"
+      ],
+      "claude_code_stack": {
+        "skills": [
+          "summarize_biopsy_pdf",
+          "ingest_athena_encounters"
+        ],
+        "subagents": [
+          "Care Coordinator Orchestrator",
+          "Biopsy Result Summarizer"
+        ],
+        "hooks": [
+          "SessionStart convert_dropzone.sh",
+          "PostToolUse audit_action.sh"
+        ],
+        "rules": [
+          "rules/phi_scoping.md"
+        ]
+      },
+      "walkthrough": [
+        {
+          "actor": "Lab vendor",
+          "action": "Drops biopsy PDF into data/raw_dropzone/biopsy/"
+        },
+        {
+          "actor": "SessionStart hook",
+          "action": "Converts PDF to markdown inside clinical/biopsy/"
+        },
+        {
+          "actor": "Biopsy Summarizer",
+          "action": "Flags severity, drafts call script and pre-auth check"
+        },
+        {
+          "actor": "If MALIGNANT",
+          "action": "Telegram push to Sana within 60 seconds"
+        },
+        {
+          "actor": "Sana",
+          "action": "Reviews, acknowledges, calls patient same morning"
+        }
+      ],
+      "before_claude_code": "Faxed PDFs filed by Maya, Sana sees results 1-3 days later.",
+      "after_claude_code": "Malignant results paged immediately. Patient called same morning. No missed flags."
+    },
+    {
+      "id": "insurance_appeal_recipe",
+      "name": "Insurance appeal drafted in days, not weeks",
+      "headline": "Dupixent denied? Appeal drafted Monday, sent Tuesday, weeks shaved off",
+      "time_saved_per_week": "4-6 weeks per appeal",
+      "manual_today": "Maya googles last quarter's appeal, copy-pastes, fills in clinical notes by hand, asks Sana to verify, sends 3-4 weeks later.",
+      "monday_difference": "Maya runs /draft_appeal CL-3401 Monday morning. Letter is back in 5 minutes with the right template, the right clinical justification, the right pre-auth chain. Maya reviews, Sana co-signs, faxes Tuesday.",
+      "goal": "When a claim is denied, draft the appeal in a controlled cross-domain bridge between clinical and billing. Save weeks per case.",
+      "ingredients": [
+        "athena_billing",
+        "appeal_templates",
+        "athena_ehr",
+        "insurance_appeals"
+      ],
+      "ingredients_friendly": [
+        "Denied claim",
+        "Appeal template",
+        "Encounter notes (clinical)",
+        "Drafted 7-section appeal"
+      ],
+      "claude_code_stack": {
+        "skills": [
+          "draft_insurance_appeal",
+          "ingest_athena_billing",
+          "ingest_athena_encounters"
+        ],
+        "subagents": [
+          "Care Coordinator Orchestrator",
+          "Billing-Appeals Specialist"
+        ],
+        "hooks": [
+          "PostToolUse audit_action.sh"
+        ],
+        "rules": [
+          "rules/phi_scoping.md",
+          "rules/billing_codes.md"
+        ]
+      },
+      "walkthrough": [
+        {
+          "actor": "Maya, runs /draft_appeal CL-3401",
+          "action": "Triggers Care Coordinator"
+        },
+        {
+          "actor": "Care Coordinator",
+          "action": "Hands off to Billing-Appeals Specialist (the only agent allowed cross-domain)"
+        },
+        {
+          "actor": "Billing-Appeals Specialist",
+          "action": "Reads denied claim, encounter notes for the service date, matching template; logs every read"
+        },
+        {
+          "actor": "Specialist",
+          "action": "Drafts 7-section appeal letter"
+        },
+        {
+          "actor": "Maya + Sana",
+          "action": "Review and co-sign; fax via existing workflow Tuesday"
+        }
+      ],
+      "before_claude_code": "Manual appeal: 6 weeks turnaround, often missed entirely on smaller denials.",
+      "after_claude_code": "Drafted Monday, sent Tuesday. 4-6 weeks of revenue recovery accelerated."
+    },
+    {
+      "id": "weekly_pnl_recipe",
+      "name": "Monday morning P&L on iPad",
+      "headline": "Sana reads the clinic's week with coffee, no Athena hunt",
+      "time_saved_per_week": "~1 hr/wk plus better visibility",
+      "manual_today": "Sana logs into Athena Monday afternoon when she remembers, hunts through reports.",
+      "monday_difference": "Brief lands in iPad-readable folder Monday 6am. Encounters, gross billed, ERA posted, denials, appeal recovery YTD. One page.",
+      "goal": "Read-only weekly P&L brief, numbers only, no PHI. Owner reads on iPad with coffee.",
+      "ingredients": [
+        "athena_billing",
+        "billing_reconciliation"
+      ],
+      "ingredients_friendly": [
+        "Athena PM ERAs",
+        "Weekly billing summary",
+        "P&L brief"
+      ],
+      "claude_code_stack": {
+        "skills": [
+          "ingest_athena_billing"
+        ],
+        "subagents": [
+          "Care Coordinator Orchestrator",
+          "P&L Assembler"
+        ],
+        "hooks": [
+          "SessionStart convert_dropzone.sh"
+        ],
+        "rules": [
+          "rules/billing_codes.md"
+        ]
+      },
+      "walkthrough": [
+        {
+          "actor": "Friday 5pm cron",
+          "action": "Pulls week's billing_reconciliation"
+        },
+        {
+          "actor": "P&L Assembler",
+          "action": "Aggregates totals, never touches PHI"
+        },
+        {
+          "actor": "Monday 6am",
+          "action": "Brief lands in iPad-readable folder"
+        },
+        {
+          "actor": "Sana",
+          "action": "Reads with coffee, no Athena hunt"
+        }
+      ],
+      "before_claude_code": "Sana logs into Athena Monday afternoon if she remembers.",
+      "after_claude_code": "One-page brief on iPad Monday 6am. Numbers visible at a glance."
+    }
+  ],
+  "setup_priority": [
+    {
+      "step": 1,
+      "title": "Lock Bedrock 3P Claude + sign the BAA",
+      "title_friendly": "Get the HIPAA-compliant Claude turned on (BAA + Bedrock)",
+      "what_to_do": "AWS Bedrock 3P Claude config + BAA signed with Anthropic. The community deep-dive has the IT-committee FAQ and a sample compliance memo.",
+      "why": "PHI cannot leave the tenant. Every step that follows depends on this being done first. The data_map is unusable in production until this is signed.",
+      "install": "1. Spin up AWS account (or use existing).\n2. Enable Bedrock 3P Claude in us-east-1.\n3. Sign BAA with Anthropic (15 min legal).\n4. Configure Claude Code to use Bedrock model in claude config.",
+      "before": "PHI flowing through public anthropic.com. Compliance hazard.",
+      "after": "All model calls happen inside the practice's AWS tenant. BAA on file. CCO can sign off.",
+      "working_when": "Run 'claude config get model' from Terminal, output includes 'bedrock'.",
+      "setup_time": "1-2 weeks (legal + IT)"
+    },
+    {
+      "step": 2,
+      "title": "Wire the conversion hook",
+      "title_friendly": "Make Claude read your messy files (PDFs, scanned intake, faxed labs)",
+      "requires": "Step 1 done.",
+      "what_to_do": "SessionStart hook converts PDF / DOCX / EML in data/raw_dropzone/ into markdown inside data/converted/. Path-scoped so PHI never leaves the clinical/ tree.",
+      "why": "Removes the 'Claude can't read this PDF' wall for biopsy results, intake, and appeal templates.",
+      "install": "Drop SessionStart entry into .claude/settings.json. brew install pandoc poppler. pip install xlsx2csv.",
+      "before": "Faxed lab PDFs filed by hand. Intake retyped. Templates copy-pasted.",
+      "after": "Drop a PDF in data/raw_dropzone/biopsy/, restart session, see the markdown in data/converted/biopsy/.",
+      "working_when": "Drop today's intake PDF in raw_dropzone, restart Claude, see the .md file appear with the patient's chief complaint already extracted.",
+      "setup_time": "10 minutes"
+    },
+    {
+      "step": 3,
+      "title": "Build the silver platters",
+      "title_friendly": "Build your morning briefs (one per care area)",
+      "requires": "Step 2 done.",
+      "what_to_do": "Write four ingest skills (Athena encounters, Athena billing, biopsy summarizer, intake forms). Schedule via cron. Output silver_platters/ files daily.",
+      "why": "The silver platters are the 80%. Once they exist, every specialist below has clean PHI-scoped data to read.",
+      "install": "# Skills under .claude/skills/:\n#  ingest_athena_encounters\n#  ingest_athena_billing\n#  summarize_biopsy_pdf\n#  ingest_intake_forms\n# Cron: 0 5 * * * cd ~/brightskin && claude /weekly_silver_platters",
+      "before": "Sana hunts through Athena chart by chart. Maya retypes intake. Faxes pile up.",
+      "after": "Daily 5:30am, four silver platters land in silver_platters/. Initials and MRN only. PHI walls hold.",
+      "working_when": "5:31am, ls silver_platters/ shows four files dated today, biopsy_review_pending.md has malignants flagged at the top.",
+      "setup_time": "1-2 days with @claude-code-guide handoff (recommended for non-technical clinics)"
+    },
+    {
+      "step": 4,
+      "title": "Add the Care Coordinator + specialists",
+      "title_friendly": "Hire the care chief-of-staff (and three specialist agents)",
+      "requires": "Step 3 done.",
+      "what_to_do": "Define four subagents under .claude/agents/. Care Coordinator routes Sana's free-text questions. Intake-Prep Specialist scoped to patient_pipeline. Biopsy Summarizer scoped to biopsy_review. Billing-Appeals Specialist is the controlled cross-domain bridge.",
+      "why": "Each specialist is path-scoped to one platter. Cross-domain (clinical + billing) is allowed ONLY for the appeals specialist, logged on every read.",
+      "install": "# .claude/agents/:\n#  care-coordinator.md (model: opus, tools: [Read, Glob, Task])\n#  intake-prep-specialist.md (sonnet, scoped clinical/intake/**)\n#  biopsy-summarizer.md (sonnet, scoped clinical/biopsy/**)\n#  billing-appeals-specialist.md (sonnet, controlled bridge: clinical/** + billing/**, logged)",
+      "before": "Generalist agent reads everything. Compliance hazard.",
+      "after": "Each specialist sees only their slice. Appeals specialist crosses domains only when invoked, logs every read.",
+      "working_when": "Ask Care Coordinator 'pull KT's history' from a billing context, it refuses (out of scope). Ask Billing-Appeals to draft an appeal, it pulls clinical context and logs it.",
+      "setup_time": "2-3 hours total"
+    },
+    {
+      "step": 5,
+      "title": "Wire the audit log + approval gates + PHI scoping rule",
+      "title_friendly": "Add receipts, sign-off nudges, and the PHI guardrail",
+      "requires": "Step 4 done.",
+      "what_to_do": "PostToolUse hook to outputs/audit_log.md. Stop hook nudges Sana if a brief is unsigned. rules/phi_scoping.md is always-on for clinical/** and intake/** paths.",
+      "why": "PHI scoping is the technical backstop for the BAA. Audit log is the trust layer. CCO can audit any read at any time.",
+      "install": "Templates in business_os_hooks.md. Paste 3 hook entries into .claude/settings.json. chmod +x hooks. Drop rules/phi_scoping.md in.",
+      "before": "AI did something? You don't know what. CCO has no audit trail.",
+      "after": "Every action recorded. Stop hook nudges if a draft is unsigned. PHI scope locks at the OS level.",
+      "working_when": "Open audit_log.md after a session, every read and write is logged with timestamp and the rule it ran under.",
+      "setup_time": "30 minutes"
+    },
+    {
+      "step": 6,
+      "title": "Add the slash commands",
+      "title_friendly": "Turn weekly motions into one-keystroke plays",
+      "requires": "Steps 3 and 4 done.",
+      "what_to_do": "Write four slash commands: /morning_brief, /draft_appeal, /weekly_pnl, /biopsy_alert.",
+      "why": "Slash commands turn Sana's recurring motions into one-keystroke triggers.",
+      "install": "# .claude/commands/:\n#  morning_brief.md\n#  draft_appeal.md (takes claim id arg)\n#  weekly_pnl.md\n#  biopsy_alert.md (manual fallback if cron fails)",
+      "before": "Each interaction is a fresh prompting session.",
+      "after": "Sana types /morning_brief, brief lands in 30 seconds. Maya types /draft_appeal CL-3401, appeal lands in 5 minutes.",
+      "working_when": "/morning_brief returns a clean brief. /draft_appeal CL-3401 returns the 7-section letter.",
+      "setup_time": "30 minutes for all four"
+    }
+  ],
+  "setup_total_time": "About 1-2 weeks for Bedrock + BAA. Then a focused weekend for steps 2-6 (or ~1 day with @claude-code-guide handoff).",
+  "interaction_layer": [
+    {
+      "id": "ipad_morning_brief",
+      "channel": "iPad (markdown reader)",
+      "type": "ipad",
+      "status": "have",
+      "description": "Sana reads the morning brief on iPad with coffee at 7am. Initials at top, malignant flags in coral.",
+      "consumes": [
+        "morning_brief"
+      ]
+    },
+    {
+      "id": "telegram_biopsy_alert",
+      "channel": "Telegram (encrypted, BAA-vendor)",
+      "type": "telegram",
+      "status": "have",
+      "description": "Real-time push when a malignant biopsy lands. Within 60 seconds. Includes summary, draft call script, pre-auth status. Telegram BAA in place.",
+      "consumes": [
+        "biopsy_alert"
+      ]
+    },
+    {
+      "id": "gmail_appeal_drafts",
+      "channel": "Encrypted email (Maya)",
+      "type": "email",
+      "status": "have",
+      "description": "Appeal drafts land in Maya's inbox for review. She forwards to Sana for co-sign.",
+      "consumes": [
+        "insurance_appeal_draft"
+      ]
+    },
+    {
+      "id": "ipad_pnl",
+      "channel": "iPad (markdown reader)",
+      "type": "ipad",
+      "status": "have",
+      "description": "Weekly P&L lands Monday 6am, no PHI, just numbers.",
+      "consumes": [
+        "weekly_pnl"
+      ]
+    },
+    {
+      "id": "sms_patient_callback",
+      "channel": "SMS via clinic line (suggested)",
+      "type": "sms",
+      "status": "could-add",
+      "description": "Suggested. When a malignant biopsy alert fires, also text the patient asking them to call the clinic. Keeps patient engagement tight without leaking diagnosis details. Opt-in only.",
+      "consumes": [
+        "biopsy_alert"
+      ]
+    }
+  ],
+  "opportunities": [
+    {
+      "surface": "deployment/bedrock",
+      "type": "community_deep_dive",
+      "title": "Bedrock + BAA setup walkthrough",
+      "explanation": "Inside the Early AI Dopters community I walk through the AWS Bedrock setup, BAA template, IT-committee FAQ, and a sample compliance memo for clinic boards.",
+      "claude_code_feature": "external",
+      "estimated_impact": "Required for clinic deployment"
+    },
+    {
+      "surface": "rules/phi_scoping",
+      "type": "path_scoped_rule",
+      "title": "Lock the PHI scoping rule",
+      "explanation": "rules/phi_scoping.md with paths data/clinical/** and data/intake/**. Always-on. Ensures the agent literally cannot load PHI in a billing or admin context.",
+      "claude_code_feature": "rule",
+      "feature_name": "rules/phi_scoping.md",
+      "estimated_impact": "Required for HIPAA, non-optional"
+    },
+    {
+      "surface": "pantry/dermpath_lab",
+      "type": "skill_writing_opportunity",
+      "title": "Write the biopsy PDF summarizer skill",
+      "explanation": "Lab vendors send biopsy results as PDFs. Skill extracts diagnosis, severity, recommendation. Flags malignant or atypical results loudly.",
+      "claude_code_feature": "skill",
+      "feature_name": "summarize_biopsy_pdf",
+      "estimated_impact": "Hours saved per biopsy plus zero missed-flag risk"
+    },
+    {
+      "surface": "plate/insurance_appeal_draft",
+      "type": "approval_gate",
+      "title": "Add the controlled cross-domain bridge",
+      "explanation": "Billing-Appeals Specialist is the only agent allowed to read both clinical and billing folders. Logs every clinical read. Required for the appeal recipe.",
+      "claude_code_feature": "subagent + rule",
+      "estimated_impact": "Unblocks the appeal recipe, saves 4-6 weeks per appeal"
+    }
+  ]
+}

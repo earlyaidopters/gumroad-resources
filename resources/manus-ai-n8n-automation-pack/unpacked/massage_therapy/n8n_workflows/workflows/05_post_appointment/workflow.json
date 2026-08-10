@@ -1,0 +1,705 @@
+{
+  "name": "Post-Appointment Follow-Up System",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "hours",
+              "hoursInterval": 6
+            }
+          ]
+        }
+      },
+      "name": "Follow-Up Check Schedule",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1,
+      "position": [
+        250,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "resource": "calendar",
+        "operation": "getEvents",
+        "calendarId": "={{ $env.MASSAGE_CALENDAR_ID }}",
+        "timeMin": "={{ new Date(Date.now() - 12 * 60 * 60 * 1000).toISOString() }}",
+        "timeMax": "={{ new Date().toISOString() }}",
+        "options": {}
+      },
+      "name": "Get Completed Appointments",
+      "type": "n8n-nodes-base.googleCalendar",
+      "typeVersion": 1,
+      "position": [
+        450,
+        300
+      ],
+      "credentials": {
+        "googleCalendarOAuth2Api": {
+          "id": "google_calendar_credentials",
+          "name": "Google Calendar account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// Process completed appointments for follow-up\nconst appointments = $input.item.json.events || [];\nconst processedAppointments = [];\n\nfor (const appointment of appointments) {\n  // Skip appointments that aren't completed yet\n  const endTime = new Date(appointment.end.dateTime);\n  const now = new Date();\n  if (endTime > now) continue;\n  \n  // Extract client email from attendees\n  let clientEmail = '';\n  if (appointment.attendees && appointment.attendees.length > 0) {\n    // Assuming the first attendee is the client\n    clientEmail = appointment.attendees[0].email;\n  }\n  \n  // Extract client name and other details from description\n  let clientName = '';\n  let clientPhone = '';\n  let serviceType = '';\n  let bookingId = '';\n  let therapistName = '';\n  \n  if (appointment.description) {\n    const descLines = appointment.description.split('\\n');\n    for (const line of descLines) {\n      if (line.startsWith('Client:')) {\n        clientName = line.replace('Client:', '').trim();\n      } else if (line.startsWith('Phone:')) {\n        clientPhone = line.replace('Phone:', '').trim();\n      } else if (line.startsWith('Service:')) {\n        serviceType = line.replace('Service:', '').trim();\n      } else if (line.startsWith('Booking ID:')) {\n        bookingId = line.replace('Booking ID:', '').trim();\n      } else if (line.startsWith('Therapist:')) {\n        therapistName = line.replace('Therapist:', '').trim();\n      }\n    }\n  }\n  \n  // If client name not found in description, extract from summary\n  if (!clientName && appointment.summary) {\n    const parts = appointment.summary.split('-');\n    if (parts.length > 1) {\n      serviceType = parts[0].trim();\n      clientName = parts[1].trim();\n    } else {\n      clientName = appointment.summary;\n    }\n  }\n  \n  // If therapist name not found, use default\n  if (!therapistName) {\n    therapistName = 'your massage therapist';\n  }\n  \n  // Only process appointments with client email\n  if (clientEmail) {\n    processedAppointments.push({\n      appointmentId: appointment.id,\n      calendarId: appointment.calendarId,\n      clientName: clientName,\n      clientEmail: clientEmail,\n      clientPhone: clientPhone,\n      serviceType: serviceType,\n      bookingId: bookingId,\n      therapistName: therapistName,\n      startTime: appointment.start.dateTime,\n      endTime: appointment.end.dateTime,\n      appointmentDate: new Date(appointment.start.dateTime).toLocaleDateString(),\n      appointmentTime: new Date(appointment.start.dateTime).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})\n    });\n  }\n}\n\nreturn {json: {appointments: processedAppointments}};"
+      },
+      "name": "Process Completed Appointments",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [
+        650,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "lookup",
+        "sheetName": "Clients",
+        "lookupColumn": "email",
+        "lookupValue": "={{ $json.clientEmail }}",
+        "options": {}
+      },
+      "name": "Get Client History",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 3,
+      "position": [
+        850,
+        300
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "google_sheets_credentials",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "lookup",
+        "sheetName": "Follow-Ups Sent",
+        "lookupColumn": "appointmentId",
+        "lookupValue": "={{ $json.appointmentId }}",
+        "options": {}
+      },
+      "name": "Check Follow-Up History",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 3,
+      "position": [
+        1050,
+        300
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "google_sheets_credentials",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{ $node[\"Check Follow-Up History\"].json.id }}",
+              "operation": "notExists"
+            }
+          ]
+        }
+      },
+      "name": "Follow-Up Not Sent Yet?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [
+        1250,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Determine client status and appropriate follow-up type\nconst clientData = $node[\"Get Client History\"].json;\nconst appointmentData = $input.item.json;\n\n// Calculate visit count\nlet visitCount = 1; // Default to 1 if we can't determine\nif (clientData.visitCount) {\n  visitCount = parseInt(clientData.visitCount) || 1;\n}\n\n// Determine if client has left a review before\nlet hasLeftReview = false;\nif (clientData.hasLeftReview === 'true' || clientData.hasLeftReview === true) {\n  hasLeftReview = true;\n}\n\n// Determine time since last review request\nlet daysSinceLastReviewRequest = 365; // Default to a year if unknown\nif (clientData.lastReviewRequestDate) {\n  const lastRequest = new Date(clientData.lastReviewRequestDate);\n  const now = new Date();\n  const diffTime = Math.abs(now - lastRequest);\n  daysSinceLastReviewRequest = Math.ceil(diffTime / (1000 * 60 * 60 * 24));\n}\n\n// Determine client type\nlet clientType = 'first-time';\nif (visitCount > 5) {\n  clientType = 'regular';\n} else if (visitCount > 1) {\n  clientType = 'returning';\n}\n\n// Determine follow-up type\nlet followUpType = 'thank-you';\nif (clientType === 'first-time') {\n  followUpType = 'welcome';\n} else if (clientType === 'returning' && !hasLeftReview && daysSinceLastReviewRequest > 90) {\n  followUpType = 'review-request';\n} else if (clientType === 'regular') {\n  followUpType = 'feedback';\n}\n\n// Generate personalized content\nlet personalizedGreeting = `Dear ${appointmentData.clientName}`;\nlet personalizedThankYou = `Thank you for visiting us for your ${appointmentData.serviceType} session.`;\nlet personalizedMessage = '';\n\nswitch (followUpType) {\n  case 'welcome':\n    personalizedMessage = `We hope you enjoyed your first massage with us! ${appointmentData.therapistName} enjoyed working with you and looks forward to helping you on your wellness journey.`;\n    break;\n  case 'review-request':\n    personalizedMessage = `We value your opinion and would appreciate if you could take a moment to share your experience with others. Your feedback helps us improve and helps others discover the benefits of massage therapy.`;\n    break;\n  case 'feedback':\n    personalizedMessage = `As one of our valued regular clients, your feedback is especially important to us. We'd love to hear how we can make your massage experiences even better.`;\n    break;\n  default: // thank-you\n    personalizedMessage = `We hope you enjoyed your session and are experiencing the benefits of your massage. ${appointmentData.therapistName} enjoyed working with you and looks forward to your next visit.`;\n}\n\n// Add self-care recommendations based on service type\nlet selfCareRecommendations = 'Remember to drink plenty of water today to help flush toxins released during your massage.';\nif (appointmentData.serviceType.toLowerCase().includes('deep tissue')) {\n  selfCareRecommendations += ' You may experience some muscle soreness for 24-48 hours. A warm bath with Epsom salts can help relieve any discomfort.';\n} else if (appointmentData.serviceType.toLowerCase().includes('sports')) {\n  selfCareRecommendations += ' Light stretching can help maintain the muscle flexibility gained during your session.';\n}\n\n// Generate rebooking incentive\nlet rebookingIncentive = '';\nswitch (followUpType) {\n  case 'welcome':\n    rebookingIncentive = 'As a special welcome, enjoy 15% off your next massage when you book within the next 7 days. Use code WELCOME15 when booking.';\n    break;\n  case 'review-request':\n    rebookingIncentive = 'After submitting your review, you'll receive a special code for 10% off your next appointment.';\n    break;\n  case 'feedback':\n    rebookingIncentive = 'As a thank you for being a loyal client, enjoy a complimentary aromatherapy enhancement with your next massage.';\n    break;\n  default: // thank-you\n    rebookingIncentive = 'Book your next appointment within 2 weeks to maintain the benefits of regular massage therapy.';\n}\n\nreturn {\n  json: {\n    ...appointmentData,\n    clientType,\n    followUpType,\n    visitCount,\n    hasLeftReview,\n    daysSinceLastReviewRequest,\n    personalizedGreeting,\n    personalizedThankYou,\n    personalizedMessage,\n    selfCareRecommendations,\n    rebookingIncentive\n  }\n};"
+      },
+      "name": "Personalize Follow-Up Content",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [
+        1450,
+        200
+      ]
+    },
+    {
+      "parameters": {
+        "amount": 3,
+        "unit": "hours"
+      },
+      "name": "Delay Follow-Up",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1,
+      "position": [
+        1650,
+        200
+      ]
+    },
+    {
+      "parameters": {
+        "dataType": "string",
+        "value1": "={{ $json.followUpType }}",
+        "rules": {
+          "rules": [
+            {
+              "value2": "welcome",
+              "type": "equal"
+            },
+            {
+              "value2": "review-request",
+              "type": "equal"
+            },
+            {
+              "value2": "feedback",
+              "type": "equal"
+            },
+            {
+              "value2": "thank-you",
+              "type": "equal"
+            }
+          ]
+        }
+      },
+      "name": "Route by Follow-Up Type",
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 1,
+      "position": [
+        1850,
+        200
+      ]
+    },
+    {
+      "parameters": {
+        "fromEmail": "care@massagetherapy.com",
+        "toEmail": "={{ $json.clientEmail }}",
+        "subject": "Welcome to Our Massage Therapy Family!",
+        "text": "={{ $json.personalizedGreeting }},\n\n{{ $json.personalizedThankYou }} {{ $json.personalizedMessage }}\n\n**Self-Care Tips:**\n{{ $json.selfCareRecommendations }}\n\n**Special Welcome Offer:**\n{{ $json.rebookingIncentive }}\n\n**Book Your Next Appointment:**\nMaintaining a regular massage schedule helps maximize the health benefits you'll receive. We recommend booking your next appointment 2-4 weeks from now.\n\n[Book Your Next Appointment](https://massagetherapy.com/booking?client={{ $json.clientEmail | urlencode }})\n\nIf you have any questions or would like to provide feedback about your experience, please don't hesitate to reply to this email.\n\nWe're honored you chose us for your massage therapy needs and look forward to being part of your wellness journey!\n\nWarm regards,\nThe Massage Therapy Team",
+        "options": {}
+      },
+      "name": "Send Welcome Email",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 1,
+      "position": [
+        2050,
+        0
+      ],
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "gmail_credentials",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "fromEmail": "reviews@massagetherapy.com",
+        "toEmail": "={{ $json.clientEmail }}",
+        "subject": "How Was Your Massage Experience?",
+        "text": "={{ $json.personalizedGreeting }},\n\n{{ $json.personalizedThankYou }} {{ $json.personalizedMessage }}\n\n**Share Your Experience:**\nWould you take a moment to share your experience with others? Your review helps us improve and helps others discover the benefits of massage therapy.\n\n- [Leave a Google Review](https://g.page/r/massage-therapy-review)\n- [Review us on Yelp](https://yelp.com/biz/massage-therapy-review)\n\n**What to Include in Your Review:**\n- What you enjoyed about your massage\n- How the massage has helped you\n- Your experience with {{ $json.therapistName }}\n- Anything that made your visit special\n\n{{ $json.rebookingIncentive }}\n\n**Self-Care Reminder:**\n{{ $json.selfCareRecommendations }}\n\n[Book Your Next Appointment](https://massagetherapy.com/booking?client={{ $json.clientEmail | urlencode }})\n\nThank you for choosing us for your massage therapy needs. We value your business and look forward to seeing you again soon!\n\nWarm regards,\nThe Massage Therapy Team",
+        "options": {}
+      },
+      "name": "Send Review Request Email",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 1,
+      "position": [
+        2050,
+        200
+      ],
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "gmail_credentials",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "fromEmail": "feedback@massagetherapy.com",
+        "toEmail": "={{ $json.clientEmail }}",
+        "subject": "Your Feedback Matters to Us",
+        "text": "={{ $json.personalizedGreeting }},\n\n{{ $json.personalizedThankYou }} {{ $json.personalizedMessage }}\n\n**Quick Feedback:**\nAs a valued client, we'd appreciate your input on your recent experience. This brief survey will take less than 2 minutes:\n\n[Share Your Feedback](https://massagetherapy.com/feedback?id={{ $json.appointmentId }})\n\n**Your Loyalty Reward:**\n{{ $json.rebookingIncentive }}\n\n**Self-Care Reminder:**\n{{ $json.selfCareRecommendations }}\n\n**Maintain Your Wellness Routine:**\nBased on your treatment plan, we recommend booking your next appointment within the next 3-4 weeks.\n\n[Book Your Next Appointment](https://massagetherapy.com/booking?client={{ $json.clientEmail | urlencode }})\n\nThank you for being a loyal client. We value your business and are committed to providing you with exceptional massage therapy services.\n\nWarm regards,\nThe Massage Therapy Team",
+        "options": {}
+      },
+      "name": "Send Feedback Request Email",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 1,
+      "position": [
+        2050,
+        400
+      ],
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "gmail_credentials",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "fromEmail": "care@massagetherapy.com",
+        "toEmail": "={{ $json.clientEmail }}",
+        "subject": "Thank You for Your Visit",
+        "text": "={{ $json.personalizedGreeting }},\n\n{{ $json.personalizedThankYou }} {{ $json.personalizedMessage }}\n\n**Self-Care Tips:**\n{{ $json.selfCareRecommendations }}\n\n**Booking Reminder:**\n{{ $json.rebookingIncentive }}\n\n[Book Your Next Appointment](https://massagetherapy.com/booking?client={{ $json.clientEmail | urlencode }})\n\nIf you have any questions or would like to provide feedback about your experience, please don't hesitate to reply to this email.\n\nThank you for choosing us for your massage therapy needs. We look forward to seeing you again soon!\n\nWarm regards,\nThe Massage Therapy Team",
+        "options": {}
+      },
+      "name": "Send Thank You Email",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 1,
+      "position": [
+        2050,
+        600
+      ],
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "gmail_credentials",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "https://api.twilio.com/2010-04-01/Accounts/{{ $env.TWILIO_ACCOUNT_SID }}/Messages.json",
+        "method": "POST",
+        "authentication": "basicAuth",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "To",
+              "value": "={{ $json.clientPhone }}"
+            },
+            {
+              "name": "From",
+              "value": "={{ $env.TWILIO_PHONE_NUMBER }}"
+            },
+            {
+              "name": "Body",
+              "value": "={% if $json.followUpType === 'welcome' %}\nThank you for your first visit to Massage Therapy! We hope you enjoyed your session. Book again within 7 days using code WELCOME15 for 15% off: https://massagetherapy.com/booking\n{% elif $json.followUpType === 'review-request' %}\nThank you for visiting Massage Therapy! Would you share your experience? Leave a review here: https://g.page/r/massage-therapy-review and receive 10% off your next visit.\n{% elif $json.followUpType === 'feedback' %}\nThank you for being a valued client at Massage Therapy! We'd love your feedback: https://massagetherapy.com/feedback?id={{ $json.appointmentId }}\n{% else %}\nThank you for visiting Massage Therapy! We hope you enjoyed your session. Book your next appointment here: https://massagetherapy.com/booking\n{% endif %}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "name": "Send SMS Follow-Up",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 1,
+      "position": [
+        2250,
+        300
+      ],
+      "credentials": {
+        "httpBasicAuth": {
+          "id": "twilio_credentials",
+          "name": "Twilio API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "sheetName": "Follow-Ups Sent",
+        "options": {}
+      },
+      "name": "Log Follow-Up Sent",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 3,
+      "position": [
+        2450,
+        300
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "google_sheets_credentials",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "path": "feedback-submission",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "name": "Feedback Submission Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [
+        250,
+        700
+      ],
+      "webhookId": "feedback-submission"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Process feedback submission\nconst feedback = $input.item.json.body || $input.item.json;\n\n// Extract feedback data\nconst appointmentId = feedback.appointmentId || '';\nconst clientEmail = feedback.email || '';\nconst clientName = feedback.name || '';\nconst overallRating = parseInt(feedback.overallRating) || 0;\nconst therapistRating = parseInt(feedback.therapistRating) || 0;\nconst facilityRating = parseInt(feedback.facilityRating) || 0;\nconst comments = feedback.comments || '';\nconst wouldRecommend = feedback.wouldRecommend === 'true' || feedback.wouldRecommend === true;\nconst interestedServices = feedback.interestedServices || [];\n\n// Calculate average rating\nconst averageRating = Math.round((overallRating + therapistRating + facilityRating) / 3 * 10) / 10;\n\n// Determine if feedback requires attention\nconst requiresAttention = averageRating < 4 || !wouldRecommend;\n\n// Format the feedback data\nconst formattedFeedback = {\n  feedbackId: `FEEDBACK-${Date.now()}-${Math.floor(Math.random() * 1000)}`,\n  appointmentId: appointmentId,\n  clientEmail: clientEmail,\n  clientName: clientName,\n  overallRating: overallRating,\n  therapistRating: therapistRating,\n  facilityRating: facilityRating,\n  averageRating: averageRating,\n  comments: comments,\n  wouldRecommend: wouldRecommend,\n  interestedServices: interestedServices,\n  requiresAttention: requiresAttention,\n  submissionDate: new Date().toISOString()\n};\n\nreturn {json: formattedFeedback};"
+      },
+      "name": "Process Feedback",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [
+        450,
+        700
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "sheetName": "Client Feedback",
+        "options": {}
+      },
+      "name": "Store Feedback",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 3,
+      "position": [
+        650,
+        700
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "google_sheets_credentials",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "boolean": [
+            {
+              "value1": "={{ $json.requiresAttention }}",
+              "value2": true
+            }
+          ]
+        }
+      },
+      "name": "Needs Attention?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [
+        850,
+        700
+      ]
+    },
+    {
+      "parameters": {
+        "fromEmail": "feedback@massagetherapy.com",
+        "toEmail": "manager@massagetherapy.com",
+        "subject": "=ATTENTION: Negative Feedback from {{ $json.clientName }}",
+        "text": "=A client has submitted feedback that requires immediate attention:\n\n**Client Information:**\n- Name: {{ $json.clientName }}\n- Email: {{ $json.clientEmail }}\n\n**Feedback Details:**\n- Overall Rating: {{ $json.overallRating }}/5\n- Therapist Rating: {{ $json.therapistRating }}/5\n- Facility Rating: {{ $json.facilityRating }}/5\n- Average Rating: {{ $json.averageRating }}/5\n- Would Recommend: {{ $json.wouldRecommend ? 'Yes' : 'No' }}\n\n**Comments:**\n{{ $json.comments }}\n\n**Interested Services:**\n{{ $json.interestedServices.join(', ') }}\n\n**Submission Date:**\n{{ new Date($json.submissionDate).toLocaleString() }}\n\nPlease follow up with this client as soon as possible to address their concerns.",
+        "options": {}
+      },
+      "name": "Send Negative Feedback Alert",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 1,
+      "position": [
+        1050,
+        600
+      ],
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "gmail_credentials",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "fromEmail": "feedback@massagetherapy.com",
+        "toEmail": "={{ $json.clientEmail }}",
+        "subject": "Thank You for Your Feedback",
+        "text": "=Dear {{ $json.clientName }},\n\nThank you for taking the time to provide feedback about your recent massage therapy experience. Your input is invaluable in helping us improve our services.\n\n{% if $json.requiresAttention %}\nWe notice that your experience didn't fully meet your expectations. Our manager will be reaching out to you personally to discuss your concerns and how we can better serve you in the future.\n{% else %}\nWe're delighted to hear that you enjoyed your experience with us. Your satisfaction is our top priority, and we're committed to providing exceptional service with every visit.\n{% endif %}\n\n{% if $json.interestedServices.length > 0 %}\nWe noticed you expressed interest in the following services:\n{% for service in $json.interestedServices %}\n- {{ service }}\n{% endfor %}\n\nWe'd be happy to provide more information about these services during your next visit.\n{% endif %}\n\nAs a token of our appreciation for your feedback, please enjoy 10% off your next appointment when you book within the next 30 days. Simply use code FEEDBACK10 when booking.\n\n[Book Your Next Appointment](https://massagetherapy.com/booking?client={{ $json.clientEmail | urlencode }})\n\nThank you again for your valuable feedback. We look forward to serving you again soon.\n\nWarm regards,\nThe Massage Therapy Team",
+        "options": {}
+      },
+      "name": "Send Feedback Thank You",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 1,
+      "position": [
+        1050,
+        800
+      ],
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "gmail_credentials",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "errorMessage": "=Error in Post-Appointment Follow-Up workflow: {{ $json.error }}"
+      },
+      "name": "Error Handler",
+      "type": "n8n-nodes-base.errorTrigger",
+      "typeVersion": 1,
+      "position": [
+        650,
+        900
+      ]
+    }
+  ],
+  "connections": {
+    "Follow-Up Check Schedule": {
+      "main": [
+        [
+          {
+            "node": "Get Completed Appointments",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Completed Appointments": {
+      "main": [
+        [
+          {
+            "node": "Process Completed Appointments",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Process Completed Appointments": {
+      "main": [
+        [
+          {
+            "node": "Get Client History",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Client History": {
+      "main": [
+        [
+          {
+            "node": "Check Follow-Up History",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Follow-Up History": {
+      "main": [
+        [
+          {
+            "node": "Follow-Up Not Sent Yet?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Follow-Up Not Sent Yet?": {
+      "main": [
+        [
+          {
+            "node": "Personalize Follow-Up Content",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Personalize Follow-Up Content": {
+      "main": [
+        [
+          {
+            "node": "Delay Follow-Up",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Delay Follow-Up": {
+      "main": [
+        [
+          {
+            "node": "Route by Follow-Up Type",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Route by Follow-Up Type": {
+      "main": [
+        [
+          {
+            "node": "Send Welcome Email",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Send Review Request Email",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Send Feedback Request Email",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Send Thank You Email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send Welcome Email": {
+      "main": [
+        [
+          {
+            "node": "Send SMS Follow-Up",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send Review Request Email": {
+      "main": [
+        [
+          {
+            "node": "Send SMS Follow-Up",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send Feedback Request Email": {
+      "main": [
+        [
+          {
+            "node": "Send SMS Follow-Up",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send Thank You Email": {
+      "main": [
+        [
+          {
+            "node": "Send SMS Follow-Up",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send SMS Follow-Up": {
+      "main": [
+        [
+          {
+            "node": "Log Follow-Up Sent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Feedback Submission Webhook": {
+      "main": [
+        [
+          {
+            "node": "Process Feedback",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Process Feedback": {
+      "main": [
+        [
+          {
+            "node": "Store Feedback",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Store Feedback": {
+      "main": [
+        [
+          {
+            "node": "Needs Attention?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Needs Attention?": {
+      "main": [
+        [
+          {
+            "node": "Send Negative Feedback Alert",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Send Feedback Thank You",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Send Feedback Thank You",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "saveManualExecutions": true,
+    "callerPolicy": "workflowsFromSameOwner",
+    "errorWorkflow": "Post-Appointment Follow-Up Error Handler"
+  },
+  "tags": [
+    {
+      "name": "client-follow-up",
+      "color": "#00ccff"
+    },
+    {
+      "name": "massage-therapy",
+      "color": "#00ccff"
+    }
+  ],
+  "pinData": {},
+  "versionId": "1",
+  "triggerCount": 2,
+  "meta": {
+    "instanceId": "MASSAGE_THERAPY_BUSINESS"
+  },
+  "id": "post-appointment-follow-up-system"
+}

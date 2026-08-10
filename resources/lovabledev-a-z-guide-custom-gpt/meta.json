@@ -1,0 +1,15 @@
+{
+  "name": "Lovable.dev A-Z Guide + Custom GPT 💖",
+  "external_id": "5kCZVL2RICKrqSn4CsddLw==",
+  "permalink": "rvrfp",
+  "unique_permalink": "rvrfp",
+  "custom_permalink": "lovable",
+  "url": "https://markkashef.gumroad.com/l/lovable",
+  "status": "published",
+  "archived": false,
+  "kind": "products",
+  "price_formatted": "CAD$0+",
+  "description_md": "What You’ll Get\n📄 Detailed Prompt Engineering Guide\nA comprehensive, step-by-step walkthrough for crafting prompts with Lovable.dev, tailored for custom GPT workflows. From project framing to final deployment, this guide empowers you to maximize Lovable's potential. (PDF - 3 MB)\n🔧 Pre-Built Prompts and Examples\nReady-to-use, expertly crafted prompts for:\n\n- \nSupabase Integration: Build and connect your backend effortlessly.\n\n- \nOpenAI API Setup: Seamlessly integrate GPT for custom features.\n\n- \nStripe Freemium Logic: Enable secure payment and feature gating.\n\n📖 Notion Guide Access\nGain access to a structured Notion guide packed with actionable insights and examples, including:\n\n- \nTool Integrations: Step-by-step instructions for connecting Lovable to Supabase, Stripe, and OpenAI.\n\n- \nDatabase and Backend Management: How to set up and manage schemas using Supabase.\n\n- \nEdge Function Workflows: Implement lightweight serverless functions for faster performance.\n\n- \nFreemium Logic Implementation: Detailed instructions for setting up feature limitations and premium user upgrades.\n\n- \nTroubleshooting Section: Clear solutions for common issues like API errors, missing keys, and workflow debugging.\n\n- \nDesign Best Practices: Tips on creating clean, functional UI designs and responsive layouts.",
+  "files": [],
+  "has_rich_content": true
+}

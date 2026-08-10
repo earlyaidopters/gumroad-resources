@@ -1,0 +1,996 @@
+{
+  "name": "Investment Committee Decision Automation",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "investment-committee-request",
+        "options": {}
+      },
+      "name": "Investment Committee Request",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [
+        240,
+        300
+      ],
+      "webhookId": "investment-committee-request"
+    },
+    {
+      "parameters": {
+        "functionCode": "// Initialize investment committee process\nconst data = $input.item.json;\n\n// Create a structured investment committee object\nconst icRequest = {\n  id: `IC-${Date.now()}`,\n  companyName: data.companyName,\n  dueDiligenceId: data.dueDiligenceId || '',\n  requestDate: new Date().toISOString(),\n  meetingDate: data.meetingDate || '',\n  status: 'Pending',\n  dealSponsor: data.dealSponsor || '',\n  requestedAmount: data.requestedAmount || '',\n  valuation: data.valuation || '',\n  stage: data.stage || '',\n  industry: data.industry || '',\n  committeeMembers: data.committeeMembers || [\n    'partner1@vcfirm.com',\n    'partner2@vcfirm.com',\n    'partner3@vcfirm.com',\n    'partner4@vcfirm.com'\n  ],\n  votes: {},\n  quorum: Math.ceil((data.committeeMembers || []).length / 2),\n  decision: '',\n  decisionDate: '',\n  decisionNotes: '',\n  materials: []\n};\n\n// Create folder structure for documents\nconst folderStructure = {\n  mainFolder: `${icRequest.companyName} - Investment Committee`,\n  subFolders: [\n    'Due Diligence Reports',\n    'Financial Analysis',\n    'Market Research',\n    'Presentation Materials',\n    'Meeting Notes',\n    'Decision Documents'\n  ]\n};\n\nreturn {\n  json: {\n    icRequest,\n    folderStructure\n  }\n};"
+      },
+      "name": "Initialize IC Request",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [
+        460,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "resource": "folder",
+        "name": "={{ $json.folderStructure.mainFolder }}",
+        "options": {}
+      },
+      "name": "Create Main Folder",
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 2,
+      "position": [
+        680,
+        300
+      ],
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "1",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "folder",
+        "name": "={{ $json.subFolder }}",
+        "parentId": "={{ $json.mainFolderId }}",
+        "options": {}
+      },
+      "name": "Create Sub Folders",
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 2,
+      "position": [
+        900,
+        300
+      ],
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "1",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "sheetName": "Investment Committee",
+        "columns": "={{ Object.keys($json.icRequest) }}",
+        "options": {}
+      },
+      "name": "Save to IC Tracker",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 3,
+      "position": [
+        680,
+        460
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "2",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "functionCode": "// Prepare data for creating sub folders\nconst mainFolderId = $input.first().json.id;\nconst folderStructure = $input.first().json.folderStructure;\n\n// Create an array of items for the sub folders\nconst subFolders = folderStructure.subFolders.map(subFolder => {\n  return {\n    json: {\n      subFolder,\n      mainFolderId\n    }\n  };\n});\n\nreturn subFolders;"
+      },
+      "name": "Prepare Sub Folders",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [
+        680,
+        140
+      ]
+    },
+    {
+      "parameters": {
+        "chatId": "investment-committee",
+        "text": "=## New Investment Committee Request\n\n**Company:** {{ $json.icRequest.companyName }}\n**Deal Sponsor:** {{ $json.icRequest.dealSponsor }}\n**Requested Amount:** {{ $json.icRequest.requestedAmount }}\n**Valuation:** {{ $json.icRequest.valuation }}\n**Industry:** {{ $json.icRequest.industry }}\n**Stage:** {{ $json.icRequest.stage }}\n\n**IC Request ID:** {{ $json.icRequest.id }}\n**Due Diligence ID:** {{ $json.icRequest.dueDiligenceId }}\n\nCommittee members will receive calendar invites and materials shortly.",
+        "additionalFields": {}
+      },
+      "name": "Send Slack Notification",
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 1,
+      "position": [
+        900,
+        460
+      ],
+      "credentials": {
+        "slackApi": {
+          "id": "3",
+          "name": "Slack account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "event",
+        "operation": "create",
+        "calendar": "primary",
+        "summary": "={{ 'Investment Committee Meeting: ' + $json.icRequest.companyName }}",
+        "description": "=Investment Committee meeting to review and vote on investment in {{ $json.icRequest.companyName }}.\n\n**Deal Details:**\n- Deal Sponsor: {{ $json.icRequest.dealSponsor }}\n- Requested Amount: {{ $json.icRequest.requestedAmount }}\n- Valuation: {{ $json.icRequest.valuation }}\n- Industry: {{ $json.icRequest.industry }}\n- Stage: {{ $json.icRequest.stage }}\n\n**IC Request ID:** {{ $json.icRequest.id }}\n**Due Diligence ID:** {{ $json.icRequest.dueDiligenceId }}\n\nPlease review all materials before the meeting.",
+        "location": "Conference Room A",
+        "start": "={{ $json.icRequest.meetingDate || new Date(Date.now() + 7*24*60*60*1000).toISOString() }}",
+        "end": "={{ new Date(new Date($json.icRequest.meetingDate || new Date(Date.now() + 7*24*60*60*1000)).getTime() + 90*60*1000).toISOString() }}",
+        "attendees": {
+          "attendees": [
+            {
+              "email": "={{ $json.icRequest.committeeMembers.join(',') }}"
+            },
+            {
+              "email": "={{ $json.icRequest.dealSponsor }}"
+            }
+          ]
+        },
+        "conferenceData": {
+          "createRequest": {
+            "requestId": "={{ $json.icRequest.id }}",
+            "conferenceSolutionKey": {
+              "type": "hangoutsMeet"
+            }
+          }
+        },
+        "options": {
+          "sendUpdates": "all"
+        }
+      },
+      "name": "Schedule IC Meeting",
+      "type": "n8n-nodes-base.googleCalendar",
+      "typeVersion": 1,
+      "position": [
+        1120,
+        300
+      ],
+      "credentials": {
+        "googleCalendarOAuth2Api": {
+          "id": "4",
+          "name": "Google Calendar account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "lookup",
+        "sheetName": "Due Diligence Tracker",
+        "lookupColumn": "id",
+        "lookupValue": "={{ $json.icRequest.dueDiligenceId }}",
+        "options": {}
+      },
+      "name": "Get Due Diligence Data",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 3,
+      "position": [
+        1120,
+        460
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "2",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "file",
+        "name": "={{ $json.icRequest.companyName + ' - Investment Memo.docx' }}",
+        "folderId": "={{ $json.mainFolderId }}/Presentation Materials",
+        "options": {}
+      },
+      "name": "Create Investment Memo",
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 2,
+      "position": [
+        1340,
+        300
+      ],
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "1",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "fromEmail": "investmentcommittee@vcfirm.com",
+        "toEmail": "={{ $json.icRequest.committeeMembers.join(',') }}",
+        "ccEmail": "={{ $json.icRequest.dealSponsor }}",
+        "subject": "={{ 'Investment Committee Materials: ' + $json.icRequest.companyName }}",
+        "text": "=Dear Investment Committee Members,\n\nThe following materials have been prepared for the upcoming Investment Committee meeting to review {{ $json.icRequest.companyName }}.\n\n**Meeting Details:**\n- Date: {{ new Date($json.icRequest.meetingDate || new Date(Date.now() + 7*24*60*60*1000)).toDateString() }}\n- Time: {{ new Date($json.icRequest.meetingDate || new Date(Date.now() + 7*24*60*60*1000)).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) }}\n- Location: Conference Room A / Virtual Meeting Link in Calendar Invite\n\n**Deal Details:**\n- Deal Sponsor: {{ $json.icRequest.dealSponsor }}\n- Requested Amount: {{ $json.icRequest.requestedAmount }}\n- Valuation: {{ $json.icRequest.valuation }}\n- Industry: {{ $json.icRequest.industry }}\n- Stage: {{ $json.icRequest.stage }}\n\n**Materials:**\n- Investment Memo\n- Due Diligence Report\n- Financial Analysis\n- Market Research\n\nAll materials can be accessed in the shared Google Drive folder. Please review all materials before the meeting and come prepared with any questions.\n\nA voting form will be distributed following the meeting.\n\nBest regards,\nVC Firm Operations",
+        "options": {}
+      },
+      "name": "Send Materials Email",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2,
+      "position": [
+        1340,
+        460
+      ],
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "5",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "triggerTimes": {
+          "item": [
+            {
+              "mode": "everyX",
+              "value": 1,
+              "unit": "days"
+            }
+          ]
+        }
+      },
+      "name": "Daily IC Meeting Check",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1,
+      "position": [
+        240,
+        620
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "lookup",
+        "sheetName": "Investment Committee",
+        "lookupColumn": "status",
+        "lookupValue": "Pending",
+        "options": {}
+      },
+      "name": "Get Pending IC Meetings",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 3,
+      "position": [
+        460,
+        620
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "2",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "functionCode": "// Check for upcoming IC meetings\nconst pendingMeetings = $input.item.json;\n\n// If no pending meetings, return empty\nif (!pendingMeetings) {\n  return { json: { hasMeetingsToday: false } };\n}\n\n// Check if meeting is today\nconst now = new Date();\nconst today = new Date(now.getFullYear(), now.getMonth(), now.getDate());\nconst tomorrow = new Date(today);\ntomorrow.setDate(tomorrow.getDate() + 1);\n\nconst meetingDate = new Date(pendingMeetings.meetingDate);\nconst meetingDay = new Date(meetingDate.getFullYear(), meetingDate.getMonth(), meetingDate.getDate());\n\nconst isMeetingToday = meetingDay >= today && meetingDay < tomorrow;\n\nreturn {\n  json: {\n    ...pendingMeetings,\n    hasMeetingsToday: isMeetingToday,\n    formattedMeetingDate: meetingDate.toLocaleString()\n  }\n};"
+      },
+      "name": "Check for Today's Meetings",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [
+        680,
+        620
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "boolean": [
+            {
+              "value1": "={{ $json.hasMeetingsToday }}",
+              "value2": true
+            }
+          ]
+        }
+      },
+      "name": "Meeting Today?",
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 1,
+      "position": [
+        900,
+        620
+      ]
+    },
+    {
+      "parameters": {
+        "chatId": "investment-committee",
+        "text": "=## Investment Committee Meeting Today\n\n**Company:** {{ $json.companyName }}\n**Time:** {{ new Date($json.meetingDate).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) }}\n**Location:** Conference Room A / Virtual Meeting Link in Calendar\n\n**Deal Sponsor:** {{ $json.dealSponsor }}\n**Requested Amount:** {{ $json.requestedAmount }}\n**Valuation:** {{ $json.valuation }}\n\nPlease ensure all materials have been reviewed before the meeting.",
+        "additionalFields": {}
+      },
+      "name": "Send Meeting Reminder",
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 1,
+      "position": [
+        1120,
+        620
+      ],
+      "credentials": {
+        "slackApi": {
+          "id": "3",
+          "name": "Slack account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "fromEmail": "investmentcommittee@vcfirm.com",
+        "toEmail": "={{ $json.committeeMembers.join(',') }}",
+        "ccEmail": "={{ $json.dealSponsor }}",
+        "subject": "={{ 'REMINDER: Investment Committee Meeting Today - ' + $json.companyName }}",
+        "text": "=Dear Investment Committee Members,\n\nThis is a reminder that the Investment Committee meeting for {{ $json.companyName }} is scheduled for today at {{ new Date($json.meetingDate).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) }}.\n\n**Location:** Conference Room A / Virtual Meeting Link in Calendar\n\nPlease ensure you have reviewed all materials before the meeting.\n\nBest regards,\nVC Firm Operations",
+        "options": {}
+      },
+      "name": "Send Email Reminder",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2,
+      "position": [
+        1340,
+        620
+      ],
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "5",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "triggerTimes": {
+          "item": [
+            {
+              "mode": "everyX",
+              "value": 1,
+              "unit": "hours"
+            }
+          ]
+        }
+      },
+      "name": "Check for Completed Meetings",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1,
+      "position": [
+        240,
+        780
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "lookup",
+        "sheetName": "Investment Committee",
+        "lookupColumn": "status",
+        "lookupValue": "Pending",
+        "options": {}
+      },
+      "name": "Get Pending Decisions",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 3,
+      "position": [
+        460,
+        780
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "2",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "functionCode": "// Check for meetings that have ended and need voting forms\nconst pendingDecisions = $input.item.json;\n\n// If no pending decisions, return empty\nif (!pendingDecisions) {\n  return { json: { needsVotingForm: false } };\n}\n\n// Check if meeting has ended\nconst now = new Date();\nconst meetingDate = new Date(pendingDecisions.meetingDate);\n// Add 2 hours to meeting time to account for meeting duration\nconst meetingEndTime = new Date(meetingDate.getTime() + 2 * 60 * 60 * 1000);\n\nconst hasMeetingEnded = now > meetingEndTime;\n\nreturn {\n  json: {\n    ...pendingDecisions,\n    needsVotingForm: hasMeetingEnded,\n    formattedMeetingDate: meetingDate.toLocaleString()\n  }\n};"
+      },
+      "name": "Check for Ended Meetings",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [
+        680,
+        780
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "boolean": [
+            {
+              "value1": "={{ $json.needsVotingForm }}",
+              "value2": true
+            }
+          ]
+        }
+      },
+      "name": "Needs Voting Form?",
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 1,
+      "position": [
+        900,
+        780
+      ]
+    },
+    {
+      "parameters": {
+        "triggerOn": "form",
+        "formTitle": "={{ 'Investment Committee Vote: ' + $json.companyName }}",
+        "formDescription": "=Please submit your vote for the investment in {{ $json.companyName }}. Your vote is confidential and will be tallied with other committee members' votes.",
+        "formFields": {
+          "values": [
+            {
+              "fieldType": "hidden",
+              "fieldTypeOptions": {},
+              "fieldName": "icRequestId",
+              "fieldValue": "={{ $json.id }}"
+            },
+            {
+              "fieldType": "hidden",
+              "fieldTypeOptions": {},
+              "fieldName": "memberEmail",
+              "fieldValue": "={{ $json.memberEmail }}"
+            },
+            {
+              "fieldType": "options",
+              "fieldTypeOptions": {
+                "required": true,
+                "multipleValues": false
+              },
+              "fieldName": "vote",
+              "fieldTitle": "Your Vote",
+              "fieldOptions": [
+                "Approve",
+                "Reject",
+                "Abstain",
+                "Need More Information"
+              ]
+            },
+            {
+              "fieldType": "textarea",
+              "fieldTypeOptions": {},
+              "fieldName": "comments",
+              "fieldTitle": "Comments"
+            }
+          ]
+        },
+        "formSubmitButtonText": "Submit Vote",
+        "formSuccessResponseBody": "Thank you for submitting your vote. Your input has been recorded.",
+        "options": {}
+      },
+      "name": "Create Voting Form",
+      "type": "n8n-nodes-base.form",
+      "typeVersion": 1,
+      "position": [
+        1120,
+        780
+      ]
+    },
+    {
+      "parameters": {
+        "functionCode": "// Create individual voting forms for each committee member\nconst committeeMembers = $input.item.json.committeeMembers.split(',');\n\n// Create an array of items for each committee member\nconst memberItems = committeeMembers.map(memberEmail => {\n  return {\n    json: {\n      ...$input.item.json,\n      memberEmail\n    }\n  };\n});\n\nreturn memberItems;"
+      },
+      "name": "Prepare Member Forms",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [
+        1120,
+        940
+      ]
+    },
+    {
+      "parameters": {
+        "fromEmail": "investmentcommittee@vcfirm.com",
+        "toEmail": "={{ $json.memberEmail }}",
+        "subject": "={{ 'ACTION REQUIRED: Vote on ' + $json.companyName + ' Investment' }}",
+        "text": "=Dear Investment Committee Member,\n\nThe Investment Committee meeting for {{ $json.companyName }} has concluded, and it's time to cast your vote.\n\n**Deal Details:**\n- Deal Sponsor: {{ $json.dealSponsor }}\n- Requested Amount: {{ $json.requestedAmount }}\n- Valuation: {{ $json.valuation }}\n- Industry: {{ $json.industry }}\n- Stage: {{ $json.stage }}\n\nPlease use the link below to submit your vote:\n{{ $node[\"Create Voting Form\"].url }}\n\nVoting will close in 24 hours. If you have any questions, please contact the deal sponsor directly.\n\nBest regards,\nVC Firm Operations",
+        "options": {}
+      },
+      "name": "Send Voting Form Email",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2,
+      "position": [
+        1340,
+        780
+      ],
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "5",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "vote-submission",
+        "options": {}
+      },
+      "name": "Vote Submission Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [
+        240,
+        1100
+      ],
+      "webhookId": "vote-submission"
+    },
+    {
+      "parameters": {
+        "operation": "lookup",
+        "sheetName": "Investment Committee",
+        "lookupColumn": "id",
+        "lookupValue": "={{ $json.icRequestId }}",
+        "options": {}
+      },
+      "name": "Get IC Request",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 3,
+      "position": [
+        460,
+        1100
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "2",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "functionCode": "// Record vote and check if decision can be made\nconst icRequest = $input.first().json;\nconst voteData = $input.last().json;\n\n// Parse existing votes if any\nlet votes = {};\nif (icRequest.votes && typeof icRequest.votes === 'string') {\n  try {\n    votes = JSON.parse(icRequest.votes);\n  } catch (e) {\n    // If parsing fails, start with empty object\n    votes = {};\n  }\n}\n\n// Add new vote\nvotes[voteData.memberEmail] = {\n  vote: voteData.vote,\n  comments: voteData.comments,\n  timestamp: new Date().toISOString()\n};\n\n// Count votes\nconst voteCount = {\n  Approve: 0,\n  Reject: 0,\n  Abstain: 0,\n  'Need More Information': 0\n};\n\nObject.values(votes).forEach(vote => {\n  if (voteCount[vote.vote] !== undefined) {\n    voteCount[vote.vote]++;\n  }\n});\n\n// Check if we have enough votes to make a decision\nconst committeeMembers = icRequest.committeeMembers.split(',');\nconst totalVotes = Object.keys(votes).length;\nconst quorum = icRequest.quorum || Math.ceil(committeeMembers.length / 2);\n\n// Determine if we have reached a decision\nlet decision = '';\nlet decisionDate = '';\nlet status = 'Pending';\n\nif (totalVotes >= quorum) {\n  // If majority approves, decision is Approved\n  if (voteCount.Approve > committeeMembers.length / 2) {\n    decision = 'Approved';\n    decisionDate = new Date().toISOString();\n    status = 'Approved';\n  }\n  // If majority rejects, decision is Rejected\n  else if (voteCount.Reject > committeeMembers.length / 2) {\n    decision = 'Rejected';\n    decisionDate = new Date().toISOString();\n    status = 'Rejected';\n  }\n  // If majority needs more info, decision is Deferred\n  else if (voteCount['Need More Information'] > committeeMembers.length / 2) {\n    decision = 'Deferred';\n    decisionDate = new Date().toISOString();\n    status = 'Deferred';\n  }\n  // If we have quorum but no majority, check if all votes are in\n  else if (totalVotes === committeeMembers.length) {\n    // If all votes are in and no majority, go with plurality\n    if (voteCount.Approve > voteCount.Reject && voteCount.Approve > voteCount['Need More Information']) {\n      decision = 'Approved';\n      decisionDate = new Date().toISOString();\n      status = 'Approved';\n    } else if (voteCount.Reject > voteCount.Approve && voteCount.Reject > voteCount['Need More Information']) {\n      decision = 'Rejected';\n      decisionDate = new Date().toISOString();\n      status = 'Rejected';\n    } else {\n      decision = 'Deferred';\n      decisionDate = new Date().toISOString();\n      status = 'Deferred';\n    }\n  }\n}\n\n// Update IC request with votes and decision\nconst updatedIcRequest = {\n  ...icRequest,\n  votes: JSON.stringify(votes),\n  voteCount: JSON.stringify(voteCount),\n  totalVotes,\n  decision,\n  decisionDate,\n  status,\n  lastUpdated: new Date().toISOString()\n};\n\nreturn { json: updatedIcRequest };"
+      },
+      "name": "Process Vote",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [
+        680,
+        1100
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "sheetName": "Investment Committee",
+        "columns": "={{ Object.keys($json) }}",
+        "options": {}
+      },
+      "name": "Update IC Record",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 3,
+      "position": [
+        900,
+        1100
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "2",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{ $json.decision }}",
+              "operation": "isNotEmpty"
+            }
+          ]
+        }
+      },
+      "name": "Decision Made?",
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 1,
+      "position": [
+        1120,
+        1100
+      ]
+    },
+    {
+      "parameters": {
+        "chatId": "investment-committee",
+        "text": "=## Investment Committee Decision\n\n**Company:** {{ $json.companyName }}\n**Decision:** {{ $json.decision }}\n**Date:** {{ new Date($json.decisionDate).toLocaleDateString() }}\n\n**Vote Summary:**\n{{ Object.entries(JSON.parse($json.voteCount)).map(([key, value]) => `${key}: ${value}`).join('\\n') }}\n\n**Total Votes:** {{ $json.totalVotes }} of {{ $json.committeeMembers.split(',').length }}\n\nA formal decision memo will be distributed shortly.",
+        "additionalFields": {}
+      },
+      "name": "Send Decision Notification",
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 1,
+      "position": [
+        1340,
+        1100
+      ],
+      "credentials": {
+        "slackApi": {
+          "id": "3",
+          "name": "Slack account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "file",
+        "name": "={{ $json.companyName + ' - Investment Decision.pdf' }}",
+        "folderId": "={{ $json.mainFolderId }}/Decision Documents",
+        "options": {}
+      },
+      "name": "Create Decision Document",
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 2,
+      "position": [
+        1560,
+        1100
+      ],
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "1",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "fromEmail": "investmentcommittee@vcfirm.com",
+        "toEmail": "={{ $json.committeeMembers }}",
+        "ccEmail": "={{ $json.dealSponsor }}",
+        "subject": "={{ 'Investment Committee Decision: ' + $json.companyName }}",
+        "text": "=Dear Investment Committee Members,\n\nThe Investment Committee has reached a decision regarding the investment in {{ $json.companyName }}.\n\n**Decision:** {{ $json.decision }}\n**Date:** {{ new Date($json.decisionDate).toLocaleDateString() }}\n\n**Vote Summary:**\n{{ Object.entries(JSON.parse($json.voteCount)).map(([key, value]) => `${key}: ${value}`).join('\\n') }}\n\n**Total Votes:** {{ $json.totalVotes }} of {{ $json.committeeMembers.split(',').length }}\n\nA formal decision memo has been added to the shared folder. The deal sponsor will proceed with next steps based on this decision.\n\nThank you for your participation in this process.\n\nBest regards,\nVC Firm Operations",
+        "options": {}
+      },
+      "name": "Send Decision Email",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2,
+      "position": [
+        1780,
+        1100
+      ],
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "5",
+          "name": "Gmail account"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Investment Committee Request": {
+      "main": [
+        [
+          {
+            "node": "Initialize IC Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Initialize IC Request": {
+      "main": [
+        [
+          {
+            "node": "Create Main Folder",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Save to IC Tracker",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create Main Folder": {
+      "main": [
+        [
+          {
+            "node": "Prepare Sub Folders",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create Sub Folders": {
+      "main": [
+        [
+          {
+            "node": "Schedule IC Meeting",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Save to IC Tracker": {
+      "main": [
+        [
+          {
+            "node": "Send Slack Notification",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prepare Sub Folders": {
+      "main": [
+        [
+          {
+            "node": "Create Sub Folders",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send Slack Notification": {
+      "main": [
+        [
+          {
+            "node": "Get Due Diligence Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Schedule IC Meeting": {
+      "main": [
+        [
+          {
+            "node": "Create Investment Memo",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Due Diligence Data": {
+      "main": [
+        [
+          {
+            "node": "Send Materials Email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Daily IC Meeting Check": {
+      "main": [
+        [
+          {
+            "node": "Get Pending IC Meetings",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Pending IC Meetings": {
+      "main": [
+        [
+          {
+            "node": "Check for Today's Meetings",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check for Today's Meetings": {
+      "main": [
+        [
+          {
+            "node": "Meeting Today?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Meeting Today?": {
+      "main": [
+        [
+          {
+            "node": "Send Meeting Reminder",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send Meeting Reminder": {
+      "main": [
+        [
+          {
+            "node": "Send Email Reminder",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check for Completed Meetings": {
+      "main": [
+        [
+          {
+            "node": "Get Pending Decisions",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Pending Decisions": {
+      "main": [
+        [
+          {
+            "node": "Check for Ended Meetings",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check for Ended Meetings": {
+      "main": [
+        [
+          {
+            "node": "Needs Voting Form?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Needs Voting Form?": {
+      "main": [
+        [
+          {
+            "node": "Prepare Member Forms",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create Voting Form": {
+      "main": [
+        [
+          {
+            "node": "Send Voting Form Email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prepare Member Forms": {
+      "main": [
+        [
+          {
+            "node": "Create Voting Form",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Vote Submission Webhook": {
+      "main": [
+        [
+          {
+            "node": "Get IC Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get IC Request": {
+      "main": [
+        [
+          {
+            "node": "Process Vote",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Process Vote": {
+      "main": [
+        [
+          {
+            "node": "Update IC Record",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update IC Record": {
+      "main": [
+        [
+          {
+            "node": "Decision Made?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Decision Made?": {
+      "main": [
+        [
+          {
+            "node": "Send Decision Notification",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send Decision Notification": {
+      "main": [
+        [
+          {
+            "node": "Create Decision Document",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create Decision Document": {
+      "main": [
+        [
+          {
+            "node": "Send Decision Email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "saveManualExecutions": true,
+    "callerPolicy": "workflowsFromSameOwner",
+    "errorWorkflow": "",
+    "saveExecutionProgress": true,
+    "saveDataErrorExecution": "all"
+  },
+  "tags": [
+    {
+      "name": "investment committee",
+      "color": "#ff00ff"
+    },
+    {
+      "name": "decision making",
+      "color": "#00ffff"
+    }
+  ],
+  "pinData": {},
+  "versionId": "1",
+  "triggerCount": 4,
+  "staticData": null,
+  "id": "4"
+}

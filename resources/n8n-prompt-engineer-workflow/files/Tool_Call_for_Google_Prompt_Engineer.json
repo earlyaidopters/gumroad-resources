@@ -1,0 +1,182 @@
+{
+  "name": "Tool Call for Google Prompt Engineer",
+  "nodes": [
+    {
+      "parameters": {
+        "inputSource": "passthrough"
+      },
+      "id": "db9c418b-a6c7-4522-b405-af0f0142e3e3",
+      "typeVersion": 1.1,
+      "name": "Workflow Input Trigger",
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "position": [
+        260,
+        340
+      ]
+    },
+    {
+      "parameters": {
+        "agent": "conversationalAgent",
+        "promptType": "define",
+        "text": "={{ $json.query }}",
+        "options": {
+          "systemMessage": "You are an intelligent Prompt Engineer for a wide variety of AI models. Your task is to generate a very refined Prompt specifically for Google Gemini models.\n\nEach time you get an input, you will analyze the job and task the AI model needs to do and create a good prompt for OpenAI so that it will generate the best results when performing the job required.\n\nThe user can also go back and forth with feedback on the generated prompt and refine it further. In that case you will be provided with the previous generated prompt and you will have to refine it further according to the feedback\n\nAdditional Instructions and Best Practices:\n- Define the role, task, and desired output explicitly to eliminate ambiguity.\n- Provide all relevant context succinctly; include only details that directly inform the task.\n- Structure prompts with clear segmentation using bullet points or numbered steps where applicable.\n- For style matching, include 1–3 examples; for code generation, include 1–5 examples; for structured outputs, 1–2 examples are optimal.\n- Optimize prompt length: ensure it is detailed enough for precision yet concise to avoid unnecessary verbosity.\n- Leverage system messages to set clear roles and expectations, and use formatting cues to separate context from queries.\n- Continuously iterate and refine prompts based on user feedback, ensuring each version improves clarity and precision.\n- Avoid redundancy by ensuring every word serves the purpose of guiding the model toward the intended outcome.\""
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.7,
+      "position": [
+        480,
+        340
+      ],
+      "id": "24ecbdd1-3093-4af6-beb7-1f0c08e3ec05",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-2.0-flash",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        400,
+        600
+      ],
+      "id": "74b244be-7cb8-478e-bf12-c91737af51bf",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "OBe43kvkH4bfuXPT",
+          "name": "Prompt Advisers Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "o3-mini",
+          "mode": "id"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "You are to refine the prompt for a Gemini model to ensure it provides clear, concise instructions and includes all necessary context for flawless task execution.",
+              "role": "system"
+            },
+            {
+              "content": "=Here's the prompt generated:\n{{ $json.output }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.8,
+      "position": [
+        840,
+        340
+      ],
+      "id": "4c48c756-ba57-41f7-a730-fde833e2514c",
+      "name": "OpenAI",
+      "credentials": {
+        "openAiApi": {
+          "id": "bBtD8KtcEPsOhElY",
+          "name": "Prompt Advisers OpenAI Account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "a1bb9538-09c4-4736-b79b-fd56898229e4",
+              "name": "Prompt",
+              "value": "={{ $json.message.content }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1200,
+        340
+      ],
+      "id": "dbe403b3-6c4b-4957-b28c-0ccffca0da98",
+      "name": "Edit Fields"
+    }
+  ],
+  "pinData": {
+    "Workflow Input Trigger": [
+      {
+        "json": {
+          "query": "Create a comprehensive action plan based on internal business documents, broken down into a step-by-step process for evaluating and synthesizing the information needed. The action plan should consist of three parts: 1-month, 6-month, and 1-year plans. The steps should include: 1. **Document Skimming**: Analyze key themes, objectives, and priorities from the business documents. 2. **Goal Identification**: Identify major objectives for each time frame based on the skimming process. 3. **Prioritization**: Rank the identified goals in order of urgency and importance to ensure focus on high-impact initiatives. 4. **Strategy Development**: Formulate strategies to achieve each goal, detailing methods and approaches. 5. **Milestones and Timelines**: Set specific milestones for monitoring progress within each timeframe. 6. **Resource Allocation**: Determine resources needed, including personnel, budget, and tools, to support the implementation of the action plan. 7. **Key Performance Indicators (KPIs)**: Establish metrics to track success and measure outcomes for each objective. 8. **Review and Adjust**: Include a process for reviewing the action plan regularly and adjusting it based on progress and changing circumstances. Each section should clearly outline the action steps, responsible parties, and timelines."
+        }
+      }
+    ]
+  },
+  "connections": {
+    "Workflow Input Trigger": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "OpenAI",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "callerPolicy": "any"
+  },
+  "versionId": "554232a5-0e22-4041-8e19-a6d3ce945f4b",
+  "meta": {
+    "templateId": "VMiAxXa3lCAizGB5f7dVZQSFfg3FtHkdTKvLuupqBls=",
+    "templateCredsSetupCompleted": true,
+    "instanceId": "aaadb797535f05587ee95b776c942a7c3f7a46fd7aa0c9b6a9d64e1e595f8af1"
+  },
+  "id": "NvlV0wpPnLABR8Kx",
+  "tags": []
+}

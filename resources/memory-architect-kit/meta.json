@@ -1,0 +1,26 @@
+{
+  "name": "Memory Architect Kit 🧠 ⚡️",
+  "external_id": "AbkZCYPhaCEKri2NTLSFaQ==",
+  "permalink": "yyavoi",
+  "unique_permalink": "yyavoi",
+  "custom_permalink": "claude-memory-architect-kit",
+  "url": "https://markkashef.gumroad.com/l/claude-memory-architect-kit",
+  "status": "published",
+  "archived": false,
+  "kind": "products",
+  "price_formatted": "CAD$0+",
+  "description_md": "# What You Get\nThe /memory-architect Skill: A Claude Code skill that walks you through a guided interview, teaches you 7 memory layers with plain-language analogies, and builds your personalized memory structure. Supports Obsidian, plain markdown, SQLite, Supabase, and more. Comes back as an advisor when you want to evolve your setup.\n16 Excalidraw Diagrams: The full visual narrative from the video. The memory landscape, the fingerprint concept, the infinite game, the 7-layer stack, multi-signal retrieval, the skill flow, session lifecycle, 4 injection approaches, and the concepts glossary (decay, salience, promotion explained visually). Import the .excalidraw canvas file into Obsidian or excalidraw.com.\n## What the Skill Does\n- Asks who you are and how you work\n- Teaches 7 memory layers (identity, context, working memory, long-term knowledge, episodic, decay, promotion) with visual diagrams and plain-language analogies\n- Walks through 6 design decisions with paradigm explanations\n- Recommends Obsidian as the visual layer with backend options underneath\n- Checks your dependencies (Obsidian CLI, SQLite, etc.) before building\n- Creates the full memory structure pre-filled with your interview answers\n- Generates a handoff prompt for hook wiring\n- Comes back as an advisor when you want to add layers, tune decay, or switch backends\n## Who This Is For\nAnyone using Claude Code who wants persistent memory that actually fits how they work. Whether you're a solo developer, a business owner managing multiple projects, a content creator, or running a multi-agent ClaudeClaw setup.\nIf you want to go deeper on memory, learn how to build a personal assistant that actually remembers you, and see how I wire this into my own ClaudeClaw setup, make sure to check out the Early AI Dopters community.\nJoin here: https://www.skool.com/earlyaidopters/about",
+  "files": [
+    {
+      "file": "Concept Walkthroughs.pdf",
+      "status": "cached",
+      "bytes": 9320892
+    },
+    {
+      "file": "SKILL.md",
+      "status": "cached",
+      "bytes": 46068
+    }
+  ],
+  "has_rich_content": true
+}

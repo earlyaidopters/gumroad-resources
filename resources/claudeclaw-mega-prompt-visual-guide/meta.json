@@ -1,0 +1,26 @@
+{
+  "name": "ClaudeClaw - Mega Prompt + Visual Guide 🦞",
+  "external_id": "CS3bVOetY2cnuq5DNT5GHQ==",
+  "permalink": "tcfch",
+  "unique_permalink": "tcfch",
+  "custom_permalink": "claudeclaw",
+  "url": "https://markkashef.gumroad.com/l/claudeclaw",
+  "status": "published",
+  "archived": false,
+  "kind": "products",
+  "price_formatted": "CAD$0+",
+  "description_md": "# What You Get\n1. The Mega Prompt (900 lines)\nPaste it into Claude Code. Answer 4 questions. It builds your entire personal AI assistant — tailored to your preferences, your platform, your features. Nothing you didn't ask for. Everything you did.\n2. Visual Guide PDF (13 pages, landscape)\nEvery concept from the video broken down with hand-drawn diagrams:\n- The bridge architecture (how it works)\n- The 8-stage message pipeline\n- The 3-layer memory system\n- Compliance comparison (why this is safe and OpenClaw isn't)\n- The mega prompt flow\n- Setup in 5 minutes\n- The universal pattern (works with any CLI tool)\nWhat You'll Be Able to Do\n- Talk to your Claude Code from Telegram, Discord, or iMessage\n- Send voice notes, photos, videos, documents — and get intelligent responses\n- Run scheduled tasks (daily briefings, email triage, reminders)\n- Bridge your WhatsApp through the bot\n- Have an AI that remembers your name, your projects, your preferences\n- Use ALL your existing Claude Code skills from your phone\nWho This Is For\n- Claude Code users who want mobile access to their setup\n- Anyone frustrated with OpenClaw's approach (token extraction, dual maintenance)\n- Builders who want one unified AI system, not two separate brains\nHow It Works\nYou already have Claude Code with all your skills, MCP servers, and context. ClaudeClaw adds a thin bridge (~200 lines) using Anthropic's official Agent SDK to connect your phone to your desktop. That's it. No third-party services. No OAuth extraction. No Terms of Service violations.\n---\nWant the full repo? The mega prompt builds you a fresh version. \n## But if you want to clone my exact setup - the one I use daily, with all features and regular updates, join the Early AI Dopters community: \n\nskool.com/earlyaidopters",
+  "files": [
+    {
+      "file": "REBUILD_PROMPT.md",
+      "status": "cached",
+      "bytes": 41670
+    },
+    {
+      "file": "ClaudeClaw_Visual_Guide.pdf",
+      "status": "cached",
+      "bytes": 15335686
+    }
+  ],
+  "has_rich_content": true
+}

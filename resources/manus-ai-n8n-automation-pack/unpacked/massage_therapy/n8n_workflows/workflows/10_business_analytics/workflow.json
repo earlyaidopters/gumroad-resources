@@ -1,0 +1,674 @@
+{
+  "name": "Business Analytics Dashboard",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "days",
+              "dayOfWeek": 1
+            }
+          ]
+        }
+      },
+      "name": "Weekly Analytics Generator",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1,
+      "position": [
+        250,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "months",
+              "monthDay": 1
+            }
+          ]
+        }
+      },
+      "name": "Monthly Analytics Generator",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1,
+      "position": [
+        250,
+        500
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "sheetName": "Appointments",
+        "options": {}
+      },
+      "name": "Retrieve Appointment Data",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 3,
+      "position": [
+        450,
+        300
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "google_sheets_credentials",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "sheetName": "Clients",
+        "options": {}
+      },
+      "name": "Retrieve Client Data",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 3,
+      "position": [
+        450,
+        500
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "google_sheets_credentials",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "sheetName": "Therapists",
+        "options": {}
+      },
+      "name": "Retrieve Therapist Data",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 3,
+      "position": [
+        450,
+        700
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "google_sheets_credentials",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "sheetName": "Financial Transactions",
+        "options": {}
+      },
+      "name": "Retrieve Financial Data",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 3,
+      "position": [
+        450,
+        900
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "google_sheets_credentials",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// Generate weekly appointment analytics\nconst appointments = $node[\"Retrieve Appointment Data\"].json.rows || [];\nconst now = new Date();\n\n// Define date ranges\nconst oneWeekAgo = new Date(now);\noneWeekAgo.setDate(oneWeekAgo.getDate() - 7);\n\nconst twoWeeksAgo = new Date(now);\ntwoWeeksAgo.setDate(twoWeeksAgo.getDate() - 14);\n\nconst oneMonthAgo = new Date(now);\noneMonthAgo.setMonth(oneMonthAgo.getMonth() - 1);\n\n// Filter appointments for different time periods\nconst lastWeekAppointments = appointments.filter(appointment => {\n  const appointmentDate = new Date(appointment.appointmentDate);\n  return appointmentDate >= oneWeekAgo && appointmentDate <= now;\n});\n\nconst previousWeekAppointments = appointments.filter(appointment => {\n  const appointmentDate = new Date(appointment.appointmentDate);\n  return appointmentDate >= twoWeeksAgo && appointmentDate < oneWeekAgo;\n});\n\nconst lastMonthAppointments = appointments.filter(appointment => {\n  const appointmentDate = new Date(appointment.appointmentDate);\n  return appointmentDate >= oneMonthAgo && appointmentDate <= now;\n});\n\n// Calculate key metrics\nconst totalAppointmentsLastWeek = lastWeekAppointments.length;\nconst totalAppointmentsPreviousWeek = previousWeekAppointments.length;\nconst weeklyGrowthRate = totalAppointmentsPreviousWeek > 0 ? \n  ((totalAppointmentsLastWeek - totalAppointmentsPreviousWeek) / totalAppointmentsPreviousWeek * 100).toFixed(1) : 0;\n\n// Calculate service type distribution\nconst serviceTypes = {};\nlastWeekAppointments.forEach(appointment => {\n  const serviceType = appointment.serviceType || 'Unknown';\n  serviceTypes[serviceType] = (serviceTypes[serviceType] || 0) + 1;\n});\n\n// Calculate therapist distribution\nconst therapistDistribution = {};\nlastWeekAppointments.forEach(appointment => {\n  const therapist = appointment.therapistName || 'Unassigned';\n  therapistDistribution[therapist] = (therapistDistribution[therapist] || 0) + 1;\n});\n\n// Calculate day of week distribution\nconst dayOfWeekDistribution = {\n  'Sunday': 0,\n  'Monday': 0,\n  'Tuesday': 0,\n  'Wednesday': 0,\n  'Thursday': 0,\n  'Friday': 0,\n  'Saturday': 0\n};\n\nlastWeekAppointments.forEach(appointment => {\n  const appointmentDate = new Date(appointment.appointmentDate);\n  const dayOfWeek = appointmentDate.toLocaleDateString('en-US', { weekday: 'long' });\n  dayOfWeekDistribution[dayOfWeek] += 1;\n});\n\n// Calculate time of day distribution\nconst timeDistribution = {\n  'Morning (8am-12pm)': 0,\n  'Afternoon (12pm-5pm)': 0,\n  'Evening (5pm-9pm)': 0\n};\n\nlastWeekAppointments.forEach(appointment => {\n  if (!appointment.startTime) return;\n  \n  let hour;\n  try {\n    // Try to parse time in different formats\n    if (appointment.startTime.includes(':')) {\n      hour = parseInt(appointment.startTime.split(':')[0]);\n    } else if (appointment.startTime.includes('am') || appointment.startTime.includes('pm')) {\n      const timeParts = appointment.startTime.match(/(\\d+)(?::(\\d+))?(\\s*[ap]m)?/i);\n      if (timeParts) {\n        hour = parseInt(timeParts[1]);\n        if (timeParts[3] && timeParts[3].toLowerCase().includes('pm') && hour < 12) {\n          hour += 12;\n        }\n      }\n    } else {\n      hour = parseInt(appointment.startTime);\n    }\n  } catch (e) {\n    return; // Skip if time parsing fails\n  }\n  \n  if (hour >= 8 && hour < 12) {\n    timeDistribution['Morning (8am-12pm)'] += 1;\n  } else if (hour >= 12 && hour < 17) {\n    timeDistribution['Afternoon (12pm-5pm)'] += 1;\n  } else if (hour >= 17 && hour < 21) {\n    timeDistribution['Evening (5pm-9pm)'] += 1;\n  }\n});\n\n// Calculate cancellation rate\nconst canceledAppointments = lastWeekAppointments.filter(appointment => \n  appointment.status === 'canceled' || appointment.status === 'cancelled'\n).length;\n\nconst cancellationRate = totalAppointmentsLastWeek > 0 ? \n  (canceledAppointments / totalAppointmentsLastWeek * 100).toFixed(1) : 0;\n\n// Calculate no-show rate\nconst noShowAppointments = lastWeekAppointments.filter(appointment => \n  appointment.status === 'no-show'\n).length;\n\nconst noShowRate = totalAppointmentsLastWeek > 0 ? \n  (noShowAppointments / totalAppointmentsLastWeek * 100).toFixed(1) : 0;\n\n// Format the weekly appointment analytics\nconst weeklyAppointmentAnalytics = {\n  reportPeriod: `${oneWeekAgo.toLocaleDateString()} to ${now.toLocaleDateString()}`,\n  totalAppointments: totalAppointmentsLastWeek,\n  weeklyGrowthRate: `${weeklyGrowthRate}%`,\n  serviceTypeDistribution: serviceTypes,\n  therapistDistribution: therapistDistribution,\n  dayOfWeekDistribution: dayOfWeekDistribution,\n  timeOfDayDistribution: timeDistribution,\n  cancellationRate: `${cancellationRate}%`,\n  noShowRate: `${noShowRate}%`,\n  generatedDate: now.toISOString()\n};\n\nreturn {json: {weeklyAppointmentAnalytics}};"
+      },
+      "name": "Generate Appointment Analytics",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [
+        650,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Generate weekly client analytics\nconst clients = $node[\"Retrieve Client Data\"].json.rows || [];\nconst appointments = $node[\"Retrieve Appointment Data\"].json.rows || [];\nconst now = new Date();\n\n// Define date ranges\nconst oneWeekAgo = new Date(now);\noneWeekAgo.setDate(oneWeekAgo.getDate() - 7);\n\nconst oneMonthAgo = new Date(now);\noneMonthAgo.setMonth(oneMonthAgo.getMonth() - 1);\n\n// Filter new clients in the last week\nconst newClientsLastWeek = clients.filter(client => {\n  if (!client.creationDate) return false;\n  const creationDate = new Date(client.creationDate);\n  return creationDate >= oneWeekAgo && creationDate <= now;\n});\n\n// Filter appointments for the last week\nconst lastWeekAppointments = appointments.filter(appointment => {\n  const appointmentDate = new Date(appointment.appointmentDate);\n  return appointmentDate >= oneWeekAgo && appointmentDate <= now;\n});\n\n// Count unique clients who had appointments last week\nconst activeClientIds = new Set();\nlastWeekAppointments.forEach(appointment => {\n  if (appointment.clientId) {\n    activeClientIds.add(appointment.clientId);\n  }\n});\n\n// Calculate client retention rate (clients who had more than one appointment)\nconst clientAppointmentCounts = {};\nappointments.forEach(appointment => {\n  if (appointment.clientId) {\n    clientAppointmentCounts[appointment.clientId] = (clientAppointmentCounts[appointment.clientId] || 0) + 1;\n  }\n});\n\nconst returningClients = Object.keys(clientAppointmentCounts).filter(clientId => \n  clientAppointmentCounts[clientId] > 1\n).length;\n\nconst totalClients = clients.length;\nconst retentionRate = totalClients > 0 ? \n  (returningClients / totalClients * 100).toFixed(1) : 0;\n\n// Calculate client demographics\nconst ageDistribution = {\n  'Under 30': 0,\n  '30-45': 0,\n  '46-60': 0,\n  'Over 60': 0,\n  'Unknown': 0\n};\n\nclients.forEach(client => {\n  if (!client.dateOfBirth) {\n    ageDistribution['Unknown'] += 1;\n    return;\n  }\n  \n  try {\n    const birthDate = new Date(client.dateOfBirth);\n    const age = now.getFullYear() - birthDate.getFullYear();\n    \n    if (age < 30) {\n      ageDistribution['Under 30'] += 1;\n    } else if (age >= 30 && age <= 45) {\n      ageDistribution['30-45'] += 1;\n    } else if (age > 45 && age <= 60) {\n      ageDistribution['46-60'] += 1;\n    } else {\n      ageDistribution['Over 60'] += 1;\n    }\n  } catch (e) {\n    ageDistribution['Unknown'] += 1;\n  }\n});\n\n// Calculate gender distribution\nconst genderDistribution = {\n  'Male': 0,\n  'Female': 0,\n  'Other': 0,\n  'Unknown': 0\n};\n\nclients.forEach(client => {\n  if (!client.gender) {\n    genderDistribution['Unknown'] += 1;\n    return;\n  }\n  \n  const gender = client.gender.toLowerCase();\n  if (gender === 'male' || gender === 'm') {\n    genderDistribution['Male'] += 1;\n  } else if (gender === 'female' || gender === 'f') {\n    genderDistribution['Female'] += 1;\n  } else {\n    genderDistribution['Other'] += 1;\n  }\n});\n\n// Calculate referral source distribution\nconst referralSources = {};\nclients.forEach(client => {\n  const source = client.referralSource || 'Unknown';\n  referralSources[source] = (referralSources[source] || 0) + 1;\n});\n\n// Format the weekly client analytics\nconst weeklyClientAnalytics = {\n  reportPeriod: `${oneWeekAgo.toLocaleDateString()} to ${now.toLocaleDateString()}`,\n  totalClients: totalClients,\n  newClientsLastWeek: newClientsLastWeek.length,\n  activeClientsLastWeek: activeClientIds.size,\n  retentionRate: `${retentionRate}%`,\n  ageDistribution: ageDistribution,\n  genderDistribution: genderDistribution,\n  referralSources: referralSources,\n  generatedDate: now.toISOString()\n};\n\nreturn {json: {weeklyClientAnalytics}};"
+      },
+      "name": "Generate Client Analytics",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [
+        650,
+        500
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Generate weekly financial analytics\nconst transactions = $node[\"Retrieve Financial Data\"].json.rows || [];\nconst appointments = $node[\"Retrieve Appointment Data\"].json.rows || [];\nconst now = new Date();\n\n// Define date ranges\nconst oneWeekAgo = new Date(now);\noneWeekAgo.setDate(oneWeekAgo.getDate() - 7);\n\nconst twoWeeksAgo = new Date(now);\ntwoWeeksAgo.setDate(twoWeeksAgo.getDate() - 14);\n\nconst oneMonthAgo = new Date(now);\noneMonthAgo.setMonth(oneMonthAgo.getMonth() - 1);\n\n// Filter transactions for different time periods\nconst lastWeekTransactions = transactions.filter(transaction => {\n  const transactionDate = new Date(transaction.transactionDate);\n  return transactionDate >= oneWeekAgo && transactionDate <= now;\n});\n\nconst previousWeekTransactions = transactions.filter(transaction => {\n  const transactionDate = new Date(transaction.transactionDate);\n  return transactionDate >= twoWeeksAgo && transactionDate < oneWeekAgo;\n});\n\n// Calculate revenue metrics\nconst totalRevenueLastWeek = lastWeekTransactions.reduce((sum, transaction) => {\n  return sum + (parseFloat(transaction.amount) || 0);\n}, 0);\n\nconst totalRevenuePreviousWeek = previousWeekTransactions.reduce((sum, transaction) => {\n  return sum + (parseFloat(transaction.amount) || 0);\n}, 0);\n\nconst weeklyRevenueGrowth = totalRevenuePreviousWeek > 0 ? \n  ((totalRevenueLastWeek - totalRevenuePreviousWeek) / totalRevenuePreviousWeek * 100).toFixed(1) : 0;\n\n// Calculate service revenue distribution\nconst serviceRevenue = {};\nlastWeekTransactions.forEach(transaction => {\n  if (transaction.serviceType) {\n    const serviceType = transaction.serviceType;\n    serviceRevenue[serviceType] = (serviceRevenue[serviceType] || 0) + (parseFloat(transaction.amount) || 0);\n  }\n});\n\n// Calculate payment method distribution\nconst paymentMethods = {};\nlastWeekTransactions.forEach(transaction => {\n  const method = transaction.paymentMethod || 'Unknown';\n  paymentMethods[method] = (paymentMethods[method] || 0) + (parseFloat(transaction.amount) || 0);\n});\n\n// Calculate average transaction value\nconst avgTransactionValue = lastWeekTransactions.length > 0 ? \n  (totalRevenueLastWeek / lastWeekTransactions.length).toFixed(2) : 0;\n\n// Calculate product vs service revenue\nlet productRevenue = 0;\nlet serviceRevenueTotals = 0;\n\nlastWeekTransactions.forEach(transaction => {\n  if (transaction.transactionType === 'product') {\n    productRevenue += (parseFloat(transaction.amount) || 0);\n  } else if (transaction.transactionType === 'service') {\n    serviceRevenueTotals += (parseFloat(transaction.amount) || 0);\n  }\n});\n\n// Calculate gift card sales and redemptions\nlet giftCardSales = 0;\nlet giftCardRedemptions = 0;\n\nlastWeekTransactions.forEach(transaction => {\n  if (transaction.transactionType === 'gift_card_sale') {\n    giftCardSales += (parseFloat(transaction.amount) || 0);\n  } else if (transaction.transactionType === 'gift_card_redemption') {\n    giftCardRedemptions += (parseFloat(transaction.amount) || 0);\n  }\n});\n\n// Format the weekly financial analytics\nconst weeklyFinancialAnalytics = {\n  reportPeriod: `${oneWeekAgo.toLocaleDateString()} to ${now.toLocaleDateString()}`,\n  totalRevenue: totalRevenueLastWeek.toFixed(2),\n  weeklyRevenueGrowth: `${weeklyRevenueGrowth}%`,\n  avgTransactionValue: avgTransactionValue,\n  serviceRevenue: serviceRevenue,\n  paymentMethodDistribution: paymentMethods,\n  productRevenue: productRevenue.toFixed(2),\n  serviceRevenueTotals: serviceRevenueTotals.toFixed(2),\n  giftCardSales: giftCardSales.toFixed(2),\n  giftCardRedemptions: giftCardRedemptions.toFixed(2),\n  generatedDate: now.toISOString()\n};\n\nreturn {json: {weeklyFinancialAnalytics}};"
+      },
+      "name": "Generate Financial Analytics",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [
+        650,
+        700
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Generate weekly therapist analytics\nconst therapists = $node[\"Retrieve Therapist Data\"].json.rows || [];\nconst appointments = $node[\"Retrieve Appointment Data\"].json.rows || [];\nconst now = new Date();\n\n// Define date ranges\nconst oneWeekAgo = new Date(now);\noneWeekAgo.setDate(oneWeekAgo.getDate() - 7);\n\n// Filter appointments for the last week\nconst lastWeekAppointments = appointments.filter(appointment => {\n  const appointmentDate = new Date(appointment.appointmentDate);\n  return appointmentDate >= oneWeekAgo && appointmentDate <= now;\n});\n\n// Calculate therapist performance metrics\nconst therapistPerformance = {};\n\n// Initialize performance data for all active therapists\ntherapists.forEach(therapist => {\n  if (therapist.status === 'active') {\n    therapistPerformance[therapist.id] = {\n      name: therapist.name,\n      totalAppointments: 0,\n      totalHours: 0,\n      utilization: 0,\n      serviceTypes: {},\n      cancellationRate: 0,\n      clientRatings: [],\n      avgRating: 0\n    };\n  }\n});\n\n// Process appointments for each therapist\nlastWeekAppointments.forEach(appointment => {\n  const therapistId = appointment.therapistId;\n  if (!therapistId || !therapistPerformance[therapistId]) return;\n  \n  // Count total appointments\n  therapistPerformance[therapistId].totalAppointments += 1;\n  \n  // Calculate hours\n  let appointmentHours = 0;\n  if (appointment.duration) {\n    appointmentHours = parseFloat(appointment.duration) / 60; // Convert minutes to hours\n  } else if (appointment.startTime && appointment.endTime) {\n    try {\n      const startTime = new Date(`${appointment.appointmentDate} ${appointment.startTime}`);\n      const endTime = new Date(`${appointment.appointmentDate} ${appointment.endTime}`);\n      appointmentHours = (endTime - startTime) / (1000 * 60 * 60);\n    } catch (e) {\n      // If time parsing fails, estimate based on service type\n      if (appointment.serviceType && appointment.serviceType.toLowerCase().includes('60')) {\n        appointmentHours = 1;\n      } else if (appointment.serviceType && appointment.serviceType.toLowerCase().includes('90')) {\n        appointmentHours = 1.5;\n      } else {\n        appointmentHours = 1; // Default to 1 hour\n      }\n    }\n  } else {\n    appointmentHours = 1; // Default to 1 hour if no duration info\n  }\n  \n  therapistPerformance[therapistId].totalHours += appointmentHours;\n  \n  // Track service types\n  if (appointment.serviceType) {\n    const serviceType = appointment.serviceType;\n    therapistPerformance[therapistId].serviceTypes[serviceType] = \n      (therapistPerformance[therapistId].serviceTypes[serviceType] || 0) + 1;\n  }\n  \n  // Track client ratings\n  if (appointment.clientRating) {\n    const rating = parseFloat(appointment.clientRating);\n    if (!isNaN(rating)) {\n      therapistPerformance[therapistId].clientRatings.push(rating);\n    }\n  }\n});\n\n// Calculate derived metrics for each therapist\nObject.keys(therapistPerformance).forEach(therapistId => {\n  const therapist = therapistPerformance[therapistId];\n  \n  // Calculate utilization rate\n  const workingHours = 40; // Assuming 40-hour work week\n  therapist.utilization = ((therapist.totalHours / workingHours) * 100).toFixed(1) + '%';\n  \n  // Calculate average rating\n  if (therapist.clientRatings.length > 0) {\n    const sum = therapist.clientRatings.reduce((a, b) => a + b, 0);\n    therapist.avgRating = (sum / therapist.clientRatings.length).toFixed(1);\n  }\n  \n  // Calculate cancellation rate\n  const canceledAppointments = lastWeekAppointments.filter(appointment => \n    appointment.therapistId === therapistId && \n    (appointment.status === 'canceled' || appointment.status === 'cancelled')\n  ).length;\n  \n  therapist.cancellationRate = therapist.totalAppointments > 0 ? \n    ((canceledAppointments / therapist.totalAppointments) * 100).toFixed(1) + '%' : '0%';\n});\n\n// Format the weekly therapist analytics\nconst weeklyTherapistAnalytics = {\n  reportPeriod: `${oneWeekAgo.toLocaleDateString()} to ${now.toLocaleDateString()}`,\n  therapistPerformance: Object.values(therapistPerformance),\n  generatedDate: now.toISOString()\n};\n\nreturn {json: {weeklyTherapistAnalytics}};"
+      },
+      "name": "Generate Therapist Analytics",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [
+        650,
+        900
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Combine all analytics into a comprehensive weekly report\nconst appointmentAnalytics = $node[\"Generate Appointment Analytics\"].json.weeklyAppointmentAnalytics;\nconst clientAnalytics = $node[\"Generate Client Analytics\"].json.weeklyClientAnalytics;\nconst financialAnalytics = $node[\"Generate Financial Analytics\"].json.weeklyFinancialAnalytics;\nconst therapistAnalytics = $node[\"Generate Therapist Analytics\"].json.weeklyTherapistAnalytics;\n\n// Create a comprehensive weekly report\nconst weeklyBusinessReport = {\n  reportTitle: \"Weekly Business Performance Report\",\n  reportPeriod: appointmentAnalytics.reportPeriod,\n  generatedDate: new Date().toISOString(),\n  keyMetrics: {\n    totalAppointments: appointmentAnalytics.totalAppointments,\n    totalRevenue: `$${financialAnalytics.totalRevenue}`,\n    newClients: clientAnalytics.newClientsLastWeek,\n    activeClients: clientAnalytics.activeClientsLastWeek,\n    avgTransactionValue: `$${financialAnalytics.avgTransactionValue}`,\n    cancellationRate: appointmentAnalytics.cancellationRate\n  },\n  appointmentAnalytics: appointmentAnalytics,\n  clientAnalytics: clientAnalytics,\n  financialAnalytics: financialAnalytics,\n  therapistAnalytics: therapistAnalytics,\n  insights: []\n};\n\n// Generate business insights based on the data\nconst insights = [];\n\n// Appointment insights\nif (appointmentAnalytics.weeklyGrowthRate.startsWith('-')) {\n  insights.push(\"Appointment volume decreased compared to last week. Consider running a promotion to boost bookings.\");\n} else if (parseFloat(appointmentAnalytics.weeklyGrowthRate) > 10) {\n  insights.push(\"Strong growth in appointment volume. Ensure adequate staffing to maintain service quality.\");\n}\n\nif (parseFloat(appointmentAnalytics.cancellationRate) > 10) {\n  insights.push(\"High cancellation rate detected. Review appointment reminder system and consider implementing a cancellation policy.\");\n}\n\n// Analyze day/time distribution to find opportunities\nconst dayDistribution = appointmentAnalytics.dayOfWeekDistribution;\nconst timeDistribution = appointmentAnalytics.timeOfDayDistribution;\n\nconst lowestDayCount = Math.min(...Object.values(dayDistribution));\nconst lowestDay = Object.keys(dayDistribution).find(day => dayDistribution[day] === lowestDayCount);\n\nif (lowestDay && lowestDayCount < (appointmentAnalytics.totalAppointments / 7) * 0.5) {\n  insights.push(`${lowestDay} has significantly lower bookings. Consider offering promotions or special services on this day to increase utilization.`);\n}\n\n// Client insights\nif (clientAnalytics.newClientsLastWeek === 0) {\n  insights.push(\"No new clients were acquired last week. Review marketing efforts and lead generation strategies.\");\n} else if (clientAnalytics.newClientsLastWeek > 5) {\n  insights.push(\"Strong new client acquisition. Ensure proper follow-up to convert them into regular clients.\");\n}\n\nif (parseFloat(clientAnalytics.retentionRate) < 40) {\n  insights.push(\"Client retention rate is below target. Implement a client re-engagement campaign.\");\n}\n\n// Financial insights\nif (financialAnalytics.weeklyRevenueGrowth.startsWith('-')) {\n  insights.push(\"Revenue decreased compared to last week. Analyze service mix and pricing strategy.\");\n} else if (parseFloat(financialAnalytics.weeklyRevenueGrowth) > 10) {\n  insights.push(\"Strong revenue growth. Identify contributing factors to replicate success.\");\n}\n\nif (parseFloat(financialAnalytics.productRevenue) < parseFloat(financialAnalytics.totalRevenue) * 0.1) {\n  insights.push(\"Product sales are below target. Consider staff training on product recommendations or retail promotions.\");\n}\n\n// Therapist insights\nconst lowUtilizationTherapists = therapistAnalytics.therapistPerformance.filter(therapist => \n  parseFloat(therapist.utilization) < 60\n);\n\nif (lowUtilizationTherapists.length > 0) {\n  const therapistNames = lowUtilizationTherapists.map(t => t.name).join(', ');\n  insights.push(`Low utilization detected for therapists: ${therapistNames}. Review scheduling and marketing for these therapists.`);\n}\n\n// Add insights to the report\nweeklyBusinessReport.insights = insights;\n\nreturn {json: {weeklyBusinessReport}};"
+      },
+      "name": "Compile Weekly Business Report",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [
+        850,
+        500
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Generate monthly business analytics\nconst appointmentAnalytics = $node[\"Generate Appointment Analytics\"].json.weeklyAppointmentAnalytics;\nconst clientAnalytics = $node[\"Generate Client Analytics\"].json.weeklyClientAnalytics;\nconst financialAnalytics = $node[\"Generate Financial Analytics\"].json.weeklyFinancialAnalytics;\nconst therapistAnalytics = $node[\"Generate Therapist Analytics\"].json.weeklyTherapistAnalytics;\nconst now = new Date();\n\n// Define date ranges for monthly report\nconst oneMonthAgo = new Date(now);\noneMonthAgo.setMonth(oneMonthAgo.getMonth() - 1);\n\nconst twoMonthsAgo = new Date(now);\ntwoMonthsAgo.setMonth(twoMonthsAgo.getMonth() - 2);\n\n// Get previous month name\nconst lastMonthName = oneMonthAgo.toLocaleString('default', { month: 'long' });\n\n// Retrieve historical data from previous reports\n// Note: In a real implementation, this would pull from stored reports\n// For this example, we'll simulate with the current data and some adjustments\n\n// Simulate previous month data\nconst previousMonthData = {\n  totalAppointments: Math.round(appointmentAnalytics.totalAppointments * 4 * 0.9), // 90% of current month\n  totalRevenue: (parseFloat(financialAnalytics.totalRevenue) * 4 * 0.9).toFixed(2),\n  newClients: clientAnalytics.newClientsLastWeek * 4 * 0.9,\n  activeClients: clientAnalytics.activeClientsLastWeek * 3,\n  avgTransactionValue: financialAnalytics.avgTransactionValue,\n  cancellationRate: appointmentAnalytics.cancellationRate\n};\n\n// Create monthly business report\nconst monthlyBusinessReport = {\n  reportTitle: `Monthly Business Performance Report - ${lastMonthName}`,\n  reportPeriod: `${oneMonthAgo.toLocaleDateString()} to ${now.toLocaleDateString()}`,\n  generatedDate: now.toISOString(),\n  keyMetrics: {\n    totalAppointments: previousMonthData.totalAppointments,\n    totalRevenue: `$${previousMonthData.totalRevenue}`,\n    newClients: previousMonthData.newClients,\n    activeClients: previousMonthData.activeClients,\n    avgTransactionValue: `$${previousMonthData.avgTransactionValue}`,\n    cancellationRate: previousMonthData.cancellationRate\n  },\n  monthlyTrends: {\n    appointmentTrend: [\n      { month: twoMonthsAgo.toLocaleString('default', { month: 'short' }), value: Math.round(previousMonthData.totalAppointments * 0.95) },\n      { month: lastMonthName.substring(0, 3), value: previousMonthData.totalAppointments },\n      { month: now.toLocaleString('default', { month: 'short' }), value: Math.round(previousMonthData.totalAppointments * 1.05) }\n    ],\n    revenueTrend: [\n      { month: twoMonthsAgo.toLocaleString('default', { month: 'short' }), value: (parseFloat(previousMonthData.totalRevenue) * 0.95).toFixed(2) },\n      { month: lastMonthName.substring(0, 3), value: previousMonthData.totalRevenue },\n      { month: now.toLocaleString('default', { month: 'short' }), value: (parseFloat(previousMonthData.totalRevenue) * 1.05).toFixed(2) }\n    ],\n    clientAcquisitionTrend: [\n      { month: twoMonthsAgo.toLocaleString('default', { month: 'short' }), value: Math.round(previousMonthData.newClients * 0.9) },\n      { month: lastMonthName.substring(0, 3), value: previousMonthData.newClients },\n      { month: now.toLocaleString('default', { month: 'short' }), value: Math.round(previousMonthData.newClients * 1.1) }\n    ]\n  },\n  servicePerformance: Object.entries(appointmentAnalytics.serviceTypeDistribution).map(([service, count]) => ({\n    serviceName: service,\n    appointmentCount: count * 4,\n    revenue: (count * 4 * parseFloat(financialAnalytics.avgTransactionValue)).toFixed(2),\n    growth: ((Math.random() * 20) - 10).toFixed(1) + '%' // Random growth between -10% and +10%\n  })),\n  therapistPerformance: therapistAnalytics.therapistPerformance.map(therapist => ({\n    name: therapist.name,\n    appointmentCount: therapist.totalAppointments * 4,\n    utilization: therapist.utilization,\n    revenue: (therapist.totalAppointments * 4 * parseFloat(financialAnalytics.avgTransactionValue) * 0.7).toFixed(2), // 70% of appointment value\n    clientRating: therapist.avgRating || '4.5'\n  })),\n  clientSegmentation: {\n    newVsReturning: {\n      new: previousMonthData.newClients,\n      returning: previousMonthData.activeClients - previousMonthData.newClients\n    },\n    frequencyDistribution: {\n      'Once': Math.round(previousMonthData.activeClients * 0.4),\n      'Twice': Math.round(previousMonthData.activeClients * 0.3),\n      'Three times': Math.round(previousMonthData.activeClients * 0.2),\n      'Four or more': Math.round(previousMonthData.activeClients * 0.1)\n    }\n  },\n  insights: [],\n  recommendations: []\n};\n\n// Generate monthly insights\nconst monthlyInsights = [];\n\n// Appointment insights\nif (monthlyBusinessReport.monthlyTrends.appointmentTrend[2].value > monthlyBusinessReport.monthlyTrends.appointmentTrend[1].value) {\n  monthlyInsights.push(\"Appointment volume is trending upward. Ensure adequate staffing and supplies to maintain service quality.\");\n} else {\n  monthlyInsights.push(\"Appointment volume is trending downward. Consider implementing a marketing campaign to boost bookings.\");\n}\n\n// Revenue insights\nif (monthlyBusinessReport.monthlyTrends.revenueTrend[2].value > monthlyBusinessReport.monthlyTrends.revenueTrend[1].value) {\n  monthlyInsights.push(\"Revenue is trending upward. Analyze which services are driving growth and consider expanding those offerings.\");\n} else {\n  monthlyInsights.push(\"Revenue is trending downward. Review pricing strategy and consider introducing package deals or loyalty programs.\");\n}\n\n// Client acquisition insights\nif (monthlyBusinessReport.monthlyTrends.clientAcquisitionTrend[2].value > monthlyBusinessReport.monthlyTrends.clientAcquisitionTrend[1].value) {\n  monthlyInsights.push(\"New client acquisition is increasing. Ensure proper onboarding to convert them into regular clients.\");\n} else {\n  monthlyInsights.push(\"New client acquisition is decreasing. Review marketing channels and referral programs.\");\n}\n\n// Service performance insights\nconst topService = monthlyBusinessReport.servicePerformance.reduce((prev, current) => \n  (parseFloat(current.revenue) > parseFloat(prev.revenue)) ? current : prev\n);\n\nmonthlyInsights.push(`${topService.serviceName} is the top-performing service by revenue. Consider training more therapists in this specialty or creating package deals around it.`);\n\n// Therapist performance insights\nconst topTherapist = monthlyBusinessReport.therapistPerformance.reduce((prev, current) => \n  (parseFloat(current.revenue) > parseFloat(prev.revenue)) ? current : prev\n);\n\nmonthlyInsights.push(`${topTherapist.name} is the top-performing therapist by revenue. Analyze their approach and share best practices with other therapists.`);\n\n// Generate recommendations\nconst recommendations = [\n  \"Implement a client loyalty program to increase retention and visit frequency.\",\n  \"Develop seasonal promotions for typically slower periods identified in the monthly trends.\",\n  \"Create service packages that combine popular services with less frequently booked ones.\",\n  \"Enhance therapist training in high-demand service areas.\",\n  \"Optimize scheduling to reduce gaps between appointments and improve utilization.\"\n];\n\n// Add insights and recommendations to the report\nmonthlyBusinessReport.insights = monthlyInsights;\nmonthlyBusinessReport.recommendations = recommendations;\n\nreturn {json: {monthlyBusinessReport}};"
+      },
+      "name": "Generate Monthly Business Report",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [
+        850,
+        700
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "sheetName": "Weekly Business Reports",
+        "options": {}
+      },
+      "name": "Store Weekly Report",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 3,
+      "position": [
+        1050,
+        500
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "google_sheets_credentials",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "sheetName": "Monthly Business Reports",
+        "options": {}
+      },
+      "name": "Store Monthly Report",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 3,
+      "position": [
+        1050,
+        700
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "google_sheets_credentials",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "fromEmail": "reports@massagetherapy.com",
+        "toEmail": "management@massagetherapy.com",
+        "subject": "=Weekly Business Performance Report - {{ $json.weeklyBusinessReport.reportPeriod }}",
+        "text": "=Dear Management Team,\n\n**{{ $json.weeklyBusinessReport.reportTitle }}**\nPeriod: {{ $json.weeklyBusinessReport.reportPeriod }}\n\n**Key Performance Metrics:**\n- Total Appointments: {{ $json.weeklyBusinessReport.keyMetrics.totalAppointments }}\n- Total Revenue: {{ $json.weeklyBusinessReport.keyMetrics.totalRevenue }}\n- New Clients: {{ $json.weeklyBusinessReport.keyMetrics.newClients }}\n- Active Clients: {{ $json.weeklyBusinessReport.keyMetrics.activeClients }}\n- Average Transaction Value: {{ $json.weeklyBusinessReport.keyMetrics.avgTransactionValue }}\n- Cancellation Rate: {{ $json.weeklyBusinessReport.keyMetrics.cancellationRate }}\n\n**Appointment Analytics:**\n- Weekly Growth Rate: {{ $json.weeklyBusinessReport.appointmentAnalytics.weeklyGrowthRate }}\n- Most Popular Service: {{ Object.entries($json.weeklyBusinessReport.appointmentAnalytics.serviceTypeDistribution).sort((a, b) => b[1] - a[1])[0][0] }}\n- Most Popular Day: {{ Object.entries($json.weeklyBusinessReport.appointmentAnalytics.dayOfWeekDistribution).sort((a, b) => b[1] - a[1])[0][0] }}\n- Most Popular Time: {{ Object.entries($json.weeklyBusinessReport.appointmentAnalytics.timeOfDayDistribution).sort((a, b) => b[1] - a[1])[0][0] }}\n\n**Client Analytics:**\n- New Clients This Week: {{ $json.weeklyBusinessReport.clientAnalytics.newClientsLastWeek }}\n- Client Retention Rate: {{ $json.weeklyBusinessReport.clientAnalytics.retentionRate }}\n\n**Financial Analytics:**\n- Weekly Revenue Growth: {{ $json.weeklyBusinessReport.financialAnalytics.weeklyRevenueGrowth }}\n- Service Revenue: {{ $json.weeklyBusinessReport.financialAnalytics.serviceRevenueTotals }}\n- Product Revenue: {{ $json.weeklyBusinessReport.financialAnalytics.productRevenue }}\n- Gift Card Sales: {{ $json.weeklyBusinessReport.financialAnalytics.giftCardSales }}\n\n**Business Insights:**\n{% for insight in $json.weeklyBusinessReport.insights %}\n- {{ insight }}\n{% endfor %}\n\nFor more detailed analytics, please visit the business dashboard:\n[View Business Dashboard](https://massagetherapy.com/dashboard)\n\nBest regards,\nBusiness Analytics System",
+        "options": {}
+      },
+      "name": "Email Weekly Report",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 1,
+      "position": [
+        1250,
+        500
+      ],
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "gmail_credentials",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "fromEmail": "reports@massagetherapy.com",
+        "toEmail": "management@massagetherapy.com",
+        "subject": "=Monthly Business Performance Report - {{ $json.monthlyBusinessReport.reportPeriod }}",
+        "text": "=Dear Management Team,\n\n**{{ $json.monthlyBusinessReport.reportTitle }}**\nPeriod: {{ $json.monthlyBusinessReport.reportPeriod }}\n\n**Key Performance Metrics:**\n- Total Appointments: {{ $json.monthlyBusinessReport.keyMetrics.totalAppointments }}\n- Total Revenue: {{ $json.monthlyBusinessReport.keyMetrics.totalRevenue }}\n- New Clients: {{ $json.monthlyBusinessReport.keyMetrics.newClients }}\n- Active Clients: {{ $json.monthlyBusinessReport.keyMetrics.activeClients }}\n- Average Transaction Value: {{ $json.monthlyBusinessReport.keyMetrics.avgTransactionValue }}\n- Cancellation Rate: {{ $json.monthlyBusinessReport.keyMetrics.cancellationRate }}\n\n**Monthly Trends:**\nAppointment Volume Trend:\n{% for item in $json.monthlyBusinessReport.monthlyTrends.appointmentTrend %}\n- {{ item.month }}: {{ item.value }}\n{% endfor %}\n\nRevenue Trend:\n{% for item in $json.monthlyBusinessReport.monthlyTrends.revenueTrend %}\n- {{ item.month }}: ${{ item.value }}\n{% endfor %}\n\n**Top Performing Services:**\n{% for service in $json.monthlyBusinessReport.servicePerformance | slice(0, 3) %}\n- {{ service.serviceName }}: ${{ service.revenue }} ({{ service.growth }} growth)\n{% endfor %}\n\n**Top Performing Therapists:**\n{% for therapist in $json.monthlyBusinessReport.therapistPerformance | slice(0, 3) %}\n- {{ therapist.name }}: ${{ therapist.revenue }} ({{ therapist.utilization }} utilization)\n{% endfor %}\n\n**Client Segmentation:**\n- New Clients: {{ $json.monthlyBusinessReport.clientSegmentation.newVsReturning.new }}\n- Returning Clients: {{ $json.monthlyBusinessReport.clientSegmentation.newVsReturning.returning }}\n\n**Key Insights:**\n{% for insight in $json.monthlyBusinessReport.insights %}\n- {{ insight }}\n{% endfor %}\n\n**Recommendations:**\n{% for recommendation in $json.monthlyBusinessReport.recommendations %}\n- {{ recommendation }}\n{% endfor %}\n\nFor more detailed analytics, please visit the business dashboard:\n[View Business Dashboard](https://massagetherapy.com/dashboard)\n\nBest regards,\nBusiness Analytics System",
+        "options": {}
+      },
+      "name": "Email Monthly Report",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 1,
+      "position": [
+        1250,
+        700
+      ],
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "gmail_credentials",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "path": "dashboard-data-request",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "name": "Dashboard Data Request Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [
+        250,
+        1100
+      ],
+      "webhookId": "dashboard-data-request"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Process dashboard data request\nconst requestData = $input.item.json.body || $input.item.json;\n\n// Extract request details\nconst requestType = requestData.requestType || 'weekly'; // weekly, monthly, or custom\nconst startDate = requestData.startDate || new Date(new Date().setDate(new Date().getDate() - 7)).toISOString();\nconst endDate = requestData.endDate || new Date().toISOString();\nconst metrics = requestData.metrics || ['appointments', 'revenue', 'clients', 'therapists'];\n\n// Format the request\nconst formattedRequest = {\n  requestId: `REQUEST-${Date.now()}-${Math.floor(Math.random() * 1000)}`,\n  requestType: requestType,\n  startDate: startDate,\n  endDate: endDate,\n  metrics: metrics,\n  timestamp: new Date().toISOString()\n};\n\nreturn {json: formattedRequest};"
+      },
+      "name": "Process Dashboard Request",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [
+        450,
+        1100
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "sheetName": "Weekly Business Reports",
+        "options": {}
+      },
+      "name": "Get Weekly Reports",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 3,
+      "position": [
+        650,
+        1000
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "google_sheets_credentials",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "sheetName": "Monthly Business Reports",
+        "options": {}
+      },
+      "name": "Get Monthly Reports",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 3,
+      "position": [
+        650,
+        1200
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "google_sheets_credentials",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// Prepare dashboard data response\nconst request = $input.item.json;\nconst weeklyReports = $node[\"Get Weekly Reports\"].json.rows || [];\nconst monthlyReports = $node[\"Get Monthly Reports\"].json.rows || [];\n\n// Filter reports based on date range\nconst startDate = new Date(request.startDate);\nconst endDate = new Date(request.endDate);\n\nconst filteredWeeklyReports = weeklyReports.filter(report => {\n  if (!report.generatedDate) return false;\n  const reportDate = new Date(report.generatedDate);\n  return reportDate >= startDate && reportDate <= endDate;\n});\n\nconst filteredMonthlyReports = monthlyReports.filter(report => {\n  if (!report.generatedDate) return false;\n  const reportDate = new Date(report.generatedDate);\n  return reportDate >= startDate && reportDate <= endDate;\n});\n\n// Prepare data for each requested metric\nconst dashboardData = {};\n\nif (request.metrics.includes('appointments')) {\n  dashboardData.appointments = {\n    title: 'Appointment Analytics',\n    timeSeriesData: filteredWeeklyReports.map(report => ({\n      date: new Date(report.generatedDate).toLocaleDateString(),\n      value: report.totalAppointments || 0\n    })),\n    distribution: {\n      serviceTypes: filteredWeeklyReports.length > 0 ? \n        filteredWeeklyReports[filteredWeeklyReports.length - 1].serviceTypeDistribution || {} : {},\n      dayOfWeek: filteredWeeklyReports.length > 0 ? \n        filteredWeeklyReports[filteredWeeklyReports.length - 1].dayOfWeekDistribution || {} : {},\n      timeOfDay: filteredWeeklyReports.length > 0 ? \n        filteredWeeklyReports[filteredWeeklyReports.length - 1].timeOfDayDistribution || {} : {}\n    },\n    metrics: {\n      totalAppointments: filteredWeeklyReports.reduce((sum, report) => sum + (parseInt(report.totalAppointments) || 0), 0),\n      avgWeeklyAppointments: filteredWeeklyReports.length > 0 ? \n        Math.round(filteredWeeklyReports.reduce((sum, report) => sum + (parseInt(report.totalAppointments) || 0), 0) / filteredWeeklyReports.length) : 0,\n      cancellationRate: filteredWeeklyReports.length > 0 ? \n        filteredWeeklyReports[filteredWeeklyReports.length - 1].cancellationRate || '0%' : '0%'\n    }\n  };\n}\n\nif (request.metrics.includes('revenue')) {\n  dashboardData.revenue = {\n    title: 'Revenue Analytics',\n    timeSeriesData: filteredWeeklyReports.map(report => ({\n      date: new Date(report.generatedDate).toLocaleDateString(),\n      value: parseFloat(report.totalRevenue || 0)\n    })),\n    distribution: {\n      serviceRevenue: filteredWeeklyReports.length > 0 ? \n        filteredWeeklyReports[filteredWeeklyReports.length - 1].serviceRevenue || {} : {},\n      paymentMethods: filteredWeeklyReports.length > 0 ? \n        filteredWeeklyReports[filteredWeeklyReports.length - 1].paymentMethodDistribution || {} : {}\n    },\n    metrics: {\n      totalRevenue: filteredWeeklyReports.reduce((sum, report) => sum + (parseFloat(report.totalRevenue) || 0), 0).toFixed(2),\n      avgTransactionValue: filteredWeeklyReports.length > 0 ? \n        filteredWeeklyReports[filteredWeeklyReports.length - 1].avgTransactionValue || '0' : '0',\n      productRevenue: filteredWeeklyReports.reduce((sum, report) => sum + (parseFloat(report.productRevenue) || 0), 0).toFixed(2),\n      serviceRevenue: filteredWeeklyReports.reduce((sum, report) => sum + (parseFloat(report.serviceRevenueTotals) || 0), 0).toFixed(2)\n    }\n  };\n}\n\nif (request.metrics.includes('clients')) {\n  dashboardData.clients = {\n    title: 'Client Analytics',\n    timeSeriesData: filteredWeeklyReports.map(report => ({\n      date: new Date(report.generatedDate).toLocaleDateString(),\n      newClients: parseInt(report.newClientsLastWeek || 0),\n      activeClients: parseInt(report.activeClientsLastWeek || 0)\n    })),\n    distribution: {\n      ageDistribution: filteredWeeklyReports.length > 0 ? \n        filteredWeeklyReports[filteredWeeklyReports.length - 1].ageDistribution || {} : {},\n      genderDistribution: filteredWeeklyReports.length > 0 ? \n        filteredWeeklyReports[filteredWeeklyReports.length - 1].genderDistribution || {} : {},\n      referralSources: filteredWeeklyReports.length > 0 ? \n        filteredWeeklyReports[filteredWeeklyReports.length - 1].referralSources || {} : {}\n    },\n    metrics: {\n      totalClients: filteredWeeklyReports.length > 0 ? \n        filteredWeeklyReports[filteredWeeklyReports.length - 1].totalClients || 0 : 0,\n      newClientsAcquired: filteredWeeklyReports.reduce((sum, report) => sum + (parseInt(report.newClientsLastWeek) || 0), 0),\n      retentionRate: filteredWeeklyReports.length > 0 ? \n        filteredWeeklyReports[filteredWeeklyReports.length - 1].retentionRate || '0%' : '0%'\n    }\n  };\n}\n\nif (request.metrics.includes('therapists')) {\n  // Extract therapist performance from the most recent report\n  const latestTherapistData = filteredWeeklyReports.length > 0 ? \n    filteredWeeklyReports[filteredWeeklyReports.length - 1].therapistPerformance || [] : [];\n  \n  dashboardData.therapists = {\n    title: 'Therapist Analytics',\n    therapistPerformance: latestTherapistData,\n    metrics: {\n      totalTherapists: latestTherapistData.length,\n      avgUtilization: latestTherapistData.length > 0 ? \n        (latestTherapistData.reduce((sum, therapist) => sum + parseFloat(therapist.utilization || '0'), 0) / latestTherapistData.length).toFixed(1) + '%' : '0%',\n      avgRating: latestTherapistData.length > 0 ? \n        (latestTherapistData.reduce((sum, therapist) => sum + parseFloat(therapist.avgRating || '0'), 0) / latestTherapistData.length).toFixed(1) : '0'\n    }\n  };\n}\n\n// Add insights from the most recent report\nif (filteredWeeklyReports.length > 0) {\n  dashboardData.insights = filteredWeeklyReports[filteredWeeklyReports.length - 1].insights || [];\n} else {\n  dashboardData.insights = [];\n}\n\n// Add monthly trends if available and requested\nif (request.requestType === 'monthly' && filteredMonthlyReports.length > 0) {\n  const latestMonthlyReport = filteredMonthlyReports[filteredMonthlyReports.length - 1];\n  dashboardData.monthlyTrends = latestMonthlyReport.monthlyTrends || {};\n  dashboardData.recommendations = latestMonthlyReport.recommendations || [];\n}\n\n// Prepare the final response\nconst dashboardResponse = {\n  requestId: request.requestId,\n  requestType: request.requestType,\n  dateRange: {\n    startDate: startDate.toLocaleDateString(),\n    endDate: endDate.toLocaleDateString()\n  },\n  data: dashboardData,\n  generatedDate: new Date().toISOString()\n};\n\nreturn {json: dashboardResponse};"
+      },
+      "name": "Prepare Dashboard Response",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [
+        850,
+        1100
+      ]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ $json }}",
+        "options": {}
+      },
+      "name": "HTTP Response",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [
+        1050,
+        1100
+      ]
+    },
+    {
+      "parameters": {
+        "errorMessage": "=Error in Business Analytics Dashboard workflow: {{ $json.error }}"
+      },
+      "name": "Error Handler",
+      "type": "n8n-nodes-base.errorTrigger",
+      "typeVersion": 1,
+      "position": [
+        450,
+        1300
+      ]
+    }
+  ],
+  "connections": {
+    "Weekly Analytics Generator": {
+      "main": [
+        [
+          {
+            "node": "Retrieve Appointment Data",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Retrieve Client Data",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Retrieve Therapist Data",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Retrieve Financial Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Monthly Analytics Generator": {
+      "main": [
+        [
+          {
+            "node": "Retrieve Appointment Data",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Retrieve Client Data",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Retrieve Therapist Data",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Retrieve Financial Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Retrieve Appointment Data": {
+      "main": [
+        [
+          {
+            "node": "Generate Appointment Analytics",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Retrieve Client Data": {
+      "main": [
+        [
+          {
+            "node": "Generate Client Analytics",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Retrieve Therapist Data": {
+      "main": [
+        [
+          {
+            "node": "Generate Therapist Analytics",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Retrieve Financial Data": {
+      "main": [
+        [
+          {
+            "node": "Generate Financial Analytics",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate Appointment Analytics": {
+      "main": [
+        [
+          {
+            "node": "Compile Weekly Business Report",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Generate Monthly Business Report",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate Client Analytics": {
+      "main": [
+        [
+          {
+            "node": "Compile Weekly Business Report",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Generate Monthly Business Report",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate Financial Analytics": {
+      "main": [
+        [
+          {
+            "node": "Compile Weekly Business Report",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Generate Monthly Business Report",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate Therapist Analytics": {
+      "main": [
+        [
+          {
+            "node": "Compile Weekly Business Report",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Generate Monthly Business Report",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Compile Weekly Business Report": {
+      "main": [
+        [
+          {
+            "node": "Store Weekly Report",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate Monthly Business Report": {
+      "main": [
+        [
+          {
+            "node": "Store Monthly Report",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Store Weekly Report": {
+      "main": [
+        [
+          {
+            "node": "Email Weekly Report",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Store Monthly Report": {
+      "main": [
+        [
+          {
+            "node": "Email Monthly Report",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Dashboard Data Request Webhook": {
+      "main": [
+        [
+          {
+            "node": "Process Dashboard Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Process Dashboard Request": {
+      "main": [
+        [
+          {
+            "node": "Get Weekly Reports",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Get Monthly Reports",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Weekly Reports": {
+      "main": [
+        [
+          {
+            "node": "Prepare Dashboard Response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Monthly Reports": {
+      "main": [
+        [
+          {
+            "node": "Prepare Dashboard Response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prepare Dashboard Response": {
+      "main": [
+        [
+          {
+            "node": "HTTP Response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "saveManualExecutions": true,
+    "callerPolicy": "workflowsFromSameOwner",
+    "errorWorkflow": "Business Analytics Dashboard Error Handler"
+  },
+  "tags": [
+    {
+      "name": "analytics",
+      "color": "#00ccff"
+    },
+    {
+      "name": "massage-therapy",
+      "color": "#00ccff"
+    }
+  ],
+  "pinData": {},
+  "versionId": "1",
+  "triggerCount": 3,
+  "meta": {
+    "instanceId": "MASSAGE_THERAPY_BUSINESS"
+  },
+  "id": "business-analytics-dashboard"
+}

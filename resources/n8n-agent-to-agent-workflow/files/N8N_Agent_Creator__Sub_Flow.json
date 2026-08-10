@@ -1,0 +1,935 @@
+{
+  "name": "N8N Agent Creator (Sub-Flow)",
+  "nodes": [
+    {
+      "parameters": {
+        "inputSource": "passthrough"
+      },
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        -1860,
+        -80
+      ],
+      "id": "d93ff158-5277-47be-ab1c-d78789606fef",
+      "name": "Workflow Input Trigger"
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "$input.item.json.body = {\n    \"model\": \"sonar-reasoning-pro\",\n    \"messages\": [\n        { \"role\": \"user\", \"content\": `You are an expert in n8n workflow automation.\n\nYour task is to:\n1. **Convert the structured workflow plan into a functional JSON-based n8n workflow**.\n2. **Ensure that OpenAI is used for any intent classification or content generation tasks.**\n3. **Use Perplexity only for information retrieval** (not text transformation).\n4. **Ensure all nodes are properly connected** with valid parameters.\n5. **Return only the JSON output**, with no explanations.\n6. **Example JSON Snippets under each Step are given to refernce and use**.\n\n## Notes for using Chat model under the AI Agent Node:\n- If classifying intent → **Use OpenAI Chat Model (GPT-4o)**.\n- If rewriting email text → **Use OpenAI Chat Model (GPT-4o)**.\n- If searching the web → **Use Perplexity Search API**.\n- Ensure all variable references are **valid**.\n\n1) PropertyName issues: There are no reasons to get propertyName is property value errors, and you generate perfect syntax.\n\n2) Comments Removed: No inline comments (using //) cause the JSON to be invalid.\n\n3) Expressions: The expressions using ={{ ... }} remain intact. These are valid in n8n's JSON configuration as they are processed at runtime.\n\n4) Structure: The structure with \"nodes\" and \"connections\" is preserved as expected by n8n.\n\n5) Add the name of the workflow inside the JSON as well. It should be in proper syntax and shouldn't break the JSON\n\n\n## Here is the structured workflow plan you have to work on:\nQUERY: \"${$json.query}\"\nPLAN: \"${$json.choices[0].message.content}\"\n\n\n` }\n    ]\n};\n\nreturn $input.item;"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -160,
+        360
+      ],
+      "id": "daf8c4da-f163-42c9-add6-56330da299fb",
+      "name": "Create JSON Body"
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "o3-mini",
+          "mode": "id"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "=You are an expert in JSON validation and workflow automation. Your task is to **verify and correct an n8n workflow JSON**.\n\n## **Validation Rules**\nEnsure that the JSON does not suffer from any of the following issues:\n1. **PropertyName Issues**: There should be no missing property names or property value errors. The JSON syntax must be correct.\n2. **Comments Removed**: Do not include inline comments (e.g., `// comment`). JSON must be fully valid.\n3. **Expressions Remain Intact**: Expressions using must remain unchanged. These are valid in n8n's JSON configuration and processed at runtime.\n4. **Structure Validity**: The `\"nodes\"` and `\"connections\"` structure must be preserved exactly as expected by n8n.\n\n## **Output Rules**\n- **Return only the corrected JSON** with no extra text, comments, explanations, or formatting.\n- **Do not include any introductory or concluding remarks** (e.g., \"Here is your corrected JSON\").\n- **Ensure the JSON is formatted correctly** and can be imported into n8n without modification.\n- Check decimal points to typeVersion values - Usually are in decimals (1.0, 3.0, 1.7) instead of integers\n- Check if any AI Agent nodes parameter structure with promptType and text format is correct or not\n- Ensure the Set nodes to use the proper structure with named string values in arrays\n- Ensure there are no missing object in all NODES like options objects in various nodes where required\n\n\n\nI'll also provide a similar pre-built n8n workflow JSON file which you can reference in reviewing the JSON sample.\nHere's a reference JSON workflow:\n\nAgent Title: {{ $json.generated_title }}\nAgent Summary: {{ $json.agent_summary }}\nJSON File:\n{{ $json.json_file }}\n\nHere is the JSON sample to review:\n{{ $json.choices[0].message.content }}",
+              "role": "system"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.8,
+      "position": [
+        280,
+        860
+      ],
+      "id": "6c0dc3c6-6aff-459b-88e3-db3445166925",
+      "name": "Validate JSON",
+      "credentials": {
+        "openAiApi": {
+          "id": "bBtD8KtcEPsOhElY",
+          "name": "Prompt Advisers OpenAI Account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "create",
+        "workflowObject": "={{ $json.message.content }}",
+        "requestOptions": {}
+      },
+      "type": "n8n-nodes-base.n8n",
+      "typeVersion": 1,
+      "position": [
+        300,
+        1080
+      ],
+      "id": "7b3eb7e9-fa6c-48da-b5de-3a4f9e63b20c",
+      "name": "n8n",
+      "credentials": {
+        "n8nApi": {
+          "id": "UcW98TG9vHtiDFq2",
+          "name": "Mark's PropmtAdviser Account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "987fcd43-60b1-4a68-a1f5-23f2d7d4ae28",
+              "name": "Workflow URL",
+              "value": "=https://promptadvisers.app.n8n.cloud/workflow/{{ $json.id }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        460,
+        1080
+      ],
+      "id": "37b3db9a-bf99-47f5-a74e-098608b252ac",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "$input.item.json.body = {\n    \"model\": \"sonar-pro\",\n    \"messages\": [\n        { \"role\": \"user\", \"content\": `You are an expert in JSON validation for n8n workflows.\n\nYour task is to:\n1. **Validate that OpenAI is used for all LLM tasks** (intent classification, content generation).\n2. **Ensure Perplexity is only used for web search** (not rewriting text).\n3. **Check that all nodes are properly connected**—no missing links or broken automation.\n4. **Ensure variable references are correct** to prevent execution errors.\n5. **Return only the corrected JSON workflow**, with no explanations.\n\n## Validation Checklist:\n- OpenAI Chat Model is used for LLM tasks.\n- Perplexity is used **only** for search.\n- No missing or disconnected nodes.\n- JSON structure is valid and functional.\n\n1) PropertyName issues: There are no reasons to get propertyName is property value errors, and you generate perfect syntax.\n\n2) Comments Removed: No inline comments (using //) cause the JSON to be invalid.\n\n3) Expressions: The expressions using ={{ ... }} remain intact. These are valid in n8n's JSON configuration as they are processed at runtime.\n\n4) Structure: The structure with \"nodes\" and \"connections\" is preserved as expected by n8n.\n\nFirst I'll provide a pre-built similar AI workflow that you can reference in validation the sample JSON. Here's a similar AI agent workflow with JSON file that you can reference (only use this as reference):\n\nAgent Title: \"${$json.generated_title}\"\nAgent Summary: \"${$json.agent_summary}\"\nJSON File:\n\"${$json.json_file}\"\n\nHere is the JSON workflow to validate:\n\n${$json.choices[0].message.content}\n\nPlease return the corrected JSON workflow.` }\n    ]\n};\n\nreturn $input.item;"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -160,
+        580
+      ],
+      "id": "c6af3701-5eec-4567-9356-aea5699296e9",
+      "name": "Create JSON Body1"
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "$input.item.json.body = {\n    \"model\": \"sonar-pro\",\n    \"messages\": [\n        { \"role\": \"user\", \"content\": \"You are an automation expert specializing in n8n workflows.\\n\\n\" +\n        \n        \"Your job is to take the following request and generate a structured, step-by-step workflow that follows n8n's best practices.\\n\\n\" +\n\n        \"## Decision on Which node to Chose:\\n\" +\n          \"- When a step with AI is involved, analyze and chose which node to use: 1. AI Agent Node, 2. OpenAI GPT-40 Node\\n\" +\n          \"- Use AI Agent Node attached with OpenAI GPT-4o as the Model for any heavy LLM tasks where chat history or memory is needed.\\n\" +\n        \"- Use AI agent Node if a Chat node is used to Chat with AI or communication with Vector Store and retrieval of data from Vector is needed\\n\" + \n        \"- If AI content generation, simple summarization or other generic task is needed, use OpenAI chat completion instead of a generic AI Agent Node.\\n\\n\" +\n          \n        \"## Workflow Structuring Rules:\\n\" +\n        \"- Use the correct input trigger (Webhook, Slack, API, Chat).\\n\" +\n        \"- Use Perplexity only for web search, NOT for content transformation.\\n\" +\n        \"- Ensure the workflow is fully connected with no broken paths.\\n\\n\" +\n          \n        \"## Required Output:\\n\" +\n        \"- Provide a structured execution plan with:\\n\" +\n        \"  1. Trigger Node (Slack, API, Webhook, etc.).\\n\" +\n        \"  2. Processing Nodes (AI classification, AI Agent Node, API requests, etc.).\\n\" +\n        \"  3. Action Nodes (Sending responses, updating databases, etc.).\\n\" +\n        \"  4. Final Step (Webhook response or UI message confirmation).\\n\\n\" +\n       \n        \"\\n\\n## Here is the request which you have to work on:\\n\\n\" + \n        $json.query \n        }\n    ]\n};\n\nreturn $input.item;\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -160,
+        -80
+      ],
+      "id": "65db3bcb-e025-4163-a8fb-03dfe132bed0",
+      "name": "Create JSON Body2"
+    },
+    {
+      "parameters": {
+        "model": "text-embedding-3-large",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.embeddingsOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        -1400,
+        200
+      ],
+      "id": "d2ca391d-f9c0-4ad7-a216-b34989eca7a3",
+      "name": "Embeddings OpenAI1",
+      "credentials": {
+        "openAiApi": {
+          "id": "bBtD8KtcEPsOhElY",
+          "name": "Prompt Advisers OpenAI Account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "gpt-4o",
+          "mode": "list",
+          "cachedResultName": "GPT-4O"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "=You are an intelligent vector store who has a large database of n8n workflows and ai agents stored in your vector database.\n\nYour job is to generate 1 short searching keywords/prompts that allow to search the vector store with most similar workflows to the query given below. The searching prompt can be a single keyword or a few words because the vector store will be finding workflows based on the similarity ranking following the embeddings model attached to it.\n\nAlso the keyword \"AI\" & \"AI Agent\" is mostly favoured. So if there is a searching keyword with any of the two then mix them as well\n\nOutput in JSON format in the following structure:\n{\n   \"prompt\": \"\"\n}\n\nHere's the query:\n{{ $json.query }}"
+            }
+          ]
+        },
+        "jsonOutput": true,
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.8,
+      "position": [
+        -1680,
+        -80
+      ],
+      "id": "363f811c-c60b-40d1-89b7-a88e80a3246a",
+      "name": "OpenAI",
+      "credentials": {
+        "openAiApi": {
+          "id": "bBtD8KtcEPsOhElY",
+          "name": "Prompt Advisers OpenAI Account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": "text-embedding-3-large",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.embeddingsOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        -1040,
+        180
+      ],
+      "id": "66b773db-98fe-4e1a-8ad7-ffafef675fc9",
+      "name": "Embeddings OpenAI2",
+      "credentials": {
+        "openAiApi": {
+          "id": "bBtD8KtcEPsOhElY",
+          "name": "Prompt Advisers OpenAI Account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "load",
+        "pineconeIndex": {
+          "__rl": true,
+          "value": "n8n-templates",
+          "mode": "list",
+          "cachedResultName": "n8n-templates"
+        },
+        "prompt": "={{ $json.message.content.prompt }}",
+        "topK": 1,
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.vectorStorePinecone",
+      "typeVersion": 1,
+      "position": [
+        -1340,
+        -80
+      ],
+      "id": "536bab0c-1185-47a5-af77-6c30af979195",
+      "name": "Find one workflow",
+      "credentials": {
+        "pineconeApi": {
+          "id": "GO2UfDObJ0c6SULt",
+          "name": "Prompt Advisers Pinecone Account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "load",
+        "pineconeIndex": {
+          "__rl": true,
+          "value": "n8n-templates",
+          "mode": "list",
+          "cachedResultName": "n8n-templates"
+        },
+        "prompt": "={{ $('OpenAI').item.json.message.content.prompt }}",
+        "topK": 5,
+        "options": {
+          "metadata": {
+            "metadataValues": [
+              {
+                "name": "generated_title",
+                "value": "={{ $json.document.metadata.generated_title }}"
+              }
+            ]
+          }
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.vectorStorePinecone",
+      "typeVersion": 1,
+      "position": [
+        -1000,
+        -80
+      ],
+      "id": "d747e4bf-bbe8-4355-90a1-d55d772d20ff",
+      "name": "Find remaining chunks",
+      "credentials": {
+        "pineconeApi": {
+          "id": "GO2UfDObJ0c6SULt",
+          "name": "Prompt Advisers Pinecone Account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// Initialize an empty string to store the concatenated json_file values\nlet mergedJsonFile = \"\";\n\n// Get all input items\nlet items = $input.all();\n\n// Sort items by chunk_index in ascending order\nitems.sort((a, b) => a.json.document.metadata.chunk_index - b.json.document.metadata.chunk_index);\n\n// Loop over the sorted items and concatenate their json_file values\nfor (const item of items) {\n    if (item.json.document.metadata.json_file) {\n        mergedJsonFile += item.json.document.metadata.json_file; // Concatenates the strings in order\n    }\n}\n\n// Return a single output with the merged json_file\nreturn [{ json: { json_file: mergedJsonFile } }];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -600,
+        -80
+      ],
+      "id": "64b9739d-4dc0-4dbd-877d-ab130526c062",
+      "name": "Combine the JSON File of Chunks"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "05db9593-b34e-40f6-8970-45ccd8466338",
+              "name": "query",
+              "value": "={{ $('Workflow Input Trigger').first().json.query }}",
+              "type": "string"
+            },
+            {
+              "id": "e7180c38-855e-429f-9399-854c03a504c2",
+              "name": "json_file",
+              "value": "={{ $json.json_file }}",
+              "type": "string"
+            },
+            {
+              "id": "f1c0e153-5055-476a-ad96-47fbb70ed573",
+              "name": "generated_title",
+              "value": "={{ $('Find one workflow').first().json.document.metadata.generated_title }}",
+              "type": "string"
+            },
+            {
+              "id": "17d896bc-37ff-4a59-b88e-055cabd465ed",
+              "name": "agent_summary",
+              "value": "={{ $('Find one workflow').first().json.document.metadata.agent_summary }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -380,
+        -80
+      ],
+      "id": "7ecdf947-47ce-4c35-bc66-4b47bce3db8a",
+      "name": "Edit Fields1"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "05db9593-b34e-40f6-8970-45ccd8466338",
+              "name": "query",
+              "value": "={{ $('Workflow Input Trigger').first().json.query }}",
+              "type": "string"
+            },
+            {
+              "id": "e7180c38-855e-429f-9399-854c03a504c2",
+              "name": "json_file",
+              "value": "={{ $('Create JSON Body2').item.json.json_file }}",
+              "type": "string"
+            },
+            {
+              "id": "f1c0e153-5055-476a-ad96-47fbb70ed573",
+              "name": "generated_title",
+              "value": "={{ $('Find one workflow').first().json.document.metadata.generated_title }}",
+              "type": "string"
+            },
+            {
+              "id": "17d896bc-37ff-4a59-b88e-055cabd465ed",
+              "name": "agent_summary",
+              "value": "={{ $('Find one workflow').first().json.document.metadata.agent_summary }}",
+              "type": "string"
+            },
+            {
+              "id": "e55e94e9-d7a3-46e4-bdbd-b70c1b6055ec",
+              "name": "choices",
+              "value": "={{ $json.choices }}",
+              "type": "array"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -380,
+        140
+      ],
+      "id": "c6d4117e-bdcf-4bcb-b412-3324352753a2",
+      "name": "Edit Fields2"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "05db9593-b34e-40f6-8970-45ccd8466338",
+              "name": "query",
+              "value": "={{ $('Workflow Input Trigger').first().json.query }}",
+              "type": "string"
+            },
+            {
+              "id": "e7180c38-855e-429f-9399-854c03a504c2",
+              "name": "json_file",
+              "value": "={{ $('Create JSON Body2').item.json.json_file }}",
+              "type": "string"
+            },
+            {
+              "id": "f1c0e153-5055-476a-ad96-47fbb70ed573",
+              "name": "generated_title",
+              "value": "={{ $('Find one workflow').first().json.document.metadata.generated_title }}",
+              "type": "string"
+            },
+            {
+              "id": "17d896bc-37ff-4a59-b88e-055cabd465ed",
+              "name": "agent_summary",
+              "value": "={{ $('Find one workflow').first().json.document.metadata.agent_summary }}",
+              "type": "string"
+            },
+            {
+              "id": "e55e94e9-d7a3-46e4-bdbd-b70c1b6055ec",
+              "name": "choices",
+              "value": "={{ $json.choices }}",
+              "type": "array"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        60,
+        860
+      ],
+      "id": "ec66520d-118e-4c51-8970-5bd9b5a9b52b",
+      "name": "Edit Fields3"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "05db9593-b34e-40f6-8970-45ccd8466338",
+              "name": "query",
+              "value": "={{ $('Workflow Input Trigger').first().json.query }}",
+              "type": "string"
+            },
+            {
+              "id": "e7180c38-855e-429f-9399-854c03a504c2",
+              "name": "json_file",
+              "value": "={{ $('Create JSON Body2').item.json.json_file }}",
+              "type": "string"
+            },
+            {
+              "id": "f1c0e153-5055-476a-ad96-47fbb70ed573",
+              "name": "generated_title",
+              "value": "={{ $('Find one workflow').first().json.document.metadata.generated_title }}",
+              "type": "string"
+            },
+            {
+              "id": "17d896bc-37ff-4a59-b88e-055cabd465ed",
+              "name": "agent_summary",
+              "value": "={{ $('Find one workflow').first().json.document.metadata.agent_summary }}",
+              "type": "string"
+            },
+            {
+              "id": "e55e94e9-d7a3-46e4-bdbd-b70c1b6055ec",
+              "name": "choices",
+              "value": "={{ $json.choices }}",
+              "type": "array"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -380,
+        580
+      ],
+      "id": "a717e31e-67a7-4950-87e7-7d351e9b2aeb",
+      "name": "Edit Fields4"
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "$input.item.json.body = {\n    \"model\": \"sonar-pro\",\n    \"messages\": [\n        { \n            \"role\": \"user\", \n            \"content\": `You are an expert in n8n workflow automation.\n\nYour task is to:\n1. **Analyze the Structure Plan of an AI agent Workflow**.\n2. **Add a valid N8N JSON Snippet of each node under each step. For example if there is a step to add AI Agent Node then Add an example AI Agent node JSON Snippet for easier reference. For example:\n\n\\`\\`\\`json\n{\n  \"nodes\": [\n    {\n      \"parameters\": {\n        \"promptType\": \"define\",\n        \"text\": \"=**System Prompt:**\\\\n\\\\nYou are an AI assistant designed to process new leads and generate appropriate responses. Your role includes analyzing lead notes, categorizing them, and generating an email from the system to inform the relevant contact about the inquiry. Do not send the email as if it is directly from the customer; instead, draft it as a notification from the system summarizing the inquiry.\\\\n\\\\n### **Process Flow**\\\\n\\\\n1. **Analyzing Lead Notes:**\\\\n - Extract key details such as the customer name, organization, contact information, and their specific request. \\\\n - Determine if the inquiry relates to products, services, or solutions offered by the company.\\\\n\\\\n2. **Finding the Appropriate Contact(s):**\\\\n - Search the contact database to find the responsible person(s) for the relevant product, service, or solution. \\\\n - If one person is responsible, provide their email. \\\\n - If multiple people are responsible, list all emails separated by commas.\\\\n\\\\n3. **Generating an Email Notification:**\\\\n - Draft a professional email as a notification from the system.\\\\n - Summarize the customer's inquiry.\\\\n - Include all relevant details to assist the recipient in addressing the inquiry.\\\\n\\\\n4. **Handling Invalid Leads:**\\\\n - If the inquiry is unrelated to products, services, or solutions (e.g., job inquiries or general product inquiries), classify it as invalid and return: \\\\n \\\\\\\\\\\\\\\"Invalid Lead - Not related to products, services, or solutions.\\\\\\\\\\\\\\\"\\\\n\\\\n\n      ,\n        \"options\": {}\n      },\n      \"id\": \"23291d25-3e1a-4b0d-9b1d-d066e8c04a1f\",\n      \"name\": \"Customer Lead AI Agent\",\n      \"type\": \"@n8n/n8n-nodes-langchain.agent\",\n      \"position\": [-640, 460],\n      \"typeVersion\": 1.7\n    }\n  ],\n  \"connections\": {\n    \"Customer Lead AI Agent\": {\n      \"main\": [[]]\n    }\n  },\n  \"pinData\": {},\n  \"meta\": {\n    \"instanceId\": \"aaadb797535f05587ee95b776c942a7c3f7a46fd7aa0c9b6a9d64e1e595f8af1\"\n  }\n}\n\\`\\`\\`\n\n3. You will also be given a sample N8N JSON workflow so if you don't know any node snippet find it from there. And if its not in the sample then search the internet.\n\n## **Notes for using models under the AI Agent Nodes:**\n- If classifying intent → **Use OpenAI Chat Model (GPT-4o)**.\n- If rewriting email text → **Use OpenAI Chat Model (GPT-4o)**.\n- If searching the web → **Use Perplexity Search API**.\n- Ensure all variable references are **valid**.\n\n\n\nHere's a similar AI agent workflow with JSON file that you should reference to find node snippets as well in creating a valid structured workflow:\n\nAgent Title: \"${$json.generated_title}\"\nAgent Summary: \"${$json.agent_summary}\"\nJSON File:\n\"${$json.json_file}\"\n\n\n## **Here is the structured workflow plan you have to work on:**\nQUERY: \"${$json.query}\"\nPLAN: \"${$json.choices[0].message.content}\"\n\n## OUTPUT Requirements:\n- Output the Structure plan As is with the JSON Snippets added\n`\n        }\n    ]\n};\n\nreturn $input.item;\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -160,
+        140
+      ],
+      "id": "a8a6f178-2344-455c-aeb8-f26d069a55ca",
+      "name": "Create JSON Body4"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "05db9593-b34e-40f6-8970-45ccd8466338",
+              "name": "query",
+              "value": "={{ $('Workflow Input Trigger').first().json.query }}",
+              "type": "string"
+            },
+            {
+              "id": "e7180c38-855e-429f-9399-854c03a504c2",
+              "name": "json_file",
+              "value": "={{ $('Create JSON Body4').item.json.json_file }}",
+              "type": "string"
+            },
+            {
+              "id": "f1c0e153-5055-476a-ad96-47fbb70ed573",
+              "name": "generated_title",
+              "value": "={{ $('Find one workflow').first().json.document.metadata.generated_title }}",
+              "type": "string"
+            },
+            {
+              "id": "17d896bc-37ff-4a59-b88e-055cabd465ed",
+              "name": "agent_summary",
+              "value": "={{ $('Find one workflow').first().json.document.metadata.agent_summary }}",
+              "type": "string"
+            },
+            {
+              "id": "e55e94e9-d7a3-46e4-bdbd-b70c1b6055ec",
+              "name": "choices",
+              "value": "={{ $json.choices }}",
+              "type": "array"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -380,
+        360
+      ],
+      "id": "65bfaaa3-b1f3-4a11-ad6b-6f307ea6ad52",
+      "name": "Edit Fields6"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.perplexity.ai/chat/completions",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ $json.body }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        60,
+        140
+      ],
+      "id": "8e206260-9689-4058-9438-e6206ef7c66f",
+      "name": "Perplexity: Add Snippets",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "Y9DJmWSU5RHlmbJQ",
+          "name": "Prompt Advisers Perplexity Credentials"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.perplexity.ai/chat/completions",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ $json.body }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        60,
+        -80
+      ],
+      "id": "b90a2c22-5cb9-4f74-87be-99d1e6dba1f4",
+      "name": "Perplexity: Create Structure Plan",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "Y9DJmWSU5RHlmbJQ",
+          "name": "Prompt Advisers Perplexity Credentials"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.perplexity.ai/chat/completions",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ $json.body }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        60,
+        360
+      ],
+      "id": "51c24a6c-f4aa-4d2f-bf33-4695d388d49d",
+      "name": "Perplexity: Create JSON",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "Y9DJmWSU5RHlmbJQ",
+          "name": "Prompt Advisers Perplexity Credentials"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.perplexity.ai/chat/completions",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ $json.body }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        60,
+        580
+      ],
+      "id": "92bc15ba-6e64-4adc-82df-27a8dfedbfa7",
+      "name": "Perplexity: Validate JSON",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "Y9DJmWSU5RHlmbJQ",
+          "name": "Prompt Advisers Perplexity Credentials"
+        }
+      }
+    }
+  ],
+  "pinData": {
+    "Workflow Input Trigger": [
+      {
+        "json": {
+          "query": "AI meeting booking agent using Google Calendar. It should be able to schedule, reschedule, and cancel meetings in Google Calendar, check participants' availability, and send calendar invites. Additionally, the agent should handle time zone differences and provide reminders for upcoming meetings."
+        }
+      }
+    ]
+  },
+  "connections": {
+    "Workflow Input Trigger": {
+      "main": [
+        [
+          {
+            "node": "OpenAI",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create JSON Body": {
+      "main": [
+        [
+          {
+            "node": "Perplexity: Create JSON",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Validate JSON": {
+      "main": [
+        [
+          {
+            "node": "n8n",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "n8n": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create JSON Body1": {
+      "main": [
+        [
+          {
+            "node": "Perplexity: Validate JSON",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create JSON Body2": {
+      "main": [
+        [
+          {
+            "node": "Perplexity: Create Structure Plan",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Embeddings OpenAI1": {
+      "ai_embedding": [
+        [
+          {
+            "node": "Find one workflow",
+            "type": "ai_embedding",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI": {
+      "main": [
+        [
+          {
+            "node": "Find one workflow",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Embeddings OpenAI2": {
+      "ai_embedding": [
+        [
+          {
+            "node": "Find remaining chunks",
+            "type": "ai_embedding",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Find one workflow": {
+      "main": [
+        [
+          {
+            "node": "Find remaining chunks",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Find remaining chunks": {
+      "main": [
+        [
+          {
+            "node": "Combine the JSON File of Chunks",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Combine the JSON File of Chunks": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields1": {
+      "main": [
+        [
+          {
+            "node": "Create JSON Body2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields2": {
+      "main": [
+        [
+          {
+            "node": "Create JSON Body4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields3": {
+      "main": [
+        [
+          {
+            "node": "Validate JSON",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields4": {
+      "main": [
+        [
+          {
+            "node": "Create JSON Body1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create JSON Body4": {
+      "main": [
+        [
+          {
+            "node": "Perplexity: Add Snippets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields6": {
+      "main": [
+        [
+          {
+            "node": "Create JSON Body",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Perplexity: Add Snippets": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields6",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Perplexity: Create Structure Plan": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Perplexity: Create JSON": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Perplexity: Validate JSON": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "callerPolicy": "any"
+  },
+  "versionId": "c547cbb4-41d6-460e-9232-8951681951c5",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "aaadb797535f05587ee95b776c942a7c3f7a46fd7aa0c9b6a9d64e1e595f8af1"
+  },
+  "id": "m3VURatpsyZna9N6",
+  "tags": []
+}

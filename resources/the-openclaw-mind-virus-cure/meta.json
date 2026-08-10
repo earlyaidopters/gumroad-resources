@@ -1,0 +1,21 @@
+{
+  "name": "The OpenClaw Mind Virus Cure 💊",
+  "external_id": "Xq093e1WLEsLCjOswy-4LA==",
+  "permalink": "lmlzzn",
+  "unique_permalink": "lmlzzn",
+  "custom_permalink": "openclaw-mind-virus-cure",
+  "url": "https://markkashef.gumroad.com/l/openclaw-mind-virus-cure",
+  "status": "published",
+  "archived": false,
+  "kind": "products",
+  "price_formatted": "CAD$0+",
+  "description_md": "# What You Get\nAI Agent Framework Comparison Page: A single interactive HTML file that lets you browse 9 open-source AI agent frameworks side-by-side -- OpenClaw, ZeroClaw, NanoClaw, PicoClaw, TinyClaw, IronClaw, NanoBot, Agent Zero, and Awesome-OpenClaw. Compare features, architecture patterns, and capabilities across every repo. Add the exact features you want to a shopping cart and export your custom wishlist.\nWhy This Works\nYou don't need someone else's 50,000-line framework. You need the 5% of features that actually matter to your workflow. This page lays out every feature from every major framework so you can pick and choose -- like a grocery store for AI agent capabilities. Take your wishlist to Claude Code and build something that's actually yours.\n---\nHow to Use It\n1. Download the HTML file.\n2. Open it in any browser. No install, no dependencies, no account needed.\n3. Browse frameworks, compare features, add what you want to your cart.\n4. Export your wishlist and hand it to Claude Code.\n---\nWant my full library and access to every resource I create? Join 800+ builders inside the community:\nhttps://www.skool.com/earlyaidopters/about",
+  "files": [
+    {
+      "file": "framework-comparison.html",
+      "status": "cached",
+      "bytes": 110960
+    }
+  ],
+  "has_rich_content": true
+}

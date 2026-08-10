@@ -1,0 +1,31 @@
+{
+  "name": "n8n Data Tables Kit 🧠",
+  "external_id": "zJjXTtds6HWisk7nwAzhGA==",
+  "permalink": "hzstip",
+  "unique_permalink": "hzstip",
+  "custom_permalink": "n8ndatatables",
+  "url": "https://markkashef.gumroad.com/l/n8ndatatables",
+  "status": "published",
+  "archived": false,
+  "kind": "products",
+  "price_formatted": "CAD$0+",
+  "description_md": "# What You Get\n\n- Import-ready n8n workflow (.json) with three scenarios: Sheet→Table sync, AI Sales analysis, and a Sheets vs Data Tables speed test.\n\n- Pre-wired AI Agent + tools (queries, calculator) for dynamic sales insights.\n\n- Built-in test data generator + Gmail→CRM demo flow for personalization.\n\n- Two CSV demo datasets for instant hands-on testing.\n\n- Step-by-step sticky-note setup guide inside the workflow.\n\nLove my free stuff, you'll love my paid stuff in the Early AI-dopters community:\nhttps://www.skool.com/earlyaidopters/about",
+  "files": [
+    {
+      "file": "Data Tables.json",
+      "status": "cached",
+      "bytes": 27088
+    },
+    {
+      "file": "DATA_TABLES_PM - Sheet1.csv",
+      "status": "cached",
+      "bytes": 572
+    },
+    {
+      "file": "DATA_TABLES_PM_DEMO - Sheet1.csv",
+      "status": "cached",
+      "bytes": 572
+    }
+  ],
+  "has_rich_content": true
+}

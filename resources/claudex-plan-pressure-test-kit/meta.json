@@ -1,0 +1,21 @@
+{
+  "name": "Claudex Plan-Pressure-Test Kit ⏲️",
+  "external_id": "ZhdvEWb2DxOcGy7a4h8kug==",
+  "permalink": "jhddz",
+  "unique_permalink": "jhddz",
+  "custom_permalink": "claudex-plan-pressure-test-kit",
+  "url": "https://markkashef.gumroad.com/l/claudex-plan-pressure-test-kit",
+  "status": "published",
+  "archived": false,
+  "kind": "products",
+  "price_formatted": "CAD$0+",
+  "description_md": "# What You Get\n\n- Link to Github Repo\n\n- \nCodex Loop Field Guide PDF. \n\nThe video as a take-home reference. All ten diagrams embedded. Every section walks through the lifecycle, the four slash commands, and the real-world use cases in plain English. Read it once before you install. Keep it open while you build.\n\n# Who This Is For\nIf you have used Claude Code at all and you have ever shipped a feature that fell apart on contact with reality, this is for you. You do not need to be a full-time engineer. The Field Guide translates every technical term into plain English. You do need a Claude Code subscription and a ChatGPT account at minimum, since claudex calls Codex through the standard Codex CLI.\n## Join The Community For The Deeper Build\nInside Early AI Dopters we walk through the deeper mechanics together, share the modifications we have made, and ship new versions of the loop pattern as the AI coding world evolves.\nhttps://www.skool.com/earlyaidopters/about",
+  "files": [
+    {
+      "file": "codex_loop_field_guide.pdf",
+      "status": "cached",
+      "bytes": 7453105
+    }
+  ],
+  "has_rich_content": true
+}

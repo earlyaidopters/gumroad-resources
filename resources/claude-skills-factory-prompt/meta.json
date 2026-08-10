@@ -1,0 +1,21 @@
+{
+  "name": "Claude Skills Factory Prompt 🏭",
+  "external_id": "lN847DGIqWsrAxwKlOuxBw==",
+  "permalink": "fmmkmv",
+  "unique_permalink": "fmmkmv",
+  "custom_permalink": "claudecodeskillsfactory",
+  "url": "https://markkashef.gumroad.com/l/claudecodeskillsfactory",
+  "status": "published",
+  "archived": false,
+  "kind": "products",
+  "price_formatted": "CAD$0+",
+  "description_md": "## What You Get\n\n- Claude Code ready master prompt you can copy-paste to scaffold complete skill folders, SKILL.md, sample_prompt.md, and ZIP packaging for immediate import.\n\n- Includes the uploaded SKILLS_FACTORY_GENERATOR_PROMPT.md so you can import and configure variables directly in Claude Code.\n\n- Configuration variables (BUSINESS_TYPE, USE_CASES, NUMBER_OF_SKILLS, COMPLEXITY_LEVEL, PYTHON_PREFERENCE) that let non-technical users customize at scale.\n\n- Production-ready outputs: kebab-case folder names, fully formatted SKILL.md files, optional Python scripts, and test data when applicable.",
+  "files": [
+    {
+      "file": "SKILLS_FACTORY_GENERATOR_PROMPT.md",
+      "status": "cached",
+      "bytes": 10633
+    }
+  ],
+  "has_rich_content": true
+}

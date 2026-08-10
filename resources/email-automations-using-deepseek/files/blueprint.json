@@ -1,0 +1,1015 @@
+{
+    "name": "DeepSeek Email Drafting",
+    "flow": [
+        {
+            "id": 2,
+            "module": "google-email:TriggerNewEmail",
+            "version": 2,
+            "parameters": {
+                "account": 2304940,
+                "searchType": "simple",
+                "markSeen": false,
+                "maxResults": 1,
+                "folder": "INBOX",
+                "criteria": "ALL",
+                "from": "",
+                "subject": "",
+                "text": ""
+            },
+            "mapper": {},
+            "metadata": {
+                "designer": {
+                    "x": 0,
+                    "y": 0
+                },
+                "restore": {
+                    "parameters": {
+                        "account": {
+                            "label": "My Gmail (mark@promptadvisers.com)",
+                            "data": {
+                                "scoped": "true",
+                                "connection": "google-restricted"
+                            }
+                        },
+                        "searchType": {
+                            "label": "Simple filter"
+                        },
+                        "folder": {
+                            "path": [
+                                "INBOX"
+                            ]
+                        },
+                        "criteria": {
+                            "label": "All emails"
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "account",
+                        "type": "account:google-restricted",
+                        "label": "Connection",
+                        "required": true
+                    },
+                    {
+                        "name": "searchType",
+                        "type": "select",
+                        "label": "Filter type",
+                        "required": true,
+                        "validate": {
+                            "enum": [
+                                "simple",
+                                "gmail"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "markSeen",
+                        "type": "boolean",
+                        "label": "Mark email message(s) as read when fetched"
+                    },
+                    {
+                        "name": "maxResults",
+                        "type": "uinteger",
+                        "label": "Maximum number of results",
+                        "required": true
+                    },
+                    {
+                        "name": "folder",
+                        "type": "folder",
+                        "label": "Folder",
+                        "required": true
+                    },
+                    {
+                        "name": "criteria",
+                        "type": "select",
+                        "label": "Criteria",
+                        "required": true,
+                        "validate": {
+                            "enum": [
+                                "ALL",
+                                "SEEN",
+                                "UNSEEN"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "from",
+                        "type": "email",
+                        "label": "Sender email address"
+                    },
+                    {
+                        "name": "subject",
+                        "type": "text",
+                        "label": "Subject"
+                    },
+                    {
+                        "name": "text",
+                        "type": "text",
+                        "label": "Search phrase"
+                    }
+                ]
+            }
+        },
+        {
+            "id": 17,
+            "module": "deepseek-ai:getBalance",
+            "version": 1,
+            "parameters": {
+                "__IMTCONN__": 3934750
+            },
+            "mapper": {},
+            "metadata": {
+                "designer": {
+                    "x": 300,
+                    "y": 0,
+                    "name": "Starting Balance"
+                },
+                "restore": {
+                    "parameters": {
+                        "__IMTCONN__": {
+                            "data": {
+                                "scoped": "true",
+                                "connection": "deepseek-ai"
+                            },
+                            "label": "Mark's DeepSeek Connection"
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "__IMTCONN__",
+                        "type": "account:deepseek-ai",
+                        "label": "Connection",
+                        "required": true
+                    }
+                ]
+            }
+        },
+        {
+            "id": 11,
+            "module": "deepseek-ai:createAChatCompletion",
+            "version": 1,
+            "parameters": {
+                "__IMTCONN__": 3934750
+            },
+            "mapper": {
+                "messages": [
+                    {
+                        "role": "user",
+                        "content": "Based on this summary, respond only with one of two responses:  \n\nNo response needed  \nResponse needed  \n\n**Criteria for tagging:**  \n\n- **No response needed**  \n  - Marketing, promotional, newsletters, system-generated emails, solicitations, meeting invites, general updates, or automated notifications.  \n  - Examples include newsletters, reminders, and generic business insights.  \n\n- **Response needed**  \n  - The email directly mentions **Mark, Prompt Advisers, or an existing project, proposal, or relevant communication** requiring attention.  \n  - Includes discussions, follow-ups, inquiries, or project-related details.  \n\nThis is the email content:  \n\n{{2.subject}}  \n{{2.text}}  \n{{2.from.name}}  \n{{2.from.address}}  "
+                    }
+                ],
+                "model": "deepseek-reasoner",
+                "max_tokens": "4096",
+                "temperature": "1",
+                "response_format": {
+                    "type": "text"
+                },
+                "top_p": "1"
+            },
+            "metadata": {
+                "designer": {
+                    "x": 600,
+                    "y": 0,
+                    "name": "Email Classification"
+                },
+                "restore": {
+                    "parameters": {
+                        "__IMTCONN__": {
+                            "label": "Mark's DeepSeek Connection",
+                            "data": {
+                                "scoped": "true",
+                                "connection": "deepseek-ai"
+                            }
+                        }
+                    },
+                    "expect": {
+                        "messages": {
+                            "mode": "chose",
+                            "items": [
+                                {
+                                    "role": {
+                                        "mode": "chose",
+                                        "label": "User"
+                                    }
+                                }
+                            ]
+                        },
+                        "model": {
+                            "mode": "chose",
+                            "label": "deepseek-reasoner"
+                        },
+                        "response_format": {
+                            "nested": {
+                                "type": {
+                                    "mode": "chose",
+                                    "label": "Text"
+                                }
+                            }
+                        },
+                        "stop": {
+                            "mode": "chose"
+                        },
+                        "logprobs": {
+                            "mode": "chose"
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "__IMTCONN__",
+                        "type": "account:deepseek-ai",
+                        "label": "Connection",
+                        "required": true
+                    }
+                ],
+                "expect": [
+                    {
+                        "name": "messages",
+                        "type": "array",
+                        "label": "Messages",
+                        "required": true,
+                        "spec": [
+                            {
+                                "name": "role",
+                                "type": "select",
+                                "label": "Role",
+                                "options": [
+                                    {
+                                        "label": "User",
+                                        "value": "user"
+                                    },
+                                    {
+                                        "label": "System",
+                                        "value": "system"
+                                    }
+                                ],
+                                "required": true
+                            },
+                            {
+                                "name": "content",
+                                "type": "text",
+                                "label": "Content",
+                                "required": true
+                            },
+                            {
+                                "name": "name",
+                                "type": "text",
+                                "label": "Name"
+                            }
+                        ]
+                    },
+                    {
+                        "name": "model",
+                        "type": "select",
+                        "label": "Model",
+                        "required": true
+                    },
+                    {
+                        "name": "max_tokens",
+                        "type": "number",
+                        "label": "Max Tokens",
+                        "validate": {
+                            "max": 8192,
+                            "min": 1
+                        }
+                    },
+                    {
+                        "name": "temperature",
+                        "type": "number",
+                        "label": "Temperature",
+                        "validate": {
+                            "max": 2,
+                            "min": 0
+                        }
+                    },
+                    {
+                        "name": "response_format",
+                        "type": "collection",
+                        "label": "Response Format",
+                        "spec": [
+                            {
+                                "name": "type",
+                                "type": "select",
+                                "label": "Type",
+                                "validate": {
+                                    "enum": [
+                                        "text",
+                                        "json_object"
+                                    ]
+                                }
+                            }
+                        ]
+                    },
+                    {
+                        "name": "frequency_penalty",
+                        "type": "number",
+                        "label": "Frequency Penalty",
+                        "validate": {
+                            "max": 2,
+                            "min": -2
+                        }
+                    },
+                    {
+                        "name": "presence_penalty",
+                        "type": "number",
+                        "label": "Presence Penalty",
+                        "validate": {
+                            "max": 2,
+                            "min": -2
+                        }
+                    },
+                    {
+                        "name": "stop",
+                        "type": "array",
+                        "label": "Stop",
+                        "spec": {
+                            "type": "text",
+                            "name": "value"
+                        }
+                    },
+                    {
+                        "name": "top_p",
+                        "type": "number",
+                        "label": "Top P",
+                        "validate": {
+                            "max": 1,
+                            "min": 0
+                        }
+                    },
+                    {
+                        "name": "logprobs",
+                        "type": "boolean",
+                        "label": "Logprobs"
+                    },
+                    {
+                        "name": "top_logprobs",
+                        "type": "number",
+                        "label": "Top Logprobs",
+                        "validate": {
+                            "max": 20,
+                            "min": 0
+                        }
+                    },
+                    {
+                        "name": "tools",
+                        "type": "any",
+                        "label": "Tools"
+                    },
+                    {
+                        "name": "tool_choice",
+                        "type": "any",
+                        "label": "Tool Choice"
+                    }
+                ]
+            }
+        },
+        {
+            "id": 13,
+            "module": "deepseek-ai:createAChatCompletion",
+            "version": 1,
+            "parameters": {
+                "__IMTCONN__": 3934750
+            },
+            "filter": {
+                "name": "Response Needed?",
+                "conditions": [
+                    [
+                        {
+                            "a": "{{11.result}}",
+                            "b": "No response needed",
+                            "o": "text:notequal"
+                        }
+                    ]
+                ]
+            },
+            "mapper": {
+                "messages": [
+                    {
+                        "role": "user",
+                        "content": "Create an email response from **Mark** (not \"Mark Kashef\") based on the following email details.  \n\n### **Response Scenarios:**  \n\n- **Scenario 1:**  \n  - If the email requires me to **review a file, document, or create something**, draft a **concise acknowledgment** confirming receipt and stating I will follow up after reviewing.  \n\n- **Scenario 2:**  \n  - If the email is **requesting a meeting**, draft a **concise response** providing my **Calendly link**: [Calendly/1234].  \n\n### **Email Info:**  \n- **Subject:** {{2.subject}}  \n- **Body Content:** {{2.text}}  \n- **Sender Name:** {{2.from.name}}  \n- **Sender Email:** {{2.from.address}}  "
+                    }
+                ],
+                "model": "deepseek-reasoner",
+                "max_tokens": "4096",
+                "temperature": "1",
+                "response_format": {
+                    "type": "text"
+                },
+                "top_p": "1"
+            },
+            "metadata": {
+                "designer": {
+                    "x": 900,
+                    "y": 0,
+                    "name": "Draft an Email Response"
+                },
+                "restore": {
+                    "parameters": {
+                        "__IMTCONN__": {
+                            "label": "Mark's DeepSeek Connection",
+                            "data": {
+                                "scoped": "true",
+                                "connection": "deepseek-ai"
+                            }
+                        }
+                    },
+                    "expect": {
+                        "messages": {
+                            "mode": "chose",
+                            "items": [
+                                {
+                                    "role": {
+                                        "mode": "chose",
+                                        "label": "User"
+                                    }
+                                }
+                            ]
+                        },
+                        "model": {
+                            "mode": "chose",
+                            "label": "deepseek-reasoner"
+                        },
+                        "response_format": {
+                            "nested": {
+                                "type": {
+                                    "mode": "chose",
+                                    "label": "Text"
+                                }
+                            }
+                        },
+                        "stop": {
+                            "mode": "chose"
+                        },
+                        "logprobs": {
+                            "mode": "chose"
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "__IMTCONN__",
+                        "type": "account:deepseek-ai",
+                        "label": "Connection",
+                        "required": true
+                    }
+                ],
+                "expect": [
+                    {
+                        "name": "messages",
+                        "type": "array",
+                        "label": "Messages",
+                        "required": true,
+                        "spec": [
+                            {
+                                "name": "role",
+                                "type": "select",
+                                "label": "Role",
+                                "options": [
+                                    {
+                                        "label": "User",
+                                        "value": "user"
+                                    },
+                                    {
+                                        "label": "System",
+                                        "value": "system"
+                                    }
+                                ],
+                                "required": true
+                            },
+                            {
+                                "name": "content",
+                                "type": "text",
+                                "label": "Content",
+                                "required": true
+                            },
+                            {
+                                "name": "name",
+                                "type": "text",
+                                "label": "Name"
+                            }
+                        ]
+                    },
+                    {
+                        "name": "model",
+                        "type": "select",
+                        "label": "Model",
+                        "required": true
+                    },
+                    {
+                        "name": "max_tokens",
+                        "type": "number",
+                        "label": "Max Tokens",
+                        "validate": {
+                            "max": 8192,
+                            "min": 1
+                        }
+                    },
+                    {
+                        "name": "temperature",
+                        "type": "number",
+                        "label": "Temperature",
+                        "validate": {
+                            "max": 2,
+                            "min": 0
+                        }
+                    },
+                    {
+                        "name": "response_format",
+                        "type": "collection",
+                        "label": "Response Format",
+                        "spec": [
+                            {
+                                "name": "type",
+                                "type": "select",
+                                "label": "Type",
+                                "validate": {
+                                    "enum": [
+                                        "text",
+                                        "json_object"
+                                    ]
+                                }
+                            }
+                        ]
+                    },
+                    {
+                        "name": "frequency_penalty",
+                        "type": "number",
+                        "label": "Frequency Penalty",
+                        "validate": {
+                            "max": 2,
+                            "min": -2
+                        }
+                    },
+                    {
+                        "name": "presence_penalty",
+                        "type": "number",
+                        "label": "Presence Penalty",
+                        "validate": {
+                            "max": 2,
+                            "min": -2
+                        }
+                    },
+                    {
+                        "name": "stop",
+                        "type": "array",
+                        "label": "Stop",
+                        "spec": {
+                            "type": "text",
+                            "name": "value"
+                        }
+                    },
+                    {
+                        "name": "top_p",
+                        "type": "number",
+                        "label": "Top P",
+                        "validate": {
+                            "max": 1,
+                            "min": 0
+                        }
+                    },
+                    {
+                        "name": "logprobs",
+                        "type": "boolean",
+                        "label": "Logprobs"
+                    },
+                    {
+                        "name": "top_logprobs",
+                        "type": "number",
+                        "label": "Top Logprobs",
+                        "validate": {
+                            "max": 20,
+                            "min": 0
+                        }
+                    },
+                    {
+                        "name": "tools",
+                        "type": "any",
+                        "label": "Tools"
+                    },
+                    {
+                        "name": "tool_choice",
+                        "type": "any",
+                        "label": "Tool Choice"
+                    }
+                ]
+            }
+        },
+        {
+            "id": 14,
+            "module": "deepseek-ai:createAChatCompletion",
+            "version": 1,
+            "parameters": {
+                "__IMTCONN__": 3934750
+            },
+            "mapper": {
+                "messages": [
+                    {
+                        "role": "user",
+                        "content": "Act as an **email copywriting expert**.  \n\n- **Objective**: Rewrite the following email copy to make it more **humanlike, engaging, and natural** while maintaining clarity and professionalism.  \n- **Formatting**: Output the response in **proper HTML** for optimal display in Gmail.  \n- **Constraints**:  \n  - Do **not** summarize or explain the changes—just output the final email.  \n  - Do **not** include the subject line in the response.  \n  - Ensure the email appears to be from **Mark** (not \"Mark Kashef\").  \n\n**Email Content to Improve:**  \n\n{{13.result}}"
+                    }
+                ],
+                "model": "deepseek-reasoner",
+                "max_tokens": "4096",
+                "temperature": "1",
+                "response_format": {
+                    "type": "text"
+                },
+                "top_p": "1"
+            },
+            "metadata": {
+                "designer": {
+                    "x": 1200,
+                    "y": 0,
+                    "name": "Proofread & Convert to HTML"
+                },
+                "restore": {
+                    "parameters": {
+                        "__IMTCONN__": {
+                            "label": "Mark's DeepSeek Connection",
+                            "data": {
+                                "scoped": "true",
+                                "connection": "deepseek-ai"
+                            }
+                        }
+                    },
+                    "expect": {
+                        "messages": {
+                            "mode": "chose",
+                            "items": [
+                                {
+                                    "role": {
+                                        "mode": "chose",
+                                        "label": "User"
+                                    }
+                                }
+                            ]
+                        },
+                        "model": {
+                            "mode": "chose",
+                            "label": "deepseek-reasoner"
+                        },
+                        "response_format": {
+                            "nested": {
+                                "type": {
+                                    "mode": "chose",
+                                    "label": "Text"
+                                }
+                            }
+                        },
+                        "stop": {
+                            "mode": "chose"
+                        },
+                        "logprobs": {
+                            "mode": "chose"
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "__IMTCONN__",
+                        "type": "account:deepseek-ai",
+                        "label": "Connection",
+                        "required": true
+                    }
+                ],
+                "expect": [
+                    {
+                        "name": "messages",
+                        "type": "array",
+                        "label": "Messages",
+                        "required": true,
+                        "spec": [
+                            {
+                                "name": "role",
+                                "type": "select",
+                                "label": "Role",
+                                "options": [
+                                    {
+                                        "label": "User",
+                                        "value": "user"
+                                    },
+                                    {
+                                        "label": "System",
+                                        "value": "system"
+                                    }
+                                ],
+                                "required": true
+                            },
+                            {
+                                "name": "content",
+                                "type": "text",
+                                "label": "Content",
+                                "required": true
+                            },
+                            {
+                                "name": "name",
+                                "type": "text",
+                                "label": "Name"
+                            }
+                        ]
+                    },
+                    {
+                        "name": "model",
+                        "type": "select",
+                        "label": "Model",
+                        "required": true
+                    },
+                    {
+                        "name": "max_tokens",
+                        "type": "number",
+                        "label": "Max Tokens",
+                        "validate": {
+                            "max": 8192,
+                            "min": 1
+                        }
+                    },
+                    {
+                        "name": "temperature",
+                        "type": "number",
+                        "label": "Temperature",
+                        "validate": {
+                            "max": 2,
+                            "min": 0
+                        }
+                    },
+                    {
+                        "name": "response_format",
+                        "type": "collection",
+                        "label": "Response Format",
+                        "spec": [
+                            {
+                                "name": "type",
+                                "type": "select",
+                                "label": "Type",
+                                "validate": {
+                                    "enum": [
+                                        "text",
+                                        "json_object"
+                                    ]
+                                }
+                            }
+                        ]
+                    },
+                    {
+                        "name": "frequency_penalty",
+                        "type": "number",
+                        "label": "Frequency Penalty",
+                        "validate": {
+                            "max": 2,
+                            "min": -2
+                        }
+                    },
+                    {
+                        "name": "presence_penalty",
+                        "type": "number",
+                        "label": "Presence Penalty",
+                        "validate": {
+                            "max": 2,
+                            "min": -2
+                        }
+                    },
+                    {
+                        "name": "stop",
+                        "type": "array",
+                        "label": "Stop",
+                        "spec": {
+                            "type": "text",
+                            "name": "value"
+                        }
+                    },
+                    {
+                        "name": "top_p",
+                        "type": "number",
+                        "label": "Top P",
+                        "validate": {
+                            "max": 1,
+                            "min": 0
+                        }
+                    },
+                    {
+                        "name": "logprobs",
+                        "type": "boolean",
+                        "label": "Logprobs"
+                    },
+                    {
+                        "name": "top_logprobs",
+                        "type": "number",
+                        "label": "Top Logprobs",
+                        "validate": {
+                            "max": 20,
+                            "min": 0
+                        }
+                    },
+                    {
+                        "name": "tools",
+                        "type": "any",
+                        "label": "Tools"
+                    },
+                    {
+                        "name": "tool_choice",
+                        "type": "any",
+                        "label": "Tool Choice"
+                    }
+                ]
+            }
+        },
+        {
+            "id": 18,
+            "module": "deepseek-ai:getBalance",
+            "version": 1,
+            "parameters": {
+                "__IMTCONN__": 3934750
+            },
+            "mapper": {},
+            "metadata": {
+                "designer": {
+                    "x": 1500,
+                    "y": 0,
+                    "name": "Ending Balance"
+                },
+                "restore": {
+                    "parameters": {
+                        "__IMTCONN__": {
+                            "data": {
+                                "scoped": "true",
+                                "connection": "deepseek-ai"
+                            },
+                            "label": "Mark's DeepSeek Connection"
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "__IMTCONN__",
+                        "type": "account:deepseek-ai",
+                        "label": "Connection",
+                        "required": true
+                    }
+                ]
+            }
+        },
+        {
+            "id": 15,
+            "module": "google-email:ActionCreateDraft",
+            "version": 2,
+            "parameters": {
+                "account": 2304940
+            },
+            "mapper": {
+                "cc": [],
+                "to": [
+                    "{{2.from.address}}"
+                ],
+                "bcc": [],
+                "html": "{{14.result}}",
+                "folder": "[Gmail]/Drafts",
+                "subject": "Re: {{2.subject}}",
+                "attachments": []
+            },
+            "metadata": {
+                "designer": {
+                    "x": 1800,
+                    "y": 0
+                },
+                "restore": {
+                    "expect": {
+                        "cc": {
+                            "mode": "chose"
+                        },
+                        "to": {
+                            "mode": "chose",
+                            "items": [
+                                null
+                            ]
+                        },
+                        "bcc": {
+                            "mode": "chose"
+                        },
+                        "folder": {
+                            "mode": "chose",
+                            "path": [
+                                "Drafts",
+                                "Drafts"
+                            ]
+                        },
+                        "attachments": {
+                            "mode": "chose"
+                        }
+                    },
+                    "parameters": {
+                        "account": {
+                            "data": {
+                                "scoped": "true",
+                                "connection": "google-restricted"
+                            },
+                            "label": "My Gmail (mark@promptadvisers.com)"
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "account",
+                        "type": "account:google-restricted",
+                        "label": "Connection",
+                        "required": true
+                    }
+                ],
+                "expect": [
+                    {
+                        "name": "folder",
+                        "type": "folder",
+                        "label": "Folder",
+                        "required": true
+                    },
+                    {
+                        "name": "to",
+                        "spec": {
+                            "name": "value",
+                            "type": "email",
+                            "label": "Email address",
+                            "required": true
+                        },
+                        "type": "array",
+                        "label": "To"
+                    },
+                    {
+                        "name": "subject",
+                        "type": "text",
+                        "label": "Subject"
+                    },
+                    {
+                        "name": "html",
+                        "type": "text",
+                        "label": "Content"
+                    },
+                    {
+                        "name": "attachments",
+                        "spec": [
+                            {
+                                "name": "fileName",
+                                "type": "filename",
+                                "label": "File name",
+                                "required": true,
+                                "semantic": "file:name"
+                            },
+                            {
+                                "name": "data",
+                                "type": "buffer",
+                                "label": "Data",
+                                "required": true,
+                                "semantic": "file:data"
+                            }
+                        ],
+                        "type": "array",
+                        "label": "Attachments"
+                    },
+                    {
+                        "name": "cc",
+                        "spec": {
+                            "name": "value",
+                            "type": "email",
+                            "label": "Email address",
+                            "required": true
+                        },
+                        "type": "array",
+                        "label": "Copy recipient"
+                    },
+                    {
+                        "name": "bcc",
+                        "spec": {
+                            "name": "value",
+                            "type": "email",
+                            "label": "Email address",
+                            "required": true
+                        },
+                        "type": "array",
+                        "label": "Blind copy recipient"
+                    }
+                ]
+            }
+        }
+    ],
+    "metadata": {
+        "instant": false,
+        "version": 1,
+        "scenario": {
+            "roundtrips": 1,
+            "maxErrors": 3,
+            "autoCommit": true,
+            "autoCommitTriggerLast": true,
+            "sequential": false,
+            "slots": null,
+            "confidential": false,
+            "dataloss": false,
+            "dlq": false,
+            "freshVariables": false
+        },
+        "designer": {
+            "orphans": []
+        },
+        "zone": "us1.make.com",
+        "notes": []
+    }
+}

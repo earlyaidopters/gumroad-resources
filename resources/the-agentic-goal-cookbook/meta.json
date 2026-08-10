@@ -1,0 +1,26 @@
+{
+  "name": "The Agentic Goal Cookbook 📖",
+  "external_id": "kk_2suOD9cob2JN8dxpKmQ==",
+  "permalink": "uhkomb",
+  "unique_permalink": "uhkomb",
+  "custom_permalink": "goal-cookbook-self-improving-agentic-os",
+  "url": "https://markkashef.gumroad.com/l/goal-cookbook-self-improving-agentic-os",
+  "status": "published",
+  "archived": false,
+  "kind": "products",
+  "price_formatted": "CAD$0+",
+  "description_md": "# What You Get\n\n- \nThe /goal Cookbook (PDF): A polished 10-page guide containing the 5 ready-to-paste /goal prompts from the Self-Improving Agentic OS video, plus the 6-anchor framework that makes the difference between a /goal that finishes cleanly and a /goal that drifts.\n\n- \nPrompt 1 - CLEAN: Audit ~/.claude end to end. Archive every skill that no longer earns its keep, dedupe rule contradictions, refresh CLAUDE.md, and write a senior-engineer-grade manifest of every change to AUDIT_REPORT.md.\n\n- \nPrompt 2 - SHARPEN: Iterate one skill against a rubric you write. Claude scores its own output, finds the lowest-scoring criterion, edits the SKILL.md to fix it without regressing, and re-tests. Measurable improvement, not vibe-improvement.\n\n- \nPrompt 3 - REVIVE: Scan ~/Projects, detect dormant folders by git age, attempt to run them, fix broken dependencies, rewrite the README in 3 sentences, log a verdict (alive, revived, unfixable) for each one to ALIVE.md.\n\n- \nPrompt 4 - FORGE: Read the 50 most recent Claude Code session transcripts, find recurring prompt patterns that don't have a corresponding skill, and write new skills with proper YAML frontmatter and smoke tests.\n\n- \nPrompt 5 - MAINTAIN: A /loop + /goal heartbeat that keeps your agentic OS clean on a 30-minute cycle while you sleep. The OS stays in equilibrium without manual maintenance.\n\n- \nThe 6 Anchors of a Great /goal Prompt: The hidden structure inside every prompt above. Once you see the anchors, you can write your own /goal prompts for any workflow.\n\n- \nThe Raw Prompts (5 .txt files): Each prompt as a standalone file with when-to-use, guardrails, common failure modes, and wake-up verification commands. Copy-paste ready.\n\nCheck out the Early AI Dopters community for the full Claude Code Magic course, dedicated /goal and /loop modules, direct access to me and my team of coaches, and a working group of builders shipping their own variants.\nJoin here: https://www.skool.com/earlyaidopters/about",
+  "files": [
+    {
+      "file": "goal_cookbook.pdf",
+      "status": "cached",
+      "bytes": 20317
+    },
+    {
+      "file": "Raw Text Prompts.zip",
+      "status": "cached",
+      "bytes": 7828
+    }
+  ],
+  "has_rich_content": true
+}

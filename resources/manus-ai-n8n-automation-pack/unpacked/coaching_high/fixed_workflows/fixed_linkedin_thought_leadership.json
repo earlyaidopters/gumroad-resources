@@ -1,0 +1,298 @@
+{
+  "name": "Automated LinkedIn Thought-Leadership Workflow",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "days",
+              "minutesInterval": 0,
+              "hoursInterval": 0,
+              "daysInterval": 7
+            }
+          ],
+          "triggerAtTime": true,
+          "hour": 9,
+          "minute": 0
+        }
+      },
+      "id": "1a5c1e9a-5352-4ab1-a9f5-c29a2e83a0a0",
+      "name": "Schedule Trigger",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1,
+      "position": [
+        250,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialName": "OpenAI API Key",
+        "operation": "message",
+        "model": "gpt-4",
+        "options": {
+          "temperature": 0.7,
+          "maxTokens": 1000
+        },
+        "messages": {
+          "values": [
+            {
+              "role": "system",
+              "content": "You are an expert thought leader in the coaching industry. Your task is to create insightful, engaging LinkedIn posts that position the user as a thought leader in the coaching space. The content should be professional, insightful, and include a call to action."
+            },
+            {
+              "role": "user",
+              "content": "Create a thought leadership post for LinkedIn on the topic of coaching. The post should be between 1200-1500 characters, include a hook at the beginning, provide valuable insights in the middle, and end with a thought-provoking question or call to action. The tone should be professional but conversational. Include appropriate hashtags at the end."
+            }
+          ]
+        }
+      },
+      "id": "2b6d2f9b-6463-4bc2-b0f6-d3a3f4b4a0b1",
+      "name": "OpenAI - Generate Content",
+      "type": "n8n-nodes-langchain.openai",
+      "typeVersion": 1,
+      "position": [
+        450,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://api.canva.com/v1/designs",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialName": "Canva API Key",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "template_id",
+              "value": "TEMPLATE_ID_PLACEHOLDER"
+            },
+            {
+              "name": "title",
+              "value": "=LinkedIn Thought Leadership - {{$now.format(\"YYYY-MM-DD\")}}"
+            },
+            {
+              "name": "text_elements",
+              "value": "=[\n  {\n    \"element_id\": \"title\",\n    \"text\": {{$node[\"Code - Extract Title\"].json[\"title\"]}}\n  },\n  {\n    \"element_id\": \"subtitle\",\n    \"text\": {{$node[\"Code - Extract Title\"].json[\"subtitle\"]}}\n  }\n]"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "3c7e3f0c-7574-4cd3-c1f7-e4b4f5c5b1c2",
+      "name": "HTTP Request - Canva Design",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 3,
+      "position": [
+        850,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Extract a title and subtitle from the OpenAI generated content\nconst content = $input.item.json.text || $input.item.json.content;\n\n// Simple extraction logic - first sentence as title, second as subtitle\nconst sentences = content.split('.');\nlet title = sentences[0].trim();\n\n// Ensure title isn't too long\nif (title.length > 50) {\n  title = title.substring(0, 47) + '...';\n}\n\n// Get a good subtitle from the content\nlet subtitle = '';\nif (sentences.length > 1) {\n  subtitle = sentences[1].trim();\n  if (subtitle.length > 100) {\n    subtitle = subtitle.substring(0, 97) + '...';\n  }\n}\n\nreturn {\n  title,\n  subtitle,\n  fullContent: content\n};"
+      },
+      "id": "4d8f4g1d-8685-5de4-d2g8-f5c6g6d7c2d3",
+      "name": "Code - Extract Title",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [
+        650,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialName": "LinkedIn",
+        "text": "={{$node[\"Code - Extract Title\"].json[\"fullContent\"]}}",
+        "additionalFields": {
+          "postAs": "person",
+          "mediaCategory": "NONE"
+        }
+      },
+      "id": "5e9g5h2e-9796-6ef5-e3h9-g6d7h7e8d3e4",
+      "name": "LinkedIn - Post Content",
+      "type": "n8n-nodes-base.linkedin",
+      "typeVersion": 1,
+      "position": [
+        1050,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialName": "Slack Account",
+        "channel": "coaching-automation-alerts",
+        "text": "=LinkedIn thought leadership post successfully published at {{$now.format(\"YYYY-MM-DD HH:mm:ss\")}}.\n\nPost preview: {{$node[\"Code - Extract Title\"].json[\"title\"]}}...",
+        "otherOptions": {}
+      },
+      "id": "6f0h6i3f-0807-7fg6-f4i0-h7e8i8f9e4f5",
+      "name": "Slack - Send Notification",
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 1,
+      "position": [
+        1250,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "boolean": [
+            {
+              "value1": "={{$node[\"LinkedIn - Post Content\"].json.hasOwnProperty('error')}}",
+              "value2": true
+            }
+          ]
+        }
+      },
+      "id": "7g1i7j4g-1918-8gh7-g5j1-i8f9j9g0f5g6",
+      "name": "IF - Posting Error",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [
+        1050,
+        500
+      ]
+    },
+    {
+      "parameters": {
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialName": "Slack Account",
+        "channel": "coaching-automation-alerts",
+        "text": "=⚠️ ERROR: LinkedIn thought leadership post failed to publish at {{$now.format(\"YYYY-MM-DD HH:mm:ss\")}}.\n\nError details: {{$node[\"LinkedIn - Post Content\"].json.error}}",
+        "otherOptions": {}
+      },
+      "id": "8h2j8k5h-2029-9hi8-h6k2-j9g0k0h1g6h7",
+      "name": "Slack - Send Error",
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 1,
+      "position": [
+        1250,
+        500
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Store the content in Google Sheets as a backup\n// This is a placeholder for actual Google Sheets integration\n// In a real implementation, this would use the Google Sheets node\n\nreturn {\n  status: \"Content stored for retry\",\n  timestamp: new Date().toISOString(),\n  content: $input.item.json.fullContent,\n  error: $node[\"LinkedIn - Post Content\"].json.error\n};"
+      },
+      "id": "9i3k9l6i-3130-0ij9-i7l3-k0h1l1i2h7i8",
+      "name": "Code - Store Failed Content",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [
+        1450,
+        500
+      ]
+    }
+  ],
+  "connections": {
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "OpenAI - Generate Content",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI - Generate Content": {
+      "main": [
+        [
+          {
+            "node": "Code - Extract Title",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code - Extract Title": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request - Canva Design",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "LinkedIn - Post Content",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "LinkedIn - Post Content": {
+      "main": [
+        [
+          {
+            "node": "IF - Posting Error",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Slack - Send Notification",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "IF - Posting Error": {
+      "main": [
+        [
+          {
+            "node": "Slack - Send Error",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Slack - Send Error": {
+      "main": [
+        [
+          {
+            "node": "Code - Store Failed Content",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1",
+    "saveManualExecutions": true,
+    "callerPolicy": "workflowsFromSameOwner",
+    "errorWorkflow": ""
+  },
+  "staticData": null,
+  "tags": [
+    "content",
+    "linkedin",
+    "automation",
+    "coaching"
+  ],
+  "triggerCount": 1,
+  "versionId": "1a2b3c4d-5e6f-7g8h-9i0j-1k2l3m4n5o6p"
+}

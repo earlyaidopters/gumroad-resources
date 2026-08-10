@@ -1,0 +1,473 @@
+{
+  "name": "Twitter Thread Automation",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "days",
+              "minutesInterval": 0,
+              "hoursInterval": 0,
+              "daysInterval": 5
+            }
+          ],
+          "triggerAtTime": true,
+          "hour": 10,
+          "minute": 30
+        }
+      },
+      "id": "1a5c1e9a-5352-4ab1-a9f5-c29a2e83a0a0",
+      "name": "Schedule Trigger",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1,
+      "position": [
+        250,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "read",
+        "documentId": {
+          "__rl": true,
+          "value": "GOOGLE_SHEET_ID_PLACEHOLDER",
+          "mode": "list",
+          "cachedResultName": "Coaching Topics",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/GOOGLE_SHEET_ID_PLACEHOLDER/edit"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 0,
+          "mode": "list",
+          "cachedResultName": "Topics"
+        },
+        "range": "A:B",
+        "options": {
+          "headerRow": true
+        }
+      },
+      "id": "2b6d2f9b-6463-4bc2-b0f6-d3a3f4b4a0b1",
+      "name": "Google Sheets - Get Topics",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 3,
+      "position": [
+        450,
+        300
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "GOOGLE_SHEETS_CREDENTIAL_ID_PLACEHOLDER",
+          "name": "Google Sheets Account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// Select a random topic from the Google Sheet\nconst items = $input.all();\nconst topics = items.map(item => item.json);\n\n// Filter out any empty rows\nconst validTopics = topics.filter(topic => \n  topic.topic && topic.topic.trim() !== '' && \n  topic.description && topic.description.trim() !== ''\n);\n\n// Select a random topic\nconst randomIndex = Math.floor(Math.random() * validTopics.length);\nconst selectedTopic = validTopics[randomIndex] || {\n  topic: \"Personal Growth Through Coaching\",\n  description: \"How coaching can accelerate personal development and transformation\"\n};\n\nreturn {\n  topic: selectedTopic.topic,\n  description: selectedTopic.description,\n  timestamp: new Date().toISOString()\n};"
+      },
+      "id": "3c7e3f0c-7574-4cd3-c1f7-e4b4f5c5b1c2",
+      "name": "Code - Select Topic",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [
+        650,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialName": "OpenAI API Key",
+        "operation": "message",
+        "model": "gpt-4",
+        "options": {
+          "temperature": 0.7,
+          "maxTokens": 1500
+        },
+        "messages": {
+          "values": [
+            {
+              "role": "system",
+              "content": "You are an expert at creating engaging Twitter threads about coaching topics. Your threads should be informative, conversational, and provide valuable insights that position the author as a thought leader in the coaching industry."
+            },
+            {
+              "role": "user",
+              "content": "=Create a Twitter thread (5-7 tweets) on the topic of \"{{$node[\"Code - Select Topic\"].json[\"topic\"]}}\".\n\nDescription: {{$node[\"Code - Select Topic\"].json[\"description\"]}}\n\nEach tweet should be under 280 characters. The first tweet should hook the reader, and the last tweet should include a call to action. Make the thread cohesive, informative, and engaging. Format your response with one tweet per line, with \"Tweet 1:\", \"Tweet 2:\", etc. at the beginning of each line."
+            }
+          ]
+        }
+      },
+      "id": "4d8f4g1d-8685-5de4-d2g8-f5c6g6d7c2d3",
+      "name": "OpenAI - Generate Thread",
+      "type": "n8n-nodes-langchain.openai",
+      "typeVersion": 1,
+      "position": [
+        850,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Parse the thread from OpenAI response\nconst content = $input.item.json.text || $input.item.json.content;\n\n// Split the content into individual tweets\nconst tweetRegex = /Tweet \\d+:\\s*(.+?)(?=\\s*Tweet \\d+:|$)/gs;\nlet matches = [];\nlet match;\n\nwhile ((match = tweetRegex.exec(content)) !== null) {\n  if (match[1].trim() !== '') {\n    matches.push(match[1].trim());\n  }\n}\n\n// If regex didn't work, try simple line splitting\nif (matches.length === 0) {\n  const lines = content.split('\\n').filter(line => line.trim() !== '');\n  matches = lines.map(line => {\n    // Remove \"Tweet X:\" prefix if present\n    return line.replace(/^Tweet \\d+:\\s*/, '').trim();\n  });\n}\n\n// Ensure we have at least one tweet\nif (matches.length === 0) {\n  matches = [\"The journey of coaching begins with understanding yourself before you can help others grow. #coaching #personaldevelopment\"];\n}\n\n// Add hashtags to the last tweet if not present\nlet lastTweet = matches[matches.length - 1];\nif (!lastTweet.includes('#')) {\n  lastTweet += \" #coaching #leadership #personalgrowth\";\n  matches[matches.length - 1] = lastTweet;\n}\n\nreturn {\n  tweets: matches,\n  tweetCount: matches.length,\n  topic: $node[\"Code - Select Topic\"].json.topic\n};"
+      },
+      "id": "5e9g5h2e-9796-6ef5-e3h9-g6d7h7e8d3e4",
+      "name": "Code - Parse Thread",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [
+        1050,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialName": "X API",
+        "resource": "tweet",
+        "operation": "create",
+        "text": "={{$node[\"Code - Parse Thread\"].json[\"tweets\"][0]}}",
+        "additionalFields": {}
+      },
+      "id": "6f0h6i3f-0807-7fg6-f4i0-h7e8i8f9e4f5",
+      "name": "X - Post First Tweet",
+      "type": "n8n-nodes-base.twitter",
+      "typeVersion": 1,
+      "position": [
+        1250,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Store the first tweet ID for replies\nconst firstTweetResponse = $input.item.json;\n\nreturn {\n  firstTweetId: firstTweetResponse.id,\n  firstTweetText: firstTweetResponse.text,\n  remainingTweets: $node[\"Code - Parse Thread\"].json.tweets.slice(1)\n};"
+      },
+      "id": "7g1i7j4g-1918-8gh7-g5j1-i8f9j9g0f5g6",
+      "name": "Code - Prepare Thread",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [
+        1450,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "// Process each tweet in the thread\nconst currentIndex = $input.item.index;\nconst remainingTweets = $input.item.json.remainingTweets;\n\nif (currentIndex < remainingTweets.length) {\n  return {\n    tweetText: remainingTweets[currentIndex],\n    tweetIndex: currentIndex + 1,\n    inReplyToId: $input.item.json.firstTweetId\n  };\n} else {\n  return {\n    tweetText: null,\n    tweetIndex: currentIndex + 1,\n    inReplyToId: $input.item.json.firstTweetId\n  };\n}"
+      },
+      "id": "8h2j8k5h-2029-9hi8-h6k2-j9g0k0h1g6h7",
+      "name": "Code - Process Each Tweet",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [
+        1650,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "boolean": [
+            {
+              "value1": "={{$node[\"Code - Process Each Tweet\"].json[\"tweetText\"] !== null}}",
+              "value2": true
+            }
+          ]
+        }
+      },
+      "id": "9i3k9l6i-3130-0ij9-i7l3-k0h1l1i2h7i8",
+      "name": "IF - Has Tweet",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [
+        1850,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialName": "X API",
+        "resource": "tweet",
+        "operation": "create",
+        "text": "={{$node[\"Code - Process Each Tweet\"].json[\"tweetText\"]}}",
+        "additionalFields": {
+          "inReplyToTweetId": "={{$node[\"Code - Process Each Tweet\"].json[\"inReplyToId\"]}}"
+        }
+      },
+      "id": "0j4l0m7j-4241-1jk0-j8m4-l1i2m2j3i8j9",
+      "name": "X - Post Reply Tweet",
+      "type": "n8n-nodes-base.twitter",
+      "typeVersion": 1,
+      "position": [
+        2050,
+        200
+      ]
+    },
+    {
+      "parameters": {
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialName": "Slack Account",
+        "channel": "coaching-automation-alerts",
+        "text": "=Twitter thread successfully published at {{$now.format(\"YYYY-MM-DD HH:mm:ss\")}}.\n\nTopic: {{$node[\"Code - Select Topic\"].json[\"topic\"]}}\nNumber of tweets: {{$node[\"Code - Parse Thread\"].json[\"tweetCount\"]}}",
+        "otherOptions": {}
+      },
+      "id": "1k5m1n8k-5352-2kl1-k9n5-m2j3n3k4j9k0",
+      "name": "Slack - Send Notification",
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 1,
+      "position": [
+        2050,
+        400
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "boolean": [
+            {
+              "value1": "={{$node[\"X - Post First Tweet\"].json.hasOwnProperty('error')}}",
+              "value2": true
+            }
+          ]
+        }
+      },
+      "id": "2l6n2o9l-6463-3lm2-l0o6-n3k4o4l5k0l1",
+      "name": "IF - Posting Error",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [
+        1250,
+        500
+      ]
+    },
+    {
+      "parameters": {
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialName": "Slack Account",
+        "channel": "coaching-automation-alerts",
+        "text": "=⚠️ ERROR: Twitter thread failed to publish at {{$now.format(\"YYYY-MM-DD HH:mm:ss\")}}.\n\nError details: {{$node[\"X - Post First Tweet\"].json.error}}",
+        "otherOptions": {}
+      },
+      "id": "3m7o3p0m-7574-4mn3-m1p7-o5l6p5m6l1m2",
+      "name": "Slack - Send Error",
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 1,
+      "position": [
+        1450,
+        500
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "GOOGLE_SHEET_ID_PLACEHOLDER",
+          "mode": "list",
+          "cachedResultName": "Backup Tweets",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/GOOGLE_SHEET_ID_PLACEHOLDER/edit"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 0,
+          "mode": "list",
+          "cachedResultName": "Sheet1"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "mappingMode": "defineBelow",
+            "value": {
+              "date": "={{$now.format(\"YYYY-MM-DD HH:mm:ss\")}}",
+              "topic": "={{$node[\"Code - Select Topic\"].json[\"topic\"]}}",
+              "tweets": "={{JSON.stringify($node[\"Code - Parse Thread\"].json[\"tweets\"])}}",
+              "status": "=Failed",
+              "error": "={{$node[\"X - Post First Tweet\"].json.error}}"
+            }
+          }
+        },
+        "options": {}
+      },
+      "id": "4n8p4q1n-8685-5no4-n2q8-p6m7q6n7m2n3",
+      "name": "Google Sheets - Store Failed Thread",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 3,
+      "position": [
+        1650,
+        500
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "GOOGLE_SHEETS_CREDENTIAL_ID_PLACEHOLDER",
+          "name": "Google Sheets Account"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets - Get Topics",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets - Get Topics": {
+      "main": [
+        [
+          {
+            "node": "Code - Select Topic",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code - Select Topic": {
+      "main": [
+        [
+          {
+            "node": "OpenAI - Generate Thread",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI - Generate Thread": {
+      "main": [
+        [
+          {
+            "node": "Code - Parse Thread",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code - Parse Thread": {
+      "main": [
+        [
+          {
+            "node": "X - Post First Tweet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "X - Post First Tweet": {
+      "main": [
+        [
+          {
+            "node": "Code - Prepare Thread",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "IF - Posting Error",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code - Prepare Thread": {
+      "main": [
+        [
+          {
+            "node": "Code - Process Each Tweet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code - Process Each Tweet": {
+      "main": [
+        [
+          {
+            "node": "IF - Has Tweet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "IF - Has Tweet": {
+      "main": [
+        [
+          {
+            "node": "X - Post Reply Tweet",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Slack - Send Notification",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "X - Post Reply Tweet": {
+      "main": [
+        [
+          {
+            "node": "Code - Process Each Tweet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "IF - Posting Error": {
+      "main": [
+        [
+          {
+            "node": "Slack - Send Error",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Slack - Send Error": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets - Store Failed Thread",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1",
+    "saveManualExecutions": true,
+    "callerPolicy": "workflowsFromSameOwner",
+    "errorWorkflow": ""
+  },
+  "staticData": null,
+  "tags": [
+    "content",
+    "twitter",
+    "x",
+    "automation",
+    "coaching",
+    "thread"
+  ],
+  "triggerCount": 1,
+  "versionId": "3c4d5e6f-7g8h-9i0j-1k2l-3m4n5o6p7q8r"
+}

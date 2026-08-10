@@ -1,0 +1,26 @@
+{
+  "name": "Google Workspace CLI Starter Kit 🏁",
+  "external_id": "t6loIxXeyOZdE-UPDsrMYQ==",
+  "permalink": "xazdsp",
+  "unique_permalink": "xazdsp",
+  "custom_permalink": "gws-starter-kit",
+  "url": "https://markkashef.gumroad.com/l/gws-starter-kit",
+  "status": "published",
+  "archived": false,
+  "kind": "products",
+  "price_formatted": "CAD$0+",
+  "description_md": "# What You Get\nThe Mega Prompt: A complete Claude Code system prompt that instantly unlocks Google Workspace CLI. Paste it into your CLAUDE.md and Claude will write every gws command for you in plain English.\n6 Demo Prompts: Copy-paste prompts for Email Triage, Weekly Business Report, Meeting Prep Brief, Follow-Up Automation, Daily Standup, and Drive Cleanup. Each one is privacy-safe and ready to run.\nBattle-Testing Checklist: Everything to verify before you film or go live -- auth scopes, data requirements, and filming setup notes.\n---\n# Why This Works\nThe Google Workspace CLI gives your AI direct access to Gmail, Calendar, Drive, Sheets, Docs, and more -- without Zapier, without n8n, without monthly fees.\nThe Mega Prompt is the missing piece. It tells Claude exactly how gws works, what commands are available, and the safety rules to follow. Once it's in your CLAUDE.md, you just describe what you want and Claude handles the rest.\n---\nWant access to every resource I create? Join 800+ builders inside the community:\nhttps://www.skool.com/earlyaidopters/about",
+  "files": [
+    {
+      "file": "DEMO_PROMPTS.pdf",
+      "status": "cached",
+      "bytes": 19999
+    },
+    {
+      "file": "gws_setup_prompt.pdf",
+      "status": "cached",
+      "bytes": 6639
+    }
+  ],
+  "has_rich_content": true
+}

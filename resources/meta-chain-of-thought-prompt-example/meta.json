@@ -1,0 +1,15 @@
+{
+  "name": "Meta Chain-of-Thought Prompt Example",
+  "external_id": "Ek6WkniMPFsYsriWZoWC3g==",
+  "permalink": "iwatb",
+  "unique_permalink": "iwatb",
+  "custom_permalink": null,
+  "url": "https://markkashef.gumroad.com/l/iwatb",
+  "status": "published",
+  "archived": false,
+  "kind": "products",
+  "price_formatted": "CAD$0+",
+  "description_md": "Become an expert in understanding and optimizing your AI’s mind through Meta Prompting and Chain-of-Thought (CoT) techniques. This comprehensive guide is designed for prompt engineers and AI enthusiasts who want to master the art of crafting precise and actionable prompts that enhance AI performance. Learn how to use CoT and ReAct prompting methods to break down complex reasoning and deliver reliable, well-structured responses. Gain insights into optimizing your prompts, troubleshooting faulty outputs, and refining the initial input for improved results.\n\nWhat's Inside:\n\n- Understand how to implement Chain-of-Thought and ReAct prompting to generate step-by-step reasoning traces and task-specific actions in AI responses.\n\n- Learn best practices for clarifying user queries, identifying ambiguities, and structuring comprehensive answers based on multiple sources.\n\n- Gain expertise in analyzing faulty AI outputs and understanding the discrepancies between the desired and actual results.\n\n- Develop skills in correcting prompts, refining AI processes, and ensuring responses are logical, accurate, and aligned with the user's needs.\n\n- Explore real-world examples of AI interactions, with detailed reasoning and clarification techniques to enhance user satisfaction and task completion.\n\n- Receive tips and tricks to maintain AI role integrity, optimize user interactions, and continuously improve prompt effectiveness over time.",
+  "files": [],
+  "has_rich_content": true
+}

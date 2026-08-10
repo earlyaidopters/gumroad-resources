@@ -1,0 +1,11 @@
+Get Amazon Bedrock ready so my system can call models entirely inside my account. Walk me through it.
+
+1. Explain that Bedrock model access is granted per account, per region, in the Bedrock console under Model access, and that it can take a few minutes to propagate.
+
+2. Tell me exactly which models to request for a build like this: Claude (Opus, Sonnet, Haiku) for reasoning; Amazon Titan Text Embeddings for search and RAG; and optionally Amazon Nova Sonic for voice, a Stability model for images (note it is us-west-2 only), and one or two open models (Llama, Mistral) if I want a no-outside-vendor fallback.
+
+3. Give me the click-by-click console steps to request access, and warn me that some models create a zero-dollar AWS Marketplace subscription on first use.
+
+4. Verify access from the CLI. List the Claude models with `aws bedrock list-foundation-models --region REGION --query "modelSummaries[?contains(modelId, 'claude')].modelId"`, and if access is granted, do one minimal invoke to confirm a model actually responds.
+
+Stop when list-foundation-models shows the models I enabled and a test invoke returns a response.

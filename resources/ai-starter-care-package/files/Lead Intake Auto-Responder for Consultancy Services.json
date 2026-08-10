@@ -1,0 +1,379 @@
+{
+  "name": "Lead Intake Auto-Responder for Consultancy Services",
+  "nodes": [
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyMinute"
+            }
+          ]
+        },
+        "documentId": {
+          "__rl": true,
+          "value": "Lead Sheet Temlate",
+          "mode": "list"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "",
+          "mode": "list",
+          "cachedResultName": "",
+          "cachedResultUrl": ""
+        },
+        "event": "rowAdded",
+        "options": {}
+      },
+      "id": "f703a55d-93a2-4ea6-bd9d-a29be89e1c56",
+      "name": "Lead Intake Trigger",
+      "type": "n8n-nodes-base.googleSheetsTrigger",
+      "typeVersion": 1,
+      "position": [
+        -128,
+        0
+      ],
+      "credentials": {
+        "googleSheetsTriggerOAuth2Api": {
+          "id": "SQ3Ab5v",
+          "name": "Google Sheets Trigger account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=TASK: Analyze new lead information and company context to determine appropriate response strategy. If using the Send Email Tool was successful, return 'First Response Sent', otherwise return 'Send Email Tool Failed'\nINPUT DATA:\nLead Information:\n\nName: {{ $json[\"First Name\"] }} {{ $json[\"Last Name\"] }}\nCompany: {{ $json[\"Company Name\"] }}\nIndustry: {{ $json[\"Company Industry\"] }}\nServices Requested: {{ $json[\"Services Requested\"] }}\n\nCompany Context:\n\nOur Company: {{ $json.companyName }}\nType: {{ $json.companyType }}\nOur Services: {{ $json.companyServices }}\n\nANALYSIS REQUIREMENTS:\n\nDetermine relevant value propositions based on the lead's industry\nAssess how our team is positioned for this lead's needs\nFormulate an appropriate personalization strategy using available lead data\n\nRESPONSE STRATEGY:\n\nAcknowledge the specific services requested\nReference the lead's industry context where applicable\nPropose relevant matching services with clear value connection\nMaintain professional, consultative tone\nInclude clear call-to-action for next steps\n\n\nWHEN USING Send Email Tool:\nRequired Parameters:\n\nlead_email(string):\nGet the {{ $json[\"Lead Email\"] }} from the input to use as the lead_email.\n\nemail_subject (string):\n\nMax 60 characters\nFormat: \"Re: [Services Requested] for [Company Name]\"\nBe specific, avoid generic phrases\n\n\nemail_body (HTML string):\n\nStructure:\n\nGreeting with first name\nOpening: Acknowledge specific service request (1-2 sentences)\nValue proposition: Map relevant services explicitly (2-3 sentences)\nDifferentiation: Reference company type advantage (1-2 sentences)\nCall-to-action: Specific next step\nProfessional closing\n\n\nHTML formatting:\n\nUse <p> tags for paragraphs\nUse <br> sparingly for line breaks\nUse <strong> for emphasis (max 2-3 instances)\nNo external CSS or complex styling\n\n\nLength: 150-250 words\nMust reference at least 2 specific lead data points\nIf any field is empty/null, omit gracefully",
+        "options": {
+          "systemMessage": "=You are a professional business development assistant for {{ $json.companyName }}, {{ $json.companyType }}. Your role is to analyze incoming lead data and craft personalized, professional email responses that:\n\n1. Acknowledge the lead's specific inquiry and requirements\n2. Reference relevant company services and expertise that match their needs\n3. Maintain a professional yet warm tone\n4. Include appropriate next steps or call-to-action\n5. Use the company's established voice and messaging\n\nWhen crafting responses:\n- Always personalize based on the lead's industry, company size, and stated needs\n- Highlight specific services that align with their requirements\n- Include relevant case studies or success stories when appropriate\n- Provide clear next steps for engagement\n- Ensure all company contact information and branding is consistent\n\nUse the lead data and company configuration provided to create compelling, targeted responses that move prospects through the sales funnel effectively."
+        }
+      },
+      "id": "b2432852-349b-4f41-a14e-1b6d7de60595",
+      "name": "Email Response Agent",
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2.2,
+      "position": [
+        528,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "gpt-5-nano",
+          "mode": "list",
+          "cachedResultName": "gpt-5-nano"
+        },
+        "options": {
+          "temperature": 1
+        }
+      },
+      "id": "beb85a96-7e90-444b-8e53-9b6858a2f32f",
+      "name": "OpenAI Chat Model",
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        464,
+        208
+      ],
+      "credentials": {
+        "openAiApi": {
+          "id": "KSK4jYZC",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "### Readme\nNever lose a new lead with this autoresponder workflow.\n\nPre-requisite: A Google Sheet to collect new lead info. This can be switched out for any database you use to collect lead information.\n\n**Instructions**\n1. Connect your Google account to the Google Sheets and Gmail nodes in the workflow. \n2. Add your OpenAI API Key to the chat model node.\n3. Configure your Company Context in the Provide Your Company Context node. \n4. Edit the Google Sheet template for your specific needs. \n**Bonus** Create a form with Google Forms or Tally.so to back up to your Google Sheet complete with your desired lead structure. \n\nYou can use our Google Sheet template to get a headstart! [Lead Intake Template](https://docs.google.com/spreadsheets/d/1Srcp1pMrqm0B2aA4fwnPZr1-ZZxTM3FRmhn54SA1Ftg/copy).",
+        "height": 428,
+        "width": 440,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -752,
+        -224
+      ],
+      "typeVersion": 1,
+      "id": "9f11a5da-cb3b-47a7-bb61-224304963bdc",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "1eb10099-ea1b-4714-a42f-e032bc7a695b",
+              "name": "companyName",
+              "value": "Your Company Name",
+              "type": "string"
+            },
+            {
+              "id": "e28db4b3-c16e-4ac6-b0a2-642ccae24c47",
+              "name": "companyType",
+              "value": "Your Company Type",
+              "type": "string"
+            },
+            {
+              "id": "9a90c2cc-8855-453e-b6bc-9698cf3757e8",
+              "name": "companyServices",
+              "value": "Services you offer",
+              "type": "string"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "id": "92765a3d-beb0-4d59-a521-775b3deaeb69",
+      "name": "Provide Your Company Context",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        96,
+        0
+      ],
+      "notesInFlow": true,
+      "notes": "Use this node to provide context about your company and services to the LLM node for a more tailored experience.\n\nEx. \n\ncompanyName: Window Washers Enterprise\ncompanyType: Service Based\ncompanyServices: washing all windows, both commercial and residential. "
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $fromAI('lead_email') }}",
+        "subject": "={{ $fromAI('email_subject') }}",
+        "message": "={{ $fromAI('email_body') }}",
+        "options": {}
+      },
+      "id": "ede4f9d3-e708-4c77-9fe0-7c80679f5e10",
+      "name": "Send Email Tool",
+      "type": "n8n-nodes-base.gmailTool",
+      "typeVersion": 2.1,
+      "position": [
+        832,
+        208
+      ],
+      "webhookId": "8e1afbb4-e5c6-4bd2-bf3a-e5270b900917",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "ysoJCTog",
+          "name": "Gmail account"
+        }
+      },
+      "notes": "This is the Send Email Tool."
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "Lead Sheet Temlate",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "",
+          "mode": "list",
+          "cachedResultName": "",
+          "cachedResultUrl": ""
+        }
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        1152,
+        -16
+      ],
+      "id": "928dec34-bbc8-40ce-b24c-1b832161c5d0",
+      "name": "Update row in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "8Ovhm75",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "16b5d258-443f-4e54-9636-eb5e93d292c7",
+              "leftValue": "={{ $json.output }}",
+              "rightValue": "First Response Sent",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        880,
+        0
+      ],
+      "id": "bbb6e302-a9de-4aef-aa41-22bc71e8b2cb",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "unit": "minutes"
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        304,
+        0
+      ],
+      "id": "abed0bc0-7584-4eb2-9782-8e357d0946e2",
+      "name": "Wait",
+      "webhookId": "eeb55450-bb17-4a2a-a090-25182dd76a7d"
+    },
+    {
+      "parameters": {
+        "content": "## Configure Google Credentials\n",
+        "height": 304
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -192,
+        -112
+      ],
+      "typeVersion": 1,
+      "id": "a18e8858-43e1-431a-aecc-11a5a1035df9",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "content": "## Configure \n## Google \n## Credentials\n",
+        "width": 336
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        624,
+        192
+      ],
+      "typeVersion": 1,
+      "id": "f08a82ec-6baa-4858-863f-b008149b79a6",
+      "name": "Sticky Note2"
+    },
+    {
+      "parameters": {
+        "content": "## Add OpenAI\n## API Key\n",
+        "height": 144,
+        "width": 288
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        304,
+        192
+      ],
+      "typeVersion": 1,
+      "id": "0ddfb21f-1f2f-4eb9-8c38-dc46fbfbafa6",
+      "name": "Sticky Note3"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Lead Intake Trigger": {
+      "main": [
+        [
+          {
+            "node": "Provide Your Company Context",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Email Response Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Email Response Agent": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Provide Your Company Context": {
+      "main": [
+        [
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send Email Tool": {
+      "ai_tool": [
+        [
+          {
+            "node": "Email Response Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Update row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait": {
+      "main": [
+        [
+          {
+            "node": "Email Response Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "e21fde45-41de-4a99-b2b5-34ddf8ce6f25",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "aaadb797535f05587ee95b776c940c9b6a9d64e1e595f8af1"
+  },
+  "id": "TnlgtFjnpeTiX9mg",
+  "tags": []
+}

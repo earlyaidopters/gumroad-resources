@@ -1,0 +1,15 @@
+{"input": "What is the capital of France?", "output": "Paris is the capital of France.", "reference": "Paris"}
+{"input": "Who wrote 'Pride and Prejudice'?", "output": "Jane Austen wrote Pride and Prejudice, a famous English novel.", "reference": "Jane Austen"}
+{"input": "What is the chemical symbol for water?", "output": "H2O, commonly known as water.", "reference": "H2O"}
+{"input": "How many continents are there?", "output": "There are seven continents on Earth.", "reference": "Seven"}
+{"input": "Who painted the Mona Lisa?", "output": "The Mona Lisa was painted by Leonardo da Vinci, the Renaissance artist.", "reference": "Leonardo da Vinci"}
+{"input": "What is the largest planet in our solar system?", "output": "Jupiter is the biggest planet in the solar system.", "reference": "Jupiter"}
+{"input": "What is the boiling point of water in Celsius?", "output": "100 degrees Celsius is the boiling point of water.", "reference": "100"}
+{"input": "Who discovered gravity?", "output": "Isaac Newton discovered gravity after seeing an apple fall from a tree.", "reference": "Isaac Newton"}
+{"input": "What is the tallest mountain in the world?", "output": "Mount Everest is the highest mountain in the world.", "reference": "Mount Everest"}
+{"input": "What is the powerhouse of the cell?", "output": "The mitochondria is often referred to as the cell's powerhouse.", "reference": "Mitochondria"}
+{"input": "What is the capital of Germany?", "output": "Paris is a famous city.", "reference": "Berlin"}
+{"input": "Who invented the telephone?", "output": "The lightbulb was invented by Thomas Edison.", "reference": "Alexander Graham Bell"}
+{"input": "What is the square root of 16?", "output": "8", "reference": "4"}
+{"input": "What is the currency of Japan?", "output": "US Dollar", "reference": "Yen"}
+{"input": "Who was the first president of the United States?", "output": "Abraham Lincoln", "reference": "George Washington"}

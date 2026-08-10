@@ -1,0 +1,66 @@
+{
+  "name": "OpenAI Evaluation B-Z Guide 📓",
+  "external_id": "EehJmEm_UIjL-DqH1aVSDQ==",
+  "permalink": "myqtx",
+  "unique_permalink": "myqtx",
+  "custom_permalink": "evaluationguide",
+  "url": "https://markkashef.gumroad.com/l/evaluationguide",
+  "status": "published",
+  "archived": false,
+  "kind": "products",
+  "price_formatted": "CAD$0+",
+  "description_md": "What You Get:\nWith this resource suite, you’ll gain a thorough understanding of how to effectively use the OpenAI Evaluation Framework to enhance the accuracy, consistency, and quality of your prompt designs. Here’s what’s included:\n\n- \nEvaluation Framework Slide Deck (PDF - 858.0 KB): A structured presentation that walks you through the essentials of the OpenAI Evaluation Framework, focusing on criteria for assessing factuality, semantics, and quality. This slide deck provides foundational knowledge for evaluating and refining prompts within the framework.\n\n- \nFactually, Semantic, and Criteria System Prompts: A Google Doc with pre-defined system prompts tailored to maintain factual accuracy, semantic clarity, and adherence to criteria within the Evaluation Framework. This resource offers guidelines on structuring prompts that align with OpenAI’s evaluation standards.\n\n- \nFrankenstein Custom GPT Prompt: A Google Doc featuring custom GPT prompts designed for complex scenarios, providing examples that illustrate how to use the Evaluation Framework to test and optimize these specialized prompts.\n\n- \nPrompt Testing Custom GPT: A dedicated GPT model configured for testing within the OpenAI Evaluation Framework, allowing hands-on assessment of prompt effectiveness, consistency, and responsiveness across various scenarios.\n\n- \nFile Generation Python Script (no technical expertise required): An accessible Python script available on Google Colab that automates the process of generating and managing files for use with the Evaluation Framework, making it easier to prepare and organize test materials.\n\n- \nTest Files for Evaluation Framework: A set of sample files specifically created to support practical learning and experimentation within the OpenAI Evaluation Framework, helping you test, refine, and ensure the quality of your prompts.\n\nEach of these resources is designed to empower you to effectively leverage the OpenAI Evaluation Framework, enabling you to create, evaluate, and optimize prompts with confidence and precision.",
+  "files": [
+    {
+      "file": "custom_prompt_dataset.jsonl",
+      "status": "cached",
+      "bytes": 1126
+    },
+    {
+      "file": "customer_support_responses.jsonl",
+      "status": "cached",
+      "bytes": 1711
+    },
+    {
+      "file": "ends_with_thank_you_dataset.jsonl",
+      "status": "cached",
+      "bytes": 1538
+    },
+    {
+      "file": "factuality_dataset.jsonl",
+      "status": "cached",
+      "bytes": 1023
+    },
+    {
+      "file": "json_validation_dataset.jsonl",
+      "status": "cached",
+      "bytes": 935
+    },
+    {
+      "file": "product_reviews.jsonl",
+      "status": "cached",
+      "bytes": 2507
+    },
+    {
+      "file": "schema_validation_dataset.jsonl",
+      "status": "cached",
+      "bytes": 1270
+    },
+    {
+      "file": "semantic_similarity_dataset.jsonl",
+      "status": "cached",
+      "bytes": 1933
+    },
+    {
+      "file": "simple_tenant_dataset.jsonl",
+      "status": "cached",
+      "bytes": 902
+    },
+    {
+      "file": "Evaluation Framework.pdf",
+      "status": "cached",
+      "bytes": 914751
+    }
+  ],
+  "has_rich_content": true
+}

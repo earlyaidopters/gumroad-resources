@@ -1,0 +1,51 @@
+{
+  "name": "Vibe Coding Starter Pack 🔥",
+  "external_id": "diSH-CNASvTGhprIpkFnhw==",
+  "permalink": "bvmth",
+  "unique_permalink": "bvmth",
+  "custom_permalink": "vibecodingmasterclass",
+  "url": "https://markkashef.gumroad.com/l/vibecodingmasterclass",
+  "status": "published",
+  "archived": false,
+  "kind": "products",
+  "price_formatted": "CAD$0+",
+  "description_md": "## What You Get\n\n- \nFour pro PDF cheat sheets for Lovable 2.0, Bolt + Stripe, Replit Agent v2, and Cursor AI—perfect side-kicks while you watch the free YouTube masterclass.\n\n- \nPlug-and-play n8n workflows to auto-generate images from prompts and to edit uploaded images on the fly—drop them straight into your Lovable builds.\n\n- \nBrief Loom tutorial that walks you through setting up GitHub on your laptop, so version control is ready in minutes.\n\n- \nPlain-English security quick-guide showing what each platform locks down, what could still break, and the fastest fixes before launch.\n\nNote: Miro shown in video not included\n💖 This video and associated resources took 3 weeks to create—if it levels up your builds, feel free to support the channel OR join my community Early AI-dopters for even deeper content",
+  "files": [
+    {
+      "file": "Replit Cheat Sheet.pdf",
+      "status": "cached",
+      "bytes": 3777876
+    },
+    {
+      "file": "Lovable Cheet Sheet.pdf",
+      "status": "cached",
+      "bytes": 1776428
+    },
+    {
+      "file": "Cursor Cheat Sheet.pdf",
+      "status": "cached",
+      "bytes": 2124890
+    },
+    {
+      "file": "Bolt Cheat Sheet.pdf",
+      "status": "cached",
+      "bytes": 1933083
+    },
+    {
+      "file": "Lovable_Image_Editing.json",
+      "status": "cached",
+      "bytes": 4926
+    },
+    {
+      "file": "Lovable_Image_Gen_Demo_1.json",
+      "status": "cached",
+      "bytes": 2036
+    },
+    {
+      "file": "Security-Features-Comparison-for-AI-Development-Platforms.pdf",
+      "status": "cached",
+      "bytes": 435679
+    }
+  ],
+  "has_rich_content": true
+}

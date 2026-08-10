@@ -1,0 +1,51 @@
+Lead_ID,ContactDate,Age,Gender,Income,Occupation,Neighborhood,HomeOwnerStatus,ServiceRequested,BudgetRange,MarketingChannel,LeadSource,ResponseTime,FollowUpCount,SatisfactionScore,Conversion,ServiceDuration,ServiceRating,DeviceUsed,PromotionApplied,DiscountAmount
+1001,2023-01-05,45,Male,75000,Professional,Downtown,Owner,Plumbing,$500-$1000,Phone,Referral,15,2,8,Yes,5,4,Mobile,No,0
+1002,2023-01-06,32,Female,54000,Skilled,Scarborough,Renter,Electrical,$1000-$2000,Web,Organic,30,1,,,No,,,"Desktop",Yes,150
+1003,2023-01-08,38,Male,68000,Professional,North York,Owner,HVAC,$1000-$2000,Email,Ad,20,3,9,Yes,7,5,Mobile,Yes,200
+1004,2023-01-10,27,Female,42000,Student,Etobicoke,Renter,Painting,$0-$500,Social Media,Event,45,0,,,No,,,"Mobile",No,0
+1005,2023-01-12,55,Female,88000,Professional,York,Owner,Roofing,Over $2000,Phone,Partner,10,1,7,Yes,10,3,Desktop,Yes,250
+1006,2023-01-15,60,Male,92000,Retired,Downtown,Owner,Landscaping,$1000-$2000,Referral,Referral,12,2,8,Yes,8,4,Tablet,No,0
+1007,2023-01-18,40,Female,63000,Skilled,Scarborough,Renter,Cleaning,$500-$1000,Web,Organic,25,1,6,Yes,3,5,Mobile,Yes,100
+1008,2023-01-20,50,Male,70000,Professional,North York,Owner,Pest Control,$500-$1000,Phone,Ad,18,2,9,Yes,4,4,Desktop,No,0
+1009,2023-01-22,36,Female,48000,Skilled,Etobicoke,Renter,Plumbing,$500-$1000,Email,Event,35,3,7,No,,,"Mobile",Yes,50
+1010,2023-01-25,29,Male,56000,Student,Downtown,Renter,Electrical,$0-$500,Web,Other,40,0,,,No,,,"Desktop",No,0
+1011,2023-01-28,43,Female,80000,Professional,York,Owner,HVAC,$1000-$2000,Phone,Referral,22,2,8,Yes,6,5,Tablet,Yes,200
+1012,2023-02-01,34,Male,66000,Skilled,Scarborough,Renter,Painting,$500-$1000,Social Media,Organic,28,1,7,No,,,"Mobile",Yes,100
+1013,2023-02-04,48,Female,75000,Professional,North York,Owner,Roofing,Over $2000,Email,Partner,16,2,9,Yes,9,4,Desktop,No,0
+1014,2023-02-07,39,Male,58000,Skilled,Etobicoke,Renter,Landscaping,$500-$1000,Web,Ad,30,3,6,No,,,"Tablet",No,0
+1015,2023-02-10,52,Female,85000,Professional,Downtown,Owner,Cleaning,$1000-$2000,Phone,Referral,14,1,8,Yes,4,5,Mobile,Yes,150
+1016,2023-02-12,31,Female,50000,Student,York,Renter,Pest Control,$0-$500,Email,Organic,33,0,,,No,,,"Desktop",No,0
+1017,2023-02-15,47,Male,72000,Skilled,Scarborough,Owner,Plumbing,$500-$1000,Referral,Partner,19,2,8,Yes,5,4,Mobile,Yes,100
+1018,2023-02-18,54,Female,87000,Professional,North York,Owner,Electrical,$1000-$2000,Phone,Ad,21,1,9,Yes,6,5,Tablet,No,0
+1019,2023-02-20,28,Male,49000,Student,Etobicoke,Renter,HVAC,$0-$500,Web,Other,37,0,,,No,,,"Mobile",Yes,75
+1020,2023-02-22,46,Female,81000,Professional,Downtown,Owner,Painting,$500-$1000,Email,Referral,26,2,8,Yes,5,4,Desktop,No,0
+1021,2023-02-25,50,Male,77000,Skilled,York,Owner,Roofing,Over $2000,Social Media,Organic,18,1,7,Yes,8,3,Mobile,Yes,150
+1022,2023-02-27,35,Female,60000,Professional,Scarborough,Renter,Landscaping,$500-$1000,Phone,Partner,23,2,8,Yes,7,4,Tablet,No,0
+1023,2023-03-01,41,Male,68000,Skilled,North York,Owner,Cleaning,$1000-$2000,Web,Ad,32,3,9,Yes,4,5,Mobile,Yes,100
+1024,2023-03-04,37,Female,63000,Professional,Etobicoke,Renter,Pest Control,$500-$1000,Email,Referral,29,1,7,No,,,"Desktop",No,0
+1025,2023-03-07,44,Male,76000,Skilled,Downtown,Owner,Plumbing,$1000-$2000,Phone,Organic,20,2,8,Yes,6,4,Tablet,Yes,200
+1026,2023-03-10,33,Female,52000,Student,York,Renter,Electrical,$0-$500,Social Media,Other,38,0,,,No,,,"Mobile",No,0
+1027,2023-03-12,49,Male,83000,Professional,Scarborough,Owner,HVAC,Over $2000,Web,Referral,15,1,9,Yes,7,5,Desktop,Yes,250
+1028,2023-03-15,42,Female,69000,Skilled,North York,Renter,Painting,$500-$1000,Email,Partner,27,2,7,No,,,"Mobile",No,0
+1029,2023-03-18,38,Male,64000,Professional,Etobicoke,Owner,Roofing,$1000-$2000,Phone,Ad,22,2,8,Yes,8,4,Tablet,Yes,150
+1030,2023-03-21,29,Female,51000,Student,Downtown,Renter,Landscaping,$0-$500,Social Media,Organic,40,0,,,No,,,"Mobile",No,0
+1031,2023-03-23,55,Male,90000,Professional,York,Owner,Cleaning,$1000-$2000,Referral,Referral,17,2,8,Yes,5,5,Desktop,Yes,200
+1032,2023-03-26,41,Female,68000,Skilled,Scarborough,Renter,Pest Control,$500-$1000,Web,Ad,24,1,7,No,,,"Tablet",No,0
+1033,2023-03-29,36,Male,62000,Professional,North York,Owner,Plumbing,$500-$1000,Email,Organic,19,2,8,Yes,6,4,Mobile,Yes,100
+1034,2023-04-01,48,Female,79000,Skilled,Etobicoke,Renter,Electrical,$1000-$2000,Phone,Partner,21,3,9,Yes,7,5,Desktop,No,0
+1035,2023-04-03,52,Male,85000,Professional,Downtown,Owner,HVAC,$1000-$2000,Social Media,Referral,16,1,8,Yes,5,4,Tablet,Yes,200
+1036,2023-04-06,39,Female,67000,Skilled,York,Renter,Painting,$500-$1000,Web,Ad,28,2,7,No,,,"Mobile",No,0
+1037,2023-04-09,44,Male,72000,Professional,Scarborough,Owner,Roofing,Over $2000,Email,Organic,18,1,8,Yes,9,3,Desktop,Yes,150
+1038,2023-04-12,30,Female,53000,Student,North York,Renter,Landscaping,$0-$500,Phone,Other,35,0,,,No,,,"Tablet",No,0
+1039,2023-04-15,50,Male,80000,Professional,Etobicoke,Owner,Cleaning,$1000-$2000,Social Media,Referral,23,2,9,Yes,4,5,Mobile,Yes,200
+1040,2023-04-18,37,Female,64000,Skilled,Downtown,Renter,Pest Control,$500-$1000,Web,Ad,26,1,7,No,,,"Desktop",No,0
+1041,2023-04-20,46,Male,78000,Professional,York,Owner,Plumbing,$1000-$2000,Email,Partner,20,2,8,Yes,6,4,Tablet,Yes,200
+1042,2023-04-23,34,Female,61000,Skilled,Scarborough,Renter,Electrical,$500-$1000,Phone,Organic,30,1,7,No,,,"Mobile",Yes,100
+1043,2023-04-26,51,Male,82000,Professional,North York,Owner,HVAC,$1000-$2000,Web,Referral,19,2,8,Yes,7,5,Desktop,No,0
+1044,2023-04-29,40,Female,68000,Skilled,Etobicoke,Renter,Painting,$500-$1000,Email,Ad,27,1,7,No,,,"Tablet",No,0
+1045,2023-05-02,55,Male,88000,Professional,Downtown,Owner,Roofing,Over $2000,Social Media,Partner,16,2,8,Yes,8,4,Mobile,Yes,250
+1046,2023-05-05,42,Female,73000,Skilled,York,Renter,Landscaping,$1000-$2000,Phone,Organic,24,2,7,No,,,"Desktop",No,0
+1047,2023-05-08,37,Male,67000,Professional,Scarborough,Owner,Cleaning,$500-$1000,Web,Referral,22,1,8,Yes,5,5,Tablet,Yes,150
+1048,2023-05-10,49,Female,80000,Professional,North York,Renter,Pest Control,$1000-$2000,Email,Ad,20,1,8,Yes,6,4,Mobile,No,0
+1049,2023-05-13,33,Male,55000,Student,Etobicoke,Renter,Plumbing,$0-$500,Social Media,Other,32,0,,,No,,,"Desktop",Yes,75
+1050,2023-05-16,47,Female,78000,Professional,Downtown,Owner,Electrical,$500-$1000,Phone,Referral,18,2,8,Yes,5,4,Tablet,Yes,200

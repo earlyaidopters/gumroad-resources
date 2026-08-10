@@ -1,0 +1,649 @@
+{
+  "name": "Client Milestone Recognition Automation",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "days",
+              "hours": [9],
+              "minutes": [0]
+            }
+          ]
+        }
+      },
+      "name": "Schedule Trigger",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1,
+      "position": [
+        250,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "documentId": {
+          "__rl": true,
+          "value": "YOUR_MILESTONES_SHEET_ID",
+          "mode": "list",
+          "cachedResultName": "Client Milestones"
+        },
+        "sheetName": "Client Milestones",
+        "returnAll": true,
+        "options": {
+          "filter": {
+            "values": {
+              "Status": "Pending"
+            }
+          }
+        }
+      },
+      "name": "Google Sheets - Get Pending Milestones",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4,
+      "position": [
+        400,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Check for milestones that should be triggered today\nconst milestones = $input.item.json;\nconst today = new Date();\nconst formattedToday = today.toISOString().split('T')[0];\n\n// Filter milestones that should be triggered today\nconst milestonesToTrigger = milestones.filter(milestone => {\n  // If milestone has a specific date, check if it's today\n  if (milestone[\"Trigger Date\"] && milestone[\"Trigger Date\"] === formattedToday) {\n    return true;\n  }\n  \n  // If milestone is based on sessions count, check if the count has been reached\n  if (milestone[\"Milestone Type\"] === \"Session Count\" && \n      parseInt(milestone[\"Current Count\"]) >= parseInt(milestone[\"Target Count\"])) {\n    return true;\n  }\n  \n  // If milestone is based on goal achievement, check if it's marked as achieved\n  if (milestone[\"Milestone Type\"] === \"Goal Achievement\" && \n      milestone[\"Goal Achieved\"] === \"TRUE\") {\n    return true;\n  }\n  \n  return false;\n});\n\nreturn { json: { milestonesToTrigger } };"
+      },
+      "name": "Identify Today's Milestones",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [
+        550,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "number": [
+            {
+              "value1": "={{ $json.milestonesToTrigger.length }}",
+              "operation": "larger",
+              "value2": 0
+            }
+          ]
+        }
+      },
+      "name": "Any Milestones Today?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [
+        700,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Extract milestones array for processing\nreturn { json: $json.milestonesToTrigger };"
+      },
+      "name": "Extract Milestones Array",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [
+        850,
+        200
+      ]
+    },
+    {
+      "parameters": {
+        "mode": "splitInBatches",
+        "batchSize": 1,
+        "options": {}
+      },
+      "name": "Split Into Individual Milestones",
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 2,
+      "position": [
+        1000,
+        200
+      ],
+      "executeOnce": false
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "documentId": {
+          "__rl": true,
+          "value": "YOUR_CLIENTS_SHEET_ID",
+          "mode": "list",
+          "cachedResultName": "Clients"
+        },
+        "sheetName": "Clients",
+        "returnAll": true,
+        "options": {
+          "filter": {
+            "values": {
+              "Email": "={{ $json[\"Client Email\"] }}"
+            }
+          }
+        }
+      },
+      "name": "Google Sheets - Get Client Details",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4,
+      "position": [
+        1150,
+        200
+      ]
+    },
+    {
+      "parameters": {
+        "authentication": "serviceAccount",
+        "operation": "completion",
+        "model": "gpt-4",
+        "prompt": {
+          "value": "Create a personalized milestone recognition email for a coaching client who has reached a significant milestone. Use the following details:\n\nClient Name: {{ $json[\"Client Name\"] }}\nMilestone Type: {{ $json[\"Milestone Type\"] }}\nMilestone Description: {{ $json[\"Milestone Description\"] }}\nClient Goals: {{ $node[\"Google Sheets - Get Client Details\"].json[0][\"Goals\"] }}\n\nThe email should:\n1. Congratulate the client on reaching this specific milestone\n2. Highlight the significance of this achievement in relation to their overall goals\n3. Acknowledge their hard work and commitment\n4. Encourage them to reflect on what they've learned or how they've grown\n5. Suggest a next step or goal to consider\n\nThe tone should be celebratory, warm, and encouraging. Format the email with appropriate HTML formatting including a greeting and signature. Include some inspirational element or quote related to achievement and growth."
+        },
+        "options": {
+          "temperature": 0.7,
+          "maxTokens": 1000
+        }
+      },
+      "name": "OpenAI - Generate Milestone Email",
+      "type": "n8n-nodes-base.openAi",
+      "typeVersion": 1,
+      "position": [
+        1300,
+        200
+      ]
+    },
+    {
+      "parameters": {
+        "fromEmail": "your.coaching.business@example.com",
+        "toEmail": "={{ $json[\"Client Email\"] }}",
+        "subject": "={{ \"Congratulations on Your Coaching Milestone: \" + $json[\"Milestone Description\"] }}",
+        "text": "",
+        "html": "={{ $node[\"OpenAI - Generate Milestone Email\"].json.text }}",
+        "options": {}
+      },
+      "name": "Gmail - Send Milestone Recognition",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2,
+      "position": [
+        1450,
+        200
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "YOUR_MILESTONES_SHEET_ID",
+          "mode": "list",
+          "cachedResultName": "Client Milestones"
+        },
+        "sheetName": "Client Milestones",
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Status": "Recognized",
+            "Recognition Date": "={{ $today.format('YYYY-MM-DD') }}"
+          }
+        },
+        "options": {
+          "filter": {
+            "values": {
+              "Row Number": "={{ $json[\"Row Number\"] }}"
+            }
+          }
+        }
+      },
+      "name": "Google Sheets - Update Milestone Status",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4,
+      "position": [
+        1600,
+        200
+      ]
+    },
+    {
+      "parameters": {
+        "chatId": "YOUR_SLACK_CHANNEL_ID",
+        "text": "✅ Client milestone recognized!\n\n*Client:* {{ $json[\"Client Name\"] }}\n*Milestone:* {{ $json[\"Milestone Description\"] }}\n*Type:* {{ $json[\"Milestone Type\"] }}",
+        "otherOptions": {
+          "parse_mode": "markdown"
+        }
+      },
+      "name": "Slack - Send Notification",
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 2,
+      "position": [
+        1750,
+        200
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "boolean": [
+            {
+              "value1": "={{ $node[\"Split Into Individual Milestones\"].context[\"noItemsLeft\"] }}",
+              "value2": true,
+              "operation": "equal"
+            }
+          ]
+        }
+      },
+      "name": "All Milestones Processed?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [
+        1900,
+        200
+      ]
+    },
+    {
+      "parameters": {
+        "chatId": "YOUR_SLACK_CHANNEL_ID",
+        "text": "✅ Milestone recognition process completed. Recognized {{ $node[\"Identify Today's Milestones\"].json.milestonesToTrigger.length }} client milestones today.",
+        "otherOptions": {
+          "parse_mode": "markdown"
+        }
+      },
+      "name": "Slack - Process Complete",
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 2,
+      "position": [
+        2050,
+        100
+      ]
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "update-milestone",
+        "options": {}
+      },
+      "name": "Webhook - Manual Milestone Update",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [
+        250,
+        500
+      ],
+      "webhookId": "manual-milestone-update"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Validate incoming milestone update data\nconst data = $input.item.json;\nconst requiredFields = ['clientEmail', 'milestoneType', 'milestoneDescription'];\n\nlet missingFields = [];\nrequiredFields.forEach(field => {\n  if (!data[field]) {\n    missingFields.push(field);\n  }\n});\n\nif (missingFields.length > 0) {\n  return {\n    json: {\n      success: false,\n      message: `Missing required fields: ${missingFields.join(', ')}`,\n      validationError: true\n    }\n  };\n}\n\nreturn {\n  json: {\n    ...data,\n    success: true,\n    updateDate: new Date().toISOString()\n  }\n};"
+      },
+      "name": "Validate Milestone Data",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [
+        400,
+        500
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "boolean": [
+            {
+              "value1": "={{ $json.success }}",
+              "value2": true,
+              "operation": "equal"
+            }
+          ]
+        }
+      },
+      "name": "Is Valid Milestone?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [
+        550,
+        500
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "documentId": {
+          "__rl": true,
+          "value": "YOUR_CLIENTS_SHEET_ID",
+          "mode": "list",
+          "cachedResultName": "Clients"
+        },
+        "sheetName": "Clients",
+        "returnAll": true,
+        "options": {
+          "filter": {
+            "values": {
+              "Email": "={{ $json.clientEmail }}"
+            }
+          }
+        }
+      },
+      "name": "Google Sheets - Get Client",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4,
+      "position": [
+        700,
+        400
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "YOUR_MILESTONES_SHEET_ID",
+          "mode": "list",
+          "cachedResultName": "Client Milestones"
+        },
+        "sheetName": "Client Milestones",
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Client Name": "={{ $node[\"Google Sheets - Get Client\"].json[0][\"Name\"] }}",
+            "Client Email": "={{ $json.clientEmail }}",
+            "Milestone Type": "={{ $json.milestoneType }}",
+            "Milestone Description": "={{ $json.milestoneDescription }}",
+            "Trigger Date": "={{ $today.format('YYYY-MM-DD') }}",
+            "Status": "Pending",
+            "Notes": "={{ $json.notes || \"\" }}"
+          }
+        }
+      },
+      "name": "Google Sheets - Add Milestone",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4,
+      "position": [
+        850,
+        400
+      ]
+    },
+    {
+      "parameters": {
+        "chatId": "YOUR_SLACK_CHANNEL_ID",
+        "text": "✅ New client milestone added!\n\n*Client:* {{ $node[\"Google Sheets - Get Client\"].json[0][\"Name\"] }}\n*Milestone:* {{ $json.milestoneDescription }}\n*Type:* {{ $json.milestoneType }}",
+        "otherOptions": {
+          "parse_mode": "markdown"
+        }
+      },
+      "name": "Slack - Notify About New Milestone",
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 2,
+      "position": [
+        1000,
+        400
+      ]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseData": {
+          "value": {
+            "success": true,
+            "message": "Client milestone added successfully. Recognition will be sent automatically."
+          }
+        },
+        "options": {}
+      },
+      "name": "Respond - Success",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [
+        1150,
+        400
+      ]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseData": {
+          "value": {
+            "success": false,
+            "message": "={{ $json.message || \"Invalid milestone data\" }}"
+          }
+        },
+        "options": {
+          "responseCode": 400
+        }
+      },
+      "name": "Respond - Error",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [
+        700,
+        600
+      ]
+    }
+  ],
+  "connections": {
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets - Get Pending Milestones",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets - Get Pending Milestones": {
+      "main": [
+        [
+          {
+            "node": "Identify Today's Milestones",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Identify Today's Milestones": {
+      "main": [
+        [
+          {
+            "node": "Any Milestones Today?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Any Milestones Today?": {
+      "main": [
+        [
+          {
+            "node": "Extract Milestones Array",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        []
+      ]
+    },
+    "Extract Milestones Array": {
+      "main": [
+        [
+          {
+            "node": "Split Into Individual Milestones",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Into Individual Milestones": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets - Get Client Details",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets - Get Client Details": {
+      "main": [
+        [
+          {
+            "node": "OpenAI - Generate Milestone Email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI - Generate Milestone Email": {
+      "main": [
+        [
+          {
+            "node": "Gmail - Send Milestone Recognition",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Gmail - Send Milestone Recognition": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets - Update Milestone Status",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets - Update Milestone Status": {
+      "main": [
+        [
+          {
+            "node": "Slack - Send Notification",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Slack - Send Notification": {
+      "main": [
+        [
+          {
+            "node": "All Milestones Processed?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "All Milestones Processed?": {
+      "main": [
+        [
+          {
+            "node": "Slack - Process Complete",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Split Into Individual Milestones",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook - Manual Milestone Update": {
+      "main": [
+        [
+          {
+            "node": "Validate Milestone Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Validate Milestone Data": {
+      "main": [
+        [
+          {
+            "node": "Is Valid Milestone?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Is Valid Milestone?": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets - Get Client",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Respond - Error",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets - Get Client": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets - Add Milestone",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets - Add Milestone": {
+      "main": [
+        [
+          {
+            "node": "Slack - Notify About New Milestone",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Slack - Notify About New Milestone": {
+      "main": [
+        [
+          {
+            "node": "Respond - Success",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "saveManualExecutions": true,
+    "callerPolicy": "workflowsFromSameOwner",
+    "errorWorkflow": "YOUR_ERROR_WORKFLOW_ID"
+  },
+  "tags": [
+    "client-management",
+    "milestone"
+  ],
+  "triggerCount": 1
+}

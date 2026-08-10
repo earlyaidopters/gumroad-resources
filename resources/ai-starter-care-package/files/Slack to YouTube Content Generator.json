@@ -1,0 +1,231 @@
+{
+  "name": "Slack to YouTube Content Generator",
+  "nodes": [
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "id-1",
+              "name": "videoIdea",
+              "value": "={{ $json.text }}",
+              "type": "string"
+            },
+            {
+              "id": "id-3",
+              "name": "threadTs",
+              "value": "={{ $json.ts }}",
+              "type": "string"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "id": "2591a963-6461-4d91-80ec-efdfd2e55d28",
+      "name": "Workflow Configuration",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        224,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "messages": {
+          "message": [
+            {
+              "content": "=Research current YouTube trends, viral content patterns, and audience interests related to this video idea: {{ $('Workflow Configuration').first().json.videoIdea }}. Provide specific data on trending topics, popular formats, engagement metrics, and cite sources. Focus on actionable insights for content creation."
+            }
+          ]
+        },
+        "simplify": true,
+        "options": {},
+        "requestOptions": {}
+      },
+      "id": "0a9ed34a-1b4a-40b8-8244-ac42b14a7beb",
+      "name": "Research Video Trends",
+      "type": "n8n-nodes-base.perplexity",
+      "typeVersion": 1,
+      "position": [
+        448,
+        0
+      ],
+      "credentials": {
+        "perplexityApi": {
+          "id": "trIL8Z5B",
+          "name": "Perplexity"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "mode": "id",
+          "value": "claude-3-5-sonnet-20241022"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "=You are a YouTube content strategist and creator. Based on the video idea from Slack and the research data provided, generate comprehensive YouTube content including:\n\n1. **Optimized Video Title** (60 characters max, SEO-friendly)\n2. **Compelling Description** (detailed, keyword-rich, 200+ words)\n3. **Strategic Tags** (10-15 relevant tags)\n4. **Detailed Script Outline** (intro, main points, conclusion)\n5. **Thumbnail Ideas** (3 creative concepts)\n6. **Call-to-Action Suggestions**\n\nVideo Idea: {{ $('Workflow Configuration').item.json.text }}\n\nResearch Data: {{ $json.message }}\n\nMake the content engaging, trending-aware, and optimized for YouTube's algorithm. Focus on viewer retention and engagement. Do not include any lead-in text."
+            }
+          ]
+        },
+        "options": {
+          "maxTokens": 4000
+        }
+      },
+      "id": "405c3c58-e1d3-4680-b050-43bed75f0b6b",
+      "name": "Generate YouTube Content",
+      "type": "@n8n/n8n-nodes-langchain.anthropic",
+      "typeVersion": 1,
+      "position": [
+        656,
+        0
+      ],
+      "credentials": {
+        "anthropicApi": {
+          "id": "9KuZnve0MpLVX",
+          "name": "Anthropic Connection"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "select": "channel",
+        "channelId": {
+          "__rl": true,
+          "value": "#social",
+          "mode": "name"
+        },
+        "text": "={{ $json.content[0].text }}",
+        "otherOptions": {
+          "thread_ts": {
+            "replyValues": {
+              "thread_ts": "={{ $('Workflow Configuration').item.json.ts }}"
+            }
+          }
+        }
+      },
+      "id": "7898fef3-be66-473e-8b44-7f34f7d82048",
+      "name": "Post to Slack Thread",
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 2.3,
+      "position": [
+        1056,
+        0
+      ],
+      "webhookId": "f55c414f-586c-459e-8b7f-a87c1a",
+      "credentials": {
+        "slackOAuth2Api": {
+          "id": "u87xS7hNZo22",
+          "name": "Slack Connection"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "trigger": [
+          "message"
+        ],
+        "channelId": {
+          "__rl": true,
+          "mode": "list",
+          "value": ""
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.slackTrigger",
+      "typeVersion": 1,
+      "position": [
+        -16,
+        0
+      ],
+      "id": "46fb1cf8-0eb3-4561-a8f8-ef4fa1c020f0",
+      "name": "Slack Trigger",
+      "webhookId": "72829ebe-5c1b-421f-a040-6ddbc225",
+      "credentials": {
+        "slackApi": {
+          "id": "4WBcp2aFKuecuhMb",
+          "name": "Slack Connection"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "## ⚙️ How to Setup\n\n1. Slack Credentials: Add Slack OAuth2 API credentials with permissions for:\n\n        * channels:read (to access channel information)\n        * chat:write (to post messages)\n        * chat:write.public (to post in public channels)\n\n2. Perplexity API: Add Perplexity API credentials with your API key\n\n3. Anthropic API: Add Anthropic API credentials with your Claude API key\n\n4. Slack Trigger Configuration:\n\n        * Select the specific Slack channel to monitor for video ideas\n        * Configure webhook URL in your Slack app settings\n\n## ℹ️ How to Use\n\n* Post a video idea message in the configured Slack channel\n* The workflow will automatically trigger and generate comprehensive YouTube content\n* Results will be posted as a threaded reply with formatted sections for research, titles, descriptions, tags, and outlines",
+        "height": 608,
+        "width": 464
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -528,
+        -272
+      ],
+      "typeVersion": 1,
+      "id": "b97785dd-7b93-482d-afa9-84a213363d3a",
+      "name": "Sticky Note"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Workflow Configuration": {
+      "main": [
+        [
+          {
+            "node": "Research Video Trends",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Research Video Trends": {
+      "main": [
+        [
+          {
+            "node": "Generate YouTube Content",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate YouTube Content": {
+      "main": [
+        [
+          {
+            "node": "Post to Slack Thread",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Slack Trigger": {
+      "main": [
+        [
+          {
+            "node": "Workflow Configuration",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "4aabbf88-2301-4640-a255-e9417d24544a",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "aaadb797535f05587ee95b776c942a7c3f7a46fd7aa0c9b6a9d64e1e595f8af1"
+  },
+  "id": "9YfaPJBzCHnYQvwp",
+  "tags": []
+}

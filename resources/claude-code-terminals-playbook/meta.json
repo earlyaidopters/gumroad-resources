@@ -1,0 +1,36 @@
+{
+  "name": "Claude Code Terminals Playbook 📓",
+  "external_id": "UvsodDtoBF7iOqPc1V470g==",
+  "permalink": "lntuzw",
+  "unique_permalink": "lntuzw",
+  "custom_permalink": "parallel-terminals-playbook",
+  "url": "https://markkashef.gumroad.com/l/parallel-terminals-playbook",
+  "status": "published",
+  "archived": false,
+  "kind": "products",
+  "price_formatted": "CAD$0+",
+  "description_md": "# What You Get\nThe Parallel Terminals Guide (PDF): A complete breakdown of the 3 scenarios for running Claude Code in parallel - True Parallel, Phased Parallel, and The Relay Race. Includes the one question to ask before starting any new session, dependency mental models, and copy-paste prompts for each scenario.\n23 Excalidraw Diagrams: All the visual diagrams from the video - scenario breakdowns, prompt templates, dependency flows, and the master overview. Ready to use in your own presentations or as reference while building.\nPlan.md Template: The exact plan file structure for managing phased builds with checkboxes, decision logs, and handoff documentation.\nSession Prompt Templates: Copy-paste prompts for each scenario type - True Parallel tasks, Phased Parallel builds, and Relay Race handoffs.\nStop burning money on parallel Claude Code sessions that step on each other's toes. This toolkit gives you the exact frameworks, prompts, and visual diagrams to run multiple terminals the right way.\nIf you want the full video walkthroughs, exclusive builds, and direct access to me - join the Early AI Adopters community: https://www.skool.com/earlyaidopters/about",
+  "files": [
+    {
+      "file": "Diagrams.zip",
+      "status": "cached",
+      "bytes": 47847058
+    },
+    {
+      "file": "plan_template.md",
+      "status": "cached",
+      "bytes": 865
+    },
+    {
+      "file": "session_prompts.md",
+      "status": "cached",
+      "bytes": 2439
+    },
+    {
+      "file": "parallel_terminals_guide.pdf",
+      "status": "cached",
+      "bytes": 166758
+    }
+  ],
+  "has_rich_content": true
+}

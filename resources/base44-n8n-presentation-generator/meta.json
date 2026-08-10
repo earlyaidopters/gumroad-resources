@@ -1,0 +1,21 @@
+{
+  "name": "Base44 & n8n Presentation Generator 🖼️",
+  "external_id": "W3AaiEl01T4k9zHCRFzZSg==",
+  "permalink": "qlnvj",
+  "unique_permalink": "qlnvj",
+  "custom_permalink": "base44presentation",
+  "url": "https://markkashef.gumroad.com/l/base44presentation",
+  "status": "published",
+  "archived": false,
+  "kind": "products",
+  "price_formatted": "CAD$0+",
+  "description_md": "# What You Get\n\n- A ready-to-import n8n workflow that connects directly to Gamma and auto-generates professional slide decks in under 2 minutes.\n\n- A full-stack prompt that turns the workflow into a presentation creator app with brainstorming assistant, quick form input, and history tracking.\n\n- Support for custom parameters (topic, audience, tone, number of slides, image style) so every presentation matches your exact needs.\n\n- Neo-brutalist frontend design guidance plus backend + database setup notes for persistent presentation records.\n\nIf you want my exclusive versions with multiple app schemas, extra prompts, and bonus integrations, they live inside my Early AI-dopters Community — you won’t regret it 😉",
+  "files": [
+    {
+      "file": "Gamma (Base 44) Sanitized.json",
+      "status": "cached",
+      "bytes": 13556
+    }
+  ],
+  "has_rich_content": true
+}

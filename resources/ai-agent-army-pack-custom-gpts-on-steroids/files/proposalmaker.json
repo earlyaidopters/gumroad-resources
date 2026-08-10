@@ -1,0 +1,733 @@
+{
+    "name": "Prompt Advisers Proposal",
+    "flow": [
+        {
+            "id": 3,
+            "module": "gateway:CustomWebHook",
+            "version": 1,
+            "parameters": {
+                "hook": 1859275,
+                "maxResults": 1
+            },
+            "mapper": {},
+            "metadata": {
+                "designer": {
+                    "x": -665,
+                    "y": -74
+                },
+                "restore": {
+                    "parameters": {
+                        "hook": {
+                            "data": {
+                                "editable": "true"
+                            },
+                            "label": "Prompt Advisers Proposal"
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "hook",
+                        "type": "hook:gateway-webhook",
+                        "label": "Webhook",
+                        "required": true
+                    },
+                    {
+                        "name": "maxResults",
+                        "type": "number",
+                        "label": "Maximum number of results"
+                    }
+                ],
+                "interface": [
+                    {
+                        "name": "clientName",
+                        "type": "text"
+                    },
+                    {
+                        "name": "clientCompanyName",
+                        "type": "text"
+                    },
+                    {
+                        "name": "clientObjectives",
+                        "type": "text"
+                    },
+                    {
+                        "name": "servicesNeeded",
+                        "type": "text"
+                    },
+                    {
+                        "name": "budget",
+                        "type": "text"
+                    }
+                ]
+            }
+        },
+        {
+            "id": 4,
+            "module": "util:SetVariables",
+            "version": 1,
+            "parameters": {},
+            "mapper": {
+                "scope": "roundtrip",
+                "variables": [
+                    {
+                        "name": "Client Name",
+                        "value": "{{3.clientName}}"
+                    },
+                    {
+                        "name": "Company Name",
+                        "value": "{{3.clientCompanyName}}"
+                    },
+                    {
+                        "name": "Client Objectives",
+                        "value": "{{3.clientObjectives}}"
+                    },
+                    {
+                        "name": "Services Needed",
+                        "value": "{{3.servicesNeeded}}"
+                    },
+                    {
+                        "name": "Budget",
+                        "value": "{{3.budget}}"
+                    }
+                ]
+            },
+            "metadata": {
+                "designer": {
+                    "x": -365,
+                    "y": -74
+                },
+                "restore": {
+                    "expect": {
+                        "scope": {
+                            "label": "One cycle"
+                        },
+                        "variables": {
+                            "items": [
+                                null,
+                                null,
+                                null,
+                                null,
+                                null
+                            ]
+                        }
+                    }
+                },
+                "expect": [
+                    {
+                        "name": "variables",
+                        "spec": [
+                            {
+                                "name": "name",
+                                "type": "text",
+                                "label": "Variable name",
+                                "required": true
+                            },
+                            {
+                                "name": "value",
+                                "type": "any",
+                                "label": "Variable value"
+                            }
+                        ],
+                        "type": "array",
+                        "label": "Variables"
+                    },
+                    {
+                        "name": "scope",
+                        "type": "select",
+                        "label": "Variable lifetime",
+                        "required": true,
+                        "validate": {
+                            "enum": [
+                                "roundtrip",
+                                "execution"
+                            ]
+                        }
+                    }
+                ],
+                "interface": [
+                    {
+                        "name": "Client Name",
+                        "type": "any",
+                        "label": "Client Name"
+                    },
+                    {
+                        "name": "Company Name",
+                        "type": "any",
+                        "label": "Company Name"
+                    },
+                    {
+                        "name": "Client Objectives",
+                        "type": "any",
+                        "label": "Client Objectives"
+                    },
+                    {
+                        "name": "Services Needed",
+                        "type": "any",
+                        "label": "Services Needed"
+                    },
+                    {
+                        "name": "Budget",
+                        "type": "any",
+                        "label": "Budget"
+                    }
+                ]
+            }
+        },
+        {
+            "id": 5,
+            "module": "openai-gpt-3:CreateCompletion",
+            "version": 1,
+            "parameters": {
+                "__IMTCONN__": 2974974
+            },
+            "mapper": {
+                "model": "gpt-4o-mini",
+                "top_p": "1",
+                "select": "chat",
+                "messages": [
+                    {
+                        "role": "user",
+                        "content": "Help me prepare a proposal.\n\nTake these variables into account when prepare a proposal with the structure below:\n\nClient Name: {{4.`Client Name`}}\nCompany Name: {{4.`Company Name`}}\nClient Objectives: {{4.`Client Objectives`}}\nServices Needed: {{4.`Services Needed`}}\nBudget: {{4.Budget}}\n\n\n**Prepared for:** [Client Name/Company]  \n**Address:** [Client Address]  \n**Point of Contact:** [Client POC Name]  \n**Phone:** [Client POC Phone]  \n**Email:** [Client POC Email]  \n\n---\n\n## Contact Information:\n**Prepared by:** Prompt Advisers  \n**Address:** 511 Lacole Way, Orleans, Ontario, Canada  \n**Phone:** (833) 785-6394  \n**Email:** mark@promptadvisers.com  \n\n---\n\n## Executive Summary:\nPrompt Advisers proposes implementing a comprehensive [Service Name] for [Client Company], designed to [specific objective or challenge]. This solution will optimize [business function], automate [process], and streamline [outcome]. Our tailored approach ensures seamless integration with existing operations and alignment with your strategic goals.\n\n---\n\n## Scope of Work:\n1. **Planning & Discovery**  \n   - Identify key use cases (e.g., B2B vs. B2C interactions).  \n   - Define critical paths for response management and task automation.  \n   - Outline system handoffs and indirect service opportunities.\n\n2. **Design & Development**  \n   - Develop workflows, including appointment booking and escalations.  \n   - Create a Figma blueprint for all interactions, warm transfers, and objection handling.  \n   - Implement iterative testing cycles for rapid refinement.\n\n3. **Setup & Deployment**  \n   - Deploy the solution across your systems with full automation testing.  \n   - Configure and test all outbound notifications and transfers.  \n\n4. **Training & Handover**  \n   - Provide manuals, Loom videos, and live strategy sessions for seamless handoff.  \n   - Equip your team to manage, update, and optimize the agent independently.\n\n5. **90-Day Guarantee & Ongoing Support**  \n   - Monitor performance during the first 90 days post-launch.  \n   - Provide on-demand troubleshooting and adjustments.  \n\n---\n\n## Timeline:\n- **Planning & Discovery:** 1 week  \n- **Design & Development:** 3-4 weeks  \n- **Setup & Deployment:** 1 week  \n- **Training & Handover:** 1 week  \n- **90-Day Guarantee:** Post-deployment  \n\n---\n\n## Investment & Pricing:\n| Service                              | Fee (USD) |\n|--------------------------------------|-----------|\n| Design, Development, and Build       | [TBD]     |\n| Setup and Deployment                 | [TBD]     |\n| Training Materials & Live Sessions   | [TBD]     |\n| **Total Project Fee**                | [TBD]     |\n\n- **Average Hourly Rate:** $150 USD/hour for consulting and additional support.  \n- **Maintenance:** Ongoing consulting services available at $150/hour, with 1 free hour for every 5 paid hours.  \n\n---\n\n## Terms & Conditions:\nPayment is due in [milestones or timeline]. A formal agreement will be signed upon acceptance of this proposal. Any changes to scope will be reviewed and priced accordingly.\n\n---\n\n## Closing Statement:\nWe are excited about the opportunity to partner with [Client Company] to unlock new efficiencies through this tailored [Service Name]. Our expertise, combined with your vision, ensures a transformative solution that delivers lasting impact. Please reach out to us at (833) 785-6394 or via email at mark@promptadvisers.com with any questions or next steps.\n\n---\n\n**Sincerely,**  \nMark [Your Last Name]  \nPrompt Advisers  \n511 Lacole Way, Orleans, Ontario, Canada  \n"
+                    }
+                ],
+                "max_tokens": "2000",
+                "temperature": "1",
+                "n_completions": "1",
+                "response_format": "text"
+            },
+            "metadata": {
+                "designer": {
+                    "x": -65,
+                    "y": -74
+                },
+                "restore": {
+                    "expect": {
+                        "stop": {
+                            "mode": "chose"
+                        },
+                        "model": {
+                            "mode": "chose",
+                            "label": "gpt-4o-mini (system)"
+                        },
+                        "select": {
+                            "label": "Create a Chat Completion (GPT Models)"
+                        },
+                        "messages": {
+                            "mode": "chose",
+                            "items": [
+                                {
+                                    "role": {
+                                        "mode": "chose",
+                                        "label": "User"
+                                    }
+                                }
+                            ]
+                        },
+                        "logit_bias": {
+                            "mode": "chose"
+                        },
+                        "response_format": {
+                            "mode": "chose",
+                            "label": "Text"
+                        },
+                        "additionalParameters": {
+                            "mode": "chose"
+                        }
+                    },
+                    "parameters": {
+                        "__IMTCONN__": {
+                            "data": {
+                                "scoped": "true",
+                                "connection": "openai-gpt-3"
+                            },
+                            "label": "PromptAdvisers OpenAI API key"
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "__IMTCONN__",
+                        "type": "account:openai-gpt-3",
+                        "label": "Connection",
+                        "required": true
+                    }
+                ],
+                "expect": [
+                    {
+                        "name": "select",
+                        "type": "select",
+                        "label": "Select Method",
+                        "required": true,
+                        "validate": {
+                            "enum": [
+                                "chat",
+                                "prompt"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "max_tokens",
+                        "type": "number",
+                        "label": "Max Tokens",
+                        "required": true
+                    },
+                    {
+                        "name": "temperature",
+                        "type": "number",
+                        "label": "Temperature",
+                        "validate": {
+                            "max": 2,
+                            "min": 0
+                        }
+                    },
+                    {
+                        "name": "top_p",
+                        "type": "number",
+                        "label": "Top P",
+                        "validate": {
+                            "max": 1,
+                            "min": 0
+                        }
+                    },
+                    {
+                        "name": "n_completions",
+                        "type": "number",
+                        "label": "Number"
+                    },
+                    {
+                        "name": "frequency_penalty",
+                        "type": "number",
+                        "label": "Frequency Penalty",
+                        "validate": {
+                            "max": 2,
+                            "min": -2
+                        }
+                    },
+                    {
+                        "name": "presence_penalty",
+                        "type": "number",
+                        "label": "Presence Penalty",
+                        "validate": {
+                            "max": 2,
+                            "min": -2
+                        }
+                    },
+                    {
+                        "name": "logit_bias",
+                        "spec": {
+                            "name": "value",
+                            "spec": [
+                                {
+                                    "name": "token",
+                                    "type": "text",
+                                    "label": "Token ID",
+                                    "required": true
+                                },
+                                {
+                                    "name": "probability",
+                                    "type": "number",
+                                    "label": "Probability",
+                                    "required": true,
+                                    "validate": {
+                                        "max": 100,
+                                        "min": -100
+                                    }
+                                }
+                            ],
+                            "type": "collection",
+                            "label": "Token Probability"
+                        },
+                        "type": "array",
+                        "label": "Token Probability"
+                    },
+                    {
+                        "name": "response_format",
+                        "type": "select",
+                        "label": "Response Format",
+                        "validate": {
+                            "enum": [
+                                "text",
+                                "json_object"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "seed",
+                        "type": "integer",
+                        "label": "Seed"
+                    },
+                    {
+                        "name": "stop",
+                        "spec": {
+                            "name": "value",
+                            "type": "text",
+                            "label": "Stop Sequence"
+                        },
+                        "type": "array",
+                        "label": "Stop Sequences",
+                        "validate": {
+                            "maxItems": 4
+                        }
+                    },
+                    {
+                        "name": "additionalParameters",
+                        "spec": {
+                            "name": "value",
+                            "spec": [
+                                {
+                                    "name": "key",
+                                    "type": "text",
+                                    "label": "Parameter Name",
+                                    "required": true
+                                },
+                                {
+                                    "name": "type",
+                                    "type": "select",
+                                    "label": "Input Type",
+                                    "options": [
+                                        {
+                                            "label": "Text",
+                                            "value": "text",
+                                            "nested": [
+                                                {
+                                                    "name": "value",
+                                                    "type": "text",
+                                                    "label": "Parameter Value"
+                                                }
+                                            ],
+                                            "default": true
+                                        },
+                                        {
+                                            "label": "Number",
+                                            "value": "number",
+                                            "nested": [
+                                                {
+                                                    "name": "value",
+                                                    "type": "number",
+                                                    "label": "Parameter Value"
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "label": "Boolean",
+                                            "value": "boolean",
+                                            "nested": [
+                                                {
+                                                    "name": "value",
+                                                    "type": "boolean",
+                                                    "label": "Parameter Value"
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "label": "Date",
+                                            "value": "date",
+                                            "nested": [
+                                                {
+                                                    "name": "value",
+                                                    "type": "date",
+                                                    "label": "Parameter Value"
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "label": "Any",
+                                            "value": "any",
+                                            "nested": [
+                                                {
+                                                    "name": "value",
+                                                    "type": "any",
+                                                    "label": "Parameter Value"
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                }
+                            ],
+                            "type": "collection",
+                            "label": "Input Parameter"
+                        },
+                        "type": "array",
+                        "label": "Other Input Parameters"
+                    },
+                    {
+                        "name": "model",
+                        "type": "select",
+                        "label": "Model",
+                        "required": true
+                    },
+                    {
+                        "name": "messages",
+                        "spec": {
+                            "name": "value",
+                            "spec": [
+                                {
+                                    "name": "role",
+                                    "type": "select",
+                                    "label": "Role",
+                                    "options": [
+                                        {
+                                            "label": "System",
+                                            "value": "system"
+                                        },
+                                        {
+                                            "label": "User",
+                                            "value": "user"
+                                        },
+                                        {
+                                            "label": "Assistant",
+                                            "value": "assistant"
+                                        }
+                                    ],
+                                    "required": true
+                                },
+                                {
+                                    "name": "content",
+                                    "type": "text",
+                                    "label": "Message Content"
+                                }
+                            ],
+                            "type": "collection",
+                            "label": "Message"
+                        },
+                        "type": "array",
+                        "label": "Messages",
+                        "required": true
+                    }
+                ]
+            }
+        },
+        {
+            "id": 6,
+            "module": "markdown:Compile",
+            "version": 2,
+            "parameters": {},
+            "mapper": {
+                "gfm": true,
+                "data": "{{5.choices[].message.content}}",
+                "sanitize": false
+            },
+            "metadata": {
+                "designer": {
+                    "x": 235,
+                    "y": -74
+                },
+                "restore": {
+                    "expect": {
+                        "gfm": {
+                            "mode": "chose"
+                        },
+                        "sanitize": {
+                            "mode": "chose"
+                        }
+                    }
+                },
+                "expect": [
+                    {
+                        "name": "data",
+                        "type": "text",
+                        "label": "Markdown"
+                    },
+                    {
+                        "name": "gfm",
+                        "type": "boolean",
+                        "label": "GitHub Flavored Markdown",
+                        "required": true
+                    },
+                    {
+                        "name": "sanitize",
+                        "type": "boolean",
+                        "label": "Sanitize",
+                        "required": true
+                    }
+                ]
+            }
+        },
+        {
+            "id": 7,
+            "module": "google-docs:createADocument",
+            "version": 1,
+            "parameters": {
+                "__IMTCONN__": 2732873
+            },
+            "mapper": {
+                "name": "Proposal for {{4.`Client Name`}}",
+                "footer": false,
+                "header": false,
+                "content": "<body>\n{{6.data}}\n</body>",
+                "folderId": "/1B2SFIzQTgiPyOpFW7ll6vB1OX_P9MPQk",
+                "destination": "drive"
+            },
+            "metadata": {
+                "designer": {
+                    "x": 535,
+                    "y": -74
+                },
+                "restore": {
+                    "expect": {
+                        "folderId": {
+                            "mode": "chose",
+                            "path": [
+                                "Proposals"
+                            ]
+                        },
+                        "destination": {
+                            "label": "My Drive"
+                        }
+                    },
+                    "parameters": {
+                        "__IMTCONN__": {
+                            "data": {
+                                "scoped": "true",
+                                "connection": "google"
+                            },
+                            "label": "DataDump (mark@promptadvisers.com)"
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "__IMTCONN__",
+                        "type": "account:google",
+                        "label": "Connection",
+                        "required": true
+                    }
+                ],
+                "expect": [
+                    {
+                        "name": "name",
+                        "type": "text",
+                        "label": "Name",
+                        "required": true
+                    },
+                    {
+                        "name": "content",
+                        "type": "text",
+                        "label": "Content",
+                        "required": true
+                    },
+                    {
+                        "name": "destination",
+                        "type": "select",
+                        "label": "Choose a Drive",
+                        "required": true,
+                        "validate": {
+                            "enum": [
+                                "drive",
+                                "share",
+                                "team"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "header",
+                        "type": "boolean",
+                        "label": "Insert a Header",
+                        "required": true
+                    },
+                    {
+                        "name": "footer",
+                        "type": "boolean",
+                        "label": "Insert a Footer",
+                        "required": true
+                    },
+                    {
+                        "name": "folderId",
+                        "type": "folder",
+                        "label": "New Document's Location",
+                        "required": true
+                    }
+                ]
+            }
+        },
+        {
+            "id": 8,
+            "module": "gateway:WebhookRespond",
+            "version": 1,
+            "parameters": {},
+            "mapper": {
+                "body": "Proposal Complete!",
+                "status": "200",
+                "headers": []
+            },
+            "metadata": {
+                "designer": {
+                    "x": 835,
+                    "y": -74
+                },
+                "restore": {
+                    "expect": {
+                        "headers": {
+                            "mode": "chose"
+                        }
+                    }
+                },
+                "expect": [
+                    {
+                        "name": "status",
+                        "type": "uinteger",
+                        "label": "Status",
+                        "required": true,
+                        "validate": {
+                            "min": 100
+                        }
+                    },
+                    {
+                        "name": "body",
+                        "type": "any",
+                        "label": "Body"
+                    },
+                    {
+                        "name": "headers",
+                        "spec": [
+                            {
+                                "name": "key",
+                                "type": "text",
+                                "label": "Key",
+                                "required": true,
+                                "validate": {
+                                    "max": 256
+                                }
+                            },
+                            {
+                                "name": "value",
+                                "type": "text",
+                                "label": "Value",
+                                "required": true,
+                                "validate": {
+                                    "max": 4096
+                                }
+                            }
+                        ],
+                        "type": "array",
+                        "label": "Custom headers",
+                        "validate": {
+                            "maxItems": 16
+                        }
+                    }
+                ]
+            }
+        }
+    ],
+    "metadata": {
+        "instant": true,
+        "version": 1,
+        "scenario": {
+            "roundtrips": 1,
+            "maxErrors": 3,
+            "autoCommit": true,
+            "autoCommitTriggerLast": true,
+            "sequential": false,
+            "slots": null,
+            "confidential": false,
+            "dataloss": false,
+            "dlq": false,
+            "freshVariables": false
+        },
+        "designer": {
+            "orphans": []
+        },
+        "zone": "us1.make.com"
+    }
+}

@@ -1,0 +1,5 @@
+Read ARCHITECTURE.md, SYSTEM_SPEC.md, and BLUEPRINT.md (section 12, the stack list and dependency order). Scaffold a real AWS CDK project (TypeScript) for my build, in my bootstrapped account. Do not deploy anything.
+
+Create the CDK app and one stack file per stack from my ARCHITECTURE stack list, in dependency order, each as an empty-but-valid stack with a header comment stating its one-line purpose and a TODO list of what it will contain. Wire them together in the app entry point so dependencies are explicit. Add a README that explains the project layout and the deploy order, and a .env.example listing the config the system will need (no real secrets). Make sure .gitignore covers node_modules, cdk.out, and .env.
+
+Then run `cdk synth` and fix anything until it succeeds on the skeleton, so I have a valid, ordered project I can fill in stack by stack. Commit it with git. Stop when `cdk synth` passes and the project has one stack file per stack with clear TODOs.

@@ -1,0 +1,21 @@
+{
+  "name": "Email Automations Using DeepSeek 🐋",
+  "external_id": "c6InfQwGxy8PUgTmHFhMfQ==",
+  "permalink": "nntgu",
+  "unique_permalink": "nntgu",
+  "custom_permalink": "deepseekautomation",
+  "url": "https://markkashef.gumroad.com/l/deepseekautomation",
+  "status": "published",
+  "archived": false,
+  "kind": "products",
+  "price_formatted": "CAD$0+",
+  "description_md": "What You’ll Get:\n\n- \nStep-by-Step Setup Guide:\nLearn how to install and configure the new Make.com module that integrates Gmail with DeepSeek Chat and DeepSeek R1 models.\n\n- \nComplete Workflow Breakdown:\nSee how to build an automation that monitors incoming emails, checks token balances, classifies email content, drafts responses in multiple steps, and saves your email as a draft.",
+  "files": [
+    {
+      "file": "blueprint.json",
+      "status": "cached",
+      "bytes": 38010
+    }
+  ],
+  "has_rich_content": true
+}

@@ -1,0 +1,2001 @@
+CustomerID,SignupDate,Age,Gender,MonthlySpend,TenureMonths,PaymentMethod,ContractType,SupportCalls,LoginsPerMonth,Churn
+1,2020-04-08,32,Female,89.73,19,PayPal,Annual,2,49,No
+2,2020-02-24,52,Male,100.87,3,Bank Transfer,Two-year,1,22,No
+3,2021-04-13,18,Female,126.4,15,Debit Card,Month-to-month,10,16,Yes
+4,2020-08-03,34,Male,92.61,32,Bank Transfer,Two-year,5,35,No
+5,2021-07-15,36,Female,54.05,24,Bank Transfer,Two-year,3,16,No
+6,2022-01-09,66,Male,105.9,11,PayPal,Annual,5,17,No
+7,2020-11-17,38,Female,100.65,12,Bank Transfer,Two-year,9,33,No
+8,2022-02-20,71,Male,119.16,2,Bank Transfer,Month-to-month,8,37,Yes
+9,2020-04-21,65,Female,101.81,34,Bank Transfer,Month-to-month,2,45,No
+10,2020-03-28,81,Male,111.42,29,PayPal,Two-year,1,45,No
+11,2022-02-21,45,Male,146.81,30,Bank Transfer,Month-to-month,4,47,No
+12,2022-06-04,51,Male,48.31,13,PayPal,Annual,5,8,No
+13,2020-03-24,18,Female,132.12,6,Debit Card,Month-to-month,2,27,No
+14,2020-08-28,34,Male,125.67,36,Bank Transfer,Annual,4,25,No
+15,2020-08-14,19,Male,129.35,14,PayPal,Annual,2,2,Yes
+16,2022-01-31,26,Male,33.58,32,PayPal,Annual,7,48,No
+17,2022-12-08,55,Male,137.59,23,Debit Card,Two-year,10,30,No
+18,2022-12-18,70,Male,21.64,22,Credit Card,Annual,7,9,No
+19,2022-06-02,54,Male,147.26,10,Debit Card,Annual,4,2,No
+20,2020-11-13,77,Female,84.26,33,Bank Transfer,Two-year,2,22,No
+21,2021-10-09,60,Female,130.04,1,Credit Card,Annual,8,8,No
+22,2022-04-20,55,Male,21.86,3,Bank Transfer,Month-to-month,1,30,Yes
+23,2020-01-04,85,Female,57.02,34,Bank Transfer,Two-year,7,24,No
+24,2021-09-05,38,Male,64.72,11,Bank Transfer,Two-year,4,15,No
+25,2020-04-03,73,Male,104.9,33,PayPal,Two-year,0,36,No
+26,2020-12-24,66,Male,116.01,14,Debit Card,Annual,0,46,Yes
+27,2021-11-30,59,Female,129.9,28,PayPal,Month-to-month,7,16,No
+28,2020-04-25,54,Male,106.58,9,Bank Transfer,Two-year,7,42,Yes
+29,2020-04-01,54,Male,128.49,15,Debit Card,Two-year,7,35,No
+30,2021-04-24,80,Male,132.19,22,Debit Card,Annual,7,41,No
+31,2021-08-01,58,Female,93.43,3,Bank Transfer,Two-year,10,17,No
+32,2021-04-16,36,Female,77.03,24,Debit Card,Annual,6,38,Yes
+33,2021-10-18,73,Female,75.84,1,PayPal,Two-year,5,28,No
+34,2022-04-08,41,Female,89.27,1,PayPal,Two-year,1,46,Yes
+35,2022-07-23,25,Female,58.03,29,Bank Transfer,Annual,0,41,No
+36,2022-02-25,34,Female,125.86,28,PayPal,Two-year,5,38,No
+37,2022-11-27,45,Male,84.99,13,Debit Card,Annual,10,13,No
+38,2021-04-28,29,Female,104.28,28,PayPal,Annual,9,42,No
+39,2020-07-26,76,Male,61.19,13,PayPal,Month-to-month,0,4,No
+40,2021-09-23,85,Male,99.85,8,Debit Card,Annual,8,31,Yes
+41,2021-01-12,73,Female,65.35,12,Bank Transfer,Two-year,3,8,No
+42,2022-06-24,80,Male,52.48,12,Bank Transfer,Two-year,10,27,No
+43,2020-05-09,82,Female,85.09,27,PayPal,Annual,9,28,Yes
+44,2020-10-10,28,Male,37.44,16,Credit Card,Month-to-month,7,21,No
+45,2020-07-04,44,Male,134.61,19,Bank Transfer,Annual,2,9,No
+46,2021-10-21,84,Male,70.98,14,Bank Transfer,Annual,9,8,No
+47,2022-01-11,65,Female,121.56,11,Bank Transfer,Month-to-month,5,39,No
+48,2021-06-24,41,Female,26.2,13,Bank Transfer,Two-year,0,17,No
+49,2020-02-08,80,Female,71.43,32,Credit Card,Annual,5,12,No
+50,2021-09-07,63,Female,121.21,10,Debit Card,Two-year,4,16,No
+51,2022-04-01,61,Male,82.41,18,PayPal,Annual,4,31,No
+52,2021-02-26,25,Male,67.17,7,Bank Transfer,Annual,4,10,No
+53,2020-02-26,47,Male,137.47,32,Debit Card,Month-to-month,5,49,No
+54,2020-11-21,36,Male,105.13,3,Bank Transfer,Month-to-month,2,12,Yes
+55,2021-03-22,58,Male,99.12,32,Debit Card,Annual,2,29,No
+56,2021-03-03,84,Male,109.42,15,PayPal,Annual,3,30,No
+57,2022-08-10,37,Female,65.67,24,Credit Card,Annual,3,24,Yes
+58,2020-12-30,52,Male,138.97,14,Credit Card,Two-year,7,2,No
+59,2020-05-13,52,Male,84.26,30,PayPal,Two-year,10,49,Yes
+60,2020-12-04,52,Male,74.09,12,PayPal,Month-to-month,10,36,No
+61,2020-08-06,74,Male,22.46,5,PayPal,Two-year,4,28,No
+62,2022-10-29,59,Female,21.14,18,Credit Card,Annual,7,28,No
+63,2021-02-25,71,Female,119.07,16,PayPal,Annual,6,36,No
+64,2022-03-03,34,Female,79.15,17,PayPal,Two-year,3,1,No
+65,2022-11-01,26,Female,141.14,10,Bank Transfer,Two-year,4,37,No
+66,2022-05-30,58,Male,128.75,20,Debit Card,Month-to-month,6,7,No
+67,2022-11-10,60,Female,143.8,20,PayPal,Month-to-month,7,26,No
+68,2020-03-12,20,Male,89.53,18,PayPal,Month-to-month,7,28,No
+69,2021-01-12,69,Female,139.51,16,Credit Card,Annual,6,13,No
+70,2021-06-14,20,Male,46.87,25,Debit Card,Two-year,1,36,No
+71,2022-02-18,27,Male,138.37,28,Credit Card,Month-to-month,9,44,No
+72,2021-05-26,58,Male,138.2,22,Bank Transfer,Annual,8,41,No
+73,2022-03-06,67,Male,33.31,29,Debit Card,Two-year,6,45,No
+74,2021-10-20,69,Male,71.36,12,PayPal,Annual,5,27,No
+75,2022-02-03,83,Male,72.27,3,PayPal,Month-to-month,9,17,Yes
+76,2021-09-17,66,Female,55.01,15,Credit Card,Two-year,3,9,No
+77,2020-02-15,62,Female,33.89,6,Debit Card,Annual,10,3,No
+78,2022-09-15,71,Female,75.25,30,Bank Transfer,Month-to-month,2,16,Yes
+79,2020-07-11,19,Male,87.06,13,Bank Transfer,Month-to-month,8,36,No
+80,2020-01-04,52,Female,92.56,6,Debit Card,Month-to-month,3,22,Yes
+81,2021-10-04,28,Male,61.8,8,Bank Transfer,Two-year,1,3,No
+82,2021-12-28,35,Female,147.21,2,Debit Card,Two-year,5,3,No
+83,2021-01-26,53,Female,129.41,6,Debit Card,Two-year,3,7,No
+84,2021-05-10,52,Male,143.18,15,Credit Card,Annual,4,41,No
+85,2020-09-01,67,Male,144.13,23,Bank Transfer,Two-year,5,20,No
+86,2021-05-17,74,Female,70.18,33,Debit Card,Annual,9,39,No
+87,2020-07-03,24,Male,82.54,11,Bank Transfer,Month-to-month,0,36,No
+88,2021-06-10,18,Female,111.01,36,Credit Card,Annual,1,13,No
+89,2021-04-08,19,Male,105.42,3,Bank Transfer,Annual,2,10,Yes
+90,2020-03-30,20,Male,77.58,2,Credit Card,Month-to-month,9,31,No
+91,2020-03-16,57,Male,117.89,22,Credit Card,Two-year,6,11,No
+92,2021-02-28,77,Male,132.52,4,Bank Transfer,Annual,6,12,No
+93,2021-02-02,44,Female,103.34,29,Debit Card,Two-year,5,35,No
+94,2020-10-30,85,Female,141.22,31,Credit Card,Month-to-month,5,8,Yes
+95,2022-01-27,78,Male,98.03,32,PayPal,Month-to-month,7,11,No
+96,2020-03-05,73,Female,106.44,26,Bank Transfer,Annual,2,30,No
+97,2020-01-09,46,Male,110.7,23,Debit Card,Annual,1,49,No
+98,2021-03-25,78,Male,104.0,34,PayPal,Month-to-month,0,42,No
+99,2021-07-15,56,Female,53.93,18,PayPal,Annual,1,26,No
+100,2021-07-28,51,Female,56.11,22,Credit Card,Month-to-month,8,41,No
+101,2022-11-20,84,Male,85.55,27,Credit Card,Month-to-month,9,47,No
+102,2021-10-22,48,Male,142.93,33,Credit Card,Annual,7,48,No
+103,2020-10-08,73,Female,121.64,23,Credit Card,Month-to-month,9,12,Yes
+104,2021-11-16,33,Female,103.39,27,Bank Transfer,Annual,5,36,No
+105,2021-09-05,35,Female,84.96,36,Credit Card,Month-to-month,2,23,Yes
+106,2022-09-04,25,Male,137.48,3,PayPal,Annual,1,25,No
+107,2022-03-22,39,Female,129.99,3,PayPal,Annual,2,10,No
+108,2020-04-04,52,Female,146.4,36,PayPal,Two-year,1,35,Yes
+109,2021-09-24,78,Female,71.72,11,Bank Transfer,Annual,7,11,No
+110,2020-01-15,65,Female,95.16,27,Credit Card,Two-year,1,28,No
+111,2022-02-24,29,Female,94.91,7,PayPal,Annual,5,42,No
+112,2022-08-12,54,Female,85.78,6,Bank Transfer,Two-year,9,2,No
+113,2022-05-30,29,Male,102.48,17,Debit Card,Month-to-month,9,49,Yes
+114,2021-12-10,37,Female,113.59,19,Credit Card,Annual,6,28,No
+115,2022-12-13,81,Female,69.21,26,Credit Card,Month-to-month,3,20,No
+116,2022-03-04,53,Male,111.18,3,Debit Card,Annual,6,21,No
+117,2021-08-27,63,Male,75.51,17,PayPal,Annual,10,39,No
+118,2021-07-11,58,Female,57.86,7,Debit Card,Month-to-month,9,48,No
+119,2022-06-22,56,Female,97.9,5,Debit Card,Month-to-month,9,17,No
+120,2021-07-08,44,Male,81.15,5,Credit Card,Two-year,5,4,No
+121,2020-06-10,66,Female,74.62,14,Bank Transfer,Month-to-month,5,23,No
+122,2021-10-12,82,Male,127.67,32,Credit Card,Two-year,2,49,No
+123,2021-06-10,37,Male,54.62,36,Debit Card,Two-year,4,22,No
+124,2021-06-28,62,Female,89.88,14,Credit Card,Month-to-month,8,5,Yes
+125,2022-01-15,55,Male,32.14,3,Debit Card,Two-year,8,9,No
+126,2021-07-24,61,Male,70.86,7,Credit Card,Two-year,1,48,No
+127,2020-12-05,48,Female,58.67,2,Debit Card,Annual,10,16,Yes
+128,2020-10-12,84,Male,58.89,24,Debit Card,Annual,5,25,No
+129,2020-10-28,25,Male,69.48,9,Bank Transfer,Month-to-month,7,48,No
+130,2020-11-19,67,Female,52.13,29,Credit Card,Month-to-month,7,22,No
+131,2020-06-24,85,Male,79.19,18,Debit Card,Annual,9,49,No
+132,2020-11-07,73,Male,41.52,30,Credit Card,Two-year,10,20,Yes
+133,2021-07-13,38,Male,119.67,32,Bank Transfer,Two-year,5,13,No
+134,2020-12-23,67,Female,59.51,12,Bank Transfer,Two-year,10,9,No
+135,2022-05-30,68,Female,88.97,14,Bank Transfer,Two-year,10,28,No
+136,2020-11-19,35,Female,73.74,15,PayPal,Two-year,9,39,No
+137,2021-08-05,52,Male,116.73,22,Bank Transfer,Month-to-month,4,19,No
+138,2021-01-08,71,Male,119.29,12,Debit Card,Month-to-month,6,43,No
+139,2021-11-09,45,Female,112.05,26,Credit Card,Month-to-month,3,22,No
+140,2021-12-19,42,Female,96.83,13,Credit Card,Annual,2,38,Yes
+141,2020-02-25,39,Female,122.73,34,Debit Card,Month-to-month,6,37,No
+142,2020-08-28,27,Male,31.03,25,Bank Transfer,Two-year,4,21,Yes
+143,2022-06-13,36,Female,48.66,5,PayPal,Month-to-month,9,6,No
+144,2021-05-14,39,Male,141.32,3,Debit Card,Two-year,7,42,No
+145,2022-08-10,42,Male,40.61,5,Credit Card,Annual,1,10,No
+146,2020-11-06,35,Female,30.84,31,Credit Card,Annual,7,21,No
+147,2021-04-21,82,Female,142.95,28,Debit Card,Annual,6,43,No
+148,2021-07-23,44,Female,53.4,3,Debit Card,Month-to-month,10,42,No
+149,2022-08-05,46,Female,42.31,26,Debit Card,Month-to-month,8,34,No
+150,2022-06-02,54,Male,85.09,2,Credit Card,Annual,0,45,No
+151,2020-08-03,21,Male,45.16,20,Bank Transfer,Annual,0,34,No
+152,2021-06-18,83,Male,60.34,11,Bank Transfer,Month-to-month,2,15,No
+153,2022-03-28,76,Female,113.48,2,Credit Card,Two-year,5,36,No
+154,2022-10-17,30,Male,146.09,19,Debit Card,Two-year,8,19,No
+155,2022-09-30,33,Female,24.86,4,PayPal,Two-year,5,42,Yes
+156,2020-01-01,63,Male,122.5,27,Debit Card,Month-to-month,7,23,No
+157,2021-08-19,52,Male,71.45,27,PayPal,Month-to-month,6,6,No
+158,2022-11-21,20,Male,101.96,26,Credit Card,Two-year,7,16,No
+159,2020-04-22,39,Female,128.63,15,PayPal,Month-to-month,2,35,No
+160,2021-06-13,64,Female,145.4,19,Credit Card,Two-year,5,4,No
+161,2020-09-17,85,Male,72.47,32,Credit Card,Two-year,10,41,No
+162,2020-09-16,72,Male,67.49,28,PayPal,Month-to-month,0,40,Yes
+163,2021-12-19,44,Female,81.63,2,Bank Transfer,Month-to-month,8,9,Yes
+164,2020-09-19,45,Female,93.43,35,PayPal,Annual,1,18,Yes
+165,2021-11-21,52,Female,35.09,21,Bank Transfer,Month-to-month,1,8,No
+166,2020-07-09,30,Male,59.18,19,PayPal,Annual,1,37,No
+167,2020-03-30,52,Male,51.11,29,PayPal,Month-to-month,4,21,No
+168,2022-12-01,33,Male,142.78,28,Credit Card,Two-year,1,21,No
+169,2022-09-16,64,Male,83.86,5,Debit Card,Month-to-month,7,31,No
+170,2020-05-09,30,Male,120.63,24,PayPal,Two-year,0,29,No
+171,2022-03-02,27,Male,119.97,31,Debit Card,Annual,0,6,No
+172,2020-01-01,21,Female,46.22,20,Debit Card,Two-year,10,36,No
+173,2021-12-26,39,Female,91.69,21,Credit Card,Month-to-month,6,14,No
+174,2020-01-06,27,Male,54.14,17,Credit Card,Month-to-month,5,25,No
+175,2021-09-02,47,Male,145.19,32,Bank Transfer,Month-to-month,8,3,No
+176,2021-10-06,25,Male,114.98,31,Bank Transfer,Annual,0,43,Yes
+177,2020-01-07,59,Male,110.6,15,Debit Card,Two-year,8,42,No
+178,2021-05-07,51,Female,112.46,3,Debit Card,Month-to-month,10,2,No
+179,2021-01-11,23,Female,49.09,8,Bank Transfer,Annual,9,12,No
+180,2020-08-19,84,Female,44.96,18,PayPal,Month-to-month,9,23,No
+181,2020-06-02,61,Female,105.42,16,Bank Transfer,Annual,1,9,No
+182,2022-10-19,57,Female,30.41,25,Bank Transfer,Annual,7,37,No
+183,2020-02-28,30,Female,32.98,20,PayPal,Month-to-month,2,26,No
+184,2022-12-30,60,Male,25.61,6,Credit Card,Month-to-month,2,30,No
+185,2022-04-09,67,Male,142.62,1,Credit Card,Two-year,1,47,No
+186,2022-07-24,84,Female,30.98,12,Credit Card,Annual,1,33,No
+187,2020-11-02,46,Female,71.0,16,Credit Card,Month-to-month,2,2,No
+188,2022-01-17,29,Female,71.23,16,PayPal,Two-year,2,1,Yes
+189,2022-04-28,82,Female,137.22,35,Credit Card,Month-to-month,4,19,No
+190,2022-04-08,20,Female,84.2,19,PayPal,Annual,9,24,No
+191,2021-11-21,40,Male,117.39,24,Bank Transfer,Two-year,2,31,No
+192,2022-02-01,51,Male,122.79,26,Credit Card,Month-to-month,3,45,No
+193,2021-08-13,42,Female,117.48,2,Bank Transfer,Annual,7,8,No
+194,2021-01-20,71,Male,47.35,24,Credit Card,Two-year,8,22,No
+195,2022-05-26,22,Male,60.97,32,PayPal,Month-to-month,10,20,Yes
+196,2021-08-22,75,Male,68.71,29,Bank Transfer,Annual,10,1,No
+197,2021-09-26,84,Female,48.09,32,Debit Card,Month-to-month,5,11,No
+198,2022-04-23,40,Male,48.99,33,Bank Transfer,Month-to-month,3,22,Yes
+199,2021-10-05,71,Female,60.75,24,Bank Transfer,Annual,5,17,No
+200,2020-11-21,69,Male,43.27,1,PayPal,Month-to-month,9,24,No
+201,2022-06-26,28,Female,51.97,1,Bank Transfer,Two-year,2,40,No
+202,2022-04-18,76,Male,23.05,13,Debit Card,Annual,4,28,No
+203,2020-11-03,46,Male,138.62,32,Debit Card,Two-year,7,38,No
+204,2020-12-15,69,Male,67.34,27,Bank Transfer,Month-to-month,7,39,No
+205,2021-05-23,37,Female,104.97,25,Debit Card,Month-to-month,6,4,Yes
+206,2022-06-20,72,Female,43.77,11,Credit Card,Annual,5,40,No
+207,2022-10-29,69,Female,73.59,35,Bank Transfer,Two-year,3,22,No
+208,2020-11-10,72,Male,131.46,9,PayPal,Month-to-month,2,21,No
+209,2020-05-26,38,Female,51.42,31,PayPal,Two-year,6,12,No
+210,2020-03-18,60,Female,69.65,4,Bank Transfer,Two-year,7,27,No
+211,2021-08-24,58,Female,49.81,36,PayPal,Month-to-month,8,33,No
+212,2021-04-14,51,Male,35.69,33,Debit Card,Two-year,1,33,No
+213,2021-11-20,61,Male,100.69,5,Bank Transfer,Month-to-month,6,18,No
+214,2020-11-12,57,Female,134.04,8,Debit Card,Two-year,10,11,No
+215,2020-07-23,84,Female,109.89,29,PayPal,Month-to-month,9,38,No
+216,2021-05-23,35,Male,35.31,16,Bank Transfer,Annual,6,20,No
+217,2022-07-22,30,Female,136.41,20,Debit Card,Annual,5,43,No
+218,2020-07-29,68,Male,66.19,14,Debit Card,Two-year,4,34,No
+219,2020-11-23,25,Male,46.96,16,Credit Card,Month-to-month,6,11,No
+220,2021-03-26,22,Male,37.13,28,PayPal,Month-to-month,10,43,Yes
+221,2021-12-14,62,Male,144.7,1,PayPal,Two-year,6,5,No
+222,2022-09-11,84,Female,74.87,16,PayPal,Two-year,3,25,No
+223,2020-03-02,39,Male,112.51,26,PayPal,Month-to-month,10,36,No
+224,2022-01-27,43,Female,102.6,35,Bank Transfer,Annual,6,13,No
+225,2021-12-16,35,Male,101.08,1,Debit Card,Month-to-month,0,38,Yes
+226,2021-11-07,81,Male,140.71,25,Debit Card,Annual,8,24,Yes
+227,2021-06-08,60,Male,108.61,31,Bank Transfer,Annual,5,24,No
+228,2021-08-29,73,Female,37.62,12,Debit Card,Two-year,4,33,Yes
+229,2021-04-27,39,Male,96.32,18,Bank Transfer,Annual,8,28,Yes
+230,2022-06-19,74,Male,44.26,28,PayPal,Annual,5,3,Yes
+231,2020-06-15,65,Female,95.27,16,PayPal,Annual,5,41,No
+232,2021-07-19,30,Female,93.18,36,Bank Transfer,Two-year,9,41,No
+233,2020-02-28,80,Female,139.53,5,Credit Card,Two-year,9,41,No
+234,2020-11-03,29,Male,54.27,33,PayPal,Month-to-month,0,48,Yes
+235,2022-03-03,25,Female,149.7,20,Debit Card,Annual,7,9,No
+236,2022-07-27,19,Male,52.39,4,Debit Card,Two-year,4,26,Yes
+237,2021-03-20,57,Female,91.13,12,Debit Card,Annual,0,44,Yes
+238,2021-10-25,78,Male,100.58,3,Debit Card,Annual,5,41,Yes
+239,2020-06-20,78,Male,55.7,32,PayPal,Two-year,1,15,Yes
+240,2021-12-01,50,Female,36.64,18,Bank Transfer,Two-year,6,24,No
+241,2020-03-12,67,Male,135.62,23,Bank Transfer,Month-to-month,7,13,No
+242,2021-12-25,53,Male,146.46,32,Credit Card,Two-year,8,41,No
+243,2020-10-12,76,Male,122.83,27,Debit Card,Two-year,6,25,No
+244,2022-10-18,30,Male,63.73,24,Bank Transfer,Annual,1,18,No
+245,2020-02-02,69,Female,99.85,24,Debit Card,Annual,6,26,No
+246,2020-09-11,48,Male,62.37,13,PayPal,Annual,5,29,Yes
+247,2021-04-21,33,Female,53.93,25,Bank Transfer,Month-to-month,5,43,No
+248,2020-04-12,55,Female,89.78,18,Credit Card,Annual,8,29,No
+249,2021-05-24,30,Male,38.92,2,Debit Card,Annual,4,35,No
+250,2022-08-04,40,Male,103.11,18,Bank Transfer,Month-to-month,9,7,No
+251,2020-02-17,58,Male,91.46,10,PayPal,Two-year,3,6,Yes
+252,2022-10-23,29,Male,89.49,14,PayPal,Annual,7,17,No
+253,2020-08-17,52,Female,53.39,27,Credit Card,Annual,2,44,Yes
+254,2022-01-15,48,Female,91.82,5,Credit Card,Month-to-month,1,27,No
+255,2021-07-30,24,Male,139.28,27,Credit Card,Month-to-month,9,43,No
+256,2022-11-06,47,Male,93.73,15,PayPal,Two-year,4,15,No
+257,2020-04-30,61,Male,141.62,9,Bank Transfer,Two-year,7,49,No
+258,2020-10-23,77,Female,56.61,15,Debit Card,Two-year,5,19,No
+259,2020-11-30,78,Male,85.66,28,PayPal,Month-to-month,10,13,No
+260,2022-03-06,22,Male,143.8,3,Credit Card,Month-to-month,7,49,Yes
+261,2021-05-01,40,Female,23.2,32,Bank Transfer,Month-to-month,1,49,No
+262,2022-05-02,22,Male,92.29,30,PayPal,Two-year,1,34,No
+263,2020-09-16,80,Male,88.99,24,Credit Card,Annual,8,20,No
+264,2022-09-20,84,Male,114.53,2,Bank Transfer,Month-to-month,9,26,No
+265,2021-08-02,79,Female,48.92,25,Credit Card,Month-to-month,8,37,No
+266,2020-02-03,71,Male,85.9,22,Credit Card,Annual,2,12,No
+267,2022-04-28,75,Male,121.08,33,Credit Card,Two-year,3,14,No
+268,2021-01-03,41,Female,63.31,35,Credit Card,Two-year,10,39,No
+269,2022-03-14,66,Female,82.76,9,PayPal,Month-to-month,9,14,Yes
+270,2021-03-20,74,Female,69.66,18,Bank Transfer,Annual,0,16,No
+271,2020-11-28,77,Male,130.37,32,PayPal,Month-to-month,7,44,No
+272,2021-11-18,81,Male,73.61,34,Credit Card,Annual,10,17,No
+273,2020-05-13,25,Female,129.39,15,Bank Transfer,Two-year,7,29,Yes
+274,2020-07-23,50,Female,55.63,17,PayPal,Month-to-month,6,40,No
+275,2022-12-25,73,Male,20.89,6,Credit Card,Annual,0,6,No
+276,2021-03-30,82,Male,50.42,13,Credit Card,Annual,8,3,No
+277,2020-10-03,59,Male,27.6,16,Debit Card,Month-to-month,3,5,No
+278,2021-12-12,58,Male,148.38,3,Debit Card,Month-to-month,10,20,No
+279,2022-05-21,39,Male,68.91,35,Credit Card,Two-year,2,26,No
+280,2022-05-29,56,Male,143.13,29,PayPal,Annual,10,35,Yes
+281,2021-08-09,73,Male,78.27,7,Credit Card,Month-to-month,0,38,Yes
+282,2022-08-13,28,Male,83.05,12,Credit Card,Two-year,1,45,No
+283,2021-11-15,62,Female,69.15,23,Debit Card,Annual,4,11,No
+284,2022-04-02,75,Male,135.92,24,PayPal,Annual,5,13,Yes
+285,2020-10-24,32,Female,95.32,26,Credit Card,Month-to-month,4,43,No
+286,2020-08-05,64,Female,86.05,13,Bank Transfer,Two-year,9,33,No
+287,2020-03-20,18,Female,67.98,1,Bank Transfer,Month-to-month,7,46,Yes
+288,2022-12-11,34,Male,138.08,30,Credit Card,Annual,1,43,Yes
+289,2022-03-03,19,Male,75.4,12,Bank Transfer,Month-to-month,10,14,No
+290,2021-07-30,72,Female,80.76,7,Debit Card,Annual,3,3,No
+291,2020-10-01,18,Male,28.94,20,Debit Card,Two-year,3,33,Yes
+292,2022-08-06,34,Male,146.61,21,Credit Card,Month-to-month,8,26,No
+293,2022-01-14,24,Male,80.08,2,PayPal,Annual,5,22,No
+294,2021-11-24,38,Female,24.61,2,Credit Card,Annual,10,1,Yes
+295,2022-03-01,67,Male,142.49,12,Credit Card,Annual,7,50,No
+296,2021-07-28,36,Male,76.77,25,PayPal,Two-year,6,25,No
+297,2022-06-20,73,Male,109.33,8,Credit Card,Month-to-month,6,35,Yes
+298,2021-08-09,60,Male,109.1,13,Credit Card,Month-to-month,8,20,No
+299,2022-06-28,39,Male,149.66,15,Debit Card,Two-year,4,39,Yes
+300,2022-03-15,39,Male,106.81,36,PayPal,Annual,4,41,No
+301,2020-11-25,57,Male,74.65,21,Credit Card,Month-to-month,5,12,No
+302,2021-02-21,79,Male,87.58,2,Credit Card,Month-to-month,10,11,Yes
+303,2021-03-04,28,Male,141.46,22,Bank Transfer,Annual,5,42,No
+304,2022-07-29,73,Male,86.22,17,Credit Card,Annual,3,6,No
+305,2022-09-16,63,Male,112.97,9,Credit Card,Two-year,4,34,No
+306,2022-02-04,85,Female,121.04,6,Credit Card,Two-year,1,5,No
+307,2022-01-21,20,Male,34.59,32,Bank Transfer,Annual,7,40,No
+308,2022-07-11,60,Male,86.7,27,Credit Card,Annual,7,25,No
+309,2022-07-04,73,Female,54.78,5,Bank Transfer,Annual,4,30,No
+310,2022-10-20,67,Female,113.86,18,Bank Transfer,Two-year,3,24,No
+311,2022-06-22,37,Male,82.52,2,Debit Card,Two-year,5,22,Yes
+312,2021-02-02,19,Female,61.99,7,Debit Card,Annual,5,29,No
+313,2020-08-05,41,Male,77.51,30,Credit Card,Annual,6,1,No
+314,2020-04-10,78,Male,129.35,36,Credit Card,Two-year,9,16,No
+315,2022-12-19,29,Female,70.03,19,Credit Card,Month-to-month,7,34,Yes
+316,2021-11-20,38,Female,20.36,34,Bank Transfer,Annual,9,38,No
+317,2021-10-28,68,Male,88.51,17,Credit Card,Two-year,8,49,Yes
+318,2022-06-12,62,Male,39.89,34,Debit Card,Annual,4,12,Yes
+319,2021-07-15,41,Female,35.01,26,Bank Transfer,Month-to-month,7,14,No
+320,2021-12-24,48,Female,98.55,19,PayPal,Annual,8,45,No
+321,2021-09-10,81,Female,121.6,27,PayPal,Month-to-month,4,13,No
+322,2020-12-19,21,Male,104.57,15,Debit Card,Annual,2,32,No
+323,2022-03-01,72,Female,141.39,23,PayPal,Two-year,9,45,No
+324,2022-10-30,56,Male,62.33,36,Credit Card,Two-year,4,22,Yes
+325,2021-12-06,52,Female,45.61,16,Bank Transfer,Two-year,2,9,No
+326,2022-07-14,57,Female,118.61,33,Bank Transfer,Month-to-month,10,41,No
+327,2021-06-13,20,Male,59.75,26,Credit Card,Month-to-month,7,11,No
+328,2021-02-19,21,Male,114.59,9,Bank Transfer,Month-to-month,4,46,No
+329,2020-09-08,42,Male,59.83,11,PayPal,Annual,10,31,Yes
+330,2020-06-18,24,Male,134.07,16,Debit Card,Annual,4,38,No
+331,2022-06-03,50,Male,70.33,22,Debit Card,Month-to-month,2,25,Yes
+332,2020-03-17,29,Male,37.13,10,Credit Card,Annual,1,26,Yes
+333,2020-01-25,51,Female,39.23,29,Credit Card,Two-year,0,20,No
+334,2020-07-25,62,Female,30.03,20,Bank Transfer,Annual,9,5,No
+335,2020-01-01,31,Male,106.09,8,PayPal,Month-to-month,7,9,Yes
+336,2022-02-17,25,Female,143.0,28,Debit Card,Annual,0,10,No
+337,2022-08-25,25,Male,81.57,33,PayPal,Two-year,7,1,No
+338,2021-07-03,30,Male,104.45,7,Bank Transfer,Annual,9,19,No
+339,2021-03-24,73,Female,100.93,22,PayPal,Annual,10,21,Yes
+340,2022-11-25,53,Male,88.43,35,Credit Card,Month-to-month,10,8,No
+341,2020-12-05,66,Female,144.48,23,Credit Card,Month-to-month,4,44,Yes
+342,2020-12-25,18,Female,59.56,24,PayPal,Two-year,0,17,No
+343,2021-11-24,34,Male,94.87,36,Credit Card,Month-to-month,8,13,Yes
+344,2021-05-27,53,Female,114.29,19,Bank Transfer,Two-year,7,44,No
+345,2020-01-26,85,Female,135.25,23,Credit Card,Two-year,0,28,No
+346,2020-08-03,75,Male,24.92,1,Debit Card,Annual,6,10,No
+347,2020-08-28,25,Male,149.48,5,Bank Transfer,Annual,6,4,Yes
+348,2021-12-28,45,Female,84.64,21,PayPal,Annual,2,42,No
+349,2022-08-27,72,Male,149.6,33,Credit Card,Two-year,8,24,No
+350,2022-09-03,30,Male,126.91,13,Bank Transfer,Annual,8,48,No
+351,2021-06-12,78,Male,37.13,7,Bank Transfer,Two-year,4,22,No
+352,2020-12-07,60,Male,96.78,14,Debit Card,Month-to-month,4,42,No
+353,2020-03-24,49,Male,98.92,6,PayPal,Month-to-month,8,32,Yes
+354,2021-03-04,43,Female,63.74,22,Credit Card,Two-year,7,7,Yes
+355,2021-05-26,60,Male,122.68,25,Debit Card,Annual,0,7,No
+356,2020-07-30,34,Male,103.31,10,Credit Card,Month-to-month,6,27,No
+357,2020-11-06,47,Female,48.8,30,PayPal,Annual,9,21,No
+358,2022-11-18,57,Male,80.3,9,Debit Card,Two-year,7,8,No
+359,2022-04-11,48,Female,58.99,31,Credit Card,Month-to-month,0,23,No
+360,2021-11-06,74,Female,79.74,26,Credit Card,Annual,4,41,No
+361,2020-12-19,29,Female,21.99,8,Debit Card,Month-to-month,5,10,Yes
+362,2020-07-06,46,Female,124.55,32,Debit Card,Two-year,4,19,No
+363,2020-08-17,77,Male,128.53,34,Debit Card,Month-to-month,0,16,No
+364,2021-04-15,22,Female,88.96,30,PayPal,Annual,1,44,No
+365,2021-11-11,27,Male,32.97,8,PayPal,Two-year,1,15,No
+366,2020-05-17,44,Female,82.94,21,PayPal,Two-year,6,50,No
+367,2022-10-31,30,Female,134.42,36,Debit Card,Month-to-month,1,27,Yes
+368,2021-08-13,61,Male,78.66,25,PayPal,Two-year,8,29,No
+369,2020-01-12,29,Male,86.13,35,Debit Card,Two-year,10,16,Yes
+370,2021-07-09,62,Male,78.75,15,Bank Transfer,Annual,1,46,Yes
+371,2021-04-05,72,Male,113.08,22,Credit Card,Two-year,0,16,No
+372,2021-03-06,64,Male,130.67,3,PayPal,Month-to-month,2,29,No
+373,2022-12-20,36,Male,107.01,34,PayPal,Annual,7,28,Yes
+374,2022-04-12,19,Female,53.36,8,PayPal,Month-to-month,10,2,No
+375,2020-06-27,31,Female,76.48,14,Credit Card,Month-to-month,6,39,No
+376,2020-10-22,22,Male,64.59,20,Debit Card,Annual,4,8,Yes
+377,2022-12-25,42,Male,38.61,6,PayPal,Two-year,7,2,No
+378,2022-04-09,36,Male,131.13,16,PayPal,Month-to-month,1,32,No
+379,2022-05-08,54,Male,46.96,16,Debit Card,Two-year,7,44,No
+380,2021-11-11,56,Male,102.54,8,Debit Card,Month-to-month,6,35,No
+381,2021-05-15,35,Female,95.49,11,Bank Transfer,Annual,2,17,Yes
+382,2022-01-23,62,Female,66.27,9,Credit Card,Month-to-month,6,42,No
+383,2022-06-10,35,Male,20.8,21,Bank Transfer,Two-year,7,21,Yes
+384,2022-12-01,67,Male,25.25,24,PayPal,Two-year,0,15,Yes
+385,2022-11-26,33,Male,28.16,32,Credit Card,Month-to-month,2,28,No
+386,2022-06-04,61,Male,75.13,9,Bank Transfer,Two-year,5,38,No
+387,2021-06-01,20,Female,61.39,3,Credit Card,Month-to-month,0,4,No
+388,2022-05-22,60,Male,127.02,26,Credit Card,Month-to-month,1,1,No
+389,2020-12-05,66,Male,114.13,7,Credit Card,Month-to-month,10,26,No
+390,2020-09-23,58,Female,146.29,32,PayPal,Two-year,1,8,No
+391,2020-07-02,27,Male,34.49,26,Debit Card,Two-year,2,43,No
+392,2021-03-20,65,Female,128.79,36,Bank Transfer,Month-to-month,7,50,No
+393,2021-03-31,40,Male,37.68,36,PayPal,Annual,1,31,No
+394,2021-03-27,82,Female,29.52,35,Bank Transfer,Month-to-month,0,8,No
+395,2021-06-25,36,Female,74.8,11,Credit Card,Two-year,4,47,No
+396,2021-12-07,36,Female,130.54,18,Debit Card,Annual,8,32,No
+397,2021-10-01,18,Female,136.31,7,Bank Transfer,Two-year,2,45,No
+398,2022-08-21,62,Male,55.04,1,PayPal,Two-year,8,28,No
+399,2022-02-10,39,Male,28.93,11,Bank Transfer,Month-to-month,4,44,No
+400,2021-06-14,58,Female,65.6,6,Credit Card,Month-to-month,10,32,Yes
+401,2020-03-23,80,Male,66.46,9,Bank Transfer,Two-year,6,20,No
+402,2020-04-13,42,Female,94.85,18,PayPal,Annual,3,16,No
+403,2022-06-18,66,Female,126.36,15,Credit Card,Two-year,5,14,No
+404,2021-06-29,54,Male,80.7,36,Credit Card,Annual,6,9,No
+405,2022-08-29,30,Female,29.3,34,PayPal,Month-to-month,2,11,No
+406,2020-05-14,76,Female,97.09,36,Credit Card,Annual,4,43,No
+407,2022-12-03,44,Male,63.68,11,Bank Transfer,Annual,6,29,No
+408,2020-05-06,73,Female,139.28,3,Credit Card,Two-year,8,41,No
+409,2021-12-04,39,Male,120.19,24,Debit Card,Two-year,10,42,No
+410,2022-07-25,24,Female,79.99,23,PayPal,Annual,9,21,Yes
+411,2020-03-01,34,Male,102.89,9,Bank Transfer,Two-year,2,1,No
+412,2022-01-12,74,Female,58.64,32,Bank Transfer,Month-to-month,1,45,No
+413,2020-11-08,20,Female,38.28,34,Credit Card,Month-to-month,8,38,No
+414,2021-09-17,18,Female,143.66,31,PayPal,Annual,5,8,No
+415,2021-08-06,18,Female,143.31,11,Debit Card,Two-year,5,11,No
+416,2020-08-21,50,Male,137.2,14,Credit Card,Month-to-month,1,50,Yes
+417,2022-11-14,60,Male,127.65,5,PayPal,Month-to-month,8,21,No
+418,2022-10-22,78,Male,148.42,36,PayPal,Annual,1,48,No
+419,2022-05-17,27,Male,99.01,36,Debit Card,Two-year,9,25,No
+420,2022-01-09,69,Female,91.9,29,Credit Card,Annual,6,20,No
+421,2021-04-23,60,Female,85.06,15,Bank Transfer,Month-to-month,4,30,No
+422,2022-01-04,28,Male,36.46,4,Debit Card,Two-year,9,27,No
+423,2020-08-28,82,Female,94.14,29,PayPal,Month-to-month,3,10,No
+424,2020-09-15,55,Male,127.12,16,PayPal,Two-year,3,16,No
+425,2022-11-08,39,Female,77.09,21,Debit Card,Month-to-month,10,42,No
+426,2022-05-04,80,Male,85.72,32,Bank Transfer,Month-to-month,7,2,No
+427,2022-10-09,36,Male,125.8,17,PayPal,Two-year,3,14,Yes
+428,2022-06-11,64,Female,72.14,13,Debit Card,Annual,6,26,No
+429,2022-06-20,37,Female,137.66,33,Bank Transfer,Two-year,2,45,No
+430,2021-01-24,71,Female,134.31,14,Debit Card,Two-year,5,35,Yes
+431,2020-02-14,84,Female,90.69,31,Credit Card,Month-to-month,0,11,No
+432,2020-02-20,26,Male,113.86,11,Debit Card,Two-year,9,31,Yes
+433,2020-10-14,23,Female,57.83,13,Debit Card,Month-to-month,3,31,No
+434,2020-03-19,40,Male,122.29,29,PayPal,Annual,5,9,No
+435,2021-02-06,49,Male,147.7,10,Credit Card,Two-year,9,15,No
+436,2022-05-15,48,Female,48.96,29,PayPal,Two-year,3,9,No
+437,2022-08-02,35,Female,139.45,30,Bank Transfer,Month-to-month,8,22,No
+438,2022-09-30,76,Female,115.77,12,Bank Transfer,Annual,6,15,Yes
+439,2020-09-29,44,Female,20.35,8,PayPal,Two-year,2,14,No
+440,2020-02-07,42,Male,74.16,13,Credit Card,Annual,8,38,No
+441,2020-01-12,46,Male,147.83,19,Credit Card,Two-year,1,8,Yes
+442,2021-08-26,62,Female,55.34,1,Credit Card,Two-year,6,33,No
+443,2021-09-16,18,Male,31.54,30,Credit Card,Two-year,4,21,Yes
+444,2021-03-10,45,Male,114.89,19,PayPal,Two-year,8,41,No
+445,2022-11-12,73,Female,27.02,23,Debit Card,Annual,10,2,No
+446,2021-10-29,82,Female,109.11,10,Debit Card,Two-year,2,43,Yes
+447,2021-05-18,49,Female,116.84,36,Bank Transfer,Month-to-month,10,17,No
+448,2022-01-13,79,Male,57.89,1,PayPal,Annual,3,9,No
+449,2020-08-02,57,Male,127.47,21,PayPal,Two-year,6,31,No
+450,2021-04-13,58,Male,118.26,26,PayPal,Month-to-month,6,17,No
+451,2020-04-29,70,Male,68.08,13,Debit Card,Month-to-month,5,13,Yes
+452,2021-10-03,74,Male,95.56,6,PayPal,Two-year,0,26,No
+453,2020-02-20,56,Female,27.02,26,PayPal,Annual,10,48,No
+454,2022-07-02,46,Female,24.42,31,Bank Transfer,Two-year,8,41,Yes
+455,2020-12-06,39,Female,72.69,16,Bank Transfer,Two-year,5,22,Yes
+456,2020-02-02,60,Female,23.35,21,Credit Card,Month-to-month,9,44,No
+457,2020-02-08,57,Male,140.76,17,Credit Card,Two-year,4,14,Yes
+458,2022-09-11,44,Female,20.43,9,PayPal,Annual,3,40,No
+459,2020-05-16,47,Female,60.26,5,Bank Transfer,Annual,6,38,Yes
+460,2021-10-02,60,Female,95.58,15,Credit Card,Two-year,3,50,No
+461,2020-12-11,71,Female,110.87,16,PayPal,Two-year,1,32,No
+462,2022-08-08,61,Female,55.04,20,Credit Card,Two-year,9,7,Yes
+463,2020-02-11,53,Female,76.72,2,Credit Card,Month-to-month,6,49,No
+464,2020-02-26,42,Female,71.17,6,PayPal,Two-year,7,28,No
+465,2021-09-18,34,Male,106.7,22,Credit Card,Annual,10,41,Yes
+466,2021-09-22,42,Male,71.5,36,PayPal,Two-year,6,9,No
+467,2020-07-20,77,Male,25.55,31,PayPal,Two-year,3,16,No
+468,2021-12-12,67,Female,127.3,6,Credit Card,Month-to-month,2,22,No
+469,2021-04-01,53,Male,125.42,31,Bank Transfer,Annual,8,43,No
+470,2020-03-16,68,Female,42.16,29,Credit Card,Month-to-month,10,3,No
+471,2022-12-31,44,Male,99.29,18,Debit Card,Annual,10,41,Yes
+472,2021-04-28,43,Female,56.06,16,Credit Card,Annual,3,33,No
+473,2021-03-26,18,Male,70.26,2,PayPal,Annual,4,16,No
+474,2021-09-06,73,Male,22.22,5,PayPal,Two-year,4,17,No
+475,2020-03-31,36,Female,53.2,34,Debit Card,Month-to-month,8,18,No
+476,2021-02-14,27,Female,37.44,25,Debit Card,Two-year,0,31,No
+477,2020-11-07,60,Male,69.51,31,PayPal,Two-year,5,3,No
+478,2022-05-06,26,Male,131.26,10,Credit Card,Two-year,1,44,No
+479,2021-09-12,42,Female,67.42,4,Bank Transfer,Two-year,5,39,No
+480,2022-09-24,74,Female,59.77,25,Credit Card,Month-to-month,0,47,No
+481,2020-03-12,37,Male,47.83,2,Debit Card,Annual,6,37,Yes
+482,2021-07-14,29,Male,120.94,4,Debit Card,Annual,10,38,No
+483,2022-03-03,32,Female,98.74,5,PayPal,Two-year,2,48,Yes
+484,2021-06-23,76,Female,85.33,20,Credit Card,Month-to-month,4,29,Yes
+485,2021-01-28,29,Male,91.53,6,Bank Transfer,Annual,1,3,No
+486,2021-01-14,32,Male,33.38,7,PayPal,Two-year,0,30,No
+487,2020-04-17,70,Male,130.87,32,PayPal,Month-to-month,8,8,No
+488,2020-10-26,36,Male,85.07,10,Debit Card,Annual,2,40,No
+489,2021-01-23,39,Female,116.25,27,Credit Card,Annual,7,45,No
+490,2020-04-26,70,Male,140.13,11,Debit Card,Annual,4,16,No
+491,2021-12-13,31,Female,114.35,33,Bank Transfer,Month-to-month,0,40,No
+492,2021-08-14,28,Female,108.42,26,Debit Card,Annual,1,1,No
+493,2022-03-09,50,Male,50.51,11,Debit Card,Two-year,6,11,Yes
+494,2022-10-31,46,Female,119.78,14,Bank Transfer,Month-to-month,9,29,No
+495,2021-05-23,54,Female,85.06,15,Debit Card,Month-to-month,3,27,No
+496,2022-05-09,51,Male,146.99,32,PayPal,Annual,8,23,No
+497,2022-06-11,37,Male,29.34,3,Debit Card,Two-year,10,43,No
+498,2022-12-02,43,Male,103.23,9,Debit Card,Two-year,8,27,No
+499,2022-11-27,42,Female,124.26,25,PayPal,Annual,5,27,No
+500,2020-08-12,48,Male,39.88,35,Credit Card,Two-year,6,48,No
+501,2020-03-21,54,Male,90.72,13,Credit Card,Annual,6,46,No
+502,2022-01-21,23,Male,138.14,15,Credit Card,Two-year,6,5,No
+503,2020-10-23,71,Male,144.8,3,Debit Card,Month-to-month,10,26,No
+504,2022-07-05,79,Female,74.35,1,Debit Card,Two-year,9,36,Yes
+505,2020-10-06,31,Male,135.51,5,Bank Transfer,Two-year,1,20,No
+506,2021-09-16,74,Male,93.65,28,PayPal,Annual,5,42,Yes
+507,2020-06-30,44,Female,128.67,28,Credit Card,Two-year,2,16,No
+508,2020-10-26,28,Female,62.75,25,Credit Card,Annual,4,6,No
+509,2020-07-24,48,Female,50.53,36,Bank Transfer,Two-year,2,46,No
+510,2022-11-14,82,Female,43.89,6,Debit Card,Two-year,5,23,No
+511,2022-12-08,19,Male,42.31,21,Credit Card,Month-to-month,0,8,No
+512,2020-09-26,83,Male,44.56,24,Bank Transfer,Month-to-month,0,48,No
+513,2021-03-30,43,Female,75.6,16,Credit Card,Two-year,2,46,No
+514,2022-05-06,70,Female,58.68,19,Debit Card,Month-to-month,9,33,No
+515,2022-07-05,66,Male,118.61,7,Credit Card,Two-year,3,16,No
+516,2022-07-20,68,Female,49.35,6,Debit Card,Annual,8,37,No
+517,2021-10-14,37,Female,50.95,7,PayPal,Annual,5,43,Yes
+518,2021-04-29,65,Female,105.41,12,Credit Card,Month-to-month,7,37,Yes
+519,2021-05-14,44,Female,57.59,25,Debit Card,Two-year,4,23,Yes
+520,2021-06-28,85,Male,94.63,30,Credit Card,Month-to-month,6,41,No
+521,2021-02-11,74,Female,45.85,9,Debit Card,Annual,3,26,Yes
+522,2022-09-20,74,Female,104.78,28,Credit Card,Annual,3,36,No
+523,2022-02-08,69,Male,149.07,19,Credit Card,Annual,0,7,Yes
+524,2022-08-14,84,Female,113.46,26,Bank Transfer,Two-year,3,8,No
+525,2021-03-07,63,Male,66.47,33,Credit Card,Two-year,3,38,No
+526,2022-04-07,62,Male,70.39,6,PayPal,Month-to-month,0,28,No
+527,2022-01-24,40,Female,110.86,13,Credit Card,Annual,8,32,No
+528,2022-02-22,45,Female,122.9,29,Bank Transfer,Annual,1,17,Yes
+529,2020-08-11,41,Male,96.11,16,Bank Transfer,Annual,8,15,No
+530,2020-01-16,29,Female,149.2,13,Debit Card,Two-year,9,46,No
+531,2020-04-17,78,Female,68.54,33,Bank Transfer,Month-to-month,6,50,No
+532,2021-06-18,28,Male,92.12,26,PayPal,Month-to-month,1,2,No
+533,2020-03-08,39,Male,72.31,6,PayPal,Month-to-month,8,47,No
+534,2022-10-05,26,Male,128.3,7,PayPal,Month-to-month,6,19,No
+535,2021-02-13,37,Male,24.91,2,PayPal,Month-to-month,6,42,No
+536,2020-12-05,28,Female,34.79,2,Debit Card,Month-to-month,10,28,No
+537,2022-05-22,82,Female,114.75,8,PayPal,Month-to-month,6,15,No
+538,2020-08-17,82,Male,126.79,34,Credit Card,Two-year,0,44,No
+539,2022-10-17,40,Female,142.66,12,Credit Card,Two-year,8,32,No
+540,2021-12-22,23,Female,89.33,3,Debit Card,Two-year,6,38,No
+541,2020-11-30,80,Male,70.89,24,PayPal,Annual,4,34,No
+542,2022-05-09,67,Female,38.32,13,Credit Card,Annual,10,9,No
+543,2022-01-10,46,Male,133.37,9,Bank Transfer,Month-to-month,5,36,No
+544,2020-06-26,59,Female,44.9,33,Bank Transfer,Month-to-month,0,31,No
+545,2020-02-12,27,Male,109.9,30,Debit Card,Annual,0,49,Yes
+546,2021-08-08,25,Male,94.83,4,PayPal,Two-year,1,7,No
+547,2021-12-10,83,Male,116.54,5,Credit Card,Month-to-month,9,29,No
+548,2021-09-06,59,Female,34.08,26,Debit Card,Month-to-month,3,19,No
+549,2022-08-20,64,Male,74.72,19,Credit Card,Two-year,6,47,Yes
+550,2021-08-03,73,Male,122.52,33,Debit Card,Two-year,0,50,No
+551,2022-05-30,77,Male,99.02,21,Debit Card,Two-year,2,31,No
+552,2021-04-18,22,Female,118.52,35,Bank Transfer,Month-to-month,4,39,No
+553,2021-08-25,70,Male,83.7,33,Debit Card,Annual,6,28,No
+554,2021-02-09,54,Male,104.43,9,Credit Card,Annual,4,9,No
+555,2022-08-09,21,Male,128.06,2,Bank Transfer,Annual,8,6,No
+556,2021-09-18,50,Male,104.45,3,Bank Transfer,Month-to-month,1,22,Yes
+557,2021-01-03,50,Female,72.39,26,Credit Card,Annual,8,6,No
+558,2020-08-26,77,Female,89.69,14,PayPal,Annual,2,46,No
+559,2020-11-28,42,Male,71.26,30,Bank Transfer,Two-year,4,48,Yes
+560,2022-12-08,71,Female,57.25,2,Credit Card,Annual,5,38,No
+561,2020-08-27,48,Female,82.54,35,Bank Transfer,Month-to-month,5,15,No
+562,2021-08-21,76,Male,70.56,13,PayPal,Two-year,4,27,Yes
+563,2021-03-18,77,Female,121.06,11,Bank Transfer,Annual,6,27,No
+564,2020-07-31,68,Female,89.0,22,Bank Transfer,Two-year,0,10,No
+565,2022-08-18,37,Male,93.81,3,PayPal,Annual,0,45,Yes
+566,2020-01-21,74,Female,57.76,3,Debit Card,Two-year,6,33,Yes
+567,2020-05-28,51,Male,109.17,34,Credit Card,Two-year,5,9,No
+568,2021-10-16,29,Male,97.72,10,Debit Card,Annual,2,41,Yes
+569,2022-05-01,27,Female,107.05,36,PayPal,Month-to-month,5,32,No
+570,2022-02-05,67,Male,46.93,4,Credit Card,Two-year,9,46,No
+571,2020-07-16,29,Female,64.11,27,Debit Card,Two-year,6,18,Yes
+572,2020-01-04,58,Male,26.34,16,Credit Card,Month-to-month,3,17,No
+573,2020-07-31,67,Female,97.47,13,Credit Card,Month-to-month,2,49,Yes
+574,2020-08-15,68,Male,63.93,25,PayPal,Month-to-month,9,38,No
+575,2021-09-20,58,Male,106.95,10,PayPal,Annual,0,18,No
+576,2022-01-09,79,Female,21.43,23,Bank Transfer,Two-year,4,45,No
+577,2022-09-21,18,Male,93.43,34,Debit Card,Annual,1,18,No
+578,2022-09-29,69,Male,58.16,27,Debit Card,Two-year,8,12,No
+579,2020-07-04,30,Male,96.82,28,PayPal,Two-year,10,9,No
+580,2021-11-26,42,Male,134.08,6,Debit Card,Month-to-month,3,16,Yes
+581,2020-11-04,74,Female,31.31,35,Bank Transfer,Month-to-month,0,21,Yes
+582,2020-01-10,60,Male,22.35,6,Bank Transfer,Month-to-month,2,39,Yes
+583,2022-11-20,71,Female,42.79,6,Credit Card,Annual,1,27,Yes
+584,2021-06-15,30,Female,36.07,25,Debit Card,Month-to-month,0,46,No
+585,2021-06-19,27,Male,147.34,25,Credit Card,Two-year,9,44,No
+586,2022-03-07,39,Female,69.04,20,Debit Card,Annual,7,10,No
+587,2020-08-14,52,Female,44.07,28,Debit Card,Two-year,6,50,No
+588,2020-01-12,74,Male,121.3,6,Bank Transfer,Two-year,4,48,Yes
+589,2021-05-29,50,Male,70.16,17,Credit Card,Two-year,0,50,No
+590,2021-12-19,60,Female,49.76,25,Credit Card,Annual,8,10,No
+591,2020-03-20,24,Female,90.42,24,Debit Card,Two-year,6,49,No
+592,2020-05-01,44,Female,63.85,12,Bank Transfer,Month-to-month,2,18,Yes
+593,2021-05-08,38,Female,112.55,16,PayPal,Annual,2,21,No
+594,2020-07-12,37,Male,111.79,1,Debit Card,Two-year,4,46,Yes
+595,2020-04-26,29,Female,70.52,12,Credit Card,Annual,0,26,No
+596,2020-12-23,19,Male,61.91,3,Debit Card,Two-year,5,28,No
+597,2022-05-29,32,Female,48.75,23,Debit Card,Month-to-month,9,48,No
+598,2021-07-12,69,Male,34.9,4,PayPal,Two-year,0,46,Yes
+599,2021-10-25,20,Male,123.9,30,Bank Transfer,Two-year,5,7,No
+600,2022-09-18,22,Female,139.66,33,Debit Card,Two-year,3,30,No
+601,2022-03-12,31,Male,58.61,9,Credit Card,Annual,8,44,Yes
+602,2021-11-28,74,Female,146.6,1,Credit Card,Two-year,1,9,Yes
+603,2020-05-28,65,Male,49.77,5,Bank Transfer,Two-year,2,31,No
+604,2020-04-09,63,Male,100.23,19,Bank Transfer,Two-year,6,40,No
+605,2022-07-03,34,Male,26.5,27,Credit Card,Month-to-month,8,18,Yes
+606,2020-03-08,54,Male,112.83,25,Credit Card,Month-to-month,3,44,No
+607,2020-08-11,26,Male,81.34,5,Credit Card,Month-to-month,10,42,No
+608,2022-05-26,83,Female,73.84,27,PayPal,Month-to-month,3,31,No
+609,2021-10-19,34,Male,37.0,17,Credit Card,Month-to-month,3,48,Yes
+610,2020-03-27,50,Female,123.82,17,Credit Card,Annual,7,12,No
+611,2022-03-14,48,Female,107.98,11,Bank Transfer,Two-year,9,12,No
+612,2020-02-17,28,Male,91.31,20,Debit Card,Month-to-month,9,15,Yes
+613,2022-06-21,43,Male,133.68,10,Debit Card,Annual,5,10,No
+614,2022-10-08,33,Male,73.31,25,PayPal,Annual,3,48,No
+615,2022-11-12,73,Female,136.25,1,Debit Card,Two-year,1,34,No
+616,2022-07-23,61,Male,72.56,13,Credit Card,Month-to-month,1,49,No
+617,2021-06-13,65,Female,120.72,23,PayPal,Annual,1,41,No
+618,2020-03-16,29,Male,74.53,14,Bank Transfer,Two-year,7,39,No
+619,2021-08-01,27,Male,149.67,28,PayPal,Annual,10,21,No
+620,2022-09-25,29,Male,24.32,10,Credit Card,Month-to-month,10,5,No
+621,2022-06-11,42,Male,63.09,25,Debit Card,Month-to-month,3,15,No
+622,2021-12-16,32,Female,21.25,34,Debit Card,Annual,6,25,No
+623,2021-10-02,26,Male,121.65,2,Credit Card,Two-year,0,36,No
+624,2021-10-15,77,Male,72.25,5,Credit Card,Two-year,7,38,No
+625,2022-04-17,66,Female,93.5,7,Debit Card,Annual,3,7,Yes
+626,2021-04-16,31,Male,79.91,34,PayPal,Month-to-month,10,15,No
+627,2022-01-15,31,Female,81.36,22,Credit Card,Month-to-month,10,46,No
+628,2021-09-19,83,Male,77.59,13,Debit Card,Month-to-month,2,7,No
+629,2021-06-19,29,Female,28.65,33,Debit Card,Month-to-month,8,44,Yes
+630,2022-03-06,18,Female,91.68,6,Debit Card,Two-year,0,11,No
+631,2020-05-12,49,Male,41.9,17,Debit Card,Annual,5,16,Yes
+632,2020-08-20,42,Female,110.33,2,Credit Card,Annual,1,26,No
+633,2022-01-16,85,Male,142.82,16,Bank Transfer,Month-to-month,5,42,Yes
+634,2020-10-08,59,Male,34.64,26,PayPal,Two-year,6,42,No
+635,2020-01-28,84,Male,96.56,21,PayPal,Month-to-month,8,21,No
+636,2022-02-03,39,Female,141.26,26,Debit Card,Annual,6,19,No
+637,2022-04-18,68,Female,101.28,33,PayPal,Two-year,10,44,No
+638,2022-02-18,72,Female,78.96,26,Debit Card,Annual,6,47,No
+639,2022-09-19,85,Male,107.04,29,Debit Card,Annual,8,3,No
+640,2021-07-28,77,Female,139.2,8,Credit Card,Month-to-month,8,9,Yes
+641,2022-10-05,50,Male,32.72,16,Bank Transfer,Month-to-month,1,2,No
+642,2022-10-25,42,Female,64.07,3,PayPal,Month-to-month,8,45,No
+643,2021-07-13,62,Female,145.28,16,PayPal,Two-year,0,31,No
+644,2020-04-22,28,Male,132.28,35,Debit Card,Month-to-month,8,27,Yes
+645,2022-03-28,24,Male,85.93,23,PayPal,Month-to-month,1,46,No
+646,2021-07-31,77,Female,43.44,27,Credit Card,Two-year,6,38,No
+647,2022-06-03,81,Female,53.8,24,Credit Card,Month-to-month,4,46,Yes
+648,2021-01-03,32,Male,66.5,16,PayPal,Annual,4,49,No
+649,2021-02-08,65,Female,48.22,12,Credit Card,Two-year,1,9,No
+650,2021-03-10,45,Male,131.15,30,PayPal,Annual,2,1,No
+651,2022-12-25,30,Male,83.95,27,PayPal,Annual,10,10,No
+652,2021-07-10,51,Male,51.27,31,Debit Card,Two-year,7,44,No
+653,2022-12-21,31,Female,142.43,21,Credit Card,Annual,3,17,Yes
+654,2020-03-16,45,Female,79.05,24,Debit Card,Annual,5,33,No
+655,2020-06-14,25,Male,38.89,33,PayPal,Annual,9,3,No
+656,2021-12-14,53,Female,92.13,20,Debit Card,Month-to-month,7,8,No
+657,2021-08-07,37,Male,80.44,6,Debit Card,Annual,10,14,No
+658,2020-05-31,23,Female,91.67,1,Credit Card,Annual,7,9,No
+659,2022-01-13,50,Male,36.73,1,PayPal,Annual,4,50,No
+660,2020-08-31,25,Male,84.29,10,Credit Card,Month-to-month,3,33,No
+661,2021-06-08,77,Male,134.35,24,Debit Card,Two-year,8,20,No
+662,2020-01-13,37,Male,64.19,23,Credit Card,Two-year,10,12,No
+663,2020-03-08,21,Female,75.31,19,Debit Card,Two-year,8,19,No
+664,2020-05-27,18,Male,47.18,3,Debit Card,Annual,3,49,Yes
+665,2020-07-13,26,Male,52.33,11,Credit Card,Month-to-month,0,47,No
+666,2021-10-03,83,Female,47.1,32,Bank Transfer,Month-to-month,0,13,No
+667,2021-12-08,22,Female,66.65,1,Debit Card,Month-to-month,1,20,Yes
+668,2022-04-04,63,Female,80.33,9,Debit Card,Month-to-month,1,5,No
+669,2020-11-09,35,Female,48.21,10,PayPal,Two-year,3,32,Yes
+670,2022-07-18,76,Female,86.07,2,Debit Card,Two-year,0,10,No
+671,2021-08-05,31,Male,119.0,2,Credit Card,Annual,5,15,No
+672,2022-03-11,58,Male,101.07,14,Bank Transfer,Two-year,8,24,Yes
+673,2022-02-28,44,Female,97.69,3,Debit Card,Annual,2,16,No
+674,2020-12-03,80,Female,89.66,30,Credit Card,Month-to-month,1,27,Yes
+675,2021-11-12,71,Male,51.7,13,Credit Card,Two-year,9,24,No
+676,2020-02-14,51,Male,96.02,2,Bank Transfer,Annual,0,18,Yes
+677,2021-07-24,84,Female,91.03,20,Bank Transfer,Annual,1,28,No
+678,2020-11-15,71,Female,53.47,17,Credit Card,Month-to-month,10,2,No
+679,2022-07-02,55,Male,93.43,36,Credit Card,Two-year,4,14,No
+680,2022-10-07,31,Female,118.39,35,Debit Card,Annual,5,36,No
+681,2021-02-02,70,Male,56.38,17,Credit Card,Annual,0,28,No
+682,2020-07-12,44,Male,87.24,7,PayPal,Two-year,3,41,No
+683,2021-01-10,64,Female,94.04,27,Bank Transfer,Month-to-month,0,21,No
+684,2020-11-28,68,Female,36.62,2,Bank Transfer,Month-to-month,7,49,Yes
+685,2020-12-10,26,Female,80.34,17,Debit Card,Month-to-month,5,27,No
+686,2020-09-19,35,Female,78.39,28,Debit Card,Month-to-month,7,23,No
+687,2022-01-07,71,Male,77.92,19,PayPal,Annual,0,39,No
+688,2022-04-21,43,Male,42.47,34,PayPal,Annual,3,31,No
+689,2021-06-12,85,Female,89.66,24,Credit Card,Two-year,2,44,No
+690,2021-03-29,79,Male,136.43,32,PayPal,Two-year,8,16,No
+691,2022-08-29,55,Male,52.66,1,Debit Card,Annual,5,32,No
+692,2020-11-12,23,Male,88.59,35,Bank Transfer,Month-to-month,1,36,No
+693,2022-04-24,83,Male,90.63,4,Bank Transfer,Two-year,0,44,No
+694,2021-04-26,21,Male,25.11,35,PayPal,Month-to-month,1,40,No
+695,2020-01-20,82,Female,86.8,1,Debit Card,Annual,4,1,No
+696,2022-05-01,24,Female,146.09,22,Credit Card,Two-year,1,21,No
+697,2020-07-31,51,Male,67.99,10,Bank Transfer,Two-year,7,29,No
+698,2022-01-22,36,Female,142.51,22,PayPal,Month-to-month,6,42,No
+699,2021-04-11,25,Male,28.9,34,Debit Card,Annual,8,25,No
+700,2021-01-30,59,Female,57.18,34,Bank Transfer,Two-year,1,49,No
+701,2022-06-14,52,Female,95.34,1,Debit Card,Annual,6,31,No
+702,2021-03-10,63,Male,61.41,10,Credit Card,Month-to-month,10,34,No
+703,2022-07-09,28,Male,72.02,16,Credit Card,Month-to-month,9,10,No
+704,2020-05-08,67,Female,31.79,24,PayPal,Two-year,6,38,No
+705,2020-12-21,72,Female,130.22,6,Bank Transfer,Annual,10,41,No
+706,2021-04-27,32,Male,93.1,12,Bank Transfer,Month-to-month,4,22,Yes
+707,2022-05-05,41,Female,91.3,9,Debit Card,Annual,2,35,No
+708,2020-11-16,83,Male,111.28,34,Debit Card,Annual,6,43,No
+709,2021-05-14,78,Female,76.81,8,Credit Card,Two-year,3,17,No
+710,2021-11-23,26,Female,98.05,4,Credit Card,Month-to-month,10,12,No
+711,2020-07-14,77,Male,110.81,24,Bank Transfer,Two-year,3,19,No
+712,2022-02-23,58,Female,81.89,24,PayPal,Annual,0,3,No
+713,2020-10-21,41,Male,20.56,36,Bank Transfer,Two-year,0,34,No
+714,2020-06-03,59,Female,67.12,30,PayPal,Month-to-month,0,28,No
+715,2022-09-04,28,Female,77.11,18,PayPal,Month-to-month,10,23,Yes
+716,2020-12-09,81,Male,93.2,4,Bank Transfer,Month-to-month,8,50,No
+717,2020-07-07,21,Female,85.04,3,PayPal,Annual,6,33,Yes
+718,2021-04-17,73,Male,39.66,30,PayPal,Two-year,9,12,Yes
+719,2021-01-24,24,Female,72.94,12,Bank Transfer,Two-year,10,46,No
+720,2020-02-13,72,Male,60.62,18,Bank Transfer,Month-to-month,5,26,Yes
+721,2020-12-25,76,Male,64.97,13,Credit Card,Annual,7,2,No
+722,2021-11-16,83,Male,123.75,36,Credit Card,Two-year,9,10,No
+723,2020-06-10,77,Male,149.85,22,PayPal,Month-to-month,6,6,No
+724,2021-06-23,71,Male,116.3,35,PayPal,Month-to-month,4,37,No
+725,2022-07-22,36,Male,70.27,19,Credit Card,Month-to-month,3,44,No
+726,2021-04-06,28,Female,100.79,25,Debit Card,Month-to-month,5,4,No
+727,2022-04-27,85,Male,85.06,2,Bank Transfer,Month-to-month,4,43,No
+728,2020-03-26,49,Female,44.36,6,Debit Card,Two-year,3,41,No
+729,2021-09-13,76,Male,92.22,35,Debit Card,Annual,10,35,No
+730,2020-07-07,79,Female,135.29,36,Bank Transfer,Month-to-month,0,5,Yes
+731,2021-01-03,31,Female,79.67,12,Bank Transfer,Month-to-month,10,13,No
+732,2020-05-24,20,Male,105.29,31,Bank Transfer,Month-to-month,5,36,No
+733,2022-05-07,25,Female,52.28,22,Credit Card,Month-to-month,4,2,No
+734,2020-05-25,59,Female,30.93,18,Credit Card,Annual,2,50,No
+735,2020-05-01,36,Female,137.2,32,Debit Card,Month-to-month,10,17,No
+736,2021-06-09,27,Male,76.8,18,Bank Transfer,Month-to-month,6,13,No
+737,2022-12-10,76,Male,29.83,3,Debit Card,Two-year,1,22,No
+738,2021-10-21,22,Female,45.21,22,PayPal,Annual,1,8,No
+739,2021-07-06,36,Female,56.32,24,Credit Card,Month-to-month,4,12,No
+740,2022-05-06,80,Female,82.96,12,Debit Card,Two-year,3,26,No
+741,2022-10-17,58,Female,78.77,26,Bank Transfer,Two-year,6,18,No
+742,2020-06-11,80,Male,61.19,11,Credit Card,Annual,3,16,No
+743,2020-11-09,65,Male,46.28,36,Debit Card,Month-to-month,10,20,No
+744,2022-04-05,77,Male,60.97,13,Bank Transfer,Annual,0,1,No
+745,2022-04-05,59,Female,131.97,16,Bank Transfer,Month-to-month,4,17,No
+746,2022-02-23,59,Female,81.27,10,Debit Card,Two-year,10,9,No
+747,2020-05-07,57,Male,127.23,18,PayPal,Annual,4,33,No
+748,2022-11-21,47,Male,127.79,33,Debit Card,Month-to-month,4,6,No
+749,2021-04-03,38,Female,85.97,4,Debit Card,Annual,8,27,Yes
+750,2020-05-31,51,Female,107.25,23,Debit Card,Month-to-month,2,6,Yes
+751,2022-08-29,73,Male,73.63,7,Credit Card,Annual,3,7,No
+752,2020-01-24,69,Female,90.06,17,Credit Card,Two-year,2,13,No
+753,2021-09-26,81,Female,42.66,17,Debit Card,Month-to-month,7,11,No
+754,2020-07-03,50,Male,131.34,30,Debit Card,Annual,10,19,No
+755,2021-10-27,32,Male,45.38,4,Credit Card,Annual,3,37,No
+756,2022-10-27,30,Female,64.83,10,Debit Card,Annual,1,36,No
+757,2020-01-18,67,Female,65.04,14,Credit Card,Two-year,1,1,No
+758,2020-01-08,40,Female,62.08,9,PayPal,Month-to-month,8,8,No
+759,2020-08-27,79,Female,38.24,20,PayPal,Two-year,4,36,No
+760,2020-06-11,53,Female,80.27,6,Bank Transfer,Month-to-month,6,46,No
+761,2022-08-26,71,Female,33.48,7,Bank Transfer,Annual,3,10,No
+762,2021-01-26,42,Female,33.27,22,PayPal,Two-year,2,29,No
+763,2021-02-01,81,Male,39.35,9,PayPal,Annual,5,36,No
+764,2022-07-20,72,Male,50.95,28,Bank Transfer,Month-to-month,5,40,No
+765,2022-05-15,64,Female,38.9,11,PayPal,Annual,1,22,Yes
+766,2020-08-25,62,Female,53.93,24,PayPal,Month-to-month,4,22,No
+767,2021-05-23,76,Male,104.04,32,PayPal,Month-to-month,7,23,No
+768,2021-01-22,21,Male,33.98,7,Debit Card,Two-year,5,5,No
+769,2022-09-11,63,Male,50.94,14,Debit Card,Annual,8,49,No
+770,2021-03-10,35,Male,35.73,4,Debit Card,Month-to-month,10,36,No
+771,2022-02-28,19,Male,92.36,22,Debit Card,Two-year,0,11,No
+772,2022-08-11,54,Female,93.0,2,Debit Card,Two-year,6,11,No
+773,2020-12-27,36,Male,67.48,14,Debit Card,Annual,6,28,No
+774,2022-09-25,48,Male,58.09,29,Credit Card,Month-to-month,8,37,No
+775,2020-02-24,33,Female,54.38,27,Debit Card,Month-to-month,5,27,No
+776,2022-07-28,24,Female,39.02,10,Bank Transfer,Two-year,4,27,No
+777,2022-07-15,29,Female,71.07,12,Bank Transfer,Annual,8,17,No
+778,2022-06-13,37,Male,99.34,15,Debit Card,Two-year,8,18,No
+779,2020-11-27,38,Male,137.54,5,PayPal,Month-to-month,2,23,No
+780,2022-12-22,55,Female,125.8,25,PayPal,Month-to-month,0,32,Yes
+781,2020-03-07,52,Male,119.13,23,PayPal,Two-year,7,35,No
+782,2022-12-09,80,Male,80.78,33,Credit Card,Two-year,10,25,No
+783,2021-03-17,30,Female,44.97,19,PayPal,Annual,3,22,No
+784,2021-08-17,74,Female,117.02,31,Bank Transfer,Month-to-month,2,19,No
+785,2021-12-15,69,Male,130.6,28,Credit Card,Annual,7,26,No
+786,2021-09-14,82,Male,82.86,16,Credit Card,Annual,2,40,No
+787,2020-02-02,69,Male,127.37,7,PayPal,Two-year,3,7,No
+788,2022-12-29,25,Male,45.89,19,Credit Card,Annual,6,38,No
+789,2022-07-13,59,Male,85.5,25,Credit Card,Two-year,9,30,No
+790,2022-07-14,81,Male,23.74,32,Credit Card,Annual,5,28,No
+791,2022-07-14,51,Female,78.47,27,Bank Transfer,Annual,1,31,No
+792,2021-07-17,70,Female,99.77,30,PayPal,Annual,10,46,Yes
+793,2020-01-20,44,Female,69.66,1,Credit Card,Month-to-month,4,32,Yes
+794,2020-12-24,51,Female,76.07,26,Debit Card,Month-to-month,8,12,No
+795,2020-01-16,21,Female,113.43,16,Credit Card,Annual,10,8,No
+796,2022-07-23,78,Male,61.3,5,PayPal,Annual,6,49,No
+797,2022-02-27,46,Female,104.6,13,Credit Card,Two-year,10,30,No
+798,2021-06-09,38,Male,42.7,20,PayPal,Two-year,4,35,No
+799,2021-05-10,39,Male,69.23,1,PayPal,Month-to-month,0,18,No
+800,2022-12-04,43,Female,91.45,22,Bank Transfer,Annual,10,41,No
+801,2020-07-05,61,Female,75.4,6,Credit Card,Month-to-month,4,35,No
+802,2020-03-01,45,Female,146.63,3,PayPal,Two-year,8,10,Yes
+803,2020-03-20,54,Female,143.13,12,Bank Transfer,Annual,3,28,Yes
+804,2021-04-04,56,Female,116.87,16,Credit Card,Two-year,2,40,No
+805,2020-05-27,40,Male,51.5,18,Bank Transfer,Two-year,0,50,No
+806,2020-06-02,52,Female,73.94,28,Debit Card,Month-to-month,9,15,No
+807,2021-06-26,68,Female,142.31,12,Debit Card,Month-to-month,4,47,No
+808,2020-05-22,77,Male,74.51,1,Bank Transfer,Two-year,1,8,No
+809,2022-01-04,53,Female,74.12,25,Credit Card,Two-year,2,31,Yes
+810,2021-11-17,18,Female,72.83,4,PayPal,Two-year,3,47,Yes
+811,2021-10-18,40,Male,121.28,11,Bank Transfer,Two-year,0,15,Yes
+812,2022-10-23,34,Female,82.72,17,Bank Transfer,Month-to-month,1,37,No
+813,2020-08-31,65,Female,33.34,7,PayPal,Annual,2,13,No
+814,2020-10-04,65,Male,123.29,24,Debit Card,Annual,8,9,No
+815,2021-12-10,69,Male,55.2,10,Bank Transfer,Two-year,6,36,Yes
+816,2020-12-06,34,Female,98.36,35,Debit Card,Annual,3,41,Yes
+817,2022-04-30,41,Female,21.89,19,Credit Card,Month-to-month,8,22,Yes
+818,2021-08-18,22,Female,29.83,33,Credit Card,Annual,0,1,No
+819,2021-07-15,35,Female,55.62,19,Debit Card,Month-to-month,5,16,Yes
+820,2020-06-25,48,Male,141.56,32,Credit Card,Two-year,10,44,Yes
+821,2021-10-29,34,Male,136.65,19,Debit Card,Annual,2,40,Yes
+822,2021-01-20,79,Male,98.66,13,Debit Card,Annual,6,44,Yes
+823,2020-06-26,82,Male,65.8,36,Bank Transfer,Month-to-month,8,32,No
+824,2021-11-10,85,Male,98.29,33,Bank Transfer,Annual,0,12,No
+825,2022-07-11,84,Female,126.14,23,Credit Card,Month-to-month,4,21,No
+826,2020-07-05,80,Female,25.89,15,Credit Card,Annual,10,39,No
+827,2020-01-19,80,Male,69.2,3,Credit Card,Month-to-month,2,21,No
+828,2021-06-17,85,Female,128.81,13,Debit Card,Month-to-month,6,17,No
+829,2020-09-10,56,Male,44.9,1,PayPal,Two-year,5,24,No
+830,2020-01-13,72,Male,99.72,9,Debit Card,Two-year,0,37,No
+831,2022-04-03,43,Female,48.51,26,PayPal,Two-year,2,45,Yes
+832,2022-06-27,24,Female,108.6,5,PayPal,Annual,4,17,No
+833,2022-08-21,56,Female,57.44,11,Bank Transfer,Month-to-month,10,3,No
+834,2022-05-21,70,Female,66.87,28,Bank Transfer,Two-year,3,20,No
+835,2021-01-08,81,Female,107.79,13,Bank Transfer,Two-year,6,36,No
+836,2021-06-13,73,Male,39.67,17,Bank Transfer,Two-year,1,3,Yes
+837,2020-06-14,81,Female,44.23,15,Debit Card,Annual,9,50,Yes
+838,2021-06-15,28,Male,41.44,26,Bank Transfer,Month-to-month,8,38,No
+839,2022-01-14,19,Female,147.13,19,Credit Card,Month-to-month,2,14,No
+840,2022-12-09,28,Male,133.63,13,PayPal,Annual,6,19,No
+841,2020-04-26,43,Male,60.04,32,Bank Transfer,Month-to-month,4,35,Yes
+842,2021-08-21,57,Male,33.71,14,PayPal,Month-to-month,7,12,No
+843,2021-06-28,40,Male,47.43,33,PayPal,Two-year,0,27,Yes
+844,2021-05-15,64,Male,71.32,31,Credit Card,Two-year,7,8,No
+845,2022-01-30,19,Female,103.58,36,PayPal,Month-to-month,10,32,No
+846,2021-08-02,60,Female,87.11,34,Credit Card,Annual,7,25,No
+847,2020-02-28,46,Male,32.22,13,Credit Card,Month-to-month,7,13,No
+848,2021-01-04,74,Male,149.55,9,Credit Card,Month-to-month,4,18,No
+849,2022-09-24,68,Female,62.13,14,Credit Card,Two-year,2,9,No
+850,2022-08-13,31,Male,70.37,26,Debit Card,Month-to-month,1,5,Yes
+851,2021-04-27,27,Male,108.0,20,Credit Card,Month-to-month,5,6,No
+852,2022-10-09,78,Female,113.99,13,PayPal,Two-year,3,24,Yes
+853,2020-10-22,71,Female,91.0,30,Credit Card,Two-year,8,2,No
+854,2022-06-27,25,Female,42.09,24,Debit Card,Two-year,9,39,Yes
+855,2021-02-28,78,Female,133.2,25,Bank Transfer,Two-year,3,4,No
+856,2022-06-03,24,Female,115.86,36,Credit Card,Two-year,4,13,No
+857,2020-01-24,56,Male,82.87,18,Bank Transfer,Two-year,6,28,No
+858,2020-08-26,48,Female,67.15,31,Credit Card,Annual,4,10,Yes
+859,2020-03-30,76,Male,34.5,12,PayPal,Annual,2,17,No
+860,2021-04-30,70,Male,42.14,5,Credit Card,Two-year,10,11,No
+861,2020-01-17,72,Male,59.76,4,Bank Transfer,Month-to-month,8,43,No
+862,2020-10-08,72,Female,65.99,18,PayPal,Two-year,10,17,No
+863,2021-08-06,72,Female,33.88,35,Bank Transfer,Annual,1,42,No
+864,2022-12-10,56,Male,85.55,3,PayPal,Annual,3,45,Yes
+865,2021-09-29,43,Male,97.09,22,Credit Card,Two-year,8,43,No
+866,2020-11-16,67,Male,79.99,30,Credit Card,Annual,8,28,No
+867,2020-05-04,49,Female,56.13,14,Credit Card,Two-year,2,41,No
+868,2020-07-11,82,Female,87.53,22,Bank Transfer,Month-to-month,7,45,Yes
+869,2020-12-05,60,Male,37.25,13,PayPal,Two-year,3,42,No
+870,2020-09-29,71,Female,112.05,31,Bank Transfer,Two-year,1,10,No
+871,2020-12-12,28,Male,71.29,15,Credit Card,Two-year,0,4,Yes
+872,2022-06-18,47,Male,36.94,7,Bank Transfer,Two-year,0,34,No
+873,2020-04-25,28,Male,52.3,32,Credit Card,Two-year,3,47,No
+874,2021-01-22,76,Female,46.61,9,Debit Card,Two-year,0,43,No
+875,2020-12-26,42,Female,90.01,26,Bank Transfer,Month-to-month,1,5,Yes
+876,2020-04-25,58,Male,138.64,34,Credit Card,Two-year,0,28,No
+877,2020-01-25,65,Female,77.2,24,PayPal,Two-year,4,9,No
+878,2020-12-18,37,Female,93.39,21,Credit Card,Two-year,8,5,No
+879,2020-07-15,75,Male,35.42,24,Debit Card,Month-to-month,7,42,No
+880,2022-02-19,24,Male,138.38,2,Bank Transfer,Month-to-month,10,3,No
+881,2022-05-03,62,Female,106.45,30,Credit Card,Two-year,7,16,No
+882,2020-01-22,37,Female,79.63,3,Credit Card,Month-to-month,7,26,Yes
+883,2021-01-23,49,Female,25.36,3,Bank Transfer,Two-year,3,6,No
+884,2020-02-28,23,Female,73.63,23,Debit Card,Annual,4,14,Yes
+885,2021-06-13,34,Female,53.94,22,Bank Transfer,Annual,10,25,No
+886,2021-05-15,53,Female,133.53,33,Credit Card,Annual,3,19,No
+887,2022-01-17,35,Male,90.55,19,Bank Transfer,Month-to-month,10,49,Yes
+888,2022-08-19,79,Female,102.69,28,Debit Card,Two-year,6,2,No
+889,2021-07-20,79,Female,76.93,19,Credit Card,Month-to-month,1,48,No
+890,2022-07-05,20,Female,78.63,32,Bank Transfer,Annual,5,19,No
+891,2020-12-16,55,Female,37.63,4,PayPal,Annual,0,34,No
+892,2020-05-13,59,Female,91.82,10,Credit Card,Two-year,1,44,No
+893,2020-05-31,31,Female,113.03,9,Debit Card,Annual,3,17,No
+894,2020-01-10,20,Female,52.18,24,Credit Card,Month-to-month,2,43,No
+895,2020-08-30,79,Female,25.79,35,PayPal,Month-to-month,8,23,No
+896,2020-05-18,45,Female,62.51,25,PayPal,Two-year,7,43,No
+897,2020-09-02,31,Male,121.5,25,Bank Transfer,Two-year,1,50,No
+898,2020-03-02,44,Male,71.67,24,Bank Transfer,Annual,5,10,No
+899,2020-11-09,52,Female,58.03,33,Credit Card,Two-year,0,6,No
+900,2021-07-29,79,Male,137.51,18,PayPal,Two-year,0,10,No
+901,2022-11-06,80,Female,108.09,8,Debit Card,Month-to-month,3,37,No
+902,2020-07-20,62,Female,139.2,14,Bank Transfer,Two-year,1,10,Yes
+903,2022-12-18,23,Male,52.0,8,Credit Card,Two-year,8,14,No
+904,2021-08-29,83,Female,24.92,28,PayPal,Annual,0,4,No
+905,2022-11-03,41,Male,110.24,33,Debit Card,Two-year,6,39,Yes
+906,2020-07-15,78,Male,24.91,31,PayPal,Two-year,7,41,No
+907,2022-08-14,40,Female,94.07,34,PayPal,Two-year,1,30,No
+908,2020-05-21,73,Female,110.64,14,Debit Card,Month-to-month,2,19,Yes
+909,2021-10-29,81,Female,73.21,23,Debit Card,Month-to-month,2,50,Yes
+910,2022-11-23,63,Female,113.61,19,PayPal,Month-to-month,7,42,No
+911,2020-09-23,52,Male,140.61,31,PayPal,Two-year,5,29,No
+912,2022-06-20,84,Female,138.49,16,Bank Transfer,Two-year,1,49,No
+913,2022-06-21,62,Male,146.39,8,Debit Card,Month-to-month,8,24,No
+914,2020-05-07,45,Male,148.93,15,Bank Transfer,Month-to-month,6,40,No
+915,2021-06-21,61,Male,80.07,30,Bank Transfer,Annual,7,47,No
+916,2020-11-04,22,Male,125.94,15,PayPal,Two-year,4,41,No
+917,2020-05-07,42,Male,130.36,35,Debit Card,Month-to-month,7,36,No
+918,2021-05-05,72,Female,108.01,24,Debit Card,Two-year,8,43,No
+919,2020-01-29,29,Male,56.79,36,Bank Transfer,Month-to-month,7,14,No
+920,2022-10-12,72,Male,84.42,27,Credit Card,Annual,10,4,No
+921,2021-01-01,31,Female,79.45,19,Debit Card,Two-year,10,7,Yes
+922,2020-06-25,64,Female,31.73,8,PayPal,Annual,1,48,Yes
+923,2021-01-08,21,Female,100.42,31,Bank Transfer,Annual,6,30,No
+924,2021-03-12,62,Male,30.31,12,Bank Transfer,Month-to-month,10,47,No
+925,2021-10-20,29,Male,72.44,30,PayPal,Annual,3,9,Yes
+926,2021-10-28,30,Male,108.85,21,Bank Transfer,Annual,10,18,No
+927,2021-08-08,53,Female,78.89,3,Bank Transfer,Two-year,1,21,No
+928,2022-11-22,84,Male,117.67,22,Bank Transfer,Two-year,7,2,No
+929,2021-08-14,82,Male,97.64,12,PayPal,Annual,2,9,No
+930,2022-09-05,73,Male,118.63,32,Debit Card,Month-to-month,2,16,No
+931,2020-02-02,37,Female,43.61,5,PayPal,Annual,0,18,No
+932,2020-12-13,41,Male,111.94,33,Debit Card,Annual,1,34,No
+933,2022-04-06,56,Female,116.02,33,Credit Card,Month-to-month,5,36,Yes
+934,2022-07-13,76,Male,117.86,4,Bank Transfer,Month-to-month,1,32,No
+935,2022-08-07,50,Male,133.38,1,Bank Transfer,Annual,0,42,No
+936,2021-01-22,53,Female,104.43,21,Bank Transfer,Annual,7,17,No
+937,2021-04-16,41,Female,57.57,18,Credit Card,Month-to-month,10,43,No
+938,2020-10-28,79,Male,80.6,36,Bank Transfer,Month-to-month,1,40,No
+939,2021-05-03,54,Male,141.57,36,Bank Transfer,Month-to-month,4,31,Yes
+940,2021-07-09,61,Male,135.04,17,Credit Card,Two-year,0,38,No
+941,2021-07-21,32,Male,100.75,33,Bank Transfer,Month-to-month,7,5,Yes
+942,2020-09-20,37,Female,106.67,19,Bank Transfer,Annual,9,38,No
+943,2022-08-07,23,Male,52.3,26,Credit Card,Month-to-month,1,34,No
+944,2020-06-08,60,Female,45.07,21,Credit Card,Two-year,6,36,No
+945,2021-05-16,22,Male,146.86,30,Credit Card,Two-year,9,3,No
+946,2021-11-22,37,Male,132.93,25,Credit Card,Two-year,9,5,No
+947,2022-06-19,48,Female,86.25,13,Bank Transfer,Annual,9,5,No
+948,2020-10-24,76,Female,55.77,31,PayPal,Month-to-month,4,37,No
+949,2020-09-08,35,Female,122.26,3,Bank Transfer,Two-year,10,8,No
+950,2022-07-28,20,Female,141.07,10,Debit Card,Two-year,3,49,No
+951,2022-01-20,84,Male,103.06,5,Credit Card,Month-to-month,1,24,No
+952,2020-06-17,30,Male,85.51,34,Credit Card,Two-year,2,48,Yes
+953,2021-04-13,42,Male,141.42,31,PayPal,Two-year,7,43,No
+954,2022-12-22,70,Male,31.24,24,PayPal,Month-to-month,10,48,No
+955,2020-06-07,28,Female,83.08,14,Bank Transfer,Annual,5,22,No
+956,2021-01-24,49,Male,29.57,10,Debit Card,Month-to-month,7,24,No
+957,2020-07-31,77,Female,98.19,19,Bank Transfer,Month-to-month,0,49,No
+958,2020-02-28,48,Male,58.89,18,Debit Card,Two-year,3,27,Yes
+959,2021-07-17,80,Male,117.21,22,Bank Transfer,Annual,9,47,No
+960,2022-10-20,67,Male,67.86,28,Credit Card,Two-year,8,38,No
+961,2022-02-05,63,Female,108.81,36,Debit Card,Annual,9,50,Yes
+962,2020-09-26,67,Female,77.64,15,Credit Card,Annual,1,47,No
+963,2020-05-11,69,Female,51.72,21,Debit Card,Annual,4,18,No
+964,2020-08-08,19,Female,38.15,1,Debit Card,Two-year,5,49,No
+965,2021-04-19,43,Female,119.9,2,Bank Transfer,Two-year,9,26,No
+966,2020-04-19,68,Female,116.39,17,Bank Transfer,Two-year,1,13,No
+967,2020-01-21,23,Male,69.19,20,PayPal,Two-year,10,3,No
+968,2022-05-29,32,Male,127.37,2,Debit Card,Month-to-month,1,2,No
+969,2020-06-27,42,Male,125.2,36,Debit Card,Annual,1,8,Yes
+970,2020-07-06,51,Male,140.62,8,PayPal,Month-to-month,4,12,Yes
+971,2021-10-08,56,Female,93.43,30,Debit Card,Annual,8,43,No
+972,2020-07-06,70,Female,25.47,21,Debit Card,Annual,0,38,Yes
+973,2021-12-28,42,Female,29.04,27,Debit Card,Two-year,6,50,No
+974,2022-10-23,37,Male,146.24,5,Bank Transfer,Month-to-month,3,23,No
+975,2022-09-27,55,Male,81.26,3,Credit Card,Two-year,6,4,Yes
+976,2022-11-27,40,Male,83.35,28,Credit Card,Two-year,2,18,No
+977,2020-10-16,50,Male,148.58,13,Bank Transfer,Two-year,5,41,Yes
+978,2020-12-12,23,Female,35.67,18,Debit Card,Two-year,0,18,No
+979,2020-03-03,77,Male,147.36,19,PayPal,Month-to-month,3,3,No
+980,2020-09-11,82,Male,51.7,2,PayPal,Month-to-month,5,28,Yes
+981,2020-03-12,50,Male,36.73,4,Credit Card,Two-year,1,8,Yes
+982,2022-12-07,81,Female,53.12,13,Credit Card,Month-to-month,1,3,No
+983,2020-11-08,77,Male,36.39,31,Credit Card,Annual,2,1,No
+984,2022-10-19,29,Female,102.87,35,Credit Card,Annual,4,23,No
+985,2021-12-19,53,Male,39.69,2,PayPal,Month-to-month,2,30,No
+986,2020-11-03,79,Female,20.71,5,Debit Card,Month-to-month,10,18,No
+987,2020-07-08,33,Female,128.35,6,Bank Transfer,Month-to-month,2,42,Yes
+988,2022-02-23,75,Female,51.22,35,Bank Transfer,Two-year,10,17,No
+989,2020-01-06,41,Female,24.2,20,PayPal,Two-year,1,17,Yes
+990,2020-11-11,25,Male,95.18,12,Credit Card,Annual,7,50,No
+991,2021-01-05,34,Male,95.28,12,PayPal,Annual,10,15,No
+992,2022-09-23,18,Female,74.72,14,PayPal,Month-to-month,2,36,Yes
+993,2022-12-20,34,Male,50.78,15,Credit Card,Two-year,10,23,No
+994,2021-08-02,60,Male,89.54,22,Credit Card,Two-year,1,12,No
+995,2020-01-23,34,Male,122.02,5,PayPal,Annual,0,10,No
+996,2022-03-10,73,Female,121.66,19,Credit Card,Month-to-month,4,48,No
+997,2022-03-21,36,Female,53.84,25,Bank Transfer,Two-year,10,41,No
+998,2021-10-09,58,Male,42.53,5,Bank Transfer,Month-to-month,8,26,No
+999,2021-06-03,64,Female,40.12,31,Debit Card,Annual,10,30,No
+1000,2021-04-25,59,Female,43.61,22,Bank Transfer,Month-to-month,4,28,No
+1001,2022-09-07,65,Male,45.89,36,Credit Card,Annual,10,5,No
+1002,2022-09-05,73,Male,84.54,4,Bank Transfer,Annual,6,37,Yes
+1003,2020-04-09,40,Female,50.78,35,PayPal,Two-year,5,45,Yes
+1004,2021-10-21,32,Male,126.23,9,Bank Transfer,Annual,5,10,No
+1005,2020-06-08,65,Female,82.38,28,Bank Transfer,Two-year,4,17,No
+1006,2021-11-14,18,Male,97.44,5,Bank Transfer,Two-year,5,3,Yes
+1007,2022-03-17,34,Female,40.34,20,Bank Transfer,Two-year,7,49,No
+1008,2021-04-25,82,Male,55.88,26,Bank Transfer,Month-to-month,1,5,No
+1009,2022-07-12,42,Female,90.21,8,Bank Transfer,Month-to-month,1,9,No
+1010,2021-08-29,63,Male,44.78,26,Credit Card,Two-year,7,42,Yes
+1011,2022-03-09,64,Female,101.69,21,Credit Card,Two-year,2,45,No
+1012,2022-03-28,33,Male,82.87,12,Bank Transfer,Annual,8,24,No
+1013,2020-12-15,44,Female,113.67,34,Bank Transfer,Month-to-month,5,2,Yes
+1014,2021-02-04,41,Male,55.64,27,Bank Transfer,Two-year,4,32,No
+1015,2022-09-29,63,Female,141.89,18,Bank Transfer,Annual,4,24,No
+1016,2020-12-13,39,Female,120.15,12,PayPal,Month-to-month,3,31,Yes
+1017,2020-10-24,18,Male,131.71,8,Credit Card,Annual,4,35,No
+1018,2020-04-13,42,Male,115.9,28,Credit Card,Month-to-month,6,18,No
+1019,2020-02-13,69,Female,69.47,19,Credit Card,Annual,6,4,No
+1020,2022-09-11,35,Female,33.06,29,PayPal,Month-to-month,2,34,No
+1021,2020-12-08,29,Male,92.91,13,Credit Card,Annual,4,42,No
+1022,2020-01-16,60,Male,59.64,19,Debit Card,Month-to-month,9,5,No
+1023,2022-12-19,18,Female,107.41,15,Bank Transfer,Month-to-month,5,7,No
+1024,2020-08-23,83,Female,122.72,23,Credit Card,Two-year,6,31,No
+1025,2022-03-27,64,Female,29.98,12,PayPal,Month-to-month,5,4,Yes
+1026,2021-12-26,21,Female,97.42,17,Bank Transfer,Annual,10,32,No
+1027,2022-10-10,34,Male,53.9,33,Credit Card,Annual,4,28,No
+1028,2022-01-07,25,Female,38.46,28,Debit Card,Month-to-month,6,12,Yes
+1029,2020-12-02,41,Female,73.12,33,Bank Transfer,Month-to-month,10,32,Yes
+1030,2021-07-29,25,Male,40.52,8,Credit Card,Month-to-month,2,10,Yes
+1031,2022-08-28,78,Male,41.83,10,PayPal,Annual,8,30,No
+1032,2020-06-23,42,Male,29.91,19,Credit Card,Two-year,5,41,No
+1033,2021-01-20,81,Female,63.78,31,Credit Card,Two-year,2,13,No
+1034,2021-12-01,25,Male,98.86,12,Debit Card,Annual,7,10,No
+1035,2020-01-24,23,Male,126.48,5,PayPal,Annual,5,43,No
+1036,2022-05-16,53,Male,134.97,23,Bank Transfer,Annual,7,11,No
+1037,2022-06-26,19,Male,76.76,17,Credit Card,Two-year,7,33,No
+1038,2021-05-06,80,Male,122.98,34,Bank Transfer,Two-year,3,5,No
+1039,2020-11-21,56,Male,52.85,18,Credit Card,Annual,9,2,Yes
+1040,2020-07-21,39,Female,129.79,11,Debit Card,Two-year,1,14,No
+1041,2022-05-04,22,Female,26.23,5,PayPal,Two-year,0,30,No
+1042,2020-03-19,82,Male,134.68,10,Debit Card,Annual,10,21,No
+1043,2021-12-06,46,Male,134.78,16,Bank Transfer,Annual,5,31,No
+1044,2021-03-30,61,Female,97.48,1,Debit Card,Annual,7,10,No
+1045,2022-07-03,80,Male,92.39,4,Credit Card,Annual,9,12,No
+1046,2022-05-05,53,Male,73.71,16,Credit Card,Month-to-month,8,36,No
+1047,2022-03-12,67,Male,133.33,6,Debit Card,Annual,4,3,No
+1048,2021-02-21,41,Female,109.25,12,PayPal,Two-year,3,6,No
+1049,2021-03-31,71,Male,71.08,21,Debit Card,Month-to-month,10,30,Yes
+1050,2020-08-11,69,Female,129.93,1,Debit Card,Annual,5,28,Yes
+1051,2020-08-01,61,Female,40.09,24,Bank Transfer,Two-year,6,36,Yes
+1052,2021-07-10,29,Female,65.34,11,Credit Card,Annual,5,15,No
+1053,2020-06-20,70,Male,81.27,26,Debit Card,Annual,6,29,Yes
+1054,2022-03-02,71,Female,114.35,30,PayPal,Month-to-month,0,6,No
+1055,2022-02-26,59,Female,43.55,35,Bank Transfer,Month-to-month,8,41,Yes
+1056,2021-08-10,26,Male,112.89,31,Debit Card,Annual,2,11,Yes
+1057,2020-09-29,35,Male,102.71,28,Bank Transfer,Two-year,3,8,No
+1058,2020-11-16,58,Female,130.27,26,PayPal,Two-year,9,12,No
+1059,2020-04-25,19,Male,41.47,26,Credit Card,Month-to-month,2,45,No
+1060,2022-07-10,61,Female,105.76,11,Credit Card,Month-to-month,9,18,No
+1061,2020-12-30,61,Male,95.4,23,Bank Transfer,Month-to-month,0,42,Yes
+1062,2020-01-01,32,Male,75.48,9,Bank Transfer,Month-to-month,8,22,No
+1063,2021-09-04,54,Male,120.97,14,Bank Transfer,Month-to-month,10,31,No
+1064,2021-11-29,29,Female,57.85,35,Bank Transfer,Two-year,9,30,No
+1065,2022-10-22,54,Female,136.46,5,Debit Card,Month-to-month,5,23,No
+1066,2022-11-24,69,Male,145.19,26,Credit Card,Annual,5,39,No
+1067,2022-05-02,30,Male,127.69,28,Credit Card,Two-year,3,26,No
+1068,2021-08-18,26,Female,108.44,18,Credit Card,Two-year,7,27,No
+1069,2022-05-19,57,Female,75.59,11,Bank Transfer,Month-to-month,7,14,No
+1070,2021-06-23,27,Female,65.24,22,Credit Card,Two-year,8,31,No
+1071,2020-10-06,41,Female,148.06,5,Credit Card,Two-year,3,38,No
+1072,2020-09-04,26,Male,136.85,25,Debit Card,Annual,3,21,Yes
+1073,2021-06-14,71,Male,68.47,3,Debit Card,Month-to-month,3,15,No
+1074,2020-05-17,59,Female,108.02,27,Credit Card,Annual,10,12,No
+1075,2020-12-30,69,Male,32.26,34,PayPal,Two-year,9,47,No
+1076,2021-06-24,82,Male,43.8,21,Debit Card,Annual,10,18,No
+1077,2022-04-15,41,Female,89.01,1,Credit Card,Month-to-month,5,5,No
+1078,2021-12-01,78,Female,117.19,29,Credit Card,Month-to-month,1,31,Yes
+1079,2021-11-05,71,Female,85.0,17,Credit Card,Annual,5,25,No
+1080,2021-08-10,32,Male,127.96,3,Bank Transfer,Month-to-month,2,23,No
+1081,2020-04-27,23,Female,141.44,26,Bank Transfer,Two-year,6,19,No
+1082,2022-10-31,75,Male,133.98,18,Debit Card,Two-year,3,16,Yes
+1083,2021-10-23,35,Female,25.31,12,Bank Transfer,Month-to-month,1,45,No
+1084,2020-10-16,73,Male,58.91,29,Debit Card,Two-year,0,23,No
+1085,2020-11-22,36,Female,141.61,12,Credit Card,Month-to-month,7,17,No
+1086,2021-10-27,38,Female,138.82,26,Bank Transfer,Month-to-month,2,8,No
+1087,2020-03-01,22,Female,42.94,31,PayPal,Two-year,10,20,No
+1088,2022-02-17,29,Female,78.42,16,Credit Card,Annual,8,14,No
+1089,2020-03-20,24,Male,88.82,22,Credit Card,Two-year,2,18,No
+1090,2020-05-04,82,Male,24.97,17,Debit Card,Month-to-month,3,29,No
+1091,2022-06-27,83,Male,107.24,5,PayPal,Month-to-month,9,4,Yes
+1092,2021-04-03,75,Female,144.24,2,PayPal,Annual,3,23,Yes
+1093,2022-07-23,35,Male,107.6,16,Credit Card,Month-to-month,3,33,No
+1094,2022-05-03,36,Female,70.11,30,Credit Card,Annual,6,6,No
+1095,2022-03-23,83,Male,72.53,16,Bank Transfer,Two-year,10,5,Yes
+1096,2020-08-23,81,Female,62.13,2,Debit Card,Month-to-month,2,32,No
+1097,2020-03-16,80,Male,25.68,9,PayPal,Two-year,10,20,Yes
+1098,2022-12-28,73,Female,67.12,28,Debit Card,Two-year,9,9,Yes
+1099,2021-09-03,64,Male,77.2,14,Bank Transfer,Two-year,8,11,No
+1100,2022-10-26,63,Female,149.61,27,PayPal,Annual,9,43,Yes
+1101,2022-04-26,28,Female,27.73,9,Bank Transfer,Month-to-month,4,42,No
+1102,2022-09-02,53,Female,128.82,24,PayPal,Two-year,4,32,No
+1103,2022-03-02,57,Female,138.39,28,Debit Card,Month-to-month,4,46,No
+1104,2021-01-07,51,Male,26.8,2,PayPal,Two-year,8,18,No
+1105,2022-11-09,44,Female,149.45,22,Debit Card,Annual,0,4,No
+1106,2021-03-21,35,Female,122.39,31,PayPal,Month-to-month,3,38,Yes
+1107,2022-11-09,78,Male,77.26,35,PayPal,Annual,6,30,Yes
+1108,2022-02-07,45,Male,68.36,23,Debit Card,Annual,1,10,Yes
+1109,2022-10-27,52,Male,73.49,8,Debit Card,Two-year,4,10,No
+1110,2021-11-10,81,Female,26.35,25,PayPal,Annual,10,26,Yes
+1111,2022-06-02,34,Female,21.33,33,PayPal,Annual,5,38,No
+1112,2021-07-13,19,Female,91.36,35,Debit Card,Two-year,1,30,No
+1113,2020-07-21,72,Male,35.17,34,Bank Transfer,Month-to-month,3,35,No
+1114,2021-10-04,62,Female,104.08,17,Credit Card,Annual,9,21,No
+1115,2022-06-04,65,Male,52.4,1,Debit Card,Annual,10,19,No
+1116,2022-05-16,40,Female,91.25,31,PayPal,Annual,2,2,Yes
+1117,2020-07-09,80,Male,70.32,35,PayPal,Month-to-month,5,4,No
+1118,2020-02-02,30,Female,140.53,12,Bank Transfer,Two-year,7,47,No
+1119,2021-10-07,23,Male,134.77,6,Credit Card,Annual,10,21,Yes
+1120,2021-07-06,24,Female,83.88,3,Debit Card,Month-to-month,5,38,No
+1121,2021-06-03,18,Male,122.36,26,Debit Card,Month-to-month,2,37,No
+1122,2021-05-28,38,Female,85.1,1,Credit Card,Month-to-month,3,16,No
+1123,2021-09-18,75,Female,145.22,16,PayPal,Month-to-month,4,37,No
+1124,2021-01-19,75,Male,139.24,4,Credit Card,Two-year,8,9,No
+1125,2022-12-22,22,Male,28.77,36,Bank Transfer,Month-to-month,10,6,Yes
+1126,2021-03-13,31,Female,38.42,25,Bank Transfer,Two-year,0,3,No
+1127,2020-10-03,85,Male,84.37,36,Credit Card,Month-to-month,4,19,No
+1128,2022-03-22,52,Male,146.73,21,Bank Transfer,Two-year,1,50,No
+1129,2020-04-25,65,Female,139.1,14,Credit Card,Annual,6,38,No
+1130,2020-06-23,36,Male,77.72,4,Debit Card,Annual,9,48,No
+1131,2021-03-19,42,Female,50.25,7,Debit Card,Month-to-month,7,29,No
+1132,2020-01-07,72,Male,96.34,2,Debit Card,Annual,5,36,Yes
+1133,2022-03-03,41,Female,115.84,5,Credit Card,Annual,6,4,Yes
+1134,2022-04-06,26,Female,39.33,7,Bank Transfer,Two-year,2,25,No
+1135,2020-07-08,79,Female,138.6,3,Credit Card,Month-to-month,8,31,No
+1136,2020-04-24,74,Male,70.19,21,Bank Transfer,Two-year,6,48,No
+1137,2021-02-03,33,Female,104.69,22,Credit Card,Annual,1,38,No
+1138,2022-04-18,21,Male,79.31,22,Credit Card,Month-to-month,10,34,No
+1139,2021-01-28,28,Male,107.67,5,Bank Transfer,Month-to-month,0,16,No
+1140,2022-12-26,58,Female,26.73,8,PayPal,Month-to-month,5,26,No
+1141,2021-04-15,49,Female,35.16,8,Credit Card,Month-to-month,4,7,No
+1142,2020-04-23,46,Male,20.08,26,Credit Card,Annual,6,27,No
+1143,2020-06-26,55,Female,107.16,12,Bank Transfer,Two-year,1,17,No
+1144,2021-10-13,73,Female,54.08,27,Debit Card,Month-to-month,3,5,No
+1145,2020-03-28,51,Male,146.63,30,Credit Card,Two-year,6,26,No
+1146,2021-04-18,51,Female,92.08,2,Bank Transfer,Month-to-month,3,46,No
+1147,2020-05-06,32,Female,55.81,34,PayPal,Annual,3,20,No
+1148,2021-11-17,47,Male,106.67,22,PayPal,Annual,0,31,No
+1149,2020-01-20,44,Male,102.75,26,Credit Card,Month-to-month,2,23,No
+1150,2022-04-30,68,Male,28.96,34,PayPal,Annual,10,46,No
+1151,2021-05-23,29,Male,146.36,35,Credit Card,Annual,9,45,No
+1152,2021-10-06,78,Male,31.24,2,Debit Card,Annual,8,7,No
+1153,2022-05-20,82,Male,69.83,19,Debit Card,Annual,8,22,Yes
+1154,2022-02-01,74,Male,76.62,3,PayPal,Month-to-month,2,28,Yes
+1155,2020-03-31,63,Male,27.47,2,Credit Card,Two-year,0,8,No
+1156,2021-08-23,71,Male,80.81,6,Debit Card,Two-year,1,8,No
+1157,2022-09-16,83,Male,42.81,17,Debit Card,Two-year,4,27,No
+1158,2020-04-09,66,Male,72.28,8,Debit Card,Annual,0,2,No
+1159,2021-12-21,79,Male,102.38,28,Credit Card,Annual,3,6,No
+1160,2022-01-19,82,Male,39.73,9,Bank Transfer,Month-to-month,4,37,No
+1161,2022-04-05,52,Male,86.73,27,Debit Card,Month-to-month,9,49,No
+1162,2020-08-01,44,Female,142.62,16,PayPal,Two-year,6,15,No
+1163,2021-01-30,57,Male,89.4,2,PayPal,Month-to-month,1,17,No
+1164,2020-06-02,43,Male,41.0,15,PayPal,Annual,10,20,No
+1165,2020-01-18,82,Male,135.62,17,Debit Card,Annual,9,1,No
+1166,2021-07-20,49,Female,144.83,22,Debit Card,Annual,1,14,No
+1167,2021-06-10,49,Female,66.76,26,Credit Card,Annual,10,44,No
+1168,2021-02-18,20,Female,94.81,15,Bank Transfer,Month-to-month,9,37,No
+1169,2022-04-17,31,Female,113.99,19,PayPal,Annual,3,33,No
+1170,2021-12-09,22,Female,140.81,12,PayPal,Month-to-month,4,32,Yes
+1171,2022-05-04,18,Female,50.66,4,Bank Transfer,Annual,1,8,No
+1172,2021-01-10,42,Female,137.24,28,Bank Transfer,Two-year,9,30,No
+1173,2021-03-03,51,Male,32.69,10,Credit Card,Annual,8,42,No
+1174,2021-01-20,57,Female,81.99,10,PayPal,Month-to-month,4,10,No
+1175,2022-05-23,59,Male,60.15,2,PayPal,Annual,4,18,No
+1176,2020-03-19,79,Female,146.69,18,Credit Card,Annual,3,7,No
+1177,2022-10-06,70,Male,30.74,26,PayPal,Month-to-month,5,43,No
+1178,2020-06-09,43,Female,112.59,23,PayPal,Month-to-month,2,40,No
+1179,2022-06-19,83,Male,117.61,25,Bank Transfer,Two-year,4,30,No
+1180,2022-07-21,33,Male,31.7,13,Debit Card,Annual,2,23,Yes
+1181,2020-01-06,35,Female,36.07,17,Credit Card,Two-year,6,45,No
+1182,2022-10-02,75,Female,84.97,17,Debit Card,Month-to-month,7,24,No
+1183,2020-07-26,50,Male,149.87,25,Credit Card,Annual,5,40,Yes
+1184,2020-09-19,54,Female,66.11,36,PayPal,Month-to-month,0,35,No
+1185,2020-02-07,18,Male,23.67,15,Bank Transfer,Annual,8,49,No
+1186,2022-01-13,64,Female,87.03,22,Credit Card,Two-year,0,49,No
+1187,2021-02-26,64,Female,56.33,31,Credit Card,Annual,8,24,No
+1188,2021-04-18,23,Female,65.01,29,PayPal,Two-year,0,35,No
+1189,2022-03-05,41,Female,51.11,31,Bank Transfer,Two-year,4,22,No
+1190,2021-05-21,38,Male,147.41,26,Credit Card,Month-to-month,2,41,No
+1191,2020-03-19,81,Male,92.46,3,Credit Card,Two-year,2,38,No
+1192,2020-05-02,73,Male,36.63,33,PayPal,Month-to-month,8,13,Yes
+1193,2020-05-14,63,Male,70.5,18,Credit Card,Month-to-month,2,35,Yes
+1194,2020-12-10,40,Male,117.4,33,Debit Card,Two-year,1,37,No
+1195,2021-08-12,59,Male,31.74,30,Debit Card,Month-to-month,8,26,No
+1196,2020-12-01,27,Female,128.58,21,Credit Card,Two-year,8,30,No
+1197,2021-10-31,85,Female,145.1,1,Debit Card,Month-to-month,5,7,No
+1198,2022-08-24,21,Female,90.75,20,Credit Card,Month-to-month,8,42,No
+1199,2020-10-01,19,Female,71.11,26,Bank Transfer,Two-year,9,50,No
+1200,2021-05-28,76,Female,25.2,11,Debit Card,Two-year,3,30,Yes
+1201,2022-10-22,39,Male,56.35,6,Debit Card,Month-to-month,8,27,No
+1202,2020-02-28,73,Female,147.71,29,PayPal,Annual,9,37,No
+1203,2021-11-28,25,Male,46.3,16,Credit Card,Annual,8,35,No
+1204,2021-11-27,34,Female,28.78,31,Debit Card,Month-to-month,3,6,No
+1205,2021-03-23,58,Female,29.88,13,Credit Card,Annual,7,18,No
+1206,2022-05-16,22,Female,103.59,33,Credit Card,Two-year,8,2,No
+1207,2020-12-18,58,Male,54.53,16,Credit Card,Month-to-month,8,16,Yes
+1208,2021-04-25,72,Female,39.7,11,Credit Card,Two-year,5,6,No
+1209,2021-06-09,81,Male,112.44,15,PayPal,Month-to-month,5,1,No
+1210,2020-08-20,66,Male,89.31,26,PayPal,Annual,9,48,Yes
+1211,2021-10-23,76,Male,25.02,7,Debit Card,Two-year,9,20,Yes
+1212,2022-09-21,80,Male,36.96,18,Credit Card,Month-to-month,10,12,No
+1213,2022-05-20,40,Female,82.49,29,PayPal,Annual,7,11,No
+1214,2020-06-02,51,Female,94.62,34,Credit Card,Annual,0,36,No
+1215,2020-07-30,46,Male,44.11,25,Debit Card,Month-to-month,10,6,No
+1216,2020-06-17,43,Male,23.95,35,PayPal,Annual,1,35,No
+1217,2020-07-29,84,Male,62.4,1,PayPal,Month-to-month,0,20,Yes
+1218,2020-02-20,40,Male,143.04,20,Credit Card,Month-to-month,3,45,No
+1219,2021-09-19,47,Female,68.04,35,Debit Card,Annual,4,47,No
+1220,2021-06-15,60,Male,148.21,35,Bank Transfer,Two-year,7,5,No
+1221,2020-08-17,53,Male,128.3,17,Bank Transfer,Month-to-month,3,40,No
+1222,2020-10-30,70,Male,126.67,18,Bank Transfer,Two-year,5,9,No
+1223,2020-01-07,56,Male,66.03,7,Bank Transfer,Annual,8,25,Yes
+1224,2022-07-17,21,Female,72.92,5,PayPal,Two-year,10,30,No
+1225,2022-07-01,30,Female,46.0,33,Debit Card,Month-to-month,4,48,Yes
+1226,2020-01-21,58,Female,51.02,24,Debit Card,Two-year,1,41,No
+1227,2022-04-20,28,Female,108.53,6,Bank Transfer,Annual,1,26,Yes
+1228,2021-03-31,44,Female,93.85,10,PayPal,Two-year,5,30,No
+1229,2020-09-06,60,Male,63.91,20,Bank Transfer,Two-year,3,37,Yes
+1230,2022-03-09,30,Male,51.09,19,Credit Card,Annual,3,38,Yes
+1231,2021-04-01,31,Female,36.69,11,PayPal,Two-year,3,10,No
+1232,2021-01-13,58,Female,72.04,14,Bank Transfer,Month-to-month,10,19,No
+1233,2022-10-22,31,Male,107.82,8,Credit Card,Two-year,7,37,No
+1234,2022-11-08,29,Female,28.04,21,Credit Card,Annual,9,15,Yes
+1235,2021-07-14,50,Female,47.46,2,Credit Card,Month-to-month,6,21,Yes
+1236,2020-02-15,39,Female,66.44,28,Bank Transfer,Annual,4,36,Yes
+1237,2022-05-04,40,Male,125.07,20,PayPal,Month-to-month,10,46,No
+1238,2021-04-06,60,Male,30.96,34,PayPal,Annual,5,24,Yes
+1239,2022-11-07,33,Male,39.55,13,PayPal,Two-year,6,50,No
+1240,2021-03-28,36,Female,47.64,19,Debit Card,Month-to-month,1,10,No
+1241,2020-10-14,75,Female,142.41,15,Credit Card,Annual,7,17,Yes
+1242,2022-08-17,51,Male,73.24,31,Bank Transfer,Annual,7,2,No
+1243,2022-02-23,33,Male,21.08,35,Credit Card,Annual,5,1,Yes
+1244,2021-10-04,34,Male,71.66,18,Bank Transfer,Month-to-month,10,2,No
+1245,2022-11-15,82,Male,118.17,8,Debit Card,Month-to-month,2,25,Yes
+1246,2022-01-28,48,Female,74.99,11,Debit Card,Month-to-month,5,2,No
+1247,2020-12-01,76,Male,59.34,16,Bank Transfer,Annual,0,35,No
+1248,2021-08-31,83,Male,84.63,11,PayPal,Two-year,10,49,Yes
+1249,2021-01-28,28,Male,60.76,22,Credit Card,Annual,0,20,No
+1250,2020-04-24,38,Female,139.61,25,Bank Transfer,Annual,10,15,No
+1251,2020-08-26,22,Male,138.52,8,Bank Transfer,Two-year,6,47,No
+1252,2021-03-22,55,Female,122.87,20,Debit Card,Two-year,4,20,No
+1253,2021-07-23,85,Female,60.54,28,Debit Card,Two-year,7,40,Yes
+1254,2020-05-05,27,Male,86.66,9,Bank Transfer,Month-to-month,1,30,No
+1255,2021-04-06,27,Male,76.86,36,PayPal,Annual,5,42,No
+1256,2020-10-01,74,Female,55.51,19,Credit Card,Two-year,5,43,No
+1257,2020-07-02,76,Female,115.73,14,PayPal,Annual,3,36,Yes
+1258,2022-10-28,74,Female,110.83,29,Debit Card,Two-year,9,17,No
+1259,2020-07-12,48,Male,131.87,26,PayPal,Annual,0,20,Yes
+1260,2021-11-02,39,Female,82.05,36,Credit Card,Two-year,6,9,No
+1261,2020-07-04,26,Female,84.11,10,Credit Card,Month-to-month,1,1,Yes
+1262,2021-02-12,67,Male,70.22,25,PayPal,Annual,2,42,No
+1263,2022-08-22,36,Male,52.53,12,Debit Card,Two-year,5,27,No
+1264,2022-04-08,39,Male,119.55,26,Credit Card,Two-year,5,40,Yes
+1265,2021-03-02,63,Male,62.35,23,Credit Card,Month-to-month,0,38,No
+1266,2022-05-18,42,Male,85.49,20,Bank Transfer,Annual,4,16,No
+1267,2020-09-25,63,Male,84.93,32,Bank Transfer,Two-year,1,22,No
+1268,2022-02-25,20,Female,141.19,7,PayPal,Two-year,6,31,No
+1269,2021-10-19,40,Female,87.72,17,Debit Card,Two-year,4,18,No
+1270,2021-05-28,18,Female,34.44,1,Credit Card,Two-year,3,41,No
+1271,2021-12-22,66,Male,97.41,18,PayPal,Annual,2,42,Yes
+1272,2022-08-27,32,Female,72.63,33,PayPal,Two-year,7,27,No
+1273,2020-06-16,70,Male,85.51,27,Debit Card,Month-to-month,5,15,No
+1274,2021-04-01,66,Female,94.31,4,PayPal,Annual,0,14,No
+1275,2022-03-26,19,Female,75.74,30,Credit Card,Month-to-month,9,42,No
+1276,2021-12-13,72,Male,88.13,1,Credit Card,Two-year,6,30,Yes
+1277,2021-01-27,46,Male,92.19,18,Debit Card,Month-to-month,0,5,No
+1278,2020-09-10,68,Female,80.05,7,Bank Transfer,Two-year,4,8,No
+1279,2020-02-04,76,Male,91.95,19,Debit Card,Month-to-month,5,46,No
+1280,2020-04-15,46,Male,136.56,36,PayPal,Annual,8,20,No
+1281,2020-02-02,21,Female,132.12,16,Credit Card,Annual,7,12,No
+1282,2021-01-30,52,Female,101.31,18,Debit Card,Two-year,1,35,No
+1283,2022-12-28,47,Female,56.77,26,PayPal,Annual,10,46,No
+1284,2020-11-05,44,Female,97.04,26,PayPal,Annual,1,29,No
+1285,2022-03-18,50,Female,59.43,20,Debit Card,Annual,9,38,No
+1286,2020-06-04,42,Male,62.62,7,Bank Transfer,Month-to-month,2,1,No
+1287,2021-09-19,41,Female,36.98,16,Credit Card,Two-year,0,45,No
+1288,2022-04-01,34,Male,50.63,10,Credit Card,Annual,9,7,Yes
+1289,2021-08-17,56,Female,69.51,33,Credit Card,Month-to-month,4,46,No
+1290,2021-04-19,82,Male,86.8,35,Debit Card,Month-to-month,0,35,No
+1291,2022-01-09,29,Female,58.01,34,Credit Card,Two-year,10,16,No
+1292,2022-06-30,76,Female,26.04,19,Credit Card,Two-year,10,15,No
+1293,2020-08-01,49,Female,82.63,11,Bank Transfer,Month-to-month,8,4,Yes
+1294,2020-03-30,54,Male,35.56,23,Credit Card,Month-to-month,0,7,No
+1295,2022-05-27,80,Female,143.43,3,Bank Transfer,Annual,6,48,No
+1296,2022-11-04,57,Female,85.4,23,Bank Transfer,Month-to-month,8,11,No
+1297,2021-03-29,26,Female,126.09,7,PayPal,Annual,4,20,Yes
+1298,2022-02-22,50,Female,149.08,22,Credit Card,Annual,3,37,No
+1299,2022-09-09,61,Female,65.45,22,PayPal,Two-year,2,34,Yes
+1300,2021-08-31,28,Male,79.18,14,Credit Card,Month-to-month,4,47,No
+1301,2021-03-29,39,Male,111.07,26,Debit Card,Annual,3,15,No
+1302,2022-02-03,18,Male,56.16,18,Debit Card,Month-to-month,8,44,No
+1303,2022-12-04,33,Female,52.96,26,Debit Card,Annual,9,7,No
+1304,2020-06-07,35,Female,66.07,21,Bank Transfer,Two-year,9,32,No
+1305,2021-10-15,75,Male,66.8,15,Bank Transfer,Month-to-month,3,31,No
+1306,2022-12-15,46,Male,133.5,21,Credit Card,Annual,5,33,No
+1307,2021-09-08,65,Female,36.48,15,Debit Card,Annual,7,39,No
+1308,2021-07-08,70,Male,124.92,33,Credit Card,Annual,0,16,No
+1309,2021-03-06,42,Female,91.14,6,Credit Card,Month-to-month,0,18,No
+1310,2022-07-28,49,Male,84.94,11,PayPal,Two-year,5,30,No
+1311,2021-04-06,18,Male,23.8,18,Bank Transfer,Annual,3,40,No
+1312,2020-01-09,70,Female,110.63,27,Debit Card,Annual,7,4,No
+1313,2020-12-28,29,Female,118.1,26,PayPal,Two-year,6,12,No
+1314,2022-09-19,70,Female,53.5,12,Debit Card,Annual,4,10,No
+1315,2022-01-17,72,Female,70.7,29,PayPal,Annual,5,11,No
+1316,2022-10-18,31,Female,56.77,3,PayPal,Two-year,9,15,Yes
+1317,2021-02-26,51,Female,81.69,28,Debit Card,Month-to-month,4,11,No
+1318,2022-03-20,56,Male,36.21,18,Bank Transfer,Two-year,3,11,Yes
+1319,2020-04-14,76,Female,20.5,23,Debit Card,Two-year,8,45,No
+1320,2020-03-15,58,Male,136.59,10,Bank Transfer,Two-year,10,6,No
+1321,2022-12-22,28,Male,55.43,15,Bank Transfer,Annual,5,38,No
+1322,2021-10-27,76,Male,83.73,5,Bank Transfer,Annual,10,36,No
+1323,2022-05-30,53,Female,127.82,30,PayPal,Annual,1,41,No
+1324,2020-09-09,76,Male,92.02,34,PayPal,Two-year,6,27,No
+1325,2021-12-06,23,Male,80.03,26,Debit Card,Month-to-month,8,27,No
+1326,2021-02-15,74,Male,120.65,17,PayPal,Annual,2,28,No
+1327,2020-06-18,59,Male,126.56,36,Bank Transfer,Annual,9,13,Yes
+1328,2021-10-22,54,Female,96.56,18,Bank Transfer,Month-to-month,6,43,No
+1329,2021-04-19,52,Male,32.05,31,PayPal,Annual,3,9,No
+1330,2021-02-19,79,Male,57.59,22,Bank Transfer,Annual,5,33,No
+1331,2021-08-18,41,Male,74.95,1,PayPal,Month-to-month,7,10,No
+1332,2021-09-08,68,Female,30.54,22,Debit Card,Month-to-month,1,14,Yes
+1333,2022-03-19,63,Female,119.69,16,Bank Transfer,Month-to-month,8,31,No
+1334,2021-07-29,29,Female,64.1,9,Debit Card,Annual,3,2,No
+1335,2022-06-02,23,Male,93.13,4,Credit Card,Annual,10,47,No
+1336,2021-04-23,50,Male,111.0,7,Credit Card,Annual,3,17,No
+1337,2021-09-14,73,Male,146.15,27,Debit Card,Month-to-month,7,24,No
+1338,2020-01-17,79,Female,44.41,35,Bank Transfer,Annual,4,20,No
+1339,2021-04-26,18,Male,95.25,26,Credit Card,Two-year,8,50,No
+1340,2020-07-17,21,Male,37.97,7,Debit Card,Annual,10,30,Yes
+1341,2022-08-04,69,Male,119.74,35,Bank Transfer,Month-to-month,8,23,No
+1342,2021-03-15,43,Female,77.15,2,PayPal,Month-to-month,3,15,No
+1343,2020-02-01,83,Female,105.82,18,Bank Transfer,Two-year,2,19,No
+1344,2022-11-26,64,Male,107.2,26,Credit Card,Month-to-month,3,6,Yes
+1345,2020-05-05,26,Male,128.92,11,Bank Transfer,Month-to-month,10,12,Yes
+1346,2021-02-24,48,Male,132.41,36,Debit Card,Month-to-month,9,34,No
+1347,2021-02-13,67,Male,147.04,30,PayPal,Month-to-month,1,22,No
+1348,2020-09-22,55,Female,50.48,17,Debit Card,Month-to-month,4,6,No
+1349,2021-12-03,33,Male,60.48,15,PayPal,Month-to-month,2,50,No
+1350,2022-10-12,78,Male,90.33,8,Bank Transfer,Two-year,6,35,Yes
+1351,2022-02-15,47,Female,31.47,31,Credit Card,Month-to-month,1,47,No
+1352,2020-06-22,85,Male,126.74,31,PayPal,Two-year,5,9,No
+1353,2022-11-27,71,Female,91.17,26,Debit Card,Two-year,0,12,No
+1354,2021-03-19,60,Male,148.25,18,PayPal,Two-year,5,20,No
+1355,2022-07-31,26,Male,39.08,9,PayPal,Two-year,2,42,No
+1356,2022-06-20,77,Male,20.27,26,Debit Card,Two-year,10,5,Yes
+1357,2022-06-17,19,Male,144.57,26,Credit Card,Annual,4,10,No
+1358,2021-09-24,25,Male,131.52,20,Debit Card,Two-year,7,40,No
+1359,2021-06-21,32,Female,133.05,28,PayPal,Two-year,2,24,No
+1360,2022-11-24,82,Female,42.81,16,PayPal,Annual,3,39,No
+1361,2022-02-05,52,Male,37.9,8,Bank Transfer,Month-to-month,7,20,No
+1362,2020-01-30,66,Female,98.12,35,PayPal,Two-year,7,13,Yes
+1363,2021-07-26,47,Female,55.39,16,PayPal,Month-to-month,0,4,Yes
+1364,2022-09-17,51,Female,60.94,13,Bank Transfer,Two-year,7,2,No
+1365,2020-12-09,78,Male,71.2,36,Debit Card,Annual,6,7,No
+1366,2021-12-05,22,Female,30.49,34,Bank Transfer,Two-year,8,14,No
+1367,2020-06-25,77,Female,128.18,5,Debit Card,Two-year,9,45,No
+1368,2021-04-12,56,Female,145.74,33,Debit Card,Annual,6,28,No
+1369,2022-01-13,82,Female,79.52,2,Bank Transfer,Annual,2,14,No
+1370,2021-12-26,60,Male,20.57,34,Credit Card,Annual,7,50,Yes
+1371,2020-10-28,45,Male,96.7,28,PayPal,Two-year,9,44,No
+1372,2021-06-13,57,Male,76.66,4,Bank Transfer,Two-year,6,6,Yes
+1373,2020-07-04,62,Male,59.99,23,Debit Card,Annual,7,3,No
+1374,2021-09-23,39,Female,63.81,24,Debit Card,Month-to-month,9,39,No
+1375,2020-05-17,76,Male,84.64,15,PayPal,Month-to-month,6,48,Yes
+1376,2021-05-26,62,Male,23.89,17,Bank Transfer,Annual,1,12,No
+1377,2021-08-17,21,Male,111.62,32,PayPal,Two-year,10,47,No
+1378,2021-10-08,23,Male,88.43,1,Debit Card,Month-to-month,5,4,Yes
+1379,2022-08-03,35,Female,56.78,16,Credit Card,Two-year,2,27,No
+1380,2020-07-15,38,Female,123.09,7,Bank Transfer,Two-year,4,49,No
+1381,2021-08-26,51,Male,104.86,13,Bank Transfer,Month-to-month,0,35,No
+1382,2021-05-25,48,Female,123.03,13,Bank Transfer,Month-to-month,4,44,No
+1383,2020-12-15,54,Male,149.19,11,Credit Card,Month-to-month,1,22,Yes
+1384,2021-07-14,56,Female,144.57,18,Credit Card,Month-to-month,10,25,Yes
+1385,2020-09-13,70,Male,61.93,36,PayPal,Two-year,8,44,No
+1386,2020-11-26,60,Male,30.57,16,Credit Card,Annual,3,6,Yes
+1387,2022-10-14,27,Female,78.33,35,PayPal,Two-year,4,25,Yes
+1388,2021-11-07,81,Female,83.74,5,Credit Card,Month-to-month,2,21,No
+1389,2022-12-07,61,Male,62.46,28,Bank Transfer,Annual,5,9,No
+1390,2022-01-29,56,Male,54.0,8,Credit Card,Annual,5,31,Yes
+1391,2022-10-06,60,Male,30.41,9,Debit Card,Two-year,2,19,No
+1392,2022-05-22,71,Female,69.56,28,Credit Card,Month-to-month,0,36,No
+1393,2020-06-26,24,Female,128.51,20,Credit Card,Month-to-month,5,45,No
+1394,2020-08-30,27,Female,95.55,13,Debit Card,Two-year,7,43,No
+1395,2020-04-03,46,Female,136.35,20,Bank Transfer,Month-to-month,2,36,Yes
+1396,2022-08-03,64,Male,104.75,22,Credit Card,Month-to-month,10,27,Yes
+1397,2021-12-20,83,Male,82.68,32,PayPal,Annual,9,9,No
+1398,2020-01-14,51,Female,113.92,19,PayPal,Annual,9,5,No
+1399,2020-02-13,66,Female,42.91,25,Credit Card,Two-year,7,15,Yes
+1400,2021-09-24,67,Male,109.15,12,Credit Card,Two-year,3,19,Yes
+1401,2022-08-04,36,Male,64.62,21,Debit Card,Annual,7,49,No
+1402,2020-12-27,81,Male,114.42,26,Debit Card,Annual,6,37,No
+1403,2021-02-24,76,Female,84.41,17,Credit Card,Annual,7,16,Yes
+1404,2022-07-22,65,Female,59.56,21,PayPal,Two-year,3,33,No
+1405,2022-12-16,71,Female,51.4,6,Debit Card,Annual,5,4,No
+1406,2021-10-21,60,Female,76.9,26,PayPal,Two-year,0,47,Yes
+1407,2021-10-20,56,Male,60.17,7,PayPal,Annual,8,11,No
+1408,2021-03-10,21,Female,100.59,4,Bank Transfer,Two-year,9,34,No
+1409,2020-02-26,72,Male,101.1,15,PayPal,Annual,5,38,No
+1410,2021-02-13,47,Female,42.94,32,PayPal,Annual,7,6,No
+1411,2021-02-07,44,Female,90.57,35,Credit Card,Two-year,6,9,No
+1412,2022-12-16,63,Female,82.38,21,Bank Transfer,Month-to-month,7,16,No
+1413,2021-01-18,49,Male,43.57,23,Credit Card,Month-to-month,4,10,No
+1414,2020-04-08,30,Male,92.53,7,Debit Card,Month-to-month,1,22,No
+1415,2022-11-04,19,Male,103.77,16,Bank Transfer,Month-to-month,4,30,No
+1416,2020-10-23,74,Male,33.61,10,Credit Card,Two-year,4,8,No
+1417,2022-08-04,38,Male,80.66,12,Bank Transfer,Annual,6,24,Yes
+1418,2020-06-16,24,Female,55.31,35,Bank Transfer,Month-to-month,4,34,No
+1419,2021-09-25,33,Female,48.22,8,Credit Card,Two-year,6,2,No
+1420,2021-03-11,31,Female,28.57,14,PayPal,Annual,1,27,No
+1421,2021-01-14,50,Female,149.69,23,Credit Card,Month-to-month,2,26,No
+1422,2021-03-16,68,Female,86.48,7,PayPal,Month-to-month,7,23,Yes
+1423,2021-05-14,73,Male,27.3,13,Debit Card,Two-year,0,15,No
+1424,2021-03-19,31,Female,117.71,24,PayPal,Month-to-month,2,43,No
+1425,2021-04-07,62,Male,95.89,13,PayPal,Month-to-month,6,33,No
+1426,2021-09-10,32,Male,48.6,28,Bank Transfer,Month-to-month,5,24,No
+1427,2020-12-16,72,Male,20.86,8,PayPal,Annual,7,48,No
+1428,2022-11-27,80,Female,121.91,24,Credit Card,Month-to-month,6,7,No
+1429,2022-08-19,26,Male,117.95,23,Bank Transfer,Two-year,2,45,No
+1430,2020-09-18,46,Female,35.57,14,Debit Card,Two-year,3,47,No
+1431,2022-08-25,41,Female,80.81,5,Debit Card,Two-year,2,27,No
+1432,2021-11-11,75,Female,114.77,35,PayPal,Annual,3,9,No
+1433,2021-08-11,72,Female,62.36,15,Debit Card,Annual,8,20,No
+1434,2022-12-24,23,Male,23.11,13,PayPal,Month-to-month,6,41,No
+1435,2022-04-03,39,Female,138.42,18,Credit Card,Month-to-month,10,46,No
+1436,2020-08-06,39,Male,38.92,25,Bank Transfer,Annual,1,22,No
+1437,2021-09-06,62,Female,117.9,12,Credit Card,Month-to-month,7,43,Yes
+1438,2022-07-12,22,Male,75.61,5,PayPal,Annual,3,43,Yes
+1439,2020-08-07,81,Male,144.32,22,Debit Card,Two-year,3,35,No
+1440,2020-07-03,38,Female,121.3,21,Bank Transfer,Annual,3,16,No
+1441,2022-05-30,61,Male,52.81,5,Debit Card,Annual,4,47,No
+1442,2021-01-30,24,Female,94.19,22,Debit Card,Month-to-month,2,25,No
+1443,2020-03-21,57,Male,101.38,18,Debit Card,Month-to-month,5,36,Yes
+1444,2020-08-21,54,Male,115.45,2,Credit Card,Annual,4,35,No
+1445,2020-09-26,66,Female,71.91,9,PayPal,Two-year,0,27,Yes
+1446,2020-07-25,84,Male,83.04,27,PayPal,Month-to-month,7,42,No
+1447,2020-02-04,63,Male,21.35,35,PayPal,Month-to-month,3,17,No
+1448,2021-09-21,30,Male,144.76,33,PayPal,Annual,3,1,No
+1449,2022-02-01,19,Female,132.59,10,Debit Card,Month-to-month,7,46,No
+1450,2021-12-10,46,Male,99.81,5,Debit Card,Annual,7,26,No
+1451,2021-03-12,43,Female,143.73,9,Credit Card,Month-to-month,6,47,No
+1452,2021-10-13,74,Female,32.41,6,Credit Card,Two-year,4,37,Yes
+1453,2021-06-26,48,Female,118.97,28,Debit Card,Month-to-month,8,36,No
+1454,2022-12-11,65,Female,36.0,6,Bank Transfer,Annual,9,11,No
+1455,2021-04-08,30,Male,72.63,15,Credit Card,Month-to-month,8,37,No
+1456,2021-08-01,28,Male,139.97,11,Credit Card,Month-to-month,1,8,No
+1457,2021-09-21,46,Male,25.82,16,Bank Transfer,Two-year,3,26,No
+1458,2020-02-18,21,Male,49.59,33,PayPal,Annual,10,38,No
+1459,2022-02-17,29,Female,24.04,10,Credit Card,Two-year,2,26,No
+1460,2020-01-20,45,Male,84.13,24,Credit Card,Annual,3,6,Yes
+1461,2021-06-14,35,Male,38.25,31,PayPal,Annual,4,48,Yes
+1462,2020-09-29,42,Female,127.29,33,Bank Transfer,Two-year,2,19,No
+1463,2021-05-15,39,Female,81.81,9,Bank Transfer,Annual,0,50,No
+1464,2021-05-27,35,Female,78.13,12,PayPal,Annual,5,8,Yes
+1465,2022-07-20,47,Male,76.62,4,Debit Card,Two-year,7,16,Yes
+1466,2020-01-26,56,Male,138.32,16,Credit Card,Annual,6,12,No
+1467,2021-05-05,52,Female,78.43,8,Bank Transfer,Two-year,6,48,No
+1468,2022-05-02,52,Female,63.47,13,PayPal,Annual,7,14,No
+1469,2022-07-31,32,Male,56.15,8,Credit Card,Annual,1,12,Yes
+1470,2020-09-20,84,Female,126.51,2,PayPal,Month-to-month,10,41,No
+1471,2022-12-31,67,Male,23.83,2,PayPal,Month-to-month,8,11,No
+1472,2022-12-30,46,Female,139.45,5,Bank Transfer,Month-to-month,0,19,No
+1473,2021-06-12,20,Female,48.14,17,Bank Transfer,Two-year,2,41,No
+1474,2020-06-02,55,Male,70.27,17,PayPal,Annual,0,33,No
+1475,2022-12-18,85,Female,57.75,33,PayPal,Annual,0,39,No
+1476,2021-03-19,19,Female,21.27,19,Bank Transfer,Annual,6,50,No
+1477,2021-09-05,49,Female,23.05,6,Credit Card,Month-to-month,8,33,No
+1478,2020-05-07,83,Male,42.8,12,Credit Card,Two-year,7,46,No
+1479,2020-10-05,73,Male,149.22,9,Debit Card,Annual,6,17,No
+1480,2020-02-01,71,Female,124.49,24,Bank Transfer,Month-to-month,1,5,No
+1481,2021-04-21,54,Female,47.04,10,Credit Card,Month-to-month,4,24,No
+1482,2020-02-07,68,Female,133.78,10,PayPal,Month-to-month,0,40,No
+1483,2022-02-03,18,Female,45.65,35,Bank Transfer,Two-year,7,26,No
+1484,2020-08-08,62,Female,118.99,16,Credit Card,Two-year,2,33,No
+1485,2020-07-17,33,Male,87.09,23,Debit Card,Two-year,4,8,No
+1486,2020-01-12,73,Female,24.48,34,Debit Card,Two-year,1,50,No
+1487,2021-07-02,34,Female,104.86,36,Credit Card,Two-year,6,44,No
+1488,2020-04-18,51,Male,126.99,31,Credit Card,Month-to-month,7,36,Yes
+1489,2022-05-18,56,Female,42.39,6,Debit Card,Two-year,7,21,Yes
+1490,2022-10-30,73,Female,83.9,13,Bank Transfer,Month-to-month,5,39,No
+1491,2021-08-16,81,Male,46.91,23,Credit Card,Month-to-month,2,37,No
+1492,2021-06-14,32,Male,97.48,23,Credit Card,Month-to-month,9,33,No
+1493,2021-01-19,69,Female,69.23,22,Bank Transfer,Annual,8,44,No
+1494,2021-05-26,80,Male,141.77,6,Debit Card,Two-year,7,27,No
+1495,2020-08-17,45,Female,26.78,15,Debit Card,Two-year,10,5,Yes
+1496,2020-04-20,24,Female,106.13,13,Credit Card,Annual,3,11,No
+1497,2020-08-16,28,Female,78.68,30,PayPal,Two-year,10,25,Yes
+1498,2021-08-01,77,Male,25.59,31,Credit Card,Month-to-month,5,40,No
+1499,2022-11-11,47,Male,90.54,30,PayPal,Two-year,10,40,Yes
+1500,2021-04-01,75,Female,57.93,8,Credit Card,Annual,8,11,No
+1501,2020-12-13,69,Female,75.12,29,Debit Card,Month-to-month,6,5,No
+1502,2022-06-11,52,Male,117.1,27,PayPal,Two-year,7,24,No
+1503,2021-12-29,47,Male,97.09,14,Bank Transfer,Two-year,4,13,Yes
+1504,2021-03-27,29,Male,114.74,30,Debit Card,Two-year,9,10,No
+1505,2020-07-31,33,Female,129.96,24,PayPal,Annual,3,31,Yes
+1506,2020-07-11,22,Male,72.31,16,Bank Transfer,Two-year,6,21,No
+1507,2021-06-16,23,Female,22.77,16,Debit Card,Annual,5,43,Yes
+1508,2022-10-01,62,Female,30.18,29,PayPal,Annual,0,30,No
+1509,2022-05-19,47,Female,26.46,19,PayPal,Annual,2,30,No
+1510,2022-12-08,32,Female,145.29,6,Debit Card,Two-year,4,38,No
+1511,2021-07-26,55,Female,120.72,23,Bank Transfer,Two-year,9,12,No
+1512,2022-06-17,73,Female,119.33,4,Bank Transfer,Annual,8,39,No
+1513,2021-05-18,43,Female,81.4,21,Debit Card,Annual,9,48,No
+1514,2022-09-02,21,Male,85.83,29,Debit Card,Annual,6,42,No
+1515,2021-09-25,48,Female,69.48,26,Credit Card,Two-year,0,34,No
+1516,2020-07-01,18,Female,141.24,22,Credit Card,Two-year,10,8,No
+1517,2020-11-21,61,Female,136.74,27,PayPal,Annual,0,48,Yes
+1518,2020-04-29,44,Female,115.14,2,Credit Card,Annual,1,17,No
+1519,2021-01-29,83,Male,89.58,15,Credit Card,Annual,6,6,No
+1520,2020-06-26,26,Female,39.99,10,Bank Transfer,Month-to-month,2,34,Yes
+1521,2022-06-30,71,Female,107.47,11,Debit Card,Month-to-month,7,16,No
+1522,2022-02-25,41,Male,127.81,14,PayPal,Month-to-month,5,45,No
+1523,2021-07-14,35,Female,21.75,20,Bank Transfer,Month-to-month,9,37,Yes
+1524,2022-06-02,27,Male,47.94,20,Bank Transfer,Two-year,7,25,No
+1525,2022-02-12,18,Female,127.64,29,PayPal,Two-year,10,13,No
+1526,2022-09-29,29,Female,51.61,26,Credit Card,Two-year,5,46,No
+1527,2021-07-04,55,Female,87.17,28,Debit Card,Month-to-month,1,39,No
+1528,2022-01-02,32,Male,125.92,26,PayPal,Annual,0,4,Yes
+1529,2021-10-12,44,Female,144.09,18,Credit Card,Annual,0,5,No
+1530,2021-07-10,38,Male,62.25,29,Credit Card,Two-year,2,19,No
+1531,2022-10-05,18,Male,55.79,28,PayPal,Two-year,5,14,No
+1532,2021-07-15,30,Male,31.51,32,Bank Transfer,Annual,5,4,No
+1533,2020-05-13,32,Male,122.82,23,PayPal,Annual,0,30,No
+1534,2022-11-20,30,Female,48.07,2,Bank Transfer,Annual,5,44,No
+1535,2021-07-14,66,Female,73.65,31,PayPal,Annual,8,18,No
+1536,2020-03-02,46,Female,24.27,4,Debit Card,Month-to-month,2,47,Yes
+1537,2022-03-15,37,Male,128.84,6,PayPal,Month-to-month,2,29,Yes
+1538,2020-02-23,47,Female,72.32,23,PayPal,Month-to-month,2,47,No
+1539,2021-03-20,18,Female,30.79,27,Credit Card,Month-to-month,2,28,No
+1540,2021-07-19,57,Male,145.1,9,Credit Card,Two-year,5,44,No
+1541,2021-03-04,45,Male,36.02,20,Debit Card,Two-year,2,16,Yes
+1542,2020-10-15,55,Male,109.27,23,PayPal,Month-to-month,8,40,No
+1543,2020-07-05,34,Male,45.03,23,Debit Card,Two-year,1,48,No
+1544,2021-01-11,85,Female,112.37,13,PayPal,Month-to-month,10,12,No
+1545,2022-09-10,31,Male,123.91,28,PayPal,Two-year,2,30,No
+1546,2021-10-22,40,Female,144.46,17,PayPal,Month-to-month,10,11,No
+1547,2022-01-19,84,Female,40.41,9,Credit Card,Annual,3,15,No
+1548,2022-06-06,34,Male,65.27,6,Debit Card,Two-year,4,11,No
+1549,2020-03-31,69,Female,52.66,1,Debit Card,Two-year,9,34,No
+1550,2022-03-18,44,Female,132.63,30,Debit Card,Annual,3,46,No
+1551,2021-12-09,73,Female,101.92,22,PayPal,Month-to-month,8,4,No
+1552,2021-07-15,81,Female,25.81,6,Credit Card,Two-year,3,6,No
+1553,2020-05-19,48,Male,31.03,27,PayPal,Annual,0,44,No
+1554,2022-04-23,34,Male,104.87,31,Debit Card,Two-year,3,24,No
+1555,2021-04-06,43,Female,35.57,35,PayPal,Annual,8,44,No
+1556,2021-01-05,36,Male,109.66,28,PayPal,Month-to-month,7,3,No
+1557,2022-06-24,67,Male,65.02,13,Credit Card,Two-year,6,48,No
+1558,2020-10-14,75,Female,55.33,13,Bank Transfer,Annual,10,28,No
+1559,2021-08-04,73,Male,20.17,13,Credit Card,Two-year,6,29,Yes
+1560,2022-08-15,85,Male,82.57,24,PayPal,Annual,6,35,Yes
+1561,2022-03-19,33,Male,21.94,14,PayPal,Month-to-month,5,36,No
+1562,2021-12-28,33,Female,53.69,1,Bank Transfer,Two-year,0,18,No
+1563,2020-09-15,78,Female,40.45,30,Credit Card,Annual,8,41,No
+1564,2021-05-19,37,Female,112.64,10,Debit Card,Annual,8,5,Yes
+1565,2022-09-06,63,Female,55.48,16,Credit Card,Two-year,5,43,No
+1566,2021-09-19,44,Male,103.3,18,Debit Card,Two-year,0,45,No
+1567,2020-09-23,29,Female,96.69,13,PayPal,Two-year,8,32,No
+1568,2020-05-25,41,Female,75.19,33,Debit Card,Annual,10,21,Yes
+1569,2021-04-02,58,Male,96.52,12,Credit Card,Annual,8,1,No
+1570,2022-01-22,42,Female,147.32,33,Bank Transfer,Month-to-month,6,26,No
+1571,2022-11-04,58,Male,41.51,17,Credit Card,Two-year,5,35,No
+1572,2021-12-04,53,Female,30.0,25,PayPal,Two-year,3,41,No
+1573,2022-04-10,35,Male,78.6,35,Debit Card,Two-year,1,15,No
+1574,2020-11-24,63,Female,82.47,34,PayPal,Month-to-month,3,39,Yes
+1575,2020-02-04,23,Male,84.53,36,Credit Card,Two-year,1,42,No
+1576,2020-04-30,47,Female,41.51,9,Debit Card,Two-year,6,25,No
+1577,2022-10-07,65,Male,127.85,33,Bank Transfer,Month-to-month,10,48,No
+1578,2021-06-23,73,Male,82.85,35,Credit Card,Annual,3,21,No
+1579,2021-03-01,80,Female,32.14,18,Debit Card,Annual,1,5,No
+1580,2021-03-28,77,Female,72.08,22,Debit Card,Two-year,5,48,No
+1581,2022-06-06,75,Female,84.83,27,Credit Card,Month-to-month,2,32,No
+1582,2021-12-08,68,Male,45.97,21,Debit Card,Annual,0,40,Yes
+1583,2020-01-02,83,Male,56.01,27,Bank Transfer,Two-year,0,44,No
+1584,2021-06-27,55,Female,47.13,29,Debit Card,Two-year,8,22,No
+1585,2022-06-01,18,Male,38.02,32,Debit Card,Two-year,2,7,No
+1586,2020-12-26,26,Male,142.85,1,Credit Card,Month-to-month,5,21,No
+1587,2020-04-05,42,Female,149.21,1,Bank Transfer,Annual,10,31,No
+1588,2020-09-04,62,Female,96.39,30,Bank Transfer,Two-year,9,19,No
+1589,2020-09-29,76,Male,120.56,1,Bank Transfer,Annual,0,17,No
+1590,2020-01-02,72,Female,98.0,27,PayPal,Two-year,0,10,Yes
+1591,2022-04-09,29,Female,135.41,19,PayPal,Two-year,2,11,No
+1592,2020-10-29,23,Female,119.5,7,Debit Card,Annual,1,12,No
+1593,2021-02-19,21,Female,58.18,8,Credit Card,Two-year,8,50,No
+1594,2022-11-11,85,Male,88.18,18,Credit Card,Two-year,8,21,No
+1595,2020-01-03,53,Female,21.63,22,Credit Card,Month-to-month,9,10,No
+1596,2021-03-20,52,Female,113.43,33,Debit Card,Month-to-month,0,20,No
+1597,2020-12-16,72,Female,118.54,6,Debit Card,Two-year,5,39,No
+1598,2022-05-10,83,Male,96.15,8,PayPal,Annual,1,46,No
+1599,2022-06-12,55,Female,59.8,35,PayPal,Two-year,8,22,No
+1600,2021-11-08,62,Female,37.41,8,Debit Card,Two-year,7,49,No
+1601,2020-11-07,45,Male,115.11,19,Debit Card,Month-to-month,8,13,Yes
+1602,2021-07-31,73,Male,42.74,5,PayPal,Two-year,0,44,No
+1603,2021-05-10,66,Male,92.93,18,Bank Transfer,Two-year,0,49,Yes
+1604,2021-01-10,67,Male,105.47,8,Bank Transfer,Two-year,2,6,Yes
+1605,2020-05-11,28,Female,26.12,5,PayPal,Two-year,7,24,Yes
+1606,2020-06-23,61,Male,111.96,14,PayPal,Annual,10,40,No
+1607,2021-07-16,40,Male,54.79,12,Credit Card,Annual,0,44,Yes
+1608,2022-06-26,67,Male,39.44,27,Bank Transfer,Month-to-month,10,32,No
+1609,2022-12-15,52,Male,94.29,9,PayPal,Month-to-month,5,43,No
+1610,2022-07-15,74,Male,29.07,24,Debit Card,Annual,6,10,No
+1611,2022-05-21,64,Female,23.43,24,Debit Card,Month-to-month,6,26,No
+1612,2021-07-19,53,Female,117.84,3,Credit Card,Two-year,7,46,No
+1613,2020-01-05,52,Male,129.43,13,Credit Card,Annual,9,20,No
+1614,2022-04-08,34,Female,119.52,30,PayPal,Two-year,8,38,No
+1615,2021-06-05,30,Male,78.83,12,PayPal,Annual,0,6,No
+1616,2021-12-23,34,Female,84.71,21,Debit Card,Two-year,9,23,No
+1617,2021-03-04,72,Male,103.28,1,Debit Card,Annual,6,36,No
+1618,2022-10-20,61,Male,149.59,28,PayPal,Two-year,6,44,No
+1619,2020-01-30,44,Male,105.76,36,PayPal,Annual,0,12,No
+1620,2020-01-29,77,Female,42.59,36,PayPal,Month-to-month,8,15,Yes
+1621,2021-02-18,41,Male,75.35,6,Bank Transfer,Month-to-month,3,41,No
+1622,2022-11-04,71,Male,129.92,23,PayPal,Annual,3,8,No
+1623,2021-11-06,80,Male,141.24,6,Debit Card,Annual,3,37,No
+1624,2022-04-04,26,Female,69.18,30,Bank Transfer,Annual,9,13,No
+1625,2022-01-21,62,Female,127.97,24,PayPal,Month-to-month,6,24,No
+1626,2020-12-20,29,Female,90.37,15,Credit Card,Annual,3,3,Yes
+1627,2021-05-14,44,Female,38.55,35,Credit Card,Annual,6,33,No
+1628,2020-10-14,26,Female,129.74,3,Credit Card,Annual,2,21,Yes
+1629,2022-01-27,68,Female,50.67,19,Bank Transfer,Month-to-month,10,3,No
+1630,2020-04-10,36,Female,94.21,25,Bank Transfer,Month-to-month,2,25,No
+1631,2021-02-07,51,Male,74.12,16,PayPal,Annual,5,10,No
+1632,2021-03-11,32,Male,91.51,2,PayPal,Two-year,7,38,No
+1633,2022-08-20,58,Female,43.28,34,Bank Transfer,Annual,1,28,No
+1634,2022-04-26,29,Male,74.23,28,PayPal,Two-year,2,15,Yes
+1635,2020-08-24,46,Male,116.41,33,Debit Card,Month-to-month,0,15,No
+1636,2020-06-26,55,Male,136.14,32,Debit Card,Two-year,1,12,Yes
+1637,2021-08-03,36,Female,36.89,7,Bank Transfer,Annual,10,40,No
+1638,2021-01-13,79,Female,147.85,8,PayPal,Month-to-month,5,44,No
+1639,2022-04-23,67,Female,141.02,23,PayPal,Month-to-month,8,44,No
+1640,2022-12-01,76,Female,109.94,15,Debit Card,Month-to-month,4,7,Yes
+1641,2020-11-17,81,Male,148.51,21,PayPal,Two-year,2,10,No
+1642,2021-08-28,54,Male,117.46,3,Debit Card,Month-to-month,2,42,Yes
+1643,2021-03-25,69,Female,77.75,12,Credit Card,Two-year,1,29,Yes
+1644,2021-12-19,82,Female,22.95,21,Credit Card,Annual,2,35,No
+1645,2021-01-23,36,Female,47.23,13,Debit Card,Month-to-month,6,42,No
+1646,2022-03-20,46,Male,95.04,15,Bank Transfer,Annual,10,25,No
+1647,2020-11-30,65,Female,104.38,8,Bank Transfer,Annual,8,15,No
+1648,2021-05-29,22,Male,91.13,14,Debit Card,Two-year,1,32,No
+1649,2022-04-24,35,Female,77.87,30,Credit Card,Month-to-month,2,17,No
+1650,2020-01-28,43,Female,20.52,25,PayPal,Month-to-month,1,24,Yes
+1651,2022-09-09,51,Female,93.17,9,Debit Card,Annual,1,12,No
+1652,2022-09-21,19,Male,66.46,11,Debit Card,Two-year,9,11,No
+1653,2021-11-09,20,Male,74.9,4,PayPal,Month-to-month,2,15,No
+1654,2022-03-31,53,Male,142.18,21,Credit Card,Month-to-month,5,23,No
+1655,2020-01-30,77,Female,121.57,14,Bank Transfer,Two-year,7,48,No
+1656,2020-12-04,75,Female,31.35,25,Debit Card,Two-year,5,25,No
+1657,2020-07-15,18,Female,142.19,15,Credit Card,Two-year,5,25,No
+1658,2021-06-11,25,Female,105.2,18,Credit Card,Two-year,3,29,No
+1659,2020-03-29,24,Male,45.06,11,Debit Card,Two-year,5,1,Yes
+1660,2022-12-22,85,Female,63.7,32,Bank Transfer,Annual,3,50,No
+1661,2022-12-25,29,Female,56.62,6,Credit Card,Month-to-month,5,40,Yes
+1662,2022-09-24,81,Female,147.93,7,Credit Card,Month-to-month,8,35,Yes
+1663,2022-09-09,35,Male,28.57,30,Credit Card,Annual,6,19,No
+1664,2022-09-07,58,Male,127.96,16,PayPal,Two-year,10,5,No
+1665,2021-04-20,42,Female,26.65,3,Debit Card,Two-year,5,31,No
+1666,2021-06-11,84,Male,42.53,34,Bank Transfer,Month-to-month,8,46,No
+1667,2020-11-02,24,Male,99.15,20,Debit Card,Two-year,0,27,No
+1668,2021-01-08,52,Female,74.22,10,Debit Card,Two-year,5,35,No
+1669,2021-12-16,56,Female,131.85,14,PayPal,Annual,4,37,No
+1670,2020-11-02,58,Female,96.22,22,Bank Transfer,Annual,10,21,No
+1671,2022-11-20,64,Male,71.94,11,Credit Card,Two-year,4,6,No
+1672,2020-05-12,21,Female,122.9,8,PayPal,Annual,1,11,Yes
+1673,2021-11-22,44,Female,119.71,25,Debit Card,Month-to-month,3,2,No
+1674,2022-03-01,28,Male,65.38,12,PayPal,Two-year,8,20,No
+1675,2022-10-01,23,Male,82.16,22,PayPal,Month-to-month,9,30,No
+1676,2020-08-21,40,Female,75.16,9,PayPal,Two-year,4,40,No
+1677,2020-11-22,83,Female,69.88,18,Debit Card,Two-year,8,29,No
+1678,2021-12-29,26,Female,33.59,14,Credit Card,Annual,0,42,No
+1679,2022-01-20,33,Male,44.31,9,Debit Card,Annual,7,19,No
+1680,2021-08-22,40,Female,34.89,33,Bank Transfer,Annual,3,31,Yes
+1681,2020-07-28,42,Female,102.26,34,Credit Card,Two-year,5,16,Yes
+1682,2022-07-11,63,Female,144.2,30,Credit Card,Annual,10,30,No
+1683,2022-08-25,75,Male,72.53,2,Credit Card,Two-year,2,21,No
+1684,2020-10-02,19,Male,87.19,12,Credit Card,Two-year,4,32,Yes
+1685,2022-10-06,78,Female,129.11,9,Debit Card,Two-year,5,9,No
+1686,2021-12-21,47,Male,86.72,6,Bank Transfer,Two-year,9,17,No
+1687,2020-03-18,63,Male,58.08,22,Debit Card,Annual,9,17,No
+1688,2021-02-23,24,Female,84.83,28,Credit Card,Two-year,7,1,No
+1689,2020-09-18,56,Male,38.16,30,Bank Transfer,Two-year,6,11,No
+1690,2020-08-09,27,Male,76.11,30,PayPal,Annual,10,21,No
+1691,2022-06-14,39,Male,27.22,7,Credit Card,Two-year,5,12,No
+1692,2020-08-02,23,Female,144.99,14,Credit Card,Two-year,0,3,Yes
+1693,2021-04-15,72,Male,105.0,29,Debit Card,Month-to-month,7,41,Yes
+1694,2022-07-28,64,Male,60.78,16,PayPal,Month-to-month,6,8,No
+1695,2022-10-12,85,Male,39.5,35,Bank Transfer,Annual,1,28,No
+1696,2020-09-21,20,Female,33.45,5,Credit Card,Annual,0,46,No
+1697,2022-10-14,26,Male,124.44,3,Bank Transfer,Two-year,4,6,Yes
+1698,2021-03-16,55,Female,121.17,35,Credit Card,Month-to-month,4,40,No
+1699,2022-12-09,37,Male,139.76,20,PayPal,Annual,4,41,No
+1700,2022-06-22,26,Female,114.62,35,PayPal,Month-to-month,7,35,Yes
+1701,2021-10-14,73,Male,124.91,6,Bank Transfer,Annual,10,33,No
+1702,2022-11-12,67,Female,134.95,20,Debit Card,Annual,10,19,No
+1703,2022-02-03,82,Male,71.26,30,PayPal,Annual,2,4,Yes
+1704,2020-08-16,36,Male,132.81,1,Bank Transfer,Annual,1,26,No
+1705,2021-04-26,76,Male,83.73,36,Bank Transfer,Two-year,8,31,No
+1706,2022-08-03,83,Male,138.81,24,PayPal,Month-to-month,5,5,No
+1707,2021-06-01,81,Male,138.64,31,Debit Card,Annual,7,16,Yes
+1708,2021-12-10,52,Female,22.83,8,Credit Card,Two-year,6,37,No
+1709,2022-05-30,85,Female,137.3,2,Credit Card,Month-to-month,0,16,No
+1710,2021-04-05,53,Male,50.86,14,Debit Card,Two-year,1,38,No
+1711,2022-09-08,60,Female,92.41,11,Credit Card,Annual,5,41,No
+1712,2021-09-26,60,Male,124.76,12,Bank Transfer,Two-year,2,46,Yes
+1713,2020-11-07,34,Male,89.18,5,Credit Card,Annual,9,22,No
+1714,2021-03-04,60,Male,92.79,24,Credit Card,Month-to-month,5,16,No
+1715,2022-12-02,38,Male,127.52,28,PayPal,Two-year,0,33,No
+1716,2021-02-19,45,Female,141.07,16,PayPal,Month-to-month,4,50,Yes
+1717,2022-08-16,23,Female,82.53,26,Credit Card,Annual,6,47,No
+1718,2021-02-27,72,Male,118.28,34,Bank Transfer,Annual,3,4,No
+1719,2021-01-04,59,Female,108.95,27,Debit Card,Annual,9,27,No
+1720,2021-12-20,36,Female,92.82,34,PayPal,Annual,8,46,No
+1721,2020-04-09,23,Male,27.62,35,Bank Transfer,Month-to-month,1,44,No
+1722,2022-02-16,49,Female,64.78,2,Credit Card,Month-to-month,0,1,No
+1723,2021-09-12,34,Female,40.25,35,Debit Card,Annual,9,23,No
+1724,2020-01-24,48,Male,97.41,4,Credit Card,Two-year,7,18,No
+1725,2021-01-10,24,Female,92.53,7,PayPal,Annual,7,18,No
+1726,2020-09-23,36,Male,140.89,25,Bank Transfer,Two-year,7,48,No
+1727,2021-06-02,57,Female,132.38,24,Debit Card,Two-year,9,24,No
+1728,2021-12-05,61,Male,78.22,7,Bank Transfer,Month-to-month,5,6,No
+1729,2020-03-15,40,Female,85.15,18,Debit Card,Annual,0,11,No
+1730,2021-09-05,50,Female,66.08,21,Bank Transfer,Two-year,5,2,Yes
+1731,2021-09-03,73,Female,79.17,14,Credit Card,Two-year,3,28,No
+1732,2021-03-10,59,Male,77.47,25,Credit Card,Month-to-month,7,45,No
+1733,2022-10-31,35,Female,139.86,25,PayPal,Month-to-month,4,40,No
+1734,2020-07-22,67,Male,71.16,36,PayPal,Two-year,6,21,No
+1735,2021-01-02,49,Female,27.29,7,Credit Card,Two-year,9,30,No
+1736,2022-12-10,56,Female,117.58,30,Credit Card,Month-to-month,4,42,No
+1737,2020-06-27,37,Male,80.28,13,Credit Card,Month-to-month,0,12,No
+1738,2020-01-30,34,Female,138.78,14,Bank Transfer,Annual,10,30,No
+1739,2020-09-10,59,Male,21.55,7,Credit Card,Month-to-month,2,28,No
+1740,2022-12-28,64,Male,67.99,2,Bank Transfer,Two-year,1,10,No
+1741,2020-02-19,70,Female,73.54,9,Credit Card,Month-to-month,4,14,No
+1742,2022-09-16,18,Male,108.52,26,Debit Card,Two-year,10,24,No
+1743,2022-08-09,54,Male,45.86,4,PayPal,Two-year,5,42,No
+1744,2020-02-24,42,Female,123.79,7,PayPal,Two-year,0,1,Yes
+1745,2020-05-01,42,Female,74.43,31,PayPal,Month-to-month,1,39,No
+1746,2021-02-20,45,Male,89.17,19,Bank Transfer,Two-year,2,35,No
+1747,2022-01-26,23,Female,44.42,29,PayPal,Two-year,8,8,Yes
+1748,2020-06-19,45,Male,34.93,18,Credit Card,Two-year,7,22,No
+1749,2021-02-07,52,Male,95.3,22,PayPal,Month-to-month,9,43,No
+1750,2022-03-11,44,Male,99.69,27,Debit Card,Annual,3,28,Yes
+1751,2020-04-04,73,Male,52.61,32,PayPal,Month-to-month,7,46,Yes
+1752,2021-03-22,82,Male,88.36,4,Credit Card,Annual,4,23,No
+1753,2020-09-06,21,Female,41.77,14,Debit Card,Annual,8,17,No
+1754,2022-08-09,31,Female,65.87,10,Debit Card,Two-year,6,43,No
+1755,2020-03-05,21,Male,93.3,3,Debit Card,Month-to-month,0,17,No
+1756,2021-08-06,23,Male,111.93,22,PayPal,Month-to-month,5,19,No
+1757,2022-04-03,77,Female,111.2,16,Bank Transfer,Two-year,10,18,No
+1758,2020-07-20,57,Male,129.86,32,Bank Transfer,Annual,8,7,No
+1759,2022-03-16,39,Male,93.24,6,Bank Transfer,Annual,1,45,No
+1760,2020-06-13,33,Female,120.68,35,Credit Card,Two-year,8,35,Yes
+1761,2021-02-23,60,Male,92.14,35,PayPal,Two-year,9,25,No
+1762,2020-10-01,23,Female,46.75,2,Credit Card,Annual,8,46,No
+1763,2021-10-06,22,Female,87.8,1,Debit Card,Month-to-month,8,8,No
+1764,2020-08-13,68,Female,40.92,29,Debit Card,Two-year,6,42,No
+1765,2021-03-13,55,Female,115.14,12,Bank Transfer,Month-to-month,8,28,Yes
+1766,2022-10-03,63,Male,145.22,7,Debit Card,Two-year,6,13,No
+1767,2020-04-27,26,Female,54.64,35,PayPal,Month-to-month,10,5,No
+1768,2021-09-06,70,Male,98.67,3,Bank Transfer,Month-to-month,10,24,No
+1769,2020-04-08,68,Male,28.44,30,Bank Transfer,Two-year,3,34,No
+1770,2021-09-23,54,Male,34.3,21,PayPal,Annual,1,10,No
+1771,2022-07-24,85,Male,100.3,34,Credit Card,Two-year,3,50,No
+1772,2020-08-17,80,Female,98.1,5,Credit Card,Annual,10,1,No
+1773,2021-03-03,67,Male,84.98,25,Debit Card,Month-to-month,6,25,No
+1774,2021-09-17,54,Female,25.98,9,Credit Card,Annual,9,29,No
+1775,2020-04-29,20,Female,121.44,33,PayPal,Month-to-month,10,9,No
+1776,2021-04-24,54,Male,78.23,21,Bank Transfer,Two-year,2,29,No
+1777,2021-04-30,80,Female,146.94,22,Credit Card,Month-to-month,2,1,Yes
+1778,2020-07-06,47,Female,73.5,25,Credit Card,Month-to-month,3,4,No
+1779,2020-12-02,68,Female,119.32,29,Credit Card,Two-year,2,4,No
+1780,2022-01-19,59,Female,100.77,26,Debit Card,Two-year,6,6,No
+1781,2021-10-22,20,Female,77.49,3,Credit Card,Month-to-month,2,18,No
+1782,2022-01-06,18,Female,31.18,33,PayPal,Two-year,5,21,No
+1783,2022-04-13,22,Male,89.23,11,Debit Card,Month-to-month,10,3,Yes
+1784,2022-12-08,52,Female,98.99,28,Debit Card,Month-to-month,10,39,No
+1785,2021-08-29,41,Female,34.17,18,Bank Transfer,Two-year,7,34,Yes
+1786,2020-11-02,25,Female,99.76,31,Credit Card,Two-year,8,27,No
+1787,2021-07-30,45,Female,64.41,23,Bank Transfer,Annual,9,36,Yes
+1788,2022-12-09,32,Female,66.98,31,Debit Card,Two-year,9,34,No
+1789,2020-01-11,27,Male,53.0,16,Debit Card,Month-to-month,9,50,No
+1790,2022-09-14,25,Male,131.33,16,Credit Card,Two-year,5,39,No
+1791,2021-07-27,65,Male,24.71,11,Credit Card,Month-to-month,2,17,No
+1792,2020-02-23,65,Female,73.58,22,Credit Card,Month-to-month,3,29,Yes
+1793,2022-01-29,27,Male,41.3,8,Bank Transfer,Two-year,0,44,Yes
+1794,2022-08-15,43,Female,50.61,32,Bank Transfer,Annual,4,22,No
+1795,2021-01-27,59,Male,122.78,1,PayPal,Month-to-month,0,11,No
+1796,2021-01-18,21,Female,70.2,17,Credit Card,Month-to-month,5,43,No
+1797,2022-12-04,45,Female,94.76,4,Bank Transfer,Annual,4,15,Yes
+1798,2020-11-06,79,Male,133.64,24,Bank Transfer,Two-year,4,17,No
+1799,2021-09-08,73,Female,21.67,20,Debit Card,Two-year,1,14,No
+1800,2022-03-19,21,Male,102.17,13,PayPal,Annual,8,3,No
+1801,2020-03-18,54,Male,49.2,29,PayPal,Month-to-month,4,30,No
+1802,2021-07-15,82,Female,38.11,27,PayPal,Two-year,5,12,No
+1803,2022-04-15,36,Male,149.97,32,Credit Card,Annual,8,8,No
+1804,2022-06-03,56,Female,66.76,4,Credit Card,Month-to-month,10,26,No
+1805,2022-07-17,35,Male,55.48,8,Bank Transfer,Annual,7,24,No
+1806,2021-01-02,59,Male,100.28,34,PayPal,Month-to-month,8,12,No
+1807,2022-10-25,33,Female,119.24,11,PayPal,Annual,9,12,No
+1808,2021-06-26,67,Female,24.14,20,Bank Transfer,Two-year,3,14,No
+1809,2022-04-18,46,Female,138.54,20,PayPal,Annual,5,45,No
+1810,2022-02-14,80,Male,49.64,12,Bank Transfer,Two-year,10,38,No
+1811,2021-03-10,43,Female,96.31,36,Debit Card,Two-year,3,14,No
+1812,2021-06-09,43,Female,36.96,6,PayPal,Annual,5,14,No
+1813,2022-08-26,34,Female,64.92,30,Credit Card,Month-to-month,4,42,No
+1814,2020-09-09,65,Female,66.53,7,PayPal,Month-to-month,10,24,Yes
+1815,2021-03-20,49,Male,141.74,18,Bank Transfer,Month-to-month,8,26,No
+1816,2021-08-14,24,Female,58.2,6,Bank Transfer,Two-year,0,14,No
+1817,2021-06-16,42,Male,139.68,22,Credit Card,Two-year,10,29,No
+1818,2022-02-23,72,Male,100.66,9,Bank Transfer,Annual,3,23,Yes
+1819,2021-12-01,38,Male,133.38,18,Bank Transfer,Two-year,5,18,No
+1820,2022-01-29,35,Male,125.89,10,Credit Card,Month-to-month,6,31,No
+1821,2021-04-16,29,Male,82.91,6,PayPal,Two-year,4,47,Yes
+1822,2021-08-20,18,Male,138.76,24,PayPal,Annual,8,49,No
+1823,2022-10-26,66,Female,51.67,8,Credit Card,Two-year,7,32,No
+1824,2022-02-12,54,Female,113.37,32,Bank Transfer,Two-year,4,13,No
+1825,2020-04-14,25,Male,77.78,8,Credit Card,Two-year,7,14,No
+1826,2022-10-13,68,Male,59.1,33,Credit Card,Two-year,8,40,No
+1827,2021-02-09,72,Female,74.45,10,PayPal,Annual,5,25,Yes
+1828,2020-08-15,55,Male,68.59,28,Bank Transfer,Annual,3,2,No
+1829,2021-10-26,65,Male,122.61,35,Bank Transfer,Month-to-month,5,50,No
+1830,2020-10-03,72,Male,118.0,1,Bank Transfer,Two-year,10,32,No
+1831,2021-06-17,29,Female,49.89,15,Credit Card,Two-year,3,16,No
+1832,2020-08-06,60,Male,98.29,35,Debit Card,Annual,7,10,No
+1833,2020-05-15,45,Male,56.0,7,Bank Transfer,Two-year,4,25,No
+1834,2022-04-18,83,Female,77.37,22,Bank Transfer,Annual,1,18,Yes
+1835,2022-03-18,60,Female,131.06,33,PayPal,Month-to-month,1,11,No
+1836,2022-12-27,77,Female,130.39,2,Credit Card,Month-to-month,7,19,No
+1837,2022-07-20,51,Female,120.15,27,PayPal,Month-to-month,7,14,No
+1838,2020-03-06,36,Male,114.41,26,Debit Card,Annual,5,32,Yes
+1839,2020-08-16,22,Female,40.6,6,Bank Transfer,Annual,10,15,No
+1840,2022-03-25,82,Male,33.31,4,Credit Card,Two-year,8,30,No
+1841,2020-02-17,30,Male,125.23,31,Bank Transfer,Month-to-month,0,15,No
+1842,2022-10-22,84,Female,50.44,5,Credit Card,Annual,4,50,No
+1843,2021-11-06,76,Female,37.28,26,Credit Card,Month-to-month,9,38,No
+1844,2021-08-29,18,Female,84.73,28,Debit Card,Month-to-month,8,2,No
+1845,2021-05-22,65,Male,109.97,11,Credit Card,Month-to-month,1,27,No
+1846,2022-10-07,30,Female,82.94,35,PayPal,Month-to-month,8,41,No
+1847,2022-08-31,61,Female,147.97,33,Bank Transfer,Annual,4,47,No
+1848,2022-07-16,40,Female,58.95,6,Debit Card,Annual,7,24,No
+1849,2020-01-23,30,Male,147.62,35,PayPal,Month-to-month,1,38,No
+1850,2022-09-12,66,Female,147.62,32,Bank Transfer,Month-to-month,8,46,No
+1851,2020-03-21,71,Female,57.16,6,Credit Card,Two-year,9,47,No
+1852,2022-04-05,57,Male,118.56,4,Bank Transfer,Month-to-month,5,20,No
+1853,2020-07-29,47,Female,66.76,31,Debit Card,Month-to-month,7,33,No
+1854,2021-01-10,54,Male,46.78,3,PayPal,Annual,10,18,No
+1855,2021-06-19,53,Male,94.2,26,Credit Card,Two-year,6,25,No
+1856,2020-10-26,80,Female,83.64,28,PayPal,Month-to-month,2,35,No
+1857,2021-02-14,44,Female,71.11,9,Credit Card,Month-to-month,7,34,No
+1858,2020-02-26,22,Female,103.21,34,Credit Card,Annual,0,28,No
+1859,2020-06-14,61,Female,68.57,19,Debit Card,Month-to-month,9,2,Yes
+1860,2022-03-27,22,Male,60.39,27,Credit Card,Annual,5,14,No
+1861,2021-03-14,61,Female,87.06,10,Credit Card,Month-to-month,5,21,No
+1862,2020-11-15,69,Female,20.29,34,PayPal,Month-to-month,10,23,No
+1863,2020-01-01,20,Female,71.04,32,Debit Card,Annual,5,50,No
+1864,2020-01-30,62,Male,85.01,25,Credit Card,Month-to-month,6,36,No
+1865,2021-11-11,66,Female,27.98,5,Debit Card,Two-year,2,47,No
+1866,2022-04-29,20,Male,104.42,16,PayPal,Month-to-month,8,39,No
+1867,2020-01-20,57,Male,135.76,22,Credit Card,Month-to-month,1,37,Yes
+1868,2020-05-02,48,Male,141.01,23,Bank Transfer,Annual,9,39,No
+1869,2021-02-16,28,Female,145.75,20,Bank Transfer,Annual,10,43,No
+1870,2021-08-03,25,Female,24.27,8,Bank Transfer,Two-year,7,14,Yes
+1871,2022-10-11,45,Male,143.4,19,Bank Transfer,Two-year,3,12,No
+1872,2020-07-28,68,Female,68.16,29,Debit Card,Month-to-month,5,32,No
+1873,2022-09-10,62,Male,25.33,12,Credit Card,Annual,2,33,No
+1874,2021-12-31,58,Female,135.94,7,PayPal,Annual,3,9,No
+1875,2021-04-21,82,Male,51.59,32,Debit Card,Two-year,6,29,Yes
+1876,2021-07-02,76,Female,87.35,4,Debit Card,Month-to-month,5,49,Yes
+1877,2022-01-28,44,Male,62.69,28,Debit Card,Two-year,1,44,No
+1878,2021-05-10,70,Female,142.14,31,PayPal,Two-year,5,47,No
+1879,2022-09-08,72,Male,139.04,11,Debit Card,Month-to-month,5,23,Yes
+1880,2020-07-02,35,Male,39.65,19,Debit Card,Two-year,5,12,Yes
+1881,2021-03-11,36,Female,40.88,6,Credit Card,Month-to-month,9,11,No
+1882,2021-08-16,63,Male,66.3,9,Debit Card,Annual,2,10,Yes
+1883,2021-09-18,42,Male,143.86,12,PayPal,Annual,0,47,No
+1884,2022-10-31,29,Female,67.86,16,Bank Transfer,Month-to-month,3,18,No
+1885,2022-10-26,50,Male,92.77,12,Credit Card,Two-year,3,26,No
+1886,2021-04-23,48,Female,142.85,32,Bank Transfer,Month-to-month,10,3,Yes
+1887,2020-08-18,34,Male,24.26,22,Credit Card,Annual,0,6,No
+1888,2022-02-12,50,Female,84.29,6,Credit Card,Month-to-month,8,23,No
+1889,2020-10-08,25,Female,33.33,34,PayPal,Annual,6,25,No
+1890,2021-12-28,75,Female,40.37,35,PayPal,Annual,8,34,No
+1891,2020-08-26,76,Male,59.68,10,Credit Card,Month-to-month,4,26,No
+1892,2022-01-31,58,Male,89.19,35,PayPal,Two-year,3,10,No
+1893,2022-08-15,35,Male,25.85,8,Credit Card,Two-year,2,29,No
+1894,2020-08-21,57,Male,148.26,28,PayPal,Month-to-month,8,8,No
+1895,2020-09-23,78,Female,118.94,7,Credit Card,Annual,1,8,No
+1896,2022-08-26,72,Female,105.9,35,Bank Transfer,Two-year,5,27,Yes
+1897,2022-01-01,40,Female,84.32,35,PayPal,Two-year,5,16,No
+1898,2021-09-03,84,Male,103.68,21,Debit Card,Month-to-month,3,20,No
+1899,2021-06-24,64,Female,109.78,31,PayPal,Month-to-month,0,26,No
+1900,2020-02-21,78,Male,142.36,11,PayPal,Month-to-month,9,7,No
+1901,2020-04-22,63,Female,36.96,23,Debit Card,Month-to-month,5,2,No
+1902,2020-12-30,32,Female,25.67,23,Bank Transfer,Two-year,10,7,No
+1903,2021-03-05,56,Female,72.85,30,Bank Transfer,Annual,1,6,No
+1904,2022-10-15,47,Male,104.98,33,Debit Card,Two-year,0,6,Yes
+1905,2020-10-06,82,Female,116.67,5,Credit Card,Two-year,4,36,No
+1906,2022-11-08,53,Female,35.17,11,PayPal,Two-year,10,34,Yes
+1907,2022-09-15,29,Female,78.39,16,Debit Card,Two-year,10,35,No
+1908,2021-03-22,31,Female,97.65,16,Debit Card,Two-year,8,29,No
+1909,2020-05-06,28,Female,95.26,2,Credit Card,Annual,0,18,Yes
+1910,2022-11-04,70,Male,96.84,34,Debit Card,Annual,1,19,No
+1911,2021-07-31,50,Female,92.58,4,PayPal,Annual,1,29,No
+1912,2021-05-07,49,Female,74.48,33,Debit Card,Two-year,10,16,No
+1913,2021-09-01,36,Female,89.69,22,PayPal,Annual,10,8,Yes
+1914,2020-07-08,32,Female,109.25,24,Debit Card,Month-to-month,8,10,No
+1915,2021-03-22,18,Male,32.73,28,PayPal,Month-to-month,10,23,Yes
+1916,2021-07-09,36,Female,63.72,14,Debit Card,Annual,3,1,No
+1917,2020-04-11,20,Male,48.81,28,Bank Transfer,Two-year,5,4,No
+1918,2020-09-09,74,Male,130.5,4,Credit Card,Month-to-month,6,36,No
+1919,2020-12-31,27,Male,25.6,28,Credit Card,Annual,10,39,No
+1920,2020-01-31,78,Female,70.58,14,PayPal,Two-year,9,35,No
+1921,2020-08-05,75,Female,64.98,22,Debit Card,Two-year,2,43,Yes
+1922,2021-11-07,69,Male,83.54,16,Bank Transfer,Annual,1,18,No
+1923,2021-02-07,36,Female,148.65,35,Bank Transfer,Two-year,5,12,No
+1924,2022-11-27,69,Male,57.79,2,PayPal,Two-year,2,48,No
+1925,2021-09-10,60,Female,34.11,22,Debit Card,Month-to-month,1,43,No
+1926,2020-10-26,66,Male,48.31,13,Debit Card,Month-to-month,1,31,No
+1927,2021-03-24,63,Male,139.39,36,Debit Card,Annual,0,8,No
+1928,2022-02-15,58,Female,148.47,6,Bank Transfer,Annual,4,26,No
+1929,2022-06-05,63,Male,55.38,16,Debit Card,Two-year,10,40,No
+1930,2021-10-12,52,Male,86.59,15,Debit Card,Two-year,8,25,No
+1931,2021-01-21,27,Female,85.25,33,Bank Transfer,Two-year,6,45,No
+1932,2022-12-20,41,Male,67.52,23,PayPal,Two-year,2,45,No
+1933,2021-03-23,20,Male,131.74,10,PayPal,Two-year,6,40,Yes
+1934,2022-06-26,64,Male,85.48,16,Debit Card,Month-to-month,7,17,No
+1935,2020-05-31,63,Male,78.07,36,Credit Card,Month-to-month,3,45,No
+1936,2020-06-25,67,Male,144.79,24,Debit Card,Two-year,2,23,No
+1937,2020-06-19,60,Female,136.29,26,PayPal,Annual,1,43,No
+1938,2020-07-31,40,Female,72.31,24,Bank Transfer,Annual,0,6,No
+1939,2022-03-28,58,Male,23.45,9,Credit Card,Two-year,8,8,No
+1940,2022-07-18,37,Male,55.48,12,Bank Transfer,Month-to-month,3,50,Yes
+1941,2020-02-04,25,Male,50.39,26,Credit Card,Annual,10,7,No
+1942,2020-02-11,19,Female,49.38,16,Credit Card,Month-to-month,6,20,No
+1943,2022-03-19,59,Male,58.98,24,Credit Card,Annual,0,37,No
+1944,2020-10-10,63,Female,147.51,3,Debit Card,Month-to-month,4,49,No
+1945,2020-03-18,41,Male,33.81,31,Credit Card,Month-to-month,0,14,Yes
+1946,2020-06-25,85,Female,142.04,26,Debit Card,Two-year,1,8,No
+1947,2022-04-03,34,Female,98.39,30,Bank Transfer,Two-year,5,40,No
+1948,2020-03-13,67,Male,63.24,2,Credit Card,Two-year,6,20,No
+1949,2021-12-01,24,Female,29.64,27,Bank Transfer,Two-year,2,32,Yes
+1950,2021-09-16,46,Female,37.45,22,Debit Card,Two-year,3,31,No
+1951,2020-02-06,65,Male,119.37,17,Debit Card,Annual,6,1,No
+1952,2021-10-20,26,Female,83.97,8,Bank Transfer,Month-to-month,7,22,No
+1953,2022-11-07,71,Male,25.3,2,Debit Card,Two-year,3,43,Yes
+1954,2020-09-06,50,Male,35.73,27,Debit Card,Annual,6,9,No
+1955,2020-10-28,65,Male,63.56,26,PayPal,Two-year,3,6,No
+1956,2021-04-10,26,Female,149.38,33,Bank Transfer,Month-to-month,2,8,No
+1957,2022-06-11,67,Male,113.48,24,Debit Card,Two-year,5,4,No
+1958,2020-03-05,75,Male,103.96,5,PayPal,Annual,3,49,Yes
+1959,2020-04-04,61,Female,127.61,26,Credit Card,Month-to-month,6,29,No
+1960,2021-02-21,82,Male,142.86,32,Credit Card,Month-to-month,0,37,No
+1961,2022-11-15,71,Male,52.7,9,Credit Card,Month-to-month,3,14,Yes
+1962,2020-10-21,18,Female,117.43,4,Bank Transfer,Month-to-month,0,18,No
+1963,2022-11-29,85,Female,30.56,8,Debit Card,Two-year,9,35,No
+1964,2020-10-28,61,Female,121.7,12,Bank Transfer,Two-year,3,2,No
+1965,2021-12-09,43,Male,57.19,28,Debit Card,Two-year,5,39,No
+1966,2022-10-01,60,Male,70.09,10,PayPal,Month-to-month,5,1,No
+1967,2021-02-02,80,Male,138.41,4,Debit Card,Annual,3,9,No
+1968,2021-10-18,59,Female,71.66,16,Credit Card,Annual,8,42,No
+1969,2022-03-26,67,Female,47.01,7,Debit Card,Month-to-month,6,47,No
+1970,2021-11-15,59,Male,145.71,1,Bank Transfer,Annual,4,33,No
+1971,2022-08-07,82,Male,146.77,10,PayPal,Month-to-month,0,22,Yes
+1972,2022-07-12,23,Female,50.14,15,Credit Card,Month-to-month,1,44,No
+1973,2021-01-11,57,Female,75.93,11,Bank Transfer,Month-to-month,4,9,No
+1974,2022-10-27,73,Female,88.94,20,Bank Transfer,Two-year,10,32,No
+1975,2022-02-21,19,Female,128.64,15,Credit Card,Month-to-month,6,35,No
+1976,2021-05-04,40,Female,55.45,13,Bank Transfer,Month-to-month,4,46,Yes
+1977,2022-12-26,85,Female,82.96,7,Bank Transfer,Annual,7,48,No
+1978,2022-10-04,49,Male,134.8,8,Debit Card,Two-year,7,4,Yes
+1979,2020-12-19,27,Female,131.31,14,Bank Transfer,Two-year,6,29,No
+1980,2022-11-19,38,Female,104.95,15,PayPal,Annual,1,33,No
+1981,2021-02-02,38,Female,80.63,20,Debit Card,Month-to-month,2,14,No
+1982,2020-06-12,78,Male,25.19,8,Bank Transfer,Month-to-month,0,11,Yes
+1983,2021-02-06,29,Male,136.1,31,Credit Card,Annual,7,27,No
+1984,2020-09-30,22,Male,140.65,21,PayPal,Month-to-month,9,49,No
+1985,2022-10-25,55,Male,24.21,18,Credit Card,Annual,3,47,No
+1986,2022-05-26,55,Male,63.54,31,PayPal,Two-year,2,39,Yes
+1987,2021-04-26,63,Female,123.65,15,PayPal,Two-year,5,20,No
+1988,2022-11-11,42,Male,131.21,22,Debit Card,Annual,1,14,Yes
+1989,2022-09-14,67,Male,36.97,15,Credit Card,Month-to-month,8,19,No
+1990,2021-05-28,62,Female,140.63,31,Bank Transfer,Month-to-month,7,24,Yes
+1991,2022-06-24,42,Female,116.61,4,Bank Transfer,Annual,9,49,No
+1992,2021-09-30,81,Male,118.79,26,PayPal,Annual,0,11,No
+1993,2021-04-18,79,Female,31.99,23,Debit Card,Month-to-month,0,29,No
+1994,2021-08-27,40,Male,115.86,24,Debit Card,Month-to-month,5,5,Yes
+1995,2020-04-16,25,Male,63.73,22,Credit Card,Annual,5,40,Yes
+1996,2022-02-05,31,Female,68.08,18,Debit Card,Two-year,1,41,No
+1997,2020-12-24,39,Male,38.48,15,Debit Card,Annual,6,14,No
+1998,2021-07-28,56,Male,145.59,23,Credit Card,Annual,10,28,No
+1999,2022-06-09,71,Female,44.19,25,Credit Card,Month-to-month,2,33,No
+2000,2021-05-08,32,Male,148.21,3,Bank Transfer,Two-year,9,26,No

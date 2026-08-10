@@ -1,0 +1,886 @@
+{
+  "name": "Inactive Client Reengagement Automation",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "weeks",
+              "minutesInterval": 0,
+              "hoursInterval": 0,
+              "daysInterval": 0,
+              "weeksInterval": 1
+            }
+          ],
+          "triggerAtTime": true,
+          "day": "monday",
+          "hour": 9,
+          "minute": 0
+        }
+      },
+      "id": "1a5c1e9a-5352-4ab1-a9f5-c29a2e83a0a0",
+      "name": "Schedule Trigger - Weekly Check",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1,
+      "position": [
+        250,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "read",
+        "documentId": {
+          "__rl": true,
+          "value": "GOOGLE_SHEET_ID_PLACEHOLDER",
+          "mode": "list",
+          "cachedResultName": "Client Database",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/GOOGLE_SHEET_ID_PLACEHOLDER/edit"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 0,
+          "mode": "list",
+          "cachedResultName": "Clients"
+        },
+        "range": "A:J",
+        "options": {
+          "headerRow": true
+        }
+      },
+      "id": "2b6d2f9b-6463-4bc2-b0f6-d3a3f4b4a0b1",
+      "name": "Google Sheets - Get All Clients",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 3,
+      "position": [
+        450,
+        300
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "GOOGLE_SHEETS_CREDENTIAL_ID_PLACEHOLDER",
+          "name": "Google Sheets Account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "read",
+        "documentId": {
+          "__rl": true,
+          "value": "GOOGLE_SHEET_ID_PLACEHOLDER",
+          "mode": "list",
+          "cachedResultName": "Session Log",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/GOOGLE_SHEET_ID_PLACEHOLDER/edit"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 0,
+          "mode": "list",
+          "cachedResultName": "Sessions"
+        },
+        "range": "A:H",
+        "options": {
+          "headerRow": true
+        }
+      },
+      "id": "3c7e3f0c-7574-4cd3-c1f7-e4b4f5c5b1c2",
+      "name": "Google Sheets - Get Session History",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 3,
+      "position": [
+        450,
+        500
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "GOOGLE_SHEETS_CREDENTIAL_ID_PLACEHOLDER",
+          "name": "Google Sheets Account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "read",
+        "documentId": {
+          "__rl": true,
+          "value": "GOOGLE_SHEET_ID_PLACEHOLDER",
+          "mode": "list",
+          "cachedResultName": "Reengagement Tracking",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/GOOGLE_SHEET_ID_PLACEHOLDER/edit"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 0,
+          "mode": "list",
+          "cachedResultName": "Reengagement"
+        },
+        "range": "A:H",
+        "options": {
+          "headerRow": true
+        }
+      },
+      "id": "4d8f4g1d-8685-5de4-d2g8-f5c6g6d7c2d3",
+      "name": "Google Sheets - Get Reengagement History",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 3,
+      "position": [
+        450,
+        700
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "GOOGLE_SHEETS_CREDENTIAL_ID_PLACEHOLDER",
+          "name": "Google Sheets Account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// Identify inactive clients\nconst clients = $node[\"Google Sheets - Get All Clients\"].json;\nconst sessions = $node[\"Google Sheets - Get Session History\"].json;\nconst reengagements = $node[\"Google Sheets - Get Reengagement History\"].json;\n\n// Current date for calculations\nconst now = new Date();\n\n// Create a map of client IDs to their last session date\nconst lastSessionMap = new Map();\nsessions.forEach(session => {\n  if (session.client_id && session.session_date) {\n    const sessionDate = new Date(session.session_date);\n    if (!lastSessionMap.has(session.client_id) || \n        sessionDate > new Date(lastSessionMap.get(session.client_id).date)) {\n      lastSessionMap.set(session.client_id, {\n        date: session.session_date,\n        status: session.status\n      });\n    }\n  }\n});\n\n// Create a map of client IDs to their last reengagement date\nconst lastReengagementMap = new Map();\nreengagements.forEach(reengagement => {\n  if (reengagement.client_id && reengagement.date) {\n    const reengagementDate = new Date(reengagement.date);\n    if (!lastReengagementMap.has(reengagement.client_id) || \n        reengagementDate > new Date(lastReengagementMap.get(reengagement.client_id).date)) {\n      lastReengagementMap.set(reengagement.client_id, {\n        date: reengagement.date,\n        type: reengagement.type\n      });\n    }\n  }\n});\n\n// Find inactive clients\nconst inactiveClients = [];\nclients.forEach(client => {\n  // Skip clients with inactive status\n  if (client.status && client.status.toLowerCase() === 'inactive') {\n    return;\n  }\n  \n  // Skip clients who have unsubscribed\n  if (client.status && client.status.toLowerCase() === 'unsubscribed') {\n    return;\n  }\n  \n  const clientId = client.id || client.client_id;\n  if (!clientId) return;\n  \n  // Check if client has had a session\n  if (lastSessionMap.has(clientId)) {\n    const lastSession = lastSessionMap.get(clientId);\n    const lastSessionDate = new Date(lastSession.date);\n    const daysSinceLastSession = Math.floor((now - lastSessionDate) / (1000 * 60 * 60 * 24));\n    \n    // Check if client has had a reengagement attempt\n    let daysSinceLastReengagement = 999; // Default high value if no reengagement\n    if (lastReengagementMap.has(clientId)) {\n      const lastReengagement = lastReengagementMap.get(clientId);\n      const lastReengagementDate = new Date(lastReengagement.date);\n      daysSinceLastReengagement = Math.floor((now - lastReengagementDate) / (1000 * 60 * 60 * 24));\n    }\n    \n    // Determine inactivity level\n    let inactivityLevel = '';\n    if (daysSinceLastSession >= 90) {\n      inactivityLevel = 'high';\n    } else if (daysSinceLastSession >= 60) {\n      inactivityLevel = 'medium';\n    } else if (daysSinceLastSession >= 30) {\n      inactivityLevel = 'low';\n    }\n    \n    // Add to inactive clients if inactive and no recent reengagement\n    if (inactivityLevel && daysSinceLastReengagement >= 14) {\n      inactiveClients.push({\n        clientId,\n        firstName: client.first_name || client.firstName || '',\n        lastName: client.last_name || client.lastName || '',\n        email: client.email || '',\n        phone: client.phone || '',\n        coachingType: client.coaching_type || client.coachingType || 'General',\n        sessionCount: parseInt(client.session_count || client.sessionCount || 0),\n        lastSessionDate: lastSession.date,\n        daysSinceLastSession,\n        inactivityLevel,\n        lastReengagementDate: lastReengagementMap.has(clientId) ? lastReengagementMap.get(clientId).date : null,\n        daysSinceLastReengagement\n      });\n    }\n  } else {\n    // Client has never had a session - check if they're a new client\n    const createdDate = client.created_date || client.createdDate;\n    if (createdDate) {\n      const clientCreatedDate = new Date(createdDate);\n      const daysSinceCreation = Math.floor((now - clientCreatedDate) / (1000 * 60 * 60 * 24));\n      \n      // If client was created more than 14 days ago but has no sessions\n      if (daysSinceCreation >= 14) {\n        inactiveClients.push({\n          clientId,\n          firstName: client.first_name || client.firstName || '',\n          lastName: client.last_name || client.lastName || '',\n          email: client.email || '',\n          phone: client.phone || '',\n          coachingType: client.coaching_type || client.coachingType || 'General',\n          sessionCount: 0,\n          lastSessionDate: null,\n          daysSinceLastSession: null,\n          inactivityLevel: 'new-inactive',\n          lastReengagementDate: lastReengagementMap.has(clientId) ? lastReengagementMap.get(clientId).date : null,\n          daysSinceLastReengagement: lastReengagementMap.has(clientId) ? \n            Math.floor((now - new Date(lastReengagementMap.get(clientId).date)) / (1000 * 60 * 60 * 24)) : 999\n        });\n      }\n    }\n  }\n});\n\nreturn {\n  totalInactiveClients: inactiveClients.length,\n  inactiveClients\n};"
+      },
+      "id": "5e9g5h2e-9796-6ef5-e3h9-g6d7h7e8d3e4",
+      "name": "Code - Identify Inactive Clients",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [
+        650,
+        500
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Segment inactive clients by inactivity level\nconst inactiveClients = $node[\"Code - Identify Inactive Clients\"].json.inactiveClients;\n\n// Create segments\nconst highInactivity = inactiveClients.filter(client => client.inactivityLevel === 'high');\nconst mediumInactivity = inactiveClients.filter(client => client.inactivityLevel === 'medium');\nconst lowInactivity = inactiveClients.filter(client => client.inactivityLevel === 'low');\nconst newInactive = inactiveClients.filter(client => client.inactivityLevel === 'new-inactive');\n\nreturn {\n  highInactivity,\n  mediumInactivity,\n  lowInactivity,\n  newInactive\n};"
+      },
+      "id": "6f0h6i3f-0807-7fg6-f4i0-h7e8i8f9e4f5",
+      "name": "Code - Segment Inactive Clients",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [
+        850,
+        500
+      ]
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "// Process high inactivity clients\nconst highInactivityClients = $node[\"Code - Segment Inactive Clients\"].json.highInactivity;\nconst currentIndex = $input.item.index;\n\nif (currentIndex < highInactivityClients.length) {\n  return {\n    ...highInactivityClients[currentIndex],\n    segmentType: 'high'\n  };\n} else {\n  return {};\n}"
+      },
+      "id": "7g1i7j4g-1918-8gh7-g5j1-i8f9j9g0f5g6",
+      "name": "Code - Process High Inactivity",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [
+        1050,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "// Process medium inactivity clients\nconst mediumInactivityClients = $node[\"Code - Segment Inactive Clients\"].json.mediumInactivity;\nconst currentIndex = $input.item.index;\n\nif (currentIndex < mediumInactivityClients.length) {\n  return {\n    ...mediumInactivityClients[currentIndex],\n    segmentType: 'medium'\n  };\n} else {\n  return {};\n}"
+      },
+      "id": "8h2j8k5h-2029-9hi8-h6k2-j9g0k0h1g6h7",
+      "name": "Code - Process Medium Inactivity",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [
+        1050,
+        450
+      ]
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "// Process low inactivity clients\nconst lowInactivityClients = $node[\"Code - Segment Inactive Clients\"].json.lowInactivity;\nconst currentIndex = $input.item.index;\n\nif (currentIndex < lowInactivityClients.length) {\n  return {\n    ...lowInactivityClients[currentIndex],\n    segmentType: 'low'\n  };\n} else {\n  return {};\n}"
+      },
+      "id": "9i3k9l6i-3130-0ij9-i7l3-k0h1l1i2h7i8",
+      "name": "Code - Process Low Inactivity",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [
+        1050,
+        600
+      ]
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "// Process new inactive clients\nconst newInactiveClients = $node[\"Code - Segment Inactive Clients\"].json.newInactive;\nconst currentIndex = $input.item.index;\n\nif (currentIndex < newInactiveClients.length) {\n  return {\n    ...newInactiveClients[currentIndex],\n    segmentType: 'new-inactive'\n  };\n} else {\n  return {};\n}"
+      },
+      "id": "0j4l0m7j-4241-1jk0-j8m4-l1i2m2j3i8j9",
+      "name": "Code - Process New Inactive",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [
+        1050,
+        750
+      ]
+    },
+    {
+      "parameters": {
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialName": "OpenAI API Key",
+        "operation": "message",
+        "model": "gpt-4",
+        "options": {
+          "temperature": 0.7,
+          "maxTokens": 1000
+        },
+        "messages": {
+          "values": [
+            {
+              "role": "system",
+              "content": "You are an expert in client reengagement for coaching businesses. Your task is to create a personalized, warm outreach message to reconnect with a client who hasn't had a coaching session in a long time (90+ days)."
+            },
+            {
+              "role": "user",
+              "content": "=Create a personalized email to reengage a highly inactive client with the following details:\n\nClient Name: {{$node[\"Code - Process High Inactivity\"].json[\"firstName\"]}} {{$node[\"Code - Process High Inactivity\"].json[\"lastName\"]}}\nCoaching Type: {{$node[\"Code - Process High Inactivity\"].json[\"coachingType\"]}}\nTotal Sessions: {{$node[\"Code - Process High Inactivity\"].json[\"sessionCount\"]}}\nDays Since Last Session: {{$node[\"Code - Process High Inactivity\"].json[\"daysSinceLastSession\"]}}\n\nThe email should:\n1. Be warm and non-judgmental\n2. Express genuine concern for their progress\n3. Acknowledge the gap in coaching\n4. Offer a special \"welcome back\" session at a discounted rate\n5. Include a clear call-to-action to schedule a session\n6. Be written in a conversational, personal tone\n\nThe email should be formatted in HTML for a Gmail message."
+            }
+          ]
+        }
+      },
+      "id": "1k5m1n8k-5352-2kl1-k9n5-m2j3n3k4j9k0",
+      "name": "OpenAI - Generate High Inactivity Email",
+      "type": "n8n-nodes-langchain.openai",
+      "typeVersion": 1,
+      "position": [
+        1250,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialName": "OpenAI API Key",
+        "operation": "message",
+        "model": "gpt-4",
+        "options": {
+          "temperature": 0.7,
+          "maxTokens": 1000
+        },
+        "messages": {
+          "values": [
+            {
+              "role": "system",
+              "content": "You are an expert in client reengagement for coaching businesses. Your task is to create a personalized, warm outreach message to reconnect with a client who hasn't had a coaching session in a while (60-90 days)."
+            },
+            {
+              "role": "user",
+              "content": "=Create a personalized email to reengage a moderately inactive client with the following details:\n\nClient Name: {{$node[\"Code - Process Medium Inactivity\"].json[\"firstName\"]}} {{$node[\"Code - Process Medium Inactivity\"].json[\"lastName\"]}}\nCoaching Type: {{$node[\"Code - Process Medium Inactivity\"].json[\"coachingType\"]}}\nTotal Sessions: {{$node[\"Code - Process Medium Inactivity\"].json[\"sessionCount\"]}}\nDays Since Last Session: {{$node[\"Code - Process Medium Inactivity\"].json[\"daysSinceLastSession\"]}}\n\nThe email should:\n1. Be warm and encouraging\n2. Remind them of their progress and goals\n3. Suggest picking up where they left off\n4. Offer a convenient scheduling option\n5. Include a clear call-to-action\n6. Be written in a conversational, personal tone\n\nThe email should be formatted in HTML for a Gmail message."
+            }
+          ]
+        }
+      },
+      "id": "2l6n2o9l-6463-3lm2-l0o6-n3k4o4l5k0l1",
+      "name": "OpenAI - Generate Medium Inactivity Email",
+      "type": "n8n-nodes-langchain.openai",
+      "typeVersion": 1,
+      "position": [
+        1250,
+        450
+      ]
+    },
+    {
+      "parameters": {
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialName": "OpenAI API Key",
+        "operation": "message",
+        "model": "gpt-4",
+        "options": {
+          "temperature": 0.7,
+          "maxTokens": 1000
+        },
+        "messages": {
+          "values": [
+            {
+              "role": "system",
+              "content": "You are an expert in client reengagement for coaching businesses. Your task is to create a personalized, warm outreach message to reconnect with a client who hasn't had a coaching session recently (30-60 days)."
+            },
+            {
+              "role": "user",
+              "content": "=Create a personalized email to reengage a client with low inactivity with the following details:\n\nClient Name: {{$node[\"Code - Process Low Inactivity\"].json[\"firstName\"]}} {{$node[\"Code - Process Low Inactivity\"].json[\"lastName\"]}}\nCoaching Type: {{$node[\"Code - Process Low Inactivity\"].json[\"coachingType\"]}}\nTotal Sessions: {{$node[\"Code - Process Low Inactivity\"].json[\"sessionCount\"]}}\nDays Since Last Session: {{$node[\"Code - Process Low Inactivity\"].json[\"daysSinceLastSession\"]}}\n\nThe email should:\n1. Be friendly and casual\n2. Check in on their recent progress\n3. Suggest scheduling their next session\n4. Mention any seasonal or timely coaching opportunities\n5. Include a clear call-to-action\n6. Be written in a conversational, personal tone\n\nThe email should be formatted in HTML for a Gmail message."
+            }
+          ]
+        }
+      },
+      "id": "3m7o3p0m-7574-4mn3-m1p7-o5l6p5m6l1m2",
+      "name": "OpenAI - Generate Low Inactivity Email",
+      "type": "n8n-nodes-langchain.openai",
+      "typeVersion": 1,
+      "position": [
+        1250,
+        600
+      ]
+    },
+    {
+      "parameters": {
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialName": "OpenAI API Key",
+        "operation": "message",
+        "model": "gpt-4",
+        "options": {
+          "temperature": 0.7,
+          "maxTokens": 1000
+        },
+        "messages": {
+          "values": [
+            {
+              "role": "system",
+              "content": "You are an expert in client engagement for coaching businesses. Your task is to create a personalized, warm outreach message to engage with a new client who registered but hasn't scheduled their first coaching session."
+            },
+            {
+              "role": "user",
+              "content": "=Create a personalized email for a new client who hasn't scheduled their first session with the following details:\n\nClient Name: {{$node[\"Code - Process New Inactive\"].json[\"firstName\"]}} {{$node[\"Code - Process New Inactive\"].json[\"lastName\"]}}\nCoaching Type: {{$node[\"Code - Process New Inactive\"].json[\"coachingType\"]}}\n\nThe email should:\n1. Be warm and welcoming\n2. Express excitement about starting their coaching journey\n3. Acknowledge that they haven't scheduled their first session yet\n4. Explain the benefits of getting started soon\n5. Include a clear call-to-action to schedule their first session\n6. Be written in a conversational, personal tone\n\nThe email should be formatted in HTML for a Gmail message."
+            }
+          ]
+        }
+      },
+      "id": "4n8p4q1n-8685-5no4-n2q8-p6m7q6n7m2n3",
+      "name": "OpenAI - Generate New Inactive Email",
+      "type": "n8n-nodes-langchain.openai",
+      "typeVersion": 1,
+      "position": [
+        1250,
+        750
+      ]
+    },
+    {
+      "parameters": {
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialName": "Gmail Account",
+        "fromEmail": "YOUR_EMAIL@gmail.com",
+        "toEmail": "={{$node[\"Code - Process High Inactivity\"].json[\"email\"]}}",
+        "subject": "=Reconnecting on Your Coaching Journey",
+        "html": "={{$node[\"OpenAI - Generate High Inactivity Email\"].json[\"text\"]}}",
+        "additionalFields": {}
+      },
+      "id": "5o9q5r2o-9796-6op5-o3r9-q7n8r7o8n3o4",
+      "name": "Gmail - Send High Inactivity Email",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 1,
+      "position": [
+        1450,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialName": "Gmail Account",
+        "fromEmail": "YOUR_EMAIL@gmail.com",
+        "toEmail": "={{$node[\"Code - Process Medium Inactivity\"].json[\"email\"]}}",
+        "subject": "=Let's Continue Your Coaching Progress",
+        "html": "={{$node[\"OpenAI - Generate Medium Inactivity Email\"].json[\"text\"]}}",
+        "additionalFields": {}
+      },
+      "id": "6p0r6s3p-0807-7pq6-p4s0-r8o9s8p9o4p5",
+      "name": "Gmail - Send Medium Inactivity Email",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 1,
+      "position": [
+        1450,
+        450
+      ]
+    },
+    {
+      "parameters": {
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialName": "Gmail Account",
+        "fromEmail": "YOUR_EMAIL@gmail.com",
+        "toEmail": "={{$node[\"Code - Process Low Inactivity\"].json[\"email\"]}}",
+        "subject": "=Time for Your Next Coaching Session?",
+        "html": "={{$node[\"OpenAI - Generate Low Inactivity Email\"].json[\"text\"]}}",
+        "additionalFields": {}
+      },
+      "id": "7q1r7t4q-1918-8qr7-q5t1-r8p9t9q0p5q6",
+      "name": "Gmail - Send Low Inactivity Email",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 1,
+      "position": [
+        1450,
+        600
+      ]
+    },
+    {
+      "parameters": {
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialName": "Gmail Account",
+        "fromEmail": "YOUR_EMAIL@gmail.com",
+        "toEmail": "={{$node[\"Code - Process New Inactive\"].json[\"email\"]}}",
+        "subject": "=Ready to Start Your Coaching Journey?",
+        "html": "={{$node[\"OpenAI - Generate New Inactive Email\"].json[\"text\"]}}",
+        "additionalFields": {}
+      },
+      "id": "8r2t8u5r-2029-9rs8-r6u2-t0q1u0r1q6r7",
+      "name": "Gmail - Send New Inactive Email",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 1,
+      "position": [
+        1450,
+        750
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "GOOGLE_SHEET_ID_PLACEHOLDER",
+          "mode": "list",
+          "cachedResultName": "Reengagement Tracking",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/GOOGLE_SHEET_ID_PLACEHOLDER/edit"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 0,
+          "mode": "list",
+          "cachedResultName": "Reengagement"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "mappingMode": "defineBelow",
+            "value": {
+              "date": "={{$now.format(\"YYYY-MM-DD HH:mm:ss\")}}",
+              "client_id": "={{$node[\"Code - Process High Inactivity\"].json[\"clientId\"]}}",
+              "client_name": "={{$node[\"Code - Process High Inactivity\"].json[\"firstName\"]}} {{$node[\"Code - Process High Inactivity\"].json[\"lastName\"]}}",
+              "email": "={{$node[\"Code - Process High Inactivity\"].json[\"email\"]}}",
+              "type": "high-inactivity",
+              "days_inactive": "={{$node[\"Code - Process High Inactivity\"].json[\"daysSinceLastSession\"]}}",
+              "response_received": "No",
+              "notes": "Sent high inactivity reengagement email"
+            }
+          }
+        },
+        "options": {}
+      },
+      "id": "9s3u9v6s-3130-0st9-s7v3-u1r2v1s2r7s8",
+      "name": "Google Sheets - Log High Inactivity",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 3,
+      "position": [
+        1650,
+        300
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "GOOGLE_SHEETS_CREDENTIAL_ID_PLACEHOLDER",
+          "name": "Google Sheets Account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "GOOGLE_SHEET_ID_PLACEHOLDER",
+          "mode": "list",
+          "cachedResultName": "Reengagement Tracking",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/GOOGLE_SHEET_ID_PLACEHOLDER/edit"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 0,
+          "mode": "list",
+          "cachedResultName": "Reengagement"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "mappingMode": "defineBelow",
+            "value": {
+              "date": "={{$now.format(\"YYYY-MM-DD HH:mm:ss\")}}",
+              "client_id": "={{$node[\"Code - Process Medium Inactivity\"].json[\"clientId\"]}}",
+              "client_name": "={{$node[\"Code - Process Medium Inactivity\"].json[\"firstName\"]}} {{$node[\"Code - Process Medium Inactivity\"].json[\"lastName\"]}}",
+              "email": "={{$node[\"Code - Process Medium Inactivity\"].json[\"email\"]}}",
+              "type": "medium-inactivity",
+              "days_inactive": "={{$node[\"Code - Process Medium Inactivity\"].json[\"daysSinceLastSession\"]}}",
+              "response_received": "No",
+              "notes": "Sent medium inactivity reengagement email"
+            }
+          }
+        },
+        "options": {}
+      },
+      "id": "0t4v0w7t-4241-1tu0-t8w4-v2s3w2t3s8t9",
+      "name": "Google Sheets - Log Medium Inactivity",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 3,
+      "position": [
+        1650,
+        450
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "GOOGLE_SHEETS_CREDENTIAL_ID_PLACEHOLDER",
+          "name": "Google Sheets Account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "GOOGLE_SHEET_ID_PLACEHOLDER",
+          "mode": "list",
+          "cachedResultName": "Reengagement Tracking",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/GOOGLE_SHEET_ID_PLACEHOLDER/edit"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 0,
+          "mode": "list",
+          "cachedResultName": "Reengagement"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "mappingMode": "defineBelow",
+            "value": {
+              "date": "={{$now.format(\"YYYY-MM-DD HH:mm:ss\")}}",
+              "client_id": "={{$node[\"Code - Process Low Inactivity\"].json[\"clientId\"]}}",
+              "client_name": "={{$node[\"Code - Process Low Inactivity\"].json[\"firstName\"]}} {{$node[\"Code - Process Low Inactivity\"].json[\"lastName\"]}}",
+              "email": "={{$node[\"Code - Process Low Inactivity\"].json[\"email\"]}}",
+              "type": "low-inactivity",
+              "days_inactive": "={{$node[\"Code - Process Low Inactivity\"].json[\"daysSinceLastSession\"]}}",
+              "response_received": "No",
+              "notes": "Sent low inactivity reengagement email"
+            }
+          }
+        },
+        "options": {}
+      },
+      "id": "1u5v1w8u-5352-2uv1-u9w5-v3t4w3u4t9u0",
+      "name": "Google Sheets - Log Low Inactivity",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 3,
+      "position": [
+        1650,
+        600
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "GOOGLE_SHEETS_CREDENTIAL_ID_PLACEHOLDER",
+          "name": "Google Sheets Account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "GOOGLE_SHEET_ID_PLACEHOLDER",
+          "mode": "list",
+          "cachedResultName": "Reengagement Tracking",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/GOOGLE_SHEET_ID_PLACEHOLDER/edit"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 0,
+          "mode": "list",
+          "cachedResultName": "Reengagement"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "mappingMode": "defineBelow",
+            "value": {
+              "date": "={{$now.format(\"YYYY-MM-DD HH:mm:ss\")}}",
+              "client_id": "={{$node[\"Code - Process New Inactive\"].json[\"clientId\"]}}",
+              "client_name": "={{$node[\"Code - Process New Inactive\"].json[\"firstName\"]}} {{$node[\"Code - Process New Inactive\"].json[\"lastName\"]}}",
+              "email": "={{$node[\"Code - Process New Inactive\"].json[\"email\"]}}",
+              "type": "new-inactive",
+              "days_inactive": "N/A",
+              "response_received": "No",
+              "notes": "Sent new client activation email"
+            }
+          }
+        },
+        "options": {}
+      },
+      "id": "2v6w2x9v-6463-3vw2-v0x6-w4u5x4v5u0v1",
+      "name": "Google Sheets - Log New Inactive",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 3,
+      "position": [
+        1650,
+        750
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "GOOGLE_SHEETS_CREDENTIAL_ID_PLACEHOLDER",
+          "name": "Google Sheets Account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialName": "Slack Account",
+        "channel": "coaching-reengagement",
+        "text": "=Weekly Inactive Client Reengagement Summary",
+        "otherOptions": {}
+      },
+      "id": "3w7x3y0w-7574-4wx3-w1y7-x5v6y5w6v1w2",
+      "name": "Slack - Send Summary",
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 1,
+      "position": [
+        1050,
+        900
+      ]
+    }
+  ],
+  "connections": {
+    "Schedule Trigger - Weekly Check": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets - Get All Clients",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Google Sheets - Get Session History",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Google Sheets - Get Reengagement History",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets - Get All Clients": {
+      "main": [
+        [
+          {
+            "node": "Code - Identify Inactive Clients",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets - Get Session History": {
+      "main": [
+        [
+          {
+            "node": "Code - Identify Inactive Clients",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets - Get Reengagement History": {
+      "main": [
+        [
+          {
+            "node": "Code - Identify Inactive Clients",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code - Identify Inactive Clients": {
+      "main": [
+        [
+          {
+            "node": "Code - Segment Inactive Clients",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code - Segment Inactive Clients": {
+      "main": [
+        [
+          {
+            "node": "Code - Process High Inactivity",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Code - Process Medium Inactivity",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Code - Process Low Inactivity",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Code - Process New Inactive",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Slack - Send Summary",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code - Process High Inactivity": {
+      "main": [
+        [
+          {
+            "node": "OpenAI - Generate High Inactivity Email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code - Process Medium Inactivity": {
+      "main": [
+        [
+          {
+            "node": "OpenAI - Generate Medium Inactivity Email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code - Process Low Inactivity": {
+      "main": [
+        [
+          {
+            "node": "OpenAI - Generate Low Inactivity Email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code - Process New Inactive": {
+      "main": [
+        [
+          {
+            "node": "OpenAI - Generate New Inactive Email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI - Generate High Inactivity Email": {
+      "main": [
+        [
+          {
+            "node": "Gmail - Send High Inactivity Email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI - Generate Medium Inactivity Email": {
+      "main": [
+        [
+          {
+            "node": "Gmail - Send Medium Inactivity Email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI - Generate Low Inactivity Email": {
+      "main": [
+        [
+          {
+            "node": "Gmail - Send Low Inactivity Email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI - Generate New Inactive Email": {
+      "main": [
+        [
+          {
+            "node": "Gmail - Send New Inactive Email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Gmail - Send High Inactivity Email": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets - Log High Inactivity",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Gmail - Send Medium Inactivity Email": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets - Log Medium Inactivity",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Gmail - Send Low Inactivity Email": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets - Log Low Inactivity",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Gmail - Send New Inactive Email": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets - Log New Inactive",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1",
+    "saveManualExecutions": true,
+    "callerPolicy": "workflowsFromSameOwner",
+    "errorWorkflow": ""
+  },
+  "staticData": null,
+  "tags": [
+    "client",
+    "reengagement",
+    "automation",
+    "coaching",
+    "inactive"
+  ],
+  "triggerCount": 1,
+  "versionId": "9i0j1k2l-3m4n-5o6p-7q8r-9s0t1u2v3w4x"
+}

@@ -1,0 +1,21 @@
+{
+  "name": "Deep Research Prompt Examples 📖 ",
+  "external_id": "V3-c9khGHpT4yKm18XdBpg==",
+  "permalink": "dzreks",
+  "unique_permalink": "dzreks",
+  "custom_permalink": "chatgptdeepresearch",
+  "url": "https://markkashef.gumroad.com/l/chatgptdeepresearch",
+  "status": "published",
+  "archived": false,
+  "kind": "products",
+  "price_formatted": "CAD$0+",
+  "description_md": "What You’ll Get:\n\n- \nIn-Depth Notion Guide\n- Sample inspiration prompts covering real-world use cases—from vendor selection to cross-language research—so you can see exactly how to tailor your queries for optimal results.\n\n- Actual output responses to audit the quality of Deep Research's analysis prowess\n\n- \nComparison Table PDF\n- An extensively detailed breakdown of performance metrics across various models.\n\n- Data on source count, word output, and depth of responses that highlights the differences between ChatGPT’s Deep Research and similar features from Gemini and Perplexity.",
+  "files": [
+    {
+      "file": "Deep Research Comparison.pdf",
+      "status": "cached",
+      "bytes": 76591
+    }
+  ],
+  "has_rich_content": true
+}

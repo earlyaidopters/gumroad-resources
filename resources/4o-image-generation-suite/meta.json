@@ -1,0 +1,26 @@
+{
+  "name": "4o Image Generation Suite 🖼️",
+  "external_id": "0m9gdc_0h6K13fyt_fi89g==",
+  "permalink": "mfimp",
+  "unique_permalink": "mfimp",
+  "custom_permalink": "4oimagegeneration",
+  "url": "https://markkashef.gumroad.com/l/4oimagegeneration",
+  "status": "published",
+  "archived": false,
+  "kind": "products",
+  "price_formatted": "CAD$0+",
+  "description_md": "## What You Get\n\n- A detailed Knowledge Base file loaded with expert guidelines, examples, and best practices for creating precise prompts that seamlessly replace traditional design tools—covering logos, mascots, infographics, social graphics, product packaging, and more.\n\n- Clear, step-by-step instructions for setting up your ChatGPT project to automatically generate optimized image prompts, dramatically streamlining your creative workflow.\n\n- Actionable tips on structuring and refining prompts to fully leverage GPT-4o’s advanced image generation capabilities, including accurate text rendering, layout control, style versatility, and iterative refinement.\n\nIf you find this resource helpful, please support the channel! 💖",
+  "files": [
+    {
+      "file": "Knowledge Base.md",
+      "status": "cached",
+      "bytes": 5852
+    },
+    {
+      "file": "Knowledge Base.pdf",
+      "status": "cached",
+      "bytes": 94623
+    }
+  ],
+  "has_rich_content": true
+}

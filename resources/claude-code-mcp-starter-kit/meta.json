@@ -1,0 +1,31 @@
+{
+  "name": "Claude Code MCP Starter Kit 📦",
+  "external_id": "fDCc0EQTT42Js_GoPtjzCQ==",
+  "permalink": "gbldx",
+  "unique_permalink": "gbldx",
+  "custom_permalink": "claudecodemcp",
+  "url": "https://markkashef.gumroad.com/l/claudecodemcp",
+  "status": "published",
+  "archived": false,
+  "kind": "products",
+  "price_formatted": "CAD$0+",
+  "description_md": "# What You Get\n\n- A cheat-sheet style MCP 101 primer, so you (and your AI) get fluent fast.\n\n- A full implementation guide with working templates and setup steps.\n\n- A playful “Lazy Calculator” demo server you can spin up instantly as your first MCP.\n\nAll kinds of other Claude Code hacks are available exclusively in my Early AI-dopters Community → https://www.skool.com/earlyaidopters/about",
+  "files": [
+    {
+      "file": "mcp-complete-implementation-guide.md",
+      "status": "cached",
+      "bytes": 28529
+    },
+    {
+      "file": "mcps-101.md",
+      "status": "cached",
+      "bytes": 782557
+    },
+    {
+      "file": "lazycalculator.md",
+      "status": "cached",
+      "bytes": 15464
+    }
+  ],
+  "has_rich_content": true
+}

@@ -1,0 +1,15 @@
+{
+  "name": "Custom GPT Pinecone Memory",
+  "external_id": "J4LTb1ic89iqMeZFcBQXPw==",
+  "permalink": "xpfiw",
+  "unique_permalink": "xpfiw",
+  "custom_permalink": "pineconememory",
+  "url": "https://markkashef.gumroad.com/l/pineconememory",
+  "status": "published",
+  "archived": false,
+  "kind": "products",
+  "price_formatted": "CAD$0+",
+  "description_md": "This resource allows you to use Pinecone, a powerful vector database, with ChatGPT to achieve pseudo-infinite memory using a custom action and a microservice built in Replit. This setup allows your GPT to store and retrieve contextual information seamlessly, making it smarter and more persistent over time.\nYou'll get a step-by-step guide on setting up Pinecone, linking it to ChatGPT, and leveraging its vector storage for enhanced memory and long-term knowledge retention. Whether you're building AI assistants, research tools, or any memory-intensive applications, this tutorial will equip you with the skills to expand your GPT’s capabilities.",
+  "files": [],
+  "has_rich_content": true
+}

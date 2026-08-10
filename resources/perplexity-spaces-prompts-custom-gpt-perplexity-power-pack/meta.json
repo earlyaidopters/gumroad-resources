@@ -1,0 +1,31 @@
+{
+  "name": "Perplexity Spaces Prompts + Custom GPT Perplexity Power Pack 🔋",
+  "external_id": "ssNqI7PQymB2rqffP9Hy0Q==",
+  "permalink": "vougq",
+  "unique_permalink": "vougq",
+  "custom_permalink": "perplexityspaces",
+  "url": "https://markkashef.gumroad.com/l/perplexityspaces",
+  "status": "published",
+  "archived": false,
+  "kind": "products",
+  "price_formatted": "CAD$0+",
+  "description_md": "## What You Get in This Package\nWith this Perplexity Spaces vs. Custom GPTs resource bundle, you’ll gain all the tools and insights you need to decide which AI solution fits your needs – or even combine the best of both worlds. Here's what’s included:\n\n- \nSlide Deck Comparison\nA clear, visual breakdown of the differences between Perplexity Spaces and Custom GPTs, highlighting where each tool shines and where they fall short.\n\n- \n5 Starter Instructions for Perplexity Spaces\nJumpstart your use of Perplexity Spaces with five practical, ready-to-use instruction templates tailored for different use cases.\n\n- \nReplit Link to Fork Custom GPT Integration\nGet access to a pre-configured Replit project, allowing you to extend your Custom GPT’s capabilities with key Perplexity-inspired features.\n\n- \nPrompt and Schema for Perplexity-Like Custom GPT\nReplicate the functionality of Perplexity Spaces inside your Custom GPT setup with a comprehensive prompt template and schema designed for seamless performance.",
+  "files": [
+    {
+      "file": "Spaces v Custom GPTs.pdf",
+      "status": "cached",
+      "bytes": 658322
+    },
+    {
+      "file": "Custom Action Schema.txt",
+      "status": "cached",
+      "bytes": 2801
+    },
+    {
+      "file": "Perplexity Spaces Prompts.pdf",
+      "status": "cached",
+      "bytes": 57612
+    }
+  ],
+  "has_rich_content": true
+}

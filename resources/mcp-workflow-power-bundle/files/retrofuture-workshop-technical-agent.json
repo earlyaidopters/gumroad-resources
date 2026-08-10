@@ -1,0 +1,346 @@
+{
+  "name": "Workshop Technical Agent",
+  "nodes": [
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.query }}",
+        "options": {
+          "systemMessage": "# Overview\nYou are the RetroFuture Gadgetry Workshop Technical Agent, providing expert support for workshop equipment, crafting techniques, safety protocols, and tool maintenance. You ensure our artisans have the knowledge and resources needed to create exceptional handcrafted gadgets.\n\n## Tools Available\n\n### GitHub Technique Library\n- Access technique guides\n- Review crafting methods\n- Track safety protocols\n- Manage tool documentation\n\n### Equipment Monitoring\n- Tool status checks\n- Maintenance schedules\n- Calibration tracking\n- Performance monitoring\n\n### Documentation Generator\n- Create technique guides\n- Generate safety cards\n- Build training materials\n- Update SOPs\n\n### Jira Maintenance Tickets\n- Track equipment issues\n- Schedule repairs\n- Tool replacement requests\n- Safety incident reports\n\n### Slack Workshop Channel\n- Real-time technical support\n- Safety alerts\n- Technique discussions\n\n## Technical Capabilities\n\n### Core Workshop Areas\n- Metalworking Station\n- Leathercraft Bench\n- Electronics Lab\n- Finishing Room\n- Assembly Area\n\n### Equipment & Tools\n- Laser Engraver\n- CNC Router\n- 3D Printer (for prototypes)\n- Soldering Stations\n- Patina Equipment\n\n### Crafting Techniques\n- Metal Forming & Shaping\n- Brass Aging Processes\n- Leather Wrapping Methods\n- Gear Assembly Techniques\n- LED Integration\n\n### Safety Protocols\n- Chemical Handling (patinas)\n- Tool Operation Guidelines\n- Personal Protective Equipment\n- Emergency Procedures\n\n## Support Areas\n\n### Equipment Maintenance\n- Preventive maintenance schedules\n- Troubleshooting guides\n- Calibration procedures\n- Replacement part sourcing\n\n### Technique Training\n- New artisan onboarding\n- Advanced technique workshops\n- Quality standards training\n- Safety certification\n\n### Process Optimization\n- Workflow improvements\n- Tool selection guidance\n- Efficiency recommendations\n- Quality control methods\n\n### Documentation\n- Standard Operating Procedures\n- Safety Data Sheets\n- Technique video guides\n- Troubleshooting manuals\n\nAlways prioritize safety and craftsmanship quality in all technical guidance.\n\nCurrent Date/Time: {{ $now }}"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.7,
+      "position": [
+        -160,
+        -140
+      ],
+      "id": "01a3fd5d-453e-409a-87c6-e622ada4adbb",
+      "name": "Workshop Technical Agent",
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "model": "gpt-4o",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        -360,
+        80
+      ],
+      "id": "a983c036-c792-405b-a204-bedbafe975fd",
+      "name": "OpenAI Chat Model"
+    },
+    {
+      "parameters": {
+        "toolDescription": "Check equipment status and diagnostics",
+        "method": "={{ $fromAI(\"httpMethod\", \"GET\") }}",
+        "url": "https://api.retrofuturegadgetry.com/v2/workshop/{{ $fromAI(\"endpoint\") }}",
+        "sendHeaders": true,
+        "parametersHeaders": {
+          "values": [
+            {}
+          ]
+        },
+        "sendBody": "={{ $fromAI(\"sendBody\", false) }}",
+        "specifyBody": "json",
+        "parametersBody": {
+          "values": [
+            {}
+          ]
+        },
+        "jsonBody": "={{ $fromAI(\"requestBody\", {}) }}",
+        "placeholderDefinitions": {
+          "values": [
+            {
+              "name": "endpoint",
+              "description": "Equipment endpoint path",
+              "type": "string"
+            },
+            {
+              "name": "equipmentId",
+              "description": "Specific equipment ID",
+              "type": "string"
+            },
+            {
+              "name": "checkType",
+              "description": "Type of diagnostic check",
+              "type": "string"
+            },
+            {
+              "name": "apiKey",
+              "description": "RetroFuture API Key",
+              "type": "string"
+            }
+          ]
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolHttpRequest",
+      "typeVersion": 1.1,
+      "position": [
+        -240,
+        80
+      ],
+      "id": "28176f16-ce36-4bb1-9f39-817984316294",
+      "name": "Equipment Status Check"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.jiraTool",
+      "typeVersion": 1.1,
+      "position": [
+        -580,
+        460
+      ],
+      "id": "4adf4508-8b93-4ba6-83b8-361ab381b8a5",
+      "name": "Create Maintenance Ticket",
+      "credentials": {}
+    },
+    {
+      "parameters": {
+        "operation": "create",
+        "collection": "workshop-docs"
+      },
+      "type": "n8n-nodes-base.mongoDbTool",
+      "typeVersion": 1.1,
+      "position": [
+        -120,
+        80
+      ],
+      "id": "1e495d3f-4d76-4ab3-bdf0-b97a073a5691",
+      "name": "Store Technique Guide"
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.toolCode",
+      "typeVersion": 1,
+      "position": [
+        0,
+        80
+      ],
+      "id": "bc0719fa-4c03-4e92-a9eb-1492a993fc68",
+      "name": "Generate Safety Protocol"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.slackTool",
+      "typeVersion": 1.4,
+      "position": [
+        -580,
+        700
+      ],
+      "id": "240753a9-90b9-414a-9ca2-a4b29b9a87b7",
+      "name": "Workshop Support Channel",
+      "credentials": {}
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $fromAI(\"artisanEmail\") }}",
+        "subject": "RetroFuture Workshop Technical Guide",
+        "message": "={{ $fromAI(\"technicalGuideContent\") }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmailTool",
+      "typeVersion": 2.1,
+      "position": [
+        120,
+        80
+      ],
+      "id": "fc1637bd-fc43-4c90-bdc3-d6e3aaba12c2",
+      "name": "Send Technical Guide",
+      "webhookId": "67d8ee5e-5468-4034-8911-cd9931af1a31"
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "mode": "list",
+          "value": ""
+        },
+        "sheetName": {
+          "__rl": true,
+          "mode": "list",
+          "value": ""
+        }
+      },
+      "type": "n8n-nodes-base.googleSheetsTool",
+      "typeVersion": 4.4,
+      "position": [
+        240,
+        80
+      ],
+      "id": "aea52cff-0003-40c4-aa74-df293374bb4e",
+      "name": "Log Maintenance"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "response-id",
+              "name": "response",
+              "value": "={{ $json.output }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        440,
+        -240
+      ],
+      "id": "6ffa1a5e-2321-417f-a179-f86d681107d1",
+      "name": "Response"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "error-response-id",
+              "name": "response",
+              "value": "Unable to process workshop technical request. Please try again.",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        440,
+        -40
+      ],
+      "id": "0de27a35-1783-4f09-be34-6a5f12736b59",
+      "name": "Try Again"
+    },
+    {
+      "parameters": {
+        "inputSource": "passthrough"
+      },
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        -580,
+        -140
+      ],
+      "id": "7d69dd34-b06d-4b1c-ba33-c2ff522d7960",
+      "name": "When Executed by Another Workflow"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When Executed by Another Workflow": {
+      "main": [
+        [
+          {
+            "node": "Workshop Technical Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Workshop Technical Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Equipment Status Check": {
+      "ai_tool": [
+        [
+          {
+            "node": "Workshop Technical Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Store Technique Guide": {
+      "ai_tool": [
+        [
+          {
+            "node": "Workshop Technical Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate Safety Protocol": {
+      "ai_tool": [
+        [
+          {
+            "node": "Workshop Technical Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send Technical Guide": {
+      "ai_tool": [
+        [
+          {
+            "node": "Workshop Technical Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Log Maintenance": {
+      "ai_tool": [
+        [
+          {
+            "node": "Workshop Technical Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Workshop Technical Agent": {
+      "main": [
+        [
+          {
+            "node": "Response",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Try Again",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "a965a460-06a8-4918-ba02-8ab42eab0835",
+  "meta": {
+    "instanceId": "aaadb797535f05587ee95b776c942a7c3f7a46fd7aa0c9b6a9d64e1e595f8af1"
+  },
+  "id": "aNAY0zmz0jjhc9PV",
+  "tags": []
+}

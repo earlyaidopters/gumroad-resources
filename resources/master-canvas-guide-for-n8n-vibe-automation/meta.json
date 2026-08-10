@@ -1,0 +1,21 @@
+{
+  "name": "Master Canvas Guide for n8n Vibe Automation",
+  "external_id": "xGW9Ez_wb3KX_yaJGtzDzA==",
+  "permalink": "eusiz",
+  "unique_permalink": "eusiz",
+  "custom_permalink": "n8nvibeautomation",
+  "url": "https://markkashef.gumroad.com/l/n8nvibeautomation",
+  "status": "published",
+  "archived": false,
+  "kind": "products",
+  "price_formatted": "CAD$0+",
+  "description_md": "# What You Get\n\n- Import-ready n8n workflow JSON covering core triggers (Manual, Schedule, Webhook, Google Sheets), path splitters (If/Switch/Merge/Wait), and AI blocks (OpenAI, Anthropic, Gemini, AI Agent/Tools).\n\n- Pre-pinned sample payloads and six battle-tested patterns—Linear, Branching, Looping, AI Sorter, Agent DM, Enrichment Loop—so you can learn by running, not guessing.\n\n- Sticky-note playbook that teaches the vibe: “Magic Portal” (Webhook), “Joker” (Code), “Scribe” (LLM), “Dungeon Master” (Agent) with copy-paste prompt examples.\n\n- Safe placeholders for creds/IDs and a working Google Sheet example—swap in your accounts and ship in minutes.\n\n- Bonus mini-system: order-processing flow (totals, enrichment, category routing, approval + merge) ready to adapt to your store.\n\nWant the companion “Judge” workflow and automated scoring dashboards? Grab them inside the Early AI-dopters Community → https://www.skool.com/earlyaidopters/about",
+  "files": [
+    {
+      "file": "Intro to Vibe Automation.json",
+      "status": "cached",
+      "bytes": 90933
+    }
+  ],
+  "has_rich_content": true
+}

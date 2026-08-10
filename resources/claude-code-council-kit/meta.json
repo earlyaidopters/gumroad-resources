@@ -1,0 +1,41 @@
+{
+  "name": "Claude Code Council Kit 🤖",
+  "external_id": "AQiCJzpp38EhbB8Kayg2vw==",
+  "permalink": "yxmqch",
+  "unique_permalink": "yxmqch",
+  "custom_permalink": "agent-council-kit",
+  "url": "https://markkashef.gumroad.com/l/agent-council-kit",
+  "status": "published",
+  "archived": false,
+  "kind": "products",
+  "price_formatted": "CAD$0+",
+  "description_md": "# What You Get\nOptimist Strategist Agent: The visionary who maps out best-case scenarios and what needs to be true for success. Not a hype machine - grounded optimism with actionable pathways.\nDevil's Advocate Agent: The critical thinker who stress-tests your assumptions, surfaces hidden risks, and identifies what could kill your idea before it kills your time.\nNeutral Analyst Agent: The objective voice who synthesizes both perspectives, maps trade-offs, and anchors decisions to evidence.\nShared Reasoning Template: The markdown file where all agents document their thinking process, key insights, and conclusions. Your window into how each agent reached their verdict.\nCouncil Setup Prompts: The exact prompts I used to create each agent and configure the council workflow in Claude Code.\nWorkflow Diagram: Visual breakdown of how the council operates and how agents pass the baton.\n## Why This Works\nClaude Code subagents run in separate context windows. That means each agent starts fresh - no accumulated bias, no degraded quality from a bloated conversation. You get three independent opinions that Claude then synthesizes without its usual tendency to just agree with you.\n---\nJoin 800+ builders going deeper on Claude Code:\nhttps://www.skool.com/earlyaidopters/about",
+  "files": [
+    {
+      "file": "agent_prompt_guide.pdf",
+      "status": "cached",
+      "bytes": 15331
+    },
+    {
+      "file": "devils-advocate.md",
+      "status": "cached",
+      "bytes": 6728
+    },
+    {
+      "file": "neutral-analyst.md",
+      "status": "cached",
+      "bytes": 7046
+    },
+    {
+      "file": "optimist-strategist.md",
+      "status": "cached",
+      "bytes": 6363
+    },
+    {
+      "file": "agent_prompt_guide.md",
+      "status": "cached",
+      "bytes": 12540
+    }
+  ],
+  "has_rich_content": true
+}

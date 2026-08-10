@@ -1,0 +1,655 @@
+{
+  "name": "Appointment Reminder Sequence",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "hours",
+              "hoursInterval": 1
+            }
+          ]
+        }
+      },
+      "name": "Hourly Reminder Check",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1,
+      "position": [
+        250,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "resource": "calendar",
+        "operation": "getEvents",
+        "calendarId": "={{ $env.MASSAGE_CALENDAR_ID }}",
+        "timeMin": "={{ new Date().toISOString() }}",
+        "timeMax": "={{ new Date(Date.now() + 3 * 24 * 60 * 60 * 1000).toISOString() }}",
+        "options": {}
+      },
+      "name": "Get Upcoming Appointments",
+      "type": "n8n-nodes-base.googleCalendar",
+      "typeVersion": 1,
+      "position": [
+        450,
+        300
+      ],
+      "credentials": {
+        "googleCalendarOAuth2Api": {
+          "id": "google_calendar_credentials",
+          "name": "Google Calendar account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// Process upcoming appointments and determine which need reminders\nconst appointments = $input.item.json.events || [];\nconst now = new Date();\nconst processedAppointments = [];\n\nfor (const appointment of appointments) {\n  // Extract appointment details\n  const startTime = new Date(appointment.start.dateTime);\n  const timeDiff = startTime.getTime() - now.getTime();\n  const hoursTillAppointment = Math.floor(timeDiff / (1000 * 60 * 60));\n  \n  // Extract client email from attendees\n  let clientEmail = '';\n  if (appointment.attendees && appointment.attendees.length > 0) {\n    // Assuming the first attendee is the client\n    clientEmail = appointment.attendees[0].email;\n  }\n  \n  // Extract client name and other details from description\n  let clientName = '';\n  let clientPhone = '';\n  let serviceType = '';\n  let bookingId = '';\n  \n  if (appointment.description) {\n    const descLines = appointment.description.split('\\n');\n    for (const line of descLines) {\n      if (line.startsWith('Client:')) {\n        clientName = line.replace('Client:', '').trim();\n      } else if (line.startsWith('Phone:')) {\n        clientPhone = line.replace('Phone:', '').trim();\n      } else if (line.startsWith('Service:')) {\n        serviceType = line.replace('Service:', '').trim();\n      } else if (line.startsWith('Booking ID:')) {\n        bookingId = line.replace('Booking ID:', '').trim();\n      }\n    }\n  }\n  \n  // If client name not found in description, extract from summary\n  if (!clientName && appointment.summary) {\n    const parts = appointment.summary.split('-');\n    if (parts.length > 1) {\n      serviceType = parts[0].trim();\n      clientName = parts[1].trim();\n    } else {\n      clientName = appointment.summary;\n    }\n  }\n  \n  // Determine reminder type based on hours till appointment\n  let reminderType = null;\n  if (hoursTillAppointment >= 47 && hoursTillAppointment <= 49) {\n    reminderType = '48hour';\n  } else if (hoursTillAppointment >= 23 && hoursTillAppointment <= 25) {\n    reminderType = '24hour';\n  } else if (hoursTillAppointment >= 1 && hoursTillAppointment <= 3) {\n    reminderType = '2hour';\n  }\n  \n  // Only process appointments that need reminders\n  if (reminderType && clientEmail) {\n    processedAppointments.push({\n      appointmentId: appointment.id,\n      calendarId: appointment.calendarId,\n      clientName: clientName,\n      clientEmail: clientEmail,\n      clientPhone: clientPhone,\n      serviceType: serviceType,\n      bookingId: bookingId,\n      startTime: appointment.start.dateTime,\n      endTime: appointment.end.dateTime,\n      reminderType: reminderType,\n      hoursTillAppointment: hoursTillAppointment,\n      appointmentDate: startTime.toLocaleDateString(),\n      appointmentTime: startTime.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})\n    });\n  }\n}\n\nreturn {json: {appointments: processedAppointments}};"
+      },
+      "name": "Process Appointments",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [
+        650,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "lookup",
+        "sheetName": "Reminders Sent",
+        "lookupColumn": "appointmentId",
+        "lookupValue": "={{ $json.appointmentId }}",
+        "options": {}
+      },
+      "name": "Check Reminder History",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 3,
+      "position": [
+        850,
+        300
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "google_sheets_credentials",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{ $node[\"Check Reminder History\"].json[\"reminderType_\" + $json.reminderType] }}",
+              "operation": "notEqual",
+              "value2": "sent"
+            }
+          ]
+        }
+      },
+      "name": "Reminder Not Sent Yet?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [
+        1050,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "dataType": "string",
+        "value1": "={{ $json.reminderType }}",
+        "rules": {
+          "rules": [
+            {
+              "value2": "48hour",
+              "type": "equal"
+            },
+            {
+              "value2": "24hour",
+              "type": "equal"
+            },
+            {
+              "value2": "2hour",
+              "type": "equal"
+            }
+          ]
+        }
+      },
+      "name": "Route by Reminder Type",
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 1,
+      "position": [
+        1250,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "fromEmail": "reminders@massagetherapy.com",
+        "toEmail": "={{ $json.clientEmail }}",
+        "subject": "Your Massage Appointment in 48 Hours",
+        "text": "=Dear {{ $json.clientName }},\n\nThis is a friendly reminder that you have a {{ $json.serviceType }} appointment scheduled for:\n\n**{{ $json.appointmentDate }} at {{ $json.appointmentTime }}**\n\n**Preparation Tips:**\n- Arrive 10-15 minutes early to complete any necessary paperwork\n- Wear comfortable, loose-fitting clothing\n- Avoid heavy meals before your massage\n- Stay hydrated before your appointment\n\n**Need to reschedule?**\nIf you need to reschedule, please do so at least 24 hours in advance to avoid a cancellation fee. You can manage your appointment here: [Manage My Appointment](https://massagetherapy.com/manage-booking?id={{ $json.bookingId }})\n\nWe look forward to seeing you!\n\nWarm regards,\nThe Massage Therapy Team\n\nP.S. If you have any questions, please call us at (555) 123-4567.",
+        "options": {}
+      },
+      "name": "Send 48-Hour Email",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 1,
+      "position": [
+        1450,
+        100
+      ],
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "gmail_credentials",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "fromEmail": "reminders@massagetherapy.com",
+        "toEmail": "={{ $json.clientEmail }}",
+        "subject": "Your Massage Appointment Tomorrow",
+        "text": "=Dear {{ $json.clientName }},\n\nJust a reminder that your {{ $json.serviceType }} appointment is scheduled for tomorrow:\n\n**{{ $json.appointmentDate }} at {{ $json.appointmentTime }}**\n\n**Preparation Reminders:**\n- Arrive 10-15 minutes early\n- Avoid caffeine and alcohol before your appointment\n- Drink plenty of water today and tomorrow\n- Consider a warm shower before your massage to relax your muscles\n\n**Appointment Confirmation**\nPlease confirm your appointment by clicking here: [Confirm Appointment](https://massagetherapy.com/confirm?id={{ $json.bookingId }})\n\nIf you need to reschedule, please do so as soon as possible by calling (555) 123-4567 or clicking here: [Reschedule](https://massagetherapy.com/reschedule?id={{ $json.bookingId }})\n\nWe look forward to seeing you tomorrow!\n\nWarm regards,\nThe Massage Therapy Team",
+        "options": {}
+      },
+      "name": "Send 24-Hour Email",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 1,
+      "position": [
+        1450,
+        300
+      ],
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "gmail_credentials",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "fromEmail": "reminders@massagetherapy.com",
+        "toEmail": "={{ $json.clientEmail }}",
+        "subject": "Your Massage Appointment Today",
+        "text": "=Dear {{ $json.clientName }},\n\nYour {{ $json.serviceType }} appointment is in 2 hours:\n\n**Today at {{ $json.appointmentTime }}**\n\n**Final Reminders:**\n- Our address is 123 Wellness Way, Suite 100\n- Parking is available in the main lot\n- Please arrive 10 minutes early\n- Turn off or silence your mobile phone before the session\n\nWe're preparing for your visit and look forward to seeing you soon!\n\nWarm regards,\nThe Massage Therapy Team\n\nP.S. If you're running late, please call us at (555) 123-4567.",
+        "options": {}
+      },
+      "name": "Send 2-Hour Email",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 1,
+      "position": [
+        1450,
+        500
+      ],
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "gmail_credentials",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "https://api.twilio.com/2010-04-01/Accounts/{{ $env.TWILIO_ACCOUNT_SID }}/Messages.json",
+        "method": "POST",
+        "authentication": "basicAuth",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "To",
+              "value": "={{ $json.clientPhone }}"
+            },
+            {
+              "name": "From",
+              "value": "={{ $env.TWILIO_PHONE_NUMBER }}"
+            },
+            {
+              "name": "Body",
+              "value": "={% if $json.reminderType === '48hour' %}\nReminder: Your massage appointment is in 48 hours on {{ $json.appointmentDate }} at {{ $json.appointmentTime }}. Reply C to confirm or call (555) 123-4567 to reschedule.\n{% elif $json.reminderType === '24hour' %}\nReminder: Your massage appointment is tomorrow at {{ $json.appointmentTime }}. Please arrive 10 min early. Reply C to confirm or call (555) 123-4567 to reschedule.\n{% elif $json.reminderType === '2hour' %}\nYour massage appointment is in 2 hours at {{ $json.appointmentTime }}. We're looking forward to seeing you soon!\n{% endif %}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "name": "Send SMS Reminder",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 1,
+      "position": [
+        1650,
+        300
+      ],
+      "credentials": {
+        "httpBasicAuth": {
+          "id": "twilio_credentials",
+          "name": "Twilio API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "sheetName": "Reminders Sent",
+        "options": {}
+      },
+      "name": "Log Reminder Sent",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 3,
+      "position": [
+        1850,
+        300
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "google_sheets_credentials",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "path": "appointment-response",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "name": "Appointment Response Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [
+        250,
+        700
+      ],
+      "webhookId": "appointment-response"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Process client response to appointment reminder\nconst response = $input.item.json.body || $input.item.json;\n\n// Extract appointment ID and response type\nconst appointmentId = response.appointmentId || '';\nconst responseType = response.responseType || '';\nconst clientEmail = response.email || '';\nconst clientPhone = response.phone || '';\nconst message = response.message || '';\n\n// Determine response action\nlet action = 'unknown';\nif (responseType.toLowerCase() === 'confirm' || responseType.toLowerCase() === 'c') {\n  action = 'confirm';\n} else if (responseType.toLowerCase() === 'reschedule' || responseType.toLowerCase() === 'r') {\n  action = 'reschedule';\n} else if (responseType.toLowerCase() === 'cancel' || responseType.toLowerCase() === 'x') {\n  action = 'cancel';\n}\n\n// Format the response data\nconst formattedResponse = {\n  appointmentId: appointmentId,\n  clientEmail: clientEmail,\n  clientPhone: clientPhone,\n  responseType: responseType,\n  action: action,\n  message: message,\n  timestamp: new Date().toISOString()\n};\n\nreturn {json: formattedResponse};"
+      },
+      "name": "Process Client Response",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [
+        450,
+        700
+      ]
+    },
+    {
+      "parameters": {
+        "dataType": "string",
+        "value1": "={{ $json.action }}",
+        "rules": {
+          "rules": [
+            {
+              "value2": "confirm",
+              "type": "equal"
+            },
+            {
+              "value2": "reschedule",
+              "type": "equal"
+            },
+            {
+              "value2": "cancel",
+              "type": "equal"
+            }
+          ]
+        }
+      },
+      "name": "Route by Response Action",
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 1,
+      "position": [
+        650,
+        700
+      ]
+    },
+    {
+      "parameters": {
+        "resource": "event",
+        "operation": "update",
+        "eventId": "={{ $json.appointmentId }}",
+        "calendarId": "={{ $env.MASSAGE_CALENDAR_ID }}",
+        "options": {
+          "colorId": "9"
+        }
+      },
+      "name": "Mark Appointment Confirmed",
+      "type": "n8n-nodes-base.googleCalendar",
+      "typeVersion": 1,
+      "position": [
+        850,
+        600
+      ],
+      "credentials": {
+        "googleCalendarOAuth2Api": {
+          "id": "google_calendar_credentials",
+          "name": "Google Calendar account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "fromEmail": "bookings@massagetherapy.com",
+        "toEmail": "={{ $json.clientEmail }}",
+        "subject": "Your Appointment is Confirmed",
+        "text": "=Thank you for confirming your upcoming appointment. We look forward to seeing you soon!\n\nIf you have any questions or need to make changes, please call us at (555) 123-4567.",
+        "options": {}
+      },
+      "name": "Send Confirmation Response",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 1,
+      "position": [
+        1050,
+        600
+      ],
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "gmail_credentials",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "fromEmail": "bookings@massagetherapy.com",
+        "toEmail": "staff@massagetherapy.com",
+        "subject": "Reschedule Request",
+        "text": "=A client has requested to reschedule their appointment:\n\nAppointment ID: {{ $json.appointmentId }}\nClient Email: {{ $json.clientEmail }}\nClient Phone: {{ $json.clientPhone }}\nMessage: {{ $json.message }}\n\nPlease contact the client as soon as possible to arrange a new appointment time.",
+        "options": {}
+      },
+      "name": "Send Reschedule Request",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 1,
+      "position": [
+        850,
+        800
+      ],
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "gmail_credentials",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "event",
+        "operation": "delete",
+        "eventId": "={{ $json.appointmentId }}",
+        "calendarId": "={{ $env.MASSAGE_CALENDAR_ID }}",
+        "options": {
+          "sendUpdates": "all"
+        }
+      },
+      "name": "Cancel Appointment",
+      "type": "n8n-nodes-base.googleCalendar",
+      "typeVersion": 1,
+      "position": [
+        850,
+        1000
+      ],
+      "credentials": {
+        "googleCalendarOAuth2Api": {
+          "id": "google_calendar_credentials",
+          "name": "Google Calendar account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "fromEmail": "bookings@massagetherapy.com",
+        "toEmail": "staff@massagetherapy.com",
+        "subject": "Appointment Cancellation",
+        "text": "=A client has cancelled their appointment:\n\nAppointment ID: {{ $json.appointmentId }}\nClient Email: {{ $json.clientEmail }}\nClient Phone: {{ $json.clientPhone }}\nReason: {{ $json.message }}\n\nThe appointment has been removed from the calendar.",
+        "options": {}
+      },
+      "name": "Notify Staff of Cancellation",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 1,
+      "position": [
+        1050,
+        1000
+      ],
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "gmail_credentials",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "errorMessage": "=Error in Appointment Reminder workflow: {{ $json.error }}"
+      },
+      "name": "Error Handler",
+      "type": "n8n-nodes-base.errorTrigger",
+      "typeVersion": 1,
+      "position": [
+        1050,
+        1200
+      ]
+    }
+  ],
+  "connections": {
+    "Hourly Reminder Check": {
+      "main": [
+        [
+          {
+            "node": "Get Upcoming Appointments",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Upcoming Appointments": {
+      "main": [
+        [
+          {
+            "node": "Process Appointments",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Process Appointments": {
+      "main": [
+        [
+          {
+            "node": "Check Reminder History",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Reminder History": {
+      "main": [
+        [
+          {
+            "node": "Reminder Not Sent Yet?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Reminder Not Sent Yet?": {
+      "main": [
+        [
+          {
+            "node": "Route by Reminder Type",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Route by Reminder Type": {
+      "main": [
+        [
+          {
+            "node": "Send 48-Hour Email",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Send 24-Hour Email",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Send 2-Hour Email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send 48-Hour Email": {
+      "main": [
+        [
+          {
+            "node": "Send SMS Reminder",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send 24-Hour Email": {
+      "main": [
+        [
+          {
+            "node": "Send SMS Reminder",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send 2-Hour Email": {
+      "main": [
+        [
+          {
+            "node": "Send SMS Reminder",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send SMS Reminder": {
+      "main": [
+        [
+          {
+            "node": "Log Reminder Sent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Appointment Response Webhook": {
+      "main": [
+        [
+          {
+            "node": "Process Client Response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Process Client Response": {
+      "main": [
+        [
+          {
+            "node": "Route by Response Action",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Route by Response Action": {
+      "main": [
+        [
+          {
+            "node": "Mark Appointment Confirmed",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Send Reschedule Request",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Cancel Appointment",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Mark Appointment Confirmed": {
+      "main": [
+        [
+          {
+            "node": "Send Confirmation Response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Cancel Appointment": {
+      "main": [
+        [
+          {
+            "node": "Notify Staff of Cancellation",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "saveManualExecutions": true,
+    "callerPolicy": "workflowsFromSameOwner",
+    "errorWorkflow": "Appointment Reminder Error Handler"
+  },
+  "tags": [
+    {
+      "name": "appointment-reminders",
+      "color": "#00ccff"
+    },
+    {
+      "name": "massage-therapy",
+      "color": "#00ccff"
+    }
+  ],
+  "pinData": {},
+  "versionId": "1",
+  "triggerCount": 2,
+  "meta": {
+    "instanceId": "MASSAGE_THERAPY_BUSINESS"
+  },
+  "id": "appointment-reminder-sequence"
+}

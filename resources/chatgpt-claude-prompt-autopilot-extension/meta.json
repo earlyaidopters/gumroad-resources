@@ -1,0 +1,15 @@
+{
+  "name": "ChatGPT & Claude Prompt Autopilot Extension 🛠️",
+  "external_id": "6cuibxI-a3ykoZZ5IiFtEQ==",
+  "permalink": "jcudh",
+  "unique_permalink": "jcudh",
+  "custom_permalink": "promptificextension",
+  "url": "https://markkashef.gumroad.com/l/promptificextension",
+  "status": "published",
+  "archived": false,
+  "kind": "products",
+  "price_formatted": "CAD$0+",
+  "description_md": "# What You Get\n\n- The master “mega-prompt” (no code needed) to build your own Chrome extension for ChatGPT and Claude: auto-generates, queues, and stores optimized prompts on both platforms.\n\n- The core blueprint for DOM injection, UI placement, prompt sequencing, model switching, and real-world fixes for quirky ChatGPT/Claude interfaces—explained in plain English.\n\n- Link to Miro Board shown in video, walking through the steps needed to recreate the extension\n\nIf you want the plug-and-play Chrome extension files, they’re exclusive to the Early AI-dopters Community -- that’s where you’ll unlock the ready-to-import package and community-only upgrades! 😉",
+  "files": [],
+  "has_rich_content": true
+}

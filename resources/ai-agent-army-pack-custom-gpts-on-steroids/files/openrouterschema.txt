@@ -1,0 +1,125 @@
+openapi: 3.1.0
+info:
+  title: OpenRouter Multi-LLM API
+  description: API to interact with various LLM models via OpenRouter. Supports models like GPT-4, Claude, and LLaMA.
+  version: 1.0.0
+servers:
+  - url: https://openrouter.ai/api/v1
+    description: Production server
+
+paths:
+  /chat/completions:
+    post:
+      operationId: generateResponse
+      summary: Generate a response from the selected LLM.
+      description: Sends a user prompt to the specified LLM model to generate a response.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ChatRequest'
+      responses:
+        '200':
+          description: Successful response from the LLM model.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChatResponse'
+        '400':
+          description: Bad Request - Invalid input.
+        '401':
+          description: Unauthorized - Invalid or missing API key.
+        '500':
+          description: Internal Server Error - Issue with the service.
+
+components:
+  securitySchemes:
+    apiKeyAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  schemas:
+    ChatRequest:
+      type: object
+      properties:
+        model:
+          type: string
+          enum: 
+            - anthropic/claude-3.5-sonnet
+            - x-ai/grok-beta
+            - mistralai/mistral-medium
+            - perplexity/llama-3.1-sonar-small-128k-online
+            - google/gemini-flash-1.5
+          description: The LLM model to use.
+          example: openai/gpt-4o-mini
+        messages:
+          type: array
+          description: An array of chat messages.
+          items:
+            type: object
+            properties:
+              role:
+                type: string
+                enum: [user, assistant, system]
+                description: Role of the message sender.
+              content:
+                type: string
+                description: Content of the message.
+          example:
+            - role: user
+              content: "Explain quantum computing in simple terms."
+        max_tokens:
+          type: integer
+          description: The maximum number of tokens to generate.
+          example: 100
+        temperature:
+          type: number
+          format: float
+          description: Sampling temperature for response randomness. Higher values increase randomness.
+          example: 0.7
+
+    ChatResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          description: ID of the response.
+        model:
+          type: string
+          description: Model used for the response.
+        choices:
+          type: array
+          description: The generated responses.
+          items:
+            type: object
+            properties:
+              message:
+                type: object
+                properties:
+                  role:
+                    type: string
+                    description: Role of the message sender.
+                  content:
+                    type: string
+                    description: Content of the generated response.
+            example:
+              message:
+                role: assistant
+                content: "Quantum computing uses quantum bits to process information."
+        usage:
+          type: object
+          properties:
+            prompt_tokens:
+              type: integer
+              description: Tokens consumed by the prompt.
+            completion_tokens:
+              type: integer
+              description: Tokens used for the completion.
+            total_tokens:
+              type: integer
+              description: Total tokens used.
+
+security:
+  - apiKeyAuth: []

@@ -1,0 +1,21 @@
+{
+  "name": "Sora Studio Builder 🎬",
+  "external_id": "Y8Js9wKMX7qC1TwlwXQxOg==",
+  "permalink": "entgqu",
+  "unique_permalink": "entgqu",
+  "custom_permalink": "sorastudio",
+  "url": "https://markkashef.gumroad.com/l/sorastudio",
+  "status": "published",
+  "archived": false,
+  "kind": "products",
+  "price_formatted": "CAD$0+",
+  "description_md": "# What You Get\n\n- A master prompt that builds a complete Sora Video API web app—create, track, remix, and download AI videos with no frameworks.\n\n- Prewired UI logic for auto-refresh, live progress, and instant thumbnail-to-video gallery loading.\n\n- Lightweight vanilla stack (HTML/CSS/JS + Tailwind) with .env key management and one-click local server startup.\n\nIf you want access to the ready-to-clone code and hours of Claude Code resources, check out the Early AI-dopters Community",
+  "files": [
+    {
+      "file": "openai-video-api-guide.md",
+      "status": "cached",
+      "bytes": 18718
+    }
+  ],
+  "has_rich_content": true
+}

@@ -1,0 +1,21 @@
+{
+  "name": "One-Shot Skill Creation Prompt 🎥",
+  "external_id": "UliohZgkUak5yf9ZVVOqOw==",
+  "permalink": "wnkpa",
+  "unique_permalink": "wnkpa",
+  "custom_permalink": "one-shot-skill-prompt",
+  "url": "https://markkashef.gumroad.com/l/one-shot-skill-prompt",
+  "status": "published",
+  "archived": false,
+  "kind": "products",
+  "price_formatted": "CAD$0+",
+  "description_md": "# What You Get\n\n- \nOne-Shot Skill Prompt: The exact polished prompt from the video to extract a comprehensive SOP from any screen recording using Gemini Video Understanding, then turn it into a fully functional Claude Code skill. Copy, paste, and go.\n\n- \nGemini Skill Link: Direct link to the official Google Gemini skill from their GitHub repo. Install it once and unlock video understanding, text generation, and structured output in Claude Code.\n\n---\nWant my full library and access to every resource I create? Join 800+ builders inside the community:https://www.skool.com/earlyaidopters/about",
+  "files": [
+    {
+      "file": "one_shot_skill_prompt.md",
+      "status": "cached",
+      "bytes": 3895
+    }
+  ],
+  "has_rich_content": true
+}

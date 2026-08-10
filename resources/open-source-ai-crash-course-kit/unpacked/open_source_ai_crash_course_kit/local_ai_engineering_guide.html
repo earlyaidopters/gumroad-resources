@@ -1,0 +1,1464 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Local AI Engineering Guide</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700;9..144,900&family=Spline+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#F4F3EE;
+  --paper-2:#ECEAE2;
+  --card:#FFFFFF;
+  --ink:#141413;
+  --ink-soft:#3b3a36;
+  --muted:#6c695f;
+  --taupe:#8a877c;
+  --coral:#C15F3C;
+  --coral-deep:#A24A2C;
+  --coral-tint:#F3DDD2;
+  --charcoal:#1A1917;
+  --line:rgba(20,20,19,.12);
+  --shadow:0 1px 2px rgba(20,20,19,.04),0 12px 32px -12px rgba(20,20,19,.16);
+  --shadow-lift:0 2px 4px rgba(20,20,19,.06),0 28px 56px -20px rgba(20,20,19,.28);
+  --mono:'JetBrains Mono',ui-monospace,SFMono-Regular,Menlo,monospace;
+  --sans:'Spline Sans',-apple-system,BlinkMacSystemFont,sans-serif;
+  --serif:'Fraunces',Georgia,serif;
+  --maxw:1240px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  background:var(--paper);
+  color:var(--ink);
+  font-family:var(--sans);
+  font-size:17px;
+  line-height:1.62;
+  -webkit-font-smoothing:antialiased;
+  text-rendering:optimizeLegibility;
+  overflow-x:hidden;
+}
+/* blueprint texture + grain */
+body::before{
+  content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
+  background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);
+  background-size:46px 46px;opacity:.32;
+  mask-image:radial-gradient(ellipse 120% 90% at 50% 0%,#000 0%,transparent 75%);
+}
+body::after{
+  content:"";position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.4;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.035'/%3E%3C/svg%3E");
+}
+a{color:inherit}
+::selection{background:var(--coral);color:#fff}
+
+/* progress bar */
+#progress{position:fixed;top:0;left:0;height:3px;width:0;z-index:200;
+  background:linear-gradient(90deg,var(--coral),var(--coral-deep));box-shadow:0 0 12px rgba(193,95,60,.5)}
+
+/* layout shell */
+.shell{position:relative;z-index:1;max-width:var(--maxw);margin:0 auto;padding:0 28px;
+  display:grid;grid-template-columns:248px 1fr;gap:56px;align-items:start}
+
+/* TOC */
+nav.toc{position:sticky;top:0;height:100vh;padding:48px 0 32px;overflow-y:auto;
+  display:flex;flex-direction:column;gap:2px}
+nav.toc .brand{font-family:var(--mono);font-size:11px;letter-spacing:.22em;text-transform:uppercase;
+  color:var(--coral);margin-bottom:22px;font-weight:700}
+nav.toc a{display:flex;gap:11px;align-items:baseline;padding:7px 12px;border-radius:8px;
+  text-decoration:none;color:var(--muted);font-size:13.5px;line-height:1.3;transition:.22s;border:1px solid transparent}
+nav.toc a .num{font-family:var(--mono);font-size:10.5px;color:var(--taupe);flex:none;width:20px}
+nav.toc a:hover{color:var(--ink);background:rgba(255,255,255,.5)}
+nav.toc a.active{color:var(--ink);background:var(--card);border-color:var(--line);box-shadow:var(--shadow)}
+nav.toc a.active .num{color:var(--coral)}
+
+main{padding-bottom:80px;min-width:0}
+
+/* HERO */
+header.hero{padding:84px 0 60px;position:relative}
+.kicker{font-family:var(--mono);font-size:12px;letter-spacing:.24em;text-transform:uppercase;
+  color:var(--coral);font-weight:700;display:inline-flex;align-items:center;gap:10px}
+.kicker::before{content:"";width:26px;height:1.5px;background:var(--coral);display:inline-block}
+h1.title{font-family:var(--serif);font-weight:900;font-size:clamp(44px,7vw,86px);line-height:.96;
+  letter-spacing:-.02em;margin:22px 0 8px;font-optical-sizing:auto}
+h1.title em{font-style:italic;color:var(--coral)}
+.dek{font-family:var(--serif);font-weight:400;font-size:clamp(19px,2.3vw,25px);font-style:italic;
+  color:var(--ink-soft);max-width:46ch;line-height:1.4;margin-top:14px}
+.thesis{margin:38px 0 30px;padding:26px 30px;background:var(--charcoal);color:#f3f1ea;border-radius:14px;
+  position:relative;box-shadow:var(--shadow-lift);max-width:760px}
+.thesis .q{font-family:var(--serif);font-size:clamp(20px,2.6vw,27px);font-weight:500;line-height:1.34;letter-spacing:-.01em}
+.thesis .q span{color:var(--coral)}
+.thesis .by{font-family:var(--mono);font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--taupe);margin-top:14px}
+.meta-row{display:flex;flex-wrap:wrap;gap:14px;margin-top:8px}
+.meta-chip{font-family:var(--mono);font-size:11.5px;letter-spacing:.04em;color:var(--ink-soft);
+  background:var(--card);border:1px solid var(--line);border-radius:999px;padding:7px 15px;box-shadow:var(--shadow)}
+.meta-chip b{color:var(--coral)}
+
+/* sections */
+section{padding:54px 0;border-top:1px solid var(--line);scroll-margin-top:30px}
+.sec-head{display:flex;align-items:flex-start;gap:18px;margin-bottom:26px}
+.sec-num{font-family:var(--mono);font-weight:700;font-size:14px;color:var(--coral);
+  border:1.5px solid var(--coral);border-radius:8px;padding:5px 9px;flex:none;margin-top:6px;background:var(--coral-tint)}
+.sec-head h2{font-family:var(--serif);font-weight:700;font-size:clamp(27px,4vw,42px);line-height:1.05;letter-spacing:-.018em}
+.sec-head .sub{font-family:var(--mono);font-size:11.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin-top:8px}
+.prose p{margin:0 0 16px;max-width:72ch}
+.prose strong{font-weight:600;color:var(--ink)}
+.lead{font-size:19px;color:var(--ink-soft)}
+
+/* cards / grids */
+.grid{display:grid;gap:18px;margin:22px 0}
+.g2{grid-template-columns:repeat(2,1fr)}
+.g3{grid-template-columns:repeat(3,1fr)}
+.g4{grid-template-columns:repeat(4,1fr)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:22px 22px;box-shadow:var(--shadow);transition:.3s}
+.card:hover{transform:translateY(-3px);box-shadow:var(--shadow-lift);border-color:rgba(193,95,60,.4)}
+.card h3{font-family:var(--serif);font-size:21px;font-weight:600;letter-spacing:-.01em;margin-bottom:7px;display:flex;gap:10px;align-items:baseline}
+.card h3 .tag{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:#fff;background:var(--coral);padding:3px 7px;border-radius:5px;font-weight:700}
+.card p{font-size:14.5px;color:var(--ink-soft);margin:0}
+
+/* stat cards */
+.stat{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:24px 22px;box-shadow:var(--shadow);position:relative;overflow:hidden}
+.stat::after{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--coral)}
+.stat .big{font-family:var(--serif);font-weight:900;font-size:clamp(30px,4vw,44px);line-height:1;color:var(--coral);letter-spacing:-.02em}
+.stat .lab{font-size:13.5px;color:var(--ink-soft);margin-top:9px;line-height:1.4}
+
+/* quote/take blocks */
+.take{background:linear-gradient(180deg,#fff,#fbfaf6);border:1px solid var(--line);border-left:4px solid var(--coral);
+  border-radius:0 14px 14px 0;padding:20px 24px;margin:22px 0;box-shadow:var(--shadow)}
+.take p{font-family:var(--serif);font-style:italic;font-size:18.5px;line-height:1.45;color:var(--ink);margin:0;max-width:none}
+.take .src{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-top:10px;font-style:normal}
+.plain{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--green,#5b8266);border-radius:0 13px 13px 0;padding:15px 20px;margin:20px 0;box-shadow:var(--shadow);max-width:72ch}
+.plain b{font-family:var(--mono);font-size:10.5px;letter-spacing:.13em;text-transform:uppercase;color:#5b8266;display:block;margin-bottom:6px}
+.plain p{font-size:15.5px;color:var(--ink-soft);margin:0;line-height:1.5;max-width:none}
+.start60{background:linear-gradient(180deg,#fff,#fbf7f3);border:1px solid var(--line);border-top:4px solid var(--coral);border-radius:4px 4px 16px 16px;padding:26px 28px;margin:30px 0 8px;box-shadow:var(--shadow-lift);max-width:820px}
+.start60 h2{font-family:var(--serif);font-weight:700;font-size:clamp(22px,3vw,30px);letter-spacing:-.015em;margin-bottom:12px}
+.start60 p{font-size:16px;color:var(--ink-soft);margin:0 0 12px;max-width:72ch;line-height:1.55}
+.start60 ol{margin:6px 0 14px;padding-left:0;list-style:none;counter-reset:s60;display:flex;flex-direction:column;gap:9px}
+.start60 ol li{position:relative;padding-left:40px;font-size:15.5px;color:var(--ink-soft);line-height:1.5}
+.start60 ol li::before{counter-increment:s60;content:counter(s60);position:absolute;left:0;top:0;width:26px;height:26px;background:var(--coral);color:#fff;font-family:var(--mono);font-size:13px;font-weight:700;border-radius:7px;display:flex;align-items:center;justify-content:center}
+.start60 ol li b{color:var(--ink);font-weight:600}
+.start60 .s60-foot{font-size:14px;color:var(--muted);margin:0}
+
+/* code */
+.code{background:var(--charcoal);color:#e9e6dd;border-radius:12px;padding:18px 20px;margin:18px 0;
+  font-family:var(--mono);font-size:13px;line-height:1.7;overflow-x:auto;box-shadow:var(--shadow-lift);border:1px solid #2a2823}
+.code .c{color:#8f8a7d}
+.code .k{color:#E0916F}
+.code .v{color:#cfe0c8}
+
+/* tables */
+.tbl-wrap{overflow-x:auto;margin:22px 0;border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow);background:var(--card)}
+table{border-collapse:collapse;width:100%;font-size:14px;min-width:520px}
+th,td{text-align:left;padding:13px 16px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-family:var(--mono);font-size:10.5px;letter-spacing:.13em;text-transform:uppercase;color:var(--muted);background:var(--paper-2);font-weight:700}
+tr:last-child td{border-bottom:none}
+tbody tr:hover{background:#faf9f4}
+td b{color:var(--coral);font-weight:600;font-family:var(--mono);font-size:13.5px}
+.mono-cell{font-family:var(--mono);font-size:12.5px}
+
+/* lists */
+ul.clean{list-style:none;margin:18px 0;display:flex;flex-direction:column;gap:13px}
+ul.clean li{position:relative;padding-left:30px;font-size:15.5px;color:var(--ink-soft);max-width:74ch}
+ul.clean li::before{content:"";position:absolute;left:6px;top:11px;width:8px;height:8px;background:var(--coral);
+  border-radius:2px;transform:rotate(45deg)}
+ul.clean li b{color:var(--ink);font-weight:600}
+
+/* tag pills */
+.promptbox{background:var(--card);border:1px solid var(--line);border-radius:13px;margin:16px 0;box-shadow:var(--shadow);overflow:hidden}
+.promptbox .ph{display:flex;justify-content:space-between;align-items:center;gap:10px;background:var(--coral-tint);padding:9px 16px;border-bottom:1px solid var(--line)}
+.promptbox .ph b{font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--coral-deep)}
+.promptbox .ph em{font-family:var(--mono);font-size:10px;font-style:normal;color:var(--coral-deep);opacity:.75}
+.promptbox .pc{padding:15px 18px;font-family:var(--mono);font-size:12.5px;line-height:1.65;color:var(--ink);white-space:pre-wrap;overflow-x:auto}
+.promptbox .pc i{color:var(--coral-deep);font-style:normal;font-weight:700}
+.copybtn{font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;font-weight:700;color:#fff;background:var(--coral);border:none;border-radius:6px;padding:5px 11px;cursor:pointer;transition:.18s;flex:none}
+.copybtn:hover{background:var(--coral-deep)}
+.copybtn.done{background:#5b8266}
+.code{position:relative}
+.code .copybtn{position:absolute;top:10px;right:10px}
+.dlbtn{display:inline-flex;align-items:center;gap:6px;font-family:var(--mono);font-size:12.5px;letter-spacing:.02em;text-decoration:none;color:#fff;background:#5b8266;border:1px solid #4d6f57;padding:11px 18px;border-radius:999px;box-shadow:0 2px 12px -3px rgba(91,130,102,.6);cursor:pointer;transition:.2s}
+.dlbtn:hover{background:#4d6f57;transform:translateY(-1px)}
+.justme{background:linear-gradient(180deg,#fff,#f4f8f4);border:1px solid var(--line);border-top:4px solid var(--green,#5b8266);border-radius:4px 4px 16px 16px;padding:24px 26px;margin:30px 0 6px;box-shadow:var(--shadow-lift)}
+.justme .tagline{font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:#5b8266;font-weight:700}
+.justme h2{font-family:var(--serif);font-weight:700;font-size:clamp(24px,3.4vw,34px);letter-spacing:-.015em;margin:8px 0 8px}
+.justme p{font-size:16px;color:var(--ink-soft);margin:0 0 12px;max-width:70ch;line-height:1.55}
+.watch{display:flex;flex-wrap:wrap;gap:10px;margin-top:10px}
+.watch a{font-family:var(--mono);font-size:12px;text-decoration:none;color:var(--ink);background:var(--card);border:1px solid var(--line);border-radius:999px;padding:8px 14px;box-shadow:var(--shadow);transition:.2s}
+.watch a:hover{border-color:var(--coral);color:var(--coral)}
+.gloss{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:12px;margin:22px 0}
+.gterm{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:15px 17px;box-shadow:var(--shadow);transition:.22s}
+.gterm:hover{transform:translateY(-2px);box-shadow:var(--shadow-lift);border-color:rgba(193,95,60,.4)}
+.gterm dt{font-family:var(--mono);font-size:13px;font-weight:700;color:var(--coral);margin-bottom:5px}
+.gterm dd{font-size:14px;color:var(--ink-soft);line-height:1.5;margin:0}
+.pills{display:flex;flex-wrap:wrap;gap:9px;margin:18px 0}
+.pill{font-family:var(--mono);font-size:12px;background:var(--card);border:1px solid var(--line);
+  border-radius:999px;padding:6px 13px;color:var(--ink-soft);box-shadow:var(--shadow);transition:.2s}
+.pill:hover{border-color:var(--coral);color:var(--coral);transform:translateY(-2px)}
+.pill b{color:var(--coral)}
+
+/* stack diagram */
+.stack{display:flex;flex-direction:column;gap:7px;margin:24px 0;font-family:var(--mono)}
+.layer{display:grid;grid-template-columns:120px 1fr;gap:18px;align-items:center;
+  background:var(--card);border:1px solid var(--line);border-radius:11px;padding:15px 18px;box-shadow:var(--shadow);transition:.25s}
+.layer:hover{transform:translateX(6px);border-color:rgba(193,95,60,.45)}
+.layer .ll{font-size:11.5px;letter-spacing:.13em;text-transform:uppercase;color:var(--coral);font-weight:700}
+.layer .ld{font-family:var(--sans);font-size:14px;color:var(--ink-soft)}
+
+/* dark band */
+.band{position:relative;z-index:1;background:var(--charcoal);color:#ece9e0;margin:0;padding:0}
+.band .shell{grid-template-columns:1fr;gap:0}
+.band-inner{max-width:var(--maxw);margin:0 auto;padding:70px 28px}
+.band .kicker{color:#E0916F}
+.band .kicker::before{background:#E0916F}
+.band h2{font-family:var(--serif);font-weight:700;font-size:clamp(28px,4.5vw,48px);letter-spacing:-.02em;line-height:1.04;margin:16px 0 8px;max-width:18ch}
+.band h2 em{font-style:italic;color:#E0916F}
+.band p{color:#bdb9ac;max-width:64ch;font-size:17px}
+.band .grid{margin-top:34px}
+.band .stat{background:#222019;border-color:#322f28}
+.band .stat .big{color:#E0916F}
+.band .stat .lab{color:#bdb9ac}
+
+/* playbook steps */
+.steps{counter-reset:step;display:flex;flex-direction:column;gap:14px;margin:24px 0}
+.step{display:grid;grid-template-columns:54px 1fr;gap:18px;align-items:start;
+  background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px 20px;box-shadow:var(--shadow);transition:.25s}
+.step:hover{transform:translateY(-2px);box-shadow:var(--shadow-lift)}
+.step::before{counter-increment:step;content:counter(step,decimal-leading-zero);
+  font-family:var(--mono);font-weight:700;font-size:18px;color:#fff;background:var(--coral);
+  border-radius:10px;width:44px;height:44px;display:flex;align-items:center;justify-content:center}
+.step .st{font-size:15.5px;color:var(--ink-soft)}
+.step .st b{color:var(--ink);font-weight:600}
+
+/* footer */
+footer{position:relative;z-index:1;background:var(--paper-2);border-top:1px solid var(--line);margin-top:0}
+.foot-inner{max-width:var(--maxw);margin:0 auto;padding:56px 28px}
+.foot-inner .big-line{font-family:var(--serif);font-weight:700;font-size:clamp(24px,3.6vw,38px);letter-spacing:-.02em;line-height:1.12;max-width:24ch;margin-bottom:24px}
+.foot-inner .big-line span{color:var(--coral)}
+.foot-meta{font-family:var(--mono);font-size:12px;color:var(--muted);line-height:1.8;letter-spacing:.02em}
+
+/* reveal animation */
+.reveal{opacity:0;transform:translateY(22px);transition:opacity .7s cubic-bezier(.2,.7,.2,1),transform .7s cubic-bezier(.2,.7,.2,1)}
+.reveal.in{opacity:1;transform:none}
+.hero .reveal{transition-delay:var(--d,0s)}
+
+/* mobile nav */
+.menu-btn{display:none;position:fixed;top:14px;right:14px;z-index:210;background:var(--charcoal);color:#fff;
+  border:none;font-family:var(--mono);font-size:11px;letter-spacing:.1em;padding:11px 14px;border-radius:10px;box-shadow:var(--shadow-lift);cursor:pointer}
+
+@media(max-width:980px){
+  .shell{grid-template-columns:1fr;gap:0}
+  nav.toc{position:fixed;inset:0 0 0 auto;width:300px;height:100vh;background:var(--paper);z-index:205;
+    transform:translateX(105%);transition:.35s;box-shadow:var(--shadow-lift);padding:64px 20px 24px;border-left:1px solid var(--line)}
+  nav.toc.open{transform:none}
+  .menu-btn{display:block}
+  .g2,.g3,.g4{grid-template-columns:1fr}
+  main{padding-top:8px}
+  header.hero{padding:64px 0 40px}
+}
+@media(max-width:560px){
+  body{font-size:16px}
+  .shell{padding:0 18px}
+  .layer{grid-template-columns:1fr;gap:5px}
+  .step{grid-template-columns:1fr;gap:10px}
+  .sec-head{gap:12px}
+}
+@media(prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none}html{scroll-behavior:auto}.panel.active{animation:none}*{transition-duration:.001ms!important;animation-duration:.001ms!important}}
+a:focus-visible,button:focus-visible,[role="slider"]:focus-visible,.tablink:focus-visible{outline:3px solid var(--coral);outline-offset:3px;border-radius:6px}
+.skip{position:absolute;left:-9999px;top:8px;z-index:300;background:var(--charcoal);color:#fff;font-family:var(--mono);font-size:13px;letter-spacing:.05em;padding:11px 18px;border-radius:9px;text-decoration:none;box-shadow:var(--shadow-lift)}
+.skip:focus{left:12px}
+
+/* ===== TOP BAR / TABS ===== */
+.topbar{position:sticky;top:0;z-index:150;background:rgba(244,243,238,.82);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+.topbar-inner{max-width:var(--maxw);margin:0 auto;padding:0 28px;height:58px;display:flex;align-items:center;justify-content:space-between;gap:16px}
+.archlink{font-family:var(--mono);font-size:12px;letter-spacing:.03em;text-decoration:none;color:#fff;background:var(--coral);border:1px solid var(--coral);padding:8px 15px;border-radius:999px;box-shadow:0 2px 10px -2px rgba(193,95,60,.6);white-space:nowrap;flex:none;transition:.2s}
+.archlink:hover{background:var(--coral-deep);transform:translateY(-1px)}
+.topbar .wm{font-family:var(--mono);font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink);font-weight:700;white-space:nowrap}
+.topbar .wm b{color:var(--coral)}
+.tabs{display:flex;gap:4px;background:var(--card);border:1px solid var(--line);border-radius:999px;padding:4px;box-shadow:var(--shadow)}
+.tab-btn{font-family:var(--mono);font-size:12px;letter-spacing:.03em;border:none;background:transparent;color:var(--muted);padding:8px 17px;border-radius:999px;cursor:pointer;transition:.22s;white-space:nowrap}
+.tab-btn:hover{color:var(--ink)}
+.tab-btn.active{background:var(--coral);color:#fff;box-shadow:0 2px 10px -2px rgba(193,95,60,.6)}
+.panel{display:none}
+.panel.active{display:block;animation:fadepanel .5s cubic-bezier(.2,.7,.2,1)}
+@keyframes fadepanel{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+nav.toc{top:58px;height:calc(100vh - 58px);padding-top:30px}
+section{scroll-margin-top:82px}
+
+/* ===== WALKTHROUGH ===== */
+.wt-hero{padding:64px 0 26px}
+.wt-hero .lead{font-family:var(--serif);font-size:clamp(20px,2.6vw,28px);font-style:italic;color:var(--ink-soft);max-width:44ch;line-height:1.4;margin-top:14px}
+.chapter{padding:48px 0;border-top:1px solid var(--line);scroll-margin-top:82px;position:relative}
+.ch-head{display:flex;align-items:baseline;gap:16px;margin-bottom:6px}
+.ch-num{font-family:var(--mono);font-weight:700;font-size:13px;color:var(--coral);flex:none}
+.ch-head h2{font-family:var(--serif);font-weight:700;font-size:clamp(26px,3.7vw,40px);line-height:1.04;letter-spacing:-.018em}
+.ch-tag{display:inline-block;font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--coral);background:var(--coral-tint);border-radius:6px;padding:4px 10px;margin:6px 0 18px;font-weight:700}
+.wt-body{max-width:70ch}
+.wt-body p{margin:0 0 17px;font-size:17px;color:var(--ink-soft)}
+.wt-body p strong{color:var(--ink);font-weight:600}
+.wt-body p.drop::first-letter{font-family:var(--serif);font-weight:900;font-size:3.3em;line-height:.78;float:left;margin:7px 13px 0 0;color:var(--coral)}
+.wt-body .mono-cell{font-family:var(--mono);font-size:14px;background:var(--paper-2);padding:1px 6px;border-radius:5px}
+.pullquote{margin:28px 0;padding:6px 0 6px 26px;border-left:3px solid var(--coral);font-family:var(--serif);font-style:italic;font-size:clamp(20px,2.6vw,26px);line-height:1.34;color:var(--ink)}
+.pullquote .src{display:block;font-family:var(--mono);font-style:normal;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-top:12px}
+
+/* ===== NUGGETS ===== */
+.nug-hero{padding:64px 0 22px}
+.nug-cat{padding:36px 0 6px;scroll-margin-top:82px;border-top:none}
+.nug-cat-head{display:flex;align-items:center;gap:12px;margin-bottom:18px}
+.nug-cat-head .dot{width:9px;height:9px;background:var(--coral);border-radius:2px;transform:rotate(45deg);flex:none}
+.nug-cat-head h2{font-family:var(--mono);font-size:13px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink);font-weight:700}
+.nug-cat-head .count{font-family:var(--mono);font-size:11px;color:var(--taupe);margin-left:auto}
+.nug-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:14px}
+.nug{background:var(--card);border:1px solid var(--line);border-radius:13px;padding:18px 19px;box-shadow:var(--shadow);transition:.25s;position:relative;overflow:hidden}
+.nug::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--coral);transform:scaleY(0);transform-origin:top;transition:.3s}
+.nug:hover{transform:translateY(-3px);box-shadow:var(--shadow-lift)}
+.nug:hover::before{transform:scaleY(1)}
+.nug p{font-size:15px;line-height:1.5;color:var(--ink-soft);margin:0}
+.nug p b{color:var(--ink);font-weight:600}
+.nug-quote{grid-column:1/-1;background:var(--charcoal);color:#f3f1ea;border-radius:14px;padding:30px 34px;box-shadow:var(--shadow-lift)}
+.nug-quote p{font-family:var(--serif);font-style:italic;font-size:clamp(20px,2.8vw,30px);line-height:1.3;color:#f3f1ea;max-width:34ch;margin:0}
+.nug-quote p span{color:#E0916F}
+
+/* ===== AUDIO PLAYER ===== */
+.player{margin:36px 0 4px;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px 20px;box-shadow:var(--shadow);max-width:780px;display:flex;align-items:center;gap:18px}
+.player .pbtn{flex:none;width:56px;height:56px;border-radius:50%;border:none;cursor:pointer;background:var(--coral);color:#fff;display:flex;align-items:center;justify-content:center;box-shadow:0 6px 18px -6px rgba(193,95,60,.7);transition:.2s}
+.player .pbtn:hover{transform:scale(1.06);background:var(--coral-deep)}
+.player .pbtn svg{width:22px;height:22px;display:block}
+.player .pmid{flex:1;min-width:0}
+.player .ptop{display:flex;justify-content:space-between;align-items:baseline;gap:10px;margin-bottom:9px}
+.player .plabel{font-family:var(--mono);font-size:11px;letter-spacing:.13em;text-transform:uppercase;color:var(--coral);font-weight:700}
+.player .ptime{font-family:var(--mono);font-size:11.5px;color:var(--muted)}
+.player .track{height:7px;background:var(--paper-2);border-radius:99px;position:relative;cursor:pointer}
+.player .fill{position:absolute;left:0;top:0;bottom:0;width:0;background:linear-gradient(90deg,var(--coral),var(--coral-deep));border-radius:99px}
+.player .fill::after{content:"";position:absolute;right:-5px;top:50%;transform:translateY(-50%);width:13px;height:13px;border-radius:50%;background:#fff;border:2px solid var(--coral);box-shadow:var(--shadow)}
+.player .prate{flex:none;font-family:var(--mono);font-size:12px;font-weight:700;color:var(--ink-soft);background:var(--paper-2);border:1px solid var(--line);border-radius:8px;padding:9px 11px;cursor:pointer;transition:.2s;min-width:52px;text-align:center}
+.player .prate:hover{border-color:var(--coral);color:var(--coral)}
+@media(max-width:560px){.player{flex-wrap:wrap;gap:13px}.player .pmid{order:3;flex:1 0 100%}}
+
+/* ===== ENGINES ===== */
+.fam-chip{font-family:var(--mono);font-size:10px;letter-spacing:.07em;text-transform:uppercase;font-weight:700;padding:3px 8px;border-radius:5px;color:#fff;flex:none}
+.fam-portable{background:#5b8266}
+.fam-apple{background:#6b7a8f}
+.fam-cuda{background:var(--coral)}
+.fam-prod{background:#1A1917}
+.fam-orch{background:#9a6a3c}
+.eng{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:22px;box-shadow:var(--shadow);transition:.3s}
+.eng:hover{transform:translateY(-3px);box-shadow:var(--shadow-lift);border-color:rgba(193,95,60,.4)}
+.eng .eh{display:flex;align-items:center;gap:10px;margin-bottom:11px;flex-wrap:wrap}
+.eng .eh h3{font-family:var(--serif);font-size:22px;font-weight:600;letter-spacing:-.01em}
+.eng p{font-size:14.5px;color:var(--ink-soft);margin:0 0 11px}
+.eng .verdict{font-size:13.5px;color:var(--ink);background:var(--coral-tint);border-radius:9px;padding:11px 13px;margin-top:4px;line-height:1.5}
+.eng .verdict b{color:var(--coral-deep);font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;display:block;margin-bottom:3px}
+.warn{background:#2a1a14;color:#f3e0d6;border:1px solid #4a2c20;border-radius:13px;padding:17px 22px;margin:22px 0;font-size:15px;box-shadow:var(--shadow);line-height:1.5}
+.warn b{color:#E0916F}
+.tablink{cursor:pointer}
+.bridge{font-size:16px;color:var(--ink-soft);max-width:64ch;margin-top:16px;line-height:1.55}
+.orient{margin:20px 0 2px;font-size:14.5px;color:var(--ink-soft);max-width:780px;line-height:1.62}
+.orient .tablink{color:var(--coral);font-weight:600}
+/* ===== CALCULATOR ===== */
+.calcwrap{position:relative;z-index:1;max-width:980px;margin:0 auto;padding:64px 28px 80px}
+.calc{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin-top:30px}
+.calc-card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:24px;box-shadow:var(--shadow)}
+.calc-card h3{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--coral);font-weight:700;margin-bottom:16px}
+.field{margin-bottom:15px}
+.field label{display:block;font-size:13px;font-weight:600;color:var(--ink);margin-bottom:5px}
+.field .hint{font-weight:400;color:var(--muted);font-size:12px}
+.field input[type=number],.field select{width:100%;font-family:var(--mono);font-size:14px;color:var(--ink);background:var(--paper-2);border:1px solid var(--line);border-radius:9px;padding:10px 12px;transition:.15s}
+.field input:focus,.field select:focus{outline:none;border-color:var(--coral);background:#fff}
+.field.row{display:flex;gap:10px;align-items:center}
+.field.row label{margin:0}
+.field.check{display:flex;align-items:center;gap:9px}
+.field.check input{width:18px;height:18px;accent-color:var(--coral)}
+.field.check label{margin:0;font-weight:600}
+.verdict{border-radius:13px;padding:16px 20px;margin-bottom:16px;font-family:var(--serif);font-size:20px;font-weight:600;line-height:1.25;border:1px solid var(--line)}
+.verdict.good{background:#eef4ee;border-color:#cfe0cf;color:#33623f}
+.verdict.tight{background:#fbf1e4;border-color:#ecd8bd;color:#8a5a1f}
+.verdict.no{background:#fbe9e3;border-color:#eccabb;color:#a23a1f}
+.verdict .vsub{display:block;font-family:var(--sans);font-size:13.5px;font-weight:400;margin-top:5px;opacity:.85}
+.calc-out .grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:0}
+.calc-out .stat{padding:16px 16px}
+.calc-out .stat .big{font-size:clamp(22px,3vw,30px)}
+.calc-out .stat .lab{font-size:12.5px}
+.calc-note{font-size:12.5px;color:var(--muted);line-height:1.5;margin-top:14px}
+.barwrap{margin-top:14px}
+.barwrap .blab{display:flex;justify-content:space-between;font-family:var(--mono);font-size:11px;color:var(--muted);margin-bottom:5px}
+.bar{height:14px;background:var(--paper-2);border-radius:99px;overflow:hidden;border:1px solid var(--line);position:relative}
+.bar .used{height:100%;background:linear-gradient(90deg,var(--coral),var(--coral-deep));width:0;transition:width .3s}
+.bar .used.over{background:linear-gradient(90deg,#c0442a,#8a2f1c)}
+@media(max-width:760px){.calc{grid-template-columns:1fr}.calc-out .grid{grid-template-columns:1fr 1fr}}
+
+@media(max-width:980px){
+  .topbar-inner{padding:8px 16px;height:auto;flex-wrap:wrap}
+  .topbar .wm{display:none}
+  .tabs{flex:1;justify-content:space-between}
+  .tab-btn{flex:1;padding:9px 4px;font-size:11px;letter-spacing:0}
+  .archlink{font-size:11px;padding:8px 12px}
+  .menu-btn{top:auto;bottom:18px;right:18px}
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<div id="progress"></div>
+<button class="menu-btn" id="menuBtn">CONTENTS</button>
+
+<div class="topbar">
+  <div class="topbar-inner">
+    <div class="wm">LOCAL <b>AI</b> // engineering guide</div>
+    <div class="tabs" role="tablist" aria-label="Views of the guide">
+      <button class="tab-btn active" data-tab="guide" role="tab" id="tab-guide-btn" aria-controls="tab-guide" aria-selected="true" title="The complete reference, 15 sections">The Guide</button>
+      <button class="tab-btn" data-tab="calc" role="tab" id="tab-calc-btn" aria-controls="tab-calc" aria-selected="false" title="Can I run this model? Interactive calculator">Calculator</button>
+      <button class="tab-btn" data-tab="walkthrough" role="tab" id="tab-walkthrough-btn" aria-controls="tab-walkthrough" aria-selected="false" title="The build process end to end, long form">TLDR Walkthrough</button>
+      <button class="tab-btn" data-tab="engines" role="tab" id="tab-engines-btn" aria-controls="tab-engines" aria-selected="false" title="Inference engines, a decision guide">Engines</button>
+    </div>
+    <a class="archlink" href="architectures.html" title="Architecture blueprints with system diagrams">Architectures &#8599;</a>
+  </div>
+</div>
+
+<div class="panel active" id="tab-guide" role="tabpanel" aria-labelledby="tab-guide-btn" tabindex="0">
+<a id="main"></a>
+<div class="shell">
+  <nav class="toc" id="toc">
+    <div class="brand">// local AI</div>
+    <a href="#s0"><span class="num">00</span> The stack at a glance</a>
+    <a href="#s1"><span class="num">01</span> Why local</a>
+    <a href="#s2"><span class="num">02</span> Hardware</a>
+    <a href="#s3"><span class="num">03</span> Inference &amp; serving</a>
+    <a href="#s4"><span class="num">04</span> The model landscape</a>
+    <a href="#sev"><span class="num">★</span> Judge it: evals</a>
+    <a href="#s5"><span class="num">05</span> Compression</a>
+    <a href="#s6"><span class="num">06</span> Context engineering</a>
+    <a href="#s7"><span class="num">07</span> Throughput tuning</a>
+    <a href="#s8"><span class="num">08</span> Coding agents</a>
+    <a href="#s9"><span class="num">09</span> Swarms &amp; orchestration</a>
+    <a href="#s10"><span class="num">10</span> Safety &amp; zero-trust</a>
+    <a href="#s11"><span class="num">11</span> Self-improvement</a>
+    <a href="#s12"><span class="num">12</span> Adjacent use cases</a>
+    <a href="#s13"><span class="num">13</span> Production at scale</a>
+    <a href="#s14"><span class="num">14</span> The economics</a>
+    <a href="#s15"><span class="num">15</span> Starting playbook</a>
+    <a href="#sgd"><span class="num">&#9733;</span> Go deeper: from scratch</a>
+    <a href="#s16"><span class="num">16</span> Plain-English glossary</a>
+    <a href="#s17"><span class="num">17</span> Common questions</a>
+  </nav>
+
+  <main>
+    <header class="hero">
+      <div class="kicker reveal" style="--d:0s">A field manual for running AI on your own hardware</div>
+      <h1 class="title reveal" style="--d:.06s">The Local AI<br><em>Engineering</em> Guide</h1>
+      <p class="dek reveal" style="--d:.12s">Running frontier-class AI on hardware you own.</p>
+            <div class="meta-row reveal" style="--d:.24s">
+        <span class="meta-chip"><b>2026</b> edition</span>
+        <span class="meta-chip">Local-first</span>
+        <span class="meta-chip">4 views</span>
+        <span class="meta-chip">15 sections</span>
+      </div>
+      <p class="orient reveal" style="--d:.36s">Four ways through this: <span class="tablink" data-tab="guide" role="button" tabindex="0">the Guide</span> is the full reference, <span class="tablink" data-tab="walkthrough" role="button" tabindex="0">the Walkthrough</span> tells the build story start to finish, <span class="tablink" data-tab="engines" role="button" tabindex="0">Engines</span> is how to choose an inference engine.</p>
+      <p class="orient reveal" style="--d:.42s">New, and the most plain-English of all: a companion page of <a href="architectures.html" style="color:var(--coral);font-weight:600">architecture blueprints</a>, with a system diagram and an everyday-language explanation for every setup, from a single laptop to a home cluster.</p>
+    </header>
+
+    <div class="start60 reveal">
+      <h2>Start here in 60 seconds</h2>
+      <p>Big AI usually runs in someone else's cloud. That costs money, can change or go down without warning, and means your data leaves your hands. This guide is about running it on your own computer instead: cheaper, private, and yours. The trade is that you set it up and look after it.</p>
+      <p><b>The whole idea in three moves:</b></p>
+      <ol>
+        <li><b>Run a model on your own machine</b> with a free program (llama.cpp), on the computer you already have.</li>
+        <li><b>Point your AI tool at it</b> by changing one setting, so it uses your model instead of the cloud.</li>
+        <li><b>Add more only when it hurts:</b> speed, more users, big-codebase tricks, or safety, one piece at a time.</li>
+      </ol>
+      <p class="s60-foot">Everything below is the detail behind those three moves. Brand new? See the the guide or the <a href="architectures.html" style="color:var(--coral);font-weight:600">architecture blueprints</a> first.</p>
+    </div>
+
+    <!-- 0 -->
+    <section id="s0">
+      <div class="sec-head reveal"><div class="sec-num">00</div><div><h2>The whole stack at a glance</h2><div class="sub">Top to bottom, why down to silicon</div></div></div>
+      <div class="plain reveal"><b>In plain English</b><p>This is the map of all the pieces and how they stack up. You do not need every layer. Most people use just the bottom few (a machine, an engine, a model) and add the higher ones only when they hit a wall.</p></div>
+      <div class="prose reveal">
+        <p class="lead">Local AI engineering is more than installing a chat app. There is a full stack underneath, and this guide covers it top to bottom.</p>
+      </div>
+      <div class="stack reveal">
+        <div class="layer"><span class="ll">Why</span><span class="ld">Sovereignty, privacy, fixed cost, no rate limits, survives vendor rug-pulls</span></div>
+        <div class="layer"><span class="ll">Agents</span><span class="ld">Claude Code / opencode / Droid / Kimi-CLI pointed at a local endpoint</span></div>
+        <div class="layer"><span class="ll">Harness</span><span class="ld">Routing (DSPy / GEPA), context compilers (RLM), memory (MemAgent / Honcho)</span></div>
+        <div class="layer"><span class="ll">Serving</span><span class="ld">vLLM / llama.cpp / SGLang / ktransformers, under AIBrix on Kubernetes</span></div>
+        <div class="layer"><span class="ll">Models</span><span class="ld">Open weights: Qwen, GLM, DeepSeek, Kimi, MiniMax, Gemma, Nemotron</span></div>
+        <div class="layer"><span class="ll">Compress</span><span class="ld">Quant (GGUF / AWQ / FP8 / NVFP4 / BitNet) + KV-cache compression (TurboQuant)</span></div>
+        <div class="layer"><span class="ll">Hardware</span><span class="ld">GB10 / Ryzen AI 395 / 4x A6000 / Apple Silicon / 7-year-old edge boxes</span></div>
+        <div class="layer"><span class="ll">Safety</span><span class="ld">Sandboxing (Hyperlight / Firecracker), zero-trust install gates (Aegis)</span></div>
+      </div>    </section>
+
+    <!-- 1 -->
+    <section id="s1">
+      <div class="sec-head reveal"><div class="sec-num">01</div><div><h2>Why local</h2><div class="sub">The argument, with receipts</div></div></div>
+      <div class="prose reveal">
+        <p>The case is not "local is smarter than Claude." It is "some reasoning should never hit someone else's API," plus hard economics. <strong>The subsidy is a trap:</strong> cheap cloud coding was venture-subsidized, and the bill is coming due.</p>
+      </div>
+      <div class="grid g4 reveal">
+        <div class="stat"><div class="big">$133k</div><div class="lab">Per month, extrapolated from one agent burning $14.06 in under 5 minutes ($3/min)</div></div>
+        <div class="stat"><div class="big">40x</div><div class="lab">Copilot repricing impact. "Your $19/seat became a $1,550 problem. 40x, not 40%."</div></div>
+        <div class="stat"><div class="big">$15k</div><div class="lab">Top monthly per-engineer cloud-agent spend already seen at startups</div></div>
+        <div class="stat"><div class="big">$0</div><div class="lab">Local marginal cost per token after capex. No surprise invoices, no telemetry.</div></div>
+      </div>
+      <ul class="clean reveal">
+        <li><b>The cloud is non-deterministic and silently degraded.</b> A $43 experiment found output quality is "a sinusoidal wave of genius and gibberish" tied to load and time of day: aggressive quantization down to 2-bit, GPU spin-down, swapped system prompts. Local is "deterministically dumb" but predictable, and yours.</li>
+        <li><b>Vendor risk is real and sudden.</b> Outages, 5-year data-retention changes, weekly rate limits, export-control suspensions of entire models. "The outage is temporary. The weights are forever."</li>
+        <li><b>The honest counter-frame.</b> Local is about resilience and privacy, not beating the frontier on raw IQ. Run what you can locally, route only the genuinely hard, high-value, compressible problems out. Hybrid is also the only real cure for Shadow AI.</li>
+      </ul>
+    </section>
+
+    <!-- 2 -->
+    <section id="s2">
+      <div class="sec-head reveal"><div class="sec-num">02</div><div><h2>Hardware</h2><div class="sub">The rigs that actually show up</div></div></div>
+      <div class="prose reveal"><p>A representative fleet runs from "sock drawer" to "space heater," all real machines under load.</p></div>
+      <div class="tbl-wrap reveal">
+        <table>
+          <thead><tr><th>Rig</th><th>Silicon</th><th>Memory</th><th>Role</th></tr></thead>
+          <tbody>
+            <tr><td><b>NVIDIA GB10 / ZGX Nano</b></td><td>Grace-Blackwell, CUDA cap 12.1</td><td class="mono-cell">128GB unified</td><td>Daily-driver agentic box. Palm-sized, 33 to 74W, runs DeepSeek V4 at 1M context.</td></tr>
+            <tr><td><b>HP Z8 Fury G5</b></td><td>Xeon + 4x RTX A6000 48GB</td><td class="mono-cell">~192GB VRAM / 477GB RAM</td><td>The "beast." Throughput records, training, giant MoE. ~1.8kW, A6000s at 84 to 90C.</td></tr>
+            <tr><td><b>HP Z2 Mini G1a</b></td><td>AMD Ryzen AI MAX+ PRO 395</td><td class="mono-cell">128GB unified</td><td>The AMD / ROCm side. Backpack "exocortex."</td></tr>
+            <tr><td><b>MacBook Air / Pro</b></td><td>Apple Silicon M3 / M4 / M5</td><td class="mono-cell">24 to 32GB</td><td>Thin SSH client; small models on Metal / MLX; WebGPU in-browser inference.</td></tr>
+            <tr><td><b>2018 ThinkPad X280</b></td><td>i5-8350U, CPU only</td><td class="mono-cell">16GB</td><td>Extreme-edge proof: Qwen3-8B at ~3.27 tok/s, ~16W on battery.</td></tr>
+            <tr><td><b>k8s cluster "Z14 Mecha"</b></td><td>1x Z8 + 3x Z2 (NVIDIA + AMD)</td><td class="mono-cell">564GiB VRAM</td><td>Mixed-vendor Kubernetes, "datacenter in a closet."</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <ul class="clean reveal">
+        <li><b>Old hardware plus good engineering wins.</b> "It is not the car, it is the driver." 5-year-old A6000s out-throughput SaaS APIs.</li>
+        <li><b>Force more VRAM on Ryzen AI 395.</b> Rated 96GB, but a BIOS "edge AI server" mode plus Linux GTT / TTM tweaks unlock the full 128GB pool: Qwen3-Coder-30B BF16 at 1M context, 115GB footprint, 24.4 tok/s.</li>
+        <li><b>Watch thermals on Strix Halo.</b> It hit thermal shutdown because thermald did not recognize the new CPUID; the fix was <span class="mono-cell">thermald --ignore-cpuid-check</span>.</li>
+        <li><b>The network is the compute.</b> One A6000 can be shared over LAN to a ThinkPad via a virtual GPU driver, tunneling CUDA over QUIC / TLS / UDP. DGX Spark is a learning toy, not production.</li>
+      </ul>
+    </section>
+
+    <!-- 3 -->
+    <section id="s3">
+      <div class="sec-head reveal"><div class="sec-num">03</div><div><h2>Inference &amp; serving</h2><div class="sub">Two engines do 90% of the work</div></div></div>
+      <div class="plain reveal"><b>In plain English</b><p>An inference engine is the program that actually runs the model: it loads the weights, takes your request, and streams back the answer. The model is the engine block; this is the whole car around it. vLLM is the heavy-duty one built for many users at once. llama.cpp is the go-anywhere one that runs on almost any machine.</p></div>
+      <div class="grid g3 reveal">
+        <div class="card"><h3>vLLM</h3><p>The production serving engine. OpenAI plus Anthropic and Ollama-compatible routes, continuous batching, chunked prefill, prefix caching. Built from source for day-zero models.</p></div>
+        <div class="card"><h3>llama.cpp</h3><p>The ease-of-use and edge engine. GGUF, llama-server, runs on CUDA / Metal / ROCm / Vulkan. Source edited directly for KV and quant work.</p></div>
+        <div class="card"><h3>SGLang</h3><p>EAGLE speculative decoding, GLM tool and reasoning parsers. A serving path for specific models.</p></div>
+        <div class="card"><h3>ktransformers</h3><p>Hybrid VRAM + RAM offload for huge models. Ran Kimi K2 at 1T params locally this way.</p></div>
+        <div class="card"><h3>AIBrix</h3><p>k8s-native control plane: LLM-aware autoscaling, distributed KV-cache routing, high-density LoRA. A capable "enterprise AI platform."</p></div>
+        <div class="card"><h3 style="display:flex"><span class="tag">shim</span> fake-ollama</h3><p>A Rust / axum proxy that makes Copilot, Cline, and Roo think they talk to Ollama while traffic hits vLLM / llama.cpp.</p></div>
+      </div>
+      <div class="prose reveal"><p><strong>The drop-in pattern that recurs constantly:</strong> point any cloud-shaped coding agent at a local endpoint.</p></div>
+      <div class="code reveal">
+<span class="c"># Repoint any Anthropic-shaped agent at local weights</span><br>
+<span class="k">export</span> ANTHROPIC_BASE_URL=<span class="v">http://localhost:8080</span>   <span class="c"># llama.cpp</span><br>
+<span class="k">export</span> ANTHROPIC_BASE_URL=<span class="v">http://localhost:8000</span>   <span class="c"># vLLM</span><br>
+<span class="c"># Claude Code now "just works" against your own model</span>
+      </div>
+      <div class="prose reveal"><p>When an agent speaks only one dialect, shim it. <strong>Claude Code Router (ccr)</strong> translates Claude Code into OpenAI-compatible backends; fake-ollama covers the Ollama dialect. Serious setups avoid Ollama, preferring vLLM and llama.cpp for control.</p></div>      <div class="prose reveal"><p>The split that decides everything is prefill versus decode. <strong>Prefill</strong> reads the prompt and is compute-bound. <strong>Decode</strong> generates one token at a time and is memory-bandwidth-bound. Short prompt with a long answer leans on bandwidth and batching; long prompt with a short answer leans on attention kernels and chunked prefill. Match the engine to that shape, your interconnect, and your quant format.</p></div>
+      <div class="tbl-wrap reveal">
+        <table>
+          <thead><tr><th>Your situation</th><th>Reach for</th></tr></thead>
+          <tbody>
+            <tr><td>Laptop, edge, or odd hardware</td><td><b>llama.cpp</b></td></tr>
+            <tr><td>Mac-first workflows</td><td><b>MLX / MLX-LM</b></td></tr>
+            <tr><td>Single RTX local inference</td><td><b>ExLlamaV2</b></td></tr>
+            <tr><td>2 to 4+ NVIDIA / CUDA GPUs</td><td><b>ExLlamaV3</b></td></tr>
+            <tr><td>General production serving</td><td><b>vLLM</b></td></tr>
+            <tr><td>Long-context / MoE / routing</td><td><b>SGLang</b></td></tr>
+            <tr><td>NVIDIA max performance</td><td><b>TensorRT-LLM</b></td></tr>
+            <tr><td>Cluster orchestration</td><td><b>NVIDIA Dynamo</b></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="prose reveal"><p>That is the one-page version. The <span class="tablink" data-tab="engines" role="button" tabindex="0" style="color:var(--coral);font-weight:600">Engines tab</span> has the full engine-by-engine breakdown, the real bottlenecks, hardware-strategy recipes, and how to benchmark them honestly.</p></div>
+    </section>
+
+    <!-- 4 -->
+    <section id="s4">
+      <div class="sec-head reveal"><div class="sec-num">04</div><div><h2>The open-weight model landscape</h2><div class="sub">And how to choose</div></div></div>
+      <div class="plain reveal"><b>In plain English</b><p>These are the actual brains you can download and run, mostly free and open. The names change every few weeks, but the rule does not: pick the smallest one that does your job well, not the biggest one you can find.</p></div>      <div class="grid g3 reveal">
+        <div class="card"><h3>Qwen3.x / 3.6</h3><p>The hero family, 0.6B to 480B-A35B. Qwen3-Coder-Next (~80B / 3B active) is the default daily coder. "Qwen is the new Llama."</p></div>
+        <div class="card"><h3>GLM-4.x / 5</h3><p>Z.ai, MIT. "Opus at home." GLM-4.7-Flash is the "fast, good, and cheap" pick; topped tool-calling at a fraction of Opus cost.</p></div>
+        <div class="card"><h3>DeepSeek V3.x / V4</h3><p>"Soul of a Fortune-500 senior dev" for backends. V4-Flash: 284B / 13B active, 1M context, Sparse Attention ~9x cheaper.</p></div>
+        <div class="card"><h3>Kimi K2.x</h3><p>Moonshot, 1T / 32B active. Agent-swarm native, up to 300 parallel subagents.</p></div>
+        <div class="card"><h3>MiniMax M2.x</h3><p>~230B / 10B active. "Anthropic in a bottle," NVFP4-shrunk to fit a single GB10.</p></div>
+        <div class="card"><h3>Gemma 4 / Nemotron</h3><p>Google Apache-2.0 and NVIDIA Mamba-Transformer hybrids. Plus Ling / Ring, ERNIE, Hunyuan, LongCat.</p></div>
+      </div>
+      <ul class="clean reveal">
+        <li><b>Efficiency is the new scaling. Bigger is not better.</b> A 27B dense or a 3B-active MoE on the Pareto frontier beats a 1T giant for most work.</li>
+        <li><b>Match the model to the language and job.</b> DeepSeek for enterprise backends, not startup JS. Small and tiny models for narrow, repetitive agent tasks.</li>
+        <li><b>Public benchmarks rarely predict fit.</b> Token efficiency, cost, and usability on your own tasks are better selection criteria.</li>
+        <li><b>MoE sparsity is the unlock.</b> Huge total params, tiny active params per token, is what makes frontier behavior fit in consumer memory.</li>
+      </ul>
+    </section>
+
+    <section id="sev">
+      <div class="sec-head reveal"><div class="sec-num">&#9733;</div><div><h2>Judge it yourself: evals</h2><div class="sub">The leaderboard is not your job</div></div></div>
+      <div class="plain reveal"><b>In plain English</b><p>A model topping a public leaderboard tells you almost nothing about whether it is good at your work. The fix is an eval: a small set of your own real tasks that you run every candidate model through, then keep whichever wins on those, not on the chart.</p></div>      <div class="wt-body reveal">
+        <p>How to run a quick eval with no framework: collect 10 to 30 tasks you actually do (a real bug to fix, a function to write, a doc to summarize), each with the answer you would accept. Run every candidate model on all of them. Score pass or fail, or just A/B which output you would ship. Keep the winner on your set. That number beats every benchmark, because it is measured on the work you care about.</p>
+        <p>It cuts both ways, which is the whole point. Open models now sometimes beat the closed flagships on real-world evals (one open model recently passed a top closed model on a production web-framework eval), and sometimes they lose on yours. You only find out by testing on your own tasks. To score at scale you can use a strong model as the judge, but a human eye on 20 examples is usually enough to decide.</p>
+      </div>
+    </section>
+
+    <!-- 5 -->
+    <section id="s5">
+      <div class="sec-head reveal"><div class="sec-num">05</div><div><h2>Compression</h2><div class="sub">Quantization and the KV cache</div></div></div>
+      <div class="plain reveal"><b>In plain English</b><p>Models and their memory are huge, so you shrink them. Quantization stores the numbers with less precision, like saving a photo as a smaller JPEG: slightly less exact, but it fits and still looks fine. The KV cache is the model's short-term memory of the current conversation; compressing it is what lets a giant context fit on a small graphics card.</p></div>
+      <div class="prose reveal"><p>This is where local engineering gets hard and most of the wins live. <strong>Weight formats:</strong> GGUF (Q2_K to Q8_0), AWQ 4-bit, FP8, NVFP4 / MXFP4, and BitNet 1.58-bit ternary.</p></div>
+      <div class="grid g3 reveal">
+        <div class="card"><h3>APEX</h3><p>MoE-aware mixed precision on stock llama.cpp. Per-expert, per-layer bits beat Q8_0 and even F16 on perplexity at half the size.</p></div>
+        <div class="card"><h3>BitNet distill</h3><p>Convert FP LLMs to 1.58-bit ternary: ~10x memory savings, 2.65x faster CPU inference, near-FP16 accuracy.</p></div>
+        <div class="card"><h3>Custom 2-bit</h3><p>A custom DeepSeek-V4 GGUF (IQ2XXS-w2Q2K) is what makes a 284B model physically fit.</p></div>
+      </div>      <div class="prose reveal"><p><strong>TurboQuant</strong> (Google's method, implemented in vLLM's Triton path) compresses KV cache to 2.5 to 3.5 bits per token via outlier handling, a Hadamard MSE transform, Lloyd clustering codebooks, and QJL 1-bit sign projection. This is what held <strong>4.7M tokens of KV cache resident</strong> to hit 3,426 tok/s.</p></div>
+      <div class="code reveal">
+<span class="c"># vLLM with TurboQuant KV-cache compression</span><br>
+vllm serve /models/target <span class="k">\</span><br>
+&nbsp;&nbsp;--tensor-parallel-size <span class="v">4</span> --attention-backend <span class="v">TRITON_ATTN</span> <span class="k">\</span><br>
+&nbsp;&nbsp;--kv-cache-dtype <span class="v">turboquant35</span> --enable-turboquant <span class="k">\</span><br>
+&nbsp;&nbsp;--turboquant-metadata-path <span class="v">/models/target/turboquant_kv.json</span>
+      </div>
+    </section>
+
+    <!-- 6 -->
+    <section id="s6">
+      <div class="sec-head reveal"><div class="sec-num">06</div><div><h2>Context engineering</h2><div class="sub">The biggest single skill</div></div></div>
+      <div class="plain reveal"><b>In plain English</b><p>Context is everything the model can see at once. Like a desk, it stops working when you pile too much on it. The trick is to quit dumping the whole codebase on the desk and instead let the model fetch only the few pages it needs, exactly when it needs them.</p></div>      <div class="grid g2 reveal">
+        <div class="card"><h3>RLM</h3><p>Recursive Language Models. Load a 32M-token codebase into a Python REPL variable; the root model writes code to walk it and spawns subagents that return distilled symbols, not text walls. 15% to 40% on long-horizon tasks, zero context rot.</p></div>
+        <div class="card"><h3>MemAgent</h3><p>Mega-context is a memory problem, not an attention problem. Chunk-wise RL over a fixed-token memory: 3.5M-token QA at under 5% loss, scaling linearly, on a base model with as little as 8K context.</p></div>
+        <div class="card"><h3>Optical compression</h3><p>The "JPEG moment." Render text as images for a VLM. DeepSeek-OCR: 97% decode at 10x compression. Glyph: 10k words to ~3k visual tokens.</p></div>
+        <div class="card"><h3>Sparse attention</h3><p>DeepSeek Sparse Attention drops 128K prefill from ~$0.70 to ~$0.10 per Mtok.</p></div>
+      </div>
+      <div class="grid g2 reveal" style="align-items:center">
+        <div class="stat"><div class="big">96.39%</div><div class="lab">Prefix-cache hit rate over a 6-hour local Claude Code session (46.3M prompt tokens, only ~1.3M actual prefill compute). Proof the cloud "unlimited" plan is a cache lottery, not physics.</div></div>
+        <div class="prose"><p>An <span class="mono-cell">awk</span> one-liner against vLLM <span class="mono-cell">/metrics</span> proves it: <span class="mono-cell">prefix_cache_hits_total / prefix_cache_queries_total</span>. The point: marginal cost is near zero, so the limits are pricing theater.</p></div>
+      </div>
+      <div class="plain reveal"><b>Beyond one session: local memory and retrieval</b><p>Context engineering handles a single conversation. For knowledge that should persist across sessions, build a private memory layer entirely on your own machine: local embeddings to index your notes and docs, plus a local re-ranker that re-sorts the top hits so the model sees the few best chunks, not the merely-similar ones. The re-ranker is the part most people skip, and it is what makes local retrieval feel sharp. None of it leaves your machine.</p></div>
+      <div class="plain reveal"><b>It is not just text</b><p>Local models do voice and vision too. Open multimodal models (Gemma-class) read images and run fully offline, and on-device speech models give you private dictation and transcription with no cloud. The same own-your-AI rules apply: pick a model that fits, serve it locally, keep the data on the machine.</p></div>
+    </section>
+
+    <!-- 7 -->
+    <section id="s7">
+      <div class="sec-head reveal"><div class="sec-num">07</div><div><h2>Throughput tuning</h2><div class="sub">How serving actually gets fast</div></div></div>
+      <div class="plain reveal"><b>In plain English</b><p>Throughput is how many words per second you get out. The surprise is that the limit is usually how fast the machine can move data around in memory, not how fast it can do math. So the real wins come from smarter shuffling and scheduling, not from a bigger graphics card.</p></div>
+      <ul class="clean reveal">
+        <li><b>Speculative decoding stacks.</b> DFlash (block-diffusion drafting, ~6x speedup) plus DDTree (single-pass draft tree, tree-attention verification, lossless). Watch mean acceptance length in the logs.</li>
+        <li><b>MoE expert placement is HBM-bound</b> (limited by how fast the card's memory moves data, not by its math). For 370 TPS from 4x A6000: pin the router thread to the nearest memory, re-tile the KV cache so live experts land on the fastest memory banks, and set queue depth to ~64 to hide latency.</li>
+        <li><b>Day / night daemon split.</b> Interactive low-latency by day, async long-context bulk work by night, same hardware.</li>
+      </ul>
+      <div class="tbl-wrap reveal">
+        <table>
+          <thead><tr><th>Setup</th><th>Result</th></tr></thead>
+          <tbody>
+            <tr><td>Qwen3.5-35B AWQ, 4x A6000, TurboQuant 3.5</td><td><b>3,426 tok/s</b> at 1M context, 4.7M-token KV cache resident</td></tr>
+            <tr><td>MiniMax M2 BF16/FP8, 4x A6000, vLLM + AIBrix</td><td><b>620 tok/s</b>, 6,000 concurrent sessions at 100% success, ~1.8kW</td></tr>
+            <tr><td>GLM-4.7-Flash on a single GB10</td><td><b>~1,470 tok/s</b> peak gen, 195 concurrent, zero queue</td></tr>
+            <tr><td>Gemma-4 31B AWQ on ONE A6000</td><td><b>129 concurrent</b> subagents, 100% success</td></tr>
+            <tr><td>DeepSeek V4-Flash, 1M context, single GB10</td><td><b>80 to 91 tok/s</b> per agent</td></tr>
+            <tr><td>Gemma4 2.3B in a browser tab (WebGPU, MacBook Air)</td><td><b>80 tok/s</b>, 2GB RAM per tab, fully offline</td></tr>
+            <tr><td>Qwen3-8B on a 2018 i5 CPU</td><td><b>3.27 tok/s</b> at ~16W</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- 8 -->
+    <section id="s8">
+      <div class="sec-head reveal"><div class="sec-num">08</div><div><h2>Coding agents on local models</h2><div class="sub">The everyday payoff</div></div></div>
+      <div class="prose reveal"><p>The pattern is always the same: take a cloud-shaped agent and repoint it at local weights.</p></div>
+      <div class="pills reveal">
+        <span class="pill"><b>Claude Code</b> headless, no account</span>
+        <span class="pill">opencode (32 concurrent)</span>
+        <span class="pill">Factory Droid</span>
+        <span class="pill">Kimi-CLI</span>
+        <span class="pill">Cursor</span>
+        <span class="pill">Cline</span>
+        <span class="pill">Kilo</span>
+        <span class="pill">Roo</span>
+        <span class="pill">Mistral Vibe</span>
+        <span class="pill">"16 systems on one GPU box"</span>
+      </div>
+      <div class="grid g2 reveal" style="align-items:center">
+        <div class="stat"><div class="big">Harness &gt; model</div><div class="lab">In agentic coding, the harness and context engineering often matter more than the base model. Well-configured local swarms can be competitive with frontier models on legacy codebases.</div></div>
+        <div class="prose"><p>Once the endpoint is yours, the interface is portable: any device that can hold a connection can act as a client, and a laptop can run the whole loop fully offline with a small local model.</p></div>
+      </div>
+    </section>
+
+    <!-- 9 -->
+    <section id="s9">
+      <div class="sec-head reveal"><div class="sec-num">09</div><div><h2>Swarms &amp; orchestration</h2><div class="sub">At scale, the job becomes shepherding</div></div></div>
+      <div class="plain reveal"><b>In plain English</b><p>A swarm is just many copies of the agent working at the same time, turning one worker into a whole crew. The hard part is no longer the work itself, it is handing out jobs and keeping the workers from stepping on each other.</p></div>
+      <div class="prose reveal"><p>At 10,000+ agents and a 35:1 AI-to-human ratio, there is no human UI; the backlog is the HUD.</p></div>
+      <ul class="clean reveal">
+        <li><b>Swarms.</b> Spawn, execute, report, die. Self-orchestrating swarms cut an OpenClaw deep-sweep from 3.5 hours and 19M tokens to ~10 minutes with 90% identical results.</li>
+        <li><b>Isolation.</b> Git-worktree per agent, or AgentFS (a SQLite .db holding files plus state plus tool_calls, so <span class="mono-cell">cp agent.db snapshot.db</span> is time travel and you can SQL-query agent behavior).</li>
+        <li><b>Legacy code is a graph, not a document corpus.</b> A tool like <span class="mono-cell">dede</span> exposes a Roslyn dependency graph as a skill so agents query blast radius instead of RAG-chunking across 40 repos.</li>
+        <li><b>Headless loop.</b> systemd timers plus <span class="mono-cell">flock</span> plus Radicle issue labels as a state machine. Offline-first, human-merge-at-the-end.</li>
+      </ul>    </section>
+
+    <!-- 10 -->
+    <section id="s10">
+      <div class="sec-head reveal"><div class="sec-num">10</div><div><h2>Safety &amp; zero-trust</h2><div class="sub">Model writes, harness restricts, sandbox contains</div></div></div>
+      <div class="plain reveal"><b>In plain English</b><p>Once an agent can run commands, treat it like a new intern: helpful, but you would not hand it every key on day one. The setup here lets it suggest actions while a checker approves them and a sealed room contains any mistakes.</p></div>
+      <div class="grid g2 reveal">
+        <div class="card"><h3>Hyperlight</h3><p>CNCF, Rust. Hardware-isolated micro VMs that spawn in ~1ms with microsecond guest calls and snapshot / restore, so a hallucinated rm -rf rewinds in microseconds.</p></div>
+        <div class="card"><h3>Firecracker + AgentFS</h3><p>microVM isolation for agents, formally verified with Quint.</p></div>
+        <div class="card"><h3>Aegis</h3><p>A zero-trust install gate. Ed25519-signed execution plans, SHA-256 hash-chained audit logs, AI architecturally incapable of escalation: never gets root, never generates argv, enforced via std::process::Command with no shell.</p></div>
+        <div class="card"><h3>Supply-chain hygiene</h3><p>Pin every artifact to a SHA-256, disable npm lifecycle scripts, generate an SBOM, sign with cosign, gate with Trivy and semgrep. "Can your stack survive pip install?"</p></div>
+      </div>    </section>
+
+    <!-- 11 -->
+    <section id="s11">
+      <div class="sec-head reveal"><div class="sec-num">11</div><div><h2>Self-improvement &amp; local training</h2><div class="sub">Train on the same desk</div></div></div>
+      <div class="plain reveal"><b>In plain English</b><p>You can also make a model better on your own machine, not just use it. The cheapest trick is to let it learn from its own best answers. You do not need a data center to get a real improvement.</p></div>
+      <div class="grid g2 reveal">
+        <div class="card"><h3>Self-distillation</h3><p>Apple SSD: SFT on the model's own unverified outputs, no RL, verifier, teacher, or execution. Qwen3-30B went 42.4% to 55.3% pass@1 on LiveCodeBench, +30% relative.</p></div>
+        <div class="card"><h3>GEPA + DSPy</h3><p>Genetic-Pareto prompt and skill optimization converges in ~50 iterations vs 5,000 brute-force, auto-harvesting high-success sessions.</p></div>
+        <div class="card"><h3>Tiny recursive models</h3><p>TRM (7M params, recursive self-calls) hits 45% ARC-AGI-1, beating models thousands of times larger. RSA lifts Qwen3-4B +29.9 on AIME with no verifiers.</p></div>
+        <div class="card"><h3>From-scratch training</h3><p>nanochat end to end on 4x A6000. Rust borrow-checker RL loops (prompt, cargo check, reward) hit 71.8% compile rate in a non-root sandbox.</p></div>
+      </div>
+      <div class="grid g2 reveal">
+        <div class="card"><h3>Close the loop</h3><p>The cheapest self-improvement: give the agent a way to verify its own output (tests, a compiler, a checker), then loop. It drafts, checks, and fixes until it passes. This is how teams run swarms of self-improving agents, no training required.</p></div>
+        <div class="card"><h3>Open post-training</h3><p>The RL stacks behind the big open models are themselves open. One of them post-trained a frontier-class model in about two days. You can use the same tools to post-train your own model on your own data.</p></div>
+      </div>    </section>
+
+    <!-- 12 -->
+    <section id="s12">
+      <div class="sec-head reveal"><div class="sec-num">12</div><div><h2>Adjacent use cases</h2><div class="sub">That prove the point</div></div></div>
+      <ul class="clean reveal">
+        <li><b>Reverse engineering, fully local.</b> Ghidra plus a local agent at 80 tok/s decompiled a 6.9MB binary in 110 seconds (9,426 functions, 250+ Windows APIs, 7 auto-generated docs). "Three weeks of RE engineers becomes a Sunday morning."</li>
+        <li><b>Private OCR.</b> GLM-OCR (0.9B) beats Gemini and GPT on doc parsing while running on vLLM.</li>
+        <li><b>Privacy as capability.</b> Local Qwen3.5-35B did text deanonymization at ~90% precision, the point being your writing style is a biometric, so it should never leave your machine. The same approach reverse-engineered an air fryer's API with a local model and mitmproxy.</li>
+        <li><b>Real-time / OT edge AI.</b> CASA: 100Hz perception, 10Hz decision, sub-10ms action, with Decision Contracts (TTL, multi-model consensus, a classical Z-score sanity check, SHA-256 audit ledger). "An agent should be a PID controller, not a philosophy major writing a dissertation."</li>
+      </ul>
+      <div class="plain reveal"><b>The killer use case: always-on, ambient agents</b><p>This is the thing only local can do. Because a local model is unlimited and has no per-call bill or rate limit, you can leave agents running around the clock. People run continuous security scans over their own codebase, watch a database for anomalies, and scrape the web every twenty minutes for opportunities, all 24/7. On cloud APIs that would cost more than the hardware; on local it is just electricity. A fleet of tireless workers that never sleeps, only possible when the model is yours.</p></div>
+      <div class="plain reveal"><b>Use it from anywhere, privately (the mesh trick)</b><p>Put a private mesh (Tailscale) across all your machines and your phone, and any device can use a model running on your home box from anywhere in the world, encrypted, never touching the public internet. Pair it with an orchestrator agent (Hermes or OpenClaw) that loads models and routes work across your machines for you, like an IT person you talk to in plain English. That is how a pile of computers becomes one personal AI cloud you own.</p></div>
+    </section>
+
+    <!-- 13 -->
+    <section id="s13">
+      <div class="sec-head reveal"><div class="sec-num">13</div><div><h2>Production at scale</h2><div class="sub">Hyperscale at home</div></div></div>
+      <div class="grid g3 reveal">
+        <div class="card"><h3>k8s + AIBrix</h3><p>The control plane. LLM-aware autoscaling on gpu_cache_usage_perc, distributed KV cache, KubeRay, high-density LoRA.</p></div>
+        <div class="card"><h3>HA for a team</h3><p>2x Ubuntu + MicroK8s, etcd on DRBD, Pacemaker VIP, LINSTOR, MetalLB, ArgoCD canary. Failover under 60s, serving Qwen3-Coder-30B at ~90 tok/s.</p></div>
+        <div class="card"><h3>AI Coding Factory</h3><p>Definition of Done as build gates: block merges below 85% coverage, security agent rejects vulnerable PRs. "Treat AI like an engineering org."</p></div>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<!-- 14 dark band -->
+<div class="band" id="s14">
+  <div class="band-inner reveal">
+    <div class="kicker">14 / The economics</div>
+    <h2>Cost is dominated by <em>cache</em>, not compute</h2>
+    <p>Which is why flat plans get rate-limited (at-scale swarms melt vendor infra) and why "unlimited" is psychological anchoring. The marginal cost of a local token is effectively zero after the capex.</p>
+    <div class="grid g3">
+      <div class="stat"><div class="big">88.7%</div><div class="lab">Of single-turn queries are answerable locally (Stanford intelligence-per-watt study)</div></div>
+      <div class="stat"><div class="big">80.4%</div><div class="lab">Energy cut from hybrid local-plus-cloud routing; 73.8% compute-cost cut</div></div>
+      <div class="stat"><div class="big">45%</div><div class="lab">Cost cut even from a merely 60%-accurate local router</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="shell">
+  <div></div>
+  <main style="padding-top:0">
+    <!-- 15 -->
+    <section id="s15" style="border-top:none">
+      <div class="sec-head reveal"><div class="sec-num">15</div><div><h2>The starting playbook</h2><div class="sub">Zero to local, in eight moves</div></div></div>
+      <div class="steps reveal">
+        <div class="step"><div class="st"><b>Pick a box you already own.</b> A MacBook Air, a gaming GPU, even an old ThinkPad. "There is no perfect guide. You just start."</div></div>
+        <div class="step"><div class="st"><b>Install llama.cpp,</b> pull a GGUF (start with Qwen3-Coder-30B or GLM-4.7-Flash), run llama-server.</div></div>
+        <div class="step"><div class="st"><b>Point your existing agent at it.</b> Set ANTHROPIC_BASE_URL to localhost and run Claude Code, or use Claude Code Router / fake-ollama for other tools.</div></div>
+        <div class="step"><div class="st"><b>Graduate to vLLM</b> when you need throughput and concurrency; add prefix caching and a KV-cache quant.</div></div>
+        <div class="step"><div class="st"><b>Add context engineering</b> (RLM for big repos, a dependency graph as a skill) before reaching for a bigger model.</div></div>
+        <div class="step"><div class="st"><b>Sandbox the agent</b> (Firecracker / Hyperlight) and gate installs (the Aegis pattern) the moment it can write to disk.</div></div>
+        <div class="step"><div class="st"><b>Scale out</b> with AIBrix on k8s only when one box is genuinely the bottleneck.</div></div>
+        <div class="step"><div class="st"><b>Keep it hybrid.</b> Run 90% local, route the rare hard problem out, and keep a contingency for the day a vendor returns budget_exceeded.</div></div>
+      </div>
+    </section>
+
+    <section id="sgd">
+      <div class="sec-head reveal"><div class="sec-num">&#9733;</div><div><h2>Go deeper: build it from first principles</h2><div class="sub">For when you want to understand it, not just use it</div></div></div>
+      <div class="plain reveal"><b>In plain English</b><p>The rest of this guide is about using local AI well. This part is for the curious: actually building the thing, so the rules stop being magic. The goal is to build, fine-tune, and ship a tiny model, not to study theory forever.</p></div>
+      <div class="wt-body reveal" style="max-width:72ch"><p>A no-fluff path from "what is a token" to "I trained a mini-GPT," in five phases. Skip what you know, rewatch what loses you.</p></div>
+      <div class="steps reveal">
+        <div class="step"><div class="st"><b>Phase 0, foundations.</b> Just enough matrix math and Python to not be scared of it. No five-year detour.</div></div>
+        <div class="step"><div class="st"><b>Phase 1, an autograd engine from scratch.</b> Build the tiny thing that does backpropagation, so training stops being a black box.</div></div>
+        <div class="step"><div class="st"><b>Phase 2, a mini-GPT from scratch.</b> Tokenizer, embeddings, attention, a transformer block, sampling. Hand-wire it once.</div></div>
+        <div class="step"><div class="st"><b>Phase 3, fine-tune for real.</b> Implement LoRA and fine-tune a small model on real data you care about.</div></div>
+        <div class="step"><div class="st"><b>Phase 4, make it efficient and ship it.</b> KV cache, FlashAttention, quantization, a simple serving loop. Now it is usable.</div></div>
+      </div>
+      <div class="wt-body reveal" style="max-width:72ch"><p><strong>Two free companions:</strong> a 214-page training playbook that walks the whole pipeline (pre-training, mid-training, post-training, tokenization, data, infra, and the real-world gotchas), and a single ~8000-line open-source project (nanochat) that goes end to end: train the tokenizer, pretrain, mid-train on conversations, supervised fine-tune, optionally reinforcement-learn, then serve it with a KV cache and chat with it. Read the playbook, build the project.</p></div>
+    </section>
+
+    <section id="s16">
+      <div class="sec-head reveal"><div class="sec-num">16</div><div><h2>Plain-English glossary</h2><div class="sub">Every bit of jargon, in one line</div></div></div>
+      <dl class="gloss reveal">
+        <div class="gterm"><dt>Token</dt><dd>A chunk of text, roughly a word or piece of one. Models read and write in tokens, and you pay by the token.</dd></div>
+        <div class="gterm"><dt>Inference</dt><dd>The model actually running to turn your request into an answer. "Serving" inference means doing this for many requests at once.</dd></div>
+        <div class="gterm"><dt>Prefill and decode</dt><dd>Two phases of a request. Prefill is the model reading your prompt; decode is it writing the reply one word at a time.</dd></div>
+        <div class="gterm"><dt>Context window</dt><dd>How much text the model can see at once. Like a desk, it stops working well when you pile too much onto it.</dd></div>
+        <div class="gterm"><dt>KV cache</dt><dd>The model's short-term memory of the current conversation. It grows with the context and eats graphics-card memory fast.</dd></div>
+        <div class="gterm"><dt>Prefix cache</dt><dd>Reusing the work already done on text the model has seen before, so repeated context is almost free. This is where most cloud cost hides.</dd></div>
+        <div class="gterm"><dt>Quantization</dt><dd>Storing the model's numbers with less precision to shrink it, like saving a photo as a smaller JPEG. Slightly less exact, but it fits.</dd></div>
+        <div class="gterm"><dt>GGUF, AWQ, FP8, NVFP4</dt><dd>File formats for those shrunk models. You just need one your engine has been tuned for; they are not interchangeable.</dd></div>
+        <div class="gterm"><dt>Mixture of experts (MoE)</dt><dd>A huge model that only switches on a small, relevant slice of itself for each word, so it runs fast despite its size.</dd></div>
+        <div class="gterm"><dt>Active vs total parameters</dt><dd>The model is enormous on paper (total), but only a small part fires per word (active). Active is what decides speed and memory.</dd></div>
+        <div class="gterm"><dt>Speculative decoding</dt><dd>Guess several words cheaply, then check them all in one pass. When the guesses are right, you get a big speed-up for free.</dd></div>
+        <div class="gterm"><dt>RAG</dt><dd>The older approach: search for relevant snippets and paste them into the prompt. Good for documents, clumsy for whole codebases.</dd></div>
+        <div class="gterm"><dt>RLM (recursive language model)</dt><dd>Instead of reading everything, the model writes a little program to look things up and gets back just the answer. No clogged window.</dd></div>
+        <div class="gterm"><dt>vLLM and llama.cpp</dt><dd>The two main programs that run and serve a model. vLLM is heavy-duty for many users; llama.cpp runs almost anywhere.</dd></div>
+        <div class="gterm"><dt>Throughput and latency</dt><dd>Throughput is words per second across everyone. Latency is how long before the first word shows up. You tune for one or the other.</dd></div>
+        <div class="gterm"><dt>Interconnect</dt><dd>The wiring between graphics cards (NVLink, PCIe, the network). When it is slow, it, not the chips, becomes the real bottleneck.</dd></div>
+        <div class="gterm"><dt>Sandbox</dt><dd>A sealed, throwaway room where an agent can act without touching your real machine. A bad command rewinds instead of doing harm.</dd></div>
+        <div class="gterm"><dt>Local-first / hybrid</dt><dd>Run almost everything on your own hardware and send only the rare hard problem to the cloud. Most of the savings, with a safety valve.</dd></div>
+        <div class="gterm"><dt>QAT (quantization-aware training)</dt><dd>A model trained to be shrunk, instead of shrunk after the fact. It keeps more quality at small sizes, so QAT versions (like Gemma's) run great on tiny memory. Prefer a QAT build when you see one.</dd></div>
+        <div class="gterm"><dt>Harness vs model vs serving</dt><dd>Three different things people mix up. The harness is the app that calls the model (Claude Code, Cowork). Serving is the engine that runs it (vLLM, MLX). The model is just the weights. Most "it's broken" problems are actually the harness.</dd></div>
+        <div class="gterm"><dt>Eval</dt><dd>A small set of your own real tasks, with the answers you would accept, that you run each model through to pick a winner. The only score that reflects your work, unlike a public leaderboard.</dd></div>
+        <div class="gterm"><dt>Offload (run bigger than your VRAM)</dt><dd>Keep most of the model in ordinary system RAM and only the active part on the GPU. It lets a small box touch much bigger models. The catch: system RAM is slower, so it becomes the bottleneck. Works especially well for mixture-of-experts (offload the idle experts). Tools: llama.cpp partial offload, KTransformers.</dd></div>
+        <div class="gterm"><dt>Private mesh (Tailscale)</dt><dd>A private, encrypted network across all your devices and your phone, so any of them can reach a model running on your home machine from anywhere, without going over the public internet. Turns a pile of computers into one personal AI cloud you own.</dd></div>
+        <div class="gterm"><dt>Ambient agents</dt><dd>Agents left running 24/7 because local has no per-call bill or rate limit: continuous security scans, anomaly watching, opportunity scraping. The use case cloud cannot match on cost.</dd></div>
+      </dl>
+    </section>
+
+    <section id="s17">
+      <div class="sec-head reveal"><div class="sec-num">17</div><div><h2>Common questions</h2><div class="sub">The things people actually ask</div></div></div>
+      <dl class="gloss reveal">
+        <div class="gterm"><dt>Do I need an expensive GPU?</dt><dd>No. Start on the computer you already have. A model runs on a normal laptop, just slower. You only buy hardware once you have outgrown what you own.</dd></div>
+        <div class="gterm"><dt>Is a local model as good as ChatGPT or Claude?</dt><dd>For most everyday coding and writing, the good open models are close enough. For the very hardest problems the big clouds still lead, which is why "mostly local, cloud for the rare hard one" is the sweet spot.</dd></div>
+        <div class="gterm"><dt>Is it hard to set up?</dt><dd>The first model runs in a few minutes with one free program. The advanced parts (serving, scaling, sandboxing) are optional and you add them only when you actually need them.</dd></div>
+        <div class="gterm"><dt>Is it free?</dt><dd>The software and the models are free. You pay in electricity and your own time, plus hardware if you scale up. There is no per-use bill and no surprise invoice.</dd></div>
+        <div class="gterm"><dt>Is it private and safe?</dt><dd>Yes, that is the whole point: nothing leaves your machine. If you let an agent run commands, put it in a sandbox first, a sealed room where any mistake can be undone.</dd></div>
+        <div class="gterm"><dt>Will my setup go out of date?</dt><dd>Model names change constantly, but the method does not. Swapping in a newer model is usually a one-line change, so you keep up without rebuilding anything.</dd></div>
+        <div class="gterm"><dt>When should I move past my laptop?</dt><dd>When more than one person or tool needs the model, or it feels too slow. Then add a dedicated box, and only later a cluster. Grow one step at a time.</dd></div>
+        <div class="gterm"><dt>What if I still need a frontier model sometimes?</dt><dd>Keep a cloud key as a backup and route only the rare hard problem to it. You get local cost and privacy by default, with full power on call.</dd></div>
+      </dl>
+    </section>
+  </main>
+</div>
+</div><!-- /tab-guide -->
+
+
+<!-- ============ TAB: CALCULATOR ============ -->
+<div class="panel" id="tab-calc" role="tabpanel" aria-labelledby="tab-calc-btn" tabindex="0">
+  <div class="calcwrap">
+    <div class="kicker reveal">Interactive</div>
+    <h1 class="title reveal" style="font-size:clamp(40px,6vw,72px)">Can I <em>run it?</em></h1>
+    <p class="dek reveal">Pick your hardware and a model. This tells you if it fits, how fast it will feel, and how much memory is left. Same math as the rest of the guide: capacity decides what fits, bandwidth decides the speed.</p>
+
+    <div class="calc reveal">
+      <div class="calc-card">
+        <h3>Your setup</h3>
+        <div class="field"><label for="hwPreset">Hardware <span class="hint">(pick one, or Custom)</span></label>
+          <select id="hwPreset"></select></div>
+        <div class="field row">
+          <div style="flex:1"><label for="mem">Memory (GB)</label><input id="mem" type="number" min="1" step="1" value="64"></div>
+          <div style="flex:1"><label for="bw">Bandwidth (GB/s)</label><input id="bw" type="number" min="1" step="1" value="307"></div>
+        </div>
+        <h3 style="margin-top:22px">The model</h3>
+        <div class="field"><label for="modelPreset">Quick pick <span class="hint">(or set values below)</span></label>
+          <select id="modelPreset"></select></div>
+        <div class="field row">
+          <div style="flex:1"><label for="params">Size (billion params)</label><input id="params" type="number" min="0.1" step="0.1" value="30"></div>
+          <div style="flex:1"><label for="quant">Quantization</label>
+            <select id="quant">
+              <option value="16">16-bit (full)</option>
+              <option value="8">8-bit</option>
+              <option value="4" selected>4-bit</option>
+              <option value="3">3-bit</option>
+              <option value="2">2-bit</option>
+            </select></div>
+        </div>
+        <div class="field check"><input id="moe" type="checkbox"><label for="moe">Mixture of experts (only part runs per word)</label></div>
+        <div class="field" id="activeWrap" hidden><label for="active">Active params (billion)</label><input id="active" type="number" min="0.1" step="0.1" value="3"></div>
+        <div class="field"><label for="ctx">Context (tokens) <span class="hint" id="ctxLabel">32k</span></label>
+          <input id="ctx" type="range" min="4000" max="1000000" step="4000" value="32000" style="width:100%;accent-color:var(--coral)"></div>
+      </div>
+
+      <div class="calc-card calc-out">
+        <div class="verdict" id="verdict">Set your values</div>
+        <div class="grid">
+          <div class="stat"><div class="big" id="oWeights">0 GB</div><div class="lab">model weights</div></div>
+          <div class="stat"><div class="big" id="oKV">0 GB</div><div class="lab">KV cache at this context (rough)</div></div>
+          <div class="stat"><div class="big" id="oNeed">0 GB</div><div class="lab">total memory needed</div></div>
+          <div class="stat"><div class="big" id="oSpeed">0</div><div class="lab">est. words per second</div></div>
+        </div>
+        <div class="barwrap">
+          <div class="blab"><span>memory used</span><span id="barTxt">0 / 64 GB</span></div>
+          <div class="bar"><div class="used" id="barUsed"></div></div>
+        </div>
+        <p class="calc-note" id="calcNote"></p>
+      </div>
+    </div>
+    <p class="calc-note reveal" style="max-width:760px">These are deliberately simple estimates to set expectations, not a benchmark. Weights are exact; KV cache and speed are rough (real numbers depend on the exact model, attention design, KV quantization, prompt length, and whether you run MLX, llama.cpp, vLLM, or SGLang). Decode speed assumes you are memory-bandwidth bound, which is true for almost all local single-stream use.</p>
+  </div>
+</div><!-- /tab-calc -->
+
+<!-- ============ TAB: TLDR WALKTHROUGH ============ -->
+<div class="panel" id="tab-walkthrough" role="tabpanel" aria-labelledby="tab-walkthrough-btn" tabindex="0">
+<div class="shell">
+  <nav class="toc" id="toc-w">
+    <div class="brand">// the build, end to end</div>
+    <a href="#w0"><span class="num">00</span> The reckoning</a>
+    <a href="#w1"><span class="num">01</span> Choosing your iron</a>
+    <a href="#w2"><span class="num">02</span> First light, one command</a>
+    <a href="#w3"><span class="num">03</span> Picking models in 2026</a>
+    <a href="#w4"><span class="num">04</span> Getting serious with vLLM</a>
+    <a href="#w5"><span class="num">05</span> The compression craft</a>
+    <a href="#w6"><span class="num">06</span> The context boss fight</a>
+    <a href="#w7"><span class="num">07</span> Wiring your agents</a>
+    <a href="#w8"><span class="num">08</span> Going multi-agent</a>
+    <a href="#w9"><span class="num">09</span> Locking it down</a>
+    <a href="#w10"><span class="num">10</span> Making it fast</a>
+    <a href="#w11"><span class="num">11</span> Self-improvement</a>
+    <a href="#w12"><span class="num">12</span> Scaling past one box</a>
+    <a href="#w13"><span class="num">13</span> Where this is heading</a>
+  </nav>
+  <main>
+    <header class="wt-hero">
+      <div class="kicker reveal">The full build, in order</div>
+      <h1 class="title reveal" style="font-size:clamp(40px,6vw,72px)">The Walkthrough</h1>
+      <p class="lead reveal">How you actually go from a cloud subscription to a sovereign AI operation on hardware you own. Read top to bottom. Weighted toward the most recent learnings, because this field reinvents itself every few weeks.</p>
+    </header>
+
+    <section class="chapter" id="w0">
+      <div class="ch-head reveal"><span class="ch-num">00</span><h2>The reckoning: why you start at all</h2></div>
+      <div class="reveal"><span class="ch-tag">Recent framing, 2026</span></div>
+      <div class="wt-body reveal">
+        <p class="drop">Before any hardware, the decision is economic and political. Through 2026 the story sharpened. The cheap era of cloud coding was venture money buying market share, and the repricing has arrived: usage-based billing, model multipliers, weekly caps that let you "code 30 minutes then wait 4.5 hours." One metered agent burned roughly $14 in under five minutes, which annualizes past $130,000. Put bluntly: your $19 seat became a $1,550 problem, 40x not 40 percent.</p>
+        <p>The second realization is quieter and more damning. Cloud output is not stable. A controlled experiment found quality moving in "a sinusoidal wave of genius and gibberish" tied to load and time of day, consistent with silent quantization, GPU spin-down, and swapped system prompts behind the curtain. Locally you get a model that is "deterministically dumb" but never changes underneath you.</p>
+        <p>Then came the events that turned a preference into a thesis. Multi-hour outages. Five-year data-retention changes. Whole frontier models suspended overnight by export directives. Each one made the same point. <strong>If your workflow depends on one vendor's API, you can be wrecked by a decision you did not make and cannot appeal.</strong></p>
+        <p>One honest caveat worth repeating: this is not a claim that local beats Claude on raw intelligence. It is resilience and privacy engineering. The endgame is hybrid. Run almost everything locally, route only the rare, hard, compressible problem out. That posture also happens to be the only real cure for Shadow AI, because the way to stop people pasting secrets into a chat box is to give them something local that is faster and better.</p>
+      </div>
+    </section>
+
+    <section class="chapter" id="w1">
+      <div class="ch-head reveal"><span class="ch-num">01</span><h2>Choosing your iron</h2></div>
+      <div class="reveal"><span class="ch-tag">Recent: GB10 era</span></div>
+      <div class="wt-body reveal">
+        <p class="drop">You do not need a datacenter. The most-used machine in 2026 is the NVIDIA GB10, a Grace-Blackwell box with 128GB of unified memory that fits in a sock drawer and sips 33 to 74 watts, yet runs DeepSeek V4 at a million tokens of context. The lesson it keeps proving is that <strong>unified memory plus a modern interconnect beats raw VRAM bragging rights for agentic work.</strong></p>
+        <p>If you want throughput, the other end of the fleet is an HP Z8 Fury with four RTX A6000 cards, around 192GB of VRAM. Critically, those A6000s are five years old. "It is not the car, it is the driver." Good engineering on vintage Ampere out-throughputs SaaS APIs, and it is worth real effort backporting new models onto unsupported old silicon rather than buying the latest card.</p>
+        <p>The value pick is AMD. The Ryzen AI MAX+ PRO 395 (Strix Halo) ships with 128GB of unified memory. A recent and very actionable hack: it is rated for 96GB of GPU memory, but a BIOS "edge AI server" mode plus Linux GTT and TTM tweaks unlock the full 128GB, enough to hold Qwen3-Coder-30B in BF16 at a million-token context with a 115GB footprint. Watch the thermals, the chip is new enough that the thermal daemon did not recognize its CPUID and triggered a shutdown until you pass <span class="mono-cell">thermald --ignore-cpuid-check</span>.</p>
+        <p>Two ideas worth internalizing early. First, the network can be the compute: a single A6000 can be shared across the LAN to a thin laptop by tunneling CUDA over QUIC. Second, the floor is absurdly low. A coding agent runs on a 2018 ThinkPad i5 at three tokens a second on battery. You can start with what is on your desk today.</p>
+      </div>
+    </section>
+
+    <section class="chapter" id="w2">
+      <div class="ch-head reveal"><span class="ch-num">02</span><h2>First light: one model, one command</h2></div>
+      <div class="reveal"><span class="ch-tag">The 10-minute on-ramp</span></div>
+      <div class="wt-body reveal">
+        <p class="drop">The fastest path to a working local model is llama.cpp. Install it, pull a GGUF (a good first pick is Qwen3-Coder-30B or GLM-4.7-Flash), and start <span class="mono-cell">llama-server</span>. You now have an OpenAI-shaped endpoint on localhost.</p>
+        <p>The move that makes it click is the drop-in. Almost every coding agent reads a base-URL environment variable, so you point the cloud tool at your own server and it simply works.</p>
+        <div class="code reveal">
+<span class="k">export</span> ANTHROPIC_BASE_URL=<span class="v">http://localhost:8080</span>   <span class="c"># llama.cpp</span><br>
+<span class="c"># launch Claude Code. It is now talking to your model, no account.</span>
+        </div>
+        <p>When a tool only speaks one dialect, you shim it. There is <span class="mono-cell">fake-ollama</span>, a tiny Rust proxy that answers the Ollama API so VS Code Copilot, Cline, and Roo think they are talking to Ollama while the traffic actually hits your real engine. Claude Code Router does the same translation for Claude Code into OpenAI-style backends. The pattern generalizes: the agent is just a client, and you own the server it points at.</p>
+        <p>Serious setups deliberately avoid Ollama and prefer llama.cpp and vLLM, because the whole point is control over batching, caching, and quantization, not a friendly wrapper that hides them.</p>
+      </div>
+    </section>
+
+    <section class="chapter" id="w3">
+      <div class="ch-head reveal"><span class="ch-num">03</span><h2>Picking your models in 2026</h2></div>
+      <div class="reveal"><span class="ch-tag">Recent: the open-weight flood</span></div>
+      <div class="wt-body reveal">
+        <p class="drop">The biggest shift of the year is that open weights, mostly from Chinese labs, caught the frontier. The framing: the era of the cloud-only frontier is over, the frontier is on your desk. The families worth running are Qwen (the hero, from 0.6B to 480B, with Qwen3-Coder-Next as the daily driver), GLM from Z.ai (the "Opus at home" line, with GLM-4.7-Flash as the fast-good-cheap pick), DeepSeek (the backend specialist, "the soul of a Fortune-500 senior dev"), Kimi K2 (swarm-native at a trillion params), MiniMax M2 (the "Anthropic in a bottle" coder), and Gemma plus Nemotron for the smaller and hybrid-architecture end.</p>
+        <p>The selection rules are consistent and contrarian. <strong>Efficiency is the new scaling, bigger is not better.</strong> A 27B dense model or a 3B-active mixture-of-experts on the Pareto frontier beats a trillion-param giant for almost all work, and the receipts back it: local coder swarms have been reported outperforming frontier models on some legacy codebases. <strong>Public benchmarks rarely predict fit;</strong> token efficiency, cost, and usability on your own tasks are better selection criteria. And <strong>match the model to the job:</strong> DeepSeek for enterprise Java and C#, small models for narrow repetitive agent tasks, not one model for everything.</p>
+        <p>The architectural through-line is sparsity. Mixture-of-experts with huge total params but tiny active params per token is exactly what makes frontier behavior fit in consumer memory. When you read a spec, the number that matters is active parameters, not total.</p>
+      </div>
+    </section>
+
+    <section class="chapter" id="w4">
+      <div class="ch-head reveal"><span class="ch-num">04</span><h2>Getting serious with vLLM</h2></div>
+      <div class="reveal"><span class="ch-tag">When one user becomes many</span></div>
+      <div class="wt-body reveal">
+        <p class="drop">llama.cpp gets you running. vLLM gets you fast and concurrent. It is the production serving engine, exposing OpenAI, Anthropic, and Ollama-compatible routes at once, with continuous batching, chunked prefill, and prefix caching. For new models you build it from source against nightly PyTorch to get day-zero support, and there are patches to run frontier models on unsupported older GPUs.</p>
+        <p>The single most important thing vLLM reveals is where the cost actually lives. Over a six-hour local coding session, a 96 percent prefix-cache hit rate was measured: of 46 million prompt tokens, only about 1.3 million were real prefill compute. Everything else was served from cache. <strong>The implication is that agentic coding cost is dominated by prefix cache (reused work on text the model has already seen), not generation,</strong> which is exactly why cloud flat plans get rate-limited and why "unlimited" is pricing theater rather than physics.</p>
+        <p>Practical defaults that recur in real configs: enable prefix caching, set a generous batched-token budget, tune max sequences to your concurrency, and pick an attention backend that supports your KV-cache quant. Then watch the metrics endpoint, the hit-rate and KV-utilization numbers tell you whether you are bottlenecked on cache, memory, or compute long before you guess.</p>
+      </div>
+    </section>
+
+    <section class="chapter" id="w5">
+      <div class="ch-head reveal"><span class="ch-num">05</span><h2>The compression craft</h2></div>
+      <div class="reveal"><span class="ch-tag">Recent: the KV cache</span></div>
+      <div class="wt-body reveal">
+        <p class="drop">This is where local engineering gets hard and where most of the wins are. Two layers compress: the weights and the KV cache. For weights the formats are GGUF, AWQ, FP8, NVFP4, and at the extreme BitNet 1.58-bit ternary, which gives roughly 10x memory savings and near-FP16 accuracy after a distillation warm-up. APEX is a recent favorite: mixture-of-experts-aware mixed precision on stock llama.cpp that beats Q8 and even F16 on perplexity at half the size by spending bits per expert and per layer.</p>
+        <p>But the recent obsession, and the bigger lever, is the KV cache. <strong>The battle is memory bandwidth, not FLOPs.</strong> Google's TurboQuant, implemented inside vLLM's Triton path, compresses the cache to two-and-a-half or three-and-a-half bits per token, using outlier handling, a Hadamard transform, clustering codebooks, and a one-bit sign projection. That is what lets a rig hold 4.7 million tokens of KV cache resident in GPU memory and hit 3,426 tokens per second on those vintage A6000s.</p>
+        <div class="code reveal">
+vllm serve /models/target <span class="k">\</span><br>
+&nbsp;&nbsp;--attention-backend <span class="v">TRITON_ATTN</span> <span class="k">\</span><br>
+&nbsp;&nbsp;--kv-cache-dtype <span class="v">turboquant35</span> --enable-turboquant
+        </div>
+        <p>For the truly large models, pushing the compressed cache to disk is how a 284B DeepSeek V4 runs at a million-token context on a single palm-sized box. The mental model to adopt: context tokens are now compute and storage you manage, not a free buffer you fill.</p>
+      </div>
+    </section>
+
+    <section class="chapter" id="w6">
+      <div class="ch-head reveal"><span class="ch-num">06</span><h2>The context boss fight</h2></div>
+      <div class="reveal"><span class="ch-tag">Recent: the big idea</span></div>
+      <div class="wt-body reveal">
+        <p class="drop">Everything above is plumbing. This is the skill that separates a toy from a system. The core insight, repeated all year and the most shared: stop stuffing the context window, give the model an environment instead. Dense-task performance falls off a cliff after roughly sixteen thousand tokens, so a million-token window is not the answer, it is the trap.</p>
+        <p>The primary weapon is the Recursive Language Model. Load a 32-million-token codebase into a Python REPL variable. The root model never sees the flood. It writes code to grep, slice, and walk the repo, and spawns sub-agents that return distilled symbols and variables, not walls of text. The result is no context rot and a jump from 15 to 40 percent on long-horizon tasks. The framing: RAG asked what is in the document, RLM asks what you can make the document do.</p>
+        <p>Two complements matter. MemAgent treats huge context as a memory-management problem, not an attention problem: chunk-wise reinforcement learning over a fixed-token memory delivers 3.5 million-token recall at under five percent loss, scaling linearly, even on a base model with an 8K window. And the "JPEG moment," rendering text as images for a vision model: DeepSeek-OCR decodes at 97 percent accuracy with tenfold compression, and Glyph turns ten thousand words into about three thousand visual tokens.</p>
+        <p>For codebases specifically, the recent reframe is that code is a graph, not a document corpus. A tool like <span class="mono-cell">dede</span> exposes a real dependency graph as a skill so the agent queries blast radius ("what breaks if I change this endpoint") instead of RAG-chunking blindly across forty repos. Navigation beats retrieval.</p>
+      </div>
+    </section>
+
+    <section class="chapter" id="w7">
+      <div class="ch-head reveal"><span class="ch-num">07</span><h2>Wiring your coding agents</h2></div>
+      <div class="reveal"><span class="ch-tag">The daily payoff</span></div>
+      <div class="wt-body reveal">
+        <p class="drop">With a fast local endpoint and real context engineering, the everyday loop is simple: take whatever agent you already like and repoint it. It is normal to run sixteen different AI dev systems against one GPU workstation. Claude Code headless with no account is the main harness, opencode when you want higher concurrency (32 parallel versus Claude Code's three on the same GPU), plus Droid, Kimi-CLI, Cursor, Cline, Kilo, Roo, and Mistral Vibe, all pointed at localhost.</p>
+        <p>Token cost is worth comparing here. The GitHub MCP server costs roughly 54,000 tokens just to load its spec before any call. The equivalent CLI help is 562 tokens and already sits in the model's training data. Skills cost 30 to 50 tokens until triggered. <strong>For agents, command-line tools plus progressively-disclosed skills are often cheaper, faster, and easier to debug than MCP servers.</strong></p>
+        <p>The other recent theme is "everything everywhere": once the endpoint is yours, the client is portable. Any device that can open a connection can become a client, including fully offline laptops. The point is that owning the server frees the interface.</p>
+      </div>
+    </section>
+
+    <section class="chapter" id="w8">
+      <div class="ch-head reveal"><span class="ch-num">08</span><h2>Going multi-agent</h2></div>
+      <div class="reveal"><span class="ch-tag">Recent: shepherding, not coding</span></div>
+      <div class="wt-body reveal">
+        <p class="drop">The jump from one agent to a swarm changes your job from writing code to shepherding processes. At ten thousand agents and a 35-to-1 AI-to-human ratio, the recurring lesson is that beyond a point there is no human UI at all, the backlog becomes the interface.</p>
+        <p>The pattern is spawn, execute, report, die. Self-orchestrating swarms that decide their own termination cut a deep codebase sweep from three and a half hours and nineteen million tokens to about ten minutes with ninety percent identical results. For isolation, the move is from git worktrees to AgentFS, where an entire agent runtime, files plus state plus tool calls, lives in a single SQLite file. That means <span class="mono-cell">cp agent.db snapshot.db</span> is time travel and you can run SQL queries over what your agents actually did.</p>
+        <p>At the top sits the orchestration loop, and the recent production shape is deliberately boring and offline-first: headless agents driven by systemd timers and file locks, with a decentralized issue queue (Radicle) acting as the state machine. A ticket labeled approved and queued gets locked, worked, patched, and marked done, and a human merges at the end. The queue is the HUD, coordination is the bottleneck, generation is not.</p>
+      </div>
+    </section>
+
+    <section class="chapter" id="w9">
+      <div class="ch-head reveal"><span class="ch-num">09</span><h2>Locking it down</h2></div>
+      <div class="reveal"><span class="ch-tag">Recent: model writes, harness restricts</span></div>
+      <div class="wt-body reveal">
+        <p class="drop">An agent that can write to disk is, put plainly, a junior developer with API keys and ambition. The division of labor is strict: the probabilistic model only suggests, deterministic code decides and enforces. The moment your agent can act, you sandbox and gate it.</p>
+        <p>For isolation, reach for Hyperlight, a Rust micro-VM that spawns hardware isolation in about a millisecond with microsecond guest calls and snapshot-restore, so a hallucinated destructive command rewinds in microseconds. Firecracker with AgentFS is the heavier option, formally verified. For installs and shell actions, Aegis is a zero-trust gate where every execution plan is Ed25519-signed and logged into a hash-chained, tamper-evident ledger, and the AI is architecturally incapable of escalation: it never gets root, never generates the argument vector, and is enforced through a no-shell process API. By default sudo, curl-pipe-bash, and unplanned package installs are forbidden.</p>
+        <p>The recent supply-chain thread, sharpened after a real poisoning incident, extends this to dependencies: pin every artifact to a hash, disable package lifecycle scripts, generate a software bill of materials, sign images, and gate with scanners. A practical test: whether your stack can survive a compromised <span class="mono-cell">pip install</span>. Some setups go further and decentralize the control plane itself, using tools like Radicle and IPFS over a private mesh.</p>
+      </div>
+    </section>
+
+    <section class="chapter" id="w10">
+      <div class="ch-head reveal"><span class="ch-num">10</span><h2>Making it fast</h2></div>
+      <div class="reveal"><span class="ch-tag">Recent: HBM, not FLOPs</span></div>
+      <div class="wt-body reveal">
+        <p class="drop">Once it works and is safe, you tune. The recurring discovery is that local serving speed is bound by memory bandwidth and expert routing, not raw compute. To pull 370 tokens per second from four A6000s, pin the router thread to a NUMA node (the memory bank physically closest to that processor), re-tile the KV cache so the live experts land on the fastest memory banks, set queue depth around 64 to hide latency, and trim per-client rope scaling (the math that lets a model stretch to longer text). None of that is "buy a bigger GPU."</p>
+        <p>On the algorithm side, stack speculative decoding (guess several words cheaply, then verify them all in one pass): DFlash drafts a whole block with one diffusion pass for roughly a sixfold speedup, and DDTree verifies a draft tree with tree attention while staying lossless. A recent fifty-line trick worth knowing is DeepConf, which prunes reasoning rollouts by the model's own token confidence and early-stops weak chains, hitting near-perfect AIME accuracy with up to 85 percent fewer tokens and no training at all.</p>
+        <p>The numbers that result are the proof of the whole discipline: 3,426 tokens per second at a million-token context on vintage cards, 620 tokens per second with six thousand concurrent sessions on one box, a million-token DeepSeek model at 80 to 91 tokens per second on a palm-sized machine, and a 2.3B model running in a browser tab at 80 tokens per second, fully offline.</p>
+      </div>
+    </section>
+
+    <section class="chapter" id="w11">
+      <div class="ch-head reveal"><span class="ch-num">11</span><h2>Teaching it to improve itself</h2></div>
+      <div class="reveal"><span class="ch-tag">Recent: training on the same desk</span></div>
+      <div class="wt-body reveal">
+        <p class="drop">The last layer is that you can train and improve models on the same hardware you serve from, and the recent methods make it cheap. Self-distillation is the standout: a model fine-tuned on its own unverified outputs, with no reinforcement learning, verifier, or teacher, moved a 30B model from 42 to 55 percent pass-rate on a coding benchmark, a thirty percent relative gain for almost nothing.</p>
+        <p>For prompts and skills, use DSPy with GEPA, a genetic-Pareto optimizer that converges in about fifty iterations versus thousands of brute-force trials and auto-harvests your high-success sessions as training signal. The recurring surprise from recent research is that tiny recursive models punch absurdly high: a seven-million-parameter recursive network beats models thousands of times larger on abstract reasoning, and recursive self-aggregation lifts a 4B model by thirty points on hard math with no verifier.</p>
+        <p>You can even train from scratch on the desk (nanochat on four A6000s) and run reinforcement loops where a model writes Rust and the compiler is the reward function, hitting a 72 percent compile rate inside a non-root sandbox. The point is not that you should pretrain a frontier model at home. It is that post-training, distillation, and merging are now things you own, which closes the loop on sovereignty.</p>
+      </div>
+    </section>
+
+    <section class="chapter" id="w12">
+      <div class="ch-head reveal"><span class="ch-num">12</span><h2>Scaling past one box</h2></div>
+      <div class="reveal"><span class="ch-tag">Hyperscale at home</span></div>
+      <div class="wt-body reveal">
+        <p class="drop">When a single machine is genuinely the bottleneck, you reach for Kubernetes and AIBrix, the preferred control plane, which adds LLM-aware autoscaling on cache utilization, distributed KV-cache routing, and high-density adapter management on top of vLLM. A mixed-vendor home cluster runs NVIDIA and AMD nodes side by side, scheduled together.</p>
+        <p>For a small team there is a full high-availability recipe: two nodes with MicroK8s, replicated etcd, a floating virtual IP managed by Pacemaker, mirrored storage, and canary deploys, with failover under a minute, serving a coding model at around ninety tokens per second. And the governance layer is treated as code: the definition of done becomes build gates, where a coverage threshold blocks merges and a security agent rejects vulnerable pull requests. The recurring guidance: treat the swarm like an engineering organization with policy, determinism, and audit, not an assistant.</p>
+      </div>
+    </section>
+
+    <section class="chapter" id="w13">
+      <div class="ch-head reveal"><span class="ch-num">13</span><h2>Where this is heading</h2></div>
+      <div class="reveal"><span class="ch-tag">Recent: the frontier of the frontier</span></div>
+      <div class="wt-body reveal">
+        <p class="drop">The most recent thinking points past the application layer entirely. The provocation is AI as operating-system plumbing rather than an app: a tiny neural net running in kernel space, intercepting events through eBPF and answering in under a hundred microseconds, escalating to a CPU model and then a GPU cluster only when needed, so most work never leaves ring zero and GPU calls drop by three quarters.</p>
+        <p>Around that sit the other threads worth pulling: the network as the compute, with inference tunneled between machines and decentralized peer-to-peer model meshes; self-improving agents where recursive improvement is "a YAML config" and cron jobs head into latent space; and a relentless push to decentralize code, weights, and compute so no single platform is a chokepoint.</p>
+        <p>The recurring practices across all of it: run the weights locally, invest in the system around the model, compress aggressively, give the model an environment rather than an ever-larger context window, sandbox anything that can act, and design so cloud services stay optional.</p>
+      </div>
+    </section>
+
+  </main>
+</div>
+</div><!-- /tab-walkthrough -->
+
+<!-- ============ TAB: ENGINES ============ -->
+<div class="panel" id="tab-engines" role="tabpanel" aria-labelledby="tab-engines-btn" tabindex="0">
+<div class="shell">
+  <nav class="toc" id="toc-e">
+    <div class="brand">// the engine follows</div>
+    <a href="#e0"><span class="num">00</span> The core principle</a>
+    <a href="#e1"><span class="num">01</span> The decision guide</a>
+    <a href="#e2"><span class="num">02</span> What an engine does</a>
+    <a href="#e3"><span class="num">03</span> The real bottlenecks</a>
+    <a href="#e4"><span class="num">04</span> The four families</a>
+    <a href="#e5"><span class="num">05</span> Engine by engine</a>
+    <a href="#e6"><span class="num">06</span> Hardware recipes</a>
+    <a href="#e7"><span class="num">07</span> Benchmarking</a>
+    <a href="#e8"><span class="num">08</span> Common mistakes</a>
+    <a href="#e9"><span class="num">09</span> The final map</a>
+    <a href="#e10"><span class="num">10</span> Field notes: kernels</a>
+  </nav>
+  <main>
+    <header class="wt-hero">
+      <div class="kicker reveal">The software layer that turns hardware into inference</div>
+      <h1 class="title reveal" style="font-size:clamp(40px,6vw,72px)">The <em>Engines</em></h1>
+      <p class="lead reveal">A 2026 field guide to LLM inference engines. The one rule above all the rest: you do not choose the engine first, you choose a hardware strategy, a workload shape, and a serving model. The engine follows.</p>
+      <p class="bridge reveal">Section three of the Guide named the core engines, vLLM, llama.cpp, SGLang. This is the decision layer beneath them: every major inference engine in 2026, the hardware and workload each one fits, and how to choose without guessing.</p>
+    </header>
+
+    <section class="chapter" id="e0">
+      <div class="ch-head reveal"><span class="ch-num">00</span><h2>The core principle</h2></div>
+      <div class="plain reveal"><b>In plain English</b><p>The model is the thing that knows stuff. The engine is everything that makes it usable: it lines up requests, manages memory, and hands back the words. The whole point of this tab is that you choose the engine last, after you know your hardware and how you will use it.</p></div>
+      <div class="wt-body reveal">
+        <p class="drop">An inference engine is not the model. It is the traffic cop, the memory manager, the kernel dispatcher, the scheduler, the cache accountant, the parallelism planner, the API surface, and sometimes the deployment framework. The best engine matches your memory hierarchy, interconnect, quantization format, latency and throughput targets, model architecture, and operational maturity. Pick the strategy, and the engine reveals itself.</p>
+      </div>
+      <div class="wt-body reveal">
+        <p>The workload has two phases, and the split explains almost everything. <strong>Prefill</strong> reads the prompt and builds the initial cache; it is compute-intensive. <strong>Decode</strong> generates one token at a time, repeatedly reading weights and cache; it is memory-bandwidth-bound. Decode speed tracks memory bandwidth more than peak compute.</p>
+      </div>
+      <ul class="clean reveal">
+        <li><b>Short prompt, long answer:</b> decode dominates, so memory bandwidth and batching matter.</li>
+        <li><b>Long prompt, short answer:</b> prefill dominates, so attention kernels and chunked prefill matter.</li>
+        <li><b>Many users:</b> scheduler quality matters, so continuous batching, cache paging, and fairness matter.</li>
+        <li><b>Long context:</b> the KV cache dominates, so paged attention, KV quantization, and offload matter.</li>
+        <li><b>MoE:</b> expert routing dominates, so expert parallelism and interconnect matter.</li>
+        <li><b>Multi-node:</b> interconnect dominates, so NVLink, RDMA, pipeline parallelism, and disaggregation matter.</li>
+      </ul>
+    </section>
+
+    <section class="chapter" id="e1">
+      <div class="ch-head reveal"><span class="ch-num">01</span><h2>The one-page decision guide</h2></div>
+      <div class="reveal"><span class="ch-tag">Start here</span></div>
+      <div class="tbl-wrap reveal">
+        <table>
+          <thead><tr><th>Your situation</th><th>Reach for</th><th>Family</th></tr></thead>
+          <tbody>
+            <tr><td>Laptop, edge, or odd hardware</td><td><b>llama.cpp</b></td><td class="mono-cell">portable</td></tr>
+            <tr><td>Mac-first workflows</td><td><b>MLX / MLX-LM</b></td><td class="mono-cell">apple</td></tr>
+            <tr><td>Single RTX local inference</td><td><b>ExLlamaV2</b></td><td class="mono-cell">consumer CUDA</td></tr>
+            <tr><td>2 to 4+ NVIDIA / CUDA GPUs</td><td><b>ExLlamaV3</b></td><td class="mono-cell">consumer CUDA</td></tr>
+            <tr><td>General production serving</td><td><b>vLLM</b></td><td class="mono-cell">production</td></tr>
+            <tr><td>Long-context / MoE / routing</td><td><b>SGLang</b></td><td class="mono-cell">production</td></tr>
+            <tr><td>NVIDIA max performance</td><td><b>TensorRT-LLM</b></td><td class="mono-cell">production</td></tr>
+            <tr><td>Cluster orchestration</td><td><b>NVIDIA Dynamo</b></td><td class="mono-cell">orchestration</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="wt-body reveal"><p>Everything below explains why. The short version: the engine is downstream of your iron, your traffic, and your tolerance for operational complexity.</p></div>
+    </section>
+
+    <section class="chapter" id="e2">
+      <div class="ch-head reveal"><span class="ch-num">02</span><h2>What an engine actually does</h2></div>
+      <div class="wt-body reveal">
+        <p class="drop">At minimum, an engine loads weights, tokenizes input, runs the forward pass, samples tokens, maintains the KV cache, and streams results. Serious engines add batching, scheduling, prefix caching, quantization, parallel execution, API serving, metrics, and distributed execution. The recurring theme across every advance is the same: inference performance is memory movement plus scheduling.</p>
+        <p>The landmark techniques all attack that theme. <strong>PagedAttention</strong> tackled KV-cache fragmentation by partitioning it into blocks, raising utilization and enabling larger batches. <strong>FlashAttention</strong> used IO-aware tiling to cut high-bandwidth-memory traffic. <strong>Speculative decoding</strong> drafts cheap tokens and verifies them in parallel. None of these make the GPU compute faster. They move less memory and schedule it better.</p>
+      </div>
+    </section>
+
+    <section class="chapter" id="e3">
+      <div class="ch-head reveal"><span class="ch-num">03</span><h2>The real bottlenecks</h2></div>
+      <div class="grid g2 reveal" style="margin-bottom:6px">
+        <div class="stat"><div class="big">819 GB/s</div><div class="lab">Apple M3 Ultra unified-memory bandwidth. Lets you fit models that would not fit in consumer VRAM.</div></div>
+        <div class="stat"><div class="big">3.35 TB/s</div><div class="lab">NVIDIA H100 SXM memory bandwidth. Serves them faster once the model fits. Fit is not speed.</div></div>
+      </div>
+      <ul class="clean reveal">
+        <li><b>Memory bandwidth, not just VRAM size.</b> VRAM determines fit. Bandwidth determines decode speed. Capacity is not bandwidth.</li>
+        <li><b>KV cache growth.</b> It grows with batch size and context length, so long-context workloads run out of memory even when weights fit. PagedAttention is the answer.</li>
+        <li><b>Interconnect.</b> The moment a model crosses GPU boundaries you pay communication cost: tensor parallelism needs frequent all-reduce, expert parallelism needs all-to-all. Without NVLink, pipeline parallelism can beat tensor parallelism.</li>
+        <li><b>Scheduler quality.</b> Supporting batching is not the same as a production-ready scheduler that decides which requests batch, how prefill and decode share the accelerator, and how to avoid starvation.</li>
+        <li><b>Runtime overhead.</b> CUDA graphs, kernel fusion, sampling, tokenizer, HTTP, LoRA switching, and structured decoding. At scale the annoying two-percent overheads form a union and demand attention.</li>
+      </ul>
+    </section>
+
+    <section class="chapter" id="e4">
+      <div class="ch-head reveal"><span class="ch-num">04</span><h2>The four families</h2></div>
+      <div class="grid g2 reveal">
+        <div class="card"><h3><span class="fam-chip fam-portable">portable</span> Local runtimes</h3><p>llama.cpp, MLC LLM, ONNX Runtime GenAI, OpenVINO. They care about one thing: make it run here, on whatever hardware you have.</p></div>
+        <div class="card"><h3><span class="fam-chip fam-apple">apple</span> Unified-memory</h3><p>MLX and MLX-LM. Built to use Apple's big shared memory pool and its stack well, on Mac first.</p></div>
+        <div class="card"><h3><span class="fam-chip fam-cuda">consumer CUDA</span> Quant engines</h3><p>ExLlamaV2 and ExLlamaV3. Make a 3090 / 4090 / 5090 box scream with low-bit weights.</p></div>
+        <div class="card"><h3><span class="fam-chip fam-prod">production</span> Serving engines</h3><p>vLLM, SGLang, TensorRT-LLM, TGI, LMDeploy. Concurrent users, KV cache, batching, parallelism, observability, cost per token.</p></div>
+      </div>
+      <div class="wt-body reveal"><p>Above all of these sits an <strong>orchestration layer</strong> like NVIDIA Dynamo, which coordinates fleets, disaggregated prefill and decode, routing, and autoscaling across multiple engines.</p></div>
+    </section>
+
+    <section class="chapter" id="e5">
+      <div class="ch-head reveal"><span class="ch-num">05</span><h2>Engine by engine</h2></div>
+      <div class="grid g2 reveal">
+        <div class="eng"><div class="eh"><span class="fam-chip fam-portable">portable</span><h3>llama.cpp</h3></div><p>The portability king. Apple Silicon via Metal, x86 via AVX and AMX, plus RISC-V, CUDA, AMD HIP, Vulkan, SYCL, and CPU-plus-GPU hybrid offload. Its HTTP server is far more than a toy: OpenAI and Anthropic routes, reranking, continuous batching, multimodal, JSON-schema constraints, function calling, and speculative decoding.</p><div class="verdict"><b>Verdict</b>Use when portability, offline operation, GGUF, or hybrid offload matter more than fleet-scale serving. Do not use it for multi-GPU or serious multi-node production; its RPC backend is documented as fragile and insecure.</div></div>
+        <div class="eng"><div class="eh"><span class="fam-chip fam-apple">apple</span><h3>MLX / MLX-LM</h3></div><p>Apple's array framework and its LLM package. The key fact is unified memory: CPU and GPU share one pool, so the question shifts from "does it fit in VRAM" to "does it fit in memory, and can the memory feed the GPU fast enough." Large quantized models fit where a 24GB card would fail. It is also slower than HBM.</p><div class="verdict"><b>Verdict</b>Use for Mac-first ML and LLM work. For high-concurrency public serving, start with a real serving stack; the MLX-LM server itself warns it is not for production.</div></div>
+        <div class="eng"><div class="eh"><span class="fam-chip fam-cuda">consumer CUDA</span><h3>ExLlamaV2</h3></div><p>The enthusiast's local CUDA engine. Paged attention, dynamic batching, prompt caching, KV-cache deduplication, streaming, and speculative decoding. The word to remember is local: it makes EXL2 quantized models fast on consumer cards.</p><div class="verdict"><b>Verdict</b>The pick for a single 3090 / 4090 / 5090 box running a local coding assistant or chat.</div></div>
+        <div class="eng"><div class="eh"><span class="fam-chip fam-cuda">consumer CUDA</span><h3>ExLlamaV3</h3></div><p>Extends the philosophy to multi-GPU and local MoE. Adds the EXL3 format based on QTIP, flexible tensor and expert parallelism for consumer hardware, an OpenAI-compatible server via TabbyAPI, and multimodal support.</p><div class="verdict"><b>Verdict</b>The frontier for 2 to 4+ consumer NVIDIA GPUs or local MoE. Expect rougher edges for better capability; some models do not support its parallelism.</div></div>
+        <div class="eng"><div class="eh"><span class="fam-chip fam-prod">production</span><h3>vLLM</h3></div><p>The default open-source production server, and the first engine most teams should evaluate. PagedAttention, continuous batching, chunked prefill, prefix caching, wide quantization (FP8, MXFP4, NVFP4, INT8/4, GPTQ, AWQ, GGUF), speculative decoding, and disaggregated prefill/decode. Tensor, pipeline, data, expert, and context parallelism, OpenAI and Anthropic APIs, multi-LoRA, across NVIDIA, AMD, and more.</p><div class="verdict"><b>Verdict</b>If someone says "we need to serve open models in production," this is the default starting point. It does not remove the need for systems thinking; you still tune batching, parallelism layout, and routing.</div></div>
+        <div class="eng"><div class="eh"><span class="fam-chip fam-prod">production</span><h3>SGLang</h3></div><p>vLLM's systems-brained cousin, for when the workload is ugly: structured outputs, long context, MoE, routing. RadixAttention prefix caching, and the differentiator, prefill-decode disaggregation that splits compute-heavy prefill from memory-heavy decode into specialized instances so long prefills do not spike decode latency.</p><div class="verdict"><b>Verdict</b>For teams whose bottleneck is no longer "can we run it" but "can we run it under hostile traffic without torching latency, memory, and cost."</div></div>
+        <div class="eng"><div class="eh"><span class="fam-chip fam-prod">production</span><h3>TensorRT-LLM</h3></div><p>The NVIDIA-max-performance stack. Builds optimized TensorRT engines with custom attention, GEMM, and MoE kernels, prefill-decode disaggregation, wide expert parallelism, and speculative decoding. B200 loads FP4 with optimized kernels; H100 and later run FP8 that can double performance and halve memory versus 16-bit.</p><div class="verdict"><b>Verdict</b>If you are committed to NVIDIA and care about absolute performance, it belongs in the bake-off. You trade portability for performance: awkward on AMD, Apple, or fast-changing experimental models.</div></div>
+        <div class="eng"><div class="eh"><span class="fam-chip fam-orch">orchestration</span><h3>NVIDIA Dynamo</h3></div><p>A distributed orchestration layer above engines like vLLM, SGLang, and TensorRT-LLM. Disaggregation, intelligent KV-aware routing, multi-tier KV caching, and autoscaling.</p><div class="verdict"><b>Verdict</b>Reach for it when single-engine serving is no longer enough and you are coordinating a fleet.</div></div>
+      </div>
+      <div class="wt-body reveal"><p style="margin-top:24px"><strong>The rest of the field.</strong> TGI is Hugging Face's production server, good when HF integration and simplicity matter. MLC LLM is the compiler-first universal engine for shipping to browser, mobile, and native apps. ONNX Runtime GenAI powers Foundry Local and Windows ML across CPU, CUDA, DirectML, WebGPU, and more, best for app deployment. OpenVINO GenAI is the Intel story for Xeon, Arc, and NPUs. LMDeploy is a CUDA toolkit with TurboMind, an alternative to vLLM and SGLang.</p></div>
+      <div class="warn reveal"><b>One hard exclusion.</b> Do not use Ollama for anything serious. It is pleasant, but for real work reach for llama.cpp (control and portability) or a proper serving stack (concurrency, security, observability). Convenience wrappers hide exactly the batching, caching, and quant levers you need.</div>
+    </section>
+
+    <section class="chapter" id="e6">
+      <div class="ch-head reveal"><span class="ch-num">06</span><h2>Hardware strategy recipes</h2></div>
+      <div class="tbl-wrap reveal">
+        <table>
+          <thead><tr><th>Hardware</th><th>Recipe</th></tr></thead>
+          <tbody>
+            <tr><td>CPU-only server</td><td>llama.cpp first. OpenVINO for Intel Xeon. ONNX Runtime GenAI for app / ONNX deployment.</td></tr>
+            <tr><td>MacBook / Mac Studio</td><td>MLX / MLX-LM for Mac-native work. llama.cpp for GGUF portability.</td></tr>
+            <tr><td>Single RTX 3090 / 4090 / 5090</td><td>ExLlamaV2 for EXL2. llama.cpp for GGUF. vLLM if serving multiple users.</td></tr>
+            <tr><td>Dual or quad consumer RTX</td><td>ExLlamaV3 for multi-GPU quant or MoE. vLLM if serving behavior matters. SGLang for routing / long context.</td></tr>
+            <tr><td>8x H100 / H200 node</td><td>Start with vLLM or SGLang. Benchmark TensorRT-LLM if NVIDIA-only and performance justifies it. Dynamo when multi-node.</td></tr>
+            <tr><td>B200 / GB200 / GB300 class</td><td>Benchmark TensorRT-LLM, SGLang, and vLLM. Add Dynamo for fleet routing and autoscaling.</td></tr>
+            <tr><td>AMD MI300 / MI325 / MI355</td><td>vLLM or SGLang on ROCm. Do not assume NVIDIA benchmarks transfer cleanly.</td></tr>
+            <tr><td>Intel Xeon / Core Ultra / Arc</td><td>OpenVINO GenAI or OpenVINO Model Server. ONNX Runtime GenAI for app embedding.</td></tr>
+            <tr><td>Browser, mobile, app-native</td><td>MLC LLM / WebLLM, or ONNX Runtime GenAI.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="chapter" id="e7">
+      <div class="ch-head reveal"><span class="ch-num">07</span><h2>Benchmarking: what to measure</h2></div>
+      <div class="warn reveal" style="background:#202b22;border-color:#36452f"><b>Bad benchmark:</b> "I got 180 tokens per second." It says almost nothing without the model, the weights, the workload shape, and the concurrency behind it.</div>
+      <div class="grid g3 reveal">
+        <div class="card"><h3>Model</h3><p>Exact model, architecture, parameter count, active MoE params.</p></div>
+        <div class="card"><h3>Weights</h3><p>Dtype, quant format, group size, calibration.</p></div>
+        <div class="card"><h3>Engine</h3><p>Version, commit, backend, flags.</p></div>
+        <div class="card"><h3>Hardware</h3><p>GPU SKU, memory capacity and bandwidth, interconnect, CPU, RAM.</p></div>
+        <div class="card"><h3>Workload</h3><p>Input/output length distributions, concurrency, streaming, shared prefixes, structured output.</p></div>
+        <div class="card"><h3>Metrics</h3><p>TTFT, TPOT, end-to-end latency, p50/p95/p99, tokens and requests per second, KV-cache hit rate, prefill vs decode throughput, cost per million tokens.</p></div>
+      </div>
+      <ul class="clean reveal">
+        <li>Never compare engines using only single-user tokens per second.</li>
+        <li>Test your actual prompt and output distribution, at realistic concurrency.</li>
+        <li>Separate prefill from decode. Track p95 and p99, not just averages.</li>
+        <li>Measure memory headroom at your target context length, and cache reuse if you have repeated prefixes.</li>
+        <li>Benchmark structured output, LoRA, and multi-LoRA separately; grammar and adapters add overhead.</li>
+        <li>Re-test after every driver, CUDA, ROCm, model, or engine upgrade.</li>
+      </ul>
+    </section>
+
+    <section class="chapter" id="e8">
+      <div class="ch-head reveal"><span class="ch-num">08</span><h2>Common mistakes</h2></div>
+      <ul class="clean reveal">
+        <li><b>Choosing by VRAM capacity alone.</b> VRAM determines fit; bandwidth and scheduler determine speed. A big unified-memory machine fits huge models, but an H100 decodes faster when the model fits.</li>
+        <li><b>Tensor parallelism on weak interconnect.</b> Without NVLink or NVSwitch, test pipeline parallelism instead.</li>
+        <li><b>Ignoring the KV cache.</b> At long context and high concurrency it becomes the limiting factor. Paged attention, prefix caching, KV quantization, and disaggregation are not optional at scale.</li>
+        <li><b>Treating local engines as production servers.</b> Production means security, observability, backpressure, routing, autoscaling, and SLA behavior. The llama.cpp and MLX-LM servers are capable and convenient, but the latter warns it is not for production.</li>
+        <li><b>Assuming quant formats are portable.</b> GGUF, EXL2, EXL3, AWQ, GPTQ, FP8, FP4, MLX, and ONNX are not interchangeable. The right format is the one your engine has optimized kernels for.</li>
+        <li><b>Ignoring model architecture.</b> Dense, MoE, hybrid-attention, multimodal, and long-context variants stress different parts of an engine. Broad support does not mean every optimization works equally.</li>
+        <li><b>Trusting benchmark charts without workload shape.</b> A chart for an 8B model at 1K-in / 128-out says little about a coding agent at 80K context, or a RAG service with 500 concurrent users.</li>
+      </ul>
+    </section>
+
+    <section class="chapter" id="e9">
+      <div class="ch-head reveal"><span class="ch-num">09</span><h2>The opinionated final map</h2></div>
+      <div class="grid g2 reveal">
+        <div class="card"><h3>Local AI user</h3><p>llama.cpp for control. MLX on Mac. ExLlamaV2 or V3 for CUDA local performance.</p></div>
+        <div class="card"><h3>Building a local agent</h3><p>llama.cpp for portability. MLX on Apple Silicon. vLLM to simulate production locally.</p></div>
+        <div class="card"><h3>Serving an internal team</h3><p>Start with vLLM. Move to SGLang for structured outputs, long context, multi-LoRA, MoE, or routing.</p></div>
+        <div class="card"><h3>Serving customers at scale</h3><p>Benchmark vLLM, SGLang, and TensorRT-LLM. If routing and disaggregation matter, SGLang and Dynamo earn attention.</p></div>
+        <div class="card"><h3>NVIDIA datacenter</h3><p>TensorRT-LLM for max performance, vLLM for flexibility, SGLang for complex serving, Dynamo for fleet orchestration.</p></div>
+        <div class="card"><h3>Edge, app, browser, Windows</h3><p>llama.cpp, MLC LLM, ONNX Runtime GenAI, or OpenVINO, depending on the stack.</p></div>
+      </div>
+      <div class="wt-body reveal"><p style="margin-top:22px"><strong>The final principle.</strong> Inference engines have consequences. Pick the engine only after you can answer these:</p></div>
+      <ul class="clean reveal">
+        <li>What hardware do I actually have, and does the model fit in fast memory or only in system / unified memory?</li>
+        <li>Is decode or prefill my bottleneck? What context length and concurrency matter?</li>
+        <li>Are prompts shared enough for prefix caching? Is the model dense, MoE, multimodal, or hybrid?</li>
+        <li>Do I need local convenience, production serving, or fleet orchestration?</li>
+        <li>What quant format has optimized kernels on my target engine?</li>
+        <li>Is my interconnect PCIe, NVLink, NVSwitch, Ethernet, RDMA, or Thunderbolt?</li>
+        <li>Am I optimizing latency, throughput, cost, privacy, portability, or developer speed?</li>
+      </ul>
+    </section>
+
+    <section class="chapter" id="e10">
+      <div class="ch-head reveal"><span class="ch-num">10</span><h2>Field notes: kernels and bandwidth</h2></div>
+      <div class="reveal"><span class="ch-tag">Fresh from the field, 2026</span></div>
+      <div class="plain reveal"><b>In plain English</b><p>Two ideas that explain why the same model can feel fast on one setup and painful on another. First, the model is just a blueprint; the real work happens in tiny programs called kernels, and good ones are far faster. Second, your machine's ceiling is three things multiplied together, not one big number.</p></div>
+      <div class="wt-body reveal"><p>A kernel is the small, hardware-specific routine that does one job: a matrix multiply, an attention step, a normalization, a sampling step. A good engine fuses these so the GPU does not write half-results back to memory over and over. Bad kernels make people say "this model is slow." Good kernels make the same model fly. This is why the engine choice from the decision guide matters so much.</p></div>
+      <div class="wt-body reveal"><p><strong>The hardware formula:</strong> what your box can do equals <span class="mono-cell">capacity &times; bandwidth &times; software stack</span>. Capacity (memory) tells you what fits. Bandwidth tells you how hard the box can breathe. The software stack (engine plus kernels) tells you how much of that spec sheet you actually cash out. Most people buy capacity, forget bandwidth, and ignore the stack, then blame the model.</p></div>
+      <div class="grid g2 reveal">
+        <div class="stat"><div class="big">14.5 &rarr; 64</div><div class="lab">tok/s on 2x RTX 3090 just by moving to vLLM with tensor-parallel across both cards. Same hardware, ~4x faster.</div></div>
+        <div class="stat"><div class="big">32 &rarr; 110</div><div class="lab">tok/s on an RTX PRO 6000 by moving to SGLang. Same card, ~3x faster, all from the software stack.</div></div>
+      </div>
+      <div class="wt-body reveal"><p><strong>Hardware by memory bandwidth</strong> (the number that sets decode speed), newest reference:</p></div>
+      <div class="tbl-wrap reveal">
+        <table>
+          <thead><tr><th>Hardware</th><th>Memory</th><th>Bandwidth</th></tr></thead>
+          <tbody>
+            <tr><td>RTX PRO 6000 Blackwell</td><td class="mono-cell">96 GB</td><td><b>1792 GB/s</b></td></tr>
+            <tr><td>RTX 5090</td><td class="mono-cell">32 GB</td><td><b>1792 GB/s</b></td></tr>
+            <tr><td>RTX 4090</td><td class="mono-cell">24 GB</td><td><b>1008 GB/s</b></td></tr>
+            <tr><td>Radeon PRO W7900</td><td class="mono-cell">48 GB</td><td><b>864 GB/s</b></td></tr>
+            <tr><td>Mac Studio M3 Ultra</td><td class="mono-cell">up to 512 GB</td><td><b>819 GB/s</b></td></tr>
+            <tr><td>MacBook Pro M5 Max</td><td class="mono-cell">128 GB</td><td><b>460 to 614 GB/s</b></td></tr>
+            <tr><td>MacBook Pro M5 Pro</td><td class="mono-cell">64 GB</td><td><b>307 GB/s</b></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="wt-body reveal"><p>Notice the pattern: a small desktop GPU can have far more bandwidth than a big laptop, which is why a 24 GB RTX 4090 decodes faster than a 64 GB Mac on a model that fits both. Capacity lets you load it; bandwidth lets you run it. The starter rig many people land on: two used RTX 3090s, a 27B to 31B open model, your favorite agent, and a self-hosted search tool, which gets you frontier-class coding at home for a few hundred dollars.</p></div>
+      <div class="plain reveal"><b>The 24 GB sweet spot</b><p>A widely repeated rule from the field: there is no great model that needs more than 24 GB but less than ~256 GB. So a single 24 GB card (a used RTX 3090, around $700) runs the best model anyone can run unless they own ten times your memory. That is why the budget build punches so far above its price.</p></div>
+      <div class="wt-body reveal"><p><strong>Local AI on a budget, what to buy and run:</strong></p></div>
+      <div class="tbl-wrap reveal">
+        <table>
+          <thead><tr><th>Budget</th><th>Hardware</th><th>What you run</th></tr></thead>
+          <tbody>
+            <tr><td><b>$0</b></td><td>a laptop or any 8 GB GPU you own</td><td>a small QAT model (Gemma-class) for chat and subagents; with dynamic quants and offload, even a 26B mixture-of-experts at long context</td></tr>
+            <tr><td><b>~$700</b></td><td>one used RTX 3090, 24 GB (the sweet spot)</td><td>a 27B to 32B coder (Qwen3-class, GLM-4.7-Flash) at frontier-class quality, the best value in local AI</td></tr>
+            <tr><td><b>~$2,000</b></td><td>two used 3090s (48 GB) or an AMD Strix Halo (128 GB unified)</td><td>bigger mixture-of-experts and much longer context, served with vLLM or SGLang</td></tr>
+            <tr><td><b>~$5,000+</b></td><td>MacBook Pro M5 Max (128 GB) or an NVIDIA DGX Spark</td><td>the big MoE models (MiniMax, DeepSeek V4 Flash class)</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="wt-body reveal"><p>The software stack still decides how much you cash out: two used 3090s with vLLM and tensor-parallel beat the same cards on a basic runner by several times. Buy the memory, then earn the speed with the right engine.</p></div>
+      <div class="plain reveal"><b>Run bigger than your VRAM</b><p>If a model does not fit, you do not always need a bigger GPU. With offload, most of the model lives in ordinary system RAM and only the active part runs on the GPU. People run a 753B mixture-of-experts on a single desktop this way (4-bit, decode around 13 to 15 words/sec), and a 26B MoE on an 8 GB iGPU at ~20 words/sec by reading the shared RAM pool directly. The trade is speed: system RAM is slower, so it becomes the bottleneck. It shines for MoE, where you offload the idle experts and keep the active slice on the GPU. Tools: llama.cpp partial offload, or KTransformers for big MoE.</p></div>
+      <div class="plain reveal"><b>Or pool several cheap machines</b><p>The other way past one box's limit is to combine machines. Tools like exo (open-source, free) link several ordinary computers into a single memory pool, so four Mac minis can run a 235B model that none of them could load alone. It is the budget route to a big model: stack cheap boxes instead of buying one expensive one. The catch is the same as offload, the link between machines is slower than memory inside one, so it favors throughput over snappy latency.</p></div>
+    </section>
+
+  </main>
+</div>
+</div><!-- /tab-engines -->
+
+<footer>
+  <div class="foot-inner">
+    <div class="big-line reveal">A field guide to running frontier AI on hardware you <span>own</span>.</div>
+    <div class="foot-meta reveal">
+      2026 edition<br>
+      Views: the Guide, the Walkthrough, and Engines &nbsp;&middot;&nbsp; an independent synthesis, compiled for study
+    </div>
+  </div>
+</footer>
+
+
+<script>
+// progress bar
+const prog=document.getElementById('progress');
+const onScroll=()=>{const h=document.documentElement;const max=h.scrollHeight-h.clientHeight;
+  prog.style.width=(max>0?(h.scrollTop/max)*100:0)+'%';};
+document.addEventListener('scroll',onScroll,{passive:true});onScroll();
+
+// reveal on scroll
+const ro=new IntersectionObserver((es)=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');ro.unobserve(e.target);}});},{threshold:.12,rootMargin:'0px 0px -8% 0px'});
+document.querySelectorAll('.reveal').forEach(el=>ro.observe(el));
+
+// TOC active highlight
+const links=[...document.querySelectorAll('nav.toc a')];
+const map={};links.forEach(a=>map[a.getAttribute('href').slice(1)]=a);
+const so=new IntersectionObserver((es)=>{es.forEach(e=>{if(e.isIntersecting){
+  links.forEach(l=>l.classList.remove('active'));const a=map[e.target.id];if(a)a.classList.add('active');}});},
+  {rootMargin:'-30% 0px -62% 0px'});
+document.querySelectorAll('section,.band').forEach(s=>{if(s.id)so.observe(s);});
+
+// reveal anything currently in view within a root (guarantees no stuck-hidden content)
+function revealInView(root){root.querySelectorAll('.reveal').forEach(el=>{const r=el.getBoundingClientRect();if(r.top<innerHeight*0.97&&r.bottom>0)el.classList.add('in');});}
+
+// tab switching
+const tabBtns=[...document.querySelectorAll('.tab-btn')];
+const panels={guide:document.getElementById('tab-guide'),calc:document.getElementById('tab-calc'),walkthrough:document.getElementById('tab-walkthrough'),engines:document.getElementById('tab-engines')};
+function activate(name){
+  if(!panels[name])name='guide';
+  tabBtns.forEach(b=>{const on=b.dataset.tab===name;b.classList.toggle('active',on);b.setAttribute('aria-selected',on?'true':'false');});
+  Object.entries(panels).forEach(([k,p])=>p.classList.toggle('active',k===name));
+  window.scrollTo(0,0);
+  history.replaceState(null,'','#'+name);
+  const ap=panels[name];
+  requestAnimationFrame(()=>{revealInView(ap);onScroll();});
+}
+tabBtns.forEach(b=>b.addEventListener('click',()=>activate(b.dataset.tab)));
+// keyboard arrow navigation for the tablist (WAI-ARIA tabs pattern)
+const tablist=document.querySelector('[role="tablist"]');
+if(tablist)tablist.addEventListener('keydown',e=>{
+  const i=tabBtns.findIndex(b=>b.getAttribute('aria-selected')==='true');let n=null;
+  if(e.key==='ArrowRight'||e.key==='ArrowDown')n=(i+1)%tabBtns.length;
+  else if(e.key==='ArrowLeft'||e.key==='ArrowUp')n=(i-1+tabBtns.length)%tabBtns.length;
+  else if(e.key==='Home')n=0;else if(e.key==='End')n=tabBtns.length-1;
+  if(n!==null){e.preventDefault();tabBtns[n].focus();activate(tabBtns[n].dataset.tab);}
+});
+// skip link focuses the active content region
+const skip=document.querySelector('.skip');
+if(skip)skip.addEventListener('click',e=>{e.preventDefault();const m=document.querySelector('.panel.active main');if(m){m.setAttribute('tabindex','-1');m.focus();m.scrollIntoView();}});
+
+// mobile menu (targets the active panel's TOC)
+const btn=document.getElementById('menuBtn');
+btn.addEventListener('click',()=>{const t=document.querySelector('.panel.active .toc');if(!t)return;const open=t.classList.toggle('open');btn.textContent=open?'CLOSE':'CONTENTS';});
+document.querySelectorAll('.toc').forEach(t=>t.addEventListener('click',e=>{if(e.target.closest('a')){t.classList.remove('open');btn.textContent='CONTENTS';}}));
+
+
+
+// in-text tab links (e.g. "Engines tab"), mouse + keyboard
+document.querySelectorAll('.tablink').forEach(el=>{
+  const go=e=>{e.preventDefault();if(el.dataset.tab)activate(el.dataset.tab);};
+  el.addEventListener('click',go);
+  el.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' ')go(e);});
+});
+
+// copy buttons on every prompt box and code block
+function copyText(t,b){const done=()=>{b.textContent='Copied';b.classList.add('done');setTimeout(()=>{b.textContent='Copy';b.classList.remove('done');},1500);};
+  const fb=()=>{const ta=document.createElement('textarea');ta.value=t;ta.style.position='fixed';ta.style.opacity='0';document.body.appendChild(ta);ta.focus();ta.select();try{document.execCommand('copy');done();}catch(e){b.textContent='Select + copy';}document.body.removeChild(ta);};
+  if(navigator.clipboard&&window.isSecureContext){navigator.clipboard.writeText(t).then(done).catch(fb);}else fb();}
+function mkCopy(getText){const b=document.createElement('button');b.className='copybtn';b.type='button';b.textContent='Copy';b.addEventListener('click',()=>copyText(getText(),b));return b;}
+document.querySelectorAll('.promptbox').forEach(box=>{const ph=box.querySelector('.ph'),pc=box.querySelector('.pc');if(ph&&pc)ph.appendChild(mkCopy(()=>pc.innerText.trim()));});
+document.querySelectorAll('.code').forEach(code=>{code.appendChild(mkCopy(()=>code.innerText.trim()));});
+
+
+// "Can I run it?" calculator
+(function(){
+  const hw=document.getElementById('hwPreset');if(!hw)return;
+  const mem=document.getElementById('mem'),bw=document.getElementById('bw'),params=document.getElementById('params'),
+    quant=document.getElementById('quant'),moe=document.getElementById('moe'),active=document.getElementById('active'),
+    activeWrap=document.getElementById('activeWrap'),ctx=document.getElementById('ctx'),ctxLabel=document.getElementById('ctxLabel'),
+    mp=document.getElementById('modelPreset');
+  // hardware presets: [label, memGB, bwGBs, unified]
+  const HW=[["MacBook Pro M5 Pro",64,307,1],["MacBook Pro M5 Max",128,614,1],["Mac Studio M3 Ultra",512,819,1],
+    ["MacBook Air M-series",24,120,1],["RTX 3090 (24GB)",24,936,0],["RTX 4090 (24GB)",24,1008,0],["RTX 5090 (32GB)",32,1792,0],
+    ["RTX PRO 6000 (96GB)",96,1792,0],["2x RTX 3090 (48GB)",48,936,0],["AMD Strix Halo (128GB)",128,256,1],["Custom",64,307,1]];
+  // model presets: [label, paramsB, moe(0/1), activeB, defaultQuant]
+  const MD=[["Custom",30,0,0,"4"],["GLM-4.7-Flash (30B/3B MoE)",30,1,3,"4"],["Qwen 27B (dense)",27,0,0,"4"],
+    ["Gemma 8B",8,0,0,"4"],["14B dense",14,0,0,"4"],["70B dense",70,0,0,"4"],["MiniMax-class 230B/10B MoE",230,1,10,"4"],
+    ["GLM full 355B MoE",355,1,32,"4"]];
+  HW.forEach((h,i)=>hw.add(new Option(h[0],i)));
+  MD.forEach((m,i)=>mp.add(new Option(m[0],i)));
+  let unified=1;
+  function applyHW(){const h=HW[hw.value];mem.value=h[1];bw.value=h[2];unified=h[3];calc();}
+  function applyMD(){const m=MD[mp.value];if(mp.value=="0")return;params.value=m[1];moe.checked=!!m[2];active.value=m[3]||3;quant.value=m[4];syncMoe();calc();}
+  function syncMoe(){activeWrap.hidden=!moe.checked;}
+  const fmt=n=>n>=100?Math.round(n):n>=10?n.toFixed(0):n.toFixed(1);
+  function calc(){
+    const M=+mem.value||0, B=+bw.value||0, P=+params.value||0, bits=+quant.value, isMoe=moe.checked, A=isMoe?(+active.value||P):P, C=+ctx.value||0;
+    ctxLabel.textContent=(C>=1000?Math.round(C/1000)+'k':C)+' tokens';
+    const bpp=bits/8;
+    const GB=1073741824;
+    const weights=P*1e9*bpp/GB;
+    const activeGB=A*1e9*bpp/GB;
+    const kv=P*(C/1000)*0.0022;            // rough KV estimate (GB), scales with size + context
+    const reserve=unified?10:1.5;          // OS reserve for unified memory vs dedicated VRAM
+    const need=weights+kv+weights*0.05+reserve;
+    const head=M-need;
+    const theo=activeGB>0?B/activeGB:0;    // tokens/sec theoretical (bandwidth bound)
+    const lo=Math.round(theo*0.55), hi=Math.round(theo*0.8);
+    document.getElementById('oWeights').textContent=fmt(weights)+' GB';
+    document.getElementById('oKV').textContent='~'+fmt(kv)+' GB';
+    document.getElementById('oNeed').textContent=fmt(need)+' GB';
+    document.getElementById('oSpeed').textContent=(theo>0?(lo+' to '+hi):'0');
+    const pct=Math.min(100,Math.max(0,need/M*100));
+    const ub=document.getElementById('barUsed');ub.style.width=pct+'%';ub.classList.toggle('over',need>M);
+    document.getElementById('barTxt').textContent=fmt(need)+' / '+fmt(M)+' GB';
+    const v=document.getElementById('verdict');
+    let cls,txt,sub;
+    if(need>M){cls='no';txt='Does not fit';sub='Short by ~'+fmt(need-M)+' GB. Drop to a smaller model or a heavier quant, shorten the context, offload part of it to system RAM (slower, great for MoE), or route this one to the cloud (Hybrid).';}
+    else if(head<M*0.15){cls='tight';txt='Fits, but tight';sub='About '+fmt(head)+' GB to spare. Fine to try, but long context or other apps may push it over.';}
+    else{cls='good';txt='Fits comfortably';sub='About '+fmt(head)+' GB headroom at this context.';}
+    v.className='verdict '+cls;v.innerHTML=txt+'<span class="vsub">'+sub+'</span>';
+    let note='At 4-bit, weights need about half the model size in GB. ';
+    note+= isMoe?('Speed tracks the '+fmt(A)+'B active params, not the full '+fmt(P)+'B, so a big MoE feels fast.'):('Speed tracks the full '+fmt(P)+'B, since every param fires per word.');
+    if(theo>0&&hi<10)note+=' At single digits per second it is fine for background jobs, slow for live typing.';
+    document.getElementById('calcNote').textContent=note;
+  }
+  hw.addEventListener('change',applyHW);
+  mp.addEventListener('change',applyMD);
+  moe.addEventListener('change',()=>{syncMoe();calc();});
+  [mem,bw,params,quant,active,ctx].forEach(el=>el.addEventListener('input',calc));
+  syncMoe();calc();
+})();
+
+// deep-link + first paint
+const initial=(location.hash||'').replace('#','');
+if(panels[initial])activate(initial);else revealInView(document.querySelector('.panel.active'));
+</script>
+</body>
+</html>

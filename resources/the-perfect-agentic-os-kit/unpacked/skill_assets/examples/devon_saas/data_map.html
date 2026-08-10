@@ -1,0 +1,1668 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Silver Platter Data Map, LedgerLink</title>
+<style>
+  :root {
+    --bg: #faf9f7;
+    --ink: #1a1a1a;
+    --muted: #6b6b6b;
+    --line: #d4d2cd;
+    --coral: #E07A4F;
+    --coral-soft: rgba(224, 122, 79, 0.12);
+    --coral-border: rgba(224, 122, 79, 0.32);
+    --green: #1f7a4d;
+    --card: #ffffff;
+    --shadow-1: 0 1px 2px rgba(0,0,0,0.04);
+    --shadow-2: 0 1px 3px rgba(0,0,0,0.06), 0 8px 24px rgba(0,0,0,0.04);
+    --radius: 6px;
+  }
+  * { box-sizing: border-box; }
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", Roboto, sans-serif;
+    margin: 0;
+    padding: 0 0 80px;
+    line-height: 1.55;
+    font-size: 14px;
+  }
+  header {
+    padding: 48px 56px 32px;
+    border-bottom: 1px solid var(--line);
+    background: var(--card);
+  }
+  .stack-tag {
+    display: inline-block;
+    font-size: 12px;
+    color: var(--coral);
+    background: var(--coral-soft);
+    border: 1px solid var(--coral-border);
+    border-radius: 999px;
+    padding: 4px 12px;
+    font-weight: 500;
+    margin-bottom: 14px;
+  }
+  h1 {
+    font-size: 30px;
+    font-weight: 600;
+    letter-spacing: -0.015em;
+    margin: 0 0 12px;
+    max-width: 880px;
+    line-height: 1.25;
+  }
+  .lead { color: var(--muted); font-size: 15px; max-width: 760px; margin: 0 0 24px; line-height: 1.55; }
+  .hero-strip {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 32px;
+    margin-top: 8px;
+  }
+  .hero-stat {
+    display: flex;
+    flex-direction: column;
+  }
+  .hero-stat .num {
+    font-size: 28px;
+    font-weight: 600;
+    color: var(--ink);
+    letter-spacing: -0.01em;
+    line-height: 1.1;
+  }
+  .hero-stat .label {
+    font-size: 12px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-top: 4px;
+  }
+  .hero-stat .num.coral { color: var(--coral); }
+
+  nav.tabs {
+    background: var(--card);
+    padding: 0 56px;
+    border-bottom: 1px solid var(--line);
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    display: flex;
+    gap: 4px;
+  }
+  .tab-btn {
+    background: none;
+    border: none;
+    padding: 16px 20px;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--muted);
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    transition: color 0.12s, border-color 0.12s;
+    font-family: inherit;
+  }
+  .tab-btn:hover { color: var(--ink); }
+  .tab-btn.active {
+    color: var(--ink);
+    border-bottom-color: var(--coral);
+  }
+  .legend-bar {
+    background: #f4f2ee;
+    padding: 10px 56px;
+    border-bottom: 1px solid var(--line);
+    display: flex;
+    gap: 24px;
+    font-size: 12px;
+    color: var(--muted);
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  .legend-item { display: flex; align-items: center; gap: 8px; }
+  .legend-swatch {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10.5px;
+    font-weight: 600;
+    border: 1px solid var(--ink);
+    background: white;
+  }
+  .legend-swatch.have { color: var(--green); border-color: var(--green); }
+  .legend-swatch.opportunity {
+    color: white;
+    background: var(--coral);
+    border-color: var(--coral);
+  }
+
+  .tab-panel { display: none; padding: 32px 56px; }
+  .tab-panel.active { display: block; }
+
+  .lane {
+    margin-bottom: 28px;
+  }
+  .lane-banner {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    padding: 10px 14px;
+    border-left: 4px solid var(--coral);
+    background: rgba(224, 122, 79, 0.05);
+    margin-bottom: 16px;
+    border-radius: 0 4px 4px 0;
+  }
+  .lane-banner .lane-title {
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--ink);
+  }
+  .lane-banner .lane-caption {
+    font-size: 13px;
+    color: var(--muted);
+  }
+  .lane-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+  .card {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 14px 16px;
+    width: 250px;
+    box-shadow: var(--shadow-1);
+    cursor: pointer;
+    transition: transform 0.12s ease, box-shadow 0.12s ease, border-color 0.12s;
+    position: relative;
+  }
+  .card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-2);
+    border-color: var(--ink);
+  }
+  .card.is-highlighted {
+    border-color: var(--coral);
+    box-shadow: 0 0 0 2px var(--coral-soft), var(--shadow-2);
+  }
+  .card .tool { font-weight: 600; font-size: 14px; margin-bottom: 4px; }
+  .card .chip {
+    display: inline-block;
+    background: rgba(0,0,0,0.04);
+    border-radius: 3px;
+    padding: 2px 8px;
+    font-size: 10.5px;
+    letter-spacing: 0.04em;
+    color: var(--muted);
+    margin-right: 4px;
+    margin-top: 4px;
+    font-weight: 500;
+  }
+  .card .meta { font-size: 12px; color: var(--muted); margin-top: 8px; line-height: 1.45; }
+  .card .meta strong { color: var(--ink); font-weight: 600; }
+  .card .quick-flag {
+    display: inline-block;
+    margin-top: 8px;
+    padding: 3px 8px;
+    background: var(--coral-soft);
+    color: var(--coral);
+    font-size: 11px;
+    border-radius: 3px;
+    font-weight: 500;
+  }
+  .badge {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 600;
+    border: 1px solid var(--ink);
+    background: white;
+  }
+  .badge.have { color: var(--green); border-color: var(--green); }
+  .badge.missing { color: var(--muted); }
+  .badge.opportunity {
+    color: white;
+    background: var(--coral);
+    border-color: var(--coral);
+  }
+
+  .start-here {
+    background: var(--coral-soft);
+    border: 1px solid var(--coral-border);
+    border-radius: 4px;
+    padding: 12px 16px;
+    margin-bottom: 24px;
+    font-size: 13px;
+    color: var(--ink);
+  }
+  .start-here strong { color: var(--coral); }
+
+  /* Recipes */
+  .recipes-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(420px, 1fr));
+    gap: 20px;
+    margin-top: 16px;
+  }
+  .recipe-card {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 24px;
+    box-shadow: var(--shadow-1);
+    cursor: pointer;
+    transition: transform 0.12s, box-shadow 0.12s, border-color 0.12s;
+    position: relative;
+  }
+  .recipe-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-2);
+    border-color: var(--ink);
+  }
+  .recipe-card .time-saved {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    background: var(--coral);
+    color: white;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 4px 10px;
+    border-radius: 3px;
+    letter-spacing: 0.04em;
+  }
+  .recipe-card h3 {
+    margin: 0 0 4px;
+    font-size: 17px;
+    letter-spacing: -0.01em;
+    padding-right: 96px;
+  }
+  .recipe-goal { color: var(--muted); margin: 0 0 16px; font-size: 13px; line-height: 1.5; }
+  .recipe-flow {
+    background: rgba(0,0,0,0.025);
+    border-radius: 4px;
+    padding: 10px 12px;
+    font-size: 12px;
+    color: var(--ink);
+    line-height: 1.7;
+    margin-bottom: 16px;
+  }
+  .recipe-flow .ingredient {
+    display: inline-block;
+    background: white;
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    padding: 2px 8px;
+    margin: 2px;
+  }
+  .recipe-flow .ingredient.outcome {
+    background: var(--coral);
+    color: white;
+    border-color: var(--coral);
+    font-weight: 600;
+  }
+  .recipe-flow .arrow { color: var(--coral); margin: 0 6px; font-weight: 600; }
+  .recipe-impact {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin-bottom: 14px;
+    font-size: 12px;
+  }
+  .recipe-impact .before.recipe-impact .after {
+    padding: 8px 12px;
+    border-radius: 4px;
+    line-height: 1.4;
+  }
+  .recipe-impact .before { background: rgba(0,0,0,0.04); color: var(--muted); }
+  .recipe-impact .after { background: var(--coral-soft); color: var(--ink); border-left: 3px solid var(--coral); }
+  .recipe-cta {
+    display: inline-block;
+    color: var(--coral);
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+
+  /* Setup */
+  .setup-intro { color: var(--muted); margin-bottom: 24px; max-width: 760px; font-size: 14px; line-height: 1.6; }
+  .setup-step {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 24px 28px;
+    margin-bottom: 20px;
+    display: grid;
+    grid-template-columns: 56px 1fr;
+    gap: 24px;
+    box-shadow: var(--shadow-1);
+  }
+  .step-num {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: var(--ink);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    font-weight: 600;
+  }
+  .setup-step.is-zero {
+    border-color: var(--coral);
+    background: linear-gradient(0deg, var(--coral-soft), white);
+  }
+  .setup-step.is-zero .step-num { background: var(--coral); }
+  .setup-step.is-first .step-num { background: var(--coral); }
+  .setup-step h3 { margin: 4px 0 8px; font-size: 18px; letter-spacing: -0.01em; }
+  .step-pretitle {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    font-weight: 600;
+    color: var(--coral);
+    margin-bottom: 4px;
+  }
+  .step-block { margin-bottom: 12px; }
+  .step-block-label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    font-weight: 600;
+    color: var(--muted);
+    margin-bottom: 4px;
+  }
+  .step-requires {
+    background: rgba(0,0,0,0.03);
+    border-left: 3px solid var(--muted);
+    padding: 8px 12px;
+    margin-bottom: 12px;
+    font-size: 12.5px;
+    color: var(--muted);
+    border-radius: 0 4px 4px 0;
+  }
+  .step-working {
+    background: rgba(31, 122, 77, 0.08);
+    border-left: 3px solid var(--green);
+    padding: 10px 14px;
+    margin-top: 12px;
+    font-size: 13px;
+    border-radius: 0 4px 4px 0;
+  }
+  .step-working strong { color: var(--green); }
+  .step-install {
+    background: var(--ink);
+    color: white;
+    padding: 12px 16px;
+    border-radius: 4px;
+    font-family: 'SF Mono', ui-monospace, Menlo, monospace;
+    font-size: 12.5px;
+    line-height: 1.6;
+    overflow-x: auto;
+    white-space: pre;
+  }
+  .step-impact {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-top: 12px;
+    font-size: 13px;
+  }
+  .step-impact .before.step-impact .after {
+    padding: 10px 14px;
+    border-radius: 4px;
+    line-height: 1.4;
+  }
+  .step-impact .before { background: rgba(0,0,0,0.04); color: var(--muted); }
+  .step-impact .after { background: var(--coral-soft); border-left: 3px solid var(--coral); }
+  .step-time { color: var(--muted); font-size: 12px; margin: 12px 0 0; font-style: italic; }
+  .closing-card {
+    background: var(--card);
+    border: 1px dashed var(--coral);
+    border-radius: var(--radius);
+    padding: 24px 28px;
+    margin-top: 12px;
+    text-align: center;
+  }
+  .closing-card h3 { margin: 0 0 8px; font-size: 16px; }
+  .closing-card p { margin: 0; color: var(--muted); font-size: 13.5px; line-height: 1.55; }
+  .closing-card a { color: var(--coral); font-weight: 600; text-decoration: none; }
+  .closing-card a:hover { text-decoration: underline; }
+
+  /* Modal */
+  .overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(26,26,26,0.46);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    padding: 24px;
+  }
+  .overlay.visible { display: flex; }
+  .modal {
+    background: white;
+    border-radius: 8px;
+    width: 100%;
+    max-width: 720px;
+    max-height: 88vh;
+    overflow-y: auto;
+    padding: 32px;
+    box-shadow: 0 12px 48px rgba(0,0,0,0.18);
+  }
+  .modal-large { max-width: 880px; }
+  .modal h2 { margin: 0 0 6px; font-size: 22px; letter-spacing: -0.015em; }
+  .modal .subtle { color: var(--muted); font-size: 13px; margin-bottom: 20px; }
+  .modal-section { margin-top: 20px; padding-top: 20px; border-top: 1px solid var(--line); }
+  .modal-section:first-of-type { border-top: none; padding-top: 0; }
+  .modal-section h3 {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--muted);
+    margin: 0 0 8px;
+    font-weight: 600;
+  }
+  .modal-section p { margin: 0 0 8px; line-height: 1.6; }
+  .close-btn {
+    background: none;
+    border: 1px solid var(--line);
+    padding: 6px 14px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 24px;
+    font-family: inherit;
+  }
+  .close-btn:hover { color: var(--ink); border-color: var(--ink); }
+
+  .conn-tabs {
+    display: flex;
+    gap: 4px;
+    border-bottom: 1px solid var(--line);
+    margin-bottom: 16px;
+  }
+  .conn-tab {
+    background: none;
+    border: none;
+    border-bottom: 2px solid transparent;
+    padding: 8px 14px;
+    font-size: 13px;
+    cursor: pointer;
+    color: var(--muted);
+    font-family: inherit;
+    font-weight: 500;
+    text-align: left;
+    line-height: 1.3;
+  }
+  .conn-tab small { display: block; font-size: 10.5px; opacity: 0.75; font-weight: 400; }
+  .conn-tab.active { color: var(--ink); border-bottom-color: var(--coral); }
+  .conn-content { display: none; }
+  .conn-content.active { display: block; }
+  .conn-content p { margin: 0 0 10px; }
+  .conn-content ul { margin: 4px 0 12px; padding-left: 18px; }
+  .conn-content li { margin-bottom: 3px; }
+  .conn-content .conn-summary {
+    background: rgba(224, 122, 79, 0.06);
+    border-left: 3px solid var(--coral);
+    padding: 10px 14px;
+    border-radius: 0 4px 4px 0;
+    margin-bottom: 12px;
+    font-size: 13px;
+  }
+  .conn-content code {
+    background: rgba(0,0,0,0.04);
+    padding: 1px 6px;
+    border-radius: 3px;
+    font-size: 12px;
+  }
+  .conn-content pre {
+    background: var(--ink);
+    color: white;
+    padding: 10px 14px;
+    border-radius: 4px;
+    font-size: 12px;
+    overflow-x: auto;
+    margin: 8px 0 12px;
+  }
+  .install-toggle {
+    background: none;
+    border: 1px solid var(--line);
+    padding: 4px 10px;
+    border-radius: 3px;
+    cursor: pointer;
+    font-size: 11px;
+    color: var(--muted);
+    font-family: inherit;
+    margin-bottom: 8px;
+  }
+  .install-block { display: none; }
+  .install-block.visible { display: block; }
+
+  .sample-preview {
+    background: rgba(0,0,0,0.03);
+    border-left: 3px solid var(--coral);
+    padding: 14px 16px;
+    border-radius: 0 4px 4px 0;
+    font-family: 'SF Mono', ui-monospace, Menlo, monospace;
+    font-size: 12px;
+    line-height: 1.55;
+    white-space: pre-wrap;
+    overflow-x: auto;
+    color: var(--ink);
+  }
+  .ideation-list {
+    counter-reset: step;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+  }
+  .ideation-list li {
+    counter-increment: step;
+    padding: 8px 0 8px 36px;
+    position: relative;
+    font-size: 13.5px;
+    line-height: 1.55;
+    border-bottom: 1px dashed var(--line);
+  }
+  .ideation-list li:last-child { border-bottom: none; }
+  .ideation-list li::before {
+    content: counter(step);
+    position: absolute;
+    left: 0;
+    top: 8px;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: var(--coral-soft);
+    color: var(--coral);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-weight: 600;
+  }
+  .ideation-list .actor {
+    display: inline-block;
+    background: var(--ink);
+    color: white;
+    padding: 2px 8px;
+    border-radius: 3px;
+    font-size: 11px;
+    font-weight: 500;
+    margin-right: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+  .stack-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .stack-pill {
+    background: var(--coral-soft);
+    color: var(--coral);
+    border: 1px solid var(--coral-border);
+    border-radius: 4px;
+    padding: 4px 10px;
+    font-size: 12px;
+    font-weight: 500;
+  }
+  .stack-pill.skill { background: rgba(0,90,180,0.08); color: #0a3a78; border-color: rgba(0,90,180,0.2); }
+  .stack-pill.subagent { background: rgba(120,40,160,0.08); color: #501a78; border-color: rgba(120,40,160,0.2); }
+  .stack-pill.hook { background: rgba(180,90,0,0.08); color: #6a3500; border-color: rgba(180,90,0,0.2); }
+  .stack-pill.rule { background: rgba(0,128,80,0.08); color: #15543a; border-color: rgba(0,128,80,0.2); }
+  .primitive-key {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px 16px;
+    font-size: 12px;
+    color: var(--muted);
+    margin-bottom: 16px;
+    padding: 12px;
+    background: rgba(0,0,0,0.025);
+    border-radius: 4px;
+  }
+  .primitive-key div { display: flex; gap: 6px; align-items: center; }
+  .primitive-key .pk-label { font-weight: 600; color: var(--ink); }
+
+  .today-card {
+    background: rgba(0,0,0,0.03);
+    border-radius: 4px;
+    padding: 14px 16px;
+    margin-bottom: 16px;
+    font-size: 13.5px;
+    line-height: 1.55;
+  }
+  .today-card .today-label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); font-weight: 600; margin-bottom: 6px; }
+  .monday-card {
+    background: var(--coral-soft);
+    border-left: 3px solid var(--coral);
+    border-radius: 0 4px 4px 0;
+    padding: 14px 16px;
+    margin-bottom: 16px;
+    font-size: 13.5px;
+    line-height: 1.55;
+  }
+  .monday-card .monday-label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--coral); font-weight: 600; margin-bottom: 6px; }
+
+  /* Sankey */
+  .sankey-legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 24px;
+    margin-bottom: 16px;
+    font-size: 12px;
+    color: var(--muted);
+  }
+  .sankey-legend-col { display: flex; align-items: center; gap: 8px; }
+  .sankey-legend-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 3px;
+    display: inline-block;
+  }
+  .pantry-dot { background: #4a5d7e; }
+  .prep-dot { background: #6b8e6b; }
+  .plate-dot { background: #1a1a1a; }
+  .interact-dot { background: #8a6db6; }
+  .opp-dot { background: var(--coral); }
+  .sankey-wrap {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 24px;
+    box-shadow: var(--shadow-1);
+    overflow-x: auto;
+  }
+  #sankey-svg {
+    width: 100%;
+    height: auto;
+    min-width: 800px;
+    max-height: 720px;
+  }
+  .sankey-node-rect {
+    cursor: pointer;
+    transition: filter 0.15s, opacity 0.15s;
+  }
+  .sankey-node-rect:hover { filter: brightness(1.1); }
+  .sankey-node-label {
+    font-size: 12px;
+    font-weight: 600;
+    fill: var(--ink);
+    pointer-events: none;
+  }
+  .sankey-node-sub {
+    font-size: 10.5px;
+    fill: var(--muted);
+    pointer-events: none;
+  }
+  .sankey-link {
+    fill: none;
+    stroke: #b9b8b3;
+    stroke-opacity: 0.35;
+    transition: stroke-opacity 0.15s, stroke 0.15s;
+    cursor: pointer;
+  }
+  .sankey-link.is-opportunity { stroke: var(--coral); stroke-opacity: 0.5; }
+  .sankey-link:hover, .sankey-link.is-active {
+    stroke-opacity: 0.85;
+    stroke: var(--coral);
+  }
+  .sankey-help {
+    color: var(--muted);
+    font-size: 12.5px;
+    margin-top: 14px;
+    font-style: italic;
+  }
+
+  footer.page-footer {
+    margin-top: 48px;
+    padding: 24px 56px;
+    color: var(--muted);
+    font-size: 12px;
+    border-top: 1px solid var(--line);
+    text-align: center;
+  }
+  footer.page-footer code {
+    background: rgba(0,0,0,0.04);
+    padding: 1px 6px;
+    border-radius: 3px;
+  }
+</style>
+</head>
+<body>
+
+
+<header>
+  <div class="stack-tag">B2B accounting reconciliation SaaS. ~280 customers. $140K MRR. 6 engineers.</div>
+  <h1>LedgerLink, here's how your tools talk to each other today and what to fix first.</h1>
+  <p class="lead">Three sections below. Pantry = your raw data. Prep table = the weekly briefs Claude assembles. Plate = the decisions you actually serve up. Click any card or recipe for plain English.</p>
+  <div class="hero-strip">
+    <div class="hero-stat">
+      <div class="num">7</div>
+      <div class="label">Tools mapped</div>
+    </div>
+    <div class="hero-stat">
+      <div class="num">4</div>
+      <div class="label">Recipes ready to build</div>
+    </div>
+    <div class="hero-stat">
+      <div class="num coral">3</div>
+      <div class="label">Quick wins flagged</div>
+    </div>
+  </div>
+</header>
+
+<nav class="tabs">
+  <button class="tab-btn active" data-tab="map">What you have today</button>
+  <button class="tab-btn" data-tab="flow">Data flow</button>
+  <button class="tab-btn" data-tab="recipes">What we'll build (4)</button>
+  <button class="tab-btn" data-tab="setup">Your 30-day build plan</button>
+</nav>
+
+<div class="legend-bar">
+  <span style="font-weight:600;color:var(--ink);">Legend:</span>
+  <div class="legend-item"><span class="legend-swatch have">&check;</span> You've got it</div>
+  <div class="legend-item"><span class="legend-swatch">?</span> Missing or not set up yet</div>
+  <div class="legend-item"><span class="legend-swatch opportunity">!</span> Quick win, money or hours on the table</div>
+</div>
+
+<section id="tab-map" class="tab-panel active">
+
+  <div class="start-here">
+    <strong>Where to start:</strong> click any card with the orange <span style="background:var(--coral);color:white;padding:1px 7px;border-radius:50%;font-size:11px;font-weight:600;">!</span> badge first, those are the 3 unlocks Claude can earn its keep on.
+  </div>
+
+  <div class="lane" data-lane="pantry">
+    <div class="lane-banner">
+      <div class="lane-title">Pantry</div>
+      <div class="lane-caption">Your raw ingredients, the tools your data already lives in.</div>
+    </div>
+    <div class="lane-row">
+      <div class="card" data-card-id="pendo" data-lane="pantry">
+        <div class="badge opportunity">!</div>
+        <div class="tool">Pendo</div>
+        <span class="chip">CSV</span>
+        <span class="chip">weekly</span>
+        <div class="meta">High volume</div>
+      </div>
+      <div class="card" data-card-id="intercom" data-lane="pantry">
+        <div class="badge opportunity">!</div>
+        <div class="tool">Intercom</div>
+        <span class="chip">CSV</span>
+        <span class="chip">real-time</span>
+        <div class="meta">High volume</div>
+      </div>
+      <div class="card" data-card-id="github_issues" data-lane="pantry">
+        <div class="badge have">&check;</div>
+        <div class="tool">GitHub Issues</div>
+        <span class="chip">CSV</span>
+        <span class="chip">real-time</span>
+        <div class="meta">Steady flow</div>
+      </div>
+      <div class="card" data-card-id="linear" data-lane="pantry">
+        <div class="badge have">&check;</div>
+        <div class="tool">Linear</div>
+        <span class="chip">API</span>
+        <span class="chip">real-time</span>
+        <div class="meta">Steady flow</div>
+      </div>
+      <div class="card" data-card-id="stripe" data-lane="pantry">
+        <div class="badge have">&check;</div>
+        <div class="tool">Stripe</div>
+        <span class="chip">CSV</span>
+        <span class="chip">weekly</span>
+        <div class="meta">Steady flow</div>
+      </div>
+      <div class="card" data-card-id="sentry" data-lane="pantry">
+        <div class="badge have">&check;</div>
+        <div class="tool">Sentry</div>
+        <span class="chip">API</span>
+        <span class="chip">real-time</span>
+        <div class="meta">Steady flow</div>
+      </div>
+      <div class="card" data-card-id="customer_calls" data-lane="pantry">
+        <div class="badge have">&check;</div>
+        <div class="tool">Otter / Fireflies</div>
+        <span class="chip">DOCX/TXT</span>
+        <span class="chip">ad-hoc</span>
+        <div class="meta">Steady flow</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="lane" data-lane="prep">
+    <div class="lane-banner">
+      <div class="lane-title">Prep Table</div>
+      <div class="lane-caption">Where the night's mise-en-place gets done, weekly summaries Claude writes for you.</div>
+    </div>
+    <div class="lane-row">
+      <div class="card" data-card-id="feedback_themes" data-lane="prep">
+        <div class="badge have">&check;</div>
+        <div class="tool">Feedback themes</div>
+        <span class="chip">Customer feedback</span>
+<span class="chip">Mon 6am</span>        <div class="meta">
+          <strong>In:</strong> Pendo, Intercom, Otter / Fireflies, GitHub Issues
+        </div>
+      </div>
+      <div class="card" data-card-id="churn_root_cause" data-lane="prep">
+        <div class="badge have">&check;</div>
+        <div class="tool">Churn root cause</div>
+        <span class="chip">Churn</span>
+<span class="chip">Mon 6am</span>        <div class="meta">
+          <strong>In:</strong> Stripe, Intercom, Sentry
+        </div>
+      </div>
+      <div class="card" data-card-id="product_roadmap_signal" data-lane="prep">
+        <div class="badge have">&check;</div>
+        <div class="tool">Product roadmap signal</div>
+        <span class="chip">Product / roadmap</span>
+<span class="chip">Mon 6am</span>        <div class="meta">
+          <strong>In:</strong> Linear
+        </div>
+      </div>
+      <div class="card" data-card-id="support_volume" data-lane="prep">
+        <div class="badge have">&check;</div>
+        <div class="tool">Support volume</div>
+        <span class="chip">Operations</span>
+<span class="chip">Mon 6am</span>        <div class="meta">
+          <strong>In:</strong> Intercom
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="lane" data-lane="plate">
+    <div class="lane-banner">
+      <div class="lane-title">Plate</div>
+      <div class="lane-caption">What gets served to a human, the briefs and drafts you actually act on.</div>
+    </div>
+    <div class="lane-row">
+      <div class="card" data-card-id="fix_proposal" data-lane="plate">
+        <div class="badge opportunity">!</div>
+        <div class="tool">Codex fix PROPOSAL.md (in worktree)</div>
+        <span class="chip">Written by the codex fix drafter</span>
+<span class="chip">For: Jordan, Sai</span>        <div class="meta">🔒 Engineer appends [engineer_action] approved line in the audit log</div>
+      </div>
+      <div class="card" data-card-id="weekly_product_report" data-lane="plate">
+        <div class="badge have">&check;</div>
+        <div class="tool">Weekly product report</div>
+        <span class="chip">Written by your triage chief of staff</span>
+<span class="chip">For: Devon, Maya</span>        <div class="meta">🔒 Devon reviews Monday before standup</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="tab-flow" class="tab-panel">
+  <p class="setup-intro">The mental model in one picture. Your data moves left to right: <strong>raw sources</strong> feed <strong>weekly silver platters</strong>, platters feed the <strong>briefs and drafts</strong> Claude writes for you, and those land in the <strong>channels you actually use</strong> (Slack, your inbox, your iPad). The AI layer sits on top of the data prep, never the other way around. Hover any line to trace it. Click a node to open the details.</p>
+
+  <div class="sankey-legend">
+    <div class="sankey-legend-col"><span class="sankey-legend-dot pantry-dot"></span> Pantry (raw data)</div>
+    <div class="sankey-legend-col"><span class="sankey-legend-dot prep-dot"></span> Prep (silver platters)</div>
+    <div class="sankey-legend-col"><span class="sankey-legend-dot plate-dot"></span> Plate (briefs you read)</div>
+    <div class="sankey-legend-col"><span class="sankey-legend-dot interact-dot"></span> Where you read it</div>
+    <div class="sankey-legend-col"><span class="sankey-legend-dot opp-dot"></span> Opportunity / suggested</div>
+  </div>
+
+  <div class="sankey-wrap">
+    <svg id="sankey-svg" viewBox="0 0 1500 760" preserveAspectRatio="xMidYMid meet"></svg>
+  </div>
+
+  <p class="sankey-help">If a Pantry box has no line leaving it, that data is sitting unused, those are usually the loudest quick wins. Dashed boxes on the right are channels we suggest adding.</p>
+</section>
+
+<section id="tab-recipes" class="tab-panel">
+  <p class="setup-intro">LedgerLink, these are the briefs and drafts your team can stop building manually. Each one shows the ingredients, the time saved, and the back-and-forth Claude does on your behalf.</p>
+
+  <div class="recipes-grid">
+    <article class="recipe-card" data-recipe-id="monday_triage_recipe">
+      <h3>Monday inbound triage</h3>
+      <p class="recipe-goal">Devon stops being the human router. Monday morning, 47 inbound tickets are already classified, clustered, prioritized, and routed.</p>
+      <div class="recipe-flow"><span class="ingredient">Intercom tickets</span> <span class="arrow">→</span> <span class="ingredient">GitHub issues</span> <span class="arrow">→</span> <span class="ingredient">Customer calls</span> <span class="arrow">→</span> <span class="ingredient">feedback_themes.md</span> <span class="arrow">→</span> <span class="ingredient outcome">Triage Orchestrator</span></div>
+      <div class="recipe-impact">
+        <div class="before"><strong>Before:</strong> Devon spent 3+ hours every Monday reading Slack, opening Intercom, scrolling Pendo, scrubbing GitHub. Half the tickets were dupes. Pickup latency 3 weeks.</div>
+        <div class="after"><strong>After:</strong> Triage runs Sunday night. Monday standup walks the report. Pickup latency drops to 3-5 days.</div>
+      </div>
+      <span class="recipe-cta">Click for the full walkthrough →</span>
+    </article>
+    <article class="recipe-card" data-recipe-id="codex_worktree_recipe">
+      <h3>Codex fix in a worktree (when a cluster matures)</h3>
+      <p class="recipe-goal">When a cluster reaches 3+ tickets and is mechanical, the fix gets drafted in a git worktree with PROPOSAL.md + the actual code change. Engineer reviews. Never touches main without approval.</p>
+      <div class="recipe-flow"><span class="ingredient">feedback_themes.md</span> <span class="arrow">→</span> <span class="ingredient">GitHub issues</span> <span class="arrow">→</span> <span class="ingredient">Recent commits</span> <span class="arrow">→</span> <span class="ingredient outcome">Codex Fix Drafter</span></div>
+      <div class="recipe-impact">
+        <div class="before"><strong>Before:</strong> Bug fix takes 3 weeks from 'we found it' to 'shipped'. By then customer churned.</div>
+        <div class="after"><strong>After:</strong> Mechanical fixes draft within a session of identification. Engineer review = 30 min. Ship same day.</div>
+      </div>
+      <span class="recipe-cta">Click for the full walkthrough →</span>
+    </article>
+    <article class="recipe-card" data-recipe-id="weekly_product_recipe">
+      <h3>Weekly product report (Monday standup)</h3>
+      <p class="recipe-goal">Devon and Maya start Monday with a single report: what customers said, what churned, what's drifting on roadmap. Engineering knows what to work on.</p>
+      <div class="recipe-flow"><span class="ingredient">feedback_themes.md</span> <span class="arrow">→</span> <span class="ingredient">churn_root_cause.md</span> <span class="arrow">→</span> <span class="ingredient">product_roadmap_signal.md</span> <span class="arrow">→</span> <span class="ingredient outcome">Triage Orchestrator</span></div>
+      <div class="recipe-impact">
+        <div class="before"><strong>Before:</strong> Monday standup ran on Devon's gut feel. Engineering chose work based on whoever shouted loudest.</div>
+        <div class="after"><strong>After:</strong> Standup runs on data. Engineering picks the highest-impact cluster. Roadmap drift surfaces before it costs MRR.</div>
+      </div>
+      <span class="recipe-cta">Click for the full walkthrough →</span>
+    </article>
+    <article class="recipe-card" data-recipe-id="churn_investigation_recipe">
+      <h3>Churn investigation (when a customer cancels)</h3>
+      <p class="recipe-goal">When a customer cancels, root-cause-analyst investigates within hours, not days. Surfaces the support history + error timing + roadmap miss that drove the churn.</p>
+      <div class="recipe-flow"><span class="ingredient">Stripe (cancellation)</span> <span class="arrow">→</span> <span class="ingredient">Intercom history</span> <span class="arrow">→</span> <span class="ingredient">Sentry errors</span> <span class="arrow">→</span> <span class="ingredient">churn_root_cause.md</span> <span class="arrow">→</span> <span class="ingredient outcome">Root-Cause Analyst</span></div>
+      <div class="recipe-impact">
+        <div class="before"><strong>Before:</strong> Churn investigations took 2 days each because the data lived in 5 places. Often skipped entirely.</div>
+        <div class="after"><strong>After:</strong> Investigation drafts within hours. Devon reviews in 15 min. Patterns surface.</div>
+      </div>
+      <span class="recipe-cta">Click for the full walkthrough →</span>
+    </article>
+  </div>
+</section>
+
+<section id="tab-setup" class="tab-panel">
+  <p class="setup-intro">LedgerLink, here's the order to build this in. Each step builds on the last, total: A focused weekend. Step 1 unblocks everything. Steps 2-3 are the bulk of the value.. If a step looks like a cliff, hand it to <code>@claude-code-guide</code>.</p>
+
+  <ol class="setup-steps" style="list-style: none; padding: 0;">
+    <li class="setup-step is-zero">
+      <div class="step-num">0</div>
+      <div>
+        <div class="step-pretitle">Pre-step (skip if you already have Claude Code)</div>
+        <h3>Get Claude Code on your machine</h3>
+        <div class="step-block">
+          <div class="step-block-label">What</div>
+          <p>Install the Claude Code CLI. It's the tool that runs everything below. If you've never opened Terminal, that's fine, this is the only command-line moment until you're set up.</p>
+        </div>
+        <div class="step-block">
+          <div class="step-block-label">Install</div>
+          <pre class="step-install">npm install -g @anthropic-ai/claude-code
+claude --version  # should print a version number</pre>
+        </div>
+        <div class="step-working">
+          <strong>You'll know it's working when:</strong> typing <code>claude --version</code> in Terminal prints a version number instead of an error.
+        </div>
+        <p class="step-time">Setup time: 5 minutes.</p>
+      </div>
+    </li>
+
+    <li class="setup-step is-first">
+      <div class="step-num">1</div>
+      <div>
+        <h3>Wire the conversion hook + ingest_intercom_tickets</h3>
+
+
+        <div class="step-block">
+          <div class="step-block-label">What</div>
+          <p>SessionStart hook for raw_dropzone. Then write ingest_intercom_tickets skill that pulls last 7 days of conversations.</p>
+        </div>
+
+        <div class="step-block">
+          <div class="step-block-label">Why this first</div>
+          <p>Intercom is your highest-volume signal. Without ingestion, the triage orchestrator has nothing to read.</p>
+        </div>
+
+        <div class="step-block">
+          <div class="step-block-label">Install</div>
+          <pre class="step-install"># 1. Hook setup (5 min)
+brew install pandoc poppler && pip install xlsx2csv
+# add SessionStart entry to .claude/settings.json
+
+# 2. Skill
+# write under .claude/skills/ingest_intercom_tickets/
+# uses INTERCOM_ACCESS_TOKEN in ~/.env
+# writes to data/feedback/intercom_tickets.csv</pre>
+        </div>
+
+        <div class="step-impact">
+          <div class="before"><strong>Before:</strong> Tom dumps tickets in Slack each Monday. Devon reads them by hand.</div>
+          <div class="after"><strong>After:</strong> Tickets land in data/feedback/ overnight. Triage is ready Monday 7am.</div>
+        </div>
+
+
+        <p class="step-time">Setup time: Half a day for the skill</p>
+      </div>
+    </li>
+    <li class="setup-step">
+      <div class="step-num">2</div>
+      <div>
+        <h3>Build feedback_themes silver platter (cluster_themes skill)</h3>
+
+
+        <div class="step-block">
+          <div class="step-block-label">What</div>
+          <p>Skill that reads Intercom + Pendo + customer calls + GitHub. Clusters by root cause. Writes silver_platters/feedback_themes_<week>.md.</p>
+        </div>
+
+        <div class="step-block">
+          <div class="step-block-label">Why this first</div>
+          <p>Replaces 200+ tickets/responses with 5 themes + verbatim quotes. Devon reads 5 things, not 200.</p>
+        </div>
+
+        <div class="step-block">
+          <div class="step-block-label">Install</div>
+          <pre class="step-install"># write under .claude/skills/cluster_themes/
+# reads from data/feedback/* and data/product/github_issues.csv
+# writes silver_platters/feedback_themes_<week>.md
+# scheduled via cron Sunday 11pm</pre>
+        </div>
+
+        <div class="step-impact">
+          <div class="before"><strong>Before:</strong> Pendo dumps unread. Devon never sees the cluster pattern.</div>
+          <div class="after"><strong>After:</strong> Mon 6am brief shows top 5 clusters with churn-risk flags. Engineering picks highest-impact.</div>
+        </div>
+
+
+        <p class="step-time">Setup time: Half a day</p>
+      </div>
+    </li>
+    <li class="setup-step">
+      <div class="step-num">3</div>
+      <div>
+        <h3>Triage Orchestrator + Root-Cause Analyst + Codex Fix Drafter</h3>
+
+
+        <div class="step-block">
+          <div class="step-block-label">What</div>
+          <p>Three subagents under .claude/agents/. Orchestrator routes. Root-Cause analyzes. Codex drafts the fix in a worktree (never on main).</p>
+        </div>
+
+        <div class="step-block">
+          <div class="step-block-label">Why this first</div>
+          <p>The orchestrator hierarchy makes the system usable. Devon talks to Triage; specialists report up. Worktree pattern keeps Devon from worrying about AI pushing bad code.</p>
+        </div>
+
+        <div class="step-block">
+          <div class="step-block-label">Install</div>
+          <pre class="step-install"># write under .claude/agents/:
+#   triage-orchestrator.md (model: opus, tools: [Read, Glob, Grep, Task])
+#   root-cause-analyst.md (model: opus, tools include Bash for git log)
+#   codex-fix-drafter.md (model: opus, tools include Edit, Write, Bash; write only in worktrees/)
+# Hand to @claude-code-guide for templates.</pre>
+        </div>
+
+        <div class="step-impact">
+          <div class="before"><strong>Before:</strong> Devon is the human router. Pickup latency 3 weeks.</div>
+          <div class="after"><strong>After:</strong> Mechanical fixes draft same-session. Engineer reviews PROPOSAL.md, approves via audit log.</div>
+        </div>
+
+
+        <p class="step-time">Setup time: 2-3 hours</p>
+      </div>
+    </li>
+    <li class="setup-step">
+      <div class="step-num">4</div>
+      <div>
+        <h3>Audit log + approval-gate hooks (Stop warns on unsigned PROPOSAL)</h3>
+
+
+        <div class="step-block">
+          <div class="step-block-label">What</div>
+          <p>PostToolUse hook for every Edit/Write. Stop hook that warns if a worktree's PROPOSAL.md is unacknowledged at session end. Permissions deny: never push to main.</p>
+        </div>
+
+        <div class="step-block">
+          <div class="step-block-label">Why this first</div>
+          <p>Trust layer. Engineer review is non-negotiable. Permissions config is the second line of defense.</p>
+        </div>
+
+        <div class="step-block">
+          <div class="step-block-label">Install</div>
+          <pre class="step-install"># permissions in .claude/settings.json:
+# "deny": ["Bash(git push*)", "Bash(git merge*)"]
+# hooks per business_os_hooks.md</pre>
+        </div>
+
+        <div class="step-impact">
+          <div class="before"><strong>Before:</strong> AI wrote code? You don't know what. AI pushed code? Yikes.</div>
+          <div class="after"><strong>After:</strong> Every action recorded. AI cannot push. Engineer's [approved] line is the merge trigger.</div>
+        </div>
+
+
+        <p class="step-time">Setup time: 10 minutes</p>
+      </div>
+    </li>
+    <li class="setup-step">
+      <div class="step-num">5</div>
+      <div>
+        <h3>Add /weekly_product_report and /churn_investigation slash commands</h3>
+
+
+        <div class="step-block">
+          <div class="step-block-label">What</div>
+          <p>Two slash commands under .claude/commands/. Each triggers the right agent chain.</p>
+        </div>
+
+        <div class="step-block">
+          <div class="step-block-label">Why this first</div>
+          <p>Turns Devon's recurring motions into one-keystroke triggers. Standup-ready report Monday morning. Churn investigation drafts within hours.</p>
+        </div>
+
+        <div class="step-block">
+          <div class="step-block-label">Install</div>
+          <pre class="step-install"># write under .claude/commands/:
+#   weekly_product_report.md
+#   churn_investigation.md (takes <customer_id> as arg)</pre>
+        </div>
+
+        <div class="step-impact">
+          <div class="before"><strong>Before:</strong> Each Monday is a fresh prompting session.</div>
+          <div class="after"><strong>After:</strong> Devon runs /weekly_product_report at 7am, walks the team through it at 9am.</div>
+        </div>
+
+
+        <p class="step-time">Setup time: 30 minutes</p>
+      </div>
+    </li>
+
+    <li class="closing-card">
+      <h3>You've shipped your back-of-house.</h3>
+      <p>Next: hand <code>@claude-code-guide</code> a one-line ask for your next skill, or join the <a href="https://www.skool.com/earlyaidopters/about" target="_blank">Early AI Dopters community</a> to see how other operators evolved theirs.</p>
+    </li>
+  </ol>
+</section>
+
+<div class="overlay" id="card-modal" onclick="if(event.target.id==='card-modal') closeAll()">
+  <div class="modal">
+    <h2 id="cm-title"></h2>
+    <div class="subtle" id="cm-subtitle"></div>
+    <div id="cm-body"></div>
+    <button class="close-btn" onclick="closeAll()">Close</button>
+  </div>
+</div>
+
+<div class="overlay" id="recipe-modal" onclick="if(event.target.id==='recipe-modal') closeAll()">
+  <div class="modal modal-large">
+    <h2 id="rm-title"></h2>
+    <div class="subtle" id="rm-goal"></div>
+    <div id="rm-body"></div>
+    <button class="close-btn" onclick="closeAll()">Close</button>
+  </div>
+</div>
+
+<footer class="page-footer">
+  Generated by <code>/silver-platter</code> &middot; Click any card or recipe for plain-English details
+</footer>
+
+<script>
+  const DATA = {
+    pantry: [{"cadence": "weekly", "claude_code_recommendation": {"estimated_time_savings": "Strategic, turns dead data into product signal", "rationale": "150-line skill against the API. Pulls weekly responses, clusters with cluster_themes skill into 3-5 themes per week. Reusable across every B2B SaaS client.", "skill_to_write": "ingest_pendo_surveys"}, "cli_skill": null, "connection_methods": [{"cons": ["REST, verbose endpoints", "Token rate-limited"], "example": "GET /api/v1/feedback/nps?from=2025-10-01", "install": "PENDO_API_KEY in ~/.env. Wrap in a Claude skill.", "name": "Pendo Public API", "pros": ["Direct access", "Survey + product analytics in one"], "type": "api", "when_to_use": "Required, no CLI, no MCP."}], "explanation": "200+ free-text customer feedback responses per week. Today nobody reads them.", "feeds": ["feedback_themes"], "format": "CSV", "id": "pendo", "status": "have", "subtitle_friendly": "High volume \u00b7 updates weekly", "tool": "Pendo", "volume": "high", "volume_friendly": "High volume"}, {"cadence": "real-time", "claude_code_recommendation": {"estimated_time_savings": "5-10 hours/week of Devon\u0027s manual triage", "rationale": "Pulls conversations + tags. Clusters by root cause. The triage orchestrator\u0027s primary input.", "skill_to_write": "ingest_intercom_tickets + cluster_themes"}, "cli_skill": null, "connection_methods": [{"cons": ["Community-maintained, watch for updates"], "example": "Ask: \u0027show me unresolved P1 tickets from this week.\u0027", "install": "Add to .claude/.mcp.json with Intercom access token in env.", "name": "Intercom MCP (community)", "pros": ["Live data", "No CSV management"], "type": "mcp", "when_to_use": "Real-time ticket queries during a session."}, {"cons": ["Pagination required for high volume", "Nested attribute structure"], "example": "GET /conversations?per_page=150\u0026tag_ids[]=churn-risk", "install": "INTERCOM_ACCESS_TOKEN in ~/.env.", "name": "Intercom REST API", "pros": ["Full conversation + tag access", "Webhook support for real-time"], "type": "api", "when_to_use": "Bulk ingest + clustering writes to silver platter."}], "explanation": "40-60 customer support tickets per week. Triage orchestrator clusters dupes here first.", "feeds": ["feedback_themes", "support_volume"], "format": "CSV", "id": "intercom", "status": "have", "subtitle_friendly": "High volume \u00b7 updates real-time", "tool": "Intercom", "volume": "high", "volume_friendly": "High volume"}, {"cadence": "real-time", "claude_code_recommendation": {"estimated_time_savings": "Already efficient; the join is the value-add", "rationale": "gh is enough. Build cluster_themes on top to join Intercom -\u003e GitHub by root cause.", "skill_to_write": "Use gh directly + a thin wrapper for cluster_acme-style joins"}, "cli_skill": "gh", "connection_methods": [{"cons": ["Rate-limited at high volume; use API token"], "example": "gh issue list --label bug --state open --json number,title,labels,createdAt --limit 200", "install": "brew install gh\ngh auth login", "name": "gh (GitHub CLI)", "pros": ["Stable, official", "Powerful filtering with --json + jq", "Already in every dev\u0027s toolbelt"], "type": "cli", "when_to_use": "Always. Standard CLI, Devon\u0027s team already uses it."}, {"cons": ["Token in env"], "example": "Ask: \u0027is bug #4471 already filed?\u0027, agent calls GitHub MCP.", "install": "Add github MCP to .claude/.mcp.json.", "name": "GitHub MCP (official)", "pros": ["Live data", "Repo + issue + PR access"], "type": "mcp", "when_to_use": "When the agent should query GitHub directly mid-session."}, {"cons": ["More code"], "example": "GET /repos/\u003corg\u003e/\u003crepo\u003e/issues?state=all\u0026since=2025-10-01", "install": "GITHUB_TOKEN in ~/.env (used by gh too).", "name": "GitHub REST + GraphQL API", "pros": ["Full coverage"], "type": "api", "when_to_use": "Custom cuts, deep history, cross-repo joins."}], "explanation": "Engineering\u0027s record of bugs + features. Cross-referenced when triage classifies a customer ticket, known issue or new?", "feeds": ["feedback_themes"], "format": "CSV", "id": "github_issues", "status": "have", "subtitle_friendly": "Steady flow \u00b7 updates real-time", "tool": "GitHub Issues", "volume": "medium", "volume_friendly": "Steady flow"}, {"cadence": "real-time", "claude_code_recommendation": {"estimated_time_savings": "Detects roadmap drift before it becomes a churn problem", "rationale": "Pulls roadmap + cycle issues. The customer-voice distiller cross-references against feedback themes to surface \u0027customers asked for X 4 weeks running, X is not on roadmap.\u0027", "skill_to_write": "ingest_linear_issues"}, "cli_skill": null, "connection_methods": [{"cons": ["Org-scoped permissions"], "example": "Ask: \u0027what\u0027s in this cycle\u0027s product roadmap project?\u0027", "install": "Add linear MCP to .claude/.mcp.json with LINEAR_API_KEY in env.", "name": "Linear MCP (official)", "pros": ["Official", "Real-time"], "type": "mcp", "when_to_use": "Live queries on issues, projects, cycles."}, {"cons": ["Requires GraphQL knowledge for custom queries"], "example": "query { issues(filter: {labels: {name: {eq: \"customer-driven\"}}}) { nodes { id title state cycle { name } } } }", "install": "LINEAR_API_KEY in ~/.env. Wrap in a Claude skill.", "name": "Linear GraphQL API", "pros": ["Single GraphQL endpoint, exactly the fields you need"], "type": "api", "when_to_use": "Bulk pulls for the roadmap signal silver platter."}], "explanation": "Roadmap and engineering planning. Cross-referenced to detect drift between customer feedback and what\u0027s planned.", "feeds": ["product_roadmap_signal"], "format": "API", "id": "linear", "status": "have", "subtitle_friendly": "Steady flow \u00b7 updates real-time", "tool": "Linear", "volume": "medium", "volume_friendly": "Steady flow"}, {"cadence": "weekly", "claude_code_recommendation": {"estimated_time_savings": "1-2 hours/week of manual churn investigation", "rationale": "Use existing skill. Add a /weekly_churn_signal command that aggregates churned subscriptions + support ticket counts per churned customer.", "skill_to_write": "Already have stripe skill, extend to write churn data into silver platter"}, "cli_skill": "stripe", "connection_methods": [{"cons": ["Rate limits in test mode"], "example": "Ask: \u0027show me customers who churned in October.\u0027", "install": "Add stripe MCP to .claude/.mcp.json.", "name": "Stripe MCP (official)", "pros": ["Official", "Auth handled by stripe-cli login"], "type": "mcp", "when_to_use": "Real-time customer / subscription / charge queries."}, {"cons": ["Light on bulk-export, use API for that"], "example": "stripe customers list --limit 100", "install": "Already installed.", "name": "stripe CLI (your existing skill)", "pros": ["Already installed", "Webhook listener built-in"], "type": "cli", "when_to_use": "Already wrapped at ~/.claude/skills/stripe/."}, {"cons": ["Standard pagination"], "example": "GET /v1/subscriptions?status=canceled\u0026created.gte=1696118400", "install": "STRIPE_API_KEY in ~/.env (already set up).", "name": "Stripe API", "pros": ["Full coverage"], "type": "api", "when_to_use": "Bulk export + custom cuts."}], "explanation": "MRR and churn. The root-cause analyst joins Stripe data with support history when a customer cancels.", "feeds": ["churn_root_cause"], "format": "CSV", "id": "stripe", "status": "have", "subtitle_friendly": "Steady flow \u00b7 updates weekly", "tool": "Stripe", "volume": "medium", "volume_friendly": "Steady flow"}, {"cadence": "real-time", "claude_code_recommendation": {"estimated_time_savings": "Catches systemic-bug-driven churn faster", "rationale": "Pulls error spikes per release. The root-cause analyst cross-references with churn timing, was the churn correlated with a specific bug?", "skill_to_write": "ingest_sentry_for_churn"}, "cli_skill": null, "connection_methods": [{"cons": ["Better for ops than analysis"], "example": "sentry-cli releases list --org ledgerlink --project app", "install": "brew install getsentry/tools/sentry-cli\nsentry-cli login", "name": "sentry-cli", "pros": ["Official", "Stable"], "type": "cli", "when_to_use": "Release-flagging and bulk operations."}, {"cons": ["Auth via DSN or API key"], "example": "GET /api/0/projects/\u003corg\u003e/\u003cproj\u003e/issues/?statsPeriod=14d", "install": "SENTRY_AUTH_TOKEN in ~/.env.", "name": "Sentry REST API", "pros": ["Rich filtering by event type, release, environment"], "type": "api", "when_to_use": "Joining error spikes with churn timing."}], "explanation": "Production errors. Cross-referenced when root-cause-analyst hypothesizes whether a churn correlates with a specific incident.", "feeds": ["churn_root_cause"], "format": "API", "id": "sentry", "status": "have", "subtitle_friendly": "Steady flow \u00b7 updates real-time", "tool": "Sentry", "volume": "medium", "volume_friendly": "Steady flow"}, {"cadence": "ad-hoc", "claude_code_recommendation": {"estimated_time_savings": "Surfaces churn quotes from sales calls that nobody currently reviews", "rationale": "Already wrapped. Just need to chain fireflies pull -\u003e customer_voice_distill input.", "skill_to_write": "Use fireflies skill output to feed customer_voice_distill"}, "cli_skill": "fireflies", "connection_methods": [{"cons": ["Limited by Fireflies\u0027s own cadence"], "example": "fireflies transcripts list --since 2025-10-01", "install": "Already installed.", "name": "fireflies skill (~/.claude/skills/fireflies/)", "pros": ["Already installed", "Pulls transcripts + summaries + action items"], "type": "cli", "when_to_use": "Always. Pre-wrapped."}, {"cons": ["Limited free-tier query budget"], "example": "Already abstracted by your skill.", "install": "FIREFLIES_API_KEY in ~/.env.", "name": "Fireflies GraphQL API", "pros": ["Granular access"], "type": "api", "when_to_use": "Custom cuts beyond what your skill exposes."}], "explanation": "Customer call transcripts. Already wrapped via ~/.claude/skills/fireflies/. The customer-voice distiller mines them for verbatim quotes.", "feeds": ["feedback_themes"], "format": "DOCX/TXT", "id": "customer_calls", "status": "have", "subtitle_friendly": "Steady flow \u00b7 updates ad-hoc", "tool": "Otter / Fireflies", "volume": "medium", "volume_friendly": "Steady flow"}],
+    prep: [{"display_name": "Feedback themes", "domain": "feedback", "domain_friendly": "Customer feedback", "explanation": "Top 5 customer-pain clusters this week. Each cluster has a churn-risk flag. Drives the triage orchestrator\u0027s roadmap-impact decisions.", "governing_rule_excerpt": "---\npaths:\n  - silver_platters/feedback_*.md\n  - data/feedback/**\n  - outputs/proposed_fixes/**\n---\n\n# Feedback Taxonomy\n- P1 = paying customer escalation, OR a churn-risk customer (3+ tickets in 90 days).\n- Cluster ID assigned by triage agent. 3+ tickets in cluster = auto-escalate to root-cause analyst.\n", "id": "feedback_themes", "name": "feedback_themes_\u003cweek\u003e.md", "sample_content": "# Feedback Themes, W44\n\n## Top 5 clusters\n| Cluster ID | Tickets | Customers | Churn risk | Status |\n|---|---|---|---|---|\n| ACME-CSV-ENCODING | 4 | 3 | acme = churn-imminent | drafted in worktree |\n| INITECH-RECON-TIMEOUT | 3 | 2 | initech = churn-risk | RCA in progress |\n| BILLING-PRORATION | 2 | 1 | low | RCA in progress |\n\n## Top customer-voice quote\n\"every month, vendor names with accents get garbled. We\u0027ve reported this three times.\", Acme Corp QBR 2025-09-25 (churn-imminent)\n", "schedule": "Mon 6am", "sources": ["pendo", "intercom", "customer_calls", "github_issues"], "status": "have", "subtitle_friendly": "A Customer feedback brief Claude writes, Mon 6am"}, {"display_name": "Churn root cause", "domain": "churn", "domain_friendly": "Churn", "explanation": "Why customers churned this week, joining Stripe data with support history and recent error spikes.", "governing_rule_excerpt": "(no separate rule; lives in CLAUDE.md voice section)", "id": "churn_root_cause", "name": "churn_root_cause_\u003cweek\u003e.md", "sample_content": "# Churn Root Cause, W44\n\n## Churned this week (3 customers, $1,247 MRR lost)\n- acme-corp ($2,400 MRR), 7 P1 tickets in 90 days, all CSV encoding cluster. Cited \u0027considering BlackLine\u0027 in QBR.\n- daily-bugle ($49 MRR), 4 months tenure, 2 P3 tickets, no obvious cause.\n- castle-inc ($599 MRR), 6 months tenure, 1 P2, audit-log issue cluster.\n", "schedule": "Mon 6am", "sources": ["stripe", "intercom", "sentry"], "status": "have", "subtitle_friendly": "A Churn brief Claude writes, Mon 6am"}, {"display_name": "Product roadmap signal", "domain": "product", "domain_friendly": "Product / roadmap", "explanation": "What customers asked for vs what\u0027s planned. Detects roadmap drift before it costs MRR.", "governing_rule_excerpt": "(no separate rule)", "id": "product_roadmap_signal", "name": "product_roadmap_signal.md", "sample_content": "# Roadmap Signal, W44\n\n## Customer-driven items NOT on roadmap (drift warning)\n- ACME-CSV-ENCODING (4 tickets, 3 customers), GitHub #812 unassigned since Sept 14.\n- BILLING-PRORATION (2 tickets), no Linear issue.\n\n## Roadmap items NOT customer-driven this week\n- \u0027Multi-entity consolidation\u0027 (theme #2 of Q4), 1 customer mention in 6 weeks.\n", "schedule": "Mon 6am", "sources": ["linear", "feedback_themes"], "status": "have", "subtitle_friendly": "A Product / roadmap brief Claude writes, Mon 6am"}, {"display_name": "Support volume", "domain": "ops", "domain_friendly": "Operations", "explanation": "Volume by category, response time, escalation rate. Tom\u0027s weekly view.", "governing_rule_excerpt": "(no separate rule)", "id": "support_volume", "name": "support_volume_\u003cweek\u003e.md", "sample_content": "# Support Volume, W44\n\nTotal: 47 tickets (P1: 12, P2: 22, P3: 13).\nMedian first response: 18 min. Median resolution: 1.4 days.\nEscalation rate: 21% (target \u003c15%).\n", "schedule": "Mon 6am", "sources": ["intercom"], "status": "have", "subtitle_friendly": "A Operations brief Claude writes, Mon 6am"}],
+    plate: [{"agent": "Codex Fix Drafter", "agent_friendly": "the codex fix drafter", "approval_friendly": "Engineer appends [engineer_action] approved line in the audit log", "approval_gate": "Engineer appends [engineer_action] approved line in audit_log", "consumers": ["Jordan", "Sai"], "explanation": "Drafted in a git worktree, never on main. Engineer reviews PROPOSAL.md plus the diff, approves via audit log.", "id": "fix_proposal", "ideation_loop": ["Tom dumps Monday\u0027s tickets in Slack, 47 of them.", "Triage Orchestrator classifies each ticket: priority, category, churn-risk flag, dupe-cluster ID.", "When ACME-CSV-ENCODING cluster reaches 3+ tickets, orchestrator escalates to Root-Cause Analyst.", "Root-Cause Analyst joins ticket data with GitHub issues + customer call transcripts + recent commits. Identifies file/line where the encoding bug lives.", "Root-Cause writes outputs/proposed_fixes/cluster_acme_csv_encoding.md with the hypothesis.", "If the fix is mechanical (encoding, validation, log message, config), Triage Orchestrator routes to Codex Fix Drafter.", "Codex Fix Drafter creates a git worktree (fix-export-csv-encoding branch). Writes PROPOSAL.md + the actual code change. Never pushes to main.", "Stop hook: if the worktree\u0027s PROPOSAL is unacknowledged at session end, warns Devon.", "Jordan or Sai reviews PROPOSAL.md + diff. Appends [engineer_action] approved line to audit_log. Triage Orchestrator merges."], "name": "Codex fix PROPOSAL.md (in worktree)", "reads_from": ["feedback_themes", "churn_root_cause"], "sample_output": "# Proposal: Add UTF-8 BOM to CSV exports\n\n**Branch:** fix-export-csv-encoding\n**Cluster:** ACME-CSV-ENCODING (4 tickets, 3 customers)\n**Reviewer:** @jordan\n\n## Root cause\nsrc/lib/exporters/csv.go:42 opens bufio.NewWriter without writing UTF-8 BOM. Excel on Windows defaults to Win-1252.\n\n## Proposed change\n+ writer.Write([]byte{0xEF, 0xBB, 0xBF})\n\n## Test plan\nExisting tests pass. New test asserts BOM prefix on M\u00fcller GmbH input.\n\n## Risk\nLow. UTF-8 BOM invisible to Sheets, Numbers, pandas.\n", "status": "have", "subtitle_friendly": "Written by the codex fix drafter for Jordan, Sai"}, {"agent": "Triage Orchestrator", "agent_friendly": "your triage chief of staff", "approval_friendly": "Devon reviews Monday before standup", "approval_gate": "Devon reviews Monday before standup", "consumers": ["Devon", "Maya"], "explanation": "Top 3 clusters, churn signal, roadmap drift. Devon and Maya use it to drive Monday product planning.", "id": "weekly_product_report", "ideation_loop": ["Mon 6am cron triggers /weekly_product_report.", "Triage Orchestrator pulls feedback_themes + churn_root_cause + product_roadmap_signal silver platters.", "Maps each cluster to its current state (in worktree, RCA in progress, unassigned).", "Cross-references churned MRR against active clusters, which fixes would have prevented churn?", "Highlights roadmap-drift items.", "Drafts the report. Devon reads at standup."], "name": "Weekly product report", "reads_from": ["feedback_themes", "churn_root_cause", "product_roadmap_signal"], "sample_output": "# Weekly Product Report, W44\n\n## Top 3 clusters\n1. ACME-CSV-ENCODING, drafted in worktree, awaiting Jordan review.\n2. INITECH-RECON-TIMEOUT, Sai investigating, GH #813.\n3. BILLING-PRORATION, Jordan investigating, GH #815.\n\n## Churn signal\n$1,247 MRR lost this week. Acme cited \u0027considering BlackLine\u0027 in QBR. CSV-encoding fix could save them if shipped this week.\n\n## Roadmap drift\nMulti-entity consolidation is the #2 Q4 theme but only 1 customer mentioned it in the last 6 weeks. Reconsider priority.\n", "status": "have", "subtitle_friendly": "Written by your triage chief of staff for Devon, Maya"}],
+    recipes: [{"after_claude_code": "Triage runs Sunday night. Monday standup walks the report. Pickup latency drops to 3-5 days.", "before_claude_code": "Devon spent 3+ hours every Monday reading Slack, opening Intercom, scrolling Pendo, scrubbing GitHub. Half the tickets were dupes. Pickup latency 3 weeks.", "claude_code_stack": {"hooks": ["SessionStart convert_dropzone.sh (for customer call DOCX)", "PostToolUse audit_action.sh"], "rules": ["rules/feedback_taxonomy.md"], "skills": ["ingest_intercom_tickets", "ingest_pendo_surveys", "cluster_themes"], "subagents": ["Triage Orchestrator", "Customer-Voice Distiller"]}, "goal": "Devon stops being the human router. Monday morning, 47 inbound tickets are already classified, clustered, prioritized, and routed.", "headline": "Monday inbound triage", "id": "monday_triage_recipe", "ingredients": ["Intercom tickets", "GitHub issues", "Customer calls", "feedback_themes.md", "Triage Orchestrator"], "ingredients_friendly": ["Intercom tickets", "GitHub issues", "Customer calls", "feedback_themes.md", "Triage Orchestrator"], "name": "Monday inbound triage", "walkthrough": [{"action": "Triggers ingest_intercom_tickets + ingest_pendo_surveys to pull last 7 days of customer signal.", "actor": "Cron, Sunday 11pm"}, {"action": "Triggers cluster_themes skill which dedupes, clusters by root cause, and writes feedback_themes_\u003cweek\u003e.md.", "actor": "Cron"}, {"action": "Triggers Triage Orchestrator.", "actor": "Devon, Monday 7am, runs /weekly_product_report"}, {"action": "Reads feedback_themes silver platter. For each cluster, classifies priority + churn risk.", "actor": "Triage Orchestrator"}, {"action": "If a cluster has 3+ tickets, routes to Root-Cause Analyst.", "actor": "Triage Orchestrator"}, {"action": "Joins ticket data with GitHub issues + recent commits + customer calls. Writes hypothesis to outputs/proposed_fixes/cluster_\u003cid\u003e.md.", "actor": "Root-Cause Analyst"}, {"action": "If root cause is mechanical, routes to Codex Fix Drafter (separate recipe).", "actor": "Triage Orchestrator"}, {"action": "Drafts the weekly product report. Saves to outputs/reports/weekly_product_\u003cweek\u003e.md.", "actor": "Triage Orchestrator"}, {"action": "Walks the team through the report. Engineering knows what to work on.", "actor": "Devon, Monday standup"}]}, {"after_claude_code": "Mechanical fixes draft within a session of identification. Engineer review = 30 min. Ship same day.", "before_claude_code": "Bug fix takes 3 weeks from \u0027we found it\u0027 to \u0027shipped\u0027. By then customer churned.", "claude_code_stack": {"hooks": ["PostToolUse audit_action.sh", "Stop check_acknowledgment.sh"], "rules": ["rules/code_review.md (paths: src/**, worktrees/**)"], "skills": ["draft_fix_in_worktree"], "subagents": ["Triage Orchestrator", "Root-Cause Analyst", "Codex Fix Drafter"]}, "goal": "When a cluster reaches 3+ tickets and is mechanical, the fix gets drafted in a git worktree with PROPOSAL.md + the actual code change. Engineer reviews. Never touches main without approval.", "headline": "Codex fix in a worktree (when a cluster matures)", "id": "codex_worktree_recipe", "ingredients": ["feedback_themes.md", "GitHub issues", "Recent commits", "Codex Fix Drafter"], "ingredients_friendly": ["feedback_themes.md", "GitHub issues", "Recent commits", "Codex Fix Drafter"], "name": "Codex fix in a worktree (when a cluster matures)", "walkthrough": [{"action": "Identifies a mature cluster (3+ tickets, mechanical fix). Routes to Root-Cause Analyst.", "actor": "Triage Orchestrator"}, {"action": "Reads tickets + customer calls. Reads recent git history + Sentry errors. Identifies file/line.", "actor": "Root-Cause Analyst"}, {"action": "Writes outputs/proposed_fixes/cluster_\u003cid\u003e.md with hypothesis + fix scope + risk.", "actor": "Root-Cause Analyst"}, {"action": "Reads the hypothesis. Confirms scope is mechanical. Routes to Codex Fix Drafter.", "actor": "Triage Orchestrator"}, {"action": "Creates a git worktree: git worktree add worktrees/fix-\u003ccluster_id\u003e -b fix-\u003ccluster_id\u003e.", "actor": "Codex Fix Drafter"}, {"action": "Writes the actual code change inside the worktree. Adds a test that asserts the fix.", "actor": "Codex Fix Drafter"}, {"action": "Writes worktrees/fix-\u003ccluster_id\u003e/PROPOSAL.md: ticket trail + root cause + diff + test plan + risk + rollback.", "actor": "Codex Fix Drafter"}, {"action": "If PROPOSAL is unacknowledged at session end, warns Devon.", "actor": "Stop hook"}, {"action": "Reviews PROPOSAL.md + the diff. Appends [engineer_action] approved fix-\u003ccluster_id\u003e line to audit_log.", "actor": "Jordan or Sai"}, {"action": "Sees the approval line. Merges the worktree.", "actor": "Triage Orchestrator"}]}, {"after_claude_code": "Standup runs on data. Engineering picks the highest-impact cluster. Roadmap drift surfaces before it costs MRR.", "before_claude_code": "Monday standup ran on Devon\u0027s gut feel. Engineering chose work based on whoever shouted loudest.", "claude_code_stack": {"hooks": ["PostToolUse audit_action.sh"], "rules": ["rules/product_priorities.md"], "skills": ["cluster_themes"], "subagents": ["Triage Orchestrator"]}, "goal": "Devon and Maya start Monday with a single report: what customers said, what churned, what\u0027s drifting on roadmap. Engineering knows what to work on.", "headline": "Weekly product report (Monday standup)", "id": "weekly_product_recipe", "ingredients": ["feedback_themes.md", "churn_root_cause.md", "product_roadmap_signal.md", "Triage Orchestrator"], "ingredients_friendly": ["feedback_themes.md", "churn_root_cause.md", "product_roadmap_signal.md", "Triage Orchestrator"], "name": "Weekly product report (Monday standup)", "walkthrough": [{"action": "Triggers Triage Orchestrator.", "actor": "Devon, Monday 7am, runs /weekly_product_report"}, {"action": "Reads three silver platters: feedback_themes, churn_root_cause, product_roadmap_signal.", "actor": "Triage Orchestrator"}, {"action": "Maps each cluster to its current state (in worktree, RCA in progress, unassigned).", "actor": "Triage Orchestrator"}, {"action": "Cross-references churn against active clusters, which fixes would prevent next week\u0027s churn?", "actor": "Triage Orchestrator"}, {"action": "Highlights roadmap-drift: items on roadmap with no customer signal, items in customer signal not on roadmap.", "actor": "Triage Orchestrator"}, {"action": "Drafts outputs/reports/weekly_product_\u003cweek\u003e.md.", "actor": "Triage Orchestrator"}, {"action": "Reads at 7:30am. Adds [human_action] line. Walks team through it at 9am standup.", "actor": "Devon"}]}, {"after_claude_code": "Investigation drafts within hours. Devon reviews in 15 min. Patterns surface.", "before_claude_code": "Churn investigations took 2 days each because the data lived in 5 places. Often skipped entirely.", "claude_code_stack": {"hooks": ["SessionStart convert_dropzone.sh", "PostToolUse audit_action.sh"], "rules": ["rules/feedback_taxonomy.md"], "skills": ["ingest_stripe_churn", "ingest_sentry_for_churn"], "subagents": ["Triage Orchestrator", "Root-Cause Analyst"]}, "goal": "When a customer cancels, root-cause-analyst investigates within hours, not days. Surfaces the support history + error timing + roadmap miss that drove the churn.", "headline": "Churn investigation (when a customer cancels)", "id": "churn_investigation_recipe", "ingredients": ["Stripe (cancellation)", "Intercom history", "Sentry errors", "churn_root_cause.md", "Root-Cause Analyst"], "ingredients_friendly": ["Stripe (cancellation)", "Intercom history", "Sentry errors", "churn_root_cause.md", "Root-Cause Analyst"], "name": "Churn investigation (when a customer cancels)", "walkthrough": [{"action": "Subscription cancellation event lands.", "actor": "Stripe webhook"}, {"action": "Drops the cancellation event into data/feedback/churn_events/.", "actor": "ingest_stripe_churn skill"}, {"action": "Triggers Triage Orchestrator.", "actor": "Devon, runs /churn_investigation \u003ccustomer_id\u003e"}, {"action": "Routes to Root-Cause Analyst.", "actor": "Triage Orchestrator"}, {"action": "Pulls customer\u0027s Intercom history (full thread).", "actor": "Root-Cause Analyst"}, {"action": "Pulls Sentry errors that touched the customer\u0027s user_id during their tenure.", "actor": "Root-Cause Analyst"}, {"action": "Cross-references customer call transcripts via the fireflies skill (looking for \u0027considering\u0027 or \u0027cancel\u0027 phrases).", "actor": "Root-Cause Analyst"}, {"action": "Writes outputs/churn_investigations/\u003ccustomer_id\u003e.md: tenure, tickets, errors, calls, hypothesis.", "actor": "Root-Cause Analyst"}, {"action": "Reviews. Decides: was this preventable? If yes, what\u0027s the systemic fix?", "actor": "Devon"}]}],
+    opp_by_id: {"fix_proposal": [{"claude_code_feature": "subagent_update", "estimated_impact": "Required for engineer trust", "explanation": "Today the drafter just opens a worktree. Need a check: if Jordan or Sai is currently editing the same file, the drafter backs off and flags. Prevents \u0027AI overwrites my work.\u0027", "feature_name": "codex-fix-drafter", "surface": "plate/fix_proposal", "title": "Add file-conflict detection to codex-fix-drafter", "type": "approval_gate"}], "intercom": [{"claude_code_feature": "skill", "estimated_impact": "5-10 hours/week of Devon\u0027s manual triage", "explanation": "Pulls tickets + tags + clusters via the Intercom API. Powers the triage orchestrator.", "feature_name": "ingest_intercom_tickets", "surface": "pantry/intercom", "title": "Wrap Intercom as a Claude skill", "type": "skill_writing_opportunity"}], "pendo": [{"claude_code_feature": "skill", "estimated_impact": "Strategic, turns dead Pendo data into product signal", "explanation": "No CLI exists for Pendo. ~150-line skill against the API. Reusable across every B2B SaaS client.", "feature_name": "ingest_pendo_surveys", "surface": "pantry/pendo", "title": "Wrap Pendo as a Claude skill", "type": "skill_writing_opportunity"}]},
+    interaction: []
+  };
+
+  const CONN_FRIENDLY = {
+    mcp: { label: 'Easiest setup', summary: 'A pre-built bridge. You add a few lines to a config file once and Claude can ask the tool questions live.' },
+    cli: { label: 'If you live in the terminal', summary: 'A command-line wrapper. Best when your developer is comfortable in Terminal and wants speed.' },
+    api: { label: 'Custom build', summary: 'Direct API calls. Most flexibility, most code. Use when nothing else fits.' }
+  };
+
+  const PRIMITIVE_KEY = `
+    <div class="primitive-key">
+      <div><span class="stack-pill skill">skill</span><span>= a reusable mini-tool</span></div>
+      <div><span class="stack-pill subagent">subagent</span><span>= a specialist staffer</span></div>
+      <div><span class="stack-pill hook">hook</span><span>= an auto-trigger</span></div>
+      <div><span class="stack-pill rule">rule</span><span>= guardrails Claude follows</span></div>
+    </div>`;
+
+  document.querySelectorAll('.tab-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
+      if (btn.dataset.tab === 'flow') renderSankey();
+    });
+  });
+
+  // ---------- Sankey ----------
+  function renderSankey() {
+    const svg = document.getElementById('sankey-svg');
+    if (!svg || svg.dataset.rendered === '1') return;
+
+    const hasInteract = (DATA.interaction || []).length > 0;
+    const W = hasInteract ? 1500 : 1200;
+    const H = hasInteract ? 760 : 700;
+    const colX = hasInteract
+      ? { pantry: 60, prep: 460, plate: 860, interaction: 1260 }
+      : { pantry: 80, prep: 540, plate: 1000 };
+    const colW = 160;
+    const padTop = 44, padBot = 40;
+    const usableH = H - padTop - padBot;
+    const NODE_GAP = 8;
+    const ribbonStrokeMin = 6;
+
+    svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
+
+    const nodes = {};
+
+    function isOpp(item, lane) {
+      const opps = DATA.opp_by_id[item.id] || [];
+      if (opps.length) return true;
+      if (lane !== 'pantry' && item.status === 'missing') return true;
+      if (lane === 'interaction' && item.status === 'could-add') return true;
+      return false;
+    }
+    function nodeFill(item, lane) {
+      if (lane === 'interaction' && item.status === 'could-add') return '#E07A4F';
+      if (isOpp(item, lane)) return '#E07A4F';
+      if (lane === 'pantry') return '#4a5d7e';
+      if (lane === 'prep')   return '#6b8e6b';
+      if (lane === 'interaction') return '#8a6db6';
+      return '#1a1a1a';
+    }
+
+    // Build link list (pantry->prep, prep->plate, plate->interaction)
+    const links = [];
+    DATA.prep.forEach(p => {
+      (p.sources || []).forEach(sid => {
+        if (DATA.pantry.find(x => x.id === sid)) {
+          links.push({ from: sid, to: p.id, opp: isOpp(p, 'prep') });
+        }
+      });
+    });
+    DATA.plate.forEach(pl => {
+      (pl.reads_from || []).forEach(pid => {
+        if (DATA.prep.find(x => x.id === pid)) {
+          links.push({ from: pid, to: pl.id, opp: isOpp(pl, 'plate') });
+        }
+      });
+    });
+    if (hasInteract) {
+      DATA.interaction.forEach(ix => {
+        (ix.consumes || []).forEach(pid => {
+          if (DATA.plate.find(x => x.id === pid)) {
+            links.push({ from: pid, to: ix.id, opp: ix.status === 'could-add' });
+          }
+        });
+      });
+    }
+
+    // Weight per node = max(1, links touching it)
+    const weights = {};
+    function bumpW(id) { weights[id] = (weights[id] || 0) + 1; }
+    DATA.pantry.forEach(p => weights[p.id] = 0);
+    DATA.prep.forEach(p => weights[p.id] = 0);
+    DATA.plate.forEach(p => weights[p.id] = 0);
+    if (hasInteract) DATA.interaction.forEach(p => weights[p.id] = 0);
+    links.forEach(l => { bumpW(l.from); bumpW(l.to); });
+    Object.keys(weights).forEach(k => { if (!weights[k]) weights[k] = 1; });
+
+    // Layout each column
+    function layoutCol(lane, items) {
+      const totalW = items.reduce((s, x) => s + weights[x.id], 0);
+      const totalGaps = (items.length - 1) * NODE_GAP;
+      const scale = (usableH - totalGaps) / Math.max(1, totalW);
+      let y = padTop;
+      items.forEach(it => {
+        const h = Math.max(28, weights[it.id] * scale);
+        nodes[it.id] = {
+          id: it.id,
+          lane,
+          item: it,
+          x: colX[lane],
+          y,
+          w: colW,
+          h,
+          fill: nodeFill(it, lane),
+          opp: isOpp(it, lane),
+          // running pointers for ribbon stacking
+          outY: y,
+          inY: y,
+        };
+        y += h + NODE_GAP;
+      });
+    }
+    layoutCol('pantry', DATA.pantry);
+    layoutCol('prep',   DATA.prep);
+    layoutCol('plate',  DATA.plate);
+    if (hasInteract) layoutCol('interaction', DATA.interaction);
+
+    // Ribbon thickness = source/target node height divided by their link count, but clamped
+    const outCounts = {}, inCounts = {};
+    DATA.pantry.forEach(p => outCounts[p.id] = 0);
+    DATA.prep.forEach(p => { outCounts[p.id] = 0; inCounts[p.id] = 0; });
+    DATA.plate.forEach(p => { outCounts[p.id] = 0; inCounts[p.id] = 0; });
+    if (hasInteract) DATA.interaction.forEach(p => inCounts[p.id] = 0);
+    links.forEach(l => { outCounts[l.from] = (outCounts[l.from] || 0) + 1; inCounts[l.to] = (inCounts[l.to] || 0) + 1; });
+
+    function ribbonThickness(linkId, fromId, toId) {
+      const sNode = nodes[fromId], tNode = nodes[toId];
+      const sT = sNode.h / Math.max(1, outCounts[fromId]);
+      const tT = tNode.h / Math.max(1, inCounts[toId]);
+      return Math.max(ribbonStrokeMin, Math.min(sT, tT));
+    }
+
+    // Build SVG markup
+    let parts = [];
+
+    // Column headers + sub-captions
+    function colHeader(x, label, sub) {
+      parts.push(`<text x="${x + colW/2}" y="22" text-anchor="middle" style="font-size:11px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;fill:#1a1a1a;">${label}</text>`);
+      parts.push(`<text x="${x + colW/2}" y="36" text-anchor="middle" style="font-size:10px;fill:#6b6b6b;">${sub}</text>`);
+    }
+    colHeader(colX.pantry, 'Pantry', 'raw data');
+    colHeader(colX.prep,   'Prep table', 'silver platters');
+    colHeader(colX.plate,  'Plate', 'briefs you read');
+    if (hasInteract) colHeader(colX.interaction, 'Where you read it', 'Slack / inbox / iPad');
+
+    // Ribbons (drawn first so nodes sit on top)
+    const linkPaths = [];
+    links.forEach((l, i) => {
+      const s = nodes[l.from], t = nodes[l.to];
+      const thick = ribbonThickness(i, l.from, l.to);
+      const sy = s.outY + thick / 2;
+      const ty = t.inY + thick / 2;
+      s.outY += thick;
+      t.inY += thick;
+      const x1 = s.x + s.w;
+      const x2 = t.x;
+      const cx1 = x1 + (x2 - x1) * 0.45;
+      const cx2 = x1 + (x2 - x1) * 0.55;
+      const path = `M ${x1} ${sy} C ${cx1} ${sy}, ${cx2} ${ty}, ${x2} ${ty}`;
+      const cls = l.opp ? 'sankey-link is-opportunity' : 'sankey-link';
+      linkPaths.push(`<path class="${cls}" d="${path}" stroke-width="${thick}" data-from="${l.from}" data-to="${l.to}"></path>`);
+    });
+    parts.push(linkPaths.join(''));
+
+    // Nodes
+    function escapeText(s) { return String(s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+    function truncate(s, n) { s = String(s || ''); return s.length > n ? s.slice(0, n - 1) + '…' : s; }
+
+    Object.values(nodes).forEach(n => {
+      const labelMain = n.lane === 'pantry'
+        ? n.item.tool
+        : n.lane === 'interaction'
+          ? n.item.channel
+          : (n.item.display_name || n.item.name || n.item.tool);
+      const labelSub = n.lane === 'pantry'
+        ? (n.item.format || '')
+        : n.lane === 'prep'
+          ? (n.item.domain_friendly || n.item.domain || '')
+          : n.lane === 'interaction'
+            ? (n.item.status === 'could-add' ? 'suggested add' : (n.item.type || ''))
+            : (n.item.agent_friendly || n.item.agent || '');
+      const labelOnLeft = (n.lane === 'plate' || n.lane === 'interaction');
+      const labelX = labelOnLeft ? n.x - 8 : n.x + n.w + 8;
+      const anchor = labelOnLeft ? 'end' : 'start';
+      const isSuggested = n.lane === 'interaction' && n.item.status === 'could-add';
+      const rectStyle = isSuggested ? 'stroke-dasharray:4 3;stroke:#E07A4F;stroke-width:2;fill:white;' : '';
+      const textFill = isSuggested ? 'fill:#E07A4F;' : '';
+      const rectFill = isSuggested ? 'white' : n.fill;
+      parts.push(
+        `<g class="sankey-node" data-card-id="${n.id}" data-lane="${n.lane}" style="cursor:pointer;">` +
+        `<rect class="sankey-node-rect" x="${n.x}" y="${n.y}" width="${n.w}" height="${n.h}" rx="3" fill="${rectFill}" style="${rectStyle}" data-card-id="${n.id}" data-lane="${n.lane}"></rect>` +
+        `<text class="sankey-node-label" x="${labelX}" y="${n.y + n.h/2 - 2}" text-anchor="${anchor}" dominant-baseline="middle" style="${textFill}">${escapeText(truncate(labelMain, 32))}</text>` +
+        (labelSub ? `<text class="sankey-node-sub" x="${labelX}" y="${n.y + n.h/2 + 12}" text-anchor="${anchor}" dominant-baseline="middle">${escapeText(truncate(labelSub, 32))}</text>` : '') +
+        `</g>`
+      );
+    });
+
+    svg.innerHTML = parts.join('');
+    svg.dataset.rendered = '1';
+
+    // Click handlers, opens the same card modal
+    svg.querySelectorAll('.sankey-node').forEach(g => {
+      g.addEventListener('click', () => openCardModal(g.dataset.cardId, g.dataset.lane));
+    });
+
+    // Hover highlighting, dim siblings
+    svg.querySelectorAll('.sankey-link').forEach(p => {
+      p.addEventListener('mouseenter', () => {
+        svg.querySelectorAll('.sankey-link').forEach(x => x.classList.remove('is-active'));
+        p.classList.add('is-active');
+      });
+      p.addEventListener('mouseleave', () => p.classList.remove('is-active'));
+    });
+    svg.querySelectorAll('.sankey-node').forEach(g => {
+      g.addEventListener('mouseenter', () => {
+        const id = g.dataset.cardId;
+        svg.querySelectorAll('.sankey-link').forEach(x => {
+          const match = x.getAttribute('data-from') === id || x.getAttribute('data-to') === id;
+          x.classList.toggle('is-active', match);
+        });
+      });
+      g.addEventListener('mouseleave', () => svg.querySelectorAll('.sankey-link').forEach(x => x.classList.remove('is-active')));
+    });
+  }
+  // -------- end Sankey --------
+
+  document.querySelectorAll('.card').forEach(c => {
+    c.addEventListener('click', () => openCardModal(c.dataset.cardId, c.dataset.lane));
+  });
+
+  document.querySelectorAll('.recipe-card').forEach(r => {
+    r.addEventListener('click', () => openRecipeModal(r.dataset.recipeId));
+  });
+
+  function findItem(lane, id) {
+    return DATA[lane].find(x => x.id === id);
+  }
+
+  function escapeHtml(s) {
+    if (s == null) return '';
+    return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+
+  function openCardModal(id, lane) {
+    if (lane === 'interaction') {
+      const ix = (DATA.interaction || []).find(x => x.id === id);
+      if (!ix) return;
+      document.getElementById('cm-title').textContent = ix.channel;
+      document.getElementById('cm-subtitle').textContent =
+        ix.status === 'could-add' ? 'Suggested add-on, not yet wired' : 'Already in use';
+      let body = `<div class="modal-section"><h3>What this is</h3><p>${escapeHtml(ix.description)}</p></div>`;
+      const consumes = (ix.consumes || []).map(pid => {
+        const pl = DATA.plate.find(x => x.id === pid);
+        return pl ? pl.name : pid;
+      });
+      if (consumes.length) {
+        body += `<div class="modal-section"><h3>Carries which briefs</h3><p>${consumes.map(n => '<code>' + escapeHtml(n) + '</code>').join(' &nbsp;·&nbsp; ')}</p></div>`;
+      }
+      if (ix.status === 'could-add') {
+        body += `<div class="modal-section"><h3>Why suggest this</h3><p>${escapeHtml(ix.description)}</p></div>`;
+      }
+      document.getElementById('cm-body').innerHTML = body;
+      document.getElementById('card-modal').classList.add('visible');
+      return;
+    }
+    const item = findItem(lane, id);
+    if (!item) return;
+    const opps = (DATA.opp_by_id[id] || []);
+
+    document.getElementById('cm-title').textContent = item.tool || item.display_name || item.name;
+
+    const subtitle =
+      lane === 'pantry'
+        ? (item.subtitle_friendly || `${item.volume_friendly || (item.volume + ' volume')} · updates ${item.cadence}`)
+        : lane === 'prep'
+          ? (item.subtitle_friendly || `A ${item.domain_friendly || item.domain} brief Claude writes ${item.schedule || ''}`)
+          : (item.subtitle_friendly || `Written by ${item.agent_friendly || item.agent || 'an assistant'} for ${(item.consumers || []).join(', ') || 'you'}`);
+    document.getElementById('cm-subtitle').textContent = subtitle;
+
+    let body = '';
+
+    if (item.explanation) {
+      body += `<div class="modal-section"><h3>What this is</h3><p>${escapeHtml(item.explanation)}</p></div>`;
+    }
+
+    if (lane === 'pantry' && item.connection_methods && item.connection_methods.length) {
+      body += `<div class="modal-section"><h3>How to connect this to Claude</h3>`;
+      body += `<div class="conn-tabs">`;
+      item.connection_methods.forEach((cm, i) => {
+        const friendly = CONN_FRIENDLY[cm.type] || { label: cm.type.toUpperCase() };
+        body += `<button class="conn-tab ${i===0?'active':''}" data-conn="${cm.type}">${friendly.label}<small>${cm.type.toUpperCase()}</small></button>`;
+      });
+      body += `</div>`;
+      item.connection_methods.forEach((cm, i) => {
+        const friendly = CONN_FRIENDLY[cm.type] || { summary: '' };
+        body += `<div class="conn-content ${i===0?'active':''}" data-conn-content="${cm.type}">`;
+        if (friendly.summary) {
+          body += `<div class="conn-summary">${escapeHtml(friendly.summary)}</div>`;
+        }
+        body += `<p><strong>${escapeHtml(cm.name)}</strong></p>`;
+        if (cm.when_to_use) body += `<p>${escapeHtml(cm.when_to_use)}</p>`;
+        if (cm.pros && cm.pros.length) {
+          body += `<p style="margin-top:8px;"><strong>Pros:</strong></p><ul>` + cm.pros.map(x => `<li>${escapeHtml(x)}</li>`).join('') + `</ul>`;
+        }
+        if (cm.cons && cm.cons.length) {
+          body += `<p><strong>Tradeoffs:</strong></p><ul>` + cm.cons.map(x => `<li>${escapeHtml(x)}</li>`).join('') + `</ul>`;
+        }
+        if (cm.install || cm.example) {
+          const tid = `inst-${id}-${cm.type}`;
+          body += `<button class="install-toggle" onclick="document.getElementById('${tid}').classList.toggle('visible')">Show install steps ▾</button>`;
+          body += `<div class="install-block" id="${tid}">`;
+          if (cm.install) body += `<p style="font-size:12px;color:var(--muted);">Install:</p><pre>${escapeHtml(cm.install)}</pre>`;
+          if (cm.example) body += `<p style="font-size:12px;color:var(--muted);">Example:</p><pre>${escapeHtml(cm.example)}</pre>`;
+          body += `</div>`;
+        }
+        body += `</div>`;
+      });
+      body += `</div>`;
+    }
+
+    if (lane === 'pantry') {
+      const downstream_prep = DATA.prep.filter(p => (p.sources || []).includes(id));
+      const downstream_plate_ids = new Set();
+      downstream_prep.forEach(p => DATA.plate.filter(pl => (pl.reads_from || []).includes(p.id)).forEach(pl => downstream_plate_ids.add(pl.id)));
+      const downstream_plates = DATA.plate.filter(pl => downstream_plate_ids.has(pl.id));
+      if (downstream_prep.length || downstream_plates.length) {
+        body += `<div class="modal-section"><h3>Where this data ends up</h3>`;
+        if (downstream_prep.length) body += `<p><strong>Feeds into:</strong> ${downstream_prep.map(p => '<code>' + escapeHtml(p.display_name || p.name) + '</code>').join(' · ')}</p>`;
+        if (downstream_plates.length) body += `<p><strong>Shows up in:</strong> ${downstream_plates.map(p => '<code>' + escapeHtml(p.name) + '</code>').join(' · ')}</p>`;
+        body += `</div>`;
+      }
+    }
+
+    if (lane === 'prep' && item.sample_content) {
+      body += `<div class="modal-section"><h3>What's inside ${escapeHtml(item.display_name || item.name)}</h3>`;
+      body += `<div class="sample-preview">${escapeHtml(item.sample_content)}</div></div>`;
+    }
+    if (lane === 'prep' && item.governing_rule_excerpt) {
+      body += `<div class="modal-section"><h3>The rules Claude follows when touching this file</h3>`;
+      body += `<p style="font-size:13px;color:var(--muted);margin-bottom:8px;">Claude reads these rules automatically anytime it opens this brief. Keeps it from quoting numbers it can't trace.</p>`;
+      body += `<div class="sample-preview">${escapeHtml(item.governing_rule_excerpt)}</div></div>`;
+    }
+    if (lane === 'prep' && item.sources && item.sources.length) {
+      const sourceNames = item.sources.map(sid => {
+        const src = DATA.pantry.find(p => p.id === sid);
+        return src ? src.tool : sid;
+      });
+      body += `<div class="modal-section"><h3>Pulls from</h3><p>${sourceNames.map(n => '<code>' + escapeHtml(n) + '</code>').join(' &nbsp;·&nbsp; ')}</p></div>`;
+    }
+
+    if (lane === 'plate' && item.sample_output) {
+      body += `<div class="modal-section"><h3>Sample output</h3>`;
+      body += `<div class="sample-preview">${escapeHtml(item.sample_output)}</div></div>`;
+    }
+    if (lane === 'plate' && item.ideation_loop && item.ideation_loop.length) {
+      body += `<div class="modal-section"><h3>How Claude builds this for you, step by step</h3>`;
+      body += `<ol class="ideation-list">` + item.ideation_loop.map(s => `<li>${escapeHtml(s)}</li>`).join('') + `</ol></div>`;
+    }
+    if (lane === 'plate' && item.approval_gate) {
+      body += `<div class="modal-section"><h3>Sign-off</h3><p>🔒 ${escapeHtml(item.approval_friendly || item.approval_gate)}</p></div>`;
+    }
+
+    if (opps.length) {
+      body += `<div class="modal-section"><h3>Quick wins on this card</h3>`;
+      opps.forEach(o => {
+        body += `<p><strong>${escapeHtml(o.title)}.</strong> ${escapeHtml(o.explanation || '')}</p>`;
+      });
+      body += `</div>`;
+    }
+
+    if (item.claude_code_recommendation) {
+      const r = item.claude_code_recommendation;
+      body += `<div class="modal-section"><h3>What we'd build for this</h3>`;
+      body += `<p><strong>${escapeHtml(r.skill_to_write || r.feature || '')}</strong>${r.rationale ? ', ' + escapeHtml(r.rationale) : ''}</p>`;
+      if (r.estimated_time_savings) body += `<p style="margin-top:8px;"><span class="stack-pill" style="background:var(--coral-soft);color:var(--coral);border-color:var(--coral-border);">Saves ${escapeHtml(r.estimated_time_savings)}</span></p>`;
+      body += `</div>`;
+    }
+
+    document.getElementById('cm-body').innerHTML = body;
+
+    document.querySelectorAll('.conn-tab').forEach(t => {
+      t.addEventListener('click', () => {
+        document.querySelectorAll('.conn-tab').forEach(x => x.classList.remove('active'));
+        document.querySelectorAll('.conn-content').forEach(x => x.classList.remove('active'));
+        t.classList.add('active');
+        document.querySelector(`.conn-content[data-conn-content="${t.dataset.conn}"]`).classList.add('active');
+      });
+    });
+
+    document.getElementById('card-modal').classList.add('visible');
+  }
+
+  function openRecipeModal(id) {
+    const r = DATA.recipes.find(x => x.id === id);
+    if (!r) return;
+    document.getElementById('rm-title').textContent = r.headline || r.name;
+    document.getElementById('rm-goal').textContent = r.goal;
+
+    let body = '';
+
+    if (r.manual_today) {
+      body += `<div class="today-card"><div class="today-label">Today, manually</div>${escapeHtml(r.manual_today)}</div>`;
+    }
+    if (r.monday_difference) {
+      body += `<div class="monday-card"><div class="monday-label">Next Monday, with this live</div>${escapeHtml(r.monday_difference)}</div>`;
+    }
+
+    if (r.claude_code_stack) {
+      const cs = r.claude_code_stack;
+      body += `<div class="modal-section"><h3>What Claude Code parts power this</h3>`;
+      body += PRIMITIVE_KEY;
+      body += `<div class="stack-pills">`;
+      (cs.skills || []).forEach(s => body += `<span class="stack-pill skill">skill: ${escapeHtml(s)}</span>`);
+      (cs.subagents || []).forEach(s => body += `<span class="stack-pill subagent">subagent: ${escapeHtml(s)}</span>`);
+      (cs.hooks || []).forEach(s => body += `<span class="stack-pill hook">hook: ${escapeHtml(s)}</span>`);
+      (cs.rules || []).forEach(s => body += `<span class="stack-pill rule">rule: ${escapeHtml(s)}</span>`);
+      body += `</div></div>`;
+    }
+
+    if (r.walkthrough && r.walkthrough.length) {
+      body += `<div class="modal-section"><h3>The chain (back-and-forth between agents)</h3>`;
+      body += `<ol class="ideation-list">`;
+      r.walkthrough.forEach(step => {
+        body += `<li><span class="actor">${escapeHtml(step.actor)}</span> ${escapeHtml(step.action)}</li>`;
+      });
+      body += `</ol></div>`;
+    }
+
+    if (r.before_claude_code || r.after_claude_code) {
+      body += `<div class="modal-section"><h3>Before vs After Claude Code</h3>`;
+      body += `<div class="recipe-impact">`;
+      body += `<div class="before"><strong>Before:</strong> ${escapeHtml(r.before_claude_code || '')}</div>`;
+      body += `<div class="after"><strong>After:</strong> ${escapeHtml(r.after_claude_code || '')}</div>`;
+      body += `</div></div>`;
+    }
+
+    document.getElementById('rm-body').innerHTML = body;
+    document.getElementById('recipe-modal').classList.add('visible');
+  }
+
+  function closeAll() {
+    document.querySelectorAll('.overlay').forEach(o => o.classList.remove('visible'));
+  }
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeAll(); });
+</script>
+
+</body>
+</html>

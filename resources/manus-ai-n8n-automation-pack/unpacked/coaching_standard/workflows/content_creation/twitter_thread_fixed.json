@@ -1,0 +1,323 @@
+{
+  "name": "Twitter Thread Automation",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "days",
+              "days": [3],
+              "hours": [10],
+              "minutes": [0]
+            }
+          ]
+        }
+      },
+      "name": "Schedule Trigger",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1,
+      "position": [
+        250,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "documentId": {
+          "__rl": true,
+          "value": "YOUR_CONTENT_CALENDAR_SHEET_ID",
+          "mode": "list",
+          "cachedResultName": "Content Calendar"
+        },
+        "sheetName": "Content Calendar",
+        "returnAll": false,
+        "options": {
+          "filter": {
+            "values": {
+              "Date": "={{ $today }}",
+              "Platform": "Twitter"
+            }
+          }
+        }
+      },
+      "name": "Google Sheets - Get Content Calendar",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4,
+      "position": [
+        400,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "authentication": "serviceAccount",
+        "operation": "completion",
+        "model": "gpt-4",
+        "prompt": {
+          "value": "Create an insightful Twitter thread (5-7 tweets) about {% if $node[\"Google Sheets - Get Content Calendar\"].json.length > 0 %}{{ $node[\"Google Sheets - Get Content Calendar\"].json[0].Topic }}{% else %}coaching best practices{% endif %}. The thread should start with a hook that grabs attention, then provide valuable insights in each subsequent tweet. Each tweet should be under 280 characters and the thread should flow naturally from one tweet to the next. The content should position the author as a thought leader in coaching. Include relevant hashtags in the final tweet only."
+        },
+        "options": {
+          "temperature": 0.7,
+          "maxTokens": 1000
+        }
+      },
+      "name": "OpenAI - Generate Thread",
+      "type": "n8n-nodes-base.openAi",
+      "typeVersion": 1,
+      "position": [
+        550,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Split the OpenAI response into individual tweets\nconst threadText = $input.item.json.text;\nconst tweets = threadText.split(/\\n+/).filter(tweet => tweet.trim() !== '');\n\n// Format into an array of tweet objects\nconst tweetObjects = tweets.map((tweet, index) => {\n  return {\n    tweetText: tweet.replace(/^\\d+\\.\\s*/, '').trim(), // Remove any numbering\n    position: index + 1,\n    isFirst: index === 0,\n    isLast: index === tweets.length - 1\n  };\n});\n\nreturn { json: { tweets: tweetObjects } };"
+      },
+      "name": "Format Thread",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [
+        700,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "mode": "splitInBatches",
+        "batchSize": 1,
+        "options": {
+          "field": "json.tweets"
+        }
+      },
+      "name": "Split Into Tweets",
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 2,
+      "position": [
+        850,
+        300
+      ],
+      "executeOnce": false
+    },
+    {
+      "parameters": {
+        "waitTime": {
+          "value": 30,
+          "unit": "seconds"
+        }
+      },
+      "name": "Wait Between Tweets",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1,
+      "position": [
+        850,
+        450
+      ],
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "text": "={{ $json.tweetText }}",
+        "additionalFields": {
+          "inReplyToTweetId": "={{ $json.isFirst ? '' : $('Twitter - Post Tweet').item.json.id }}"
+        }
+      },
+      "name": "Twitter - Post Tweet",
+      "type": "n8n-nodes-base.twitter",
+      "typeVersion": 2,
+      "position": [
+        1000,
+        300
+      ],
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "boolean": [
+            {
+              "value1": "={{ $json.isLast }}",
+              "value2": true,
+              "operation": "equal"
+            }
+          ]
+        }
+      },
+      "name": "Is Last Tweet?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [
+        1150,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "YOUR_TRACKING_SHEET_ID",
+          "mode": "list",
+          "cachedResultName": "Content Tracking"
+        },
+        "sheetName": "Content Tracking",
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Date": "={{ $now.toISOString().split('T')[0] }}",
+            "Platform": "Twitter",
+            "Content Type": "Thread",
+            "Topic": "={{ $node[\"Google Sheets - Get Content Calendar\"].json.length > 0 ? $node[\"Google Sheets - Get Content Calendar\"].json[0].Topic : 'Coaching Best Practices' }}",
+            "First Tweet ID": "={{ $node[\"Twitter - Post Tweet\"].json.id }}",
+            "Tweet Count": "={{ $node[\"Format Thread\"].json.tweets.length }}"
+          }
+        }
+      },
+      "name": "Google Sheets - Log Thread",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4,
+      "position": [
+        1300,
+        200
+      ]
+    },
+    {
+      "parameters": {
+        "chatId": "YOUR_SLACK_CHANNEL_ID",
+        "text": "✅ Twitter thread posted successfully!\n\n*Topic:* {{ $node[\"Google Sheets - Get Content Calendar\"].json.length > 0 ? $node[\"Google Sheets - Get Content Calendar\"].json[0].Topic : 'Coaching Best Practices' }}\n*Date:* {{ $now.toISOString().split('T')[0] }}\n*Tweet Count:* {{ $node[\"Format Thread\"].json.tweets.length }}\n*First Tweet:* https://twitter.com/user/status/{{ $node[\"Twitter - Post Tweet\"].json.id }}",
+        "otherOptions": {
+          "parse_mode": "markdown",
+          "disable_web_page_preview": false
+        }
+      },
+      "name": "Slack - Send Notification",
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 2,
+      "position": [
+        1450,
+        200
+      ]
+    }
+  ],
+  "connections": {
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets - Get Content Calendar",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets - Get Content Calendar": {
+      "main": [
+        [
+          {
+            "node": "OpenAI - Generate Thread",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI - Generate Thread": {
+      "main": [
+        [
+          {
+            "node": "Format Thread",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Format Thread": {
+      "main": [
+        [
+          {
+            "node": "Split Into Tweets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Into Tweets": {
+      "main": [
+        [
+          {
+            "node": "Twitter - Post Tweet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait Between Tweets": {
+      "main": [
+        [
+          {
+            "node": "Split Into Tweets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Twitter - Post Tweet": {
+      "main": [
+        [
+          {
+            "node": "Is Last Tweet?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Is Last Tweet?": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets - Log Thread",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Wait Between Tweets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets - Log Thread": {
+      "main": [
+        [
+          {
+            "node": "Slack - Send Notification",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "saveManualExecutions": true,
+    "callerPolicy": "workflowsFromSameOwner",
+    "errorWorkflow": "YOUR_ERROR_WORKFLOW_ID"
+  },
+  "tags": [
+    "content-creation",
+    "twitter"
+  ],
+  "triggerCount": 1
+}

@@ -1,0 +1,454 @@
+{
+  "name": "Custom Orders Agent",
+  "nodes": [
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.query }}",
+        "options": {
+          "systemMessage": "# Overview\nYou are the RetroFuture Gadgetry Custom Orders Agent, specializing in managing bespoke gadget orders, from initial design consultation through to delivery. You handle custom steampunk, art deco, and retro-futuristic device requests with meticulous attention to personalization details.\n\n## Tools Available\n\n### Order Management API\n- Create custom orders\n- Configure personalization options\n- Set production timelines\n- Track order progress\n\n### Design Configuration\n- Capture custom specifications\n- Material selection\n- Engraving details\n- Special features setup\n\n### Airtable Order Tracking\n- Manage order pipeline\n- Track customization details\n- Monitor production stages\n\n### Gmail Communication\n- Send order confirmations\n- Share design mockups\n- Coordinate special requests\n\n### Google Sheets Inventory\n- Component availability\n- Material stock levels\n- Cost calculations\n\n### Slack Coordination\n- Artisan assignments\n- Rush order alerts\n- Design approvals\n\n## Product Categories\n\n### Gadget Types\n- Steampunk USB Drives\n- Art Deco Smartwatches\n- Dieselpunk Phone Cases\n- Atompunk Desk Accessories\n- Cyberpunk Gaming Peripherals\n\n### Customization Options\n\n#### Materials\n- Brass and copper finishes\n- Reclaimed wood inlays\n- Vintage leather wrapping\n- Custom gear mechanisms\n\n#### Personalization\n- Laser engraving\n- Custom patina finishes\n- Bespoke gear configurations\n- Illumination options\n\n## Order Management\n- Minimum order value: $150\n- Lead time: 2-6 weeks\n- Rush orders: +50% surcharge\n- Limited edition runs: Max 50 units\n\n## Key Order Metrics\n- Customization complexity score\n- Material availability status\n- Artisan skill matching\n- Production timeline accuracy\n- Customer satisfaction rating\n\nCurrent Date/Time: {{ $now }}"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.7,
+      "position": [
+        -180,
+        -60
+      ],
+      "id": "55a39516-4283-47d9-bca7-802cb5d44ec6",
+      "name": "Custom Orders Agent",
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "model": "gpt-4o",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        -520,
+        180
+      ],
+      "id": "ab5f08e1-bb57-452f-ac85-59d7dda82f5d",
+      "name": "OpenAI Chat Model"
+    },
+    {
+      "parameters": {
+        "toolDescription": "Create a new custom gadget order",
+        "method": "POST",
+        "url": "https://api.retrofuturegadgetry.com/v2/orders",
+        "sendHeaders": true,
+        "parametersHeaders": {
+          "values": [
+            {}
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "{\n  \"customerId\": \"{customerId}\",\n  \"productType\": \"{productType}\",\n  \"customizations\": {\n    \"materials\": {materials},\n    \"engraving\": {engravingDetails},\n    \"features\": {customFeatures}\n  },\n  \"quantity\": {quantity},\n  \"rushOrder\": {rushOrder},\n  \"specialInstructions\": \"{specialInstructions}\",\n  \"estimatedDelivery\": \"{estimatedDelivery}\"\n}",
+        "placeholderDefinitions": {
+          "values": [
+            {
+              "name": "customerId",
+              "description": "Customer account ID",
+              "type": "string"
+            },
+            {
+              "name": "productType",
+              "description": "Type of gadget",
+              "type": "string"
+            },
+            {
+              "name": "materials",
+              "description": "Selected materials",
+              "type": "json"
+            },
+            {
+              "name": "engravingDetails",
+              "description": "Engraving specifications",
+              "type": "json"
+            },
+            {
+              "name": "customFeatures",
+              "description": "Special features",
+              "type": "json"
+            },
+            {
+              "name": "quantity",
+              "description": "Order quantity",
+              "type": "number"
+            },
+            {
+              "name": "rushOrder",
+              "description": "Rush order flag",
+              "type": "boolean"
+            },
+            {
+              "name": "specialInstructions",
+              "description": "Special instructions",
+              "type": "string"
+            },
+            {
+              "name": "estimatedDelivery",
+              "description": "Estimated delivery date",
+              "type": "string"
+            },
+            {
+              "name": "apiKey",
+              "description": "RetroFuture API Key",
+              "type": "string"
+            }
+          ]
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolHttpRequest",
+      "typeVersion": 1.1,
+      "position": [
+        -340,
+        220
+      ],
+      "id": "bb004d5f-1be6-470b-bd8f-7cd3305ef4fd",
+      "name": "Create Custom Order"
+    },
+    {
+      "parameters": {
+        "toolDescription": "Configure custom design specifications",
+        "method": "POST",
+        "url": "https://api.retrofuturegadgetry.com/v2/design/configure",
+        "sendHeaders": true,
+        "parametersHeaders": {
+          "values": [
+            {}
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "{\n  \"orderId\": \"{orderId}\",\n  \"baseDesign\": \"{baseDesign}\",\n  \"colorScheme\": {colorScheme},\n  \"mechanicalElements\": {mechanicalElements},\n  \"illumination\": \"{illuminationType}\",\n  \"dimensionAdjustments\": {dimensions}\n}",
+        "placeholderDefinitions": {
+          "values": [
+            {
+              "name": "orderId",
+              "description": "Order ID",
+              "type": "string"
+            },
+            {
+              "name": "baseDesign",
+              "description": "Base design template",
+              "type": "string"
+            },
+            {
+              "name": "colorScheme",
+              "description": "Color configuration",
+              "type": "json"
+            },
+            {
+              "name": "mechanicalElements",
+              "description": "Gear and mechanism specs",
+              "type": "json"
+            },
+            {
+              "name": "illuminationType",
+              "description": "LED/lighting options",
+              "type": "string"
+            },
+            {
+              "name": "dimensions",
+              "description": "Size adjustments",
+              "type": "json"
+            },
+            {
+              "name": "apiKey",
+              "description": "RetroFuture API Key",
+              "type": "string"
+            }
+          ]
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolHttpRequest",
+      "typeVersion": 1.1,
+      "position": [
+        -160,
+        260
+      ],
+      "id": "cb3df62e-6660-40f9-8c63-5e10a757a083",
+      "name": "Configure Design"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.airtableTool",
+      "typeVersion": 2.1,
+      "position": [
+        -620,
+        540
+      ],
+      "id": "ff4c25b3-9b96-4be6-99ba-cc3f4334cbc6",
+      "name": "Create Order Record",
+      "credentials": {}
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $fromAI(\"customerEmail\") }}",
+        "subject": "={{ $fromAI(\"emailSubject\", \"Your RetroFuture Custom Order\") }}",
+        "message": "={{ $fromAI(\"orderConfirmation\") }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmailTool",
+      "typeVersion": 2.1,
+      "position": [
+        -20,
+        240
+      ],
+      "id": "e5633f88-f301-4f31-9188-908e47baeeb5",
+      "name": "Send Order Confirmation",
+      "webhookId": "c0008b9c-8c83-43b6-9b40-349a5c82425c"
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "mode": "list",
+          "value": ""
+        },
+        "sheetName": {
+          "__rl": true,
+          "mode": "list",
+          "value": ""
+        }
+      },
+      "type": "n8n-nodes-base.googleSheetsTool",
+      "typeVersion": 4.4,
+      "position": [
+        140,
+        200
+      ],
+      "id": "c0fd29c8-91b9-4e6a-8cd0-b4e8986012f7",
+      "name": "Track Order"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.slackTool",
+      "typeVersion": 1.4,
+      "position": [
+        -620,
+        780
+      ],
+      "id": "e6a2dd61-a0e1-48ee-99ce-9c018698dc94",
+      "name": "Notify Artisan Team",
+      "credentials": {}
+    },
+    {
+      "parameters": {
+        "toolDescription": "Get order status and progress",
+        "url": "https://api.retrofuturegadgetry.com/v2/orders/{orderId}/status",
+        "sendQuery": true,
+        "parametersQuery": {
+          "values": [
+            {}
+          ]
+        },
+        "sendHeaders": true,
+        "parametersHeaders": {
+          "values": [
+            {}
+          ]
+        },
+        "placeholderDefinitions": {
+          "values": [
+            {
+              "name": "orderId",
+              "description": "Order ID",
+              "type": "string"
+            },
+            {
+              "name": "includePhotos",
+              "description": "Include progress photos",
+              "type": "boolean"
+            },
+            {
+              "name": "apiKey",
+              "description": "RetroFuture API Key",
+              "type": "string"
+            }
+          ]
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolHttpRequest",
+      "typeVersion": 1.1,
+      "position": [
+        300,
+        200
+      ],
+      "id": "cd953131-504b-4810-9555-2586ecc28c7a",
+      "name": "Get Order Status"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "response-id",
+              "name": "response",
+              "value": "={{ $json.output }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        400,
+        -160
+      ],
+      "id": "c4fdfefe-086a-4018-811f-ae66b6ec9f3f",
+      "name": "Response"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "error-response-id",
+              "name": "response",
+              "value": "Unable to process custom order request. Please try again.",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        400,
+        40
+      ],
+      "id": "682a98ce-a92c-4ad7-9d40-d0326f372519",
+      "name": "Try Again"
+    },
+    {
+      "parameters": {
+        "inputSource": "passthrough"
+      },
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        -620,
+        -60
+      ],
+      "id": "6ee2f58d-76fd-4478-a156-aea04e3c7bbd",
+      "name": "When Executed by Another Workflow"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When Executed by Another Workflow": {
+      "main": [
+        [
+          {
+            "node": "Custom Orders Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Custom Orders Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create Custom Order": {
+      "ai_tool": [
+        [
+          {
+            "node": "Custom Orders Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Configure Design": {
+      "ai_tool": [
+        [
+          {
+            "node": "Custom Orders Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send Order Confirmation": {
+      "ai_tool": [
+        [
+          {
+            "node": "Custom Orders Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Track Order": {
+      "ai_tool": [
+        [
+          {
+            "node": "Custom Orders Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Order Status": {
+      "ai_tool": [
+        [
+          {
+            "node": "Custom Orders Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Custom Orders Agent": {
+      "main": [
+        [
+          {
+            "node": "Response",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Try Again",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "64ef684c-3288-44b9-9eb4-28e2c7c82689",
+  "meta": {
+    "instanceId": "aaadb797535f05587ee95b776c942a7c3f7a46fd7aa0c9b6a9d64e1e595f8af1"
+  },
+  "id": "UYgl3crhr4r9mXTi",
+  "tags": []
+}

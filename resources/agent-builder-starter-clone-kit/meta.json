@@ -1,0 +1,26 @@
+{
+  "name": "Agent Builder Starter Clone Kit 🧩",
+  "external_id": "8vnYp8OoRj_PWTRhkRnguw==",
+  "permalink": "jakod",
+  "unique_permalink": "jakod",
+  "custom_permalink": "agentbuilderclone",
+  "url": "https://markkashef.gumroad.com/l/agentbuilderclone",
+  "status": "published",
+  "archived": false,
+  "kind": "products",
+  "price_formatted": "CAD$0+",
+  "description_md": "# What You Get\n\n- Visual Workflow Builder Spec: full-stack architecture, six-node canvas (Start/Agent/Tool/Router/Transform/End), OpenAI Responses API integration (GPT-4.1 + GPT-5 with reasoning + max_output_tokens), cURL-to-Tool import, variable substitution, Google Sheets logging, GitHub auto-commit, UI/UX fixes, and versioned workflow storage.\n\n- Vibe Coding Mistakes Cheatsheet: 25 real pitfalls and fixes (wrong endpoint vs Responses API, missing reasoning + low tokens on GPT-5, Select value vs defaultValue, clipboard/paste UX, shortcut traps, safe spawn over exec, robust cURL parsing, debounced autosave).\n\n- A battle-tested reverse meta-prompt to spin up a React Flow canvas + Replit Agent connectors, with export/importable workflow JSON and status badges baked in\n\n- If you want the full codebase, join the Early AI-dopters Community — you won’t regret it 😉 \nhttps://www.skool.com/earlyaidopters/about",
+  "files": [
+    {
+      "file": "Visual_Workflow_Builder_Specification.docx",
+      "status": "cached",
+      "bytes": 28615
+    },
+    {
+      "file": "Vibe Coding Mistakes.pdf",
+      "status": "cached",
+      "bytes": 98170
+    }
+  ],
+  "has_rich_content": true
+}

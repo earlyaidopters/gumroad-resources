@@ -1,0 +1,36 @@
+{
+  "name": "Gemini Data Demos 🧪",
+  "external_id": "8eVdW6-1h2jhhbTWnnxITg==",
+  "permalink": "oohbwm",
+  "unique_permalink": "oohbwm",
+  "custom_permalink": "geminicolab",
+  "url": "https://markkashef.gumroad.com/l/geminicolab",
+  "status": "published",
+  "archived": false,
+  "kind": "products",
+  "price_formatted": "CAD$0+",
+  "description_md": "What You Get\n\n- Four ready-to-run Google Colab notebooks showcasing Gemini’s new dataset manipulation features.\n\n- Hands-on demos covering forecasting, churn prediction, exploratory data analysis, and automation workflows.\n\n- Five accompanying CSV files (forecasting.csv, customer_churn_dataset.csv, eda.csv, automation.csv, and home_services.csv) so users can follow along and test things out instantly.\n\n- Ideal sandbox for experimenting with Gemini’s smart data features—no setup headaches required.",
+  "files": [
+    {
+      "file": "automation.csv",
+      "status": "cached",
+      "bytes": 8578
+    },
+    {
+      "file": "forecasting.csv",
+      "status": "cached",
+      "bytes": 2959
+    },
+    {
+      "file": "eda.csv",
+      "status": "cached",
+      "bytes": 6267
+    },
+    {
+      "file": "customer_churn_dataset.csv",
+      "status": "cached",
+      "bytes": 125974
+    }
+  ],
+  "has_rich_content": true
+}

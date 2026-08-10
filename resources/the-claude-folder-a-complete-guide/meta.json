@@ -1,0 +1,26 @@
+{
+  "name": "The .claude Folder: A Complete Guide 🧠",
+  "external_id": "IzE4ANiRldCznJhSomPfzg==",
+  "permalink": "vlfdl",
+  "unique_permalink": "vlfdl",
+  "custom_permalink": "claude-folder-anatomy-guide",
+  "url": "https://markkashef.gumroad.com/l/claude-folder-anatomy-guide",
+  "status": "published",
+  "archived": false,
+  "kind": "products",
+  "price_formatted": "CAD$0+",
+  "description_md": "## \nWhat You Get\nThe .claude Folder Guide (PDF)\n- A 30-page reference guide covering all seven components of the .claude folder with diagrams from the video injected inline. \n- Covers the two-folder system, CLAUDE.md as a router, path-scoped rules, commands, skills, agents, permissions, hooks, and an end-to-end MeetingFlow scenario that shows everything working together.\nBash Commands Cheat Sheet (Markdown)\n- 12 ready-to-run bash commands for navigating your .claude folder without leaving Claude Code. Print it, pin it, or keep it open in a tab.\nMeetingFlow Demo Folder\n- The complete hypothetical .claude folder from the video. Seven components, all wired together: CLAUDE.md, CLAUDE.local.md, four rule files, three commands, two skills, two agents, settings.json with hooks. A working template you can adapt for your own project.\n---\nJoin the Early AI Dopters community for weekly Claude Code deep dives, new guides, and direct access to Mark and the team.\nhttps://www.skool.com/earlyaidopters/about",
+  "files": [
+    {
+      "file": "meetingflow_demo.zip",
+      "status": "cached",
+      "bytes": 21179
+    },
+    {
+      "file": "claude_folder_viewer_guide.pdf",
+      "status": "cached",
+      "bytes": 7932984
+    }
+  ],
+  "has_rich_content": true
+}

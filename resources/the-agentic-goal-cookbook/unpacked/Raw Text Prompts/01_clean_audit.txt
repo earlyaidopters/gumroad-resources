@@ -1,0 +1,45 @@
+CLEAN - AUDIT YOUR AGENTIC OS WHILE YOU SLEEP
+================================================
+
+When to use:
+- Your ~/.claude/skills folder has grown past 20 entries
+- You haven't touched some skills in 30+ days
+- CLAUDE.md contradicts itself or references skills that no longer exist
+- You suspect rules overlap and need a senior-engineer-style audit pass
+
+What it does:
+- Reads every skill in ~/.claude/skills/
+- Decides which earn their keep (used in the last 30 days OR load-bearing)
+- Archives the rest to ~/.claude/_attic/ with a timestamped subfolder
+- Dedupes rules across .claude/rules/
+- Resolves contradictions by keeping the more specific rule
+- Writes a manifest of every change to AUDIT_REPORT.md at the workspace root
+
+THE PROMPT (type /goal then paste the body below):
+
+----------------------------------------------------
+
+audit ~/.claude. For every skill in ~/.claude/skills/, decide if it earns its keep (referenced in a session in the last 30 days OR explicitly load-bearing for a workflow I run weekly). Archive the rest to ~/.claude/_attic/ with a timestamped subfolder. Walk every rule in .claude/rules/ and dedupe rules that say the same thing. If any two rules contradict each other, keep the more specific one and note the conflict in AUDIT_REPORT.md. Verify ~/.claude/CLAUDE.md references every kept skill by name. Write a manifest of every change to AUDIT_REPORT.md at the workspace root with: skills archived (and why), rules deduped (and which won), contradictions resolved, CLAUDE.md edits. Stop when skill count is under 20, AUDIT_REPORT.md exists and is non-empty, and a fresh check shows no two rules contradicting each other. Or stop after 25 turns and write a partial report.
+
+----------------------------------------------------
+
+Guardrails:
+- Always archive, never delete. The _attic folder is your safety net.
+- Run with /auto enabled or be ready to approve archive operations.
+- If your skills folder is git-tracked, add: "If a path is git-tracked, use git mv instead of mv."
+- If the evaluator is too lenient, strengthen the stop condition with "and AUDIT_REPORT.md is over 200 words."
+
+Wake-up check:
+
+  ls ~/.claude/skills | wc -l
+  ls ~/.claude/_attic/
+  head -50 AUDIT_REPORT.md
+
+Common failure modes:
+- Skill folder has nested README files. Be specific about which file the manifest lives in.
+- If a "skills" git repo exists, archive may conflict with git. Use git mv.
+- Evaluator says yes before manifest is complete. Add the word-count clause.
+
+If you want the rest of the prompts and the full /goal cookbook, check out the Early AI Dopters community.
+
+https://www.skool.com/earlyaidopters/about

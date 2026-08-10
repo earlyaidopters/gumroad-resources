@@ -1,0 +1,8 @@
+version: 1
+targets:
+  - adapter: claude
+    path: dist/claude
+    # install: defaults to ~/.claude/skills/polyskill
+  - adapter: codex
+    path: dist/codex
+    # install: defaults to ~/.agents/skills/polyskill

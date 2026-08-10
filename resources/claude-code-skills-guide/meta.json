@@ -1,0 +1,31 @@
+{
+  "name": "Claude Code Skills Guide 📓 🤖",
+  "external_id": "dBhmifHgsgguEjE1_f_TrA==",
+  "permalink": "nuwxv",
+  "unique_permalink": "nuwxv",
+  "custom_permalink": "claude-code-skills-guide",
+  "url": "https://markkashef.gumroad.com/l/claude-code-skills-guide",
+  "status": "published",
+  "archived": false,
+  "kind": "products",
+  "price_formatted": "CAD$0+",
+  "description_md": "# What You Get\n\n- \nSkill Examples (Bad vs Good): Two complete bad skills and two complete good skills side by side. See exactly what makes a skill fail (vague descriptions, wrong naming, no triggers) versus what makes it work (specific triggers, clear steps, error handling).\n\n- \nComparison Guides (3 docs): Side-by-side breakdowns of bad vs good descriptions (6 pairs), bad vs good instructions (with templates), and a visual catalog of the 8 most common mistakes with exact fixes.\n\n- \nExcalidraw Canvas: All 9 diagrams from the video arranged on a single canvas with arrows between sections. Import into Excalidraw for presentations or reference.\n\n---\nWant my full and access to every resource I create? Join 800+ builders inside the community:\nhttps://www.skool.com/earlyaidopters/about",
+  "files": [
+    {
+      "file": "skill_examples.zip",
+      "status": "cached",
+      "bytes": 32396
+    },
+    {
+      "file": "skills_guide_diagrams.zip",
+      "status": "cached",
+      "bytes": 36318165
+    },
+    {
+      "file": "The-Complete-Guide-to-Building-Skill-for-Claude.pdf",
+      "status": "cached",
+      "bytes": 561652
+    }
+  ],
+  "has_rich_content": true
+}

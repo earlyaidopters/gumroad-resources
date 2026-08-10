@@ -1,0 +1,893 @@
+{
+  "business": {
+    "name": "LedgerLink",
+    "archetype": "saas",
+    "stack_summary": "B2B accounting reconciliation SaaS. ~280 customers. $140K MRR. 6 engineers."
+  },
+  "pantry": [
+    {
+      "id": "pendo",
+      "tool": "Pendo",
+      "format": "CSV",
+      "cadence": "weekly",
+      "volume": "high",
+      "feeds": [
+        "feedback_themes"
+      ],
+      "status": "have",
+      "cli_skill": null,
+      "explanation": "200+ free-text customer feedback responses per week. Today nobody reads them.",
+      "connection_methods": [
+        {
+          "type": "api",
+          "name": "Pendo Public API",
+          "when_to_use": "Required, no CLI, no MCP.",
+          "pros": [
+            "Direct access",
+            "Survey + product analytics in one"
+          ],
+          "cons": [
+            "REST, verbose endpoints",
+            "Token rate-limited"
+          ],
+          "install": "PENDO_API_KEY in ~/.env. Wrap in a Claude skill.",
+          "example": "GET /api/v1/feedback/nps?from=2025-10-01"
+        }
+      ],
+      "claude_code_recommendation": {
+        "skill_to_write": "ingest_pendo_surveys",
+        "rationale": "150-line skill against the API. Pulls weekly responses, clusters with cluster_themes skill into 3-5 themes per week. Reusable across every B2B SaaS client.",
+        "estimated_time_savings": "Strategic, turns dead data into product signal"
+      },
+      "volume_friendly": "High volume",
+      "subtitle_friendly": "High volume \u00b7 updates weekly"
+    },
+    {
+      "id": "intercom",
+      "tool": "Intercom",
+      "format": "CSV",
+      "cadence": "real-time",
+      "volume": "high",
+      "feeds": [
+        "feedback_themes",
+        "support_volume"
+      ],
+      "status": "have",
+      "cli_skill": null,
+      "explanation": "40-60 customer support tickets per week. Triage orchestrator clusters dupes here first.",
+      "connection_methods": [
+        {
+          "type": "mcp",
+          "name": "Intercom MCP (community)",
+          "when_to_use": "Real-time ticket queries during a session.",
+          "pros": [
+            "Live data",
+            "No CSV management"
+          ],
+          "cons": [
+            "Community-maintained, watch for updates"
+          ],
+          "install": "Add to .claude/.mcp.json with Intercom access token in env.",
+          "example": "Ask: 'show me unresolved P1 tickets from this week.'"
+        },
+        {
+          "type": "api",
+          "name": "Intercom REST API",
+          "when_to_use": "Bulk ingest + clustering writes to silver platter.",
+          "pros": [
+            "Full conversation + tag access",
+            "Webhook support for real-time"
+          ],
+          "cons": [
+            "Pagination required for high volume",
+            "Nested attribute structure"
+          ],
+          "install": "INTERCOM_ACCESS_TOKEN in ~/.env.",
+          "example": "GET /conversations?per_page=150&tag_ids[]=churn-risk"
+        }
+      ],
+      "claude_code_recommendation": {
+        "skill_to_write": "ingest_intercom_tickets + cluster_themes",
+        "rationale": "Pulls conversations + tags. Clusters by root cause. The triage orchestrator's primary input.",
+        "estimated_time_savings": "5-10 hours/week of Devon's manual triage"
+      },
+      "volume_friendly": "High volume",
+      "subtitle_friendly": "High volume \u00b7 updates real-time"
+    },
+    {
+      "id": "github_issues",
+      "tool": "GitHub Issues",
+      "format": "CSV",
+      "cadence": "real-time",
+      "volume": "medium",
+      "feeds": [
+        "feedback_themes"
+      ],
+      "status": "have",
+      "cli_skill": "gh",
+      "explanation": "Engineering's record of bugs + features. Cross-referenced when triage classifies a customer ticket, known issue or new?",
+      "connection_methods": [
+        {
+          "type": "cli",
+          "name": "gh (GitHub CLI)",
+          "when_to_use": "Always. Standard CLI, Devon's team already uses it.",
+          "pros": [
+            "Stable, official",
+            "Powerful filtering with --json + jq",
+            "Already in every dev's toolbelt"
+          ],
+          "cons": [
+            "Rate-limited at high volume; use API token"
+          ],
+          "install": "brew install gh\ngh auth login",
+          "example": "gh issue list --label bug --state open --json number,title,labels,createdAt --limit 200"
+        },
+        {
+          "type": "mcp",
+          "name": "GitHub MCP (official)",
+          "when_to_use": "When the agent should query GitHub directly mid-session.",
+          "pros": [
+            "Live data",
+            "Repo + issue + PR access"
+          ],
+          "cons": [
+            "Token in env"
+          ],
+          "install": "Add github MCP to .claude/.mcp.json.",
+          "example": "Ask: 'is bug #4471 already filed?', agent calls GitHub MCP."
+        },
+        {
+          "type": "api",
+          "name": "GitHub REST + GraphQL API",
+          "when_to_use": "Custom cuts, deep history, cross-repo joins.",
+          "pros": [
+            "Full coverage"
+          ],
+          "cons": [
+            "More code"
+          ],
+          "install": "GITHUB_TOKEN in ~/.env (used by gh too).",
+          "example": "GET /repos/<org>/<repo>/issues?state=all&since=2025-10-01"
+        }
+      ],
+      "claude_code_recommendation": {
+        "skill_to_write": "Use gh directly + a thin wrapper for cluster_acme-style joins",
+        "rationale": "gh is enough. Build cluster_themes on top to join Intercom -> GitHub by root cause.",
+        "estimated_time_savings": "Already efficient; the join is the value-add"
+      },
+      "volume_friendly": "Steady flow",
+      "subtitle_friendly": "Steady flow \u00b7 updates real-time"
+    },
+    {
+      "id": "linear",
+      "tool": "Linear",
+      "format": "API",
+      "cadence": "real-time",
+      "volume": "medium",
+      "feeds": [
+        "product_roadmap_signal"
+      ],
+      "status": "have",
+      "cli_skill": null,
+      "explanation": "Roadmap and engineering planning. Cross-referenced to detect drift between customer feedback and what's planned.",
+      "connection_methods": [
+        {
+          "type": "mcp",
+          "name": "Linear MCP (official)",
+          "when_to_use": "Live queries on issues, projects, cycles.",
+          "pros": [
+            "Official",
+            "Real-time"
+          ],
+          "cons": [
+            "Org-scoped permissions"
+          ],
+          "install": "Add linear MCP to .claude/.mcp.json with LINEAR_API_KEY in env.",
+          "example": "Ask: 'what's in this cycle's product roadmap project?'"
+        },
+        {
+          "type": "api",
+          "name": "Linear GraphQL API",
+          "when_to_use": "Bulk pulls for the roadmap signal silver platter.",
+          "pros": [
+            "Single GraphQL endpoint, exactly the fields you need"
+          ],
+          "cons": [
+            "Requires GraphQL knowledge for custom queries"
+          ],
+          "install": "LINEAR_API_KEY in ~/.env. Wrap in a Claude skill.",
+          "example": "query { issues(filter: {labels: {name: {eq: \"customer-driven\"}}}) { nodes { id title state cycle { name } } } }"
+        }
+      ],
+      "claude_code_recommendation": {
+        "skill_to_write": "ingest_linear_issues",
+        "rationale": "Pulls roadmap + cycle issues. The customer-voice distiller cross-references against feedback themes to surface 'customers asked for X 4 weeks running, X is not on roadmap.'",
+        "estimated_time_savings": "Detects roadmap drift before it becomes a churn problem"
+      },
+      "volume_friendly": "Steady flow",
+      "subtitle_friendly": "Steady flow \u00b7 updates real-time"
+    },
+    {
+      "id": "stripe",
+      "tool": "Stripe",
+      "format": "CSV",
+      "cadence": "weekly",
+      "volume": "medium",
+      "feeds": [
+        "churn_root_cause"
+      ],
+      "status": "have",
+      "cli_skill": "stripe",
+      "explanation": "MRR and churn. The root-cause analyst joins Stripe data with support history when a customer cancels.",
+      "connection_methods": [
+        {
+          "type": "mcp",
+          "name": "Stripe MCP (official)",
+          "when_to_use": "Real-time customer / subscription / charge queries.",
+          "pros": [
+            "Official",
+            "Auth handled by stripe-cli login"
+          ],
+          "cons": [
+            "Rate limits in test mode"
+          ],
+          "install": "Add stripe MCP to .claude/.mcp.json.",
+          "example": "Ask: 'show me customers who churned in October.'"
+        },
+        {
+          "type": "cli",
+          "name": "stripe CLI (your existing skill)",
+          "when_to_use": "Already wrapped at ~/.claude/skills/stripe/.",
+          "pros": [
+            "Already installed",
+            "Webhook listener built-in"
+          ],
+          "cons": [
+            "Light on bulk-export, use API for that"
+          ],
+          "install": "Already installed.",
+          "example": "stripe customers list --limit 100"
+        },
+        {
+          "type": "api",
+          "name": "Stripe API",
+          "when_to_use": "Bulk export + custom cuts.",
+          "pros": [
+            "Full coverage"
+          ],
+          "cons": [
+            "Standard pagination"
+          ],
+          "install": "STRIPE_API_KEY in ~/.env (already set up).",
+          "example": "GET /v1/subscriptions?status=canceled&created.gte=1696118400"
+        }
+      ],
+      "claude_code_recommendation": {
+        "skill_to_write": "Already have stripe skill, extend to write churn data into silver platter",
+        "rationale": "Use existing skill. Add a /weekly_churn_signal command that aggregates churned subscriptions + support ticket counts per churned customer.",
+        "estimated_time_savings": "1-2 hours/week of manual churn investigation"
+      },
+      "volume_friendly": "Steady flow",
+      "subtitle_friendly": "Steady flow \u00b7 updates weekly"
+    },
+    {
+      "id": "sentry",
+      "tool": "Sentry",
+      "format": "API",
+      "cadence": "real-time",
+      "volume": "medium",
+      "feeds": [
+        "churn_root_cause"
+      ],
+      "status": "have",
+      "cli_skill": null,
+      "explanation": "Production errors. Cross-referenced when root-cause-analyst hypothesizes whether a churn correlates with a specific incident.",
+      "connection_methods": [
+        {
+          "type": "cli",
+          "name": "sentry-cli",
+          "when_to_use": "Release-flagging and bulk operations.",
+          "pros": [
+            "Official",
+            "Stable"
+          ],
+          "cons": [
+            "Better for ops than analysis"
+          ],
+          "install": "brew install getsentry/tools/sentry-cli\nsentry-cli login",
+          "example": "sentry-cli releases list --org ledgerlink --project app"
+        },
+        {
+          "type": "api",
+          "name": "Sentry REST API",
+          "when_to_use": "Joining error spikes with churn timing.",
+          "pros": [
+            "Rich filtering by event type, release, environment"
+          ],
+          "cons": [
+            "Auth via DSN or API key"
+          ],
+          "install": "SENTRY_AUTH_TOKEN in ~/.env.",
+          "example": "GET /api/0/projects/<org>/<proj>/issues/?statsPeriod=14d"
+        }
+      ],
+      "claude_code_recommendation": {
+        "skill_to_write": "ingest_sentry_for_churn",
+        "rationale": "Pulls error spikes per release. The root-cause analyst cross-references with churn timing, was the churn correlated with a specific bug?",
+        "estimated_time_savings": "Catches systemic-bug-driven churn faster"
+      },
+      "volume_friendly": "Steady flow",
+      "subtitle_friendly": "Steady flow \u00b7 updates real-time"
+    },
+    {
+      "id": "customer_calls",
+      "tool": "Otter / Fireflies",
+      "format": "DOCX/TXT",
+      "cadence": "ad-hoc",
+      "volume": "medium",
+      "feeds": [
+        "feedback_themes"
+      ],
+      "status": "have",
+      "cli_skill": "fireflies",
+      "explanation": "Customer call transcripts. Already wrapped via ~/.claude/skills/fireflies/. The customer-voice distiller mines them for verbatim quotes.",
+      "connection_methods": [
+        {
+          "type": "cli",
+          "name": "fireflies skill (~/.claude/skills/fireflies/)",
+          "when_to_use": "Always. Pre-wrapped.",
+          "pros": [
+            "Already installed",
+            "Pulls transcripts + summaries + action items"
+          ],
+          "cons": [
+            "Limited by Fireflies's own cadence"
+          ],
+          "install": "Already installed.",
+          "example": "fireflies transcripts list --since 2025-10-01"
+        },
+        {
+          "type": "api",
+          "name": "Fireflies GraphQL API",
+          "when_to_use": "Custom cuts beyond what your skill exposes.",
+          "pros": [
+            "Granular access"
+          ],
+          "cons": [
+            "Limited free-tier query budget"
+          ],
+          "install": "FIREFLIES_API_KEY in ~/.env.",
+          "example": "Already abstracted by your skill."
+        }
+      ],
+      "claude_code_recommendation": {
+        "skill_to_write": "Use fireflies skill output to feed customer_voice_distill",
+        "rationale": "Already wrapped. Just need to chain fireflies pull -> customer_voice_distill input.",
+        "estimated_time_savings": "Surfaces churn quotes from sales calls that nobody currently reviews"
+      },
+      "volume_friendly": "Steady flow",
+      "subtitle_friendly": "Steady flow \u00b7 updates ad-hoc"
+    }
+  ],
+  "prep": [
+    {
+      "id": "feedback_themes",
+      "name": "feedback_themes_<week>.md",
+      "domain": "feedback",
+      "sources": [
+        "pendo",
+        "intercom",
+        "customer_calls",
+        "github_issues"
+      ],
+      "schedule": "Mon 6am",
+      "status": "have",
+      "explanation": "Top 5 customer-pain clusters this week. Each cluster has a churn-risk flag. Drives the triage orchestrator's roadmap-impact decisions.",
+      "sample_content": "# Feedback Themes, W44\n\n## Top 5 clusters\n| Cluster ID | Tickets | Customers | Churn risk | Status |\n|---|---|---|---|---|\n| ACME-CSV-ENCODING | 4 | 3 | acme = churn-imminent | drafted in worktree |\n| INITECH-RECON-TIMEOUT | 3 | 2 | initech = churn-risk | RCA in progress |\n| BILLING-PRORATION | 2 | 1 | low | RCA in progress |\n\n## Top customer-voice quote\n\"every month, vendor names with accents get garbled. We've reported this three times.\", Acme Corp QBR 2025-09-25 (churn-imminent)\n",
+      "governing_rule_excerpt": "---\npaths:\n  - silver_platters/feedback_*.md\n  - data/feedback/**\n  - outputs/proposed_fixes/**\n---\n\n# Feedback Taxonomy\n- P1 = paying customer escalation, OR a churn-risk customer (3+ tickets in 90 days).\n- Cluster ID assigned by triage agent. 3+ tickets in cluster = auto-escalate to root-cause analyst.\n",
+      "display_name": "Feedback themes",
+      "domain_friendly": "Customer feedback",
+      "subtitle_friendly": "A Customer feedback brief Claude writes, Mon 6am"
+    },
+    {
+      "id": "churn_root_cause",
+      "name": "churn_root_cause_<week>.md",
+      "domain": "churn",
+      "sources": [
+        "stripe",
+        "intercom",
+        "sentry"
+      ],
+      "schedule": "Mon 6am",
+      "status": "have",
+      "explanation": "Why customers churned this week, joining Stripe data with support history and recent error spikes.",
+      "sample_content": "# Churn Root Cause, W44\n\n## Churned this week (3 customers, $1,247 MRR lost)\n- acme-corp ($2,400 MRR), 7 P1 tickets in 90 days, all CSV encoding cluster. Cited 'considering BlackLine' in QBR.\n- daily-bugle ($49 MRR), 4 months tenure, 2 P3 tickets, no obvious cause.\n- castle-inc ($599 MRR), 6 months tenure, 1 P2, audit-log issue cluster.\n",
+      "governing_rule_excerpt": "(no separate rule; lives in CLAUDE.md voice section)",
+      "display_name": "Churn root cause",
+      "domain_friendly": "Churn",
+      "subtitle_friendly": "A Churn brief Claude writes, Mon 6am"
+    },
+    {
+      "id": "product_roadmap_signal",
+      "name": "product_roadmap_signal.md",
+      "domain": "product",
+      "sources": [
+        "linear",
+        "feedback_themes"
+      ],
+      "schedule": "Mon 6am",
+      "status": "have",
+      "explanation": "What customers asked for vs what's planned. Detects roadmap drift before it costs MRR.",
+      "sample_content": "# Roadmap Signal, W44\n\n## Customer-driven items NOT on roadmap (drift warning)\n- ACME-CSV-ENCODING (4 tickets, 3 customers), GitHub #812 unassigned since Sept 14.\n- BILLING-PRORATION (2 tickets), no Linear issue.\n\n## Roadmap items NOT customer-driven this week\n- 'Multi-entity consolidation' (theme #2 of Q4), 1 customer mention in 6 weeks.\n",
+      "governing_rule_excerpt": "(no separate rule)",
+      "display_name": "Product roadmap signal",
+      "domain_friendly": "Product / roadmap",
+      "subtitle_friendly": "A Product / roadmap brief Claude writes, Mon 6am"
+    },
+    {
+      "id": "support_volume",
+      "name": "support_volume_<week>.md",
+      "domain": "ops",
+      "sources": [
+        "intercom"
+      ],
+      "schedule": "Mon 6am",
+      "status": "have",
+      "explanation": "Volume by category, response time, escalation rate. Tom's weekly view.",
+      "sample_content": "# Support Volume, W44\n\nTotal: 47 tickets (P1: 12, P2: 22, P3: 13).\nMedian first response: 18 min. Median resolution: 1.4 days.\nEscalation rate: 21% (target <15%).\n",
+      "governing_rule_excerpt": "(no separate rule)",
+      "display_name": "Support volume",
+      "domain_friendly": "Operations",
+      "subtitle_friendly": "A Operations brief Claude writes, Mon 6am"
+    }
+  ],
+  "plate": [
+    {
+      "id": "fix_proposal",
+      "name": "Codex fix PROPOSAL.md (in worktree)",
+      "agent": "Codex Fix Drafter",
+      "consumers": [
+        "Jordan",
+        "Sai"
+      ],
+      "approval_gate": "Engineer appends [engineer_action] approved line in audit_log",
+      "reads_from": [
+        "feedback_themes",
+        "churn_root_cause"
+      ],
+      "status": "have",
+      "explanation": "Drafted in a git worktree, never on main. Engineer reviews PROPOSAL.md plus the diff, approves via audit log.",
+      "sample_output": "# Proposal: Add UTF-8 BOM to CSV exports\n\n**Branch:** fix-export-csv-encoding\n**Cluster:** ACME-CSV-ENCODING (4 tickets, 3 customers)\n**Reviewer:** @jordan\n\n## Root cause\nsrc/lib/exporters/csv.go:42 opens bufio.NewWriter without writing UTF-8 BOM. Excel on Windows defaults to Win-1252.\n\n## Proposed change\n+ writer.Write([]byte{0xEF, 0xBB, 0xBF})\n\n## Test plan\nExisting tests pass. New test asserts BOM prefix on M\u00fcller GmbH input.\n\n## Risk\nLow. UTF-8 BOM invisible to Sheets, Numbers, pandas.\n",
+      "ideation_loop": [
+        "Tom dumps Monday's tickets in Slack, 47 of them.",
+        "Triage Orchestrator classifies each ticket: priority, category, churn-risk flag, dupe-cluster ID.",
+        "When ACME-CSV-ENCODING cluster reaches 3+ tickets, orchestrator escalates to Root-Cause Analyst.",
+        "Root-Cause Analyst joins ticket data with GitHub issues + customer call transcripts + recent commits. Identifies file/line where the encoding bug lives.",
+        "Root-Cause writes outputs/proposed_fixes/cluster_acme_csv_encoding.md with the hypothesis.",
+        "If the fix is mechanical (encoding, validation, log message, config), Triage Orchestrator routes to Codex Fix Drafter.",
+        "Codex Fix Drafter creates a git worktree (fix-export-csv-encoding branch). Writes PROPOSAL.md + the actual code change. Never pushes to main.",
+        "Stop hook: if the worktree's PROPOSAL is unacknowledged at session end, warns Devon.",
+        "Jordan or Sai reviews PROPOSAL.md + diff. Appends [engineer_action] approved line to audit_log. Triage Orchestrator merges."
+      ],
+      "agent_friendly": "the codex fix drafter",
+      "approval_friendly": "Engineer appends [engineer_action] approved line in the audit log",
+      "subtitle_friendly": "Written by the codex fix drafter for Jordan, Sai"
+    },
+    {
+      "id": "weekly_product_report",
+      "name": "Weekly product report",
+      "agent": "Triage Orchestrator",
+      "consumers": [
+        "Devon",
+        "Maya"
+      ],
+      "approval_gate": "Devon reviews Monday before standup",
+      "reads_from": [
+        "feedback_themes",
+        "churn_root_cause",
+        "product_roadmap_signal"
+      ],
+      "status": "have",
+      "explanation": "Top 3 clusters, churn signal, roadmap drift. Devon and Maya use it to drive Monday product planning.",
+      "sample_output": "# Weekly Product Report, W44\n\n## Top 3 clusters\n1. ACME-CSV-ENCODING, drafted in worktree, awaiting Jordan review.\n2. INITECH-RECON-TIMEOUT, Sai investigating, GH #813.\n3. BILLING-PRORATION, Jordan investigating, GH #815.\n\n## Churn signal\n$1,247 MRR lost this week. Acme cited 'considering BlackLine' in QBR. CSV-encoding fix could save them if shipped this week.\n\n## Roadmap drift\nMulti-entity consolidation is the #2 Q4 theme but only 1 customer mentioned it in the last 6 weeks. Reconsider priority.\n",
+      "ideation_loop": [
+        "Mon 6am cron triggers /weekly_product_report.",
+        "Triage Orchestrator pulls feedback_themes + churn_root_cause + product_roadmap_signal silver platters.",
+        "Maps each cluster to its current state (in worktree, RCA in progress, unassigned).",
+        "Cross-references churned MRR against active clusters, which fixes would have prevented churn?",
+        "Highlights roadmap-drift items.",
+        "Drafts the report. Devon reads at standup."
+      ],
+      "agent_friendly": "your triage chief of staff",
+      "approval_friendly": "Devon reviews Monday before standup",
+      "subtitle_friendly": "Written by your triage chief of staff for Devon, Maya"
+    }
+  ],
+  "recipes": [
+    {
+      "id": "monday_triage_recipe",
+      "name": "Monday inbound triage",
+      "goal": "Devon stops being the human router. Monday morning, 47 inbound tickets are already classified, clustered, prioritized, and routed.",
+      "ingredients": [
+        "Intercom tickets",
+        "GitHub issues",
+        "Customer calls",
+        "feedback_themes.md",
+        "Triage Orchestrator"
+      ],
+      "claude_code_stack": {
+        "skills": [
+          "ingest_intercom_tickets",
+          "ingest_pendo_surveys",
+          "cluster_themes"
+        ],
+        "subagents": [
+          "Triage Orchestrator",
+          "Customer-Voice Distiller"
+        ],
+        "hooks": [
+          "SessionStart convert_dropzone.sh (for customer call DOCX)",
+          "PostToolUse audit_action.sh"
+        ],
+        "rules": [
+          "rules/feedback_taxonomy.md"
+        ]
+      },
+      "walkthrough": [
+        {
+          "actor": "Cron, Sunday 11pm",
+          "action": "Triggers ingest_intercom_tickets + ingest_pendo_surveys to pull last 7 days of customer signal."
+        },
+        {
+          "actor": "Cron",
+          "action": "Triggers cluster_themes skill which dedupes, clusters by root cause, and writes feedback_themes_<week>.md."
+        },
+        {
+          "actor": "Devon, Monday 7am, runs /weekly_product_report",
+          "action": "Triggers Triage Orchestrator."
+        },
+        {
+          "actor": "Triage Orchestrator",
+          "action": "Reads feedback_themes silver platter. For each cluster, classifies priority + churn risk."
+        },
+        {
+          "actor": "Triage Orchestrator",
+          "action": "If a cluster has 3+ tickets, routes to Root-Cause Analyst."
+        },
+        {
+          "actor": "Root-Cause Analyst",
+          "action": "Joins ticket data with GitHub issues + recent commits + customer calls. Writes hypothesis to outputs/proposed_fixes/cluster_<id>.md."
+        },
+        {
+          "actor": "Triage Orchestrator",
+          "action": "If root cause is mechanical, routes to Codex Fix Drafter (separate recipe)."
+        },
+        {
+          "actor": "Triage Orchestrator",
+          "action": "Drafts the weekly product report. Saves to outputs/reports/weekly_product_<week>.md."
+        },
+        {
+          "actor": "Devon, Monday standup",
+          "action": "Walks the team through the report. Engineering knows what to work on."
+        }
+      ],
+      "before_claude_code": "Devon spent 3+ hours every Monday reading Slack, opening Intercom, scrolling Pendo, scrubbing GitHub. Half the tickets were dupes. Pickup latency 3 weeks.",
+      "after_claude_code": "Triage runs Sunday night. Monday standup walks the report. Pickup latency drops to 3-5 days.",
+      "headline": "Monday inbound triage",
+      "ingredients_friendly": [
+        "Intercom tickets",
+        "GitHub issues",
+        "Customer calls",
+        "feedback_themes.md",
+        "Triage Orchestrator"
+      ]
+    },
+    {
+      "id": "codex_worktree_recipe",
+      "name": "Codex fix in a worktree (when a cluster matures)",
+      "goal": "When a cluster reaches 3+ tickets and is mechanical, the fix gets drafted in a git worktree with PROPOSAL.md + the actual code change. Engineer reviews. Never touches main without approval.",
+      "ingredients": [
+        "feedback_themes.md",
+        "GitHub issues",
+        "Recent commits",
+        "Codex Fix Drafter"
+      ],
+      "claude_code_stack": {
+        "skills": [
+          "draft_fix_in_worktree"
+        ],
+        "subagents": [
+          "Triage Orchestrator",
+          "Root-Cause Analyst",
+          "Codex Fix Drafter"
+        ],
+        "hooks": [
+          "PostToolUse audit_action.sh",
+          "Stop check_acknowledgment.sh"
+        ],
+        "rules": [
+          "rules/code_review.md (paths: src/**, worktrees/**)"
+        ]
+      },
+      "walkthrough": [
+        {
+          "actor": "Triage Orchestrator",
+          "action": "Identifies a mature cluster (3+ tickets, mechanical fix). Routes to Root-Cause Analyst."
+        },
+        {
+          "actor": "Root-Cause Analyst",
+          "action": "Reads tickets + customer calls. Reads recent git history + Sentry errors. Identifies file/line."
+        },
+        {
+          "actor": "Root-Cause Analyst",
+          "action": "Writes outputs/proposed_fixes/cluster_<id>.md with hypothesis + fix scope + risk."
+        },
+        {
+          "actor": "Triage Orchestrator",
+          "action": "Reads the hypothesis. Confirms scope is mechanical. Routes to Codex Fix Drafter."
+        },
+        {
+          "actor": "Codex Fix Drafter",
+          "action": "Creates a git worktree: git worktree add worktrees/fix-<cluster_id> -b fix-<cluster_id>."
+        },
+        {
+          "actor": "Codex Fix Drafter",
+          "action": "Writes the actual code change inside the worktree. Adds a test that asserts the fix."
+        },
+        {
+          "actor": "Codex Fix Drafter",
+          "action": "Writes worktrees/fix-<cluster_id>/PROPOSAL.md: ticket trail + root cause + diff + test plan + risk + rollback."
+        },
+        {
+          "actor": "Stop hook",
+          "action": "If PROPOSAL is unacknowledged at session end, warns Devon."
+        },
+        {
+          "actor": "Jordan or Sai",
+          "action": "Reviews PROPOSAL.md + the diff. Appends [engineer_action] approved fix-<cluster_id> line to audit_log."
+        },
+        {
+          "actor": "Triage Orchestrator",
+          "action": "Sees the approval line. Merges the worktree."
+        }
+      ],
+      "before_claude_code": "Bug fix takes 3 weeks from 'we found it' to 'shipped'. By then customer churned.",
+      "after_claude_code": "Mechanical fixes draft within a session of identification. Engineer review = 30 min. Ship same day.",
+      "headline": "Codex fix in a worktree (when a cluster matures)",
+      "ingredients_friendly": [
+        "feedback_themes.md",
+        "GitHub issues",
+        "Recent commits",
+        "Codex Fix Drafter"
+      ]
+    },
+    {
+      "id": "weekly_product_recipe",
+      "name": "Weekly product report (Monday standup)",
+      "goal": "Devon and Maya start Monday with a single report: what customers said, what churned, what's drifting on roadmap. Engineering knows what to work on.",
+      "ingredients": [
+        "feedback_themes.md",
+        "churn_root_cause.md",
+        "product_roadmap_signal.md",
+        "Triage Orchestrator"
+      ],
+      "claude_code_stack": {
+        "skills": [
+          "cluster_themes"
+        ],
+        "subagents": [
+          "Triage Orchestrator"
+        ],
+        "hooks": [
+          "PostToolUse audit_action.sh"
+        ],
+        "rules": [
+          "rules/product_priorities.md"
+        ]
+      },
+      "walkthrough": [
+        {
+          "actor": "Devon, Monday 7am, runs /weekly_product_report",
+          "action": "Triggers Triage Orchestrator."
+        },
+        {
+          "actor": "Triage Orchestrator",
+          "action": "Reads three silver platters: feedback_themes, churn_root_cause, product_roadmap_signal."
+        },
+        {
+          "actor": "Triage Orchestrator",
+          "action": "Maps each cluster to its current state (in worktree, RCA in progress, unassigned)."
+        },
+        {
+          "actor": "Triage Orchestrator",
+          "action": "Cross-references churn against active clusters, which fixes would prevent next week's churn?"
+        },
+        {
+          "actor": "Triage Orchestrator",
+          "action": "Highlights roadmap-drift: items on roadmap with no customer signal, items in customer signal not on roadmap."
+        },
+        {
+          "actor": "Triage Orchestrator",
+          "action": "Drafts outputs/reports/weekly_product_<week>.md."
+        },
+        {
+          "actor": "Devon",
+          "action": "Reads at 7:30am. Adds [human_action] line. Walks team through it at 9am standup."
+        }
+      ],
+      "before_claude_code": "Monday standup ran on Devon's gut feel. Engineering chose work based on whoever shouted loudest.",
+      "after_claude_code": "Standup runs on data. Engineering picks the highest-impact cluster. Roadmap drift surfaces before it costs MRR.",
+      "headline": "Weekly product report (Monday standup)",
+      "ingredients_friendly": [
+        "feedback_themes.md",
+        "churn_root_cause.md",
+        "product_roadmap_signal.md",
+        "Triage Orchestrator"
+      ]
+    },
+    {
+      "id": "churn_investigation_recipe",
+      "name": "Churn investigation (when a customer cancels)",
+      "goal": "When a customer cancels, root-cause-analyst investigates within hours, not days. Surfaces the support history + error timing + roadmap miss that drove the churn.",
+      "ingredients": [
+        "Stripe (cancellation)",
+        "Intercom history",
+        "Sentry errors",
+        "churn_root_cause.md",
+        "Root-Cause Analyst"
+      ],
+      "claude_code_stack": {
+        "skills": [
+          "ingest_stripe_churn",
+          "ingest_sentry_for_churn"
+        ],
+        "subagents": [
+          "Triage Orchestrator",
+          "Root-Cause Analyst"
+        ],
+        "hooks": [
+          "SessionStart convert_dropzone.sh",
+          "PostToolUse audit_action.sh"
+        ],
+        "rules": [
+          "rules/feedback_taxonomy.md"
+        ]
+      },
+      "walkthrough": [
+        {
+          "actor": "Stripe webhook",
+          "action": "Subscription cancellation event lands."
+        },
+        {
+          "actor": "ingest_stripe_churn skill",
+          "action": "Drops the cancellation event into data/feedback/churn_events/."
+        },
+        {
+          "actor": "Devon, runs /churn_investigation <customer_id>",
+          "action": "Triggers Triage Orchestrator."
+        },
+        {
+          "actor": "Triage Orchestrator",
+          "action": "Routes to Root-Cause Analyst."
+        },
+        {
+          "actor": "Root-Cause Analyst",
+          "action": "Pulls customer's Intercom history (full thread)."
+        },
+        {
+          "actor": "Root-Cause Analyst",
+          "action": "Pulls Sentry errors that touched the customer's user_id during their tenure."
+        },
+        {
+          "actor": "Root-Cause Analyst",
+          "action": "Cross-references customer call transcripts via the fireflies skill (looking for 'considering' or 'cancel' phrases)."
+        },
+        {
+          "actor": "Root-Cause Analyst",
+          "action": "Writes outputs/churn_investigations/<customer_id>.md: tenure, tickets, errors, calls, hypothesis."
+        },
+        {
+          "actor": "Devon",
+          "action": "Reviews. Decides: was this preventable? If yes, what's the systemic fix?"
+        }
+      ],
+      "before_claude_code": "Churn investigations took 2 days each because the data lived in 5 places. Often skipped entirely.",
+      "after_claude_code": "Investigation drafts within hours. Devon reviews in 15 min. Patterns surface.",
+      "headline": "Churn investigation (when a customer cancels)",
+      "ingredients_friendly": [
+        "Stripe (cancellation)",
+        "Intercom history",
+        "Sentry errors",
+        "churn_root_cause.md",
+        "Root-Cause Analyst"
+      ]
+    }
+  ],
+  "setup_priority": [
+    {
+      "step": 1,
+      "title": "Wire the conversion hook + ingest_intercom_tickets",
+      "what_to_do": "SessionStart hook for raw_dropzone. Then write ingest_intercom_tickets skill that pulls last 7 days of conversations.",
+      "why": "Intercom is your highest-volume signal. Without ingestion, the triage orchestrator has nothing to read.",
+      "install": "# 1. Hook setup (5 min)\nbrew install pandoc poppler && pip install xlsx2csv\n# add SessionStart entry to .claude/settings.json\n\n# 2. Skill\n# write under .claude/skills/ingest_intercom_tickets/\n# uses INTERCOM_ACCESS_TOKEN in ~/.env\n# writes to data/feedback/intercom_tickets.csv",
+      "before": "Tom dumps tickets in Slack each Monday. Devon reads them by hand.",
+      "after": "Tickets land in data/feedback/ overnight. Triage is ready Monday 7am.",
+      "setup_time": "Half a day for the skill",
+      "title_friendly": "Wire the conversion hook + ingest_intercom_tickets"
+    },
+    {
+      "step": 2,
+      "title": "Build feedback_themes silver platter (cluster_themes skill)",
+      "what_to_do": "Skill that reads Intercom + Pendo + customer calls + GitHub. Clusters by root cause. Writes silver_platters/feedback_themes_<week>.md.",
+      "why": "Replaces 200+ tickets/responses with 5 themes + verbatim quotes. Devon reads 5 things, not 200.",
+      "install": "# write under .claude/skills/cluster_themes/\n# reads from data/feedback/* and data/product/github_issues.csv\n# writes silver_platters/feedback_themes_<week>.md\n# scheduled via cron Sunday 11pm",
+      "before": "Pendo dumps unread. Devon never sees the cluster pattern.",
+      "after": "Mon 6am brief shows top 5 clusters with churn-risk flags. Engineering picks highest-impact.",
+      "setup_time": "Half a day",
+      "title_friendly": "Build feedback_themes silver platter (cluster_themes skill)"
+    },
+    {
+      "step": 3,
+      "title": "Triage Orchestrator + Root-Cause Analyst + Codex Fix Drafter",
+      "what_to_do": "Three subagents under .claude/agents/. Orchestrator routes. Root-Cause analyzes. Codex drafts the fix in a worktree (never on main).",
+      "why": "The orchestrator hierarchy makes the system usable. Devon talks to Triage; specialists report up. Worktree pattern keeps Devon from worrying about AI pushing bad code.",
+      "install": "# write under .claude/agents/:\n#   triage-orchestrator.md (model: opus, tools: [Read, Glob, Grep, Task])\n#   root-cause-analyst.md (model: opus, tools include Bash for git log)\n#   codex-fix-drafter.md (model: opus, tools include Edit, Write, Bash; write only in worktrees/)\n# Hand to @claude-code-guide for templates.",
+      "before": "Devon is the human router. Pickup latency 3 weeks.",
+      "after": "Mechanical fixes draft same-session. Engineer reviews PROPOSAL.md, approves via audit log.",
+      "setup_time": "2-3 hours",
+      "title_friendly": "Triage Orchestrator + Root-Cause Analyst + Codex Fix Drafter"
+    },
+    {
+      "step": 4,
+      "title": "Audit log + approval-gate hooks (Stop warns on unsigned PROPOSAL)",
+      "what_to_do": "PostToolUse hook for every Edit/Write. Stop hook that warns if a worktree's PROPOSAL.md is unacknowledged at session end. Permissions deny: never push to main.",
+      "why": "Trust layer. Engineer review is non-negotiable. Permissions config is the second line of defense.",
+      "install": "# permissions in .claude/settings.json:\n# \"deny\": [\"Bash(git push*)\", \"Bash(git merge*)\"]\n# hooks per business_os_hooks.md",
+      "before": "AI wrote code? You don't know what. AI pushed code? Yikes.",
+      "after": "Every action recorded. AI cannot push. Engineer's [approved] line is the merge trigger.",
+      "setup_time": "10 minutes",
+      "title_friendly": "Audit log + approval-gate hooks (Stop warns on unsigned PROPOSAL)"
+    },
+    {
+      "step": 5,
+      "title": "Add /weekly_product_report and /churn_investigation slash commands",
+      "what_to_do": "Two slash commands under .claude/commands/. Each triggers the right agent chain.",
+      "why": "Turns Devon's recurring motions into one-keystroke triggers. Standup-ready report Monday morning. Churn investigation drafts within hours.",
+      "install": "# write under .claude/commands/:\n#   weekly_product_report.md\n#   churn_investigation.md (takes <customer_id> as arg)",
+      "before": "Each Monday is a fresh prompting session.",
+      "after": "Devon runs /weekly_product_report at 7am, walks the team through it at 9am.",
+      "setup_time": "30 minutes",
+      "title_friendly": "Add /weekly_product_report and /churn_investigation slash commands"
+    }
+  ],
+  "setup_total_time": "A focused weekend. Step 1 unblocks everything. Steps 2-3 are the bulk of the value.",
+  "opportunities": [
+    {
+      "surface": "pantry/pendo",
+      "type": "skill_writing_opportunity",
+      "title": "Wrap Pendo as a Claude skill",
+      "explanation": "No CLI exists for Pendo. ~150-line skill against the API. Reusable across every B2B SaaS client.",
+      "claude_code_feature": "skill",
+      "feature_name": "ingest_pendo_surveys",
+      "estimated_impact": "Strategic, turns dead Pendo data into product signal"
+    },
+    {
+      "surface": "pantry/intercom",
+      "type": "skill_writing_opportunity",
+      "title": "Wrap Intercom as a Claude skill",
+      "explanation": "Pulls tickets + tags + clusters via the Intercom API. Powers the triage orchestrator.",
+      "claude_code_feature": "skill",
+      "feature_name": "ingest_intercom_tickets",
+      "estimated_impact": "5-10 hours/week of Devon's manual triage"
+    },
+    {
+      "surface": "plate/fix_proposal",
+      "type": "approval_gate",
+      "title": "Add file-conflict detection to codex-fix-drafter",
+      "explanation": "Today the drafter just opens a worktree. Need a check: if Jordan or Sai is currently editing the same file, the drafter backs off and flags. Prevents 'AI overwrites my work.'",
+      "claude_code_feature": "subagent_update",
+      "feature_name": "codex-fix-drafter",
+      "estimated_impact": "Required for engineer trust"
+    }
+  ]
+}

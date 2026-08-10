@@ -1,0 +1,661 @@
+{
+  "name": "Inactive Client Re-engagement Automation",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "weeks",
+              "weekDay": 1,
+              "hours": [9],
+              "minutes": [0]
+            }
+          ]
+        }
+      },
+      "name": "Schedule Trigger",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1,
+      "position": [
+        250,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "documentId": {
+          "__rl": true,
+          "value": "YOUR_CLIENTS_SHEET_ID",
+          "mode": "list",
+          "cachedResultName": "Clients"
+        },
+        "sheetName": "Clients",
+        "returnAll": true,
+        "options": {
+          "filter": {
+            "values": {
+              "Status": "Active"
+            }
+          }
+        }
+      },
+      "name": "Google Sheets - Get Active Clients",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4,
+      "position": [
+        400,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "documentId": {
+          "__rl": true,
+          "value": "YOUR_CLIENT_SESSIONS_SHEET_ID",
+          "mode": "list",
+          "cachedResultName": "Client Sessions"
+        },
+        "sheetName": "Client Sessions",
+        "returnAll": true
+      },
+      "name": "Google Sheets - Get All Sessions",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4,
+      "position": [
+        550,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Identify inactive clients (no session in the last 30 days)\nconst clients = $input.item.json;\nconst sessions = $node[\"Google Sheets - Get All Sessions\"].json;\n\n// Get current date and date 30 days ago\nconst currentDate = new Date();\nconst thirtyDaysAgo = new Date();\nthirtyDaysAgo.setDate(currentDate.getDate() - 30);\n\n// Format date to YYYY-MM-DD for comparison\nconst formatDate = (date) => {\n  const year = date.getFullYear();\n  const month = String(date.getMonth() + 1).padStart(2, '0');\n  const day = String(date.getDate()).padStart(2, '0');\n  return `${year}-${month}-${day}`;\n};\n\nconst thirtyDaysAgoStr = formatDate(thirtyDaysAgo);\n\n// Find inactive clients\nconst inactiveClients = [];\n\nclients.forEach(client => {\n  // Find the most recent session for this client\n  const clientSessions = sessions.filter(session => \n    session[\"Client Email\"] === client[\"Email\"]\n  );\n  \n  // Sort sessions by date (most recent first)\n  clientSessions.sort((a, b) => {\n    return new Date(b[\"Date\"]) - new Date(a[\"Date\"]);\n  });\n  \n  // Check if the most recent session is older than 30 days\n  const isInactive = clientSessions.length === 0 || \n                     clientSessions[0][\"Date\"] < thirtyDaysAgoStr;\n  \n  // Check if client has already been sent a re-engagement email recently\n  const recentlyContacted = client[\"Last Re-engagement Date\"] && \n                           new Date(client[\"Last Re-engagement Date\"]) > thirtyDaysAgo;\n  \n  if (isInactive && !recentlyContacted) {\n    // Add days since last session\n    let daysSinceLastSession = null;\n    if (clientSessions.length > 0) {\n      const lastSessionDate = new Date(clientSessions[0][\"Date\"]);\n      const diffTime = Math.abs(currentDate - lastSessionDate);\n      daysSinceLastSession = Math.ceil(diffTime / (1000 * 60 * 60 * 24));\n    }\n    \n    inactiveClients.push({\n      ...client,\n      daysSinceLastSession,\n      lastSessionDate: clientSessions.length > 0 ? clientSessions[0][\"Date\"] : null,\n      lastSessionType: clientSessions.length > 0 ? clientSessions[0][\"Session Type\"] : null\n    });\n  }\n});\n\nreturn { json: { inactiveClients } };"
+      },
+      "name": "Identify Inactive Clients",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [
+        700,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "number": [
+            {
+              "value1": "={{ $json.inactiveClients.length }}",
+              "operation": "larger",
+              "value2": 0
+            }
+          ]
+        }
+      },
+      "name": "Any Inactive Clients?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [
+        850,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Extract inactive clients array for processing\nreturn { json: $json.inactiveClients };"
+      },
+      "name": "Extract Clients Array",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [
+        1000,
+        200
+      ]
+    },
+    {
+      "parameters": {
+        "mode": "splitInBatches",
+        "batchSize": 1,
+        "options": {}
+      },
+      "name": "Split Into Individual Clients",
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 2,
+      "position": [
+        1150,
+        200
+      ],
+      "executeOnce": false
+    },
+    {
+      "parameters": {
+        "authentication": "serviceAccount",
+        "operation": "completion",
+        "model": "gpt-4",
+        "prompt": {
+          "value": "Create a personalized re-engagement email for a coaching client who hasn't scheduled a session in a while. Use the following details:\n\nClient Name: {{ $json.Name }}\nDays Since Last Session: {{ $json.daysSinceLastSession || \"over 30\" }}\nLast Session Type: {{ $json.lastSessionType || \"N/A\" }}\nClient Goals: {{ $json.Goals }}\n\nThe email should:\n1. Express that you've noticed they haven't scheduled a session recently\n2. Remind them of the value they were getting from coaching\n3. Reference their specific goals\n4. Offer a special \"re-engagement\" session at a discounted rate\n5. Include a clear call-to-action with a scheduling link\n\nThe tone should be warm, caring, and not pushy. Format the email with appropriate HTML formatting including a greeting and signature. Keep the email concise but personalized."
+        },
+        "options": {
+          "temperature": 0.7,
+          "maxTokens": 1000
+        }
+      },
+      "name": "OpenAI - Generate Re-engagement Email",
+      "type": "n8n-nodes-base.openAi",
+      "typeVersion": 1,
+      "position": [
+        1300,
+        200
+      ]
+    },
+    {
+      "parameters": {
+        "fromEmail": "your.coaching.business@example.com",
+        "toEmail": "={{ $json.Email }}",
+        "subject": "={{ \"Let's Reconnect: Special Coaching Offer for \" + $json.Name }}",
+        "text": "",
+        "html": "={{ $node[\"OpenAI - Generate Re-engagement Email\"].json.text }}",
+        "options": {}
+      },
+      "name": "Gmail - Send Re-engagement Email",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2,
+      "position": [
+        1450,
+        200
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "YOUR_CLIENTS_SHEET_ID",
+          "mode": "list",
+          "cachedResultName": "Clients"
+        },
+        "sheetName": "Clients",
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Last Re-engagement Date": "={{ $today.format('YYYY-MM-DD') }}",
+            "Re-engagement Count": "={{ ($json[\"Re-engagement Count\"] ? parseInt($json[\"Re-engagement Count\"]) : 0) + 1 }}"
+          }
+        },
+        "options": {
+          "filter": {
+            "values": {
+              "Row Number": "={{ $json[\"Row Number\"] }}"
+            }
+          }
+        }
+      },
+      "name": "Google Sheets - Update Client",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4,
+      "position": [
+        1600,
+        200
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "YOUR_REENGAGEMENT_SHEET_ID",
+          "mode": "list",
+          "cachedResultName": "Re-engagement Tracking"
+        },
+        "sheetName": "Re-engagement Tracking",
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Client Name": "={{ $json.Name }}",
+            "Client Email": "={{ $json.Email }}",
+            "Date Sent": "={{ $today.format('YYYY-MM-DD') }}",
+            "Days Inactive": "={{ $json.daysSinceLastSession || \"30+\" }}",
+            "Re-engagement Count": "={{ ($json[\"Re-engagement Count\"] ? parseInt($json[\"Re-engagement Count\"]) : 0) + 1 }}",
+            "Status": "Sent"
+          }
+        }
+      },
+      "name": "Google Sheets - Log Re-engagement",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4,
+      "position": [
+        1750,
+        200
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "boolean": [
+            {
+              "value1": "={{ $node[\"Split Into Individual Clients\"].context[\"noItemsLeft\"] }}",
+              "value2": true,
+              "operation": "equal"
+            }
+          ]
+        }
+      },
+      "name": "All Clients Processed?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [
+        1900,
+        200
+      ]
+    },
+    {
+      "parameters": {
+        "chatId": "YOUR_SLACK_CHANNEL_ID",
+        "text": "✅ Re-engagement emails sent to {{ $node[\"Identify Inactive Clients\"].json.inactiveClients.length }} inactive clients.",
+        "otherOptions": {
+          "parse_mode": "markdown"
+        }
+      },
+      "name": "Slack - Send Notification",
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 2,
+      "position": [
+        2050,
+        100
+      ]
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "track-reengagement-response",
+        "options": {}
+      },
+      "name": "Webhook - Track Response",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [
+        250,
+        500
+      ],
+      "webhookId": "reengagement-response-tracking"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Validate incoming response data\nconst data = $input.item.json;\nconst requiredFields = ['clientEmail', 'responseType'];\n\nlet missingFields = [];\nrequiredFields.forEach(field => {\n  if (!data[field]) {\n    missingFields.push(field);\n  }\n});\n\nif (missingFields.length > 0) {\n  return {\n    json: {\n      success: false,\n      message: `Missing required fields: ${missingFields.join(', ')}`,\n      validationError: true\n    }\n  };\n}\n\nreturn {\n  json: {\n    ...data,\n    success: true,\n    responseDate: new Date().toISOString()\n  }\n};"
+      },
+      "name": "Validate Response Data",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [
+        400,
+        500
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "boolean": [
+            {
+              "value1": "={{ $json.success }}",
+              "value2": true,
+              "operation": "equal"
+            }
+          ]
+        }
+      },
+      "name": "Is Valid Response?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [
+        550,
+        500
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "documentId": {
+          "__rl": true,
+          "value": "YOUR_REENGAGEMENT_SHEET_ID",
+          "mode": "list",
+          "cachedResultName": "Re-engagement Tracking"
+        },
+        "sheetName": "Re-engagement Tracking",
+        "returnAll": true,
+        "options": {
+          "filter": {
+            "values": {
+              "Client Email": "={{ $json.clientEmail }}",
+              "Status": "Sent"
+            }
+          }
+        }
+      },
+      "name": "Google Sheets - Find Re-engagement Record",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4,
+      "position": [
+        700,
+        400
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "YOUR_REENGAGEMENT_SHEET_ID",
+          "mode": "list",
+          "cachedResultName": "Re-engagement Tracking"
+        },
+        "sheetName": "Re-engagement Tracking",
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Status": "={{ $json.responseType }}",
+            "Response Date": "={{ $json.responseDate.split('T')[0] }}",
+            "Notes": "={{ $json.notes || \"\" }}"
+          }
+        },
+        "options": {
+          "filter": {
+            "values": {
+              "Row Number": "={{ $node[\"Google Sheets - Find Re-engagement Record\"].json[0][\"Row Number\"] }}"
+            }
+          }
+        }
+      },
+      "name": "Google Sheets - Update Re-engagement Record",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4,
+      "position": [
+        850,
+        400
+      ]
+    },
+    {
+      "parameters": {
+        "chatId": "YOUR_SLACK_CHANNEL_ID",
+        "text": "✅ Re-engagement response received!\n\n*Client:* {{ $json.clientEmail }}\n*Response Type:* {{ $json.responseType }}\n*Notes:* {{ $json.notes || \"None\" }}",
+        "otherOptions": {
+          "parse_mode": "markdown"
+        }
+      },
+      "name": "Slack - Notify About Response",
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 2,
+      "position": [
+        1000,
+        400
+      ]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseData": {
+          "value": {
+            "success": true,
+            "message": "Response recorded successfully"
+          }
+        },
+        "options": {}
+      },
+      "name": "Respond - Success",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [
+        1150,
+        400
+      ]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseData": {
+          "value": {
+            "success": false,
+            "message": "={{ $json.message || \"Invalid response data\" }}"
+          }
+        },
+        "options": {
+          "responseCode": 400
+        }
+      },
+      "name": "Respond - Error",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [
+        700,
+        600
+      ]
+    }
+  ],
+  "connections": {
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets - Get Active Clients",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets - Get Active Clients": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets - Get All Sessions",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets - Get All Sessions": {
+      "main": [
+        [
+          {
+            "node": "Identify Inactive Clients",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Identify Inactive Clients": {
+      "main": [
+        [
+          {
+            "node": "Any Inactive Clients?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Any Inactive Clients?": {
+      "main": [
+        [
+          {
+            "node": "Extract Clients Array",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        []
+      ]
+    },
+    "Extract Clients Array": {
+      "main": [
+        [
+          {
+            "node": "Split Into Individual Clients",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Into Individual Clients": {
+      "main": [
+        [
+          {
+            "node": "OpenAI - Generate Re-engagement Email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI - Generate Re-engagement Email": {
+      "main": [
+        [
+          {
+            "node": "Gmail - Send Re-engagement Email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Gmail - Send Re-engagement Email": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets - Update Client",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets - Update Client": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets - Log Re-engagement",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets - Log Re-engagement": {
+      "main": [
+        [
+          {
+            "node": "All Clients Processed?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "All Clients Processed?": {
+      "main": [
+        [
+          {
+            "node": "Slack - Send Notification",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Split Into Individual Clients",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook - Track Response": {
+      "main": [
+        [
+          {
+            "node": "Validate Response Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Validate Response Data": {
+      "main": [
+        [
+          {
+            "node": "Is Valid Response?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Is Valid Response?": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets - Find Re-engagement Record",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Respond - Error",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets - Find Re-engagement Record": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets - Update Re-engagement Record",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets - Update Re-engagement Record": {
+      "main": [
+        [
+          {
+            "node": "Slack - Notify About Response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Slack - Notify About Response": {
+      "main": [
+        [
+          {
+            "node": "Respond - Success",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "saveManualExecutions": true,
+    "callerPolicy": "workflowsFromSameOwner",
+    "errorWorkflow": "YOUR_ERROR_WORKFLOW_ID"
+  },
+  "tags": [
+    "client-management",
+    "reengagement"
+  ],
+  "triggerCount": 1
+}

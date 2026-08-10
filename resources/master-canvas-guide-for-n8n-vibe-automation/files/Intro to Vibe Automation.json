@@ -1,0 +1,3516 @@
+{
+  "name": "Intro to Vibe Automation",
+  "nodes": [
+    {
+      "parameters": {
+        "content": "![Description](https://i.imgur.com/LIvAz5w.png)\n",
+        "height": 608,
+        "width": 624
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        112,
+        -656
+      ],
+      "id": "2a5c0405-887e-484f-9954-dec8833449b7",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "content": "# START SQUARES",
+        "height": 80,
+        "width": 320,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        240,
+        272
+      ],
+      "typeVersion": 1,
+      "id": "8907d17b-cca8-42c1-bf93-758366be5a0e",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        208,
+        416
+      ],
+      "id": "9bfa6b36-6145-470c-a726-b03734e9afd3",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {}
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        208,
+        608
+      ],
+      "id": "b3b01193-4695-4153-835b-8389400bb42b",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "path": "7a5b8be4-096a-412a-ab2c-9eab6dc4155f",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        208,
+        784
+      ],
+      "id": "fa0d2eee-ed38-4d92-af06-7febb9f9a87c",
+      "name": "Webhook",
+      "webhookId": "7a5b8be4-096a-412a-ab2c-9eab6dc4155f"
+    },
+    {
+      "parameters": {
+        "content": "# MOVERS & SHAPERS",
+        "height": 80,
+        "width": 384
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        192,
+        1488
+      ],
+      "typeVersion": 1,
+      "id": "d1444ad5-9f4b-4ed7-80b9-e38421da421d",
+      "name": "Sticky Note2"
+    },
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyMinute"
+            }
+          ]
+        },
+        "documentId": {
+          "__rl": true,
+          "value": "=ph",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "=ph",
+          "mode": "id"
+        },
+        "event": "rowAdded",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheetsTrigger",
+      "typeVersion": 1,
+      "position": [
+        208,
+        1136
+      ],
+      "id": "f4a6f80d-7d10-43d5-a5e1-773aaed62220",
+      "name": "Google Sheets Trigger",
+      "credentials": {
+        "googleSheetsTriggerOAuth2Api": {
+          "id": "SQ3AbdCbmvjga35v",
+          "name": "Google Sheets Trigger account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "![Description](https://i.imgur.com/bfbezlH.png)",
+        "height": 432,
+        "width": 464
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -432,
+        608
+      ],
+      "typeVersion": 1,
+      "id": "ed8f7a73-a455-43a5-9a11-0378df6d7cf5",
+      "name": "Sticky Note3"
+    },
+    {
+      "parameters": {
+        "content": "![Description](https://i.imgur.com/3K88Vuf.png)",
+        "height": 528,
+        "width": 512
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -432,
+        1632
+      ],
+      "typeVersion": 1,
+      "id": "cab95897-c410-4556-8acd-d48264f080c7",
+      "name": "Sticky Note4"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        224,
+        1648
+      ],
+      "id": "8064d59c-10f1-4c13-bda1-d0a7a6b9e164",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "=ph",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        224,
+        1840
+      ],
+      "id": "26e25c9a-59c4-4c84-b85d-d95fa53876cd",
+      "name": "Split Out"
+    },
+    {
+      "parameters": {
+        "fieldsToAggregate": {
+          "fieldToAggregate": [
+            {}
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        224,
+        2032
+      ],
+      "id": "503db7d8-3f69-4519-90cb-d43f607a7909",
+      "name": "Aggregate"
+    },
+    {
+      "parameters": {
+        "content": "# PATH SPLITTERS",
+        "height": 80,
+        "width": 320,
+        "color": 3
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        192,
+        2304
+      ],
+      "typeVersion": 1,
+      "id": "96c1bbe9-875e-469b-879c-1040854a667c",
+      "name": "Sticky Note5"
+    },
+    {
+      "parameters": {
+        "content": "![Description](https://i.imgur.com/cm2DlsR.png)",
+        "height": 528,
+        "width": 512
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -432,
+        2560
+      ],
+      "typeVersion": 1,
+      "id": "0d521c6f-102c-4cce-9308-67bca2db17d7",
+      "name": "Sticky Note6"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "b8bffddb-8783-47f6-898a-39776f4ab4cd",
+              "leftValue": "",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        208,
+        2464
+      ],
+      "id": "d41dccc0-c01d-4da4-8a17-38ced11f4d8b",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "bdffdebb-8343-47ae-96ca-1f50e2fe3dde"
+                  }
+                ],
+                "combinator": "and"
+              }
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.3,
+      "position": [
+        208,
+        2624
+      ],
+      "id": "9e94c2ad-1687-42bf-8704-ea6ad1742491",
+      "name": "Switch"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        208,
+        2816
+      ],
+      "id": "3144bc15-b46d-458f-ace7-35ed0fe48b4c",
+      "name": "Merge"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        208,
+        3024
+      ],
+      "id": "ef272e91-e14e-4a8e-aaf0-14237d241d96",
+      "name": "Wait",
+      "webhookId": "033600b1-ec95-499e-883e-6459dccc2f9a"
+    },
+    {
+      "parameters": {
+        "content": "# WORLD CONNECTORS ",
+        "height": 80,
+        "width": 416,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        176,
+        3312
+      ],
+      "typeVersion": 1,
+      "id": "8d8bcb73-a626-46df-bcc3-d7620b6dff0e",
+      "name": "Sticky Note7"
+    },
+    {
+      "parameters": {
+        "content": "![Description](https://i.imgur.com/LhEp1t3.png)",
+        "height": 512,
+        "width": 496
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -448,
+        3584
+      ],
+      "typeVersion": 1,
+      "id": "7eb45252-8df6-4c02-a8b4-fefcd211afb3",
+      "name": "Sticky Note8"
+    },
+    {
+      "parameters": {
+        "url": "=ph",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        176,
+        3488
+      ],
+      "id": "6219d771-7aa5-42c6-9dab-1d7f4cf58dd8",
+      "name": "HTTP Request"
+    },
+    {
+      "parameters": {
+        "dataTableId": {
+          "__rl": true,
+          "value": "=ph",
+          "mode": "id"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {},
+          "matchingColumns": [],
+          "schema": [],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.dataTable",
+      "typeVersion": 1,
+      "position": [
+        176,
+        3680
+      ],
+      "id": "d6430ec5-17bc-4c55-a0cf-2bdc8d731339",
+      "name": "Insert row"
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "e2d579a6-6063-4ad7-aee8-031cdc361db9",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        176,
+        3856
+      ],
+      "id": "9dadfd4a-bc72-420d-845b-0f4c1e407b1a",
+      "name": "Webhook1",
+      "webhookId": "e2d579a6-6063-4ad7-aee8-031cdc361db9"
+    },
+    {
+      "parameters": {
+        "content": "# CHEAT CODES",
+        "height": 80,
+        "width": 288,
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        144,
+        4384
+      ],
+      "typeVersion": 1,
+      "id": "dddc3ab7-b7fa-4ad1-ade5-4dc1fd4ea6e7",
+      "name": "Sticky Note9"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.4,
+      "position": [
+        176,
+        4032
+      ],
+      "id": "85c6f508-89bd-4dcf-ac7c-2cf7cfd6cb34",
+      "name": "Respond to Webhook"
+    },
+    {
+      "parameters": {
+        "content": "![Description](https://media.tenor.com/9yslA4ZYi-cAAAAM/parallel-universe.gif)",
+        "height": 256,
+        "width": 272
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        432,
+        3888
+      ],
+      "typeVersion": 1,
+      "id": "f82d5a18-4853-43c5-b75e-3416f07f2e83",
+      "name": "Sticky Note10"
+    },
+    {
+      "parameters": {
+        "content": "![Description](https://i.imgur.com/MliUT0C.png)",
+        "height": 496,
+        "width": 496
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -464,
+        4624
+      ],
+      "typeVersion": 1,
+      "id": "f0cf509e-50ac-4a92-83a1-040a0201846f",
+      "name": "Sticky Note11"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.aiTransform",
+      "typeVersion": 1,
+      "position": [
+        160,
+        4688
+      ],
+      "id": "43ffd755-2371-4e7d-b320-19a615f08b68",
+      "name": "AI Transform"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Loop over input items and add a new field called 'myNewField' to the JSON of each one\nfor (const item of $input.all()) {\n  item.json.myNewField = 1;\n}\n\nreturn $input.all();"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        160,
+        4512
+      ],
+      "id": "c5d7b610-43f1-4452-b886-ca10503387a3",
+      "name": "Code in JavaScript"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "ph",
+        "batching": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.7,
+      "position": [
+        160,
+        4880
+      ],
+      "id": "fef968cc-4978-41cd-a94a-f93d1026537e",
+      "name": "Basic LLM Chain"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3,
+      "position": [
+        160,
+        5488
+      ],
+      "id": "69deaa78-50e5-4b1a-8a14-9b3cdcee1f79",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "text": "=ph",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agentTool",
+      "typeVersion": 2.2,
+      "position": [
+        160,
+        5728
+      ],
+      "id": "6d8fc178-c21a-4d1e-998b-07b7f7028782",
+      "name": "AI Agent Tool"
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "chatgpt-4o-latest",
+          "mode": "list",
+          "cachedResultName": "CHATGPT-4O-LATEST"
+        },
+        "responses": {
+          "values": [
+            {}
+          ]
+        },
+        "builtInTools": {},
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 2,
+      "position": [
+        160,
+        5184
+      ],
+      "id": "e6be6143-6ea5-412e-b30a-5df85bf8406d",
+      "name": "Message a model node",
+      "credentials": {
+        "openAiApi": {
+          "id": "KSKdcXliKsG4jYZC",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "# VIBE PLANNING / DESIGN THINKING",
+        "height": 80,
+        "width": 640,
+        "color": 7
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        16,
+        5968
+      ],
+      "typeVersion": 1,
+      "id": "ffc0a2ba-747b-4c6d-80ee-b6198e714ac2",
+      "name": "Sticky Note12"
+    },
+    {
+      "parameters": {
+        "content": "![Description](https://i.imgur.com/zzUkoQ8.png)",
+        "height": 496,
+        "width": 496
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -816,
+        6144
+      ],
+      "typeVersion": 1,
+      "id": "3baab449-7097-48dc-af32-e3a7ff6a95b8",
+      "name": "Sticky Note13"
+    },
+    {
+      "parameters": {
+        "content": "![Description](https://github.githubassets.com/assets/GitHub-Mark-ea2971cee799.png)",
+        "width": 150
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -672,
+        6560
+      ],
+      "typeVersion": 1,
+      "id": "27cb6be3-11b4-4823-9d92-0b87c3872c79",
+      "name": "Sticky Note14"
+    },
+    {
+      "parameters": {
+        "content": "![Description](https://upload.wikimedia.org/wikipedia/commons/thumb/7/77/Mermaid_Logo.svg/1200px-Mermaid_Logo.svg.png)",
+        "height": 496,
+        "width": 480
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -208,
+        6144
+      ],
+      "typeVersion": 1,
+      "id": "5eda3ce5-7dbe-45bb-bde5-7b6cf54f0268",
+      "name": "Sticky Note15"
+    },
+    {
+      "parameters": {
+        "content": "![Description](https://platform.theverge.com/wp-content/uploads/sites/2/2025/10/STKB372_CHAT_GPT_ATLAS_D.jpg?quality=90&strip=all&crop=16.666666666667,0,66.666666666667,100)",
+        "height": 496,
+        "width": 480
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        368,
+        6144
+      ],
+      "typeVersion": 1,
+      "id": "c60848d8-9a5c-4062-9276-2c44c1398042",
+      "name": "Sticky Note16"
+    },
+    {
+      "parameters": {
+        "content": "![Description](https://aws.amazon.com/startups/upload/e4d8d468-90d1-704f-a34e-7e195ce4025a/ceac2e85-dca6-4da4-bbf7-359df7db739d.png)",
+        "height": 496,
+        "width": 480
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        944,
+        6144
+      ],
+      "typeVersion": 1,
+      "id": "a81f4084-f863-4c78-aa16-2f1f994b6521",
+      "name": "Sticky Note17"
+    },
+    {
+      "parameters": {
+        "content": "# HOW TO ~~PLAY~~ PROMPT\n",
+        "height": 80,
+        "width": 432,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        96,
+        7472
+      ],
+      "typeVersion": 1,
+      "id": "31296611-c856-404e-b878-330403c16291",
+      "name": "Sticky Note18"
+    },
+    {
+      "parameters": {
+        "content": "This is the #1 rule. Don't be vague. Be a specific commander. Tell the AI exactly which game pieces to put on the board.\n\n**BAD PROMPT:** \"Get my new leads from a form and save them.\"\n\n**VIBE PROMPT:** \"Create a workflow that starts with a **Webhook Trigger**. When data is received, send it to an **AI Agent**. This agent needs to classify the lead's industry as 'Tech', 'Finance', or 'Other'. Then, use a **Switch Node** to route the lead based on that classification. 'Tech' leads go to the **Google Sheet** named 'Tech Leads'. 'Finance' leads go to the **AirTable** base 'Finance Leads'.\"\n",
+        "height": 208,
+        "width": 592
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        16,
+        7744
+      ],
+      "typeVersion": 1,
+      "id": "917d9819-6811-4814-bc08-447922b75354",
+      "name": "Sticky Note19"
+    },
+    {
+      "parameters": {
+        "content": "Don't just list the ingredients; give it the recipe, step-by-step. Use words like \"First,\" \"Then,\" \"Next,\" \"After that,\" and \"Finally.\"\n\n- **BAD PROMPT:** \"I need to check stocks and send an email.\"\n- **VIBE PROMPT:** \"**First**, start with a **Schedule Trigger** that runs every day at 9 AM. **Second**, use an **HTTP Request** node to **GET** the stock price for 'TSLA' from the Yahoo Finance API. **Third**, use an **If Node** to check if the price is below $180. **Finally**, if it _is_ true, use the **Gmail** node to send an email to me@myemail.com with the subject 'BUY TSLA.'\"\n",
+        "height": 224,
+        "width": 592
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        16,
+        8288
+      ],
+      "typeVersion": 1,
+      "id": "beb861b4-b872-49a0-a6a7-6d0d330d092e",
+      "name": "Sticky Note20"
+    },
+    {
+      "parameters": {
+        "content": "This is the power move you mentioned. You can replace a ton of \"Edit Fields\" or \"Split Out\" logic with one Code Node. Just tell the AI to write the code _for_ you.\n\n- **BAD PROMPT:** \"Filter my emails.\"\n- **VIBE PROMPT:** \"I have a list of new users from a **Webhook**. I need to process them with a **Split Out** node. For each user, I need to use a **Code Node**. Inside this **Code Node**, write JavaScript to:\n  1. Take the email field.\n  2. Check if it's a personal email (gmail.com, outlook.com, etc.).\n  3. If it is, add a new field called is_personal and set it to true.\n  4. If it's not, set is_personal to false.\n     After that, use an If Node to check that is_personal flag.\"\n",
+        "height": 272,
+        "width": 592
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        16,
+        8912
+      ],
+      "typeVersion": 1,
+      "id": "cfb780c3-b63c-4ccc-ba08-4184cabeaed6",
+      "name": "Sticky Note21"
+    },
+    {
+      "parameters": {
+        "content": "![Description](https://i.imgur.com/JflVyiv.png)",
+        "height": 560,
+        "width": 784
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        368,
+        6768
+      ],
+      "typeVersion": 1,
+      "id": "46a7f83c-da2b-4e7c-a340-e7a52de06686",
+      "name": "Sticky Note23"
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "models/gemini-2.5-pro-preview-03-25",
+          "mode": "list",
+          "cachedResultName": "models/gemini-2.5-pro-preview-03-25"
+        },
+        "messages": {
+          "values": [
+            {}
+          ]
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.googleGeminiTool",
+      "typeVersion": 1,
+      "position": [
+        240,
+        5312
+      ],
+      "id": "741dbe69-0bc8-4d2d-aec7-90e609d55295",
+      "name": "Message a model in Google Gemini",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "OBe43kvkH4bfuXPT",
+          "name": "Prompt Advisers Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        240,
+        5024
+      ],
+      "id": "12013b9a-f4e5-43cd-aae0-2d6f6fc0dc36",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "OBe43kvkH4bfuXPT",
+          "name": "Prompt Advisers Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "claude-sonnet-4-5-20250929",
+          "cachedResultName": "Claude Sonnet 4.5"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatAnthropic",
+      "typeVersion": 1.3,
+      "position": [
+        0,
+        5712
+      ],
+      "id": "f471ce41-9291-4316-be3a-f87785595b28",
+      "name": "Anthropic Chat Model",
+      "credentials": {
+        "anthropicApi": {
+          "id": "9KuZnve0MpLVXWfL",
+          "name": "Anthropic account 3"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "## Speak the Language (Use the Node Names)",
+        "height": 80,
+        "width": 528,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        48,
+        7648
+      ],
+      "typeVersion": 1,
+      "id": "299aeea6-664f-447a-8d7b-63e5aca1e1d2",
+      "name": "Sticky Note24"
+    },
+    {
+      "parameters": {
+        "content": "## Be the GPS (Turn-by-Turn Directions)",
+        "height": 80,
+        "width": 448,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        80,
+        8192
+      ],
+      "typeVersion": 1,
+      "id": "cb7b493c-69b1-4256-b3ac-6fd899f9be24",
+      "name": "Sticky Note25"
+    },
+    {
+      "parameters": {
+        "content": "# DESIGN PATTERNS",
+        "height": 80,
+        "width": 352
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        144,
+        10016
+      ],
+      "typeVersion": 1,
+      "id": "e799ee40-14da-45b1-8ff3-c53af7c53a9f",
+      "name": "Sticky Note26"
+    },
+    {
+      "parameters": {
+        "content": "# PATTERN 1: THE LINEAR FLOW\n## (Simple Get & Save)\n\nA straightforward flow that gets data, formats it, and saves it.",
+        "height": 216,
+        "width": 400
+      },
+      "id": "40863500-d00c-4ccf-b878-b4a0d4ef525d",
+      "name": "PATTERN 1: LINEAR FLOW",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -480,
+        10144
+      ]
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "triggerAtHour": 9
+            }
+          ]
+        }
+      },
+      "id": "0a0815b3-c1d5-4501-bf65-3165bef94e2d",
+      "name": "START (Trigger)",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        48,
+        10176
+      ]
+    },
+    {
+      "parameters": {
+        "url": "https://api.example.com/data",
+        "options": {}
+      },
+      "id": "7d4dbd34-9cb8-48f9-8ba9-e1392c01821f",
+      "name": "GET DATA (HTTP)",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        272,
+        10176
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "id-1",
+              "name": "status",
+              "value": "processed",
+              "type": "string"
+            },
+            {
+              "id": "id-2",
+              "name": "timestamp",
+              "value": "={{ $now() }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "74734772-ef81-4f81-a3c4-82e36df3ea67",
+      "name": "FORMAT DATA (Edit Fields)",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        496,
+        10176
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "1xK8Ee44mPxmXeUMM2Vi3Ob2vt17JBPmKH6eQgmahJic",
+          "mode": "list",
+          "cachedResultName": "Paddle Batch Codes for Mark Kashef - 2025-10-21",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1xK8Ee44mPxmXeUMM2Vi3Ob2vt17JBPmKH6eQgmahJic/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1xK8Ee44mPxmXeUMM2Vi3Ob2vt17JBPmKH6eQgmahJic/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {},
+          "matchingColumns": [
+            "codes"
+          ],
+          "schema": [
+            {
+              "id": "codes",
+              "displayName": "codes",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "id": "adf36c43-1124-4002-9df3-f03c955b1034",
+      "name": "SAVE DATA (Google Sheet)",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        720,
+        10176
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "H1bl7WchzuHul7Zq",
+          "name": "Mark's Account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "# PATTERN 2: THE BRANCHING FLOW\n## (Simple Decision Making)\n\nData flows through a decision point (IF) and branches to different actions based on conditions.",
+        "height": 216,
+        "width": 400
+      },
+      "id": "508d8a45-2f3b-4519-ac63-a0dd89e81706",
+      "name": "PATTERN 2: BRANCHING FLOW",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -480,
+        10624
+      ]
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "hours"
+            }
+          ]
+        }
+      },
+      "id": "5beb670f-7f23-4eb9-ac7b-1e5202ea197c",
+      "name": "START (Trigger) 2",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        48,
+        10672
+      ]
+    },
+    {
+      "parameters": {
+        "url": "https://api.example.com/items",
+        "options": {}
+      },
+      "id": "5e07b09d-adc3-4d0a-953a-61adcef71e7c",
+      "name": "GET DATA 2",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        272,
+        10672
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "id-1",
+              "leftValue": "={{ $('GET DATA 2').item.json.priority }}",
+              "rightValue": "high",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "eac97398-12a7-4653-88af-29e3d6f24e07",
+      "name": "IF (Decision)",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        496,
+        10672
+      ]
+    },
+    {
+      "parameters": {
+        "authentication": "serviceAccount",
+        "sendTo": "ph",
+        "subject": "ph",
+        "message": "ph",
+        "options": {}
+      },
+      "id": "cca1f962-8917-493c-a453-bb7e7aff979e",
+      "name": "DO_THING_A (Gmail)",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        720,
+        10576
+      ],
+      "webhookId": "9fb29eaa-1b55-42b8-b964-17e174081184",
+      "credentials": {
+        "googleApi": {
+          "id": "lxtGDPHHqQ2OLNxq",
+          "name": "Google Service Account account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "create",
+        "base": {
+          "__rl": true,
+          "value": "=ph",
+          "mode": "id"
+        },
+        "table": {
+          "__rl": true,
+          "value": "=ph",
+          "mode": "id"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {},
+          "matchingColumns": [],
+          "schema": [],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "id": "92e1893d-5416-4f3f-8178-e65db6fa82f5",
+      "name": "DO_THING_B (Airtable)",
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2.1,
+      "position": [
+        720,
+        10768
+      ],
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "Hd79JpNF78djzqtA",
+          "name": "Airtable Personal Access Token account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "combineBy": "combineAll",
+        "options": {}
+      },
+      "id": "ee7e3de9-cec2-47f2-bc34-e519d8aa5ddd",
+      "name": "MERGE",
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        944,
+        10672
+      ]
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "process-list",
+        "options": {}
+      },
+      "id": "b3f6e672-daa6-450d-9c2a-327307d7dff4",
+      "name": "START (Webhook)",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        48,
+        11168
+      ],
+      "webhookId": "47202bd3-c78f-4b6b-a982-f4e753e6efeb"
+    },
+    {
+      "parameters": {
+        "url": "https://api.example.com/users",
+        "options": {}
+      },
+      "id": "c6838070-15f7-46fe-9b41-71694c84b0d4",
+      "name": "GET LIST",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        272,
+        11168
+      ]
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "id": "d84c86ec-8d68-4796-8fe6-7b21df0fcadd",
+      "name": "SPLIT OUT (Loop Over Items)",
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        496,
+        11168
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "id-1",
+              "name": "processed",
+              "value": true,
+              "type": "boolean"
+            },
+            {
+              "id": "id-2",
+              "name": "enriched_at",
+              "value": "={{ $now() }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "689d6281-c129-4733-9b17-6d3b18842f3c",
+      "name": "PROCESS_EACH (Edit Fields/AI)",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        720,
+        11168
+      ]
+    },
+    {
+      "parameters": {
+        "aggregate": "aggregateAllItemData",
+        "options": {}
+      },
+      "id": "28f18385-7b0e-4153-9314-609dbf327bfe",
+      "name": "AGGREGATE (Group Back)",
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        944,
+        11168
+      ]
+    },
+    {
+      "parameters": {
+        "authentication": "serviceAccount",
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "=ph",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "=ph",
+          "mode": "id"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {},
+          "matchingColumns": [],
+          "schema": [],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "id": "ef4e0470-4be5-417f-b826-6e670cf14935",
+      "name": "SAVE_LIST (Google Sheet)",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        1168,
+        11168
+      ],
+      "credentials": {
+        "googleApi": {
+          "id": "lxtGDPHHqQ2OLNxq",
+          "name": "Google Service Account account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "# PATTERN 3: THE LOOPING FLOW\n## (Processing a List)\n\nGet a list of items, split them out, process each one individually, then aggregate results back together.",
+        "height": 216,
+        "width": 400,
+        "color": 4
+      },
+      "id": "d8e1a781-25b3-4b31-abb2-fab2d1e01615",
+      "name": "PATTERN 3: LOOPING FLOW",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -480,
+        11120
+      ]
+    },
+    {
+      "parameters": {
+        "content": "# PATTERN 4: THE AI SORTER\n## (AI Classification & Routing)\n\nAI analyzes incoming emails and routes them to different actions based on classification (Urgent, Invoice, Spam).",
+        "height": 248,
+        "width": 400,
+        "color": 6
+      },
+      "id": "6ad3397e-4019-41e4-872e-b30de01d745d",
+      "name": "PATTERN 4: AI SORTER",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -480,
+        11776
+      ]
+    },
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyX",
+              "value": 5,
+              "unit": "minutes"
+            }
+          ]
+        },
+        "authentication": "serviceAccount",
+        "filters": {}
+      },
+      "id": "8f67396a-6347-4bb9-bdfa-e4400e942d7d",
+      "name": "GET EMAIL (Trigger)",
+      "type": "n8n-nodes-base.gmailTrigger",
+      "typeVersion": 1.3,
+      "position": [
+        48,
+        11792
+      ],
+      "credentials": {
+        "googleApi": {
+          "id": "lxtGDPHHqQ2OLNxq",
+          "name": "Google Service Account account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Classify this email: {{ $json.snippet }}",
+        "options": {
+          "systemMessage": "You are an email classifier. Analyze the email and return ONLY one word: \"Urgent\", \"Invoice\", or \"Spam\"."
+        }
+      },
+      "id": "e2e41630-9d13-43e4-a018-8203d2be9ac6",
+      "name": "AI SCRIBE (Classify)",
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3,
+      "position": [
+        272,
+        11792
+      ]
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict"
+                },
+                "conditions": [
+                  {
+                    "id": "id-1",
+                    "leftValue": "={{ $json.output }}",
+                    "rightValue": "Urgent",
+                    "operator": {
+                      "type": "string",
+                      "operation": "contains"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Urgent"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict"
+                },
+                "conditions": [
+                  {
+                    "id": "id-2",
+                    "leftValue": "={{ $json.output }}",
+                    "rightValue": "Invoice",
+                    "operator": {
+                      "type": "string",
+                      "operation": "contains"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Invoice"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict"
+                },
+                "conditions": [
+                  {
+                    "id": "id-3",
+                    "leftValue": "={{ $json.output }}",
+                    "rightValue": "Spam",
+                    "operator": {
+                      "type": "string",
+                      "operation": "contains"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Spam"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "5bd08137-35d8-4ebf-9047-3b07115cb5c7",
+      "name": "SWITCH (Route by AI)",
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.3,
+      "position": [
+        624,
+        11776
+      ]
+    },
+    {
+      "parameters": {
+        "select": "channel",
+        "channelId": {
+          "__rl": true,
+          "value": "C07AKSATQR4",
+          "mode": "list",
+          "cachedResultName": "general"
+        },
+        "text": "Urgent email received!",
+        "otherOptions": {}
+      },
+      "id": "b9747ef4-3cf7-4bd7-8c71-191823e56bad",
+      "name": "Send Slack Msg",
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 2.3,
+      "position": [
+        848,
+        11984
+      ],
+      "webhookId": "1cd3f64e-000d-4aeb-b734-29de75012f08",
+      "credentials": {
+        "slackApi": {
+          "id": "WQO0QkIMSY9VAnsK",
+          "name": "Maaz Slack Trigger Connection"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "create",
+        "base": {
+          "__rl": true,
+          "value": "=ph",
+          "mode": "id"
+        },
+        "table": {
+          "__rl": true,
+          "value": "=ph",
+          "mode": "id"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {},
+          "matchingColumns": [],
+          "schema": [],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "id": "82cb16cc-0a61-4cfa-a04d-11f37f3d60b0",
+      "name": "Add to AirTable",
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2.1,
+      "position": [
+        848,
+        11600
+      ],
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "Hd79JpNF78djzqtA",
+          "name": "Airtable Personal Access Token account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "authentication": "serviceAccount",
+        "operation": "delete",
+        "messageId": "ph"
+      },
+      "id": "ecc1298d-5431-44ab-a7b3-bf857e275575",
+      "name": "Delete Email",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        848,
+        11792
+      ],
+      "webhookId": "13b1f11f-998b-4531-8376-921c01ef854f",
+      "credentials": {
+        "googleApi": {
+          "id": "lxtGDPHHqQ2OLNxq",
+          "name": "Google Service Account account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4.1-mini"
+        },
+        "options": {}
+      },
+      "id": "6ae9d35f-740c-4395-8d31-c04a0cf8c458",
+      "name": "OpenAI Chat Model",
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        352,
+        12016
+      ],
+      "credentials": {
+        "openAiApi": {
+          "id": "2Ae7pHXp9Qu0c06W",
+          "name": "Mark PromptAdviser API 09/09/25"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "# PATTERN 5: THE AI DUNGEON MASTER\n## (Agent with Tools)\n\nAI Agent acts as orchestrator with access to multiple tools (Google Search, Gmail, Notion) that it can use dynamically.",
+        "height": 232,
+        "width": 384,
+        "color": {}
+      },
+      "id": "c37cf3a6-ade9-46c1-a402-fc3f1906b462",
+      "name": "PATTERN 5: AI DUNGEON MASTER",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -480,
+        12480
+      ]
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.chatInput }}",
+        "options": {
+          "systemMessage": "You are a helpful AI assistant with access to Google Search, Gmail, and Notion. Use these tools when needed to help the user."
+        }
+      },
+      "id": "fe1c48da-d43d-458d-a709-9ee805ae4914",
+      "name": "AI AGENT (DM)",
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3,
+      "position": [
+        400,
+        12432
+      ]
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "id": "fea2fe7f-deb4-4df2-adb6-f405071b5be6",
+      "name": "TOOL: GSearch",
+      "type": "@n8n/n8n-nodes-langchain.toolSerpApi",
+      "typeVersion": 1,
+      "position": [
+        400,
+        12656
+      ],
+      "credentials": {
+        "serpApi": {
+          "id": "JVR8WsUPPMBGY138",
+          "name": "SerpAPI account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "authentication": "serviceAccount",
+        "sendTo": "={{ $fromAI('to') }}",
+        "subject": "={{ $fromAI('subject') }}",
+        "message": "={{ $fromAI('message_html') }}",
+        "options": {}
+      },
+      "id": "67e92489-2dad-4a9a-87bd-920e7cae0d38",
+      "name": "TOOL: Gmail",
+      "type": "n8n-nodes-base.gmailTool",
+      "typeVersion": 2.1,
+      "position": [
+        528,
+        12656
+      ],
+      "webhookId": "dc7f24e2-fc3d-49df-a781-9ef854c16efb",
+      "credentials": {
+        "googleApi": {
+          "id": "lxtGDPHHqQ2OLNxq",
+          "name": "Google Service Account account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "pageId": {
+          "__rl": true,
+          "value": "=ph",
+          "mode": "url"
+        },
+        "title": "ph",
+        "options": {}
+      },
+      "id": "78674bbe-cf92-4d04-b709-8fd10e27fa32",
+      "name": "TOOL: Notion",
+      "type": "n8n-nodes-base.notionTool",
+      "typeVersion": 2.2,
+      "position": [
+        656,
+        12656
+      ],
+      "credentials": {
+        "notionApi": {
+          "id": "oBHH7IVE2IYjW5ND",
+          "name": "Notion account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4.1-mini"
+        },
+        "options": {}
+      },
+      "id": "6c6db91a-0256-4420-9d00-dd2fe081703d",
+      "name": "OpenAI Chat Model 2",
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        240,
+        12656
+      ],
+      "credentials": {
+        "openAiApi": {
+          "id": "2Ae7pHXp9Qu0c06W",
+          "name": "Mark PromptAdviser API 09/09/25"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "# PATTERN 6: THE ENRICHMENT LOOP\n## (Looping with API Calls)\n\nGet a list of leads, process each one individually with API calls to enrich data, then aggregate and save all enriched records.",
+        "height": 248,
+        "width": 400,
+        "color": 4
+      },
+      "id": "b55a64ea-67a3-4c39-a56d-79318c0909d6",
+      "name": "PATTERN 6: ENRICHMENT LOOP",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -480,
+        13104
+      ]
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "triggerAtHour": 8
+            }
+          ]
+        }
+      },
+      "id": "0bd1344c-3d1c-4013-9656-d3176f50e8c6",
+      "name": "START (Trigger) 3",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        48,
+        13152
+      ]
+    },
+    {
+      "parameters": {
+        "url": "https://api.example.com/leads",
+        "options": {}
+      },
+      "id": "fe92e9f0-b8f5-41c8-bc97-5e7bb7ae7ad4",
+      "name": "Get Leads",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        272,
+        13152
+      ]
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "id": "efe0fa0d-206a-4efa-85dd-6485892487cb",
+      "name": "SPLIT OUT (1 at a time)",
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        496,
+        13152
+      ]
+    },
+    {
+      "parameters": {
+        "url": "=https://api.example.com/profile/{{ $json.leadId }}",
+        "options": {}
+      },
+      "id": "be3ebb4a-2cd3-417d-8956-4e2dccdd72aa",
+      "name": "HTTP Request (Get profile from API)",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        720,
+        13152
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "id-1",
+              "name": "enriched",
+              "value": true,
+              "type": "boolean"
+            },
+            {
+              "id": "id-2",
+              "name": "profile_data",
+              "value": "={{ $json.profile }}",
+              "type": "object"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "id": "f6a2f641-fe3d-4f9c-8866-850d78749ae0",
+      "name": "Edit Fields (Merge profile data)",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        944,
+        13152
+      ]
+    },
+    {
+      "parameters": {
+        "aggregate": "aggregateAllItemData",
+        "options": {}
+      },
+      "id": "1f963e9c-1724-4157-b05e-fb1a9cef3dba",
+      "name": "AGGREGATE (Back to list)",
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        1168,
+        13152
+      ]
+    },
+    {
+      "parameters": {
+        "schema": {
+          "__rl": true,
+          "mode": "list",
+          "value": "public"
+        },
+        "table": {
+          "__rl": true,
+          "value": "=dw",
+          "mode": "name"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {},
+          "matchingColumns": [],
+          "schema": [],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "id": "00da80b4-a70e-4dee-a34c-039a3df6f910",
+      "name": "SAVE to DB",
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.6,
+      "position": [
+        1392,
+        13152
+      ],
+      "credentials": {
+        "postgres": {
+          "id": "gGObRJUt7IfYlcPA",
+          "name": "Maaz Temporary Postgres Connection"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "## Use \"The Joker\" (The Code Node Cheat Code)\n",
+        "height": 80,
+        "width": 544,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        48,
+        8816
+      ],
+      "typeVersion": 1,
+      "id": "e8b6ebf2-6d9b-44f4-8483-2265c61f9429",
+      "name": "Sticky Note27"
+    },
+    {
+      "parameters": {
+        "content": "## Know Your AI (Agent vs. LLM)",
+        "height": 80,
+        "width": 368,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -176,
+        9408
+      ],
+      "typeVersion": 1,
+      "id": "c7c7376e-e4d7-4ce2-825f-b4e55eed044a",
+      "name": "Sticky Note28"
+    },
+    {
+      "parameters": {
+        "content": "### 🔲 The \"Practice Mode\" Button\n* **Game Piece:** Manual Trigger\n* **Vibe Check:** Your \"go\" button. You will use this 99% of the time while you're building and testing any workflow.",
+        "height": 128,
+        "width": 480
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        464,
+        416
+      ],
+      "typeVersion": 1,
+      "id": "b6b49be7-b457-4b6a-8229-62fed34cb1c7",
+      "name": "Sticky Note29"
+    },
+    {
+      "parameters": {
+        "content": "### 🔲 The \"Alarm Clock\"\n* **Game Piece:** Schedule Trigger\n* **Vibe Check:** Use this for any recurring task: \"run this every morning at 9 AM,\" \"check this every hour,\" \"send a report every Friday.\"",
+        "height": 128,
+        "width": 480
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        464,
+        592
+      ],
+      "typeVersion": 1,
+      "id": "e0b321c8-d708-4d97-b00a-bfb3fc7dcd23",
+      "name": "Sticky Note30"
+    },
+    {
+      "parameters": {
+        "content": "### 🔲 The \"Magic Portal\"\n* **Game Piece:** Webhook Trigger\n* **Vibe Check:** This is your \"instant reaction\" piece. It creates a unique URL for other apps to send data to, starting your workflow *immediately*.",
+        "height": 128,
+        "width": 480
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        464,
+        768
+      ],
+      "typeVersion": 1,
+      "id": "f4293e42-4ab0-4e11-a4c4-b4f6f2d7967f",
+      "name": "Sticky Note31"
+    },
+    {
+      "parameters": {
+        "content": "### 🔲 The \"Trap Card\"\n* **Game Piece:** App Triggers (e.g., Google Sheets Trigger)\n* **Vibe Check:** A pre-built \"Magic Portal\" for a specific app. Use this when you want to react *instantly* to an event, like \"a new row is added.\"",
+        "height": 128,
+        "width": 480
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        464,
+        1136
+      ],
+      "typeVersion": 1,
+      "id": "d187598c-baed-483c-a505-b32f55645eb9",
+      "name": "Sticky Note32"
+    },
+    {
+      "parameters": {
+        "content": "### 🔲 The \"Character Sheet\"\n* **Game Piece:** Edit Fields (or \"Set\")\n* **Vibe Check:** The most useful piece on the board. Use this to add, change, rename, or combine any data. (e.g., `firstName` + `lastName` = `fullName`).",
+        "height": 128,
+        "width": 480
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        480,
+        1632
+      ],
+      "typeVersion": 1,
+      "id": "e676e9fd-f9c7-425e-bc74-709fb6cf7bdf",
+      "name": "Sticky Note33"
+    },
+    {
+      "parameters": {
+        "content": "### 🔲 The \"Chat Box\"\n* **Game Piece:** Chat Trigger\n* **Vibe Check:** This is the \"Start\" square for any conversational AI. The workflow begins when a user sends a message.",
+        "height": 128,
+        "width": 480
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        464,
+        944
+      ],
+      "typeVersion": 1,
+      "id": "6abc1dcb-633c-430f-9bc2-5ef00fdb794f",
+      "name": "Sticky Note34"
+    },
+    {
+      "parameters": {
+        "content": "### 🔲 The \"Party Splitter\"\n* **Game Piece:** Split Out (or \"Split in Batches\")\n* **Vibe Check:** Use this ANY time you have a *list* (an array) of items and need to process *each one individually*. It breaks the party up.",
+        "height": 128,
+        "width": 480
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        480,
+        1840
+      ],
+      "typeVersion": 1,
+      "id": "a411e0d0-0fd8-4567-bcc5-a5dcff0cb35f",
+      "name": "Sticky Note35"
+    },
+    {
+      "parameters": {
+        "content": "### 🔲 The \"Rally Point\"\n* **Game Piece:** Aggregate\n* **Vibe Check:** The exact opposite of \"Split Out.\" Use this to group all your individual items back into one big list after you're done processing them.",
+        "height": 128,
+        "width": 480
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        480,
+        2032
+      ],
+      "typeVersion": 1,
+      "id": "17dcf751-d6cc-4a63-b40c-83346b74a6b3",
+      "name": "Sticky Note36"
+    },
+    {
+      "parameters": {
+        "content": "### 🔲 The \"Fork in the Road\"\n* **Game Piece:** If Node\n* **Vibe Check:** Your simple \"yes/no\" decision maker. Routes your data down a \"True\" path or a \"False\" path.",
+        "height": 112,
+        "width": 480
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        496,
+        2464
+      ],
+      "typeVersion": 1,
+      "id": "1c3f63a0-0429-4c6f-9c20-84df113247f7",
+      "name": "Sticky Note37"
+    },
+    {
+      "parameters": {
+        "content": "### 🔲 The \"Sorting Hat\"\n* **Game Piece:** Switch Node\n* **Vibe Check:** A more powerful \"If.\" Use this when you have *more than two* possible outcomes (e.g., Path 1 for \"Urgent\", Path 2 for \"Invoice\", Path 3 for \"Spam\").",
+        "height": 128,
+        "width": 480
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        496,
+        2624
+      ],
+      "typeVersion": 1,
+      "id": "de1edd90-85be-41d6-a0c0-df6914a3a2e2",
+      "name": "Sticky Note38"
+    },
+    {
+      "parameters": {
+        "content": "### 🔲 The \"Grand Central Station\"\n* **Game Piece:** Merge Node\n* **Vibe Check:** Essential for re-joining your workflow. After your data goes down different \"If\" or \"Switch\" paths, this node brings them all back together.",
+        "height": 128,
+        "width": 480
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        496,
+        2816
+      ],
+      "typeVersion": 1,
+      "id": "93aa29f8-b34d-4c46-a132-fc52da2a85c7",
+      "name": "Sticky Note39"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "id": "bad7e34a-7885-43cb-9e89-543ecec20c5f",
+      "name": "Chat Trigger",
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.3,
+      "position": [
+        208,
+        960
+      ],
+      "webhookId": "17f3ed0c-ea74-4943-bf4b-9abf0d747612"
+    },
+    {
+      "parameters": {
+        "content": "### 🔲 The \"Pause\" Button\n* **Game Piece:** Wait Node\n* **Vibe Check:** Use this to intentionally pause the workflow. Perfect for staggering actions or waiting for an external API to cool down.",
+        "height": 112,
+        "width": 480
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        496,
+        3024
+      ],
+      "typeVersion": 1,
+      "id": "8311693d-a5fa-4ac2-ac93-e719ad1d5b25",
+      "name": "Sticky Note40"
+    },
+    {
+      "parameters": {
+        "content": "### 🔲 The \"Spy\"\n* **Game Piece:** HTTP Request\n* **Vibe Check:** Your ultimate secret weapon. If n8n doesn't have a node for a service, this piece lets you \"spy\" on its API to GET or POST data.",
+        "height": 128,
+        "width": 480
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        496,
+        3488
+      ],
+      "typeVersion": 1,
+      "id": "dfe36e2d-8f46-449e-af26-04f33be5da5d",
+      "name": "Sticky Note41"
+    },
+    {
+      "parameters": {
+        "content": "![Description](https://i.imgur.com/Ah8UlkP.png)",
+        "height": 560,
+        "width": 736
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -448,
+        6768
+      ],
+      "typeVersion": 1,
+      "id": "e06f1f04-747b-486b-857d-c706f5a7041a",
+      "name": "Sticky Note42"
+    },
+    {
+      "parameters": {
+        "content": "### 🔲 The \"Treasure Chest\"\n* **Game Piece:** Storage Nodes (e.g., Google Sheets, AirTable, Notion, Postgres, Data Table)\n* **Vibe Check:** The most common \"Finish\" square. This is the \"Bank\" or \"Vault\" where you save your processed data.",
+        "height": 128,
+        "width": 480
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        496,
+        3680
+      ],
+      "typeVersion": 1,
+      "id": "99e6e36e-ba38-4304-9d90-af89a31fffce",
+      "name": "Sticky Note43"
+    },
+    {
+      "parameters": {
+        "content": "### 🔲 The \"Message Received\" Signal\n\n* **Game Piece:** Respond to Webhook\n* **Vibe Check:** Only used with the \"Magic Portal\" (Webhook Trigger). This sends a \"Got it, thanks!\" message back to the other app.",
+        "height": 256,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        736,
+        3888
+      ],
+      "typeVersion": 1,
+      "id": "ae5bf6d4-c359-4c2d-a811-18c6ca2fa153",
+      "name": "Sticky Note44"
+    },
+    {
+      "parameters": {
+        "content": "### 🔲 The \"Joker\" (Wildcard)\n* **Game Piece:** Code Node\n* **Vibe Check:** The \"cheat code\" piece. Use this to replace 5-10 other nodes with a single, fast code block. You don't need to know code, just ask the AI to write it for you!",
+        "height": 128,
+        "width": 480
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        480,
+        4496
+      ],
+      "typeVersion": 1,
+      "id": "2806ea47-7b0e-4ca7-91e6-0a65d608f268",
+      "name": "Sticky Note45"
+    },
+    {
+      "parameters": {
+        "content": "### 🔲 The \"Scribe\" / \"Lore Master\"\n* **Game Piece:** Basic LLM Nodes (e.g., \"Message a model,\" \"Basic LLM Chain,\" \"AI Transform\")\n* **Vibe Check:** Use this when you want the AI to **THINK & RESPOND.** It's for simple \"judgment\" tasks: summarize text, classify sentiment, extract data, or re-write text.",
+        "width": 480
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        480,
+        4880
+      ],
+      "typeVersion": 1,
+      "id": "63f137d8-70bd-4a6b-8307-0dbfd8f25a29",
+      "name": "Sticky Note46"
+    },
+    {
+      "parameters": {
+        "content": "### 🔲 The \"Dungeon Master\" (DM)\n* **Game Piece:** AI Agent\n* **Vibe Check:** The most powerful piece. Use this when you want the AI to **DECIDE & ACT**. You give it \"Tools\" (other nodes) and \"Memory,\" and it decides *which* tools to use to win the game for you.",
+        "width": 480
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        544,
+        5488
+      ],
+      "typeVersion": 1,
+      "id": "a357d363-d423-46db-8f08-07e555763ea3",
+      "name": "Sticky Note47"
+    },
+    {
+      "parameters": {
+        "content": "### 🔲 The \"Data Alchemist\"\n* **Game Piece:** AI Transform\n* **Vibe Check:** A simple, fast AI \"Scribe.\" Use this for single-shot tasks like extracting structured data (JSON) from messy text, summarizing a block of text, or translating language.",
+        "height": 128,
+        "width": 480
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        480,
+        4672
+      ],
+      "typeVersion": 1,
+      "id": "682fcf5f-48a4-401b-b7f4-3343394aaf6c",
+      "name": "Sticky Note48"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "id-1",
+              "name": "itemsSubtotal",
+              "value": "={{ $json.items.reduce((sum, item) => sum + (item.quantity * item.unitPrice), 0) }}",
+              "type": "number"
+            },
+            {
+              "id": "id-2",
+              "name": "totalDiscount",
+              "value": "={{ $json.items.reduce((sum, item) => sum + (item.discount || 0), 0) }}",
+              "type": "number"
+            },
+            {
+              "id": "id-3",
+              "name": "orderTotal",
+              "value": "={{ $json.items.reduce((sum, item) => sum + (item.quantity * item.unitPrice), 0) - $json.items.reduce((sum, item) => sum + (item.discount || 0), 0) + $json.shippingCost }}",
+              "type": "number"
+            },
+            {
+              "id": "id-4",
+              "name": "itemCount",
+              "value": "={{ $json.items.length }}",
+              "type": "number"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "id": "62056cdd-a44f-4cf8-8793-52419d8f3aca",
+      "name": "Calculate Order Totals",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        2304,
+        1808
+      ]
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "items",
+        "include": "allOtherFields",
+        "options": {}
+      },
+      "id": "dd86f5ff-fb62-4cbc-933c-e122c8a7ce53",
+      "name": "Split Order Items",
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        2528,
+        1808
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "id-1",
+              "name": "itemTotal",
+              "value": "={{ $json.items.quantity * $json.items.unitPrice - $json.items.discount }}",
+              "type": "number"
+            },
+            {
+              "id": "id-2",
+              "name": "discountPercentage",
+              "value": "={{ Math.round(($json.items.discount / ($json.items.quantity * $json.items.unitPrice)) * 100 * 100) / 100 }}",
+              "type": "number"
+            },
+            {
+              "id": "id-3",
+              "name": "isDiscounted",
+              "value": "={{ $json.items.discount > 0 }}",
+              "type": "boolean"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "id": "dd68665e-380f-4481-a9e6-d730e50eea58",
+      "name": "Enrich Item Data",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        2752,
+        1808
+      ]
+    },
+    {
+      "parameters": {
+        "fieldsToAggregate": {
+          "fieldToAggregate": [
+            {
+              "fieldToAggregate": "productName",
+              "renameField": true,
+              "outputFieldName": "products"
+            },
+            {
+              "fieldToAggregate": "itemTotal",
+              "renameField": true,
+              "outputFieldName": "categoryTotal"
+            },
+            {
+              "fieldToAggregate": "quantity",
+              "renameField": true,
+              "outputFieldName": "totalQuantity"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "6133475d-f438-473c-9a88-017417a1b930",
+      "name": "Aggregate Items by Category",
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        2976,
+        1808
+      ]
+    },
+    {
+      "parameters": {
+        "content": "![Arrow](https://i.imgur.com/xJOATdk.png)",
+        "height": 256,
+        "width": 256,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1520,
+        1744
+      ],
+      "typeVersion": 1,
+      "id": "e7f24841-f848-4fbd-8b34-41edaef38b4d",
+      "name": "Sticky Note49"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "id-1",
+              "leftValue": "={{ $json.orderTotal }}",
+              "rightValue": 300,
+              "operator": {
+                "type": "number",
+                "operation": "gt"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "32b2ea5e-ab28-4d7b-acc7-636fb4f700eb",
+      "name": "Check Order Total",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        2352,
+        2704
+      ]
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.category }}",
+                    "rightValue": "Electronics",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "2d1bec54-5c2f-4fb4-a0b4-a1422dd32a22"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Electronics"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.category }}",
+                    "rightValue": "Sports",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "4de88002-cf27-4e01-b715-a1d892dbaa16"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Sports"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.category }}",
+                    "rightValue": "Home & Kitchen",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "335158c0-32eb-4c64-951d-6764c46bacc5"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Home & Kitchen"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "f1530703-6d07-47b8-9582-a5ff78004a6f",
+      "name": "Route by Category",
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.3,
+      "position": [
+        3248,
+        2496
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "id-1",
+              "name": "priority",
+              "value": "high",
+              "type": "string"
+            },
+            {
+              "id": "id-2",
+              "name": "requiresApproval",
+              "value": true,
+              "type": "boolean"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "id": "b06e6e1f-e04c-4184-b06c-e2df66895575",
+      "name": "High Value Processing",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        2576,
+        2512
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "19f65620-3fa7-4771-9881-a3c16e2f22f2",
+      "name": "Wait for Approval",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        2800,
+        2512
+      ],
+      "webhookId": "16a083fc-6f89-462d-88cd-8e6cf8e878f5"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "id-1",
+              "name": "priority",
+              "value": "standard",
+              "type": "string"
+            },
+            {
+              "id": "id-2",
+              "name": "requiresApproval",
+              "value": false,
+              "type": "boolean"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "id": "6c32e1a2-efc7-4614-b161-cec4b844d5d7",
+      "name": "Standard Processing",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        3472,
+        2896
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "id-1",
+              "name": "handledBy",
+              "value": "Electronics Department",
+              "type": "string"
+            },
+            {
+              "id": "id-2",
+              "name": "processingTime",
+              "value": "={{ $now.toISO() }}",
+              "type": "string"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "id": "def21726-fde8-4d42-856e-787fb0ad203a",
+      "name": "Electronics Handler",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        3472,
+        2320
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "id-1",
+              "name": "handledBy",
+              "value": "Sports Department",
+              "type": "string"
+            },
+            {
+              "id": "id-2",
+              "name": "processingTime",
+              "value": "={{ $now.toISO() }}",
+              "type": "string"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "id": "ad6b140c-137e-4b95-a957-43f0cbb28178",
+      "name": "Sports Handler",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        3472,
+        2512
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "id-1",
+              "name": "handledBy",
+              "value": "Home & Kitchen Department",
+              "type": "string"
+            },
+            {
+              "id": "id-2",
+              "name": "processingTime",
+              "value": "={{ $now.toISO() }}",
+              "type": "string"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "id": "f78ac204-c164-4ee9-87de-caf1d109c350",
+      "name": "Home & Kitchen Handler",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        3472,
+        2704
+      ]
+    },
+    {
+      "parameters": {
+        "numberInputs": 4
+      },
+      "id": "575e869e-85ea-4672-96dd-71a0077d4417",
+      "name": "Merge All Branches",
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        3696,
+        2576
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "id-1",
+              "name": "itemsSubtotal",
+              "value": "={{ $json.items.reduce((sum, item) => sum + (item.quantity * item.unitPrice), 0) }}",
+              "type": "number"
+            },
+            {
+              "id": "id-2",
+              "name": "totalDiscount",
+              "value": "={{ $json.items.reduce((sum, item) => sum + item.discount, 0) }}",
+              "type": "number"
+            },
+            {
+              "id": "id-3",
+              "name": "orderTotal",
+              "value": "={{ $json.items.reduce((sum, item) => sum + (item.quantity * item.unitPrice), 0) - $json.items.reduce((sum, item) => sum + item.discount, 0) + $json.shippingCost }}",
+              "type": "number"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "id": "66b18412-1d5a-468e-90ca-3fd4722ad3d4",
+      "name": "Calculate Order Total",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        2128,
+        2704
+      ]
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "items",
+        "options": {}
+      },
+      "id": "32f069bd-95e3-4832-8a3f-760f07ceb57b",
+      "name": "Split Order Items1",
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        3024,
+        2512
+      ]
+    },
+    {
+      "parameters": {
+        "content": "![Arrow](https://i.imgur.com/xJOATdk.png)",
+        "height": 256,
+        "width": 256,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1536,
+        2640
+      ],
+      "typeVersion": 1,
+      "id": "1f7b13a8-31db-4f34-bb27-7ce37f2f197f",
+      "name": "Sticky Note50"
+    },
+    {
+      "parameters": {
+        "content": "![Arrow](https://i.imgur.com/xJOATdk.png)",
+        "height": 256,
+        "width": 256,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1552,
+        5072
+      ],
+      "typeVersion": 1,
+      "id": "0691faee-77d1-43dd-9128-52327b5f51b0",
+      "name": "Sticky Note51"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Get the order data from the webhook\nconst order = $input.first().json;\n\n// Calculate order totals\nconst itemsSubtotal = order.items.reduce((sum, item) => sum + (item.quantity * item.unitPrice), 0);\nconst totalDiscount = order.items.reduce((sum, item) => sum + item.discount, 0);\nconst orderTotal = itemsSubtotal - totalDiscount + order.shippingCost;\n\n// Check if high value order (>300)\nconst isHighValue = orderTotal > 300;\nconst priority = isHighValue ? 'high' : 'standard';\nconst requiresApproval = isHighValue;\n\n// Process each item with category-based department assignment\nconst processedItems = order.items.map(item => {\n  let handledBy = '';\n  \n  // Route by category\n  switch(item.category) {\n    case 'Electronics':\n      handledBy = 'Electronics Department';\n      break;\n    case 'Sports':\n      handledBy = 'Sports Department';\n      break;\n    case 'Home & Kitchen':\n      handledBy = 'Home & Kitchen Department';\n      break;\n    default:\n      handledBy = 'General Department';\n  }\n  \n  return {\n    ...item,\n    handledBy: handledBy,\n    processingTime: new Date().toISOString(),\n    priority: priority,\n    requiresApproval: requiresApproval,\n    orderTotal: orderTotal,\n    itemsSubtotal: itemsSubtotal,\n    totalDiscount: totalDiscount\n  };\n});\n\n// Return all processed items\nreturn processedItems.map(item => ({ json: item }));"
+      },
+      "id": "270f701b-2905-45f8-bdbc-48b6c7f40b75",
+      "name": "Process Order",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2304,
+        5136
+      ]
+    },
+    {
+      "parameters": {
+        "content": "![Description](https://i.imgur.com/rw1W7Lx.png)",
+        "height": 368,
+        "width": 528,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -624,
+        7616
+      ],
+      "typeVersion": 1,
+      "id": "541ba92c-af99-4f15-b5b1-d47e2b5c7e90",
+      "name": "Sticky Note52"
+    },
+    {
+      "parameters": {
+        "content": "![Description](https://i.imgur.com/h5kwO6Y.png)",
+        "height": 368,
+        "width": 528,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -624,
+        8192
+      ],
+      "typeVersion": 1,
+      "id": "ac52498b-2642-4f2c-b73a-89d4ae0ebd64",
+      "name": "Sticky Note53"
+    },
+    {
+      "parameters": {
+        "content": "![Description](https://i.imgur.com/OrO5EdF.png)",
+        "height": 368,
+        "width": 528,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -624,
+        8832
+      ],
+      "typeVersion": 1,
+      "id": "43644d39-575d-4201-895a-bbf57b12cbbb",
+      "name": "Sticky Note54"
+    },
+    {
+      "parameters": {
+        "content": "![Description](https://i.imgur.com/vqmMmB2.png)",
+        "height": 368,
+        "width": 528,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -256,
+        9520
+      ],
+      "typeVersion": 1,
+      "id": "cc7da7b5-3689-479c-878b-5ba6f37a2db2",
+      "name": "Sticky Note55"
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "order-processing",
+        "responseMode": "lastNode",
+        "options": {}
+      },
+      "id": "b76d86e4-8036-450a-b9a6-1ef41d613490",
+      "name": "Order Webhook1",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        1904,
+        2704
+      ],
+      "webhookId": "9f1f31c3-3a24-40e4-a205-fc2457968c62"
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "order-processing",
+        "responseMode": "lastNode",
+        "options": {}
+      },
+      "id": "22c604e9-31a0-451d-a06e-db537ce4ec20",
+      "name": "Order Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        2064,
+        5136
+      ],
+      "webhookId": "9f1f31c3-3a24-40e4-a205-fc2457968c62"
+    },
+    {
+      "parameters": {
+        "content": "### Like content just like this?\n\nWe do WAY more in Early AI-dopters:\n\n## https://www.skool.com/earlyaidopters/about",
+        "height": 192,
+        "width": 304,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        768,
+        -448
+      ],
+      "typeVersion": 1,
+      "id": "8b3816ad-e434-41e2-a637-e26c0dd266a1",
+      "name": "Sticky Note22"
+    },
+    {
+      "parameters": {
+        "content": "### Like content just like this?\n\nWe do WAY more in Early AI-dopters:\n\n## https://www.skool.com/earlyaidopters/about",
+        "width": 560,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        176,
+        13424
+      ],
+      "typeVersion": 1,
+      "id": "3d88d1ca-e0cc-4496-bd2e-b41a6287be74",
+      "name": "Sticky Note56"
+    }
+  ],
+  "pinData": {
+    "Order Webhook1": [
+      {
+        "json": {
+          "orderId": "ORD-2024-001",
+          "customerName": "Sarah Johnson",
+          "customerEmail": "sarah.johnson@email.com",
+          "orderDate": "2024-01-15T10:30:00Z",
+          "status": "processing",
+          "shippingAddress": {
+            "street": "123 Main St",
+            "city": "San Francisco",
+            "state": "CA",
+            "zipCode": "94102",
+            "country": "USA"
+          },
+          "items": [
+            {
+              "productId": "PROD-001",
+              "productName": "Wireless Headphones",
+              "category": "Electronics",
+              "quantity": 2,
+              "unitPrice": 79.99,
+              "discount": 10
+            },
+            {
+              "productId": "PROD-045",
+              "productName": "Yoga Mat",
+              "category": "Sports",
+              "quantity": 1,
+              "unitPrice": 29.99,
+              "discount": 0
+            },
+            {
+              "productId": "PROD-112",
+              "productName": "Coffee Maker",
+              "category": "Home & Kitchen",
+              "quantity": 1,
+              "unitPrice": 149.99,
+              "discount": 15
+            }
+          ],
+          "paymentMethod": "credit_card",
+          "shippingCost": 12.5
+        }
+      }
+    ],
+    "Order Webhook": [
+      {
+        "json": {
+          "orderId": "ORD-2024-001",
+          "customerName": "Sarah Johnson",
+          "customerEmail": "sarah.johnson@email.com",
+          "orderDate": "2024-01-15T10:30:00Z",
+          "status": "processing",
+          "shippingAddress": {
+            "street": "123 Main St",
+            "city": "San Francisco",
+            "state": "CA",
+            "zipCode": "94102",
+            "country": "USA"
+          },
+          "items": [
+            {
+              "productId": "PROD-001",
+              "productName": "Wireless Headphones",
+              "category": "Electronics",
+              "quantity": 2,
+              "unitPrice": 79.99,
+              "discount": 10
+            },
+            {
+              "productId": "PROD-045",
+              "productName": "Yoga Mat",
+              "category": "Sports",
+              "quantity": 1,
+              "unitPrice": 29.99,
+              "discount": 0
+            },
+            {
+              "productId": "PROD-112",
+              "productName": "Coffee Maker",
+              "category": "Home & Kitchen",
+              "quantity": 1,
+              "unitPrice": 149.99,
+              "discount": 15
+            }
+          ],
+          "paymentMethod": "credit_card",
+          "shippingCost": 12.5
+        }
+      }
+    ]
+  },
+  "connections": {
+    "Split Out": {
+      "main": [
+        []
+      ]
+    },
+    "If": {
+      "main": [
+        []
+      ]
+    },
+    "Basic LLM Chain": {
+      "main": [
+        []
+      ]
+    },
+    "AI Agent Tool": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Message a model in Google Gemini": {
+      "ai_tool": [
+        [
+          {
+            "node": "Message a model node",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Basic LLM Chain",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Anthropic Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          },
+          {
+            "node": "AI Agent Tool",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "START (Trigger)": {
+      "main": [
+        [
+          {
+            "node": "GET DATA (HTTP)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "GET DATA (HTTP)": {
+      "main": [
+        [
+          {
+            "node": "FORMAT DATA (Edit Fields)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "FORMAT DATA (Edit Fields)": {
+      "main": [
+        [
+          {
+            "node": "SAVE DATA (Google Sheet)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "START (Trigger) 2": {
+      "main": [
+        [
+          {
+            "node": "GET DATA 2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "GET DATA 2": {
+      "main": [
+        [
+          {
+            "node": "IF (Decision)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "IF (Decision)": {
+      "main": [
+        [
+          {
+            "node": "DO_THING_A (Gmail)",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "DO_THING_B (Airtable)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "DO_THING_A (Gmail)": {
+      "main": [
+        [
+          {
+            "node": "MERGE",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "DO_THING_B (Airtable)": {
+      "main": [
+        [
+          {
+            "node": "MERGE",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "START (Webhook)": {
+      "main": [
+        [
+          {
+            "node": "GET LIST",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "GET LIST": {
+      "main": [
+        [
+          {
+            "node": "SPLIT OUT (Loop Over Items)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "SPLIT OUT (Loop Over Items)": {
+      "main": [
+        [
+          {
+            "node": "PROCESS_EACH (Edit Fields/AI)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "PROCESS_EACH (Edit Fields/AI)": {
+      "main": [
+        [
+          {
+            "node": "AGGREGATE (Group Back)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AGGREGATE (Group Back)": {
+      "main": [
+        [
+          {
+            "node": "SAVE_LIST (Google Sheet)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "GET EMAIL (Trigger)": {
+      "main": [
+        [
+          {
+            "node": "AI SCRIBE (Classify)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI SCRIBE (Classify)": {
+      "main": [
+        [
+          {
+            "node": "SWITCH (Route by AI)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "SWITCH (Route by AI)": {
+      "main": [
+        [
+          {
+            "node": "Send Slack Msg",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Add to AirTable",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Delete Email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI SCRIBE (Classify)",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "TOOL: GSearch": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI AGENT (DM)",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "TOOL: Gmail": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI AGENT (DM)",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "TOOL: Notion": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI AGENT (DM)",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model 2": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI AGENT (DM)",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "START (Trigger) 3": {
+      "main": [
+        [
+          {
+            "node": "Get Leads",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Leads": {
+      "main": [
+        [
+          {
+            "node": "SPLIT OUT (1 at a time)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "SPLIT OUT (1 at a time)": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request (Get profile from API)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request (Get profile from API)": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields (Merge profile data)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields (Merge profile data)": {
+      "main": [
+        [
+          {
+            "node": "AGGREGATE (Back to list)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AGGREGATE (Back to list)": {
+      "main": [
+        [
+          {
+            "node": "SAVE to DB",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Calculate Order Totals": {
+      "main": [
+        [
+          {
+            "node": "Split Order Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Order Items": {
+      "main": [
+        [
+          {
+            "node": "Enrich Item Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Enrich Item Data": {
+      "main": [
+        [
+          {
+            "node": "Aggregate Items by Category",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Order Total": {
+      "main": [
+        [
+          {
+            "node": "High Value Processing",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Standard Processing",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Route by Category": {
+      "main": [
+        [
+          {
+            "node": "Electronics Handler",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Sports Handler",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Home & Kitchen Handler",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "High Value Processing": {
+      "main": [
+        [
+          {
+            "node": "Wait for Approval",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait for Approval": {
+      "main": [
+        [
+          {
+            "node": "Split Order Items1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Standard Processing": {
+      "main": [
+        [
+          {
+            "node": "Merge All Branches",
+            "type": "main",
+            "index": 3
+          }
+        ]
+      ]
+    },
+    "Electronics Handler": {
+      "main": [
+        [
+          {
+            "node": "Merge All Branches",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Sports Handler": {
+      "main": [
+        [
+          {
+            "node": "Merge All Branches",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Home & Kitchen Handler": {
+      "main": [
+        [
+          {
+            "node": "Merge All Branches",
+            "type": "main",
+            "index": 2
+          }
+        ]
+      ]
+    },
+    "Calculate Order Total": {
+      "main": [
+        [
+          {
+            "node": "Check Order Total",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Order Items1": {
+      "main": [
+        [
+          {
+            "node": "Route by Category",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Order Webhook1": {
+      "main": [
+        [
+          {
+            "node": "Calculate Order Total",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Order Webhook": {
+      "main": [
+        [
+          {
+            "node": "Process Order",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "7898ad13-393f-463e-931f-00f5f6f339aa",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "aaadb797535f05587ee95b776c942a7c3f7a46fd7aa0c9b6a9d64e1e595f8af1"
+  },
+  "id": "v6LCqicgXGjT9gPX",
+  "tags": []
+}

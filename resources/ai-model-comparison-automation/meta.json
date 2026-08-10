@@ -1,0 +1,26 @@
+{
+  "name": "AI Model Comparison Automation ⚖️",
+  "external_id": "ZmkRxBqXqxx90PW14CB83g==",
+  "permalink": "sbiuhu",
+  "unique_permalink": "sbiuhu",
+  "custom_permalink": "modelcomparisonworkflown8n",
+  "url": "https://markkashef.gumroad.com/l/modelcomparisonworkflown8n",
+  "status": "published",
+  "archived": false,
+  "kind": "products",
+  "price_formatted": "CAD$0+",
+  "description_md": "## What You Get\n\n- \nLevel-1 Workflow JSON (Workflow 1 of 2): Import-ready n8n file that runs on a schedule for hands-free model tests—its matching Judge workflow lives exclusively inside my paid community.\n\n- \nAuto Model Discovery: Uses OpenRouter to pull every new Anthropic, Google, and OpenAI model in real time and surfaces only the heavy hitters you care about.\n\n- \nSmart Deduplication Logic: Detects models you’ve already benchmarked so you never waste tokens twice.\n\nIf you want the companion 'Judge' workflow (Workflow 2 of 2) plus automated scoring dashboards, join the Early AI-dopters Community -- you won’t regret it 😉",
+  "files": [
+    {
+      "file": "Model Output Analyzer.json",
+      "status": "cached",
+      "bytes": 19407
+    },
+    {
+      "file": "Models' Output Analyzer.xlsx",
+      "status": "cached",
+      "bytes": 251619
+    }
+  ],
+  "has_rich_content": true
+}

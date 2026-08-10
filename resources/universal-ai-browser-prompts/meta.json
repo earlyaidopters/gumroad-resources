@@ -1,0 +1,15 @@
+{
+  "name": "Universal AI Browser Prompts 🌐",
+  "external_id": "xuzS1qab6HWKRPXjBFK4dA==",
+  "permalink": "jkqdin",
+  "unique_permalink": "jkqdin",
+  "custom_permalink": "aibrowsers",
+  "url": "https://markkashef.gumroad.com/l/aibrowsers",
+  "status": "published",
+  "archived": false,
+  "kind": "products",
+  "price_formatted": "CAD$0+",
+  "description_md": "# What You Get\n\n- Copy-paste Quick-Start Template with all fields pre-wired: PERSONA, AIM, RECIPIENTS, THEME, CONTEXT, TASK, VERIFICATION, OUTPUT, SOURCES.\n\n- Three simplified, ready-to-edit templates by use case: Research, Multi-Tab Comparison, and Autonomous Actions (with tab tags like @tab1, success criteria, and stop-before-final safeguards).\n\n- Progressive Prompting Sequence (Stage 1 → Stage 2 → Stage 3) to move from broad context to focused research to a specific, verified deliverable.\n\n- Built-in QA: generate 3 verification questions, answer each independently, and flag conflicts - no extra prompting needed.\n\n- Output Blueprint controls: lock format, length, must-include elements, and structure so results arrive exactly how you need them.\n\n- Works across agentic browsers and AI copilots (Perplexity/Comet, Genspark, Fellou, DIA, etc) without tool-specific rewrites.\n\nCompanion browser-specific recipes (offline model setups, agent triggers, pro shortcuts) live exclusively in my Early AI-dopters Community → https://www.skool.com/earlyaidopters/about",
+  "files": [],
+  "has_rich_content": true
+}

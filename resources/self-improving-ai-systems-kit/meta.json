@@ -1,0 +1,41 @@
+{
+  "name": "Self-Improving AI Systems Kit 🔄",
+  "external_id": "iaTqVnI4fIrYfjmJO7XFNA==",
+  "permalink": "jmrriu",
+  "unique_permalink": "jmrriu",
+  "custom_permalink": "self-improving-ai-systems-kit",
+  "url": "https://markkashef.gumroad.com/l/self-improving-ai-systems-kit",
+  "status": "published",
+  "archived": false,
+  "kind": "products",
+  "price_formatted": "CAD$0+",
+  "description_md": "# What You Get\nThe Mega Prompt: The exact 500+ word prompt I used to build the entire self-improving chatbot from scratch. Drop it into Claude Code with Supabase MCP and watch it build tables, edge functions, and the evaluation layer automatically.\nArchitecture Guide: Complete breakdown of the self-improvement feedback loop - database schema, edge functions, the evaluation layer, and how all the pieces connect. Includes diagrams you can recreate.\nRubric Template: The 5-criteria scoring system the AI uses to judge itself. Includes the \"ruthless critic\" prompt variation for stress testing, plus examples of passing and failing reflections.\nHandoff Template: My \"baton pass\" method for managing context across long Claude Code sessions. Stop losing important bugs and decisions when you hit context limits.\nQuick Start Guide: Go from zero to working self-improving system in 30 minutes. Prerequisites, setup steps, common errors, and how to verify the feedback loop actually works.\nWant the full working system? Join my Early AI-dopters community for access to this app (carbon copy), plus every other system I build: https://www.skool.com/earlyaidopters/about",
+  "files": [
+    {
+      "file": "Architecture_Guide.pdf",
+      "status": "cached",
+      "bytes": 29971
+    },
+    {
+      "file": "Handoff_Template.pdf",
+      "status": "cached",
+      "bytes": 20137
+    },
+    {
+      "file": "Mega_Prompt.pdf",
+      "status": "cached",
+      "bytes": 11068
+    },
+    {
+      "file": "Quick_Start_Guide.pdf",
+      "status": "cached",
+      "bytes": 21348
+    },
+    {
+      "file": "Rubric_Template.pdf",
+      "status": "cached",
+      "bytes": 31739
+    }
+  ],
+  "has_rich_content": true
+}

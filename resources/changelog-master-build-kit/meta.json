@@ -1,0 +1,41 @@
+{
+  "name": "Changelog Master Build Kit 🔔",
+  "external_id": "IU6hI3AjcdlMTJ18yIcSgw==",
+  "permalink": "ijiqoz",
+  "unique_permalink": "ijiqoz",
+  "custom_permalink": "changelog-master-build-kit",
+  "url": "https://markkashef.gumroad.com/l/changelog-master-build-kit",
+  "status": "published",
+  "archived": false,
+  "kind": "products",
+  "price_formatted": "CAD$0+",
+  "description_md": "# What You Get\nComplete Build Specification: The full technical spec to build Changelog Master from scratch - architecture diagram, tech stack, database schema, API endpoints, React components, services, hooks, and design system with exact hex codes. Everything you need to one-shot this app.\nArchitecture Walkthrough: Plain-English guide explaining how every piece of the system works - from GitHub fetch to Gemini analysis to TTS audio to email notifications. Includes ASCII diagrams, workflow breakdowns, and data flow visualizations.\nPrompt Playbook: The actual prompts used to build this app, organized by phase. \nEach prompt includes the original version and a refined version showing what works better - plus 8 prompting principles and reusable templates for new features, design changes, and bug fixes.\nThis is the exact documentation package I used to build Changelog Master - the AI-powered changelog tracker that keeps me up-to-date on every Claude Code update.\nJoin Early AI-dopters for video walkthroughs, exclusive content, and live coaching sessions: \nhttps://www.skool.com/earlyaidopters/about",
+  "files": [
+    {
+      "file": "changelog_tracker_spec.pdf",
+      "status": "cached",
+      "bytes": 20572
+    },
+    {
+      "file": "prompt_playbook.pdf",
+      "status": "cached",
+      "bytes": 19348
+    },
+    {
+      "file": "audio_understanding.md",
+      "status": "cached",
+      "bytes": 28759
+    },
+    {
+      "file": "claude-changelog-app.md",
+      "status": "cached",
+      "bytes": 13053
+    },
+    {
+      "file": "gemini-3.md",
+      "status": "cached",
+      "bytes": 32794
+    }
+  ],
+  "has_rich_content": true
+}

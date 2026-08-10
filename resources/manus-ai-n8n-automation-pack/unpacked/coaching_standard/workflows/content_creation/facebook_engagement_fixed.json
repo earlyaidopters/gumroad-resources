@@ -1,0 +1,378 @@
+{
+  "name": "Facebook Engagement Content Automation",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "days",
+              "days": [1, 5],
+              "hours": [15],
+              "minutes": [0]
+            }
+          ]
+        }
+      },
+      "name": "Schedule Trigger",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1,
+      "position": [
+        250,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "documentId": {
+          "__rl": true,
+          "value": "YOUR_CONTENT_CALENDAR_SHEET_ID",
+          "mode": "list",
+          "cachedResultName": "Content Calendar"
+        },
+        "sheetName": "Content Calendar",
+        "returnAll": false,
+        "options": {
+          "filter": {
+            "values": {
+              "Date": "={{ $today }}",
+              "Platform": "Facebook"
+            }
+          }
+        }
+      },
+      "name": "Google Sheets - Get Content Calendar",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4,
+      "position": [
+        400,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "authentication": "serviceAccount",
+        "operation": "completion",
+        "model": "gpt-4",
+        "prompt": {
+          "value": "Create an engaging Facebook post for a coaching business that will encourage audience interaction. The post should pose a thought-provoking question related to {% if $node[\"Google Sheets - Get Content Calendar\"].json.length > 0 %}{{ $node[\"Google Sheets - Get Content Calendar\"].json[0].Topic }}{% else %}personal or professional development{% endif %}, include a brief insight or tip (2-3 sentences), and end with a clear call-to-action that encourages comments. The entire post should be between 100-150 words and have a conversational, friendly tone. Include 1-2 relevant emojis to make the post more engaging."
+        },
+        "options": {
+          "temperature": 0.8,
+          "maxTokens": 500
+        }
+      },
+      "name": "OpenAI - Generate Post",
+      "type": "n8n-nodes-base.openAi",
+      "typeVersion": 1,
+      "position": [
+        550,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "resource": "design",
+        "operation": "create",
+        "designType": "social-media",
+        "templateId": "YOUR_CANVA_TEMPLATE_ID",
+        "elements": {
+          "values": {
+            "mainText": "={{ $node[\"OpenAI - Generate Post\"].json.text.split('\\n')[0] }}",
+            "brandName": "Your Coaching Business",
+            "brandLogo": "YOUR_LOGO_URL"
+          }
+        },
+        "additionalFields": {
+          "format": "png",
+          "width": 1200,
+          "height": 630
+        }
+      },
+      "name": "Canva - Create Image",
+      "type": "n8n-nodes-base.canva",
+      "typeVersion": 1,
+      "position": [
+        700,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "resource": "photo",
+        "operation": "upload",
+        "pageId": "YOUR_FACEBOOK_PAGE_ID",
+        "binaryPropertyName": "data",
+        "additionalFields": {}
+      },
+      "name": "Facebook - Upload Image",
+      "type": "n8n-nodes-base.facebookGraphApi",
+      "typeVersion": 2,
+      "position": [
+        850,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "resource": "feed",
+        "operation": "create",
+        "pageId": "YOUR_FACEBOOK_PAGE_ID",
+        "message": "={{ $node[\"OpenAI - Generate Post\"].json.text }}",
+        "additionalFields": {
+          "attachedMedia": [
+            {
+              "mediaFbid": "={{ $node[\"Facebook - Upload Image\"].json.id }}"
+            }
+          ]
+        }
+      },
+      "name": "Facebook - Post Content",
+      "type": "n8n-nodes-base.facebookGraphApi",
+      "typeVersion": 2,
+      "position": [
+        1000,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "YOUR_TRACKING_SHEET_ID",
+          "mode": "list",
+          "cachedResultName": "Content Tracking"
+        },
+        "sheetName": "Content Tracking",
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Date": "={{ $now.toISOString().split('T')[0] }}",
+            "Platform": "Facebook",
+            "Content Type": "Engagement Post",
+            "Topic": "={{ $node[\"Google Sheets - Get Content Calendar\"].json.length > 0 ? $node[\"Google Sheets - Get Content Calendar\"].json[0].Topic : 'Engagement Post' }}",
+            "Post ID": "={{ $node[\"Facebook - Post Content\"].json.id }}",
+            "Content": "={{ $node[\"OpenAI - Generate Post\"].json.text }}"
+          }
+        }
+      },
+      "name": "Google Sheets - Log Post",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4,
+      "position": [
+        1150,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "waitTime": {
+          "value": 24,
+          "unit": "hours"
+        }
+      },
+      "name": "Wait For Engagement",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1,
+      "position": [
+        1300,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "resource": "post",
+        "postId": "={{ $node[\"Facebook - Post Content\"].json.id }}",
+        "fields": [
+          "likes.summary(true)",
+          "comments.summary(true)",
+          "shares"
+        ]
+      },
+      "name": "Facebook - Get Engagement",
+      "type": "n8n-nodes-base.facebookGraphApi",
+      "typeVersion": 2,
+      "position": [
+        1450,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "YOUR_TRACKING_SHEET_ID",
+          "mode": "list",
+          "cachedResultName": "Content Tracking"
+        },
+        "sheetName": "Content Tracking",
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Likes": "={{ $node[\"Facebook - Get Engagement\"].json.likes ? $node[\"Facebook - Get Engagement\"].json.likes.summary.total_count : 0 }}",
+            "Comments": "={{ $node[\"Facebook - Get Engagement\"].json.comments ? $node[\"Facebook - Get Engagement\"].json.comments.summary.total_count : 0 }}",
+            "Shares": "={{ $node[\"Facebook - Get Engagement\"].json.shares ? $node[\"Facebook - Get Engagement\"].json.shares.count : 0 }}"
+          }
+        },
+        "options": {
+          "filter": {
+            "values": {
+              "Post ID": "={{ $node[\"Facebook - Post Content\"].json.id }}"
+            }
+          }
+        }
+      },
+      "name": "Google Sheets - Update Engagement",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4,
+      "position": [
+        1600,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "chatId": "YOUR_SLACK_CHANNEL_ID",
+        "text": "✅ Facebook engagement post published and tracked!\n\n*Topic:* {{ $node[\"Google Sheets - Get Content Calendar\"].json.length > 0 ? $node[\"Google Sheets - Get Content Calendar\"].json[0].Topic : 'Engagement Post' }}\n*Date:* {{ $now.toISOString().split('T')[0] }}\n*Post URL:* https://facebook.com/{{ $node[\"Facebook - Post Content\"].json.id }}\n\n*Engagement after 24 hours:*\n• Likes: {{ $node[\"Facebook - Get Engagement\"].json.likes ? $node[\"Facebook - Get Engagement\"].json.likes.summary.total_count : 0 }}\n• Comments: {{ $node[\"Facebook - Get Engagement\"].json.comments ? $node[\"Facebook - Get Engagement\"].json.comments.summary.total_count : 0 }}\n• Shares: {{ $node[\"Facebook - Get Engagement\"].json.shares ? $node[\"Facebook - Get Engagement\"].json.shares.count : 0 }}",
+        "otherOptions": {
+          "parse_mode": "markdown"
+        }
+      },
+      "name": "Slack - Send Notification",
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 2,
+      "position": [
+        1750,
+        300
+      ]
+    }
+  ],
+  "connections": {
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets - Get Content Calendar",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets - Get Content Calendar": {
+      "main": [
+        [
+          {
+            "node": "OpenAI - Generate Post",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI - Generate Post": {
+      "main": [
+        [
+          {
+            "node": "Canva - Create Image",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Canva - Create Image": {
+      "main": [
+        [
+          {
+            "node": "Facebook - Upload Image",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Facebook - Upload Image": {
+      "main": [
+        [
+          {
+            "node": "Facebook - Post Content",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Facebook - Post Content": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets - Log Post",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets - Log Post": {
+      "main": [
+        [
+          {
+            "node": "Wait For Engagement",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait For Engagement": {
+      "main": [
+        [
+          {
+            "node": "Facebook - Get Engagement",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Facebook - Get Engagement": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets - Update Engagement",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets - Update Engagement": {
+      "main": [
+        [
+          {
+            "node": "Slack - Send Notification",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "saveManualExecutions": true,
+    "callerPolicy": "workflowsFromSameOwner",
+    "errorWorkflow": "YOUR_ERROR_WORKFLOW_ID"
+  },
+  "tags": [
+    "content-creation",
+    "facebook"
+  ],
+  "triggerCount": 1
+}

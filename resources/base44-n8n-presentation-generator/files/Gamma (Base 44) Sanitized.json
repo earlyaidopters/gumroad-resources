@@ -1,0 +1,381 @@
+{
+  "name": "Gamma (Base 44) Sanitized",
+  "nodes": [
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "id",
+          "value": "gpt-4o"
+        },
+        "options": {
+          "temperature": 0.3
+        }
+      },
+      "id": "ff8e130a-79e4-44da-936f-495897c997a3",
+      "name": "OpenAI Chat Model",
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        -1024,
+        384
+      ]
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Process the following data regarding the slides we want to create:\n\ntopic\n{{ $json.body.topic }}\n\naudience\n{{ $json.body.audience }}\n\ntone\n{{ $json.body.tone }}\n\nnumCards\n{{ $json.body.numCards }}\n\nimageStyle\n{{ $json.body.imageStyle }}",
+        "options": {
+          "systemMessage": "=You are a Gamma API assistant. Convert the user's presentation request into a valid JSON object for the Gamma API.\n\nRESPOND ONLY WITH VALID JSON - no markdown, no backticks, no explanations.\n\nUse this structure and incorporate user preferences when provided:\n{\n  \"inputText\": \"[Create detailed, structured content for the presentation topic. Include main points, subpoints, and comprehensive information suitable for slides]\",\n  \"format\": \"presentation\",\n  \"textMode\": \"generate\",\n  \"numCards\": {{ $json.numCards || 10 }},\n  \"cardSplit\": \"auto\",\n  \"additionalInstructions\": \"Make titles engaging and professional\",\n  \"textOptions\": {\n    \"amount\": \"detailed\",\n    \"tone\": \"{{ $json.tone || 'professional, engaging' }}\",\n    \"audience\": \"{{ $json.audience || 'general professional audience' }}\",\n    \"language\": \"en\"\n  },\n  \"imageOptions\": {\n    \"source\": \"aiGenerated\",\n    \"model\": \"flux-1-pro\",\n    \"style\": \"{{ $json.imageStyle || 'professional, clean, modern, high-quality' }}\"\n  },\n  \"cardOptions\": {\n    \"dimensions\": \"16x9\"\n  },\n  \"sharingOptions\": {\n    \"workspaceAccess\": \"view\",\n    \"externalAccess\": \"noAccess\"\n  }\n}\n\nDynamic Parameters:\n- Use numCards from webhook if provided, otherwise default to 10\n- Use tone from webhook if provided, otherwise default to 'professional, engaging'\n- Use audience from webhook if provided, otherwise default to 'general professional audience'\n- Use imageStyle from webhook if provided, otherwise default to 'professional, clean, modern, high-quality'\n- Always use the topic/chatInput for the inputText content\n\nEnsure the inputText is comprehensive and well-structured for the topic requested."
+        }
+      },
+      "id": "4d4bb074-fba4-44cc-b12e-30b1d6b5a893",
+      "name": "Slide Content AI Agent",
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2.2,
+      "position": [
+        -1088,
+        160
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Parse the AI agent output and ensure it's valid JSON\nlet aiOutput = $input.first().json.output;\n\n// Remove any markdown formatting if present\nif (typeof aiOutput === 'string') {\n  // Remove backticks and json markers\n  aiOutput = aiOutput.replace(/```json\\n?/g, '').replace(/```\\n?/g, '').trim();\n  \n  try {\n    // Parse the cleaned string to JSON\n    aiOutput = JSON.parse(aiOutput);\n  } catch (error) {\n    // If parsing fails, create a default structure\n    return [{\n      json: {\n        error: \"Failed to parse AI output\",\n        originalOutput: aiOutput,\n        defaultPayload: {\n          \"inputText\": \"Create a presentation about: \" + $input.first().json.chatInput,\n          \"format\": \"presentation\",\n          \"textMode\": \"generate\",\n          \"numCards\": 10,\n          \"cardSplit\": \"auto\",\n          \"textOptions\": {\n            \"amount\": \"detailed\",\n            \"tone\": \"professional\",\n            \"language\": \"en\"\n          },\n          \"imageOptions\": {\n            \"source\": \"aiGenerated\",\n            \"model\": \"flux-1-pro\",\n            \"style\": \"professional, modern\"\n          }\n        }\n      }\n    }];\n  }\n}\n\n// Return the parsed JSON\nreturn [{\n  json: aiOutput\n}];"
+      },
+      "id": "e85270ee-22f5-4f60-9af8-07227d098c73",
+      "name": "Parse JSON Output",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -736,
+        160
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://public-api.gamma.app/v0.2/generations",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "name": "X-API-KEY",
+              "value": "=YOUR_GAMMA_API_KEY_HERE"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify($json) }}",
+        "options": {
+          "response": {
+            "response": {
+              "responseFormat": "json"
+            }
+          },
+          "timeout": 60000
+        }
+      },
+      "id": "925d8b26-29e9-499c-8599-5df3ed5f2a50",
+      "name": "Gamma API Request",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -512,
+        160
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Get the generation ID from the Gamma API response\nconst generationId = $input.first().json.generationId;\n\n// Construct the Gamma presentation URL\nconst gammaUrl = `https://gamma.app/docs/${generationId}`;\n\n// Get the original chat input for context\nconst originalRequest = $input.all()[0].json.inputText || \"Your presentation\";\n\n// Prepare the response message\nconst responseMessage = {\n  success: true,\n  message: `✅ Your presentation has been created successfully!`,\n  presentationUrl: gammaUrl,\n  generationId: generationId,\n  topic: originalRequest.substring(0, 100) + \"...\",\n  instructions: [\n    \"Click the link above to view your presentation\",\n    \"The presentation may take a few moments to fully generate\",\n    \"You can edit and customize it further in Gamma\"\n  ],\n  timestamp: new Date().toISOString()\n};\n\nreturn [{\n  json: responseMessage\n}];"
+      },
+      "id": "ca76ab72-f1b2-4582-856e-250d8da9ef3a",
+      "name": "Format Response",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -288,
+        -32
+      ]
+    },
+    {
+      "parameters": {
+        "url": "=https://public-api.gamma.app/v0.2/generations/{{ $json.generationId }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "X-API-KEY",
+              "value": "=YOUR_GAMMA_API_KEY_HERE"
+            }
+          ]
+        },
+        "options": {
+          "timeout": 30000
+        }
+      },
+      "id": "c1959556-671b-4843-9c2c-d2c09ac12e8e",
+      "name": "Check Generation Status (Optional)",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        160,
+        160
+      ]
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "b89ecdbf-68ae-4c06-8224-88adff1aec5b",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        -1312,
+        160
+      ],
+      "id": "9d73534e-94a7-48ca-a557-b1ad53a417a3",
+      "name": "Webhook",
+      "webhookId": "b89ecdbf-68ae-4c06-8224-88adff1aec5b"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "id-1",
+              "leftValue": "={{ $json.status === 'completed' }}",
+              "operator": {
+                "type": "boolean",
+                "operation": "true"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "c697327d-2bbf-44aa-8e2a-2b6a59a70265",
+      "name": "Check If Generation Complete",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        384,
+        80
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Get the generation status data from the previous node\nconst statusData = $input.first().json;\n\n// Get the original chat input from the webhook (first node in workflow)\nconst webhookData = $('Webhook').first().json;\nconst originalRequest = webhookData.chatInput || \"Your presentation\";\n\n// Prepare the final response with presentation details\nconst finalResponse = {\n  success: true,\n  message: `🎉 Your presentation \"${originalRequest.substring(0, 50)}${originalRequest.length > 50 ? '...' : ''}\" is now complete!`,\n  presentationUrl: statusData.gammaUrl,\n  generationId: statusData.generationId,\n  status: statusData.status,\n  topic: originalRequest,\n  completionTimestamp: new Date().toISOString(),\n  instructions: [\n    \"Your presentation is ready to view\",\n    \"Click the presentation URL to access it\",\n    \"You can edit and customize it further in Gamma\",\n    \"Share it with your team when ready\"\n  ],\n  metadata: {\n    sessionId: webhookData.sessionId,\n    action: webhookData.action,\n    processedAt: new Date().toISOString()\n  }\n};\n\nreturn [{\n  json: finalResponse\n}];"
+      },
+      "id": "1b3430e3-2ecf-4373-87a9-046669c682de",
+      "name": "Prepare Final Response",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        608,
+        32
+      ]
+    },
+    {
+      "parameters": {
+        "amount": 15
+      },
+      "id": "777de8ca-4be1-4152-9b2a-9511145c3466",
+      "name": "Wait Before Retry",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        608,
+        256
+      ],
+      "webhookId": "1a12ecde-f8fa-4652-93c4-fb635a337495"
+    },
+    {
+      "parameters": {
+        "amount": 25,
+        "unit": "seconds"
+      },
+      "id": "cb9073d3-ee8e-4e98-b311-88d7c1eff40b",
+      "name": "Wait 25 Seconds",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1,
+      "position": [
+        -64,
+        160
+      ],
+      "webhookId": "ac13895d-7851-4bae-b9bb-a2c7c322424f"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "id": "0c14e18e-1db2-46a5-8166-b3277d762110",
+      "name": "Sends to Base44",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.4,
+      "position": [
+        832,
+        32
+      ]
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Slide Content AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Slide Content AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Parse JSON Output",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Parse JSON Output": {
+      "main": [
+        [
+          {
+            "node": "Gamma API Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Gamma API Request": {
+      "main": [
+        [
+          {
+            "node": "Format Response",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Wait 25 Seconds",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Format Response": {
+      "main": [
+        [
+          {
+            "node": "Wait 25 Seconds",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Slide Content AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Generation Status (Optional)": {
+      "main": [
+        [
+          {
+            "node": "Check If Generation Complete",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check If Generation Complete": {
+      "main": [
+        [
+          {
+            "node": "Prepare Final Response",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Wait Before Retry",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prepare Final Response": {
+      "main": [
+        [
+          {
+            "node": "Sends to Base44",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait Before Retry": {
+      "main": [
+        [
+          {
+            "node": "Check Generation Status (Optional)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait 25 Seconds": {
+      "main": [
+        [
+          {
+            "node": "Check Generation Status (Optional)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "00f2aedf-4a84-4220-b7d3-700b5a2ba94d",
+  "meta": {
+    "instanceId": "aaadb797535f05587ee95b776c942a7c3f7a46fd7aa0c9b6a9d64e1e595f8af1"
+  },
+  "id": "26PlbQ69N07yZXT6",
+  "tags": []
+}

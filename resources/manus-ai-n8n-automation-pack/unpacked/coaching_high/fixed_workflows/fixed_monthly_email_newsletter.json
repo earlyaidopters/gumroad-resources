@@ -1,0 +1,600 @@
+{
+  "name": "Monthly Email Newsletter Automation",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "months",
+              "minutesInterval": 0,
+              "hoursInterval": 0,
+              "daysInterval": 0,
+              "monthsInterval": 1
+            }
+          ],
+          "triggerAtTime": true,
+          "hour": 9,
+          "minute": 0,
+          "day": 1
+        }
+      },
+      "id": "1a5c1e9a-5352-4ab1-a9f5-c29a2e83a0a0",
+      "name": "Schedule Trigger",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1,
+      "position": [
+        250,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "read",
+        "documentId": {
+          "__rl": true,
+          "value": "GOOGLE_SHEET_ID_PLACEHOLDER",
+          "mode": "list",
+          "cachedResultName": "Newsletter Content",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/GOOGLE_SHEET_ID_PLACEHOLDER/edit"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 0,
+          "mode": "list",
+          "cachedResultName": "Content"
+        },
+        "range": "A:D",
+        "options": {
+          "headerRow": true
+        }
+      },
+      "id": "2b6d2f9b-6463-4bc2-b0f6-d3a3f4b4a0b1",
+      "name": "Google Sheets - Get Content",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 3,
+      "position": [
+        450,
+        300
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "GOOGLE_SHEETS_CREDENTIAL_ID_PLACEHOLDER",
+          "name": "Google Sheets Account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// Process the content from Google Sheets\nconst items = $input.all();\nconst contentItems = items.map(item => item.json);\n\n// Filter for this month's content\nconst now = new Date();\nconst currentMonth = now.getMonth();\nconst currentYear = now.getFullYear();\n\n// Filter content marked for this month\nconst thisMonthContent = contentItems.filter(item => {\n  if (!item.month || !item.year) return false;\n  \n  const itemMonth = parseInt(item.month) - 1; // Convert 1-12 to 0-11\n  const itemYear = parseInt(item.year);\n  \n  return itemMonth === currentMonth && itemYear === currentYear;\n});\n\n// If no content for this month, use the most recent content\nlet selectedContent = thisMonthContent;\nif (selectedContent.length === 0) {\n  // Sort by date (most recent first)\n  const sortedContent = contentItems\n    .filter(item => item.month && item.year)\n    .sort((a, b) => {\n      const aDate = new Date(parseInt(a.year), parseInt(a.month) - 1);\n      const bDate = new Date(parseInt(b.year), parseInt(b.month) - 1);\n      return bDate - aDate;\n    });\n  \n  // Take the most recent items (up to 5)\n  selectedContent = sortedContent.slice(0, 5);\n}\n\n// Format the content for the newsletter\nconst formattedContent = selectedContent.map(item => ({\n  title: item.title || 'Coaching Insight',\n  content: item.content || 'No content available',\n  link: item.link || null\n}));\n\n// Get month name for the newsletter\nconst monthNames = [\n  'January', 'February', 'March', 'April', 'May', 'June',\n  'July', 'August', 'September', 'October', 'November', 'December'\n];\nconst newsletterMonth = monthNames[currentMonth];\n\nreturn {\n  newsletterMonth,\n  newsletterYear: currentYear,\n  contentItems: formattedContent,\n  contentCount: formattedContent.length,\n  timestamp: now.toISOString()\n};"
+      },
+      "id": "3c7e3f0c-7574-4cd3-c1f7-e4b4f5c5b1c2",
+      "name": "Code - Process Content",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [
+        650,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "read",
+        "documentId": {
+          "__rl": true,
+          "value": "GOOGLE_SHEET_ID_PLACEHOLDER",
+          "mode": "list",
+          "cachedResultName": "Client Database",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/GOOGLE_SHEET_ID_PLACEHOLDER/edit"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 0,
+          "mode": "list",
+          "cachedResultName": "Clients"
+        },
+        "range": "A:F",
+        "options": {
+          "headerRow": true
+        }
+      },
+      "id": "4d8f4g1d-8685-5de4-d2g8-f5c6g6d7c2d3",
+      "name": "Google Sheets - Get Clients",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 3,
+      "position": [
+        450,
+        500
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "GOOGLE_SHEETS_CREDENTIAL_ID_PLACEHOLDER",
+          "name": "Google Sheets Account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// Process the client list from Google Sheets\nconst items = $input.all();\nconst clients = items.map(item => item.json);\n\n// Filter for active clients with valid email addresses\nconst activeClients = clients.filter(client => {\n  // Check for valid email\n  const hasValidEmail = client.email && \n    client.email.includes('@') && \n    client.email.includes('.');\n  \n  // Check if client is active\n  const isActive = client.status && \n    client.status.toLowerCase() === 'active';\n  \n  // Check if client has opted in to newsletter\n  const hasOptedIn = client.newsletter_optin && \n    client.newsletter_optin.toLowerCase() === 'yes';\n  \n  return hasValidEmail && isActive && hasOptedIn;\n});\n\n// Format client data for personalization\nconst formattedClients = activeClients.map(client => ({\n  email: client.email,\n  firstName: client.first_name || 'Valued Client',\n  lastName: client.last_name || '',\n  fullName: `${client.first_name || 'Valued'} ${client.last_name || 'Client'}`,\n  coachingType: client.coaching_type || 'Personal Development',\n  joinDate: client.join_date || 'recently'\n}));\n\nreturn {\n  clients: formattedClients,\n  clientCount: formattedClients.length,\n  timestamp: new Date().toISOString()\n};"
+      },
+      "id": "5e9g5h2e-9796-6ef5-e3h9-g6d7h7e8d3e4",
+      "name": "Code - Process Clients",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [
+        650,
+        500
+      ]
+    },
+    {
+      "parameters": {
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialName": "OpenAI API Key",
+        "operation": "message",
+        "model": "gpt-4",
+        "options": {
+          "temperature": 0.7,
+          "maxTokens": 2000
+        },
+        "messages": {
+          "values": [
+            {
+              "role": "system",
+              "content": "You are an expert at creating engaging and personalized email newsletters for coaching businesses. Your newsletters should be professional, informative, and include personalization elements."
+            },
+            {
+              "role": "user",
+              "content": "=Create a monthly newsletter email for a coaching business for {{$node[\"Code - Process Content\"].json[\"newsletterMonth\"]}} {{$node[\"Code - Process Content\"].json[\"newsletterYear\"]}}.\n\nInclude the following content items:\n\n{{$node[\"Code - Process Content\"].json[\"contentItems\"].map((item, index) => `${index + 1}. ${item.title}: ${item.content}`).join('\\n\\n')}}\n\nThe newsletter should include:\n1. A personalized greeting with {{FIRST_NAME}} placeholder\n2. An introduction paragraph about the month\n3. The content items formatted in an engaging way\n4. A call to action to book a coaching session\n5. A closing signature\n\nFormat the newsletter in HTML with appropriate styling for an email. Use a professional but warm tone."
+            }
+          ]
+        }
+      },
+      "id": "6f0h6i3f-0807-7fg6-f4i0-h7e8i8f9e4f5",
+      "name": "OpenAI - Generate Newsletter",
+      "type": "n8n-nodes-langchain.openai",
+      "typeVersion": 1,
+      "position": [
+        850,
+        400
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Process the OpenAI response and prepare for email sending\nconst newsletterHtml = $input.item.json.text || $input.item.json.content;\n\n// Store the raw newsletter template\nconst newsletterTemplate = newsletterHtml;\n\n// Get client data for personalization\nconst clients = $node[\"Code - Process Clients\"].json.clients;\n\n// Create personalized newsletters for each client\nconst personalizedNewsletters = clients.map(client => {\n  // Replace personalization tokens\n  let personalized = newsletterTemplate\n    .replace(/{{FIRST_NAME}}/g, client.firstName)\n    .replace(/{{FULL_NAME}}/g, client.fullName)\n    .replace(/{{COACHING_TYPE}}/g, client.coachingType);\n  \n  return {\n    email: client.email,\n    firstName: client.firstName,\n    lastName: client.lastName,\n    personalizedContent: personalized\n  };\n});\n\n// Create a test email for verification\nconst testEmail = {\n  email: \"test@example.com\",\n  firstName: \"Test\",\n  lastName: \"User\",\n  personalizedContent: newsletterTemplate\n    .replace(/{{FIRST_NAME}}/g, \"Test\")\n    .replace(/{{FULL_NAME}}/g, \"Test User\")\n    .replace(/{{COACHING_TYPE}}/g, \"Test Coaching\")\n};\n\nreturn {\n  newsletterMonth: $node[\"Code - Process Content\"].json.newsletterMonth,\n  newsletterYear: $node[\"Code - Process Content\"].json.newsletterYear,\n  newsletterTemplate,\n  personalizedNewsletters,\n  clientCount: clients.length,\n  testEmail\n};"
+      },
+      "id": "7g1i7j4g-1918-8gh7-g5j1-i8f9j9g0f5g6",
+      "name": "Code - Prepare Emails",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [
+        1050,
+        400
+      ]
+    },
+    {
+      "parameters": {
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialName": "Slack Account",
+        "channel": "coaching-automation-alerts",
+        "text": "=📧 Monthly newsletter ready to send for {{$node[\"Code - Prepare Emails\"].json[\"newsletterMonth\"]}} {{$node[\"Code - Prepare Emails\"].json[\"newsletterYear\"]}}.\n\nRecipients: {{$node[\"Code - Prepare Emails\"].json[\"clientCount\"]}} clients\nContent items: {{$node[\"Code - Process Content\"].json[\"contentCount\"]}} articles\n\nPlease review the test email and approve for sending.",
+        "otherOptions": {}
+      },
+      "id": "8h2j8k5h-2029-9hi8-h6k2-j9g0k0h1g6h7",
+      "name": "Slack - Send Preview Notification",
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 1,
+      "position": [
+        1250,
+        200
+      ]
+    },
+    {
+      "parameters": {
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialName": "Gmail Account",
+        "fromEmail": "YOUR_EMAIL@gmail.com",
+        "toEmail": "={{$node[\"Code - Prepare Emails\"].json[\"testEmail\"].email}}",
+        "subject": "=[TEST] {{$node[\"Code - Prepare Emails\"].json[\"newsletterMonth\"]}} Newsletter - Your Coaching Business",
+        "html": "={{$node[\"Code - Prepare Emails\"].json[\"testEmail\"].personalizedContent}}",
+        "additionalFields": {}
+      },
+      "id": "9i3k9l6i-3130-0ij9-i7l3-k0h1l1i2h7i8",
+      "name": "Gmail - Send Test Email",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 1,
+      "position": [
+        1250,
+        400
+      ]
+    },
+    {
+      "parameters": {
+        "waitFor": {
+          "waitFor": "time",
+          "dateTime": "={{$now.plus({hours: 24}).format()}}",
+          "description": "Wait 24 hours for approval before sending"
+        }
+      },
+      "id": "0j4l0m7j-4241-1jk0-j8m4-l1i2m2j3i8j9",
+      "name": "Wait - For Approval",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1,
+      "position": [
+        1450,
+        400
+      ]
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "// Process each client for email sending\nconst newsletters = $node[\"Code - Prepare Emails\"].json.personalizedNewsletters;\nconst currentIndex = $input.item.index;\n\nif (currentIndex < newsletters.length) {\n  const client = newsletters[currentIndex];\n  \n  return {\n    email: client.email,\n    firstName: client.firstName,\n    lastName: client.lastName,\n    personalizedContent: client.personalizedContent,\n    index: currentIndex\n  };\n} else {\n  return {\n    email: null,\n    firstName: null,\n    lastName: null,\n    personalizedContent: null,\n    index: currentIndex\n  };\n}"
+      },
+      "id": "1k5m1n8k-5352-2kl1-k9n5-m2j3n3k4j9k0",
+      "name": "Code - Process Each Client",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [
+        1650,
+        400
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "boolean": [
+            {
+              "value1": "={{$node[\"Code - Process Each Client\"].json[\"email\"] !== null}}",
+              "value2": true
+            }
+          ]
+        }
+      },
+      "id": "2l6n2o9l-6463-3lm2-l0o6-n3k4o4l5k0l1",
+      "name": "IF - Valid Email",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [
+        1850,
+        400
+      ]
+    },
+    {
+      "parameters": {
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialName": "Gmail Account",
+        "fromEmail": "YOUR_EMAIL@gmail.com",
+        "toEmail": "={{$node[\"Code - Process Each Client\"].json[\"email\"]}}",
+        "subject": "={{$node[\"Code - Prepare Emails\"].json[\"newsletterMonth\"]}} Newsletter - Your Coaching Journey",
+        "html": "={{$node[\"Code - Process Each Client\"].json[\"personalizedContent\"]}}",
+        "additionalFields": {}
+      },
+      "id": "3m7o3p0m-7574-4mn3-m1p7-o5l6p5m6l1m2",
+      "name": "Gmail - Send Client Email",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 1,
+      "position": [
+        2050,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Log email sending for tracking\nreturn {\n  email: $node[\"Code - Process Each Client\"].json.email,\n  firstName: $node[\"Code - Process Each Client\"].json.firstName,\n  lastName: $node[\"Code - Process Each Client\"].json.lastName,\n  sentAt: new Date().toISOString(),\n  status: \"Sent\",\n  newsletterMonth: $node[\"Code - Prepare Emails\"].json.newsletterMonth,\n  newsletterYear: $node[\"Code - Prepare Emails\"].json.newsletterYear\n};"
+      },
+      "id": "4n8p4q1n-8685-5no4-n2q8-p6m7q6n7m2n3",
+      "name": "Code - Log Email Sent",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [
+        2250,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "GOOGLE_SHEET_ID_PLACEHOLDER",
+          "mode": "list",
+          "cachedResultName": "Email Tracking",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/GOOGLE_SHEET_ID_PLACEHOLDER/edit"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 0,
+          "mode": "list",
+          "cachedResultName": "Sent"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "mappingMode": "defineBelow",
+            "value": {
+              "date": "={{$node[\"Code - Log Email Sent\"].json[\"sentAt\"]}}",
+              "email": "={{$node[\"Code - Log Email Sent\"].json[\"email\"]}}",
+              "first_name": "={{$node[\"Code - Log Email Sent\"].json[\"firstName\"]}}",
+              "last_name": "={{$node[\"Code - Log Email Sent\"].json[\"lastName\"]}}",
+              "newsletter_month": "={{$node[\"Code - Log Email Sent\"].json[\"newsletterMonth\"]}}",
+              "newsletter_year": "={{$node[\"Code - Log Email Sent\"].json[\"newsletterYear\"]}}"
+            }
+          }
+        },
+        "options": {}
+      },
+      "id": "5o9q5r2o-9796-6op5-o3r9-q7n8r7o8n3o4",
+      "name": "Google Sheets - Log Email",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 3,
+      "position": [
+        2450,
+        300
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "GOOGLE_SHEETS_CREDENTIAL_ID_PLACEHOLDER",
+          "name": "Google Sheets Account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialName": "Slack Account",
+        "channel": "coaching-automation-alerts",
+        "text": "=✅ Email sent to {{$node[\"Code - Process Each Client\"].json[\"firstName\"]}} {{$node[\"Code - Process Each Client\"].json[\"lastName\"]}} ({{$node[\"Code - Process Each Client\"].json[\"email\"]}}).",
+        "otherOptions": {}
+      },
+      "id": "6p0r6s3p-0807-7pq6-p4s0-r8o9s8p9o4p5",
+      "name": "Slack - Notify Email Sent",
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 1,
+      "position": [
+        2650,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Process completion of email sending\nreturn {\n  totalEmails: $node[\"Code - Prepare Emails\"].json.clientCount,\n  newsletterMonth: $node[\"Code - Prepare Emails\"].json.newsletterMonth,\n  newsletterYear: $node[\"Code - Prepare Emails\"].json.newsletterYear,\n  completedAt: new Date().toISOString()\n};"
+      },
+      "id": "7q1r7t4q-1918-8qr7-q5t1-r8p9t9q0p5q6",
+      "name": "Code - Process Completion",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [
+        2050,
+        500
+      ]
+    },
+    {
+      "parameters": {
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialName": "Slack Account",
+        "channel": "coaching-automation-alerts",
+        "text": "=🎉 Newsletter campaign completed for {{$node[\"Code - Process Completion\"].json[\"newsletterMonth\"]}} {{$node[\"Code - Process Completion\"].json[\"newsletterYear\"]}}.\n\nTotal emails sent: {{$node[\"Code - Process Completion\"].json[\"totalEmails\"]}}\nCompleted at: {{$node[\"Code - Process Completion\"].json[\"completedAt\"]}}",
+        "otherOptions": {}
+      },
+      "id": "8r2s8t5r-2029-9rs8-r6t2-s9q0t0r1q6r7",
+      "name": "Slack - Notify Completion",
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 1,
+      "position": [
+        2250,
+        500
+      ]
+    }
+  ],
+  "connections": {
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets - Get Content",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Google Sheets - Get Clients",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets - Get Content": {
+      "main": [
+        [
+          {
+            "node": "Code - Process Content",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code - Process Content": {
+      "main": [
+        [
+          {
+            "node": "OpenAI - Generate Newsletter",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets - Get Clients": {
+      "main": [
+        [
+          {
+            "node": "Code - Process Clients",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code - Process Clients": {
+      "main": [
+        [
+          {
+            "node": "OpenAI - Generate Newsletter",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI - Generate Newsletter": {
+      "main": [
+        [
+          {
+            "node": "Code - Prepare Emails",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code - Prepare Emails": {
+      "main": [
+        [
+          {
+            "node": "Slack - Send Preview Notification",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Gmail - Send Test Email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Gmail - Send Test Email": {
+      "main": [
+        [
+          {
+            "node": "Wait - For Approval",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait - For Approval": {
+      "main": [
+        [
+          {
+            "node": "Code - Process Each Client",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code - Process Each Client": {
+      "main": [
+        [
+          {
+            "node": "IF - Valid Email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "IF - Valid Email": {
+      "main": [
+        [
+          {
+            "node": "Gmail - Send Client Email",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Code - Process Completion",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Gmail - Send Client Email": {
+      "main": [
+        [
+          {
+            "node": "Code - Log Email Sent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code - Log Email Sent": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets - Log Email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets - Log Email": {
+      "main": [
+        [
+          {
+            "node": "Slack - Notify Email Sent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Slack - Notify Email Sent": {
+      "main": [
+        [
+          {
+            "node": "Code - Process Each Client",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code - Process Completion": {
+      "main": [
+        [
+          {
+            "node": "Slack - Notify Completion",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1",
+    "saveManualExecutions": true,
+    "callerPolicy": "workflowsFromSameOwner",
+    "errorWorkflow": ""
+  },
+  "staticData": null,
+  "tags": [
+    "content",
+    "email",
+    "newsletter",
+    "automation",
+    "coaching"
+  ],
+  "triggerCount": 1,
+  "versionId": "5e6f7g8h-9i0j-1k2l-3m4n-5o6p7q8r9s0t"
+}

@@ -1,0 +1,21 @@
+{
+  "name": "Claude Code ASCII Art Planning ✏️",
+  "external_id": "ScvYo4AC_dLs1K4A8y0veA==",
+  "permalink": "pruod",
+  "unique_permalink": "pruod",
+  "custom_permalink": "ascii-planning",
+  "url": "https://markkashef.gumroad.com/l/ascii-planning",
+  "status": "published",
+  "archived": false,
+  "kind": "products",
+  "price_formatted": "CAD$0+",
+  "description_md": "# What You Get\n\n- \nASCII Planning Prompts PDF: 5 complete examples with 3-turn sketch sequences, without/with comparisons, and a master template for anything. Copy-paste ready.\n\n- \nThe 3-Step Technique: Generate the wireframe, iterate for free, hand it off as a spec. Works whether you code or not.\n\n- \nThe 5 Examples: SaaS dashboard (React + Tailwind), 10-slide PowerPoint deck, n8n workflow automation, Supabase database schema, SaaS landing page.\n\n---\nWhy This Works\nWhen you describe what you want in text, Claude interprets it. It fills in gaps. It makes assumptions about layout, proportions, and hierarchy. When you show it an ASCII wireframe, there are no gaps to fill. It executes against a picture, not a description. First-try accuracy instead of 30 minutes of corrections.\n---\nWant my full setup and access to every resource I create? Join 800+ builders inside the community:https://www.skool.com/earlyaidopters/about",
+  "files": [
+    {
+      "file": "ASCII_Planning_Prompts.pdf",
+      "status": "cached",
+      "bytes": 418444
+    }
+  ],
+  "has_rich_content": true
+}

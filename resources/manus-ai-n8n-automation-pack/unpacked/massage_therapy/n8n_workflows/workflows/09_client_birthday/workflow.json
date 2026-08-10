@@ -1,0 +1,698 @@
+{
+  "name": "Client Birthday/Anniversary Recognition",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "days",
+              "dayOfWeek": 1
+            }
+          ]
+        }
+      },
+      "name": "Weekly Special Date Check",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1,
+      "position": [
+        250,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "sheetName": "Clients",
+        "options": {}
+      },
+      "name": "Retrieve Client Database",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 3,
+      "position": [
+        450,
+        300
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "google_sheets_credentials",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// Identify upcoming birthdays and anniversaries\nconst clients = $input.item.json.rows || [];\nconst now = new Date();\nconst upcomingSpecialDates = [];\n\n// Look for dates in the next 7 days\nconst nextWeek = new Date(now);\nnextWeek.setDate(nextWeek.getDate() + 7);\n\n// Process each client\nfor (const client of clients) {\n  // Skip clients with missing data\n  if (!client.email) continue;\n  \n  // Skip clients with do-not-contact flag\n  if (client.doNotContact === 'true' || client.doNotContact === true) continue;\n  \n  // Check for upcoming birthday\n  if (client.dateOfBirth) {\n    try {\n      // Parse date of birth\n      const dob = new Date(client.dateOfBirth);\n      \n      // Create this year's birthday date\n      const thisYearBirthday = new Date(now.getFullYear(), dob.getMonth(), dob.getDate());\n      \n      // If birthday has passed this year, look at next year's birthday\n      if (thisYearBirthday < now) {\n        thisYearBirthday.setFullYear(thisYearBirthday.getFullYear() + 1);\n      }\n      \n      // Check if birthday is within the next week\n      if (thisYearBirthday <= nextWeek && thisYearBirthday >= now) {\n        // Calculate age\n        const age = thisYearBirthday.getFullYear() - dob.getFullYear();\n        \n        upcomingSpecialDates.push({\n          clientId: client.id,\n          clientName: client.name || client.firstName + ' ' + client.lastName,\n          clientEmail: client.email,\n          clientPhone: client.phone || '',\n          specialDateType: 'birthday',\n          specialDate: thisYearBirthday.toISOString(),\n          formattedDate: thisYearBirthday.toLocaleDateString(),\n          daysUntil: Math.ceil((thisYearBirthday - now) / (1000 * 60 * 60 * 24)),\n          age: age,\n          visitCount: parseInt(client.visitCount) || 0,\n          lastVisitDate: client.lastAppointmentDate || '',\n          preferredServices: client.preferredServices || '',\n          communicationPreference: client.communicationPreference || 'email'\n        });\n      }\n    } catch (e) {\n      // Invalid date, skip\n    }\n  }\n  \n  // Check for client anniversary (first visit date)\n  if (client.firstVisitDate) {\n    try {\n      // Parse first visit date\n      const firstVisit = new Date(client.firstVisitDate);\n      \n      // Create this year's anniversary date\n      const thisYearAnniversary = new Date(now.getFullYear(), firstVisit.getMonth(), firstVisit.getDate());\n      \n      // If anniversary has passed this year, look at next year's anniversary\n      if (thisYearAnniversary < now) {\n        thisYearAnniversary.setFullYear(thisYearAnniversary.getFullYear() + 1);\n      }\n      \n      // Check if anniversary is within the next week\n      if (thisYearAnniversary <= nextWeek && thisYearAnniversary >= now) {\n        // Calculate years as client\n        const yearsAsClient = thisYearAnniversary.getFullYear() - firstVisit.getFullYear();\n        \n        // Only celebrate anniversaries after the first year\n        if (yearsAsClient >= 1) {\n          upcomingSpecialDates.push({\n            clientId: client.id,\n            clientName: client.name || client.firstName + ' ' + client.lastName,\n            clientEmail: client.email,\n            clientPhone: client.phone || '',\n            specialDateType: 'anniversary',\n            specialDate: thisYearAnniversary.toISOString(),\n            formattedDate: thisYearAnniversary.toLocaleDateString(),\n            daysUntil: Math.ceil((thisYearAnniversary - now) / (1000 * 60 * 60 * 24)),\n            yearsAsClient: yearsAsClient,\n            visitCount: parseInt(client.visitCount) || 0,\n            lastVisitDate: client.lastAppointmentDate || '',\n            preferredServices: client.preferredServices || '',\n            communicationPreference: client.communicationPreference || 'email'\n          });\n        }\n      }\n    } catch (e) {\n      // Invalid date, skip\n    }\n  }\n}\n\n// Sort by days until special date\nupcomingSpecialDates.sort((a, b) => a.daysUntil - b.daysUntil);\n\nreturn {json: {specialDates: upcomingSpecialDates}};"
+      },
+      "name": "Identify Special Dates",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [
+        650,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "lookup",
+        "sheetName": "Special Date Messages",
+        "lookupColumn": "clientId",
+        "lookupValue": "={{ $json.clientId }}",
+        "options": {}
+      },
+      "name": "Check Previous Messages",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 3,
+      "position": [
+        850,
+        300
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "google_sheets_credentials",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// Check if message should be sent\nconst client = $input.item.json;\nconst previousMessages = $node[\"Check Previous Messages\"].json;\n\n// Default to sending message\nlet shouldSendMessage = true;\nlet reasonToSkip = '';\n\n// Check if we've already sent a message for this special date this year\nif (previousMessages && previousMessages.id) {\n  const lastMessageDate = new Date(previousMessages.sentDate);\n  const specialDate = new Date(client.specialDate);\n  \n  // If we've sent a message for this type of special date this year, skip\n  if (lastMessageDate.getFullYear() === new Date().getFullYear() && \n      previousMessages.specialDateType === client.specialDateType) {\n    shouldSendMessage = false;\n    reasonToSkip = 'Already sent a message for this special date this year';\n  }\n}\n\n// Check if client has visited recently (within 7 days)\nif (client.lastVisitDate) {\n  const lastVisit = new Date(client.lastVisitDate);\n  const now = new Date();\n  const daysSinceLastVisit = Math.ceil((now - lastVisit) / (1000 * 60 * 60 * 24));\n  \n  if (daysSinceLastVisit <= 7) {\n    shouldSendMessage = false;\n    reasonToSkip = 'Client visited within the last 7 days';\n  }\n}\n\n// Check if client has an upcoming appointment\nif (client.nextAppointmentDate) {\n  const nextAppointment = new Date(client.nextAppointmentDate);\n  const now = new Date();\n  const daysUntilNextAppointment = Math.ceil((nextAppointment - now) / (1000 * 60 * 60 * 24));\n  \n  if (daysUntilNextAppointment <= 3) {\n    shouldSendMessage = false;\n    reasonToSkip = 'Client has an appointment within the next 3 days';\n  }\n}\n\nreturn {\n  json: {\n    ...client,\n    shouldSendMessage,\n    reasonToSkip\n  }\n};"
+      },
+      "name": "Determine Message Eligibility",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [
+        1050,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "boolean": [
+            {
+              "value1": "={{ $json.shouldSendMessage }}",
+              "value2": true
+            }
+          ]
+        }
+      },
+      "name": "Should Send Message?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [
+        1250,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Personalize message content\nconst client = $input.item.json;\nconst now = new Date();\n\n// Generate personalized greeting\nlet greeting = `Dear ${client.clientName}`;\n\n// Generate subject line\nlet subjectLine = '';\nif (client.specialDateType === 'birthday') {\n  subjectLine = 'Happy Birthday from Massage Therapy!';\n} else { // anniversary\n  subjectLine = `Happy ${client.yearsAsClient}-Year Anniversary with Massage Therapy!`;\n}\n\n// Generate message intro\nlet messageIntro = '';\nif (client.specialDateType === 'birthday') {\n  messageIntro = `We wanted to wish you a very happy birthday on ${client.formattedDate}! It's our pleasure to be part of your wellness journey, and we hope your special day brings you joy and relaxation.`;\n} else { // anniversary\n  const yearText = client.yearsAsClient === 1 ? 'year' : 'years';\n  messageIntro = `We're celebrating ${client.yearsAsClient} ${yearText} since your first visit with us on ${new Date(client.firstVisitDate).toLocaleDateString()}! Thank you for choosing us as your massage therapy provider.`;\n}\n\n// Generate special offer based on client history and special date type\nlet specialOffer = '';\nlet promoCode = '';\n\nif (client.specialDateType === 'birthday') {\n  if (client.visitCount >= 10) {\n    // Loyal client\n    specialOffer = 'As a valued loyal client, enjoy a complimentary 30-minute enhancement with your next massage session.';\n    promoCode = `BDAY-LOYAL-${client.clientId}`;\n  } else if (client.visitCount >= 5) {\n    // Regular client\n    specialOffer = 'As a thank you for your continued visits, enjoy 20% off your next massage session.';\n    promoCode = `BDAY-20-${client.clientId}`;\n  } else {\n    // New or occasional client\n    specialOffer = 'To celebrate your birthday, enjoy 15% off your next massage session.';\n    promoCode = `BDAY-15-${client.clientId}`;\n  }\n} else { // anniversary\n  if (client.yearsAsClient >= 5) {\n    // Long-term client\n    specialOffer = `To celebrate ${client.yearsAsClient} years as our valued client, enjoy a complimentary aromatherapy enhancement and 25% off your next massage session.`;\n    promoCode = `ANNIV-${client.yearsAsClient}YR-${client.clientId}`;\n  } else if (client.yearsAsClient >= 3) {\n    // Established client\n    specialOffer = `To celebrate ${client.yearsAsClient} years as our client, enjoy 20% off your next massage session.`;\n    promoCode = `ANNIV-${client.yearsAsClient}YR-${client.clientId}`;\n  } else {\n    // Newer client\n    specialOffer = `To celebrate your ${client.yearsAsClient}-year anniversary with us, enjoy 15% off your next massage session.`;\n    promoCode = `ANNIV-${client.yearsAsClient}YR-${client.clientId}`;\n  }\n}\n\n// Generate service recommendation based on preferred services\nlet serviceRecommendation = '';\nif (client.preferredServices) {\n  let services = [];\n  if (typeof client.preferredServices === 'string') {\n    services = client.preferredServices.split(',').map(s => s.trim());\n  } else if (Array.isArray(client.preferredServices)) {\n    services = client.preferredServices;\n  }\n  \n  if (services.length > 0) {\n    const preferredService = services[0];\n    serviceRecommendation = `Based on your past visits, we think you might enjoy treating yourself to a ${preferredService} session.`;\n  } else {\n    serviceRecommendation = 'Treat yourself to a relaxing massage session to celebrate your special day.';\n  }\n} else {\n  serviceRecommendation = 'Treat yourself to a relaxing massage session to celebrate your special day.';\n}\n\n// Generate expiration date (30 days from now)\nconst expirationDate = new Date(now);\nexpirationDate.setDate(expirationDate.getDate() + 30);\nconst formattedExpirationDate = expirationDate.toLocaleDateString();\n\n// Compile full message\nconst fullMessage = `${greeting},\n\n${messageIntro}\n\n**Your Special Offer:**\n${specialOffer}\n\n${serviceRecommendation}\n\n**How to Redeem:**\nUse promo code **${promoCode}** when booking your next appointment. This offer is valid until ${formattedExpirationDate}.\n\n[Book Your Appointment Now](https://massagetherapy.com/booking?promo=${promoCode})\n\nWe look forward to seeing you soon!\n\nWarm regards,\nThe Massage Therapy Team`;\n\nreturn {\n  json: {\n    ...client,\n    subjectLine,\n    fullMessage,\n    promoCode,\n    expirationDate: expirationDate.toISOString(),\n    formattedExpirationDate\n  }\n};"
+      },
+      "name": "Personalize Message Content",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [
+        1450,
+        200
+      ]
+    },
+    {
+      "parameters": {
+        "dataType": "string",
+        "value1": "={{ $json.communicationPreference }}",
+        "rules": {
+          "rules": [
+            {
+              "value2": "email",
+              "type": "equal"
+            },
+            {
+              "value2": "sms",
+              "type": "equal"
+            },
+            {
+              "value2": "both",
+              "type": "equal"
+            }
+          ]
+        }
+      },
+      "name": "Route by Communication Preference",
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 1,
+      "position": [
+        1650,
+        200
+      ]
+    },
+    {
+      "parameters": {
+        "fromEmail": "care@massagetherapy.com",
+        "toEmail": "={{ $json.clientEmail }}",
+        "subject": "={{ $json.subjectLine }}",
+        "text": "={{ $json.fullMessage }}",
+        "options": {}
+      },
+      "name": "Send Email Greeting",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 1,
+      "position": [
+        1850,
+        100
+      ],
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "gmail_credentials",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "https://api.twilio.com/2010-04-01/Accounts/{{ $env.TWILIO_ACCOUNT_SID }}/Messages.json",
+        "method": "POST",
+        "authentication": "basicAuth",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "To",
+              "value": "={{ $json.clientPhone }}"
+            },
+            {
+              "name": "From",
+              "value": "={{ $env.TWILIO_PHONE_NUMBER }}"
+            },
+            {
+              "name": "Body",
+              "value": "={% if $json.specialDateType === 'birthday' %}\nHappy Birthday from Massage Therapy! To celebrate, enjoy {{ $json.promoCode.includes('LOYAL') ? 'a complimentary 30-min enhancement' : $json.promoCode.includes('20') ? '20% off' : '15% off' }} your next massage. Book now: https://massagetherapy.com/booking?promo={{ $json.promoCode }}\n{% else %}\nHappy {{ $json.yearsAsClient }}-Year Anniversary with Massage Therapy! Enjoy {{ $json.yearsAsClient >= 5 ? 'a complimentary aromatherapy & 25% off' : $json.yearsAsClient >= 3 ? '20% off' : '15% off' }} your next massage. Book now: https://massagetherapy.com/booking?promo={{ $json.promoCode }}\n{% endif %}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "name": "Send SMS Greeting",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 1,
+      "position": [
+        1850,
+        300
+      ],
+      "credentials": {
+        "httpBasicAuth": {
+          "id": "twilio_credentials",
+          "name": "Twilio API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "sheetName": "Special Date Messages",
+        "options": {}
+      },
+      "name": "Record Message Sent",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 3,
+      "position": [
+        2050,
+        200
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "google_sheets_credentials",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "sheetName": "Special Offers",
+        "options": {}
+      },
+      "name": "Record Special Offer",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 3,
+      "position": [
+        2250,
+        200
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "google_sheets_credentials",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "path": "special-date-redemption",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "name": "Offer Redemption Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [
+        250,
+        500
+      ],
+      "webhookId": "special-date-redemption"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Process offer redemption\nconst redemptionData = $input.item.json.body || $input.item.json;\n\n// Extract redemption details\nconst clientId = redemptionData.clientId || '';\nconst clientEmail = redemptionData.email || '';\nconst clientName = redemptionData.name || '';\nconst promoCode = redemptionData.promoCode || '';\nconst appointmentDate = redemptionData.appointmentDate || '';\nconst serviceType = redemptionData.serviceType || '';\n\n// Format the redemption data\nconst formattedRedemption = {\n  redemptionId: `REDEMPTION-${Date.now()}-${Math.floor(Math.random() * 1000)}`,\n  clientId: clientId,\n  clientEmail: clientEmail,\n  clientName: clientName,\n  promoCode: promoCode,\n  appointmentDate: appointmentDate,\n  serviceType: serviceType,\n  specialDateType: promoCode.startsWith('BDAY') ? 'birthday' : 'anniversary',\n  redemptionDate: new Date().toISOString()\n};\n\nreturn {json: formattedRedemption};"
+      },
+      "name": "Process Offer Redemption",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [
+        450,
+        500
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "sheetName": "Offer Redemptions",
+        "options": {}
+      },
+      "name": "Record Offer Redemption",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 3,
+      "position": [
+        650,
+        500
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "google_sheets_credentials",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "fromEmail": "care@massagetherapy.com",
+        "toEmail": "={{ $json.clientEmail }}",
+        "subject": "Your Special Offer Has Been Applied",
+        "text": "=Dear {{ $json.clientName }},\n\nThank you for booking your appointment with us! We're delighted to confirm that your special offer has been applied to your upcoming appointment.\n\n**Appointment Details:**\n- Date: {{ new Date($json.appointmentDate).toLocaleDateString() }}\n- Service: {{ $json.serviceType }}\n- Promo Code Applied: {{ $json.promoCode }}\n\n**Special Instructions:**\nPlease arrive 10-15 minutes before your appointment time to complete any necessary paperwork.\n\n**Need to reschedule?**\nIf you need to reschedule, please do so at least 24 hours in advance by calling (555) 123-4567.\n\nWe look forward to seeing you soon!\n\nWarm regards,\nThe Massage Therapy Team",
+        "options": {}
+      },
+      "name": "Send Redemption Confirmation",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 1,
+      "position": [
+        850,
+        500
+      ],
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "gmail_credentials",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "months",
+              "monthDay": 1
+            }
+          ]
+        }
+      },
+      "name": "Monthly Redemption Report",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1,
+      "position": [
+        250,
+        700
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "sheetName": "Special Date Messages",
+        "options": {}
+      },
+      "name": "Get Special Date Messages",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 3,
+      "position": [
+        450,
+        700
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "google_sheets_credentials",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "sheetName": "Offer Redemptions",
+        "options": {}
+      },
+      "name": "Get Offer Redemptions",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 3,
+      "position": [
+        650,
+        700
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "google_sheets_credentials",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// Generate monthly report\nconst messages = $node[\"Get Special Date Messages\"].json.rows || [];\nconst redemptions = $node[\"Get Offer Redemptions\"].json.rows || [];\nconst now = new Date();\n\n// Get previous month\nconst lastMonth = new Date(now);\nlastMonth.setMonth(lastMonth.getMonth() - 1);\nconst lastMonthName = lastMonth.toLocaleString('default', { month: 'long' });\nconst lastMonthYear = lastMonth.getFullYear();\n\n// Filter messages from last month\nconst lastMonthMessages = messages.filter(message => {\n  const messageDate = new Date(message.sentDate);\n  return messageDate.getMonth() === lastMonth.getMonth() && \n         messageDate.getFullYear() === lastMonth.getFullYear();\n});\n\n// Filter redemptions from last month\nconst lastMonthRedemptions = redemptions.filter(redemption => {\n  const redemptionDate = new Date(redemption.redemptionDate);\n  return redemptionDate.getMonth() === lastMonth.getMonth() && \n         redemptionDate.getFullYear() === lastMonth.getFullYear();\n});\n\n// Calculate statistics\nconst totalBirthdayMessages = lastMonthMessages.filter(m => m.specialDateType === 'birthday').length;\nconst totalAnniversaryMessages = lastMonthMessages.filter(m => m.specialDateType === 'anniversary').length;\nconst totalMessages = lastMonthMessages.length;\n\nconst totalBirthdayRedemptions = lastMonthRedemptions.filter(r => r.specialDateType === 'birthday').length;\nconst totalAnniversaryRedemptions = lastMonthRedemptions.filter(r => r.specialDateType === 'anniversary').length;\nconst totalRedemptions = lastMonthRedemptions.length;\n\n// Calculate redemption rate\nconst redemptionRate = totalMessages > 0 ? (totalRedemptions / totalMessages * 100).toFixed(1) : 0;\n\n// Calculate revenue impact (assuming average service value)\nconst averageServiceValue = 85; // Average massage service value in dollars\nconst estimatedRevenue = totalRedemptions * averageServiceValue;\n\n// Generate report\nconst report = {\n  reportPeriod: `${lastMonthName} ${lastMonthYear}`,\n  messageStats: {\n    totalMessages: totalMessages,\n    birthdayMessages: totalBirthdayMessages,\n    anniversaryMessages: totalAnniversaryMessages\n  },\n  redemptionStats: {\n    totalRedemptions: totalRedemptions,\n    birthdayRedemptions: totalBirthdayRedemptions,\n    anniversaryRedemptions: totalAnniversaryRedemptions,\n    redemptionRate: `${redemptionRate}%`\n  },\n  businessImpact: {\n    estimatedRevenue: `$${estimatedRevenue.toFixed(2)}`,\n    averageServiceValue: `$${averageServiceValue.toFixed(2)}`\n  },\n  generatedDate: now.toISOString()\n};\n\nreturn {json: report};"
+      },
+      "name": "Generate Monthly Report",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [
+        850,
+        700
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "sheetName": "Special Date Reports",
+        "options": {}
+      },
+      "name": "Store Monthly Report",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 3,
+      "position": [
+        1050,
+        700
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "google_sheets_credentials",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "fromEmail": "reports@massagetherapy.com",
+        "toEmail": "management@massagetherapy.com",
+        "subject": "=Monthly Special Date Program Report - {{ $json.reportPeriod }}",
+        "text": "=Dear Management Team,\n\nHere is the monthly report for our Special Date Recognition Program for {{ $json.reportPeriod }}:\n\n**Message Statistics:**\n- Total Messages Sent: {{ $json.messageStats.totalMessages }}\n- Birthday Messages: {{ $json.messageStats.birthdayMessages }}\n- Anniversary Messages: {{ $json.messageStats.anniversaryMessages }}\n\n**Redemption Statistics:**\n- Total Redemptions: {{ $json.redemptionStats.totalRedemptions }}\n- Birthday Offer Redemptions: {{ $json.redemptionStats.birthdayRedemptions }}\n- Anniversary Offer Redemptions: {{ $json.redemptionStats.anniversaryRedemptions }}\n- Redemption Rate: {{ $json.redemptionStats.redemptionRate }}\n\n**Business Impact:**\n- Estimated Revenue Generated: {{ $json.businessImpact.estimatedRevenue }}\n- Based on Average Service Value: {{ $json.businessImpact.averageServiceValue }}\n\n**Program Effectiveness:**\nThe Special Date Recognition Program continues to be an effective client retention and engagement tool. Each redeemed offer not only generates immediate revenue but also strengthens client relationships and encourages repeat visits.\n\nFor more detailed analytics, please visit the business dashboard:\n[View Business Dashboard](https://massagetherapy.com/dashboard)\n\nBest regards,\nAutomation System",
+        "options": {}
+      },
+      "name": "Email Monthly Report",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 1,
+      "position": [
+        1250,
+        700
+      ],
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "gmail_credentials",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "errorMessage": "=Error in Client Birthday/Anniversary Recognition workflow: {{ $json.error }}"
+      },
+      "name": "Error Handler",
+      "type": "n8n-nodes-base.errorTrigger",
+      "typeVersion": 1,
+      "position": [
+        450,
+        900
+      ]
+    }
+  ],
+  "connections": {
+    "Weekly Special Date Check": {
+      "main": [
+        [
+          {
+            "node": "Retrieve Client Database",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Retrieve Client Database": {
+      "main": [
+        [
+          {
+            "node": "Identify Special Dates",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Identify Special Dates": {
+      "main": [
+        [
+          {
+            "node": "Check Previous Messages",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Previous Messages": {
+      "main": [
+        [
+          {
+            "node": "Determine Message Eligibility",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Determine Message Eligibility": {
+      "main": [
+        [
+          {
+            "node": "Should Send Message?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Should Send Message?": {
+      "main": [
+        [
+          {
+            "node": "Personalize Message Content",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Personalize Message Content": {
+      "main": [
+        [
+          {
+            "node": "Route by Communication Preference",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Route by Communication Preference": {
+      "main": [
+        [
+          {
+            "node": "Send Email Greeting",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Send SMS Greeting",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Send Email Greeting",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Send SMS Greeting",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send Email Greeting": {
+      "main": [
+        [
+          {
+            "node": "Record Message Sent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send SMS Greeting": {
+      "main": [
+        [
+          {
+            "node": "Record Message Sent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Record Message Sent": {
+      "main": [
+        [
+          {
+            "node": "Record Special Offer",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Offer Redemption Webhook": {
+      "main": [
+        [
+          {
+            "node": "Process Offer Redemption",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Process Offer Redemption": {
+      "main": [
+        [
+          {
+            "node": "Record Offer Redemption",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Record Offer Redemption": {
+      "main": [
+        [
+          {
+            "node": "Send Redemption Confirmation",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Monthly Redemption Report": {
+      "main": [
+        [
+          {
+            "node": "Get Special Date Messages",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Special Date Messages": {
+      "main": [
+        [
+          {
+            "node": "Get Offer Redemptions",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Offer Redemptions": {
+      "main": [
+        [
+          {
+            "node": "Generate Monthly Report",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate Monthly Report": {
+      "main": [
+        [
+          {
+            "node": "Store Monthly Report",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Store Monthly Report": {
+      "main": [
+        [
+          {
+            "node": "Email Monthly Report",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "saveManualExecutions": true,
+    "callerPolicy": "workflowsFromSameOwner",
+    "errorWorkflow": "Client Birthday/Anniversary Recognition Error Handler"
+  },
+  "tags": [
+    {
+      "name": "client-recognition",
+      "color": "#00ccff"
+    },
+    {
+      "name": "massage-therapy",
+      "color": "#00ccff"
+    }
+  ],
+  "pinData": {},
+  "versionId": "1",
+  "triggerCount": 3,
+  "meta": {
+    "instanceId": "MASSAGE_THERAPY_BUSINESS"
+  },
+  "id": "client-birthday-anniversary-recognition"
+}

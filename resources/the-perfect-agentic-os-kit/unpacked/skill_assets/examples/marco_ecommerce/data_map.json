@@ -1,0 +1,1133 @@
+{
+  "business": {
+    "name": "SlabHaus",
+    "archetype": "ecommerce",
+    "stack_summary": "Live-stream mystery-box stack \u00b7 Shopify + Meta + TikTok",
+    "headline": "Marco, here's how SlabHaus's tools talk to each other today, and the 4 quick wins to fix first.",
+    "lead": "Three sections below. Pantry is your raw data (Shopify, Meta, TikTok, Pendo). Prep table is the weekly briefs Claude assembles for you. Plate is what lands in front of you and Sam Monday morning. Click any card for plain English.",
+    "hours_back_per_week": "~12"
+  },
+  "pantry": [
+    {
+      "id": "shopify",
+      "tool": "Shopify",
+      "format": "CSV",
+      "cadence": "daily",
+      "volume": "high",
+      "feeds": [
+        "finance_weekly",
+        "ops_weekly"
+      ],
+      "status": "have",
+      "cli_skill": null,
+      "explanation": "Every order Marco sells ends up here, order id, customer, SKU, tier, gross, refunds, channel, UTM source. Around 100 orders/week today, growing. Six months of history is ~30,000 rows.",
+      "connection_methods": [
+        {
+          "type": "mcp",
+          "name": "Shopify Storefront / Admin MCP",
+          "when_to_use": "When you want Claude to query orders, inventory, customers in real time during a session, no manual exports.",
+          "pros": [
+            "No CSV management; Claude pulls fresh on every query",
+            "Handles auth once via the MCP config",
+            "Low-code: declare in .mcp.json and the agent gets new tools"
+          ],
+          "cons": [
+            "Needs network access during the session",
+            "API rate limits apply to high-volume queries",
+            "Less precise than a custom Python skill for niche cuts"
+          ],
+          "install": "npx @shopify/cli mcp install\n# then add to .claude/.mcp.json:\n# {\n#   \"mcpServers\": {\"shopify\": {\"command\": \"shopify-mcp\", \"env\": {\"SHOPIFY_TOKEN\": \"$SHOPIFY_TOKEN\"}}}\n# }",
+          "example": "Ask: \"What's our W44 net revenue and refund rate?\", agent calls Shopify MCP directly."
+        },
+        {
+          "type": "cli",
+          "name": "shopify CLI",
+          "when_to_use": "For scripted bulk exports or store admin from your terminal, can be put in a cron job.",
+          "pros": [
+            "Portable: works in cron, GitHub Actions, anywhere",
+            "Good for theme/app dev too",
+            "Audit trail in shell history"
+          ],
+          "cons": [
+            "Less granular than the API for custom cuts",
+            "Some commands require store context flag"
+          ],
+          "install": "npm install -g @shopify/cli\nshopify app config link --store slabhaus.myshopify.com",
+          "example": "shopify export orders --since 2025-10-01 --format csv > data/shopify/orders_oct.csv"
+        },
+        {
+          "type": "api",
+          "name": "Shopify Admin API (REST + GraphQL)",
+          "when_to_use": "When MCP/CLI don't expose what you need, or for very custom cuts (e.g. order line items joined to product metafields).",
+          "pros": [
+            "Full coverage, every Shopify object",
+            "GraphQL lets you fetch exactly the fields you need",
+            "Reusable across all your projects via a custom skill"
+          ],
+          "cons": [
+            "More code to write, write once as a Claude skill, then reuse",
+            "You manage the access token in env"
+          ],
+          "install": "Get an Admin API access token from Shopify admin -> Apps -> Develop apps.\nAdd SHOPIFY_TOKEN to ~/.env.\nWrite a skill at ~/.claude/skills/ingest_shopify_orders/.",
+          "example": "GET /admin/api/2024-10/orders.json?status=any&created_at_min=2025-10-01"
+        }
+      ],
+      "claude_code_recommendation": {
+        "skill_to_write": "ingest_shopify_orders",
+        "rationale": "Wraps the Admin API into a reusable skill any agent can call. ~120 lines. Pulls orders, aggregates by week, writes silver_platters/finance_weekly_<week>.md.",
+        "estimated_time_savings": "2-3 hours/week, no more manual CSV exports"
+      },
+      "volume_friendly": "High volume",
+      "subtitle_friendly": "High volume \u00b7 updates daily"
+    },
+    {
+      "id": "meta_ads",
+      "tool": "Meta Ads",
+      "format": "XLSX",
+      "cadence": "weekly",
+      "volume": "medium",
+      "feeds": [
+        "marketing_weekly"
+      ],
+      "status": "have",
+      "cli_skill": "meta-ads-cli",
+      "explanation": "Ad spend, impressions, clicks, ROAS for Meta campaigns. Three campaigns running: rookie broad-prospect, whale lookalike-retarget, live-stream retarget.",
+      "connection_methods": [
+        {
+          "type": "cli",
+          "name": "meta-ads-cli (your existing skill)",
+          "when_to_use": "Always. You already have this wrapped at ~/.claude/skills/meta-ads-cli/.",
+          "pros": [
+            "Already wrapped, no extra work",
+            "Your existing auth",
+            "Direct access from any project"
+          ],
+          "cons": [
+            "Limited to what your wrapper exposes, extend if needed"
+          ],
+          "install": "Already installed at ~/.claude/skills/meta-ads-cli/",
+          "example": "/meta-ads weekly-spend --since W44"
+        },
+        {
+          "type": "api",
+          "name": "Meta Marketing API",
+          "when_to_use": "When you need cuts your CLI wrapper doesn't expose (e.g. creative-level performance).",
+          "pros": [
+            "Full coverage",
+            "Can fold into your existing skill"
+          ],
+          "cons": [
+            "Token rotates every 60 days",
+            "Rate limits"
+          ],
+          "install": "Token in ~/.env as META_ACCESS_TOKEN. Already set up.",
+          "example": "GET /v18.0/act_<id>/insights?fields=spend,impressions,clicks,actions&time_range={...}"
+        }
+      ],
+      "claude_code_recommendation": {
+        "skill_to_write": "Already have meta-ads-cli, just extend it to write to silver_platters/marketing_weekly.md",
+        "rationale": "Use your existing wrapper. Add a /meta-ads-weekly-platter command that aggregates the week and appends to the platter.",
+        "estimated_time_savings": "1 hour/week"
+      },
+      "volume_friendly": "Steady flow",
+      "subtitle_friendly": "Steady flow \u00b7 updates weekly"
+    },
+    {
+      "id": "tiktok_ads",
+      "tool": "TikTok Ads",
+      "format": "XLSX",
+      "cadence": "weekly",
+      "volume": "medium",
+      "feeds": [
+        "marketing_weekly"
+      ],
+      "status": "have",
+      "cli_skill": null,
+      "explanation": "Spend / views / clicks / conversions for TikTok campaigns. No CLI exists. Currently exported manually each Monday.",
+      "connection_methods": [
+        {
+          "type": "api",
+          "name": "TikTok Marketing API",
+          "when_to_use": "Required, no CLI exists.",
+          "pros": [
+            "Full data access",
+            "Can write a wrapper skill once and reuse"
+          ],
+          "cons": [
+            "Token management",
+            "API can be flaky during high-traffic periods",
+            "Documentation is less polished than Meta's"
+          ],
+          "install": "Get a developer access token from TikTok Marketing API portal.\nAdd TIKTOK_ACCESS_TOKEN to ~/.env.",
+          "example": "POST /open_api/v1.3/report/integrated/get/ with metrics={spend,impressions,clicks,conversions}"
+        }
+      ],
+      "claude_code_recommendation": {
+        "skill_to_write": "ingest_tiktok_ads",
+        "rationale": "150-line skill. Pulls weekly spend per campaign, writes to silver_platters/marketing_weekly.md alongside the Meta data. Reusable for every e-commerce client.",
+        "estimated_time_savings": "30 min/week reclaimed; strategic, makes TikTok accessible without manual exports"
+      },
+      "volume_friendly": "Steady flow",
+      "subtitle_friendly": "Steady flow \u00b7 updates weekly"
+    },
+    {
+      "id": "pendo_nps",
+      "tool": "Pendo NPS",
+      "format": "CSV",
+      "cadence": "weekly",
+      "volume": "medium",
+      "feeds": [
+        "customer_voice"
+      ],
+      "status": "have",
+      "cli_skill": null,
+      "explanation": "Customer NPS responses with free-text comments. About 200/week. Currently exported manually; nobody reads them.",
+      "connection_methods": [
+        {
+          "type": "api",
+          "name": "Pendo Public API",
+          "when_to_use": "Required, Pendo has no CLI.",
+          "pros": [
+            "Direct programmatic access",
+            "Survey responses include free-text"
+          ],
+          "cons": [
+            "Token rate-limited",
+            "Pendo API is REST-heavy and verbose"
+          ],
+          "install": "Pendo API key from Pendo admin. Add PENDO_API_KEY to ~/.env.",
+          "example": "GET /api/v1/feedback/nps?from=2025-10-01"
+        }
+      ],
+      "claude_code_recommendation": {
+        "skill_to_write": "customer_voice_distill",
+        "rationale": "Pulls Pendo + refund email content + customer call transcripts, clusters into 3-5 themes per week with verbatim quotes. Drives the CMO bot.",
+        "estimated_time_savings": "Surfaces churn risk before it's terminal"
+      },
+      "volume_friendly": "Steady flow",
+      "subtitle_friendly": "Steady flow \u00b7 updates weekly"
+    },
+    {
+      "id": "refund_emails",
+      "tool": "Refund email chains",
+      "format": "EML",
+      "cadence": "real-time",
+      "volume": "low",
+      "feeds": [
+        "customer_voice"
+      ],
+      "status": "have",
+      "cli_skill": null,
+      "explanation": "Customer refund requests landing in support@slabhaus.co. Chains contain back-and-forth, COA mismatch reports, shipping issues.",
+      "connection_methods": [
+        {
+          "type": "cli",
+          "name": "gws (Google Workspace CLI, your existing wrapper)",
+          "when_to_use": "Pull refund-tagged threads on demand. Already wrapped at ~/.claude/skills/gws-cli/.",
+          "pros": [
+            "Already installed",
+            "Reuses your Gmail auth"
+          ],
+          "cons": [
+            "Threads need a label/filter for clean pulls"
+          ],
+          "install": "Already installed.",
+          "example": "gws gmail threads list --query \"label:refund newer_than:7d\""
+        },
+        {
+          "type": "api",
+          "name": "Gmail API",
+          "when_to_use": "When you need richer thread metadata than the CLI exposes.",
+          "pros": [
+            "Full thread + message body access"
+          ],
+          "cons": [
+            "OAuth flow complexity"
+          ],
+          "install": "OAuth via gws, already set up.",
+          "example": "GET /gmail/v1/users/me/threads?q=label:refund"
+        }
+      ],
+      "claude_code_recommendation": {
+        "skill_to_write": "ingest_refund_emails (small, ~60 lines, uses gws)",
+        "rationale": "Pulls refund threads weekly, drops the .eml content into data/raw_dropzone/. The SessionStart conversion hook then turns each .eml into clean markdown the CFO bot reads.",
+        "estimated_time_savings": "30-60 min/week of context juggling between two inboxes"
+      },
+      "volume_friendly": "Trickle",
+      "subtitle_friendly": "Trickle \u00b7 updates real-time"
+    },
+    {
+      "id": "vendor_pdf",
+      "tool": "Vendor agreements",
+      "format": "PDF",
+      "cadence": "rare",
+      "volume": "low",
+      "feeds": [
+        "ops_weekly"
+      ],
+      "status": "have",
+      "cli_skill": null,
+      "explanation": "Signed agreements with CertAuto and other vendors. Define per-unit pricing, quality terms, indemnity caps. Dropped into data/raw_dropzone/ as PDF; the conversion hook turns them into markdown.",
+      "connection_methods": [
+        {
+          "type": "api",
+          "name": "Local file + conversion hook",
+          "when_to_use": "Already covered by the SessionStart conversion hook.",
+          "pros": [
+            "No external service needed",
+            "Works offline"
+          ],
+          "cons": [
+            "You have to remember to drop the PDF into raw_dropzone/"
+          ],
+          "install": "Already wired via convert_dropzone.sh hook.",
+          "example": "cp ~/Downloads/vendor_agreement.pdf data/raw_dropzone/"
+        }
+      ],
+      "claude_code_recommendation": {
+        "skill_to_write": null,
+        "rationale": "Already handled by the existing SessionStart conversion hook. No additional work needed.",
+        "estimated_time_savings": "n/a"
+      },
+      "volume_friendly": "Trickle",
+      "subtitle_friendly": "Trickle \u00b7 updates rare"
+    },
+    {
+      "id": "stream_schedule",
+      "tool": "Live-stream schedule",
+      "format": "DOCX",
+      "cadence": "weekly",
+      "volume": "low",
+      "feeds": [
+        "ops_weekly"
+      ],
+      "status": "have",
+      "cli_skill": null,
+      "explanation": "Matt's streaming schedule: who streams when, on which platform, focusing which tier. Lives in three places today (a Word doc, Google Sheets, and Sam's notes).",
+      "connection_methods": [
+        {
+          "type": "api",
+          "name": "Local DOCX + conversion hook",
+          "when_to_use": "Drop the DOCX into data/raw_dropzone/ when it changes; conversion hook handles it.",
+          "pros": [
+            "Simple",
+            "No external service"
+          ],
+          "cons": [
+            "Sam needs to remember to drop the file when the schedule changes"
+          ],
+          "install": "Already wired.",
+          "example": "cp ~/Documents/stream_schedule.docx data/raw_dropzone/"
+        }
+      ],
+      "claude_code_recommendation": {
+        "skill_to_write": null,
+        "rationale": "Better long-term: move the schedule into a dedicated spreadsheet that syncs nightly. For now, the conversion hook is sufficient.",
+        "estimated_time_savings": "n/a"
+      },
+      "volume_friendly": "Trickle",
+      "subtitle_friendly": "Trickle \u00b7 updates weekly"
+    },
+    {
+      "id": "klaviyo",
+      "tool": "Klaviyo email",
+      "format": "API",
+      "cadence": "weekly",
+      "volume": "medium",
+      "feeds": [],
+      "status": "missing",
+      "cli_skill": null,
+      "paying_unused": true,
+      "explanation": "Marco pays Klaviyo every month but barely uses it. Engagement signals (opens, clicks, unsubscribes) could feed customer-voice for richer churn signal.",
+      "connection_methods": [
+        {
+          "type": "api",
+          "name": "Klaviyo REST API",
+          "when_to_use": "Required, no CLI exists.",
+          "pros": [
+            "Rich engagement data",
+            "Standard REST"
+          ],
+          "cons": [
+            "Needs API key",
+            "You're not getting value from the tool today"
+          ],
+          "install": "Klaviyo private API key from Klaviyo admin -> Account -> API keys.\nAdd KLAVIYO_API_KEY to ~/.env.",
+          "example": "GET /api/profiles?filter=last_event,greater-than,2025-10-01"
+        }
+      ],
+      "claude_code_recommendation": {
+        "skill_to_write": "ingest_klaviyo_engagement",
+        "rationale": "Adds open/click/unsubscribe signals to customer_voice silver platter. Surfaces 'paying customer who stopped opening emails 6 weeks ago' as a churn-risk flag.",
+        "estimated_time_savings": "1-2 hours/week of churn investigation; better signal upstream"
+      },
+      "volume_friendly": "Steady flow",
+      "subtitle_friendly": "Steady flow \u00b7 updates weekly"
+    }
+  ],
+  "prep": [
+    {
+      "id": "finance_weekly",
+      "name": "finance_weekly_<week>.md",
+      "domain": "finance",
+      "sources": [
+        "shopify",
+        "meta_ads",
+        "tiktok_ads"
+      ],
+      "schedule": "Mon 6am",
+      "status": "have",
+      "explanation": "Aggregates one week of orders + ad spend into a one-page summary. The CFO bot reads this, not the raw Shopify CSV.",
+      "sample_content": "# Finance Weekly, W44 (2025-10-27 to 2025-11-02)\n\n**Generated 2025-11-03 06:14 by ingest_shopify_orders skill.**\n\n## Headline\n$8,731 net after ads. Up 22.8% from W43. Best week since W41.\n\n## Margin by tier\n| Tier | Units | Net | Margin $ | Margin % |\n|---|---|---|---|---|\n| rookie ($49) | 71 | $3,234 | $1,956 | 56.2% |\n| silver ($129) | 26 | $3,096 | $1,592 | 47.5% |\n| whale ($499) | 4 | $1,996 | $1,136 | 56.9% |\n| whale_guaranteed ($799) | 4 | $3,196 | $1,276 | 39.9% |\n\n## What changed since W43\n- Refund rate jumped 1.6pp on silver tier, root cause: COA mismatches.\n- TikTok ad spend down 6%, rookie velocity unchanged. ROAS on TikTok may be overstated.\n\n## Gaps\n- No streamer attribution column (Sam vs Nick).\n",
+      "governing_rule_excerpt": "---\npaths:\n  - silver_platters/finance_*.md\n  - data/shopify/**\n  - outputs/reports/weekly_finance_*.md\n---\n\n# Finance Rules, SlabHaus\n\n## Tier definitions\n- rookie = $49, silver = $129, gold = $219, whale = $499, whale_guaranteed = $799\n\n## What you never do\n- Combine whale and whale_guaranteed in margin reporting (different tiers).\n- Quote a number you cannot trace to a silver platter or data/ file.\n",
+      "display_name": "Finance weekly",
+      "domain_friendly": "Finance",
+      "subtitle_friendly": "A Finance brief Claude writes, Mon 6am"
+    },
+    {
+      "id": "marketing_weekly",
+      "name": "marketing_weekly_<week>.md",
+      "domain": "marketing",
+      "sources": [
+        "meta_ads",
+        "tiktok_ads",
+        "shopify"
+      ],
+      "schedule": "Mon 6am",
+      "status": "have",
+      "explanation": "Channel ROAS, ad-creative performance, NPS overlay. The CMO bot's source of truth.",
+      "sample_content": "# Marketing Weekly, W44\n\n## ROAS by channel\n| Channel | Spend | Attributed gross | ROAS |\n|---|---|---|---|\n| Meta, rookie broad | $480 | $1,620 | 3.4x |\n| Meta, whale lookalike | $920 | $3,200 | 3.5x |\n| TikTok, under30 rookie | $385 | $1,275 | 3.3x |\n| Live-stream retarget | $290 | $1,540 | 5.3x |\n\n## What worked\n- Live-stream retarget keeps printing 5x+. Lean harder.\n- Whale lookalike held at 3.5x despite 6% spend reduction.\n\n## What broke\n- TikTok rookie creative fatigue mid-week. Velocity on Friday dropped 18%.\n",
+      "governing_rule_excerpt": "---\npaths:\n  - silver_platters/marketing_*.md\n---\n\n# Marketing Rules\n- Stack-rank channels by ROAS, never by spend.\n- Always quote one verbatim survey line per theme.\n",
+      "display_name": "Marketing weekly",
+      "domain_friendly": "Marketing",
+      "subtitle_friendly": "A Marketing brief Claude writes, Mon 6am"
+    },
+    {
+      "id": "ops_weekly",
+      "name": "ops_weekly_<week>.md",
+      "domain": "ops",
+      "sources": [
+        "shopify",
+        "vendor_pdf",
+        "stream_schedule"
+      ],
+      "schedule": "Mon 6am",
+      "status": "have",
+      "explanation": "Inventory check, stream schedule, vendor terms reminders. The Ops bot drives Sam's pre-stream prep brief.",
+      "sample_content": "# Ops Weekly, W44\n\n## Inventory\n- Rookie: 47 in warehouse, 120 in transit (pending COA).\n- Silver: 22, RESTOCK BEFORE 11/05 STREAM.\n- Whale: 4, do not promote until 11/12 batch.\n- Whale guaranteed-pull: 2, 4 sold last week.\n\n## Stream schedule (next 7 days)\n- Wed 11/05, Nick @ YouTube, Silver/Gold focus, 60min.\n- Fri 11/07, Matt @ Facebook, Whale focus + guaranteed-pull tease, 120min.\n\n## Vendor flags\n- CertAuto bulk pricing tier kicks in at 500 units/month, we're at 380, will hit it Wed.\n",
+      "governing_rule_excerpt": "(no path-scoped rule for ops; lives in CLAUDE.md)",
+      "display_name": "Ops weekly",
+      "domain_friendly": "Operations",
+      "subtitle_friendly": "A Operations brief Claude writes, Mon 6am"
+    },
+    {
+      "id": "customer_voice",
+      "name": "customer_voice_<week>.md",
+      "domain": "voice",
+      "sources": [
+        "pendo_nps",
+        "refund_emails"
+      ],
+      "schedule": "Mon 6am",
+      "status": "have",
+      "explanation": "Top 3 customer themes per week with verbatim quotes. The CMO bot reads this; surfaces churn signals before they're terminal.",
+      "sample_content": "# Customer Voice, W44\n\n## Theme 1: Whale tier delivers (positive, 11 mentions)\n- \"Worth every penny. Real autograph, hologram matched.\" (whale_guaranteed, NPS 10)\n- \"Best mystery box brand period. Pls add NFL specifically signed legends tier.\" (whale, NPS 9)\n\n## Theme 2: Silver tier dupe + COA problem (negative, 6 mentions)\n- \"Got duplicate of what i bought last month. need a no-repeat guarantee.\" (silver, NPS 3)\n- \"i'm done if my next box is dupes again.\" (silver, NPS 3)\n\n## Theme 3: Stream length divisive (mixed, 4 mentions)\n- \"Streams are too long. 4 hours is brutal.\" (silver, NPS 7)\n- \"Stream was tight 60 minutes. Way better than the long ones.\" (gold, NPS 9)\n\n## NPS this week: +13 (up from +9)\n",
+      "governing_rule_excerpt": "---\npaths:\n  - silver_platters/customer_voice_*.md\n  - data/surveys/**\n---\n\n# Voice of Customer Rules\n- Always quote 1-2 verbatim survey lines per theme.\n- Numbers without voice = noise. Pair every cluster with a real quote.\n",
+      "display_name": "Customer voice",
+      "domain_friendly": "Customer voice",
+      "subtitle_friendly": "A Customer voice brief Claude writes, Mon 6am"
+    }
+  ],
+  "plate": [
+    {
+      "id": "weekly_pnl",
+      "name": "Weekly P&L brief",
+      "agent": "CFO bot",
+      "consumers": [
+        "Marco"
+      ],
+      "approval_gate": "Marco acknowledges in audit_log before circulation",
+      "reads_from": [
+        "finance_weekly"
+      ],
+      "status": "have",
+      "explanation": "Drafts every Monday at 6am. Marco reads on iPad with coffee, adds [human_action] line to audit_log to circulate.",
+      "sample_output": "# Weekly Finance Report, Week 44\n\n**Generated by:** EA Orchestrator -> CFO Bot\n**Reading from:** silver_platters/finance_weekly_2025-W44.md\n**Status:** Draft, needs Marco's acknowledgment\n\n## The headline\n$8,731 net after ads. Up 22.8% from last week. Best week since W41.\n\n## What's working\n- Whale tier is profitable. $499 standard whale at 56.9% margin.\n- Channel mix tightened. Live retarget is printing 5x+ ROAS.\n\n## What's broken\n- Refund rate at 8.3% is up 1.6pp on silver tier (3 of 3 silver refunds cite COA mismatch).\n- Recommendation: Ops to QA the COA process before next silver shipment.\n",
+      "ideation_loop": [
+        "EA Orchestrator decomposes Marco's question (\"is whale tier worth the cost of guaranteed pull?\") into finance + voice domains.",
+        "EA routes to CFO Bot for margin and CMO Bot for customer-voice context.",
+        "CFO Bot reads silver_platters/finance_weekly_W44.md, calculates whale 56.9% vs whale_guaranteed 39.9%.",
+        "CMO Bot reads silver_platters/customer_voice_W44.md, surfaces 11 promoter quotes for whale/guaranteed.",
+        "Both specialists return findings to EA Orchestrator.",
+        "EA assembles the brief: lower margin offset by higher NPS + repeat-buy. Recommendation: hold price, evaluate $899 test in W47.",
+        "Drafts to outputs/reports/weekly_finance_W44.md with the call stack at the bottom.",
+        "Stop hook warns Marco at session end if he hasn't acknowledged in audit_log."
+      ],
+      "agent_friendly": "your CFO assistant",
+      "approval_friendly": "Marco acknowledges in the audit log before send",
+      "subtitle_friendly": "Written by your CFO assistant for Marco"
+    },
+    {
+      "id": "weekly_marketing",
+      "name": "Weekly marketing report",
+      "agent": "CMO bot",
+      "consumers": [
+        "Marco",
+        "Sam"
+      ],
+      "approval_gate": "Marco approves before circulation",
+      "reads_from": [
+        "marketing_weekly",
+        "customer_voice"
+      ],
+      "status": "have",
+      "explanation": "Channel ROAS plus customer themes. Drives next week's ad creative direction.",
+      "sample_output": "# Weekly Marketing Report, W44\n\n## ROAS leaderboard\n1. Live-stream retarget: 5.3x, lean harder, increase budget 25%.\n2. Whale lookalike: 3.5x, hold steady.\n3. Meta rookie broad: 3.4x, hold steady.\n4. TikTok under30 rookie: 3.3x, refresh creative, fatigue mid-week.\n\n## Customer voice -> next creative\nTheme: \"Marco and Sam's chemistry feels real, not corporate.\" -> next ad: behind-the-scenes 30sec of Marco/Sam pre-stream banter.\n",
+      "ideation_loop": [
+        "EA Orchestrator pulls last week's marketing_weekly + customer_voice silver platters.",
+        "CMO Bot stack-ranks channels by ROAS (per the marketing rule).",
+        "CMO Bot finds the strongest customer-voice quote and proposes it as next week's ad-creative seed.",
+        "Returns to EA. EA drafts the report. Marco reviews + approves before Sam sees it."
+      ],
+      "agent_friendly": "your CMO assistant",
+      "approval_friendly": "Marco approves before send",
+      "subtitle_friendly": "Written by your CMO assistant for Marco, Sam"
+    },
+    {
+      "id": "stream_prep",
+      "name": "Pre-stream prep brief",
+      "agent": "Ops bot",
+      "consumers": [
+        "Sam"
+      ],
+      "approval_gate": "Sam reviews 30 min before stream",
+      "reads_from": [
+        "ops_weekly"
+      ],
+      "status": "have",
+      "explanation": "What's in stock, what tier focus, recent customer quotes Sam can drop on stream as social proof.",
+      "sample_output": "# Pre-stream Prep, Friday 11/07, Whale focus, 120min\n\n## Inventory ready\n- 4 whale boxes, 2 whale_guaranteed.\n- DO NOT mention silver tier, restock arrives Wed 11/05.\n\n## Customer-voice ammo (use on stream)\n- \"Worth every penny. Real autograph, hologram matched.\" (whale_guaranteed customer)\n- \"Hit my grail. This brand is legit.\" (whale_guaranteed customer)\n\n## Stream goal\nTease the 11/14 guaranteed-pull batch. Don't oversell, only 2 in stock tonight.\n",
+      "ideation_loop": [
+        "Cron triggers Ops Bot 90 min before stream start.",
+        "Ops Bot reads ops_weekly + customer_voice silver platters.",
+        "Cross-references inventory with the streamed tier.",
+        "Selects 2-3 strongest customer quotes that match the tier.",
+        "Drafts brief to outputs/reports/stream_prep_<date>.md.",
+        "Sam reviews on phone 30 min before going live."
+      ],
+      "agent_friendly": "your operations assistant",
+      "approval_friendly": "Sam reviews 30 min before stream",
+      "subtitle_friendly": "Written by your operations assistant for Sam"
+    },
+    {
+      "id": "refund_drafts",
+      "name": "Refund email drafts",
+      "agent": "CFO bot",
+      "consumers": [
+        "Marco",
+        "Sam"
+      ],
+      "approval_gate": "Owner approves before send",
+      "reads_from": [
+        "customer_voice",
+        "shopify"
+      ],
+      "status": "have",
+      "explanation": "Drafts a tier-appropriate reply when a refund email comes in. Owner reviews + sends.",
+      "sample_output": "# Refund draft, chain_2025_10_03_silver_coa.md\n\n**To:** jrh@gmail.com\n**Order:** US-21404 (silver tier)\n**Issue:** COA mismatch (Marcus Allen COA on Curtis Martin card)\n\nHi Jerome,\n\nYou're right. The COA hologram and the card don't match. We've issued a full refund of $129 to your original payment, plus a $20 store credit for the trouble.\n\nWe're tightening our COA verification this week, your report directly drove the fix.\n\nIf you want to take another shot at silver, the 11/14 stream has fresh stock and the COA process will be locked down.\n\n, Marco / Sam\n[draft, owner please review before sending]\n",
+      "ideation_loop": [
+        "Refund email lands in support@slabhaus.co inbox.",
+        "ingest_refund_emails skill drops the .eml into data/raw_dropzone/.",
+        "SessionStart conversion hook turns it into clean markdown.",
+        "EA Orchestrator routes to CFO Bot (refund domain).",
+        "CFO Bot reads the email + the order in shopify silver platter + the customer's NPS history.",
+        "Drafts a tier-appropriate reply with refund + small comp.",
+        "Marco approves before send. Audit log captures the draft and the approval."
+      ],
+      "agent_friendly": "your CFO assistant",
+      "approval_friendly": "Owner approves before send",
+      "subtitle_friendly": "Written by your CFO assistant for Marco, Sam"
+    }
+  ],
+  "recipes": [
+    {
+      "id": "weekly_pnl_recipe",
+      "name": "Weekly P&L (Monday morning)",
+      "headline": "Monday P&L brief on your iPad, 10 min instead of 3 hours",
+      "time_saved_per_week": "~3 hrs/wk",
+      "manual_today": "Marco opens Shopify, Meta Ads Manager, TikTok Ads Manager, and a margin spreadsheet on his laptop every Monday. Pieces it together for ~3 hours before he has a number he trusts.",
+      "monday_difference": "Reads the brief on his iPad with coffee at 6am, signs it, eats breakfast. Sam sees the number in Slack by 9.",
+      "goal": "Marco wakes up Monday and sees last week's net + margin without opening four spreadsheets.",
+      "ingredients": [
+        "Shopify orders",
+        "Meta Ads",
+        "TikTok Ads",
+        "finance_weekly.md",
+        "CFO bot",
+        "Weekly P&L brief"
+      ],
+      "ingredients_friendly": [
+        "Shopify",
+        "Meta Ads",
+        "TikTok Ads",
+        "Weekly finance summary",
+        "Your CFO assistant",
+        "Monday P&L brief"
+      ],
+      "claude_code_stack": {
+        "skills": [
+          "ingest_shopify_orders",
+          "ingest_meta_ads (existing)",
+          "ingest_tiktok_ads"
+        ],
+        "subagents": [
+          "EA Orchestrator",
+          "CFO Bot",
+          "CMO Bot"
+        ],
+        "hooks": [
+          "SessionStart convert_dropzone.sh",
+          "PostToolUse audit_action.sh",
+          "Stop check_acknowledgment.sh"
+        ],
+        "rules": [
+          "rules/finance.md (path-scoped)"
+        ]
+      },
+      "walkthrough": [
+        {
+          "actor": "Cron, Sun 11pm",
+          "action": "Triggers ingest_shopify_orders skill which pulls last 7 days of orders via Shopify API and writes silver_platters/finance_weekly_<week>.md."
+        },
+        {
+          "actor": "Cron",
+          "action": "Triggers ingest_meta_ads + ingest_tiktok_ads, appends weekly spend per channel to the same finance silver platter."
+        },
+        {
+          "actor": "Marco, Mon 6am, runs /weekly_finance",
+          "action": "Slash command reads silver_platters/finance_weekly_<week>.md and hands to EA Orchestrator."
+        },
+        {
+          "actor": "EA Orchestrator",
+          "action": "Decomposes the question. Routes to CFO Bot for margin numbers, CMO Bot for ROAS context."
+        },
+        {
+          "actor": "CFO Bot",
+          "action": "Reads finance silver platter. Drills into raw orders only if a cut is missing (e.g. streamer attribution). Returns headline, margin table, what-changed-since-last-week."
+        },
+        {
+          "actor": "CMO Bot",
+          "action": "Reads marketing_weekly + customer_voice. Returns ROAS leaderboard + top-of-mind customer quotes."
+        },
+        {
+          "actor": "EA Orchestrator",
+          "action": "Assembles the weekly P&L brief. Drafts to outputs/reports/weekly_finance_<week>.md."
+        },
+        {
+          "actor": "Marco, 6am with coffee",
+          "action": "Opens the brief on iPad. Adds a [human_action] line to outputs/audit_log.md to circulate. Stop hook stays quiet."
+        }
+      ],
+      "before_claude_code": "Marco opened 4 spreadsheets and a TikTok dashboard each Monday. ~3 hours.",
+      "after_claude_code": "Brief is on Marco's iPad at 6am. He reads with coffee, acknowledges, ships. ~10 minutes."
+    },
+    {
+      "id": "stream_prep_recipe",
+      "name": "Pre-stream prep (Wed + Fri before live)",
+      "headline": "Sam goes live knowing what's in stock and what to say",
+      "time_saved_per_week": "~2 hrs + fewer overselled SKUs",
+      "manual_today": "Sam scrolls Shopify on his phone 20 min before going live to guess inventory. Twice this quarter he oversold a tier and Marco wrote 30 apology emails.",
+      "monday_difference": "90 min before stream, Sam gets the brief on his phone, inventory locked, customer quotes ready, tier-of-the-night highlighted. He reads it in 5 min and goes live confident.",
+      "goal": "Sam goes live with the right tier focus, current inventory in hand, and 2-3 customer quotes ready as social proof.",
+      "ingredients": [
+        "ops_weekly.md",
+        "customer_voice.md",
+        "Ops bot",
+        "Pre-stream prep brief"
+      ],
+      "ingredients_friendly": [
+        "Operations summary",
+        "Customer feedback summary",
+        "Your operations assistant",
+        "Pre-stream brief"
+      ],
+      "claude_code_stack": {
+        "skills": [
+          "ingest_inventory_check",
+          "customer_voice_distill"
+        ],
+        "subagents": [
+          "EA Orchestrator",
+          "Ops Bot",
+          "CMO Bot"
+        ],
+        "hooks": [
+          "SessionStart convert_dropzone.sh"
+        ],
+        "rules": [
+          "rules/voice_of_customer.md"
+        ]
+      },
+      "walkthrough": [
+        {
+          "actor": "Cron, 90 min before stream",
+          "action": "Triggers /stream_prep slash command with the night's tier focus as argument."
+        },
+        {
+          "actor": "EA Orchestrator",
+          "action": "Routes to Ops Bot for inventory + schedule, CMO Bot for customer-voice ammo."
+        },
+        {
+          "actor": "Ops Bot",
+          "action": "Cross-references inventory with the streamed tier. Flags out-of-stock items so Sam doesn't oversell."
+        },
+        {
+          "actor": "CMO Bot",
+          "action": "Pulls 2-3 strongest customer quotes that match the tier from customer_voice silver platter."
+        },
+        {
+          "actor": "EA Orchestrator",
+          "action": "Drafts the brief. Saves to outputs/reports/stream_prep_<date>.md."
+        },
+        {
+          "actor": "Sam, 30 min before live",
+          "action": "Reads on phone. Adjusts script. Acknowledges in audit_log."
+        }
+      ],
+      "before_claude_code": "Sam scrolled Shopify on his phone for 20 minutes pre-stream, never quite sure what was in stock.",
+      "after_claude_code": "Brief on his phone 90 min before. Inventory locked. Customer quotes ready. 5 min to skim."
+    },
+    {
+      "id": "refund_triage_recipe",
+      "name": "Refund triage (real-time)",
+      "headline": "Refund replies drafted within an hour, you just hit send",
+      "time_saved_per_week": "~5 hrs + happier customers",
+      "manual_today": "Refund email lands. Marco reads it on his phone between meetings, opens Shopify on his laptop to find the order, types a reply 24-72 hours later. The ACME COA case took 2 weeks across 3 emails.",
+      "monday_difference": "Approves 4 drafts on his phone walk to the warehouse. Customers hear back within an hour. ACME-style escalations don't happen.",
+      "goal": "Refund emails get drafted replies within an hour, with tier-appropriate language. Owner approves and sends.",
+      "ingredients": [
+        "Refund email chains",
+        "Shopify orders",
+        "customer_voice.md",
+        "CFO bot",
+        "Refund email drafts"
+      ],
+      "ingredients_friendly": [
+        "Refund emails",
+        "Shopify orders",
+        "Customer feedback summary",
+        "Your CFO assistant",
+        "Draft replies"
+      ],
+      "claude_code_stack": {
+        "skills": [
+          "ingest_refund_emails (uses gws-cli)",
+          "ingest_shopify_orders"
+        ],
+        "subagents": [
+          "EA Orchestrator",
+          "CFO Bot"
+        ],
+        "hooks": [
+          "SessionStart convert_dropzone.sh",
+          "PostToolUse audit_action.sh"
+        ],
+        "rules": [
+          "rules/finance.md",
+          "rules/voice_of_customer.md"
+        ]
+      },
+      "walkthrough": [
+        {
+          "actor": "Customer",
+          "action": "Sends refund email to support@slabhaus.co."
+        },
+        {
+          "actor": "ingest_refund_emails skill, runs hourly",
+          "action": "Pulls refund-tagged threads, drops .eml files into data/raw_dropzone/."
+        },
+        {
+          "actor": "SessionStart hook",
+          "action": "Converts each .eml into clean markdown in data/converted/."
+        },
+        {
+          "actor": "EA Orchestrator",
+          "action": "Reads the converted email, identifies the order ID, routes to CFO Bot."
+        },
+        {
+          "actor": "CFO Bot",
+          "action": "Reads the order in shopify silver platter (gross, tier, channel, refund history). Reads customer NPS history."
+        },
+        {
+          "actor": "CFO Bot",
+          "action": "Drafts tier-appropriate reply (refund amount, optional store credit, brand voice). Saves to outputs/refund_drafts/<thread>.md."
+        },
+        {
+          "actor": "Marco or Sam, within an hour",
+          "action": "Reviews draft. Either approves and sends, or edits. Audit log captures the action."
+        }
+      ],
+      "before_claude_code": "Refund threads sat for 24-72 hours. Customer escalations like the ACME COA case took 3 emails over 2 weeks.",
+      "after_claude_code": "Draft ready within an hour. Marco or Sam ships it after a 30-second review."
+    },
+    {
+      "id": "customer_voice_to_creative_recipe",
+      "name": "Customer voice -> next ad creative",
+      "headline": "Tuesday creative brief sourced from last week's customer quotes",
+      "time_saved_per_week": "1 brief instead of a blank page",
+      "manual_today": "Pendo dumps 200 responses/week. Nobody reads them. Ad creative comes from Marco's gut at 11pm Sunday before a Monday creative call.",
+      "monday_difference": "Forwards Tuesday's brief to the creative team without a meeting. Brief has the strongest customer quote of the week and 2-3 hook seeds tied to last week's best-ROAS channel.",
+      "goal": "Marco gets a Tuesday brief saying 'last week's strongest customer quote was X, here's the ad creative seed.' No more guessing what to test.",
+      "ingredients": [
+        "Pendo NPS",
+        "Refund email chains",
+        "Klaviyo (opportunity)",
+        "customer_voice.md",
+        "marketing_weekly.md",
+        "CMO bot"
+      ],
+      "ingredients_friendly": [
+        "Pendo NPS",
+        "Refund emails",
+        "Customer feedback summary",
+        "Marketing summary",
+        "Your CMO assistant",
+        "Creative brief"
+      ],
+      "claude_code_stack": {
+        "skills": [
+          "customer_voice_distill",
+          "ingest_klaviyo_engagement (opportunity)"
+        ],
+        "subagents": [
+          "EA Orchestrator",
+          "CMO Bot"
+        ],
+        "hooks": [
+          "SessionStart convert_dropzone.sh"
+        ],
+        "rules": [
+          "rules/voice_of_customer.md"
+        ]
+      },
+      "walkthrough": [
+        {
+          "actor": "Mon 6am cron",
+          "action": "customer_voice_distill runs against the past week's Pendo + refund emails. Clusters into 3-5 themes with verbatim quotes."
+        },
+        {
+          "actor": "Mon 6am cron",
+          "action": "(Once Klaviyo skill exists) ingest_klaviyo_engagement adds open/click/unsubscribe signals to the customer voice platter."
+        },
+        {
+          "actor": "Tue 6am, runs /next_creative slash command",
+          "action": "EA Orchestrator routes to CMO Bot."
+        },
+        {
+          "actor": "CMO Bot",
+          "action": "Cross-references the strongest customer-voice theme with the past week's best-ROAS channel."
+        },
+        {
+          "actor": "CMO Bot",
+          "action": "Proposes 2-3 ad-creative seeds that turn the theme into a 30-sec hook. Drafts to outputs/reports/next_creative_<week>.md."
+        },
+        {
+          "actor": "Marco, Tue morning",
+          "action": "Picks one. Hands to creative team for production. Audit log captures the choice."
+        }
+      ],
+      "before_claude_code": "Pendo dumped 200 responses/week. Nobody read them. Ad creative came from gut feel.",
+      "after_claude_code": "Tue morning brief surfaces the strongest customer signal of the week and proposes how to use it. Creative team has a brief instead of a blank page."
+    },
+    {
+      "id": "abandoned_cart_recipe",
+      "name": "Tier-aware abandoned cart recovery",
+      "headline": "Recover abandoned carts with tier-aware nudges instead of a generic blast",
+      "time_saved_per_week": "~$3-5K/month recovered",
+      "manual_today": "Klaviyo's abandoned-cart flow is on but generic. Whales who left a $400 cart get the same email as a first-timer who bounced on a $50 box. Marco doesn't customize, no time.",
+      "monday_difference": "Tier-aware nudges go out hourly. Whales get a personal-feel draft Marco approves on his phone. First-timers get the discount email automatically. Marco sees a Friday recap of recovered revenue.",
+      "goal": "Use the customer-voice signal + Shopify order history to send abandoned-cart nudges that match the customer's tier, instead of one-size-fits-all email blasts.",
+      "ingredients": [
+        "Shopify abandoned checkouts",
+        "Klaviyo behavior",
+        "customer_voice.md",
+        "CMO bot",
+        "Tier-aware nudges"
+      ],
+      "ingredients_friendly": [
+        "Shopify abandoned carts",
+        "Klaviyo behavior",
+        "Customer feedback summary",
+        "Your CMO assistant",
+        "Tier-aware nudges"
+      ],
+      "claude_code_stack": {
+        "skills": [
+          "ingest_shopify_orders",
+          "ingest_klaviyo_engagement (opportunity)",
+          "draft_cart_nudge"
+        ],
+        "subagents": [
+          "EA Orchestrator",
+          "CMO Bot"
+        ],
+        "hooks": [
+          "Stop check_acknowledgment.sh"
+        ],
+        "rules": [
+          "rules/voice_of_customer.md"
+        ]
+      },
+      "walkthrough": [
+        {
+          "actor": "Hourly cron",
+          "action": "Pulls abandoned checkouts from Shopify in the last 60 min."
+        },
+        {
+          "actor": "EA Orchestrator",
+          "action": "Routes each cart to CMO Bot with the customer's lifetime value and recent NPS history."
+        },
+        {
+          "actor": "CMO Bot",
+          "action": "If LTV > $300, drafts a personal-feel email referencing past purchase. If first-timer, queues the standard discount nudge."
+        },
+        {
+          "actor": "Marco, phone",
+          "action": "Approves whale drafts in 30 seconds each. First-timer drafts auto-send."
+        },
+        {
+          "actor": "Friday recap",
+          "action": "Slack ping with recovered revenue: '$3,840 recovered this week across 12 carts.'"
+        }
+      ],
+      "before_claude_code": "Generic Klaviyo flow. ~$1K/mo recovered. Whales feel un-special.",
+      "after_claude_code": "Tier-aware nudges. ~$3-5K/mo recovered. Whales feel seen."
+    },
+    {
+      "id": "daily_spend_pacing_recipe",
+      "name": "Daily ad spend pacing alerts",
+      "headline": "Get a Slack ping when ad spend pacing breaks, not 3 days later",
+      "time_saved_per_week": "Stops $1-2K of overspend per quarter",
+      "manual_today": "Marco checks Meta Ads Manager once a day if he remembers. Twice this quarter, a campaign overspent by $800 before he caught it.",
+      "monday_difference": "By 10am every morning, Marco's phone pings if any campaign's spend velocity is >120% of plan. He pauses or boosts in 30 seconds. No more silent burn weekends.",
+      "goal": "Daily morning ping that flags any campaign whose spend pacing is breaking the plan, before it costs Marco the weekend.",
+      "ingredients": [
+        "Meta Ads",
+        "TikTok Ads",
+        "Plan budget",
+        "marketing_weekly.md",
+        "EA Orchestrator",
+        "Slack ping"
+      ],
+      "ingredients_friendly": [
+        "Meta Ads",
+        "TikTok Ads",
+        "Plan budget",
+        "Marketing summary",
+        "Your AI chief of staff",
+        "Slack ping"
+      ],
+      "claude_code_stack": {
+        "skills": [
+          "ingest_meta_ads (existing)",
+          "ingest_tiktok_ads",
+          "send_slack_ping"
+        ],
+        "subagents": [
+          "EA Orchestrator",
+          "CMO Bot"
+        ],
+        "hooks": [
+          "SessionStart convert_dropzone.sh"
+        ],
+        "rules": [
+          "rules/marketing.md"
+        ]
+      },
+      "walkthrough": [
+        {
+          "actor": "Daily 9am cron",
+          "action": "Pulls yesterday's spend from Meta + TikTok. Compares to weekly plan budget in marketing_weekly silver platter."
+        },
+        {
+          "actor": "CMO Bot",
+          "action": "Flags any campaign at >120% of expected pacing or <50% (under-pacing also wastes opportunity)."
+        },
+        {
+          "actor": "EA Orchestrator",
+          "action": "If anything flagged, drafts a 1-line Slack message: 'Whale Lookalike at 138% pacing, $312 ahead of plan, 3 days left in week.'"
+        },
+        {
+          "actor": "send_slack_ping skill",
+          "action": "Posts to #marco-ops Slack channel."
+        },
+        {
+          "actor": "Marco, phone",
+          "action": "Pauses, boosts, or shrugs. 30 seconds either way."
+        }
+      ],
+      "before_claude_code": "Marco checks Meta Ads Manager once a day if he remembers. Two campaigns overspent by $800 last quarter.",
+      "after_claude_code": "Daily 10am ping. Overspend caught in hours instead of days. Slack history is the audit log."
+    }
+  ],
+  "setup_priority": [
+    {
+      "step": 1,
+      "title": "Wire the conversion hook",
+      "title_friendly": "Make Claude read your messy files (PDFs, emails, spreadsheets)",
+      "what_to_do": "Drop a SessionStart hook into .claude/settings.json that converts any PDF / DOCX / XLSX / EML in data/raw_dropzone/ into markdown in data/converted/. This is your dopamine-hit step, 5 minutes, instant payoff.",
+      "why": "Removes the hard wall of 'Claude can't read this' for vendor PDFs, refund email chains, and the live-stream schedule. Without this, every step that follows fails on the first PDF.",
+      "install": "cp -r skill/silver-platter/scripts/templates/.. ~/.claude/hooks/\nbrew install pandoc poppler\npip install xlsx2csv\n# then add the SessionStart entry to .claude/settings.json (template in business_os_hooks.md)",
+      "before": "Vendor PDFs sit unread. Refund chains live in .eml format the agent ignores. Sam's stream schedule only exists in three places.",
+      "after": "Drop any PDF / DOCX / XLSX / EML into data/raw_dropzone/, restart your session, the markdown appears in data/converted/. Your AI just learned to read PDFs.",
+      "working_when": "Drop a vendor invoice PDF into data/raw_dropzone/, restart the session, look in data/converted/, you should see the same filename as a .md with the invoice text inside.",
+      "setup_time": "5 minutes"
+    },
+    {
+      "step": 2,
+      "title": "Build the silver platters",
+      "title_friendly": "Build your Monday-morning briefs (one per business area)",
+      "requires": "Step 1 done, so the raw files are readable.",
+      "what_to_do": "Write four ingest skills (one per source) that aggregate raw data into weekly summary markdown files. Schedule them via cron for Monday 6am. You can build these solo (1-2 weekends) OR hand the spec to @claude-code-guide and have all four in a day. Most operators take the handoff.",
+      "why": "The silver platters are the 80%. Once they exist, every agent below has clean data to read instead of 30,000-row CSVs.",
+      "install": "# write skills under .claude/skills/:\n#   ingest_shopify_orders\n#   ingest_meta_ads (extends your existing meta-ads-cli)\n#   ingest_tiktok_ads\n#   customer_voice_distill\n# and a master /weekly_silver_platters slash command\n\n# add cron:\n0 6 * * MON cd ~/slabhaus && claude /weekly_silver_platters",
+      "before": "Marco pulls Shopify CSV manually each Monday, hops to Meta dashboard, opens TikTok export, scrolls Pendo. 3 hours.",
+      "after": "Every Monday at 6am, four files land in silver_platters/: finance_weekly.md, marketing_weekly.md, ops_weekly.md, customer_voice_weekly.md. Each one is the page Marco would have built by hand at 9am.",
+      "working_when": "Monday at 6:01am, you can `ls silver_platters/` and see four files dated this week, and reading any of them out loud sounds like a useful brief.",
+      "setup_time": "Half a day per skill (1-2 weekends DIY) OR ~1 day with @claude-code-guide handoff"
+    },
+    {
+      "step": 3,
+      "title": "Add the EA Orchestrator + CFO/CMO/Ops bots",
+      "title_friendly": "Hire your AI chief of staff (and three department heads)",
+      "requires": "Step 2 done, the silver platters are what these specialists read.",
+      "what_to_do": "Define four subagents under .claude/agents/. EA Orchestrator is the chief-of-staff Marco talks to. CFO/CMO/Ops are specialists, each scoped to one silver platter.",
+      "why": "Now you have specialists who answer domain questions without you having to pre-frame the context. The orchestrator hierarchy keeps Marco from having to know which bot to call.",
+      "install": "# write under .claude/agents/:\n#   ea-orchestrator.md  (model: opus, tools: [Read, Glob, Grep, Task])\n#   cfo-bot.md          (model: sonnet, scoped to finance_weekly.md)\n#   cmo-bot.md          (model: sonnet, scoped to marketing + voice)\n#   ops-bot.md          (model: sonnet, scoped to ops_weekly.md)\n# Hand to @claude-code-guide for the templates if needed.",
+      "before": "Marco asks a question, has to pre-frame which spreadsheet/inbox/dashboard to check.",
+      "after": "Marco asks the EA Orchestrator any question. It routes, assembles, returns the answer in 30 seconds.",
+      "working_when": "You ask the EA Orchestrator 'how did SlabHaus do last week?' and it returns one paragraph pulling from all three silver platters. If it asks you which file to look at, the scoping is wrong.",
+      "setup_time": "1-2 hours total"
+    },
+    {
+      "step": 4,
+      "title": "Wire the audit log + approval-gate hooks",
+      "title_friendly": "Add receipts and a sign-off nudge (the trust layer)",
+      "requires": "Step 3 done, so the agents you're auditing actually exist.",
+      "what_to_do": "This is the only step that protects you from the AI shipping something you didn't see. PostToolUse hook on Edit|Write appends every action to outputs/audit_log.md. Stop hook nudges Marco at session end if the latest weekly report is unsigned. Skip it and you're flying blind.",
+      "why": "You have receipts for everything the AI did. Nothing ships to customers (refund emails, marketing reports) without your sign-off. This is the trust layer.",
+      "install": "# Templates already in demos/01_ecommerce_mystery_boxes/SETUP_PATH/business_os_hooks.md.\n# Paste the three hook entries into .claude/settings.json\n# and chmod +x the three hook scripts in .claude/hooks/.",
+      "before": "AI did something? You don't know what. Did Marco approve last week's brief? Nobody knows.",
+      "after": "Every action recorded. Stop hook nudges Marco when a draft is unsigned. Audit log = receipts.",
+      "working_when": "Open outputs/audit_log.md after a session, every Edit and Write appears with a timestamp and the action it took. End a session with an unsigned brief, and the Stop hook prints a coral warning before Claude exits.",
+      "setup_time": "10 minutes (hooks are already written)"
+    },
+    {
+      "step": 5,
+      "title": "Add the slash commands",
+      "title_friendly": "Turn your weekly motions into one-keystroke plays",
+      "requires": "Steps 2 and 3 done.",
+      "what_to_do": "Write three slash commands under .claude/commands/: /weekly_finance, /weekly_marketing, /refund_drama. Each triggers the right agent chain for a recurring Marco motion. Right now you ask the AI in full sentences every Monday. After this, you type /weekly_finance and walk to the kitchen.",
+      "why": "Slash commands turn Marco's recurring weekly motions into one-keystroke triggers. He stops 'asking the AI' and starts running plays.",
+      "install": "# write under .claude/commands/:\n#   weekly_finance.md\n#   weekly_marketing.md\n#   refund_drama.md (one-off triage when refunds spike)\n# Pattern in demos/01_ecommerce_mystery_boxes/after/.claude/commands/.",
+      "before": "Each Monday is a fresh prompting session.",
+      "after": "Marco types /weekly_finance, the chain runs, the brief lands in outputs/. He moves on.",
+      "working_when": "Monday at 9am, type /weekly_finance, a finance brief lands in outputs/ within 60 seconds without you typing another word.",
+      "setup_time": "30 minutes for all three"
+    }
+  ],
+  "setup_total_time": "About a focused weekend (8-10 hours total). Step 1 unblocks everything. Step 2 is the biggest investment but pays back week one.",
+  "interaction_layer": [
+    {
+      "id": "ipad_brief_reading",
+      "channel": "iPad (Markdown reader)",
+      "type": "ipad",
+      "status": "have",
+      "description": "Marco reads Monday P&L and Tuesday creative briefs on iPad with coffee. Acknowledges in audit_log on his laptop later.",
+      "consumes": [
+        "weekly_pnl",
+        "weekly_marketing"
+      ]
+    },
+    {
+      "id": "gmail_refund_drafts",
+      "channel": "Gmail drafts",
+      "type": "email",
+      "status": "have",
+      "description": "Refund replies land as Gmail drafts on Marco's phone. He approves and hits send within an hour.",
+      "consumes": [
+        "refund_drafts"
+      ]
+    },
+    {
+      "id": "slack_ops_channel",
+      "channel": "Slack #marco-ops",
+      "type": "slack",
+      "status": "have",
+      "description": "Daily 10am ad-spend pacing ping. Friday recovered-revenue recap. Marco approves whale-cart drafts on his phone.",
+      "consumes": [
+        "weekly_marketing"
+      ]
+    },
+    {
+      "id": "terminal_slash_commands",
+      "channel": "Terminal slash commands",
+      "type": "terminal",
+      "status": "have",
+      "description": "/weekly_finance, /next_creative, /refund_drama. One-keystroke triggers Marco runs from his laptop.",
+      "consumes": [
+        "weekly_pnl",
+        "weekly_marketing",
+        "refund_drafts",
+        "stream_prep"
+      ]
+    },
+    {
+      "id": "telegram_alerts",
+      "channel": "Telegram bot (suggested)",
+      "type": "telegram",
+      "status": "could-add",
+      "description": "Stronger mobile push than Slack. Use for time-sensitive alerts (spend pacing, abandoned-cart whales) where Marco needs to act in 30 seconds. ~10 min setup.",
+      "consumes": [
+        "weekly_marketing"
+      ]
+    }
+  ],
+  "opportunities": [
+    {
+      "surface": "pantry/shopify",
+      "type": "skill_writing_opportunity",
+      "title": "Wrap Shopify Admin API as a Claude skill",
+      "explanation": "Shopify has CLI + MCP + API options. The MCP is fastest to set up, but a custom skill gives you reusable structured silver-platter writes.",
+      "claude_code_feature": "skill",
+      "feature_name": "ingest_shopify_orders",
+      "estimated_impact": "Strategic, makes Shopify accessible without manual exports"
+    },
+    {
+      "surface": "pantry/tiktok_ads",
+      "type": "skill_writing_opportunity",
+      "title": "Wrap the TikTok Marketing API",
+      "explanation": "No CLI exists. ~150-line skill calling the API directly. Reusable across all e-commerce clients running TikTok.",
+      "claude_code_feature": "skill",
+      "feature_name": "ingest_tiktok_ads",
+      "estimated_impact": "Reusable; fills the TikTok data gap"
+    },
+    {
+      "surface": "pantry/klaviyo",
+      "type": "automate_extraction",
+      "title": "Activate Klaviyo silver platter",
+      "explanation": "You're paying for Klaviyo every month and feeding it nothing. Pull engagement data into customer_voice for richer churn signal.",
+      "claude_code_feature": "skill",
+      "feature_name": "ingest_klaviyo_engagement",
+      "estimated_impact": "1-2 hours/week reclaimed; better churn signal"
+    },
+    {
+      "surface": "prep/finance_weekly",
+      "type": "summary_table",
+      "title": "Add streamer attribution column",
+      "explanation": "Today's silver platter doesn't break down by streamer (Sam vs Nick). The whole business is who's on the stick. Add streamer as a first-class column.",
+      "claude_code_feature": "skill_update",
+      "estimated_impact": "Makes weekly P&L pivotable by streamer, currently the answer to 'is Nick worth keeping?' is gut feel"
+    }
+  ]
+}

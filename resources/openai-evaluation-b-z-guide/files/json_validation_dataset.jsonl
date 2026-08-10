@@ -1,0 +1,8 @@
+{"input": "Provide user information in JSON format", "output": "{\"name\": \"John Doe\", \"age\": 30, \"email\": \"johndoe@example.com\"}"}
+{"input": "Show product details in JSON format", "output": "{\"product\": \"Laptop\", \"price\": 999.99, \"in_stock\": true}"}
+{"input": "Provide weather data in JSON format", "output": "{\"temperature\": 22, \"humidity\": 60, \"forecast\": \"Sunny\"}"}
+{"input": "Provide user data", "output": "{\"name\": \"Jane Doe\", \"age\": 25, \"email\": \"janedoe@example.com\""}
+{"input": "Show location details", "output": "{\"city\": \"New York\" \"country\": \"USA\"}"}
+{"input": "Provide order information", "output": "{\"order_id\": 12345, \"status\": pending}"}
+{"input": "List contact info", "output": "{\"phone\": \"+1234567890\", \"email\": \"contact@example.com\"}"}
+{"input": "Show event details", "output": "{\"event\": \"Conference\", \"date\": \"2024-12-01, \"location\": \"Main Hall\"}"}

@@ -1,0 +1,31 @@
+{
+  "name": "Easy Fine-Tuning Automation ⚙️",
+  "external_id": "L70xyO7VbuzSKGbMcgtaqA==",
+  "permalink": "qspww",
+  "unique_permalink": "qspww",
+  "custom_permalink": "finetuning",
+  "url": "https://markkashef.gumroad.com/l/finetuning",
+  "status": "published",
+  "archived": false,
+  "kind": "products",
+  "price_formatted": "CAD$0+",
+  "description_md": "## What You Get\n\n- \nAll-In-One JSONL Prompt\nA specialized prompt that auto-generates exactly 50 training samples in JSONL format, perfectly tailored to your brand voice and writing style.\nIncludes a clear, single-code-block structure for easy copy-paste into your workflow.\n\n- \n5 Ready-to-Use Test Prompts\nAfter creating your training data, instantly test your fine-tuned model with five bullet-point prompts—no guessing, no extra hassle.\n\n- \nSeamless Tone Replication\nBuilt to capture your unique voice from any brand PDF or reference text, ensuring your AI truly “gets” how you speak and write.\n\n- \nVersatile Content Coverage\nSpans a variety of use cases—tweets, IG captions, FB posts, email intros, newsletters, product descriptions—so your brand personality shines everywhere.\n\n- \nInstant Fine-Tuning Kickstart\nSimply feed the output into your model-training process for a swift path to a more personalized AI experience.\n\n### 💖 This took around 5 hours to put together, so feel free to support the channel if you can or wish to.",
+  "files": [
+    {
+      "file": "AI_Fine_Tuning.json",
+      "status": "cached",
+      "bytes": 46308
+    },
+    {
+      "file": "AI_Fine_Tuning.json",
+      "status": "cached",
+      "bytes": 46308
+    },
+    {
+      "file": "n8n fine-tuning.pdf",
+      "status": "cached",
+      "bytes": 897669
+    }
+  ],
+  "has_rich_content": true
+}

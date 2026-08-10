@@ -1,0 +1,155 @@
+openapi: 3.1.0
+info:
+  title: Prompt Adviser Contacts API
+  version: "1.0.0"
+  description: API for accessing and adding client data to Prompt Advisers' Airtable.
+servers:
+  - url: https://api.airtable.com/v0/appYl4BTTThUfHEgE
+paths:
+  /clients:
+    get:
+      summary: Retrieve Client Records
+      operationId: getClientRecords
+      description: Retrieves a list of client records with options to specify the maximum number of records and view type.
+      parameters:
+        - name: maxRecords
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 3
+        - name: view
+          in: query
+          required: false
+          schema:
+            type: string
+            default: "Grid view"
+      responses:
+        '200':
+          description: Successful response with client records.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  records:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/ClientRecord'
+                  offset:
+                    type: string
+        'default':
+          $ref: '#/components/responses/UnexpectedError'
+
+    post:
+      summary: Add a New Client Record
+      operationId: addClientRecord
+      description: Adds a new client record to the Airtable database.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NewClient'
+      responses:
+        '201':
+          description: Client record added successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClientRecord'
+        'default':
+          $ref: '#/components/responses/UnexpectedError'
+
+  /clients/{recordId}:
+    get:
+      summary: Retrieve a Single Client Record
+      operationId: getSingleClientRecord
+      description: Retrieves a specific client record by ID.
+      parameters:
+        - name: recordId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response with a single client record.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                  createdTime:
+                    type: string
+                    format: date-time
+                  fields:
+                    $ref: '#/components/schemas/ClientFields'
+        'default':
+          $ref: '#/components/responses/UnexpectedError'
+
+components:
+  schemas:
+    ClientRecord:
+      type: object
+      properties:
+        id:
+          type: string
+        createdTime:
+          type: string
+          format: date-time
+        fields:
+          $ref: '#/components/schemas/ClientFields'
+
+    NewClient:
+      type: object
+      required:
+        - Name
+        - Email
+      properties:
+        fields:
+          type: object
+          properties:
+            Name:
+              type: string
+            Company:
+              type: string
+            Number:
+              type: string
+            Email:
+              type: string
+
+    ClientFields:
+      type: object
+      properties:
+        Name:
+          type: string
+        Company:
+          type: string
+        Number:
+          type: string
+        Email:
+          type: string
+
+  responses:
+    UnexpectedError:
+      description: Unexpected error
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: Enter your bearer token in the format **Bearer <token>**
+
+security:
+  - BearerAuth: []

@@ -1,0 +1,431 @@
+{
+  "name": "OpenAI Images Agent",
+  "nodes": [
+    {
+      "parameters": {
+        "options": {}
+      },
+      "id": "9245a52e-f9fa-47a9-bdc1-9f7f27d553cc",
+      "name": "When chat message received",
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        -980,
+        100
+      ],
+      "webhookId": "67f5ae3f-1234-4e56-9876-abc123def456"
+    },
+    {
+      "parameters": {
+        "model": "gpt-4o",
+        "options": {
+          "temperature": 0.2
+        }
+      },
+      "id": "d44b2999-605d-4d41-b7cf-2848e11434be",
+      "name": "OpenAI Chat Model",
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1,
+      "position": [
+        -460,
+        300
+      ],
+      "credentials": {
+        "openAiApi": {
+          "id": "bBtD8KtcEPsOhElY",
+          "name": "Prompt Advisers OpenAI Account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "={{ $('When chat message received').item.json.sessionId }}",
+        "contextWindowLength": 10
+      },
+      "id": "1e404c22-396e-4338-99ad-e8c7c9632820",
+      "name": "Memory Buffer",
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        -280,
+        320
+      ]
+    },
+    {
+      "parameters": {
+        "agent": "openAiFunctionsAgent",
+        "promptType": "define",
+        "text": "={{ $('When chat message received').item.json.chatInput }}",
+        "options": {
+          "systemMessage": "You are an AI image generation assistant that helps users generate, and edit images using OpenAI's GPT-Image APIs. \n\n\nYou can help with two types of operations:\n\n1. Generate new images from text descriptions (Image Generation)\n2. Edit or extend existing images (Image Edit)\n\nYou'll interpret user requests and call the appropriate tool to fulfill them. After generating images, you'll provide links to the results and store information in a Google Sheet for future reference.\n\nWhen helping users, be sure to:\n- Ask for clear image descriptions if they aren't provided\n- Recommend appropriate model and size settings based on their needs\n- Explain any limitations of the specific API they're trying to use\n- Store results in the database for future reference\n\nAvailable models:\n- dall-e-2: The basic model, supports all operations\n- dall-e-3: Higher quality generations, only for new image creation\n- gpt-image-1: Advanced model for generation and edits, always returns base64-encoded images\n\nUse the gpt-image-1 model by default unless otherwise specified.\n\nAlso whenever you are given image links which are of google drive, always make sure they are in web view link format which is:\nhttps://drive.google.com/file/d/id/view?usp=drivesdk "
+        }
+      },
+      "id": "7cf24c65-c456-4b97-8404-15089c3f5675",
+      "name": "AI Agent",
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.7,
+      "position": [
+        -160,
+        80
+      ]
+    },
+    {
+      "parameters": {
+        "content": "## Chat Trigger and AI Agent\n\nThis section handles the initial chat message and routes it to the AI Agent that processes the user request.",
+        "height": 400,
+        "width": 400,
+        "color": 4
+      },
+      "id": "cdcb7bb8-705e-4c5f-8075-76301ed94d8e",
+      "name": "Workflow Overview",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -1100,
+        -60
+      ]
+    },
+    {
+      "parameters": {
+        "content": "## Image Generation Tools\n\nThese tools connect to OpenAI's image APIs to generate, edit, and create variations of images based on user input.",
+        "height": 500,
+        "width": 1040,
+        "color": 5
+      },
+      "id": "e2332b9d-a4ad-41f6-b521-8532efd08e22",
+      "name": "Image API Tools",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -560,
+        -60
+      ]
+    },
+    {
+      "parameters": {
+        "name": "save_to_sheets",
+        "description": "Records image generation details in a Google Sheet for tracking and future reference. Call this tool after you have either created an image, edited an image or generated variations of an image.",
+        "workflowId": {
+          "__rl": true,
+          "value": "lmOokdLOv8cPudJx",
+          "mode": "list",
+          "cachedResultName": "GPT Image Save to Sheets SubWorkflow"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Image Link": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Image_Link', `The Image link you get from any of the other Image tools`, 'string') }}",
+            "Type": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Type', `Whichever tool was used is to be added here. \"Create\", \"Edit\", or \"Variation\"`, 'string') }}",
+            "Prompt": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Prompt', `The Prompt Used to generate or edit the image `, 'string') }}",
+            "Model": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Model', `The model used in any of the tool: \"dall-e-2\", \"dall-e-3\", or \"gpt-image-1\"`, 'string') }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Image Link",
+              "displayName": "Image Link",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "Type",
+              "displayName": "Type",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "Prompt",
+              "displayName": "Prompt",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "Model",
+              "displayName": "Model",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 2.1,
+      "position": [
+        260,
+        320
+      ],
+      "id": "410f5298-7d77-4539-9a32-97ca9d71e0ec",
+      "name": "Save to Sheets Tool"
+    },
+    {
+      "parameters": {
+        "name": "create_image_tool",
+        "description": "Creates an image given a prompt and other specified parameters like model, size, quality, n etc",
+        "workflowId": {
+          "__rl": true,
+          "value": "JMrssmIXkgk5SBL6",
+          "mode": "list",
+          "cachedResultName": "My Sub-Workflow 2"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "n": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('n', `Number of images to generate. Between 1-10. Default is 1. Note: dall-e-3 only supports n=1.`, 'number') }}",
+            "Prompt": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Prompt', `A text description of the desired image. Be specific and detailed for best results.`, 'string') }}",
+            "Model": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Model', `The model to use. One of 'dall-e-2', 'dall-e-3', or 'gpt-image-1'. Default is 'dall-e-2'.`, 'string') }}",
+            "Size": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Size', `Size of the image. Options vary by model. For dall-e-3: '1024x1024', '1792x1024', or '1024x1792'. For dall-e-2: '256x256', '512x512', or '1024x1024'. For gpt-image-1: '1024x1024', '1536x1024', '1024x1536', or 'auto'.`, 'string') }}",
+            "Quality": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Quality', `Quality of the image. For dall-e-3: 'standard' or 'hd'. For gpt-image-1: 'low', 'medium', 'high', or 'auto'. Default is 'standard' for dall-e-2.`, 'string') }}",
+            "Filename": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Filename', `add a short file name without the extension of the image using the prompt given. Just the name`, 'string') }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Prompt",
+              "displayName": "Prompt",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "n",
+              "displayName": "n",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "number",
+              "removed": false
+            },
+            {
+              "id": "Model",
+              "displayName": "Model",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "Size",
+              "displayName": "Size",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "Quality",
+              "displayName": "Quality",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "Filename",
+              "displayName": "Filename",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 2.1,
+      "position": [
+        -100,
+        320
+      ],
+      "id": "db260d5b-8df5-4bdb-a93d-e8007dbdbc03",
+      "name": "Create Image Tool"
+    },
+    {
+      "parameters": {
+        "name": "image_edit_tool",
+        "description": "Creates an edited or extended image given one or more source images and a prompt. This endpoint only supports gpt-image-1 and dall-e-2. Pass a single text with all the details needed to edit the image. The image link, the extra details and anything else",
+        "workflowId": {
+          "__rl": true,
+          "value": "ga8Er2m809UFpJP4",
+          "mode": "list",
+          "cachedResultName": "My Sub-Workflow 2"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Prompt": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Prompt', `Prompt for the image to be edited`, 'string') }}",
+            "Model": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Model', `the model to use for the editing. Either dall-e-2 or gpt-image-1`, 'string') }}",
+            "Image": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Image', `the image link(s)`, 'string') }}",
+            "FileName": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('FileName', `add a short file name without the extension of the image using the prompt given. Just the name`, 'string') }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Prompt",
+              "displayName": "Prompt",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "Image",
+              "displayName": "Image",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "Model",
+              "displayName": "Model",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "FileName",
+              "displayName": "FileName",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 2.1,
+      "position": [
+        60,
+        320
+      ],
+      "id": "49bfd815-50cc-4041-b87c-ab750c56b9ad",
+      "name": "Edit Image Tool"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Memory Buffer": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        []
+      ]
+    },
+    "Save to Sheets Tool": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create Image Tool": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Image Tool": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "075bf9f5-0560-4c32-a1c5-ce6b9c6c7f69",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "aaadb797535f05587ee95b776c942a7c3f7a46fd7aa0c9b6a9d64e1e595f8af1"
+  },
+  "id": "m6gol3u9dj8nZtH7",
+  "tags": []
+}

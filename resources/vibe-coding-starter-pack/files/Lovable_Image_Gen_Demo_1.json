@@ -1,0 +1,95 @@
+{
+  "name": "Lovable Image Gen Demo 1",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "9d7d5b13-cea6-4932-b50c-8d258d5fb9ad",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        0,
+        0
+      ],
+      "id": "7225bf8a-23b2-464f-8115-aceaada72363",
+      "name": "Webhook",
+      "webhookId": "9d7d5b13-cea6-4932-b50c-8d258d5fb9ad"
+    },
+    {
+      "parameters": {
+        "resource": "image",
+        "model": "gpt-image-1",
+        "prompt": "={{ $json.body.prompt }}",
+        "options": {
+          "returnImageUrls": true
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.8,
+      "position": [
+        360,
+        0
+      ],
+      "id": "98f6ebac-bffe-4bf7-9634-34adbeb11e1c",
+      "name": "OpenAI",
+      "credentials": {
+        "openAiApi": {
+          "id": "L0Q91JFQVk6rPe48",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.2,
+      "position": [
+        660,
+        0
+      ],
+      "id": "adf96e06-cf6e-4378-8c3b-5189b102d216",
+      "name": "Respond to Webhook"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "OpenAI",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "25daaac3-096e-44ee-8b88-2488af7422d0",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "aaadb797535f05587ee95b776c942a7c3f7a46fd7aa0c9b6a9d64e1e595f8af1"
+  },
+  "id": "McpOZUhJkuSu0FD0",
+  "tags": []
+}

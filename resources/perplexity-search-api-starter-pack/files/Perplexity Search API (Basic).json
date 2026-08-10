@@ -1,0 +1,246 @@
+{
+  "name": "Perplexity Search API (Basic)",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "b1faab41-1b5c-4283-9966-a80c8b6e003a",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.perplexity.ai/search",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer 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"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "{\n  \"query\": [\n    \"What is Comet Browser?\",\n    \"Perplexity AI\",\n    \"Perplexity Changelog\"\n  ]\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        224,
+        0
+      ],
+      "id": "b64b5916-827b-4d66-8889-a75053404ace",
+      "name": "General Request"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.perplexity.ai/chat/completions",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer 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"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "{\n  \"model\": \"sonar\",\n  \"messages\": [\n    {\n      \"role\": \"user\",\n      \"content\": \"What are the most promising machine learning breakthroughs in computer vision and multimodal AI from recent arXiv publications?\"\n    }\n  ],\n  \"web_search_options\": {\n    \"search_domain_filter\": [\n      \"arxiv.org\"\n    ],\n    \"search_recency_filter\": \"month\"\n  }\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        672,
+        0
+      ],
+      "id": "3d04fd57-8323-4577-b8fe-cc14e9e3f98f",
+      "name": "Academic (Inclusions Only)"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.perplexity.ai/chat/completions",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer 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"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "{\n  \"model\": \"sonar-pro\",\n  \"messages\": [\n    {\n      \"role\": \"user\",\n      \"content\": \"What are the major AI developments and announcements from today across the tech industry?\"\n    }\n  ]\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        448,
+        0
+      ],
+      "id": "d8ee20d3-ae4d-475a-960b-34a2dbb6a624",
+      "name": "Grounded Search"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.perplexity.ai/chat/completions",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer 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"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "{\n  \"model\": \"sonar-pro\",\n  \"messages\": [\n    {\n      \"role\": \"user\",\n      \"content\": \"Find the top 3 trending AI startups with recent funding. Include company name, funding amount, and focus area.\"\n    }\n  ],\n  \"response_format\": {\n    \"type\": \"json_schema\",\n    \"json_schema\": {\n      \"schema\": {\n        \"type\": \"object\",\n        \"properties\": {\n          \"startups\": {\n            \"type\": \"array\",\n            \"items\": {\n              \"type\": \"object\",\n              \"properties\": {\n                \"company_name\": {\n                  \"type\": \"string\"\n                },\n                \"funding_amount\": {\n                  \"type\": \"string\"\n                },\n                \"focus_area\": {\n                  \"type\": \"string\"\n                }\n              },\n              \"required\": [\n                \"company_name\",\n                \"funding_amount\",\n                \"focus_area\"\n              ]\n            }\n          }\n        },\n        \"required\": [\n          \"startups\"\n        ]\n      }\n    }\n  }\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        880,
+        0
+      ],
+      "id": "6e268669-8e36-4475-bbd6-c18a7b6089ba",
+      "name": "Structured Output"
+    },
+    {
+      "parameters": {
+        "content": "## INSTANT",
+        "height": 80,
+        "width": 150,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        192,
+        -96
+      ],
+      "typeVersion": 1,
+      "id": "642fe688-522f-4faa-b9a7-a773298e3918",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "content": "## 10-15 Seconds",
+        "height": 80,
+        "width": 150,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        416,
+        -96
+      ],
+      "typeVersion": 1,
+      "id": "32cccde4-ac6e-42ba-8f53-c75968e50090",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "content": "## 7-10 Seconds",
+        "height": 80,
+        "width": 150,
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        640,
+        -96
+      ],
+      "typeVersion": 1,
+      "id": "3c3db35c-f040-4550-b8d3-925c0d369b03",
+      "name": "Sticky Note2"
+    },
+    {
+      "parameters": {
+        "content": "## 3-5 Seconds",
+        "height": 80,
+        "width": 150,
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        848,
+        -96
+      ],
+      "typeVersion": 1,
+      "id": "47ede69f-9438-4291-a4ce-31da62e31f52",
+      "name": "Sticky Note3"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "General Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "General Request": {
+      "main": [
+        [
+          {
+            "node": "Grounded Search",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Grounded Search": {
+      "main": [
+        [
+          {
+            "node": "Academic (Inclusions Only)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Academic (Inclusions Only)": {
+      "main": [
+        [
+          {
+            "node": "Structured Output",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "61df998d-aea0-49a1-97a8-4ae85f55f446",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "aaadb797535f05587ee95b776c942a7c3f7a46fd7aa0c9b6a9d64e1e595f8af1"
+  },
+  "id": "2LjdGTHrn2zkwTdd",
+  "tags": []
+}

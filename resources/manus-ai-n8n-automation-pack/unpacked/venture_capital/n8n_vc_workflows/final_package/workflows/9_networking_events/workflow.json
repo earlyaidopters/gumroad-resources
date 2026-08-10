@@ -1,0 +1,1829 @@
+{
+  "name": "Networking & Event Management Automation",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "event-creation",
+        "options": {}
+      },
+      "name": "Event Creation Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [
+        240,
+        300
+      ],
+      "webhookId": "event-creation"
+    },
+    {
+      "parameters": {
+        "functionCode": "// Process event creation request\nconst data = $input.item.json;\n\n// Create a structured event object\nconst eventData = {\n  id: `EVENT-${Date.now()}`,\n  createdAt: new Date().toISOString(),\n  name: data.name || 'Untitled Event',\n  type: data.type || 'Networking',\n  description: data.description || '',\n  startDate: data.startDate || '',\n  endDate: data.endDate || '',\n  location: data.location || '',\n  virtualLink: data.virtualLink || '',\n  isVirtual: !!data.virtualLink,\n  capacity: data.capacity || 0,\n  registrationLink: data.registrationLink || '',\n  organizer: data.organizer || 'VC Firm',\n  targetAudience: data.targetAudience || '',\n  speakers: data.speakers || '',\n  partners: data.partners || '',\n  status: 'Planning',\n  registrationCount: 0,\n  tags: data.tags || '',\n  notes: data.notes || ''\n};\n\n// Calculate event duration\nif (eventData.startDate && eventData.endDate) {\n  const start = new Date(eventData.startDate);\n  const end = new Date(eventData.endDate);\n  const durationMs = end - start;\n  const durationHours = Math.round(durationMs / (1000 * 60 * 60) * 10) / 10;\n  eventData.duration = durationHours;\n}\n\nreturn { json: eventData };"
+      },
+      "name": "Process Event Data",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [
+        460,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "sheetName": "Events",
+        "columns": "={{ Object.keys($json) }}",
+        "options": {}
+      },
+      "name": "Save Event to Database",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 3,
+      "position": [
+        680,
+        300
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "1",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "resource": "event",
+        "operation": "create",
+        "calendarId": "primary",
+        "start": "={{ $json.startDate }}",
+        "end": "={{ $json.endDate }}",
+        "summary": "={{ $json.name }}",
+        "additionalFields": {
+          "description": "={{ $json.description + '\\n\\nEvent ID: ' + $json.id + '\\n\\nLocation: ' + $json.location + (($json.virtualLink) ? '\\n\\nVirtual Link: ' + $json.virtualLink : '') }}",
+          "location": "={{ $json.location }}",
+          "attendees": "={{ $json.speakers ? $json.speakers.split(',').map(s => ({ email: s.trim() })) : [] }}",
+          "conferenceData": "={{ $json.isVirtual ? { createRequest: { requestId: $json.id } } : undefined }}"
+        }
+      },
+      "name": "Create Calendar Event",
+      "type": "n8n-nodes-base.googleCalendar",
+      "typeVersion": 1,
+      "position": [
+        900,
+        300
+      ],
+      "credentials": {
+        "googleCalendarOAuth2Api": {
+          "id": "2",
+          "name": "Google Calendar account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "functionCode": "// Update event with calendar information\nconst eventData = $input.first().json;\nconst calendarData = $input.last().json;\n\n// Combine data\nconst updatedEventData = {\n  ...eventData,\n  calendarEventId: calendarData.id,\n  calendarEventLink: calendarData.htmlLink,\n  calendarCreated: true,\n  status: 'Scheduled',\n  lastUpdated: new Date().toISOString()\n};\n\n// If virtual, extract conference details\nif (calendarData.conferenceData && calendarData.conferenceData.entryPoints) {\n  const conferenceLinks = calendarData.conferenceData.entryPoints\n    .filter(entry => entry.uri)\n    .map(entry => entry.uri);\n  \n  if (conferenceLinks.length > 0) {\n    updatedEventData.virtualLink = conferenceLinks[0];\n    updatedEventData.allConferenceLinks = conferenceLinks.join(', ');\n  }\n}\n\nreturn { json: updatedEventData };"
+      },
+      "name": "Update Event with Calendar Info",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [
+        1120,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "sheetName": "Events",
+        "key": "id",
+        "columns": {
+          "values": [
+            {
+              "column": "calendarEventId",
+              "value": "={{ $json.calendarEventId }}"
+            },
+            {
+              "column": "calendarEventLink",
+              "value": "={{ $json.calendarEventLink }}"
+            },
+            {
+              "column": "calendarCreated",
+              "value": "true"
+            },
+            {
+              "column": "status",
+              "value": "Scheduled"
+            },
+            {
+              "column": "lastUpdated",
+              "value": "={{ $json.lastUpdated }}"
+            },
+            {
+              "column": "virtualLink",
+              "value": "={{ $json.virtualLink }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "name": "Update Event Record",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 3,
+      "position": [
+        1340,
+        300
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "1",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "events",
+        "text": "=## New Event Created\n\n**Event:** {{ $json.name }}\n**Type:** {{ $json.type }}\n**Date:** {{ new Date($json.startDate).toLocaleDateString() }} {{ new Date($json.startDate).toLocaleTimeString() }} - {{ new Date($json.endDate).toLocaleTimeString() }}\n**Location:** {{ $json.location }}\n{% if $json.virtualLink %}\n**Virtual Link:** {{ $json.virtualLink }}\n{% endif %}\n\n**Description:**\n{{ $json.description }}\n\n**Target Audience:** {{ $json.targetAudience }}\n**Capacity:** {{ $json.capacity }}\n\n**Calendar Link:** {{ $json.calendarEventLink }}\n\nThe event has been created and added to the calendar. Registration system is now ready to accept sign-ups.",
+        "additionalFields": {}
+      },
+      "name": "Send Event Creation Notification",
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 1,
+      "position": [
+        1560,
+        300
+      ],
+      "credentials": {
+        "slackApi": {
+          "id": "3",
+          "name": "Slack account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "fromEmail": "events@vcfirm.com",
+        "toEmail": "team@vcfirm.com",
+        "subject": "={{ 'New Event Created: ' + $json.name }}",
+        "text": "=Dear Team,\n\nA new event has been created and scheduled:\n\n**Event:** {{ $json.name }}\n**Type:** {{ $json.type }}\n**Date:** {{ new Date($json.startDate).toLocaleDateString() }} {{ new Date($json.startDate).toLocaleTimeString() }} - {{ new Date($json.endDate).toLocaleTimeString() }}\n**Location:** {{ $json.location }}\n{% if $json.virtualLink %}\n**Virtual Link:** {{ $json.virtualLink }}\n{% endif %}\n\n**Description:**\n{{ $json.description }}\n\n**Target Audience:** {{ $json.targetAudience }}\n**Capacity:** {{ $json.capacity }}\n\n**Calendar Link:** {{ $json.calendarEventLink }}\n\nThe event has been created and added to the calendar. Registration system is now ready to accept sign-ups.\n\nBest regards,\nEvent Management System",
+        "options": {}
+      },
+      "name": "Send Event Creation Email",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2,
+      "position": [
+        1780,
+        300
+      ],
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "4",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "event-registration",
+        "options": {}
+      },
+      "name": "Registration Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [
+        240,
+        540
+      ],
+      "webhookId": "event-registration"
+    },
+    {
+      "parameters": {
+        "functionCode": "// Process registration request\nconst data = $input.item.json;\n\n// Create a structured registration object\nconst registration = {\n  id: `REG-${Date.now()}`,\n  registeredAt: new Date().toISOString(),\n  eventId: data.eventId || '',\n  eventName: data.eventName || '',\n  attendeeName: data.name || '',\n  attendeeEmail: data.email || '',\n  attendeeCompany: data.company || '',\n  attendeeTitle: data.title || '',\n  attendeePhone: data.phone || '',\n  dietaryRestrictions: data.dietaryRestrictions || '',\n  specialRequests: data.specialRequests || '',\n  referralSource: data.referralSource || '',\n  status: 'Registered',\n  checkedIn: false,\n  notes: data.notes || ''\n};\n\nreturn { json: registration };"
+      },
+      "name": "Process Registration",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [
+        460,
+        540
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "lookup",
+        "sheetName": "Events",
+        "lookupColumn": "id",
+        "lookupValue": "={{ $json.eventId }}",
+        "options": {}
+      },
+      "name": "Get Event Details",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 3,
+      "position": [
+        680,
+        540
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "1",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "sheetName": "Registrations",
+        "columns": "={{ Object.keys($json) }}",
+        "options": {}
+      },
+      "name": "Save Registration",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 3,
+      "position": [
+        900,
+        540
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "1",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "functionCode": "// Update event with registration count\nconst registrationData = $input.first().json;\nconst eventData = $input.last().json;\n\n// Combine data\nconst updatedEventData = {\n  ...eventData,\n  registrationCount: (parseInt(eventData.registrationCount) || 0) + 1,\n  lastUpdated: new Date().toISOString()\n};\n\n// Check if event is at capacity\nif (updatedEventData.capacity > 0 && updatedEventData.registrationCount >= updatedEventData.capacity) {\n  updatedEventData.status = 'At Capacity';\n}\n\n// Combine with registration data for email\nconst combinedData = {\n  ...updatedEventData,\n  registration: registrationData\n};\n\nreturn { json: combinedData };"
+      },
+      "name": "Update Event Registration Count",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [
+        1120,
+        540
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "sheetName": "Events",
+        "key": "id",
+        "columns": {
+          "values": [
+            {
+              "column": "registrationCount",
+              "value": "={{ $json.registrationCount }}"
+            },
+            {
+              "column": "status",
+              "value": "={{ $json.status }}"
+            },
+            {
+              "column": "lastUpdated",
+              "value": "={{ $json.lastUpdated }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "name": "Update Event Registration Stats",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 3,
+      "position": [
+        1340,
+        540
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "1",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "fromEmail": "events@vcfirm.com",
+        "toEmail": "={{ $json.registration.attendeeEmail }}",
+        "subject": "={{ 'Registration Confirmation: ' + $json.name }}",
+        "text": "=Dear {{ $json.registration.attendeeName }},\n\nThank you for registering for our upcoming event:\n\n**Event:** {{ $json.name }}\n**Date:** {{ new Date($json.startDate).toLocaleDateString() }} {{ new Date($json.startDate).toLocaleTimeString() }} - {{ new Date($json.endDate).toLocaleTimeString() }}\n**Location:** {{ $json.location }}\n{% if $json.virtualLink %}\n**Virtual Link:** {{ $json.virtualLink }}\n{% endif %}\n\n**Your Registration Details:**\n- Name: {{ $json.registration.attendeeName }}\n- Company: {{ $json.registration.attendeeCompany }}\n- Title: {{ $json.registration.attendeeTitle }}\n{% if $json.registration.dietaryRestrictions %}\n- Dietary Restrictions: {{ $json.registration.dietaryRestrictions }}\n{% endif %}\n{% if $json.registration.specialRequests %}\n- Special Requests: {{ $json.registration.specialRequests }}\n{% endif %}\n\n**Event Description:**\n{{ $json.description }}\n\nWe look forward to seeing you at the event. If you have any questions or need to make changes to your registration, please contact us at events@vcfirm.com.\n\nBest regards,\nVC Firm Events Team",
+        "options": {}
+      },
+      "name": "Send Registration Confirmation",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2,
+      "position": [
+        1560,
+        540
+      ],
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "4",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "events",
+        "text": "=## New Event Registration\n\n**Event:** {{ $json.name }}\n**Date:** {{ new Date($json.startDate).toLocaleDateString() }}\n\n**Attendee:** {{ $json.registration.attendeeName }}\n**Company:** {{ $json.registration.attendeeCompany }}\n**Title:** {{ $json.registration.attendeeTitle }}\n**Email:** {{ $json.registration.attendeeEmail }}\n\n**Current Registration Count:** {{ $json.registrationCount }} / {{ $json.capacity || 'Unlimited' }}\n**Status:** {{ $json.status }}",
+        "additionalFields": {}
+      },
+      "name": "Send Registration Notification",
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 1,
+      "position": [
+        1780,
+        540
+      ],
+      "credentials": {
+        "slackApi": {
+          "id": "3",
+          "name": "Slack account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "triggerTimes": {
+          "item": [
+            {
+              "mode": "everyX",
+              "value": 1,
+              "unit": "days",
+              "hour": 9,
+              "minute": 0
+            }
+          ]
+        }
+      },
+      "name": "Daily Event Check",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1,
+      "position": [
+        240,
+        780
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "sheetName": "Events",
+        "options": {
+          "filter": {
+            "values": [
+              {
+                "column": "status",
+                "value": "Scheduled"
+              }
+            ]
+          }
+        }
+      },
+      "name": "Get Upcoming Events",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 3,
+      "position": [
+        460,
+        780
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "1",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "functionCode": "// Check for events that need reminders\nconst upcomingEvents = $input.item.json;\n\n// If no upcoming events, return empty\nif (!upcomingEvents || !Array.isArray(upcomingEvents)) {\n  return { json: { hasEvents: false } };\n}\n\n// Get current date\nconst now = new Date();\n\n// Find events happening in the next 48 hours\nconst soonEvents = upcomingEvents.filter(event => {\n  const eventDate = new Date(event.startDate);\n  const timeDiff = eventDate.getTime() - now.getTime();\n  const hoursDiff = timeDiff / (1000 * 60 * 60);\n  return hoursDiff > 0 && hoursDiff <= 48;\n});\n\n// Find events happening in 7 days (for weekly reminder)\nconst weekEvents = upcomingEvents.filter(event => {\n  const eventDate = new Date(event.startDate);\n  const timeDiff = eventDate.getTime() - now.getTime();\n  const daysDiff = timeDiff / (1000 * 60 * 60 * 24);\n  return daysDiff > 6.5 && daysDiff <= 7.5;\n});\n\n// Combine events that need reminders\nconst reminderEvents = {\n  hasEvents: soonEvents.length > 0 || weekEvents.length > 0,\n  soonEvents,\n  weekEvents\n};\n\nreturn { json: reminderEvents };"
+      },
+      "name": "Check for Reminder Events",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [
+        680,
+        780
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "boolean": [
+            {
+              "value1": "={{ $json.hasEvents }}",
+              "value2": true
+            }
+          ]
+        }
+      },
+      "name": "Has Reminder Events?",
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 1,
+      "position": [
+        900,
+        780
+      ]
+    },
+    {
+      "parameters": {
+        "functionCode": "// Process soon events for reminders\nconst data = $input.item.json;\nconst soonEvents = data.soonEvents || [];\n\n// Return array of events to process individually\nreturn soonEvents.map(event => ({\n  json: {\n    ...event,\n    reminderType: 'soon'\n  }\n}));"
+      },
+      "name": "Process Soon Events",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [
+        1120,
+        780
+      ]
+    },
+    {
+      "parameters": {
+        "functionCode": "// Process week events for reminders\nconst data = $input.item.json;\nconst weekEvents = data.weekEvents || [];\n\n// Return array of events to process individually\nreturn weekEvents.map(event => ({\n  json: {\n    ...event,\n    reminderType: 'week'\n  }\n}));"
+      },
+      "name": "Process Week Events",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [
+        1120,
+        940
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "sheetName": "Registrations",
+        "options": {
+          "filter": {
+            "values": [
+              {
+                "column": "eventId",
+                "value": "={{ $json.id }}"
+              }
+            ]
+          }
+        }
+      },
+      "name": "Get Event Registrations",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 3,
+      "position": [
+        1340,
+        780
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "1",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "sheetName": "Registrations",
+        "options": {
+          "filter": {
+            "values": [
+              {
+                "column": "eventId",
+                "value": "={{ $json.id }}"
+              }
+            ]
+          }
+        }
+      },
+      "name": "Get Week Event Registrations",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 3,
+      "position": [
+        1340,
+        940
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "1",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "functionCode": "// Prepare event reminder data\nconst eventData = $input.first().json;\nconst registrations = $input.last().json || [];\n\n// Format event date and time\nconst eventDate = new Date(eventData.startDate);\nconst formattedDate = eventDate.toLocaleDateString();\nconst formattedTime = eventDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });\n\n// Calculate hours until event\nconst now = new Date();\nconst hoursUntil = Math.round((eventDate - now) / (1000 * 60 * 60));\n\n// Create reminder data\nconst reminderData = {\n  ...eventData,\n  registrations,\n  registrationCount: registrations.length,\n  formattedDate,\n  formattedTime,\n  hoursUntil,\n  reminderSent: new Date().toISOString(),\n  emailSubject: hoursUntil <= 24 \n    ? `TOMORROW: ${eventData.name}` \n    : `Event Reminder: ${eventData.name} (${formattedDate})`,\n  emailIntro: hoursUntil <= 24\n    ? `This is a reminder that you are registered for our event tomorrow (${formattedDate}).`\n    : `This is a reminder that you are registered for our upcoming event in ${hoursUntil} hours.`\n};\n\nreturn { json: reminderData };"
+      },
+      "name": "Prepare Soon Reminder",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [
+        1560,
+        780
+      ]
+    },
+    {
+      "parameters": {
+        "functionCode": "// Prepare week event reminder data\nconst eventData = $input.first().json;\nconst registrations = $input.last().json || [];\n\n// Format event date and time\nconst eventDate = new Date(eventData.startDate);\nconst formattedDate = eventDate.toLocaleDateString();\nconst formattedTime = eventDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });\n\n// Create reminder data\nconst reminderData = {\n  ...eventData,\n  registrations,\n  registrationCount: registrations.length,\n  formattedDate,\n  formattedTime,\n  reminderSent: new Date().toISOString(),\n  emailSubject: `One Week Until: ${eventData.name}`,\n  emailIntro: `This is a reminder that you are registered for our event next week on ${formattedDate}.`\n};\n\nreturn { json: reminderData };"
+      },
+      "name": "Prepare Week Reminder",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [
+        1560,
+        940
+      ]
+    },
+    {
+      "parameters": {
+        "chatId": "events",
+        "text": "=## Event Reminder Sent\n\n**Event:** {{ $json.name }}\n**Date:** {{ $json.formattedDate }} at {{ $json.formattedTime }}\n**Location:** {{ $json.location }}\n\n**Reminder Type:** {{ $json.reminderType === 'soon' ? 'Upcoming Event (' + $json.hoursUntil + ' hours)' : 'One Week Notice' }}\n**Registrations:** {{ $json.registrationCount }}\n\nReminders have been sent to all registered attendees.",
+        "additionalFields": {}
+      },
+      "name": "Send Soon Reminder Notification",
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 1,
+      "position": [
+        1780,
+        780
+      ],
+      "credentials": {
+        "slackApi": {
+          "id": "3",
+          "name": "Slack account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "events",
+        "text": "=## One Week Event Reminder Sent\n\n**Event:** {{ $json.name }}\n**Date:** {{ $json.formattedDate }} at {{ $json.formattedTime }}\n**Location:** {{ $json.location }}\n\n**Registrations:** {{ $json.registrationCount }}\n\nOne-week reminders have been sent to all registered attendees.",
+        "additionalFields": {}
+      },
+      "name": "Send Week Reminder Notification",
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 1,
+      "position": [
+        1780,
+        940
+      ],
+      "credentials": {
+        "slackApi": {
+          "id": "3",
+          "name": "Slack account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "batchSize": 10,
+        "inputParameters": "={{ $json.registrations.map(reg => ({ json: { attendee: reg, event: $json } })) }}"
+      },
+      "name": "Split Registrations for Soon Reminders",
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 2,
+      "position": [
+        2000,
+        780
+      ]
+    },
+    {
+      "parameters": {
+        "batchSize": 10,
+        "inputParameters": "={{ $json.registrations.map(reg => ({ json: { attendee: reg, event: $json } })) }}"
+      },
+      "name": "Split Registrations for Week Reminders",
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 2,
+      "position": [
+        2000,
+        940
+      ]
+    },
+    {
+      "parameters": {
+        "fromEmail": "events@vcfirm.com",
+        "toEmail": "={{ $json.attendee.attendeeEmail }}",
+        "subject": "={{ $json.event.emailSubject }}",
+        "text": "=Dear {{ $json.attendee.attendeeName }},\n\n{{ $json.event.emailIntro }}\n\n**Event Details:**\n- **Event:** {{ $json.event.name }}\n- **Date:** {{ $json.event.formattedDate }} at {{ $json.event.formattedTime }}\n- **Location:** {{ $json.event.location }}\n{% if $json.event.virtualLink %}\n- **Virtual Link:** {{ $json.event.virtualLink }}\n{% endif %}\n\n**Event Description:**\n{{ $json.event.description }}\n\n{% if $json.event.reminderType === 'soon' %}\n**Important Information:**\n- Please arrive 15 minutes early for check-in\n- Bring your ID for verification\n- Parking is available at {{ $json.event.location }}\n{% endif %}\n\nIf you can no longer attend, please let us know as soon as possible by replying to this email.\n\nWe look forward to seeing you at the event!\n\nBest regards,\nVC Firm Events Team",
+        "options": {}
+      },
+      "name": "Send Soon Attendee Reminder",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2,
+      "position": [
+        2220,
+        780
+      ],
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "4",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "fromEmail": "events@vcfirm.com",
+        "toEmail": "={{ $json.attendee.attendeeEmail }}",
+        "subject": "={{ $json.event.emailSubject }}",
+        "text": "=Dear {{ $json.attendee.attendeeName }},\n\n{{ $json.event.emailIntro }}\n\n**Event Details:**\n- **Event:** {{ $json.event.name }}\n- **Date:** {{ $json.event.formattedDate }} at {{ $json.event.formattedTime }}\n- **Location:** {{ $json.event.location }}\n{% if $json.event.virtualLink %}\n- **Virtual Link:** {{ $json.event.virtualLink }}\n{% endif %}\n\n**Event Description:**\n{{ $json.event.description }}\n\nPlease mark your calendar and make any necessary arrangements to attend. If you have any questions or need to update your registration details, please reply to this email.\n\nWe look forward to seeing you next week!\n\nBest regards,\nVC Firm Events Team",
+        "options": {}
+      },
+      "name": "Send Week Attendee Reminder",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2,
+      "position": [
+        2220,
+        940
+      ],
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "4",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "event-checkin",
+        "options": {}
+      },
+      "name": "Check-in Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [
+        240,
+        1100
+      ],
+      "webhookId": "event-checkin"
+    },
+    {
+      "parameters": {
+        "functionCode": "// Process check-in request\nconst data = $input.item.json;\n\n// Create a structured check-in object\nconst checkin = {\n  id: `CHECKIN-${Date.now()}`,\n  checkinTime: new Date().toISOString(),\n  eventId: data.eventId || '',\n  registrationId: data.registrationId || '',\n  attendeeEmail: data.email || '',\n  checkinMethod: data.method || 'Manual',\n  checkinNotes: data.notes || '',\n  checkinBy: data.checkinBy || 'Staff'\n};\n\nreturn { json: checkin };"
+      },
+      "name": "Process Check-in",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [
+        460,
+        1100
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "lookup",
+        "sheetName": "Registrations",
+        "lookupColumn": "attendeeEmail",
+        "lookupValue": "={{ $json.attendeeEmail }}",
+        "options": {
+          "filter": {
+            "values": [
+              {
+                "column": "eventId",
+                "value": "={{ $json.eventId }}"
+              }
+            ]
+          }
+        }
+      },
+      "name": "Find Registration",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 3,
+      "position": [
+        680,
+        1100
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "1",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "lookup",
+        "sheetName": "Events",
+        "lookupColumn": "id",
+        "lookupValue": "={{ $json.eventId }}",
+        "options": {}
+      },
+      "name": "Get Check-in Event Details",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 3,
+      "position": [
+        900,
+        1100
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "1",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "sheetName": "Registrations",
+        "key": "id",
+        "columns": {
+          "values": [
+            {
+              "column": "checkedIn",
+              "value": "true"
+            },
+            {
+              "column": "checkinTime",
+              "value": "={{ $json.checkinTime }}"
+            },
+            {
+              "column": "checkinMethod",
+              "value": "={{ $json.checkinMethod }}"
+            },
+            {
+              "column": "checkinNotes",
+              "value": "={{ $json.checkinNotes }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "name": "Update Registration Check-in Status",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 3,
+      "position": [
+        1120,
+        1100
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "1",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "sheetName": "Check-ins",
+        "columns": "={{ Object.keys($json) }}",
+        "options": {}
+      },
+      "name": "Log Check-in",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 3,
+      "position": [
+        1340,
+        1100
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "1",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "functionCode": "// Combine check-in, registration, and event data\nconst checkinData = $input.all()[0].json;\nconst registrationData = $input.all()[1].json;\nconst eventData = $input.all()[2].json;\n\n// Create combined data object\nconst combinedData = {\n  ...checkinData,\n  registration: registrationData,\n  event: eventData,\n  attendeeName: registrationData.attendeeName,\n  attendeeCompany: registrationData.attendeeCompany,\n  eventName: eventData.name,\n  formattedCheckinTime: new Date(checkinData.checkinTime).toLocaleTimeString()\n};\n\nreturn { json: combinedData };"
+      },
+      "name": "Combine Check-in Data",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [
+        1560,
+        1100
+      ]
+    },
+    {
+      "parameters": {
+        "chatId": "events",
+        "text": "=## Attendee Checked In\n\n**Event:** {{ $json.event.name }}\n**Date:** {{ new Date($json.event.startDate).toLocaleDateString() }}\n\n**Attendee:** {{ $json.attendeeName }}\n**Company:** {{ $json.attendeeCompany }}\n**Check-in Time:** {{ $json.formattedCheckinTime }}\n**Method:** {{ $json.checkinMethod }}",
+        "additionalFields": {}
+      },
+      "name": "Send Check-in Notification",
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 1,
+      "position": [
+        1780,
+        1100
+      ],
+      "credentials": {
+        "slackApi": {
+          "id": "3",
+          "name": "Slack account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "triggerTimes": {
+          "item": [
+            {
+              "mode": "everyX",
+              "value": 1,
+              "unit": "days",
+              "hour": 10,
+              "minute": 0
+            }
+          ]
+        }
+      },
+      "name": "Daily Post-Event Check",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1,
+      "position": [
+        240,
+        1260
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "sheetName": "Events",
+        "options": {
+          "filter": {
+            "values": [
+              {
+                "column": "status",
+                "value": "Scheduled"
+              }
+            ]
+          }
+        }
+      },
+      "name": "Get All Scheduled Events",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 3,
+      "position": [
+        460,
+        1260
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "1",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "functionCode": "// Check for completed events\nconst scheduledEvents = $input.item.json;\n\n// If no scheduled events, return empty\nif (!scheduledEvents || !Array.isArray(scheduledEvents)) {\n  return { json: { hasCompletedEvents: false } };\n}\n\n// Get current date\nconst now = new Date();\n\n// Find events that have ended\nconst completedEvents = scheduledEvents.filter(event => {\n  const endDate = new Date(event.endDate);\n  return endDate < now;\n});\n\n// Find events that ended in the last 24 hours (for feedback)\nconst recentlyCompletedEvents = scheduledEvents.filter(event => {\n  const endDate = new Date(event.endDate);\n  const timeDiff = now.getTime() - endDate.getTime();\n  const hoursDiff = timeDiff / (1000 * 60 * 60);\n  return hoursDiff > 0 && hoursDiff <= 24;\n});\n\nreturn {\n  json: {\n    hasCompletedEvents: completedEvents.length > 0,\n    completedEvents,\n    hasRecentlyCompletedEvents: recentlyCompletedEvents.length > 0,\n    recentlyCompletedEvents\n  }\n};"
+      },
+      "name": "Check for Completed Events",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [
+        680,
+        1260
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "boolean": [
+            {
+              "value1": "={{ $json.hasCompletedEvents }}",
+              "value2": true
+            }
+          ]
+        }
+      },
+      "name": "Has Completed Events?",
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 1,
+      "position": [
+        900,
+        1260
+      ]
+    },
+    {
+      "parameters": {
+        "functionCode": "// Process completed events\nconst data = $input.item.json;\nconst completedEvents = data.completedEvents || [];\n\n// Return array of events to process individually\nreturn completedEvents.map(event => ({ json: event }));"
+      },
+      "name": "Process Completed Events",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [
+        1120,
+        1260
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "sheetName": "Events",
+        "key": "id",
+        "columns": {
+          "values": [
+            {
+              "column": "status",
+              "value": "Completed"
+            },
+            {
+              "column": "lastUpdated",
+              "value": "={{ $now }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "name": "Mark Event as Completed",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 3,
+      "position": [
+        1340,
+        1260
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "1",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "boolean": [
+            {
+              "value1": "={{ $json.hasRecentlyCompletedEvents }}",
+              "value2": true
+            }
+          ]
+        }
+      },
+      "name": "Has Recent Events for Feedback?",
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 1,
+      "position": [
+        900,
+        1420
+      ]
+    },
+    {
+      "parameters": {
+        "functionCode": "// Process recently completed events for feedback\nconst data = $input.item.json;\nconst recentEvents = data.recentlyCompletedEvents || [];\n\n// Return array of events to process individually\nreturn recentEvents.map(event => ({ json: event }));"
+      },
+      "name": "Process Recent Events",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [
+        1120,
+        1420
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "sheetName": "Registrations",
+        "options": {
+          "filter": {
+            "values": [
+              {
+                "column": "eventId",
+                "value": "={{ $json.id }}"
+              },
+              {
+                "column": "checkedIn",
+                "value": "true"
+              }
+            ]
+          }
+        }
+      },
+      "name": "Get Attendees for Feedback",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 3,
+      "position": [
+        1340,
+        1420
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "1",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "functionCode": "// Prepare feedback request data\nconst eventData = $input.first().json;\nconst attendees = $input.last().json || [];\n\n// Create feedback data\nconst feedbackData = {\n  ...eventData,\n  attendees,\n  attendeeCount: attendees.length,\n  feedbackUrl: `https://vcfirm.com/feedback?eventId=${eventData.id}`,\n  formattedDate: new Date(eventData.startDate).toLocaleDateString()\n};\n\nreturn { json: feedbackData };"
+      },
+      "name": "Prepare Feedback Request",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [
+        1560,
+        1420
+      ]
+    },
+    {
+      "parameters": {
+        "batchSize": 10,
+        "inputParameters": "={{ $json.attendees.map(attendee => ({ json: { attendee, event: $json } })) }}"
+      },
+      "name": "Split Attendees for Feedback",
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 2,
+      "position": [
+        1780,
+        1420
+      ]
+    },
+    {
+      "parameters": {
+        "fromEmail": "events@vcfirm.com",
+        "toEmail": "={{ $json.attendee.attendeeEmail }}",
+        "subject": "={{ 'Feedback Request: ' + $json.event.name }}",
+        "text": "=Dear {{ $json.attendee.attendeeName }},\n\nThank you for attending our event \"{{ $json.event.name }}\" on {{ $json.event.formattedDate }}.\n\nWe value your feedback and would appreciate if you could take a few minutes to complete our short survey:\n\n{{ $json.event.feedbackUrl }}\n\nYour insights will help us improve future events and better serve our community.\n\nThank you for your participation, and we hope to see you at our next event!\n\nBest regards,\nVC Firm Events Team",
+        "options": {}
+      },
+      "name": "Send Feedback Request",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2,
+      "position": [
+        2000,
+        1420
+      ],
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "4",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "events",
+        "text": "=## Event Completed & Feedback Requested\n\n**Event:** {{ $json.event.name }}\n**Date:** {{ $json.event.formattedDate }}\n**Location:** {{ $json.event.location }}\n\n**Attendees:** {{ $json.event.attendeeCount }}\n\nFeedback requests have been sent to all attendees who checked in.",
+        "additionalFields": {}
+      },
+      "name": "Send Feedback Notification",
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 1,
+      "position": [
+        2220,
+        1420
+      ],
+      "credentials": {
+        "slackApi": {
+          "id": "3",
+          "name": "Slack account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "triggerTimes": {
+          "item": [
+            {
+              "mode": "everyX",
+              "value": 1,
+              "unit": "weeks",
+              "weekDay": 1,
+              "hour": 8,
+              "minute": 0
+            }
+          ]
+        }
+      },
+      "name": "Weekly Event Report",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1,
+      "position": [
+        240,
+        1580
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "sheetName": "Events",
+        "options": {}
+      },
+      "name": "Get All Events",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 3,
+      "position": [
+        460,
+        1580
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "1",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "sheetName": "Registrations",
+        "options": {}
+      },
+      "name": "Get All Registrations",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 3,
+      "position": [
+        460,
+        1740
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "1",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "functionCode": "// Generate event analytics report\nconst events = $input.all()[0].json || [];\nconst registrations = $input.all()[1].json || [];\n\n// Get date range for the report\nconst now = new Date();\nconst lastMonth = new Date(now);\nlastMonth.setMonth(now.getMonth() - 1);\n\n// Format date range for display\nconst dateRangeString = `${lastMonth.toLocaleDateString()} - ${now.toLocaleDateString()}`;\n\n// Filter events from the last month\nconst recentEvents = events.filter(event => {\n  const eventDate = new Date(event.startDate);\n  return eventDate >= lastMonth && eventDate <= now;\n});\n\n// Count events by status\nconst statusCount = {};\nfor (const event of events) {\n  statusCount[event.status] = (statusCount[event.status] || 0) + 1;\n}\n\n// Count events by type\nconst typeCount = {};\nfor (const event of events) {\n  typeCount[event.type] = (typeCount[event.type] || 0) + 1;\n}\n\n// Calculate registration metrics\nconst registrationsByEvent = {};\nfor (const reg of registrations) {\n  registrationsByEvent[reg.eventId] = (registrationsByEvent[reg.eventId] || 0) + 1;\n}\n\n// Calculate check-in rates\nconst checkinsByEvent = {};\nlet totalCheckins = 0;\nfor (const reg of registrations) {\n  if (reg.checkedIn === 'true') {\n    checkinsByEvent[reg.eventId] = (checkinsByEvent[reg.eventId] || 0) + 1;\n    totalCheckins++;\n  }\n}\n\n// Find upcoming events\nconst upcomingEvents = events.filter(event => {\n  const eventDate = new Date(event.startDate);\n  return eventDate > now && event.status === 'Scheduled';\n});\n\n// Sort upcoming events by date\nupcomingEvents.sort((a, b) => new Date(a.startDate) - new Date(b.startDate));\n\n// Create analytics report\nconst analyticsReport = {\n  reportDate: now.toISOString(),\n  dateRange: dateRangeString,\n  totalEvents: events.length,\n  recentEvents: recentEvents.length,\n  upcomingEvents: upcomingEvents.length,\n  completedEvents: statusCount['Completed'] || 0,\n  totalRegistrations: registrations.length,\n  totalCheckins,\n  checkinRate: registrations.length > 0 ? Math.round((totalCheckins / registrations.length) * 100) : 0,\n  statusDistribution: JSON.stringify(statusCount),\n  typeDistribution: JSON.stringify(typeCount),\n  upcomingEventsList: upcomingEvents.slice(0, 5).map(e => `${e.name} (${new Date(e.startDate).toLocaleDateString()})`).join(', ')\n};\n\nreturn { json: analyticsReport };"
+      },
+      "name": "Generate Event Report",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [
+        680,
+        1580
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "sheetName": "Event Reports",
+        "columns": "={{ Object.keys($json) }}",
+        "options": {}
+      },
+      "name": "Save Event Report",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 3,
+      "position": [
+        900,
+        1580
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "1",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "events",
+        "text": "=## Weekly Event Analytics Report\n\n**Period:** {{ $json.dateRange }}\n\n**Event Metrics:**\n- Total Events: {{ $json.totalEvents }}\n- Recent Events: {{ $json.recentEvents }}\n- Completed Events: {{ $json.completedEvents }}\n- Upcoming Events: {{ $json.upcomingEvents }}\n\n**Registration Metrics:**\n- Total Registrations: {{ $json.totalRegistrations }}\n- Total Check-ins: {{ $json.totalCheckins }}\n- Check-in Rate: {{ $json.checkinRate }}%\n\n**Upcoming Events:**\n{{ $json.upcomingEventsList || 'None scheduled' }}\n\nThe full event analytics report has been saved to the reporting database.",
+        "additionalFields": {}
+      },
+      "name": "Send Report to Slack",
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 1,
+      "position": [
+        1120,
+        1580
+      ],
+      "credentials": {
+        "slackApi": {
+          "id": "3",
+          "name": "Slack account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "fromEmail": "events@vcfirm.com",
+        "toEmail": "team@vcfirm.com",
+        "ccEmail": "partners@vcfirm.com",
+        "subject": "Weekly Event Analytics Report",
+        "text": "=Dear Team,\n\nPlease find below the weekly event analytics report:\n\n**Period:** {{ $json.dateRange }}\n\n**Event Metrics:**\n- Total Events: {{ $json.totalEvents }}\n- Recent Events: {{ $json.recentEvents }}\n- Completed Events: {{ $json.completedEvents }}\n- Upcoming Events: {{ $json.upcomingEvents }}\n\n**Registration Metrics:**\n- Total Registrations: {{ $json.totalRegistrations }}\n- Total Check-ins: {{ $json.totalCheckins }}\n- Check-in Rate: {{ $json.checkinRate }}%\n\n**Event Status Distribution:**\n{% set statuses = JSON.parse($json.statusDistribution) %}\n{% for status, count in statuses %}\n- {{ status }}: {{ count }}\n{% endfor %}\n\n**Event Type Distribution:**\n{% set types = JSON.parse($json.typeDistribution) %}\n{% for type, count in types %}\n- {{ type }}: {{ count }}\n{% endfor %}\n\n**Upcoming Events:**\n{{ $json.upcomingEventsList || 'None scheduled' }}\n\nThe full event analytics dashboard has been updated with the latest data and is available in the reporting portal.\n\nBest regards,\nEvent Management System",
+        "options": {}
+      },
+      "name": "Email Report to Team",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2,
+      "position": [
+        1340,
+        1580
+      ],
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "4",
+          "name": "Gmail account"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Event Creation Webhook": {
+      "main": [
+        [
+          {
+            "node": "Process Event Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Process Event Data": {
+      "main": [
+        [
+          {
+            "node": "Save Event to Database",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Save Event to Database": {
+      "main": [
+        [
+          {
+            "node": "Create Calendar Event",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create Calendar Event": {
+      "main": [
+        [
+          {
+            "node": "Update Event with Calendar Info",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update Event with Calendar Info": {
+      "main": [
+        [
+          {
+            "node": "Update Event Record",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update Event Record": {
+      "main": [
+        [
+          {
+            "node": "Send Event Creation Notification",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send Event Creation Notification": {
+      "main": [
+        [
+          {
+            "node": "Send Event Creation Email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Registration Webhook": {
+      "main": [
+        [
+          {
+            "node": "Process Registration",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Process Registration": {
+      "main": [
+        [
+          {
+            "node": "Get Event Details",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Event Details": {
+      "main": [
+        [
+          {
+            "node": "Save Registration",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Save Registration": {
+      "main": [
+        [
+          {
+            "node": "Update Event Registration Count",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update Event Registration Count": {
+      "main": [
+        [
+          {
+            "node": "Update Event Registration Stats",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update Event Registration Stats": {
+      "main": [
+        [
+          {
+            "node": "Send Registration Confirmation",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send Registration Confirmation": {
+      "main": [
+        [
+          {
+            "node": "Send Registration Notification",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Daily Event Check": {
+      "main": [
+        [
+          {
+            "node": "Get Upcoming Events",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Upcoming Events": {
+      "main": [
+        [
+          {
+            "node": "Check for Reminder Events",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check for Reminder Events": {
+      "main": [
+        [
+          {
+            "node": "Has Reminder Events?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Has Reminder Events?": {
+      "main": [
+        [
+          {
+            "node": "Process Soon Events",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Process Week Events",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Process Soon Events": {
+      "main": [
+        [
+          {
+            "node": "Get Event Registrations",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Process Week Events": {
+      "main": [
+        [
+          {
+            "node": "Get Week Event Registrations",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Event Registrations": {
+      "main": [
+        [
+          {
+            "node": "Prepare Soon Reminder",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Week Event Registrations": {
+      "main": [
+        [
+          {
+            "node": "Prepare Week Reminder",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prepare Soon Reminder": {
+      "main": [
+        [
+          {
+            "node": "Send Soon Reminder Notification",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prepare Week Reminder": {
+      "main": [
+        [
+          {
+            "node": "Send Week Reminder Notification",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send Soon Reminder Notification": {
+      "main": [
+        [
+          {
+            "node": "Split Registrations for Soon Reminders",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send Week Reminder Notification": {
+      "main": [
+        [
+          {
+            "node": "Split Registrations for Week Reminders",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Registrations for Soon Reminders": {
+      "main": [
+        [
+          {
+            "node": "Send Soon Attendee Reminder",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Registrations for Week Reminders": {
+      "main": [
+        [
+          {
+            "node": "Send Week Attendee Reminder",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check-in Webhook": {
+      "main": [
+        [
+          {
+            "node": "Process Check-in",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Process Check-in": {
+      "main": [
+        [
+          {
+            "node": "Find Registration",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Find Registration": {
+      "main": [
+        [
+          {
+            "node": "Get Check-in Event Details",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Check-in Event Details": {
+      "main": [
+        [
+          {
+            "node": "Update Registration Check-in Status",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update Registration Check-in Status": {
+      "main": [
+        [
+          {
+            "node": "Log Check-in",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Log Check-in": {
+      "main": [
+        [
+          {
+            "node": "Combine Check-in Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Combine Check-in Data": {
+      "main": [
+        [
+          {
+            "node": "Send Check-in Notification",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Daily Post-Event Check": {
+      "main": [
+        [
+          {
+            "node": "Get All Scheduled Events",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get All Scheduled Events": {
+      "main": [
+        [
+          {
+            "node": "Check for Completed Events",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check for Completed Events": {
+      "main": [
+        [
+          {
+            "node": "Has Completed Events?",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Has Recent Events for Feedback?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Has Completed Events?": {
+      "main": [
+        [
+          {
+            "node": "Process Completed Events",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Process Completed Events": {
+      "main": [
+        [
+          {
+            "node": "Mark Event as Completed",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Has Recent Events for Feedback?": {
+      "main": [
+        [
+          {
+            "node": "Process Recent Events",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Process Recent Events": {
+      "main": [
+        [
+          {
+            "node": "Get Attendees for Feedback",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Attendees for Feedback": {
+      "main": [
+        [
+          {
+            "node": "Prepare Feedback Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prepare Feedback Request": {
+      "main": [
+        [
+          {
+            "node": "Split Attendees for Feedback",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Attendees for Feedback": {
+      "main": [
+        [
+          {
+            "node": "Send Feedback Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send Feedback Request": {
+      "main": [
+        [
+          {
+            "node": "Send Feedback Notification",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Weekly Event Report": {
+      "main": [
+        [
+          {
+            "node": "Get All Events",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Get All Registrations",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get All Events": {
+      "main": [
+        [
+          {
+            "node": "Generate Event Report",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get All Registrations": {
+      "main": [
+        [
+          {
+            "node": "Generate Event Report",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate Event Report": {
+      "main": [
+        [
+          {
+            "node": "Save Event Report",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Save Event Report": {
+      "main": [
+        [
+          {
+            "node": "Send Report to Slack",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send Report to Slack": {
+      "main": [
+        [
+          {
+            "node": "Email Report to Team",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "saveManualExecutions": true,
+    "callerPolicy": "workflowsFromSameOwner",
+    "errorWorkflow": "",
+    "saveExecutionProgress": true,
+    "saveDataErrorExecution": "all"
+  },
+  "tags": [
+    {
+      "name": "events",
+      "color": "#ff9900"
+    },
+    {
+      "name": "networking",
+      "color": "#00ff00"
+    }
+  ],
+  "pinData": {},
+  "versionId": "1",
+  "triggerCount": 5,
+  "staticData": null,
+  "id": "9"
+}

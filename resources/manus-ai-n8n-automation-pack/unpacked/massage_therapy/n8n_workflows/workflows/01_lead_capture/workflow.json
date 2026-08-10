@@ -1,0 +1,347 @@
+{
+  "name": "Lead Capture & Qualification System",
+  "nodes": [
+    {
+      "parameters": {
+        "path": "lead-capture",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [
+        250,
+        300
+      ],
+      "webhookId": "lead-capture-form"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Format and validate incoming lead data\nconst leadData = $input.item.json.body || $input.item.json;\n\n// Standardize phone format\nlet phone = leadData.phone || '';\nphone = phone.replace(/[^0-9]/g, '');\nif (phone.length === 10) {\n  phone = `+1${phone}`;\n} else if (phone.length === 11 && phone.startsWith('1')) {\n  phone = `+${phone}`;\n}\n\n// Standardize service interest\nlet serviceInterest = leadData.service || '';\nconst serviceMap = {\n  'deep tissue': 'Deep Tissue Massage',\n  'swedish': 'Swedish Massage',\n  'hot stone': 'Hot Stone Massage',\n  'sports': 'Sports Massage',\n  'prenatal': 'Prenatal Massage',\n  'aromatherapy': 'Aromatherapy Massage'\n};\n\n// Find the best match for service interest\nfor (const [key, value] of Object.entries(serviceMap)) {\n  if (serviceInterest.toLowerCase().includes(key)) {\n    serviceInterest = value;\n    break;\n  }\n}\n\n// Create a unique lead ID\nconst leadId = `LEAD-${Date.now()}-${Math.floor(Math.random() * 1000)}`;\n\n// Format the final lead data\nconst formattedLead = {\n  leadId: leadId,\n  timestamp: new Date().toISOString(),\n  name: leadData.name || '',\n  email: leadData.email || '',\n  phone: phone,\n  serviceInterest: serviceInterest,\n  preferredTime: leadData.preferredTime || '',\n  referralSource: leadData.referralSource || '',\n  notes: leadData.notes || '',\n  rawData: leadData\n};\n\nreturn {json: formattedLead};"
+      },
+      "name": "Format Lead Data",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [
+        450,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Score and qualify the lead\nconst lead = $input.item.json;\nlet score = 0;\n\n// Score based on service interest alignment\nconst highValueServices = ['Deep Tissue Massage', 'Hot Stone Massage', 'Sports Massage'];\nconst standardServices = ['Swedish Massage', 'Aromatherapy Massage'];\n\nif (highValueServices.includes(lead.serviceInterest)) {\n  score += 3;\n} else if (standardServices.includes(lead.serviceInterest)) {\n  score += 2;\n} else if (lead.serviceInterest) {\n  score += 1;\n}\n\n// Score based on contact information completeness\nif (lead.email && lead.phone) {\n  score += 2;\n} else if (lead.email || lead.phone) {\n  score += 1;\n}\n\n// Score based on preferred time specificity\nif (lead.preferredTime && lead.preferredTime.length > 3) {\n  score += 2;\n} else if (lead.preferredTime) {\n  score += 1;\n}\n\n// Score based on referral source value\nconst highValueReferrals = ['existing client', 'doctor', 'healthcare', 'referral'];\nconst standardReferrals = ['google', 'search', 'social media', 'facebook', 'instagram'];\n\nif (lead.referralSource) {\n  const refSource = lead.referralSource.toLowerCase();\n  \n  for (const source of highValueReferrals) {\n    if (refSource.includes(source)) {\n      score += 2;\n      break;\n    }\n  }\n  \n  if (score === lead.score) { // If no high value match was found\n    for (const source of standardReferrals) {\n      if (refSource.includes(source)) {\n        score += 1;\n        break;\n      }\n    }\n  }\n}\n\n// Determine lead category based on score\nlet category;\nif (score >= 7) {\n  category = 'hot';\n} else if (score >= 4) {\n  category = 'warm';\n} else {\n  category = 'cold';\n}\n\n// Add qualification data to the lead\nconst qualifiedLead = {\n  ...lead,\n  score: score,\n  category: category,\n  qualifiedAt: new Date().toISOString()\n};\n\nreturn {json: qualifiedLead};"
+      },
+      "name": "Score and Qualify Lead",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [
+        650,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "sheetName": "Leads Database",
+        "options": {}
+      },
+      "name": "Store Lead in Google Sheets",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 3,
+      "position": [
+        850,
+        300
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "google_sheets_credentials",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "dataType": "string",
+        "value1": "={{ $json.category }}",
+        "rules": {
+          "rules": [
+            {
+              "value2": "hot",
+              "type": "equal"
+            },
+            {
+              "value2": "warm",
+              "type": "equal"
+            }
+          ]
+        }
+      },
+      "name": "Route by Lead Category",
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 1,
+      "position": [
+        1050,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "fromEmail": "info@massagetherapy.com",
+        "toEmail": "staff@massagetherapy.com",
+        "subject": "=HOT LEAD: {{ $json.name }} - {{ $json.serviceInterest }}",
+        "text": "=A hot lead has been captured and requires immediate follow-up:\n\nName: {{ $json.name }}\nEmail: {{ $json.email }}\nPhone: {{ $json.phone }}\nService Interest: {{ $json.serviceInterest }}\nPreferred Time: {{ $json.preferredTime }}\nReferral Source: {{ $json.referralSource }}\nLead Score: {{ $json.score }}/9\n\nNotes: {{ $json.notes }}\n\nPlease follow up within 2 hours.\n\nClick here to contact: mailto:{{ $json.email }}",
+        "options": {}
+      },
+      "name": "Send Staff Notification",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 1,
+      "position": [
+        1250,
+        200
+      ],
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "gmail_credentials",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "fromEmail": "info@massagetherapy.com",
+        "toEmail": "={{ $json.email }}",
+        "subject": "=Thank you for your interest in our massage services!",
+        "text": "=Dear {{ $json.name }},\n\nThank you for your interest in our massage therapy services. We're excited to help you on your wellness journey!\n\n{% if $json.category === 'hot' %}\nWe noticed you're interested in {{ $json.serviceInterest }}. This is one of our most popular services, and we'd love to tell you more about it. One of our specialists will be reaching out to you shortly to answer any questions you might have.\n\nIn the meantime, you can book a priority appointment using this link: https://massagetherapy.com/booking?priority=true&service={{ $json.serviceInterest | urlencode }}\n{% elif $json.category === 'warm' %}\nWe're delighted you're interested in {{ $json.serviceInterest }}. This service is designed to help you relax and rejuvenate.\n\nYou can learn more and book your appointment here: https://massagetherapy.com/booking?service={{ $json.serviceInterest | urlencode }}\n{% else %}\nThank you for reaching out to us. We offer a variety of massage services tailored to meet different needs and preferences.\n\nYou can explore our services and book an appointment here: https://massagetherapy.com/services\n{% endif %}\n\nIf you have any questions, feel free to reply to this email or call us at (555) 123-4567.\n\nWe look forward to seeing you soon!\n\nWarm regards,\nThe Massage Therapy Team",
+        "options": {}
+      },
+      "name": "Send Lead Follow-Up Email",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 1,
+      "position": [
+        1250,
+        400
+      ],
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "gmail_credentials",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{ $json.category }}",
+              "operation": "equal",
+              "value2": "cold"
+            }
+          ]
+        }
+      },
+      "name": "Is Cold Lead?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [
+        1250,
+        600
+      ]
+    },
+    {
+      "parameters": {
+        "url": "https://api.mailchimp.com/3.0/lists/nurture-campaign/members",
+        "method": "POST",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "email_address",
+              "value": "={{ $json.email }}"
+            },
+            {
+              "name": "status",
+              "value": "subscribed"
+            },
+            {
+              "name": "merge_fields",
+              "value": "={{ {\"FNAME\": $json.name.split(\" \")[0], \"LNAME\": $json.name.split(\" \").slice(1).join(\" \"), \"PHONE\": $json.phone, \"SERVICE\": $json.serviceInterest} | stringify }}"
+            },
+            {
+              "name": "tags",
+              "value": "=[\"cold-lead\", \"{{ $json.serviceInterest }}\"]"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "name": "Add to Nurture Campaign",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 1,
+      "position": [
+        1450,
+        600
+      ],
+      "credentials": {
+        "httpBasicAuth": {
+          "id": "mailchimp_credentials",
+          "name": "Mailchimp API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "sheetName": "Follow-up Tasks",
+        "options": {}
+      },
+      "name": "Create Follow-Up Task",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 3,
+      "position": [
+        1450,
+        300
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "google_sheets_credentials",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "errorMessage": "=Error in Lead Capture workflow: {{ $json.error }}"
+      },
+      "name": "Error Handler",
+      "type": "n8n-nodes-base.errorTrigger",
+      "typeVersion": 1,
+      "position": [
+        1050,
+        500
+      ]
+    }
+  ],
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Format Lead Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Format Lead Data": {
+      "main": [
+        [
+          {
+            "node": "Score and Qualify Lead",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Score and Qualify Lead": {
+      "main": [
+        [
+          {
+            "node": "Store Lead in Google Sheets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Store Lead in Google Sheets": {
+      "main": [
+        [
+          {
+            "node": "Route by Lead Category",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Route by Lead Category": {
+      "main": [
+        [
+          {
+            "node": "Send Staff Notification",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Send Lead Follow-Up Email",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Create Follow-Up Task",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Send Lead Follow-Up Email",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Create Follow-Up Task",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Is Cold Lead?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Is Cold Lead?": {
+      "main": [
+        [
+          {
+            "node": "Add to Nurture Campaign",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "saveManualExecutions": true,
+    "callerPolicy": "workflowsFromSameOwner",
+    "errorWorkflow": "Lead Capture Error Handler"
+  },
+  "tags": [
+    {
+      "name": "lead-management",
+      "color": "#ff9900"
+    },
+    {
+      "name": "massage-therapy",
+      "color": "#00ccff"
+    }
+  ],
+  "pinData": {},
+  "versionId": "1",
+  "triggerCount": 1,
+  "meta": {
+    "instanceId": "MASSAGE_THERAPY_BUSINESS"
+  },
+  "id": "lead-capture-qualification-system"
+}

@@ -1,0 +1,61 @@
+openapi: 3.1.0
+info:
+  title: Proposal Email Automation API
+  version: 1.0.0
+  description: API for collecting necessary information to generate and send a proposal email using Google Drive and Gmail.
+
+servers:
+  - url: YOUR MAKE WEBHOOK
+
+paths:
+  /:
+    post:
+      operationId: submitProposalEmailDetails
+      summary: Submit proposal email details
+      description: Collects information to generate a proposal email, including recipient information, proposal content, and hints for locating related Google Drive files.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                personName:
+                  type: string
+                  description: Full name of the person the proposal email is being generated for.
+                personEmail:
+                  type: string
+                  format: email
+                  description: Email address of the person receiving the proposal.
+                emailContent:
+                  type: string
+                  description: Main content to be included in the email presenting the proposal.
+                proposalDriveHint:
+                  type: string
+                  description: A hint or keyword for searching related proposal files on Google Drive.
+              required:
+                - personName
+                - personEmail
+                - emailContent
+                - proposalDriveHint
+      responses:
+        '200':
+          description: Successful submission
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Webhook successfully triggered. Proposal email data received."
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Invalid input data."

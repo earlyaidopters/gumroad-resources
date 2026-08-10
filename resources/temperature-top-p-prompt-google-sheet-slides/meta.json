@@ -1,0 +1,21 @@
+{
+  "name": "Temperature & Top P Prompt + Google Sheet + Slides",
+  "external_id": "zpHXA2MiXtfVbD4gMTMM3g==",
+  "permalink": "tvzqnv",
+  "unique_permalink": "tvzqnv",
+  "custom_permalink": "temperatureandtopp",
+  "url": "https://markkashef.gumroad.com/l/temperatureandtopp",
+  "status": "published",
+  "archived": false,
+  "kind": "products",
+  "price_formatted": "$0+",
+  "description_md": "- \nTemperature vs. Top P PDF:\n- \nUnderstand the Basics: Learn how Temperature and Top P settings influence the creativity, coherence, and predictability of AI-generated text.\n\n- \nPractical Examples: See how different settings can change the output with real-world examples.\n\n- \nDetailed Breakdown: Get a clear, concise explanation of each setting and how they work together.\n\n- \nMad Scientist Prompt PDF:\n- \nIn-Depth Analysis: For each combination, see the generated output along with a rationale explaining the impact of the settings.\n\n- \nOptimize Your Prompts: Use this guide to find the perfect balance of creativity and predictability for your specific needs.\n\n- \nTemperature vs. Top P Excel Workbook:\n- \nInteractive Tool: Explore different Temperature and Top P settings in a dynamic Excel sheet, allowing you to visualize the impact of each combination.\n\n- \nData at Your Fingertips: Easily adjust the settings to see how they influence text generation, with all the data conveniently organized for your analysis.",
+  "files": [
+    {
+      "file": "Temperature v Top P.pdf",
+      "status": "cached",
+      "bytes": 353186
+    }
+  ],
+  "has_rich_content": true
+}
