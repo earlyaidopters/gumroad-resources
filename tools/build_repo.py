@@ -151,6 +151,17 @@ def main():
         # already unpacked (contents stay browsable); note anything else.
         cap = MAX_FILE_MB * 1024 * 1024
         oversized = {}
+        # (a) files the pull already skipped as oversized (never downloaded)
+        for f in meta.get("files", []):
+            if f.get("status") == "skipped-oversized":
+                mb = round((f.get("bytes") or 0) / 1024 / 1024)
+                fn = f["file"]
+                unp = os.path.join(dest, "unpacked", fn[:-4]) if fn.lower().endswith(".zip") else ""
+                if unp and os.path.isdir(unp):
+                    oversized[fn] = f"{mb} MB — too large for GitHub; browse `unpacked/{fn[:-4]}/` or get the full archive on Gumroad"
+                else:
+                    oversized[fn] = f"{mb} MB — exceeds GitHub's 100MB limit; get it on Gumroad"
+        # (b) any oversized file still on disk (belt and suspenders)
         if os.path.isdir(fdir):
             for fn in os.listdir(fdir):
                 p = os.path.join(fdir, fn)

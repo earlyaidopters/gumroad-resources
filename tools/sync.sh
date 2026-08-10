@@ -21,7 +21,7 @@ echo "==> building product index (published + live)"
 python3 tools/gumroad-pull products --delay=0.3 > "$TMP/products_index.json"
 
 echo "==> pulling published products into resources/ (committed files cache downloads)"
-python3 tools/gumroad-pull pull --all --published-only --out=resources --delay=0.3
+python3 tools/gumroad-pull pull --all --published-only --out=resources --delay=0.3 --max-file-mb=95
 rm -f resources/pull-manifest.json
 
 echo "==> re-indexing repo (README + manifest, unpublished held back)"

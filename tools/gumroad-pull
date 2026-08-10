@@ -237,7 +237,7 @@ def html_description_to_md(desc_html):
     return html.unescape(re.sub(r"\n{3,}", "\n\n", txt)).strip()
 
 
-def pull_product(row, cookie, out_dir, skip_existing=True, delay=0.4):
+def pull_product(row, cookie, out_dir, skip_existing=True, delay=0.4, max_file_mb=0):
     permalink = row["permalink"]
     ext_id, product, uniq = get_edit_payload(permalink, cookie)
     name = product.get("name") or row.get("name") or permalink
@@ -255,6 +255,13 @@ def pull_product(row, cookie, out_dir, skip_existing=True, delay=0.4):
         fname = f"{fname}.{ext}".rstrip(".")
         dest = os.path.join(pdir, "files", fname)
         size = f.get("file_size")
+        # skip files too big for downstream (e.g. GitHub's 100MB limit) using the
+        # size Gumroad reports, so we never download bytes we'll only drop.
+        if max_file_mb and size and size > max_file_mb * 1024 * 1024:
+            if os.path.exists(dest):
+                os.remove(dest)
+            downloaded.append({"file": fname, "status": "skipped-oversized", "bytes": size})
+            continue
         if skip_existing and os.path.exists(dest) and size and os.path.getsize(dest) == size:
             downloaded.append({"file": fname, "status": "cached", "bytes": size})
             continue
@@ -311,6 +318,7 @@ def main():
     positional = [a for a in args[1:] if not a.startswith("--")]
     out_dir = kv.get("out", "./gumroad-export")
     delay = float(kv.get("delay", "0.4"))
+    max_file_mb = int(kv.get("max-file-mb", "0"))
     cookie = load_cookie()
 
     if cmd == "check":
@@ -355,7 +363,7 @@ def main():
             try:
                 slug, meta = pull_product(row, cookie, out_dir,
                                           skip_existing="--force" not in flags,
-                                          delay=delay)
+                                          delay=delay, max_file_mb=max_file_mb)
                 nfiles = sum(1 for f in meta["files"] if f["status"] in ("downloaded", "cached"))
                 print(f"[{i}/{len(rows)}] {slug}  files:{nfiles}/{len(meta['files'])} "
                       f"content:{'yes' if meta['has_rich_content'] else 'no'}",

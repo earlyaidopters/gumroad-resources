@@ -13,7 +13,7 @@
   "files": [
     {
       "file": "claude_diagrams.zip",
-      "status": "downloaded",
+      "status": "skipped-oversized",
       "bytes": 134665919
     },
     {
