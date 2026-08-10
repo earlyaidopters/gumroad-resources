@@ -1,6 +1,8 @@
 # Prompt Battle Testing (Level 1 to Level 4)
 
-![cover](https://public-files.gumroad.com/izifohswnjs12krl7r8vs7o68kj7)
+[![watch on YouTube](https://i.ytimg.com/vi/2VxFY0EYvg8/maxresdefault.jpg)](https://youtu.be/2VxFY0EYvg8)
+
+**▶ Watch the video → https://youtu.be/2VxFY0EYvg8**
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/promptbattletesting**
 

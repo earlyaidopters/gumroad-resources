@@ -1,6 +1,8 @@
 # Claude Skills Factory Prompt 🏭
 
-![cover](https://public-files.gumroad.com/wxzthtogkasz1br01ykydgdb1ou2)
+[![watch on YouTube](https://i.ytimg.com/vi/7_SL0FaY8MM/maxresdefault.jpg)](https://youtu.be/7_SL0FaY8MM)
+
+**▶ Watch the video → https://youtu.be/7_SL0FaY8MM**
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/claudecodeskillsfactory**
 

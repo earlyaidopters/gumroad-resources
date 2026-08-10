@@ -1,6 +1,8 @@
 # Scrape Anything with Apify MCP Connector
 
-![cover](https://public-files.gumroad.com/j1nxnmlzeeu3gvq680xfhqcwnrq8)
+[![watch on YouTube](https://i.ytimg.com/vi/OdJeXVrcpus/maxresdefault.jpg)](https://youtu.be/OdJeXVrcpus)
+
+**▶ Watch the video → https://youtu.be/OdJeXVrcpus**
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/apifymcpconnector**
 

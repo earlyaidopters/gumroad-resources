@@ -1,6 +1,8 @@
 # Custom GPT Pinecone Memory
 
-![cover](https://public-files.gumroad.com/o9xvtbyiq0k7nu42t9vzu1s7e3ji)
+[![watch on YouTube](https://i.ytimg.com/vi/w1amPWUsl_Y/maxresdefault.jpg)](https://youtu.be/w1amPWUsl_Y)
+
+**▶ Watch the video → https://youtu.be/w1amPWUsl_Y**
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/pineconememory**
 

@@ -1,6 +1,8 @@
 # n8n Text-to-Workflow Prompts ⚡️
 
-![cover](https://public-files.gumroad.com/bxvlcb2om7ip32mupt67omagtplj)
+[![watch on YouTube](https://i.ytimg.com/vi/erSlRlwpr-g/maxresdefault.jpg)](https://youtu.be/erSlRlwpr-g)
+
+**▶ Watch the video → https://youtu.be/erSlRlwpr-g**
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/n8ntext2workflowprompts**
 

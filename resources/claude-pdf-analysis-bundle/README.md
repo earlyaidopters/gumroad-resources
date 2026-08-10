@@ -1,6 +1,8 @@
 # Claude PDF Analysis Bundle 📜
 
-![cover](https://public-files.gumroad.com/432kwwne42qy4hfrzui64o4cwe2j)
+[![watch on YouTube](https://i.ytimg.com/vi/1YFPZKHIbVA/maxresdefault.jpg)](https://youtu.be/1YFPZKHIbVA)
+
+**▶ Watch the video → https://youtu.be/1YFPZKHIbVA**
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/claudevisualpdfbundle**
 

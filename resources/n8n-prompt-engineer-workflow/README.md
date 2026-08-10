@@ -1,6 +1,8 @@
 # n8n Prompt Engineer Workflow ✏️
 
-![cover](https://public-files.gumroad.com/wsgzc2t4dmeumeaikmybjz0d28se)
+[![watch on YouTube](https://i.ytimg.com/vi/c-NdrhFbUxY/maxresdefault.jpg)](https://youtu.be/c-NdrhFbUxY)
+
+**▶ Watch the video → https://youtu.be/c-NdrhFbUxY**
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/n8npromptengineer**
 

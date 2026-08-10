@@ -1,6 +1,8 @@
 # Gemini Vibe Coding Prompts 😎 💖
 
-![cover](https://public-files.gumroad.com/i0tflji88g4r95ci5oujgrja0dhm)
+[![watch on YouTube](https://i.ytimg.com/vi/5EuzpGw02SE/maxresdefault.jpg)](https://youtu.be/5EuzpGw02SE)
+
+**▶ Watch the video → https://youtu.be/5EuzpGw02SE**
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/geminivibecoding**
 

@@ -1,6 +1,8 @@
 # How to use Pathway Labels in Bland AI
 
-![cover](https://public-files.gumroad.com/7h9m16vjhdc0z3erc659jisq03bm)
+[![watch on YouTube](https://i.ytimg.com/vi/TSErlTz_kBU/maxresdefault.jpg)](https://youtu.be/TSErlTz_kBU)
+
+**▶ Watch the video → https://youtu.be/TSErlTz_kBU**
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/HowtousePathwayLabelsinBlandAI**
 

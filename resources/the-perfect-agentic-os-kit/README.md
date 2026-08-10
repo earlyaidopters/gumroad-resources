@@ -1,6 +1,8 @@
 # The Perfect Agentic OS Kit 🧱
 
-![cover](https://public-files.gumroad.com/xc2azfrba6lw6j3ttvwiifl7vs2h)
+[![watch on YouTube](https://i.ytimg.com/vi/-WCNwxz3uoM/maxresdefault.jpg)](https://youtu.be/-WCNwxz3uoM)
+
+**▶ Watch the video → https://youtu.be/-WCNwxz3uoM**
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/perfect-agentic-os-kit**
 

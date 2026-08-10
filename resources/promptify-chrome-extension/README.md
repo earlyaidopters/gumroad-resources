@@ -1,6 +1,8 @@
 # Promptify Chrome Extension ⚙️
 
-![cover](https://public-files.gumroad.com/0u6qev6ikkqny8kebfd5lo136n05)
+[![watch on YouTube](https://i.ytimg.com/vi/RzsTwCiDmsg/maxresdefault.jpg)](https://youtu.be/RzsTwCiDmsg)
+
+**▶ Watch the video → https://youtu.be/RzsTwCiDmsg**
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/promptifyextension**
 

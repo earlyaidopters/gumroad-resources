@@ -1,6 +1,8 @@
 # MCP Workflow Power Bundle 🤖 ☢️
 
-![cover](https://public-files.gumroad.com/ojworv3nj13bkxd3mfmuftvqpltu)
+[![watch on YouTube](https://i.ytimg.com/vi/yfpVU_uEpy4/maxresdefault.jpg)](https://youtu.be/yfpVU_uEpy4)
+
+**▶ Watch the video → https://youtu.be/yfpVU_uEpy4**
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/n8nmcpfusion**
 

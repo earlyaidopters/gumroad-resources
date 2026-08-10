@@ -1,6 +1,8 @@
 # Replit Agent Webapp Code
 
-![cover](https://public-files.gumroad.com/yhmcsb5075xd9v2xcw27c2pir6zo)
+[![watch on YouTube](https://i.ytimg.com/vi/B4kHmeE27P0/maxresdefault.jpg)](https://youtu.be/B4kHmeE27P0)
+
+**▶ Watch the video → https://youtu.be/B4kHmeE27P0**
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/replitagentapps**
 

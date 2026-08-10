@@ -1,6 +1,8 @@
 # Gemini Data Demos 🧪
 
-![cover](https://public-files.gumroad.com/5ci6dqidj5blh2ylzrune7rujaha)
+[![watch on YouTube](https://i.ytimg.com/vi/2ERaVgskOkE/maxresdefault.jpg)](https://youtu.be/2ERaVgskOkE)
+
+**▶ Watch the video → https://youtu.be/2ERaVgskOkE**
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/geminicolab**
 

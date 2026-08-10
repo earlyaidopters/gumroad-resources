@@ -1,6 +1,8 @@
 # Meta Chain-of-Thought Prompt Example
 
-![cover](https://public-files.gumroad.com/jrhvfjx7mtn4lc494hxfqm3q0b4i)
+[![watch on YouTube](https://i.ytimg.com/vi/B4MR8m7V17A/maxresdefault.jpg)](https://youtu.be/B4MR8m7V17A)
+
+**▶ Watch the video → https://youtu.be/B4MR8m7V17A**
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/iwatb**
 

@@ -1,6 +1,8 @@
 # Perplexity Labs Prompts 🥼 🔬
 
-![cover](https://public-files.gumroad.com/2os7qwt5n6is6cdz6161nub3r5pg)
+[![watch on YouTube](https://i.ytimg.com/vi/mXajOLJj-EM/maxresdefault.jpg)](https://youtu.be/mXajOLJj-EM)
+
+**▶ Watch the video → https://youtu.be/mXajOLJj-EM**
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/perplexitylabs**
 

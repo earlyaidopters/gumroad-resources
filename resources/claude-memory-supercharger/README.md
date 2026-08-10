@@ -1,6 +1,8 @@
 # Claude Memory Supercharger 🧠 ⚡️
 
-![cover](https://public-files.gumroad.com/a33rmpup8g1harfrt2rg7kmfz83a)
+[![watch on YouTube](https://i.ytimg.com/vi/Jbj349nT_Ko/maxresdefault.jpg)](https://youtu.be/Jbj349nT_Ko)
+
+**▶ Watch the video → https://youtu.be/Jbj349nT_Ko**
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/mcpclaude**
 

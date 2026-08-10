@@ -1,6 +1,8 @@
 # OpenAI Image API n8n Agents 🤖 🖼️
 
-![cover](https://public-files.gumroad.com/vduq16jbkyi6qoa2zpm8m55ve25i)
+[![watch on YouTube](https://i.ytimg.com/vi/YqEtFVAV7M8/maxresdefault.jpg)](https://youtu.be/YqEtFVAV7M8)
+
+**▶ Watch the video → https://youtu.be/YqEtFVAV7M8**
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/n8nimageapi**
 

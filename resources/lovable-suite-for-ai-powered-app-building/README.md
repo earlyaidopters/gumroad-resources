@@ -1,6 +1,8 @@
 # Lovable Suite for AI-Powered App Building
 
-![cover](https://public-files.gumroad.com/zqn9fs9rocqxpdobhjs23201l7o1)
+[![watch on YouTube](https://i.ytimg.com/vi/gQbwjvUrnA8/maxresdefault.jpg)](https://youtu.be/gQbwjvUrnA8)
+
+**▶ Watch the video → https://youtu.be/gQbwjvUrnA8**
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/lovablevisualedits**
 

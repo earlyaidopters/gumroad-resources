@@ -1,6 +1,8 @@
 # List Removal Prompt Instruction
 
-![cover](https://public-files.gumroad.com/s3y4hd7g69tem91g8vb5ddi4erij)
+[![watch on YouTube](https://i.ytimg.com/vi/8cKnRTSwPII/maxresdefault.jpg)](https://youtu.be/8cKnRTSwPII)
+
+**▶ Watch the video → https://youtu.be/8cKnRTSwPII**
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/ListRemovalPromptInstruction**
 

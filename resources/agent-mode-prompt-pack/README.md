@@ -1,6 +1,8 @@
 # Agent Mode Prompt Pack 🧠📋
 
-![cover](https://public-files.gumroad.com/4wo2oqn6le246ljzu0inlguy6812)
+[![watch on YouTube](https://i.ytimg.com/vi/0KX3iojxKA0/maxresdefault.jpg)](https://youtu.be/0KX3iojxKA0)
+
+**▶ Watch the video → https://youtu.be/0KX3iojxKA0**
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/agentmodeprompts**
 

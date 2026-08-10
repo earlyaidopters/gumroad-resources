@@ -1,6 +1,8 @@
 # Agentic Meta Prompt Example
 
-![cover](https://public-files.gumroad.com/6m15hg32i93ja2x5d51fv29cz3qt)
+[![watch on YouTube](https://i.ytimg.com/vi/oAxmD0OxsCo/maxresdefault.jpg)](https://youtu.be/oAxmD0OxsCo)
+
+**▶ Watch the video → https://youtu.be/oAxmD0OxsCo**
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/AgenticMetaPromptExample**
 

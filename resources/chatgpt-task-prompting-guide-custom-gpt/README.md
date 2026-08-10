@@ -1,6 +1,8 @@
 # ChatGPT Task Prompting Guide + Custom GPT 🤖✏️
 
-![cover](https://public-files.gumroad.com/2j9gutwl6vqh8qcamdnyr3oj9sd2)
+[![watch on YouTube](https://i.ytimg.com/vi/cInBvQ6JNtE/maxresdefault.jpg)](https://youtu.be/cInBvQ6JNtE)
+
+**▶ Watch the video → https://youtu.be/cInBvQ6JNtE**
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/chatgpttasks**
 

@@ -1,6 +1,8 @@
 # Prompt Caching Google Colab Workbook
 
-![cover](https://public-files.gumroad.com/alqatahraud7hmm67rd01kexjl2u)
+[![watch on YouTube](https://i.ytimg.com/vi/_0uiiJfsBPI/maxresdefault.jpg)](https://youtu.be/_0uiiJfsBPI)
+
+**▶ Watch the video → https://youtu.be/_0uiiJfsBPI**
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/promptadvisers**
 

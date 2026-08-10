@@ -1,6 +1,8 @@
 # Abacus AI Plug & Play Prompts 🤖
 
-![cover](https://public-files.gumroad.com/8k2o7ri8n9hifbn5e77yv0d9eamp)
+[![watch on YouTube](https://i.ytimg.com/vi/XzOdJ2hUy1w/maxresdefault.jpg)](https://youtu.be/XzOdJ2hUy1w)
+
+**▶ Watch the video → https://youtu.be/XzOdJ2hUy1w**
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/abacusprompts**
 

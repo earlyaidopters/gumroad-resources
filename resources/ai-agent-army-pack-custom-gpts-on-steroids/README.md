@@ -1,6 +1,8 @@
 # AI Agent Army Pack (Custom GPTs on Steroids 🦾)
 
-![cover](https://public-files.gumroad.com/hhcfze8ldjzkgjzpwrhw9xjfva1q)
+[![watch on YouTube](https://i.ytimg.com/vi/jF-Yvu7MuI8/maxresdefault.jpg)](https://youtu.be/jF-Yvu7MuI8)
+
+**▶ Watch the video → https://youtu.be/jF-Yvu7MuI8**
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/customgptarmy**
 

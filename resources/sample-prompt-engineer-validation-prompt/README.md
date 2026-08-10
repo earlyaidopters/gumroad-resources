@@ -1,6 +1,8 @@
 # Sample Prompt Engineer Validation Prompt
 
-![cover](https://public-files.gumroad.com/t7s4tn7uz2ydvwg4zpvgy8kjpr4e)
+[![watch on YouTube](https://i.ytimg.com/vi/2KreTdYRjMs/maxresdefault.jpg)](https://youtu.be/2KreTdYRjMs)
+
+**▶ Watch the video → https://youtu.be/2KreTdYRjMs**
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/SamplePromptEngineerValidationPrompt**
 

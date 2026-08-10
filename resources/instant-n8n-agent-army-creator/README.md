@@ -1,6 +1,8 @@
 # Instant n8n Agent Army Creator 🪖
 
-![cover](https://public-files.gumroad.com/10fo3k8e8pywk1f4g1mya5rcuock)
+[![watch on YouTube](https://i.ytimg.com/vi/u2NluvotA80/maxresdefault.jpg)](https://youtu.be/u2NluvotA80)
+
+**▶ Watch the video → https://youtu.be/u2NluvotA80**
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/instantagentarmyclaude**
 

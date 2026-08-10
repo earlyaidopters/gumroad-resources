@@ -1,6 +1,8 @@
 # Manus AI n8n Automation Pack 🤖 🫰🏽
 
-![cover](https://public-files.gumroad.com/j2o1jc8go0sur5fnmx7vrrrlpptl)
+[![watch on YouTube](https://i.ytimg.com/vi/h2Az_4T1JSg/maxresdefault.jpg)](https://youtu.be/h2Az_4T1JSg)
+
+**▶ Watch the video → https://youtu.be/h2Az_4T1JSg**
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/manus2n8n**
 

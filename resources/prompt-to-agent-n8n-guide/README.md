@@ -1,6 +1,8 @@
 # Prompt-to-Agent n8n Guide 🦾
 
-![cover](https://public-files.gumroad.com/1vajfr1ykxp73ibsch5f94c6egj4)
+[![watch on YouTube](https://i.ytimg.com/vi/WHJyOP08-GE/maxresdefault.jpg)](https://youtu.be/WHJyOP08-GE)
+
+**▶ Watch the video → https://youtu.be/WHJyOP08-GE**
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/promptn8ntemplates**
 

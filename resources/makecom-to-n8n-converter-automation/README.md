@@ -1,6 +1,8 @@
 # Make.com to n8n Converter Automation 🔁
 
-![cover](https://public-files.gumroad.com/ps44ewdr5bzu0a1hkap5gll8j16s)
+[![watch on YouTube](https://i.ytimg.com/vi/bK_4qJiQ5IM/maxresdefault.jpg)](https://youtu.be/bK_4qJiQ5IM)
+
+**▶ Watch the video → https://youtu.be/bK_4qJiQ5IM**
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/maketon8nconverter**
 

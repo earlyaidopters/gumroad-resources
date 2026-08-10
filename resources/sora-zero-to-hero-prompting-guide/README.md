@@ -1,6 +1,8 @@
 # Sora Zero-to-Hero Prompting Guide 🎬
 
-![cover](https://public-files.gumroad.com/iq1shveduemles9mz4h4qr8d161f)
+[![watch on YouTube](https://i.ytimg.com/vi/X7RJFtnFyHM/maxresdefault.jpg)](https://youtu.be/X7RJFtnFyHM)
+
+**▶ Watch the video → https://youtu.be/X7RJFtnFyHM**
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/mcxxis**
 

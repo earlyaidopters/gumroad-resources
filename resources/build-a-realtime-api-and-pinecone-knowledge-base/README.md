@@ -1,6 +1,8 @@
 # Build a Realtime API and Pinecone Knowledge Base
 
-![cover](https://public-files.gumroad.com/lq45v2sdm25w22myjya8is3b5lan)
+[![watch on YouTube](https://i.ytimg.com/vi/wc0ewf2eyJ0/maxresdefault.jpg)](https://youtu.be/wc0ewf2eyJ0)
+
+**▶ Watch the video → https://youtu.be/wc0ewf2eyJ0**
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/realtimeapibrain**
 

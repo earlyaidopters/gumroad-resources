@@ -1,6 +1,8 @@
 # Temperature & Top P Prompt + Google Sheet + Slides
 
-![cover](https://public-files.gumroad.com/rv2caxu39heqzp0244a7zt3jyuit)
+[![watch on YouTube](https://i.ytimg.com/vi/o6fAP_OZbmk/maxresdefault.jpg)](https://youtu.be/o6fAP_OZbmk)
+
+**▶ Watch the video → https://youtu.be/o6fAP_OZbmk**
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/temperatureandtopp**
 

@@ -1,6 +1,8 @@
 # Bolt.new Dating App A-Z Build 🤖💘
 
-![cover](https://public-files.gumroad.com/qhwvtx71x3s6uz9i19ul1soxva15)
+[![watch on YouTube](https://i.ytimg.com/vi/5SI9lqHh0ZU/maxresdefault.jpg)](https://youtu.be/5SI9lqHh0ZU)
+
+**▶ Watch the video → https://youtu.be/5SI9lqHh0ZU**
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/boltdatingapp**
 

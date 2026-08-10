@@ -1,6 +1,8 @@
 # Vibe Coding Starter Pack 🔥
 
-![cover](https://public-files.gumroad.com/chmmeesi8shm1b9nms04l8ns8eqv)
+[![watch on YouTube](https://i.ytimg.com/vi/OSHJFuoJJdA/maxresdefault.jpg)](https://youtu.be/OSHJFuoJJdA)
+
+**▶ Watch the video → https://youtu.be/OSHJFuoJJdA**
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/vibecodingmasterclass**
 

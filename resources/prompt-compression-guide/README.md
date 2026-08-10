@@ -1,6 +1,8 @@
 # Prompt Compression Guide 🗂️
 
-![cover](https://public-files.gumroad.com/fh1jscexg8nvk5395kdoos5zh6ka)
+[![watch on YouTube](https://i.ytimg.com/vi/KGcIzKatVRc/maxresdefault.jpg)](https://youtu.be/KGcIzKatVRc)
+
+**▶ Watch the video → https://youtu.be/KGcIzKatVRc**
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/promptcompression**
 

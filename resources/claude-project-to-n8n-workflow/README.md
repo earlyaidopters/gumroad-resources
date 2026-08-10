@@ -1,6 +1,8 @@
 # Claude Project to n8n Workflow 🤖
 
-![cover](https://public-files.gumroad.com/f8y30eswhqrr1e2qgothk8ws1rlw)
+[![watch on YouTube](https://i.ytimg.com/vi/JM0y9JKopc0/maxresdefault.jpg)](https://youtu.be/JM0y9JKopc0)
+
+**▶ Watch the video → https://youtu.be/JM0y9JKopc0**
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/claudeprojectn8nworkflows**
 

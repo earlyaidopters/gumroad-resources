@@ -1,6 +1,8 @@
 # OpenAI Realtime API Full Implementation + UI
 
-![cover](https://public-files.gumroad.com/8a422s5z5qkhqlklrxdxsh7vxjke)
+[![watch on YouTube](https://i.ytimg.com/vi/xf6xT7RbTPo/maxresdefault.jpg)](https://youtu.be/xf6xT7RbTPo)
+
+**▶ Watch the video → https://youtu.be/xf6xT7RbTPo**
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/realtimeapi**
 

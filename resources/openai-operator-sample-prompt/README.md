@@ -1,6 +1,8 @@
 # OpenAI Operator Sample Prompt 💻🌐
 
-![cover](https://public-files.gumroad.com/c2rf1x1gmeoinlwcbpcgctruq9z9)
+[![watch on YouTube](https://i.ytimg.com/vi/t6n-qNP2SjQ/maxresdefault.jpg)](https://youtu.be/t6n-qNP2SjQ)
+
+**▶ Watch the video → https://youtu.be/t6n-qNP2SjQ**
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/operatorn8n**
 

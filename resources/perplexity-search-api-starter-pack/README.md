@@ -1,6 +1,8 @@
 # Perplexity Search API Starter Pack 🌐
 
-![cover](https://public-files.gumroad.com/imruvgmgbf04g63dv2v05oz6yrha)
+[![watch on YouTube](https://i.ytimg.com/vi/T0YdGV1285U/maxresdefault.jpg)](https://youtu.be/T0YdGV1285U)
+
+**▶ Watch the video → https://youtu.be/T0YdGV1285U**
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/perplexitysearchapi**
 

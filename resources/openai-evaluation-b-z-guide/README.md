@@ -1,6 +1,8 @@
 # OpenAI Evaluation B-Z Guide 📓
 
-![cover](https://public-files.gumroad.com/iei2fza79ymawakzouxa6td29d4w)
+[![watch on YouTube](https://i.ytimg.com/vi/U7Fpcwn7UZQ/maxresdefault.jpg)](https://youtu.be/U7Fpcwn7UZQ)
+
+**▶ Watch the video → https://youtu.be/U7Fpcwn7UZQ**
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/evaluationguide**
 

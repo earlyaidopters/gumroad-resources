@@ -1,6 +1,8 @@
 # 'I Don't Know' Framework Prompts
 
-![cover](https://public-files.gumroad.com/d6la93db4yoo6ho8s0gwxvscxfgn)
+[![watch on YouTube](https://i.ytimg.com/vi/Xok3e8q7Ibc/maxresdefault.jpg)](https://youtu.be/Xok3e8q7Ibc)
+
+**▶ Watch the video → https://youtu.be/Xok3e8q7Ibc**
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/idontknow**
 

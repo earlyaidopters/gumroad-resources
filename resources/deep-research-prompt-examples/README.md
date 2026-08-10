@@ -1,6 +1,8 @@
 # Deep Research Prompt Examples 📖 
 
-![cover](https://public-files.gumroad.com/vytfealxd2fhhymxptrnlzp6gknx)
+[![watch on YouTube](https://i.ytimg.com/vi/oBXoB0Zbm94/maxresdefault.jpg)](https://youtu.be/oBXoB0Zbm94)
+
+**▶ Watch the video → https://youtu.be/oBXoB0Zbm94**
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/chatgptdeepresearch**
 

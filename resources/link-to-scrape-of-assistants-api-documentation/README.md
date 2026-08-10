@@ -1,6 +1,8 @@
 # Link to Scrape of Assistants API Documentation
 
-![cover](https://public-files.gumroad.com/aspkme3vgyfijnh2g51levhdwuji)
+[![watch on YouTube](https://i.ytimg.com/vi/IU2HcQLBGsk/maxresdefault.jpg)](https://youtu.be/IU2HcQLBGsk)
+
+**▶ Watch the video → https://youtu.be/IU2HcQLBGsk**
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/LinktoScrapeofAssistantsAPIDocumentation**
 

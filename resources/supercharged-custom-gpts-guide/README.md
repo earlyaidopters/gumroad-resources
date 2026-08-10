@@ -1,6 +1,8 @@
 # Supercharged Custom GPTs Guide ⚡️
 
-![cover](https://public-files.gumroad.com/yiyp5hyes1q5er68cdcjc4pn5vbe)
+[![watch on YouTube](https://i.ytimg.com/vi/1YFPZKHIbVA/maxresdefault.jpg)](https://youtu.be/1YFPZKHIbVA)
+
+**▶ Watch the video → https://youtu.be/1YFPZKHIbVA**
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/supercustomgpt**
 

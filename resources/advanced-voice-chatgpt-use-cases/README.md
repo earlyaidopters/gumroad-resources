@@ -1,6 +1,8 @@
 # Advanced Voice + ChatGPT Use Cases
 
-![cover](https://public-files.gumroad.com/ob1blto9yquak0rjhh8r69g22n2w)
+[![watch on YouTube](https://i.ytimg.com/vi/byn21cPJby0/maxresdefault.jpg)](https://youtu.be/byn21cPJby0)
+
+**▶ Watch the video → https://youtu.be/byn21cPJby0**
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/advancedvoicegpt**
 

@@ -1,6 +1,8 @@
 # Build Your Own GPT-5 Kit 🔌
 
-![cover](https://public-files.gumroad.com/a767m9ka8h1c1bnqlyaq12o50k9l)
+[![watch on YouTube](https://i.ytimg.com/vi/cRz5b5OYqjs/maxresdefault.jpg)](https://youtu.be/cRz5b5OYqjs)
+
+**▶ Watch the video → https://youtu.be/cRz5b5OYqjs**
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/buildyourowngpt5**
 

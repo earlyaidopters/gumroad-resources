@@ -1,6 +1,8 @@
 # Base44 & n8n Presentation Generator 🖼️
 
-![cover](https://public-files.gumroad.com/ndkyj9gakpwovzk9ur5c7r8m184s)
+[![watch on YouTube](https://i.ytimg.com/vi/KLcIseQ7z-0/maxresdefault.jpg)](https://youtu.be/KLcIseQ7z-0)
+
+**▶ Watch the video → https://youtu.be/KLcIseQ7z-0**
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/base44presentation**
 

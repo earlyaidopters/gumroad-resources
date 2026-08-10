@@ -1,6 +1,8 @@
 # GenSpark Prompt Vault (7 Examples) 🐣
 
-![cover](https://public-files.gumroad.com/bzmfjaka8sj32gjtqphpk08jg9nk)
+[![watch on YouTube](https://i.ytimg.com/vi/-PRXtqc3XLY/maxresdefault.jpg)](https://youtu.be/-PRXtqc3XLY)
+
+**▶ Watch the video → https://youtu.be/-PRXtqc3XLY**
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/genspark**
 

@@ -1,6 +1,8 @@
 # Claude Computer Use via Replit
 
-![cover](https://public-files.gumroad.com/iwwi7hph87hscywf8kob5ypi0oeb)
+[![watch on YouTube](https://i.ytimg.com/vi/tUuwAEdku64/maxresdefault.jpg)](https://youtu.be/tUuwAEdku64)
+
+**▶ Watch the video → https://youtu.be/tUuwAEdku64**
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/replitcomputeruse**
 

@@ -1,6 +1,8 @@
 # Ultimate o3 Prompt Bundle 🔋
 
-![cover](https://public-files.gumroad.com/4jy7fat9hq0tf4feo1pycx8z0bkx)
+[![watch on YouTube](https://i.ytimg.com/vi/f0I47ELXzJ4/maxresdefault.jpg)](https://youtu.be/f0I47ELXzJ4)
+
+**▶ Watch the video → https://youtu.be/f0I47ELXzJ4**
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/o3prompts**
 

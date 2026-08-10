@@ -1,6 +1,8 @@
 # 2025 Generative AI Roadmap 🗺️
 
-![cover](https://public-files.gumroad.com/npct31p7cbr887bensx1sapcie39)
+[![watch on YouTube](https://i.ytimg.com/vi/mgjZfDRm4-8/maxresdefault.jpg)](https://youtu.be/mgjZfDRm4-8)
+
+**▶ Watch the video → https://youtu.be/mgjZfDRm4-8**
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/airoadmap2025**
 

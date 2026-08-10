@@ -1,6 +1,8 @@
 # AI Model Comparison Automation ⚖️
 
-![cover](https://public-files.gumroad.com/ld0yzehc4sp6rcp1yvbk547pah5x)
+[![watch on YouTube](https://i.ytimg.com/vi/RUr5_GqYzCg/maxresdefault.jpg)](https://youtu.be/RUr5_GqYzCg)
+
+**▶ Watch the video → https://youtu.be/RUr5_GqYzCg**
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/modelcomparisonworkflown8n**
 

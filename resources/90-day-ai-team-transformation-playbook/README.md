@@ -1,6 +1,8 @@
 # 90-Day AI Team Transformation Playbook 📓
 
-![cover](https://public-files.gumroad.com/70a05h2jb68l39ezc48x2ix7prz9)
+[![watch on YouTube](https://i.ytimg.com/vi/Ho9pYMYi2xI/maxresdefault.jpg)](https://youtu.be/Ho9pYMYi2xI)
+
+**▶ Watch the video → https://youtu.be/Ho9pYMYi2xI**
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/90dayplaybook**
 

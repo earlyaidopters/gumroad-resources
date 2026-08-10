@@ -1,6 +1,8 @@
 # Blended Persona Prompt
 
-![cover](https://public-files.gumroad.com/pxrnmtaid6e3qmuqyhc8mixpaplf)
+[![watch on YouTube](https://i.ytimg.com/vi/APEoVYgq5Sw/maxresdefault.jpg)](https://youtu.be/APEoVYgq5Sw)
+
+**▶ Watch the video → https://youtu.be/APEoVYgq5Sw**
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/BlendedPersonaPrompt**
 

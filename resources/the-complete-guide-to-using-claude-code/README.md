@@ -1,6 +1,8 @@
 # The Complete Guide to Using Claude Code 📘
 
-![cover](https://public-files.gumroad.com/yknw0rhsjyjptgsks2wj1owbblkc)
+[![watch on YouTube](https://i.ytimg.com/vi/A0SV-DExypQ/maxresdefault.jpg)](https://youtu.be/A0SV-DExypQ)
+
+**▶ Watch the video → https://youtu.be/A0SV-DExypQ**
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/claudecodefullguide**
 

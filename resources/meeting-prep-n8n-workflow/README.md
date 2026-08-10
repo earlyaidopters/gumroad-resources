@@ -1,6 +1,8 @@
 # Meeting Prep n8n Workflow 🗓️  ➡️ 🎧
 
-![cover](https://public-files.gumroad.com/xe0zaberuh9fnkhdmptfslhi4b3d)
+[![watch on YouTube](https://i.ytimg.com/vi/9HBa364RZBk/maxresdefault.jpg)](https://youtu.be/9HBa364RZBk)
+
+**▶ Watch the video → https://youtu.be/9HBa364RZBk**
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/n8ncalendlyautomation**
 

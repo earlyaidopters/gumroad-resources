@@ -1,6 +1,8 @@
 # 4o Image Generation Suite 🖼️
 
-![cover](https://public-files.gumroad.com/iyjhaqpqjlcvvt6mw8qvolhz39gf)
+[![watch on YouTube](https://i.ytimg.com/vi/YdMc6IEV4IE/maxresdefault.jpg)](https://youtu.be/YdMc6IEV4IE)
+
+**▶ Watch the video → https://youtu.be/YdMc6IEV4IE**
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/4oimagegeneration**
 

@@ -1,6 +1,8 @@
 # ChatGPT & Claude Prompt Autopilot Extension 🛠️
 
-![cover](https://public-files.gumroad.com/2j4gwx5l1q2rk5bz7cnfb8ebwvlg)
+[![watch on YouTube](https://i.ytimg.com/vi/u0Ky4CKUDXQ/maxresdefault.jpg)](https://youtu.be/u0Ky4CKUDXQ)
+
+**▶ Watch the video → https://youtu.be/u0Ky4CKUDXQ**
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/promptificextension**
 

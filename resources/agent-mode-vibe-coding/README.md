@@ -1,6 +1,8 @@
 # Agent Mode Vibe Coding 🔮
 
-![cover](https://public-files.gumroad.com/hex3pwsmx7auhi0tdl4yr00wubfo)
+[![watch on YouTube](https://i.ytimg.com/vi/oLlcBnefqCw/maxresdefault.jpg)](https://youtu.be/oLlcBnefqCw)
+
+**▶ Watch the video → https://youtu.be/oLlcBnefqCw**
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/AgentModeVibeCodingPrompts**
 

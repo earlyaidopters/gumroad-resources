@@ -1,6 +1,8 @@
 # AI Stack Decision Playbook 📚
 
-![cover](https://public-files.gumroad.com/6o6gc4t1ij34vl9j7iqk6jm5yeoz)
+[![watch on YouTube](https://i.ytimg.com/vi/ouOlJceXK-0/maxresdefault.jpg)](https://youtu.be/ouOlJceXK-0)
+
+**▶ Watch the video → https://youtu.be/ouOlJceXK-0**
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/aistackdecisionplaybook**
 

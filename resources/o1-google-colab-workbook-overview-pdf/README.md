@@ -1,6 +1,8 @@
 # o1 Google Colab Workbook + Overview PDF
 
-![cover](https://public-files.gumroad.com/p9r9asi5m7gdg0ctuya07gh82onr)
+[![watch on YouTube](https://i.ytimg.com/vi/afd9Qwuk_WE/maxresdefault.jpg)](https://youtu.be/afd9Qwuk_WE)
+
+**▶ Watch the video → https://youtu.be/afd9Qwuk_WE**
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/o1**
 

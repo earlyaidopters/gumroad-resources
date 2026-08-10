@@ -1,6 +1,8 @@
 # Easy Fine-Tuning Automation ⚙️
 
-![cover](https://public-files.gumroad.com/wsaujpkcdxflraard0uv3wwpifxm)
+[![watch on YouTube](https://i.ytimg.com/vi/dvksJK8TTQE/maxresdefault.jpg)](https://youtu.be/dvksJK8TTQE)
+
+**▶ Watch the video → https://youtu.be/dvksJK8TTQE**
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/finetuning**
 

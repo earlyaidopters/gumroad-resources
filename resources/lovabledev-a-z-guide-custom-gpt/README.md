@@ -1,6 +1,8 @@
 # Lovable.dev A-Z Guide + Custom GPT 💖
 
-![cover](https://public-files.gumroad.com/y40ytgeaus09p5f9zu3w82mtrda8)
+[![watch on YouTube](https://i.ytimg.com/vi/cwdPcbWwb2s/maxresdefault.jpg)](https://youtu.be/cwdPcbWwb2s)
+
+**▶ Watch the video → https://youtu.be/cwdPcbWwb2s**
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/lovable**
 

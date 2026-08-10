@@ -1,6 +1,8 @@
 # DNA Extraction Prompt
 
-![cover](https://public-files.gumroad.com/maq5pe0k02qz5kwom649xa53o2cr)
+[![watch on YouTube](https://i.ytimg.com/vi/QAss5i9Wnfk/maxresdefault.jpg)](https://youtu.be/QAss5i9Wnfk)
+
+**▶ Watch the video → https://youtu.be/QAss5i9Wnfk**
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/DNAExtractionPrompt**
 

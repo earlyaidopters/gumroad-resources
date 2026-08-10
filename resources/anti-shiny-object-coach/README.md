@@ -1,6 +1,8 @@
 # Anti-Shiny-Object Coach 🧭
 
-![cover](https://public-files.gumroad.com/yapffadgf1cja03ayj84ly3ih0io)
+[![watch on YouTube](https://i.ytimg.com/vi/o3QrgPOkrg8/maxresdefault.jpg)](https://youtu.be/o3QrgPOkrg8)
+
+**▶ Watch the video → https://youtu.be/o3QrgPOkrg8**
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/antishinyobjectgpt**
 

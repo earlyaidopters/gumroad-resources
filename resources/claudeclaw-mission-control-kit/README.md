@@ -1,6 +1,8 @@
 # ClaudeClaw Mission Control Kit 🧠
 
-![cover](https://public-files.gumroad.com/w8z7i9qgjsyrqkn4sl8lhkmfllmu)
+[![watch on YouTube](https://i.ytimg.com/vi/7aQbN543Mec/maxresdefault.jpg)](https://youtu.be/7aQbN543Mec)
+
+**▶ Watch the video → https://youtu.be/7aQbN543Mec**
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/hive-mind-blueprint-kit**
 

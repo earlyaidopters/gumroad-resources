@@ -1,6 +1,8 @@
 # X Live Search Vibe Code Pack 🐦
 
-![cover](https://public-files.gumroad.com/q7xnzzvaa23jux8fuxia40fawm2b)
+[![watch on YouTube](https://i.ytimg.com/vi/7NIN0KNcVdM/maxresdefault.jpg)](https://youtu.be/7NIN0KNcVdM)
+
+**▶ Watch the video → https://youtu.be/7NIN0KNcVdM**
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/livesearchvibecoding**
 

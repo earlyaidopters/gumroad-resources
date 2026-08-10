@@ -1,6 +1,8 @@
 # Email Automations Using DeepSeek 🐋
 
-![cover](https://public-files.gumroad.com/ay46rb5jlokgp0yiteqeab9se2ec)
+[![watch on YouTube](https://i.ytimg.com/vi/SxdVJPJ78Qs/maxresdefault.jpg)](https://youtu.be/SxdVJPJ78Qs)
+
+**▶ Watch the video → https://youtu.be/SxdVJPJ78Qs**
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/deepseekautomation**
 

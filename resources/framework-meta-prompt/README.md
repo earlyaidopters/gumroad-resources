@@ -1,6 +1,8 @@
 # Framework Meta Prompt
 
-![cover](https://public-files.gumroad.com/z87j3n0x9a8k10ebd8qytf4as2vk)
+[![watch on YouTube](https://i.ytimg.com/vi/I9cJEkQPt5A/maxresdefault.jpg)](https://youtu.be/I9cJEkQPt5A)
+
+**▶ Watch the video → https://youtu.be/I9cJEkQPt5A**
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/FrameworkMetaPrompt**
 

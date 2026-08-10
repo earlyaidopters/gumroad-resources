@@ -1,6 +1,8 @@
 # Prompt Engineer Anything ✏️ 📸 🎬 🎵
 
-![cover](https://public-files.gumroad.com/c5xmir32u9nudvevyt4a6juwapl0)
+[![watch on YouTube](https://i.ytimg.com/vi/jQ5Vy3nsjrE/maxresdefault.jpg)](https://youtu.be/jQ5Vy3nsjrE)
+
+**▶ Watch the video → https://youtu.be/jQ5Vy3nsjrE**
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/promptanything**
 
