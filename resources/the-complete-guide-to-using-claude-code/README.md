@@ -6,11 +6,11 @@
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/claudecodefullguide**
 
-`published` · $0+
+`published` · $0+ · 📊 Tools, Cheat Sheets & Evaluations
 
 ## About
 
-## What You Get
+#### What You Get
 
 - Almost 300-page Claude Code Complete Guide PDF, a searchable reference with examples, templates, and runnable scripts you can keep for continued learning.
 

@@ -6,11 +6,11 @@
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/claude-cowork-plugin-superpowers**
 
-`published` · CAD$0+
+`published` · CAD$0+ · 🧠 Custom GPTs & AI Agents
 
 ## About
 
-# What You Get
+### What You Get
 
 - 
 Claude Cowork Plugins Guide (PDF): 20+ page guide walking through all 11 Knowledge Work Plugins - what they do, key commands, connectors, and real use cases for each.

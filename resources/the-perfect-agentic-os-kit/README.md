@@ -6,11 +6,11 @@
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/perfect-agentic-os-kit**
 
-`published` · CAD$0+
+`published` · CAD$0+ · 🗂️ Frameworks, Meta Techniques & Experiments
 
 ## About
 
-# What You Get
+### What You Get
 
 - 
 /silver-platter Skill: Drop it in any Claude Code project. It interviews you about your tools, builds a Pantry > Prep > Plate data map, generates a tailored 30-day build plan with recipes, and renders a self-contained HTML visualization you can open in any browser. Same skill I've given to multiple clients to self-serve.

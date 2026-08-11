@@ -6,11 +6,11 @@
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/geminivibecoding**
 
-`published` · CAD$0+
+`published` · CAD$0+ · 🎯 Prompting & Engineering Skills
 
 ## About
 
-## What You Get
+#### What You Get
 
 - 
 Ready-to-use initial prompt optimized specifically for Gemini 2.5 Pro, ensuring precision and reducing guesswork.

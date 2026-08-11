@@ -6,11 +6,11 @@
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/one-shot-skill-prompt**
 
-`published` · CAD$0+
+`published` · CAD$0+ · 🎯 Prompting & Engineering Skills
 
 ## About
 
-# What You Get
+### What You Get
 
 - 
 One-Shot Skill Prompt: The exact polished prompt from the video to extract a comprehensive SOP from any screen recording using Gemini Video Understanding, then turn it into a fully functional Claude Code skill. Copy, paste, and go.

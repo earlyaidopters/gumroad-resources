@@ -6,12 +6,12 @@
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/monthly-insights-skill**
 
-`published` · CAD$0+
+`published` · CAD$0+ · 🎯 Prompting & Engineering Skills
 
 ## About
 
-# What You Get
-## Monthly Insights Skill for Claude Code: A drop-in skill that turns /insights into a full monthly review system.
+### What You Get
+#### Monthly Insights Skill for Claude Code: A drop-in skill that turns /insights into a full monthly review system.
 Run one command. 
 Get a report on how you've been using Claude Code for the last 30 days. The skill reads the report, pulls out the friction points, suggested rules, and features you should try, saves everything as a dated note in your Obsidian vault, and emails you a clean summary.
 How It Works:

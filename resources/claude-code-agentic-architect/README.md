@@ -6,11 +6,11 @@
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/claudecodeagents**
 
-`published` · CAD$0+
+`published` · CAD$0+ · 🔌 Automation & Workflows (n8n, Replit, Make.com)
 
 ## About
 
-# What You Get
+### What You Get
 
 - A single, plug-and-play prompt that analyzes any scenario and designs a complete 1–3 agent system end-to-end.
 

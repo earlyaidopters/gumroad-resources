@@ -6,11 +6,11 @@
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/vmrahj**
 
-`published` · CAD$0+
+`published` · CAD$0+ · 🧠 Custom GPTs & AI Agents
 
 ## About
 
-# What You Get
+### What You Get
 
 - 
 3 Complete PRD Documents: The exact Vision Document, Project Specification, and Implementation Guide used to build the app from scratch - totaling 100+ pages of technical blueprints.

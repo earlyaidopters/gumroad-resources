@@ -8,7 +8,7 @@
 
 ## About
 
-### What You Get - a Custom GPT that can help you with the following:
+##### What You Get - a Custom GPT that can help you with the following:
 
 - 
 Prompt Framing: A guided approach to help you structure and refine your first prompt for Bolt New.

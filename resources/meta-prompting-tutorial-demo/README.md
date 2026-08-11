@@ -4,7 +4,7 @@
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/MetaPromptingTutorialDemo**
 
-`published` · CAD$0+
+`published` · CAD$0+ · 🗂️ Frameworks, Meta Techniques & Experiments
 
 ## About
 

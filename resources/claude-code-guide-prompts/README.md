@@ -6,11 +6,11 @@
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/claude-code-guide-5-levels**
 
-`published` · CAD$0+
+`published` · CAD$0+ · 🎯 Prompting & Engineering Skills
 
 ## About
 
-# What You Get
+### What You Get
 5-Level Prompt Blueprint: Copy-paste prompts for every level of @claude-code-guide — from asking a basic question to having Claude fix its own broken automation. No setup required.
 5 Levels Covered:
 - Level 1 (Just Ask): How to get instant answers about any Claude Code feature without leaving the terminal

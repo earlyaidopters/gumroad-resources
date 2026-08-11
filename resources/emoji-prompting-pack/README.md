@@ -6,11 +6,11 @@
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/emojiprompting**
 
-`published` · CAD$0+
+`published` · CAD$0+ · 🎯 Prompting & Engineering Skills
 
 ## About
 
-# What You Get
+### What You Get
 
 - 11-minute video showing where emoji prompts shine (clarity, speed, structure) and where they fail (bloat, misreads).
 

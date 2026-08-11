@@ -6,7 +6,7 @@
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/temperatureandtopp**
 
-`published` · $0+
+`published` · $0+ · 🎯 Prompting & Engineering Skills
 
 ## About
 

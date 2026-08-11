@@ -6,11 +6,11 @@
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/thinkingmodechatgpt**
 
-`published` · CAD$0+
+`published` · CAD$0+ · 🎯 Prompting & Engineering Skills
 
 ## About
 
-# What You Get
+### What You Get
 
 - Full breakdown of ChatGPT’s new Light, Standard, Extended, Heavy thinking levels, mapped against speed, style, and best-fit use cases.
 

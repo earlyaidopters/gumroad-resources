@@ -6,7 +6,7 @@
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/agent-to-agent**
 
-`published` · CAD$0+
+`published` · CAD$0+ · 🔌 Automation & Workflows (n8n, Replit, Make.com)
 
 ## About
 
@@ -40,7 +40,7 @@ Ready-to-Import Templates
 
 - Simply upload them to n8n and start generating AI agents tailored to your needs—no heavy coding required
 
-## 💖 This took around 15 hours to put together, so feel free to support the channel if you can or wish to.
+#### 💖 This took around 15 hours to put together, so feel free to support the channel if you can or wish to.
 
 ## Resource content
 

@@ -8,8 +8,8 @@
 
 ## About
 
-## What's Included:
-### 1. 43 Optimized o1 Prompts (Notion Format)
+#### What's Included:
+##### 1. 43 Optimized o1 Prompts (Notion Format)
 
 - 
 Ready-to-use prompts tailored for o1 models
@@ -18,14 +18,14 @@ Ready-to-use prompts tailored for o1 models
 
 - Easily customizable to your needs
 
-### 2. Meta Prompt Guide
+##### 2. Meta Prompt Guide
 
 - Learn how to craft effective prompts for o1 models
 
 - 
 Unlock the full potential of these cutting-edge AI tools
 
-### 3. Slide Deck
+##### 3. Slide Deck
 
 - 
 Detailed presentation on o1 prompt engineering
@@ -34,7 +34,7 @@ Detailed presentation on o1 prompt engineering
 
 - Perfect for learning or teaching others
 
-### 4. Custom GPT Prompt Converter
+##### 4. Custom GPT Prompt Converter
 
 - 
 Exclusive access to a specialized GPT

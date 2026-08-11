@@ -6,11 +6,11 @@
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/claude-code-agent-teams-guide**
 
-`published` · CAD$0+
+`published` · CAD$0+ · 🧠 Custom GPTs & AI Agents
 
 ## About
 
-# What You Get
+### What You Get
 Agent Teams Complete Guide (BUILD-PROMPT.md): The exact prompt I used to build the Agent Surveillance Dashboard - a real-time web dashboard that monitors Claude Code agent teams as they work. Copy it, run it, customize it.
 Excalidraw Diagrams (24 images): Visual breakdowns of Agent Teams architecture, how subagents compare, the team lifecycle, messaging system, shared task lists, display modes, decision flowcharts, and real-world use case examples.
 Setup Walkthrough Diagrams (8 images): Step-by-step visual guide covering prerequisites, enabling the feature flag, model selection, first prompt, display modes, and keyboard shortcuts.

@@ -6,11 +6,11 @@
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/clawdbot-jarvis-setup-kit**
 
-`published` · CAD$0+
+`published` · CAD$0+ · 🧠 Custom GPTs & AI Agents
 
 ## About
 
-## What You Get
+#### What You Get
 Clawdbot Setup Checklist: Step-by-step deployment guide covering installation, onboarding, channel connection, skill configuration, and going live.
 Security Checklist: Production-ready security protocols including sandbox mode, scoped tokens, whitelist configuration, audit logging, and private deployment.
 Architecture Reference: Visual breakdown of how Clawdbot works - channels, gateway, tools, and Claude integration.

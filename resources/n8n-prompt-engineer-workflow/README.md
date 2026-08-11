@@ -6,11 +6,11 @@
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/n8npromptengineer**
 
-`published` · CAD$0+
+`published` · CAD$0+ · 🎯 Prompting & Engineering Skills
 
 ## About
 
-## What You Get
+#### What You Get
 
 - 
 Comprehensive Prompt Engineering Workflows: Ready-to-use n8n workflows specifically optimized for OpenAI, Google Gemini, Anthropic Claude, and other AI models, designed to maximize accuracy, efficiency, and precision.

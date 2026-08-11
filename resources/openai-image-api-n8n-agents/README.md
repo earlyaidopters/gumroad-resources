@@ -6,11 +6,11 @@
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/n8nimageapi**
 
-`published` · CAD$0+
+`published` · CAD$0+ · 🔌 Automation & Workflows (n8n, Replit, Make.com)
 
 ## About
 
-## What You Get
+#### What You Get
 
 - A complete n8n automation bundle to generate and edit high-quality images using OpenAI's new Image API (gpt-image-1, dall-e-3, and dall-e-2 supported).
 

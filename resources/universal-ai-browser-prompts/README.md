@@ -6,11 +6,11 @@
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/aibrowsers**
 
-`published` · CAD$0+
+`published` · CAD$0+ · 🎯 Prompting & Engineering Skills
 
 ## About
 
-# What You Get
+### What You Get
 
 - Copy-paste Quick-Start Template with all fields pre-wired: PERSONA, AIM, RECIPIENTS, THEME, CONTEXT, TASK, VERIFICATION, OUTPUT, SOURCES.
 

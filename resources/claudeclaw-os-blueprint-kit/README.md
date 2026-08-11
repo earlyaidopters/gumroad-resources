@@ -6,11 +6,11 @@
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/gnwsm**
 
-`published` · CAD$0+
+`published` · CAD$0+ · 🗂️ Frameworks, Meta Techniques & Experiments
 
 ## About
 
-# What You Get
+### What You Get
 ClaudeClaw OS Blueprint Kit - Build Your Own Claude Code Command Center
 This is the complete blueprint kit from the ClaudeClaw OS video. Everything you need to build your own personal AI command center using your existing Claude Code subscription and the Agent SDK.
 Rebuild Mega Prompt

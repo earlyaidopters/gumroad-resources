@@ -6,11 +6,11 @@
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/lojspb**
 
-`published` · CAD$0+
+`published` · CAD$0+ · 🧠 Custom GPTs & AI Agents
 
 ## About
 
-# What You Get
+### What You Get
 
 - The exact mega-prompt that auto-generates a complete custom GPT project (concise instructions + research-backed knowledge base) in minutes.
 

@@ -8,7 +8,7 @@
 
 ## About
 
-## What You Get
+#### What You Get
 
 - A clear, conversational slide deck explaining Model Context Protocols (MCPs) in plain English.
 

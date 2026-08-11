@@ -6,11 +6,11 @@
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/o3prompts**
 
-`published` · CAD$0+
+`published` · CAD$0+ · 🎯 Prompting & Engineering Skills
 
 ## About
 
-## What You Get
+#### What You Get
 
 - 
 10 expertly crafted prompts tailored for leveraging OpenAI’s advanced o3 model.

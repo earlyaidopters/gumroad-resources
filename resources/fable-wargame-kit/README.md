@@ -10,7 +10,7 @@
 
 ## About
 
-# What You Get
+### What You Get
 
 - 
 The Laundry List PDF: 10 ready-to-run wargame orders across 10 business domains (website rebuild, sales copy, local AI setup, tax prep, offer design, chatbot, bug hunt, model migration, competitor teardown, automation), each with the full optimized prompt.

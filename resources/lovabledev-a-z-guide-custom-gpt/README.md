@@ -6,7 +6,7 @@
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/lovable**
 
-`published` · CAD$0+
+`published` · CAD$0+ · 📊 Tools, Cheat Sheets & Evaluations
 
 ## About
 

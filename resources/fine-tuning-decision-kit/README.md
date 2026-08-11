@@ -6,11 +6,11 @@
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/finetuningdecision**
 
-`published` · CAD$0+
+`published` · CAD$0+ · 📊 Tools, Cheat Sheets & Evaluations
 
 ## About
 
-# What You Get
+### What You Get
 
 - Copy-paste Quarterly Review Checklist to pressure-test if your fine-tune still makes sense.
 

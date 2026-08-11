@@ -8,7 +8,7 @@
 
 ## About
 
-## What You Get in This Package
+#### What You Get in This Package
 With this Perplexity Spaces vs. Custom GPTs resource bundle, you’ll gain all the tools and insights you need to decide which AI solution fits your needs – or even combine the best of both worlds. Here's what’s included:
 
 - 

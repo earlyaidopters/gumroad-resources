@@ -6,11 +6,11 @@
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/agenticdesignpatterns**
 
-`published` · CAD$0+
+`published` · CAD$0+ · 🔌 Automation & Workflows (n8n, Replit, Make.com)
 
 ## About
 
-# What You Get
+### What You Get
 
 - Direct link to the Agentic Design Patterns README with all 20+ patterns (Core, Advanced, System, Optimization, Strategic).
 

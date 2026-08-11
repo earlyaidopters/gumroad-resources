@@ -6,11 +6,11 @@
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/claudeprojectn8nworkflows**
 
-`published` · CAD$0+
+`published` · CAD$0+ · 🔌 Automation & Workflows (n8n, Replit, Make.com)
 
 ## About
 
-## What You Get
+#### What You Get
 
 - A complete prompt and setup guide to transform Claude project instructions into valid n8n JSON—no screenshots, no fluff, just working workflows.
 

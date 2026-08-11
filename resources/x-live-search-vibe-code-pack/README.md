@@ -6,11 +6,11 @@
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/livesearchvibecoding**
 
-`published` · CAD$0+
+`published` · CAD$0+ · 🔌 Automation & Workflows (n8n, Replit, Make.com)
 
 ## About
 
-## What You Get
+#### What You Get
 
 - A comprehensive Cheat Sheet Guide (Google Doc) detailing every prompt and step to build the UI foundation, deploy a Supabase edge function, and configure n8n for a serverless alert system.
 

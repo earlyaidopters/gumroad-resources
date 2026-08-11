@@ -6,11 +6,11 @@
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/base44presentation**
 
-`published` · CAD$0+
+`published` · CAD$0+ · 🔌 Automation & Workflows (n8n, Replit, Make.com)
 
 ## About
 
-# What You Get
+### What You Get
 
 - A ready-to-import n8n workflow that connects directly to Gamma and auto-generates professional slide decks in under 2 minutes.
 

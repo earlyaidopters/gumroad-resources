@@ -10,7 +10,7 @@
 
 ## About
 
-# What You Get
+### What You Get
 
 - The Effort Decoder Guide (16-page PDF): The end-to-end breakdown of the most misunderstood setting in AI. Effort levels across Claude, OpenAI, Grok, and Gemini. The four-ladder chart verified live against the APIs in July 2026, the anatomy of every level from low to max, the renames every app hides behind, the four gotchas that quietly drain your usage limits, the two-second decision tree, and a level-by-level playbook with what to use, skip, and climb to for every single rung.
 

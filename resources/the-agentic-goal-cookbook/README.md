@@ -6,11 +6,11 @@
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/goal-cookbook-self-improving-agentic-os**
 
-`published` · CAD$0+
+`published` · CAD$0+ · 🗂️ Frameworks, Meta Techniques & Experiments
 
 ## About
 
-# What You Get
+### What You Get
 
 - 
 The /goal Cookbook (PDF): A polished 10-page guide containing the 5 ready-to-paste /goal prompts from the Self-Improving Agentic OS video, plus the 6-anchor framework that makes the difference between a /goal that finishes cleanly and a /goal that drifts.

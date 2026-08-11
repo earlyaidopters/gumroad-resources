@@ -6,11 +6,11 @@
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/n8nmcpfusion**
 
-`published` · CAD$0+
+`published` · CAD$0+ · 🔌 Automation & Workflows (n8n, Replit, Make.com)
 
 ## About
 
-## What You Get
+#### What You Get
 
 - 
 Level 1 Ready-to-Run Docs: Step-by-step Claude Desktop + Remote MCP Server setup documentation—no guesswork, just follow along and launch.

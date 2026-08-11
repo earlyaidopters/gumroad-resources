@@ -6,11 +6,11 @@
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/buildyourowngpt5**
 
-`published` · CAD$0+
+`published` · CAD$0+ · 🧠 Custom GPTs & AI Agents
 
 ## About
 
-## What You Get
+#### What You Get
 
 - 
 Custom GPT “ModelRouter” that restores all your lost OpenAI models via OpenRouter—o3, o3-mini, o4-mini, gpt-4.1, mini, nano.

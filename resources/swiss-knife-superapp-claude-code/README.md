@@ -6,11 +6,11 @@
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/media-toolkit-claude-code-prompts**
 
-`published` · CAD$0+
+`published` · CAD$0+ · 🗂️ Frameworks, Meta Techniques & Experiments
 
 ## About
 
-# What You Get
+### What You Get
 
 - 
 9 Production-Ready Prompts: The exact prompts I used to build a complete Media Toolkit with Claude Code - step by step, in the order I executed them.

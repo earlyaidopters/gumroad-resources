@@ -10,7 +10,7 @@
 
 ## About
 
-# What You Get
+### What You Get
 The Fable Mindset is a free kit for keeping a piece of a frontier model after you lose access to it. When Fable 5 was switched off, the thing that made it special did not all disappear. The way it reasoned was recorded in your own conversation logs. This kit shows you how to pull that discipline out and point it at whatever model you are running today.
 
 - 

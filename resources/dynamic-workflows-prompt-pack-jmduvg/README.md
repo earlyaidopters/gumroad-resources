@@ -6,11 +6,11 @@
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/dynamic-workflows-prompt-pack-claude**
 
-`published` · CAD$0+
+`published` · CAD$0+ · 🎯 Prompting & Engineering Skills
 
 ## About
 
-# What You Get
+### What You Get
 Most people use Claude Code like a chatbot. These three prompts use it like a team. Each one points a dynamic workflow at your own world, your logs, the live discourse, your setup, fans agents out across it, and runs a second pass that verifies every finding before it reaches you. Each one hands back a clean, self-contained HTML report you can open anywhere.
 
 - 

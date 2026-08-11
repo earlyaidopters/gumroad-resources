@@ -6,11 +6,11 @@
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/claudemaxxing-hidden-features-guide**
 
-`published` · CAD$0+
+`published` · CAD$0+ · 🗂️ Frameworks, Meta Techniques & Experiments
 
 ## About
 
-# What You Get
+### What You Get
 
 - 
 Complete Visual Guide (PDF): Every hidden and underutilized Claude Code feature from Boris Cherny's viral thread, broken down with explanations, exact commands, and pro tips.

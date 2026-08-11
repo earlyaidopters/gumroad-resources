@@ -6,11 +6,11 @@
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/atlasvibeautomation**
 
-`published` · CAD$0+
+`published` · CAD$0+ · 🎯 Prompting & Engineering Skills
 
 ## About
 
-# What You Get
+### What You Get
 
 - A copy-paste Atlas Agent Mode meta-prompt that clicks n8n “Build with AI”, drafts nodes, configures settings, injects an LLM system prompt (<800 chars), and saves (not activates) the workflow for review.
 

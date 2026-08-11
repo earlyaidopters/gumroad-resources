@@ -6,11 +6,11 @@
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/genspark**
 
-`published` · CAD$0+
+`published` · CAD$0+ · 🎯 Prompting & Engineering Skills
 
 ## About
 
-## What You Get
+#### What You Get
 
 - A curated set of high-performance prompts optimized for GenSpark’s multi-tool AI automation suite.
 

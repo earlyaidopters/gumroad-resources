@@ -6,11 +6,11 @@
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/n8ntext2workflowprompts**
 
-`published` · $0+
+`published` · $0+ · 🔌 Automation & Workflows (n8n, Replit, Make.com)
 
 ## About
 
-## What You Get
+#### What You Get
 
 - 3 ready-to-copy prompts built for n8n’s new Text-to-Workflow: Lead Qualification, Mock Calendly Webhook JSON, and Fireflies Transcript → Nurture Branching.
 

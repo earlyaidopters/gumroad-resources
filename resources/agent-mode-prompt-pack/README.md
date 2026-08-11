@@ -6,11 +6,11 @@
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/agentmodeprompts**
 
-`published` · CAD$0+
+`published` · CAD$0+ · 🎯 Prompting & Engineering Skills
 
 ## About
 
-## What You Get
+#### What You Get
 
 - 
 10 real-world Agent Mode prompts copy-pasted directly from the video—no filler, just the exact text that worked.

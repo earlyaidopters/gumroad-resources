@@ -9,7 +9,7 @@
 ## About
 
 DeepSeek R1 is revolutionizing AI with unparalleled reasoning capabilities, designed to "think before it answers." This guide + custom GPT will help you unlock its full potential.
-### What You’ll Get:
+##### What You’ll Get:
 📖 Notion Guide: The Ultimate DeepSeek R1 Playbook
 
 - A deep dive into how DeepSeek R1 works, its reinforcement learning (RL) and supervised fine-tuning (SFT) methodology.
@@ -37,7 +37,7 @@ Asks clarifying questions to refine your input, ensuring the best prompt output 
 
 - Automatically suggests ideal temperature settings and model-specific tweaks to enhance performance.
 
-### 💖 This took a few hours, so feel free to support the channel if you can/wish to!
+##### 💖 This took a few hours, so feel free to support the channel if you can/wish to!
 
 ## Resource content
 

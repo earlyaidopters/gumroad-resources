@@ -10,7 +10,7 @@
 
 ## About
 
-# What You Get
+### What You Get
 
 - 
 The Fable 5 Effort Cheat Sheet (PDF): The 12-page visual guide from the video. When and where to use every tier of effort (low to max), the Fable-vs-Opus equivalence map, the tactical plan-expensive-execute-cheap loop, and ready-to-run recipes for three real jobs - a marketing site, a 3D website, and a full CRM. Every page is a diagram plus the exact heuristics.

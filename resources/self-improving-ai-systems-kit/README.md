@@ -6,11 +6,11 @@
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/self-improving-ai-systems-kit**
 
-`published` · CAD$0+
+`published` · CAD$0+ · 🧠 Custom GPTs & AI Agents
 
 ## About
 
-# What You Get
+### What You Get
 The Mega Prompt: The exact 500+ word prompt I used to build the entire self-improving chatbot from scratch. Drop it into Claude Code with Supabase MCP and watch it build tables, edge functions, and the evaluation layer automatically.
 Architecture Guide: Complete breakdown of the self-improvement feedback loop - database schema, edge functions, the evaluation layer, and how all the pieces connect. Includes diagrams you can recreate.
 Rubric Template: The 5-criteria scoring system the AI uses to judge itself. Includes the "ruthless critic" prompt variation for stress testing, plus examples of passing and failing reflections.

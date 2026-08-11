@@ -12,7 +12,7 @@
 
 The two-document take-home from the video. Stop picking sides between Opus, Claude Code, and Codex. Use both as a team. One window. One workflow. 
 The Field Guide gives you the video as a permanent reference. The Concepts Companion goes deeper than anything you saw on screen.
-# What You Get
+### What You Get
 Codex Duo Field Guide (PDF):
 The video as a take-home reference. Every diagram embedded, every section with plain English explanations, the cheat sheet at the end. Read it once before you build, keep it open while you build.
 Codex Duo Concepts Companion (PDF):

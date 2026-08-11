@@ -10,7 +10,7 @@
 
 ## About
 
-# What You Get
+### What You Get
 
 - 
 Six copy-paste prompts, one for each pattern that almost every dynamic workflow is built from, pulled straight from Anthropic's own dynamic-workflows guide and adapted into prompts you can run today.

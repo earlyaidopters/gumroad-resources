@@ -10,7 +10,7 @@
 
 ## About
 
-# What You Get
+### What You Get
 
 - 
 The /benchmark Skill (full source): The complete Claude Code skill that mines your own conversation history into a personal eval pack and benchmarks any model against it. Every script included, nothing held back.
@@ -28,7 +28,7 @@ Reports You Can Show: Scorecard, TLDR verdict, before/after HTML report, live pr
 Setup Wizard Included: First run walks you through everything. Works with a Gemini key or falls back to your Claude subscription. Your data never leaves your machine.
 
 ---
-## Want my full systems and access to every resource I create? 
+#### Want my full systems and access to every resource I create? 
 Join 1300+ builders inside the community:
 https://www.skool.com/earlyaidopters/about
 

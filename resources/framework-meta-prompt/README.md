@@ -6,7 +6,7 @@
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/FrameworkMetaPrompt**
 
-`published` · CAD$0+
+`published` · CAD$0+ · 🗂️ Frameworks, Meta Techniques & Experiments
 
 ## About
 

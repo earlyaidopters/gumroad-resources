@@ -6,12 +6,12 @@
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/promptbattletesting**
 
-`published` · CAD$0+
+`published` · CAD$0+ · 🎯 Prompting & Engineering Skills
 
 ## About
 
 Unlock the secrets of effective AI prompt engineering with this comprehensive Prompt Battle Testing toolkit. Perfect for beginners and experienced prompt engineers alike, this package gives you everything you need to take your prompt testing skills from Level 1 to Level 4.
-## 🚀 What's Included:
+#### 🚀 What's Included:
 
 - 
 Custom GPT Guide:
@@ -37,9 +37,9 @@ Airtable JavaScript Implementation:
 
 - Perfect for testing complex conversational outputs
 
-### 🎁 Bonus:
+##### 🎁 Bonus:
 Exclusive access to video tutorials walking you through each method step-by-step.
-## 💡 Why You Need This:
+#### 💡 Why You Need This:
 
 - Create more robust, effective prompts for your AI projects
 

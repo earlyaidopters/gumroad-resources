@@ -6,11 +6,11 @@
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/advancedvoicegpt**
 
-`published` · CAD$0+
+`published` · CAD$0+ · 🧠 Custom GPTs & AI Agents
 
 ## About
 
-### What You Get
+##### What You Get
 
 - A Notion template featuring the example demonstrated in the video, showing how to leverage ChatGPT's Advanced Voice feature.
 

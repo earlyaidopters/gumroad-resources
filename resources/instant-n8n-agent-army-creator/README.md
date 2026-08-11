@@ -6,11 +6,11 @@
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/instantagentarmyclaude**
 
-`published` · CAD$0+
+`published` · CAD$0+ · 📊 Tools, Cheat Sheets & Evaluations
 
 ## About
 
-## What You Get
+#### What You Get
 
 - A ready-to-use Claude 4 Opus-optimized prompt, enabling instant creation of fully functional, agent-based n8n workflows.
 

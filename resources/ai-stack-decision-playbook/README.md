@@ -6,11 +6,11 @@
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/aistackdecisionplaybook**
 
-`published` · CAD$0+
+`published` · CAD$0+ · 🧠 Custom GPTs & AI Agents
 
 ## About
 
-# What You Get
+### What You Get
 
 - A full-stack framework to evaluate, test, and pick the right AI tools with eight gates of decision-making, from step-change analysis to economic reality checks.
 

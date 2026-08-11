@@ -6,11 +6,11 @@
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/council-skill-claude-code**
 
-`published` · CAD$0+
+`published` · CAD$0+ · 🎯 Prompting & Engineering Skills
 
 ## About
 
-# What You Get
+### What You Get
 
 - 
 The Council Skill (.skill file): Drop it into Claude Code and immediately tap into OpenAI and Google models without leaving your terminal. Invoke with /council or natural language like "get a second opinion."
@@ -22,7 +22,7 @@ OpenRouter Config: Pre-configured model routing that sends bug fixes to GPT-5.3-
 Setup README: Step-by-step instructions to get your OpenRouter API key and install the skill in under 5 minutes.
 
 ---
-## Why This Works
+#### Why This Works
 Claude Code is already your best coding partner. But every model has blind spots. 
 Council lets you tap into Gemini or Codex for a second opinion without switching apps, switching contexts, or picking sides. Claude stays in charge. The other models advise.
 The result: better code, better copy, better decisions - using the right model for the right job at the right time.

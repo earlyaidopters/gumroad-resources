@@ -6,11 +6,11 @@
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/supercustomgpt**
 
-`published` · CAD$0+
+`published` · CAD$0+ · 🧠 Custom GPTs & AI Agents
 
 ## About
 
-## What You Get 🚀
+#### What You Get 🚀
 Here’s what’s included:
 
 - 
@@ -43,7 +43,7 @@ Tool Links and Additional Resources- Direct links to Firecrawl, mem0, Make.com, 
 - 
 Bonus Video Resource- Exclusive YouTube video tutorial on Claude PDF Analysis Integration for hands-on learning.
 
-## If this is at all useful to you, would love if you could support the channel ❤️‍🔥
+#### If this is at all useful to you, would love if you could support the channel ❤️‍🔥
 
 ## Resource content
 

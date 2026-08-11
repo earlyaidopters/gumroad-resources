@@ -6,11 +6,11 @@
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/4oimagegeneration**
 
-`published` · CAD$0+
+`published` · CAD$0+ · 🎯 Prompting & Engineering Skills
 
 ## About
 
-## What You Get
+#### What You Get
 
 - A detailed Knowledge Base file loaded with expert guidelines, examples, and best practices for creating precise prompts that seamlessly replace traditional design tools—covering logos, mascots, infographics, social graphics, product packaging, and more.
 

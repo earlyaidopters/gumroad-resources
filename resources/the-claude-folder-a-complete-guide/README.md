@@ -6,11 +6,11 @@
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/claude-folder-anatomy-guide**
 
-`published` · CAD$0+
+`published` · CAD$0+ · 🗂️ Frameworks, Meta Techniques & Experiments
 
 ## About
 
-## 
+#### 
 What You Get
 The .claude Folder Guide (PDF)
 - A 30-page reference guide covering all seven components of the .claude folder with diagrams from the video injected inline. 

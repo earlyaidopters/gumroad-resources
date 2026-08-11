@@ -6,11 +6,11 @@
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/create-your-own-gpt-kit**
 
-`published` · CAD$0+
+`published` · CAD$0+ · 🧠 Custom GPTs & AI Agents
 
 ## About
 
-# What You Get
+### What You Get
 The Complete Setup Guide (PDF): A 9-page walkthrough covering everything from CLAUDE.md templates to MCP setup commands. Copy-paste ready prompts and beginner-friendly warnings included.
 Gemini API Documentation: The exact reference file I use to give Claude Code knowledge of video understanding, image generation, and real-time voice. Updated December 2025 with Gemini 3 Pro and Nano Banana.
 6 MCP Setup Commands: One-line copy-paste commands for Zapier (1000+ integrations), Firecrawl (web scraping), Supabase (database), n8n (automation), Playwright (browser), and 21st.dev Magic (UI components).

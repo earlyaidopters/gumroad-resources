@@ -8,6 +8,7 @@
       "name": "Personal AI Benchmark Kit 🧪",
       "status": "published",
       "archived": false,
+      "category": "Other",
       "content_hash": "a910bb2d4263ffe8",
       "files": [
         "personal_benchmark_skill.zip"
@@ -21,6 +22,7 @@
       "name": "Open Source AI Crash Course Kit 🧰",
       "status": "published",
       "archived": false,
+      "category": "Other",
       "content_hash": "3cd37c4d2a176bd8",
       "files": [
         "open_source_ai_crash_course_guide.pdf",
@@ -35,6 +37,7 @@
       "name": "Effort Decoder Guide 🎛️",
       "status": "published",
       "archived": false,
+      "category": "Other",
       "content_hash": "fc52133f9df6b295",
       "files": [
         "Effort_Decoder_Guide.pdf"
@@ -48,6 +51,7 @@
       "name": "Fable Wargame Kit 🎖️",
       "status": "published",
       "archived": false,
+      "category": "Other",
       "content_hash": "eafb4776223e40e2",
       "files": [
         "fable_wargame_kit.zip"
@@ -61,6 +65,7 @@
       "name": "Agentic OS Starter Kit 🌍",
       "status": "published",
       "archived": false,
+      "category": "Other",
       "content_hash": "bf04ed92c1e12ca7",
       "files": [
         "Agentic_OS_Starter_Kit.pdf",
@@ -78,6 +83,7 @@
       "name": "The Enterprise OS Blueprint Kit 🏢",
       "status": "published",
       "archived": false,
+      "category": "Other",
       "content_hash": "6c8cf23f1de84199",
       "files": [
         "Enterprise_OS_Blueprint_Kit.zip"
@@ -91,6 +97,7 @@
       "name": "The Fable Mindset Playbook 🧠",
       "status": "published",
       "archived": false,
+      "category": "Other",
       "content_hash": "bcfddeeab6e40cc7",
       "files": [
         "PROMPTS.md",
@@ -107,6 +114,7 @@
       "name": "Fable 5 Effort Cheat Sheet 🎛️",
       "status": "published",
       "archived": false,
+      "category": "Other",
       "content_hash": "0b4c80dff06de1e0",
       "files": [
         "Fable5_Effort_Cheat_Sheet.pdf",
@@ -121,6 +129,7 @@
       "name": "6 Dynamic Workflow Patterns for Claude Code 👨🏽‍💻",
       "status": "published",
       "archived": false,
+      "category": "Other",
       "content_hash": "26037119a120ca4d",
       "files": [
         "Dynamic_Workflow_Patterns.pdf"
@@ -134,6 +143,7 @@
       "name": "Dynamic Workflows Prompt Pack 🎛️",
       "status": "published",
       "archived": false,
+      "category": "🎯 Prompting & Engineering Skills",
       "content_hash": "d5c6d71f12840a48",
       "files": [
         "dynamic_workflows_prompt_pack.pdf"
@@ -147,7 +157,8 @@
       "name": "Dynamic Workflows Prompt Pack 📝",
       "status": "published",
       "archived": false,
-      "content_hash": "2489f789960ec3df",
+      "category": "Other",
+      "content_hash": "d76cad2552eeb81e",
       "files": [
         "Dynamic_Workflows_Prompt_Pack.pdf"
       ],
@@ -160,6 +171,7 @@
       "name": "Polyskill Kit 🧩",
       "status": "published",
       "archived": false,
+      "category": "🎯 Prompting & Engineering Skills",
       "content_hash": "39d7b49a31c6a873",
       "files": [
         "polyskill-kit.zip"
@@ -173,6 +185,7 @@
       "name": "The Agentic Goal Cookbook 📖",
       "status": "published",
       "archived": false,
+      "category": "🗂️ Frameworks, Meta Techniques & Experiments",
       "content_hash": "9968f666d540a756",
       "files": [
         "goal_cookbook.pdf",
@@ -187,6 +200,7 @@
       "name": "The Skill Audit Prompt 🔍",
       "status": "published",
       "archived": false,
+      "category": "🎯 Prompting & Engineering Skills",
       "content_hash": "10eb08873b61ad9e",
       "files": [
         "optimize_skill_prompt.md"
@@ -200,6 +214,7 @@
       "name": "The Perfect Agentic OS Kit 🧱",
       "status": "published",
       "archived": false,
+      "category": "🗂️ Frameworks, Meta Techniques & Experiments",
       "content_hash": "6a3056dc57f004b7",
       "files": [
         "skill_assets.zip"
@@ -213,6 +228,7 @@
       "name": "ClaudeClaw Mission Control Kit 🧠",
       "status": "published",
       "archived": false,
+      "category": "🧠 Custom GPTs & AI Agents",
       "content_hash": "d159b44f4efa874f",
       "files": [
         "DISCLAIMER.md",
@@ -235,6 +251,7 @@
       "name": "Claudex Plan-Pressure-Test Kit ⏲️",
       "status": "published",
       "archived": false,
+      "category": "🧠 Custom GPTs & AI Agents",
       "content_hash": "b82b9e303c74d72d",
       "files": [
         "codex_loop_field_guide.pdf"
@@ -248,6 +265,7 @@
       "name": "Codex + Claude Code Dynamic Duo Kit 🤝",
       "status": "published",
       "archived": false,
+      "category": "Other",
       "content_hash": "fd90322ba8798a73",
       "files": [
         "codex_duo_concepts_companion.pdf",
@@ -262,6 +280,7 @@
       "name": "Memory Architect Kit 🧠 ⚡️",
       "status": "published",
       "archived": false,
+      "category": "🗂️ Frameworks, Meta Techniques & Experiments",
       "content_hash": "f01210ffc4e456bc",
       "files": [
         "Concept Walkthroughs.pdf",
@@ -276,6 +295,7 @@
       "name": "ClaudeClaw OS Blueprint Kit 🦀",
       "status": "published",
       "archived": false,
+      "category": "🗂️ Frameworks, Meta Techniques & Experiments",
       "content_hash": "b2d941c2d09be825",
       "files": [
         "ClaudeClaw_v2_Visual_Guide.pdf",
@@ -293,6 +313,7 @@
       "name": "Skill Chaining Kit for Claude Code 👨🏽‍💻",
       "status": "published",
       "archived": false,
+      "category": "🗂️ Frameworks, Meta Techniques & Experiments",
       "content_hash": "510d46724b3b361a",
       "files": [
         "brain-chain.zip",
@@ -307,6 +328,7 @@
       "name": "Claude Code Monthly Insights Skill 🛠️",
       "status": "published",
       "archived": false,
+      "category": "🎯 Prompting & Engineering Skills",
       "content_hash": "ccc1f777a9678f9c",
       "files": [
         "SKILL.md"
@@ -320,6 +342,7 @@
       "name": "Claudemaxxing Guide 🧠 🦾",
       "status": "published",
       "archived": false,
+      "category": "🗂️ Frameworks, Meta Techniques & Experiments",
       "content_hash": "83e7c3f632aba20f",
       "files": [
         "claudemaxxing_guide.pdf"
@@ -333,6 +356,7 @@
       "name": "The .claude Folder: A Complete Guide 🧠",
       "status": "published",
       "archived": false,
+      "category": "🗂️ Frameworks, Meta Techniques & Experiments",
       "content_hash": "9da36ba4bb251641",
       "files": [
         "meetingflow_demo.zip",
@@ -347,6 +371,7 @@
       "name": "One-Shot Skill Creation Prompt 🎥",
       "status": "published",
       "archived": false,
+      "category": "🎯 Prompting & Engineering Skills",
       "content_hash": "ec51e784c44fd425",
       "files": [
         "one_shot_skill_prompt.md"
@@ -360,6 +385,7 @@
       "name": "📓 Claude Certified Architect Study Guide",
       "status": "published",
       "archived": false,
+      "category": "🗂️ Frameworks, Meta Techniques & Experiments",
       "content_hash": "c82f05e042a2892f",
       "files": [
         "claude_architect_study_guide.pdf"
@@ -373,6 +399,7 @@
       "name": "Second Brain Starter Kit - Obsidian + Claude Code 🧠",
       "status": "published",
       "archived": false,
+      "category": "Other",
       "content_hash": "72fd441b69fc4e66",
       "files": [
         "obsidian-setup-guide.pdf",
@@ -387,6 +414,7 @@
       "name": "Claude Code Guide Prompts ⭐️",
       "status": "published",
       "archived": false,
+      "category": "🎯 Prompting & Engineering Skills",
       "content_hash": "a481b754dd7ced38",
       "files": [
         "5_LEVELS_CLAUDE_CODE_GUIDE.pdf"
@@ -400,6 +428,7 @@
       "name": "Google Workspace CLI Starter Kit 🏁",
       "status": "published",
       "archived": false,
+      "category": "📊 Tools, Cheat Sheets & Evaluations",
       "content_hash": "ae9ed88c2a86bd60",
       "files": [
         "DEMO_PROMPTS.pdf",
@@ -414,6 +443,7 @@
       "name": "The Council Skill for Claude Code 👑",
       "status": "published",
       "archived": false,
+      "category": "🎯 Prompting & Engineering Skills",
       "content_hash": "fcad5e147e30e4e2",
       "files": [
         "council.skill",
@@ -428,6 +458,7 @@
       "name": "Claude Code ASCII Art Planning ✏️",
       "status": "published",
       "archived": false,
+      "category": "🗂️ Frameworks, Meta Techniques & Experiments",
       "content_hash": "d63dc288056ae4c8",
       "files": [
         "ASCII_Planning_Prompts.pdf"
@@ -441,6 +472,7 @@
       "name": "ClaudeClaw - Mega Prompt + Visual Guide 🦞",
       "status": "published",
       "archived": false,
+      "category": "🎯 Prompting & Engineering Skills",
       "content_hash": "23d44241e1b50617",
       "files": [
         "REBUILD_PROMPT.md",
@@ -455,6 +487,7 @@
       "name": "Agent Team Prompts for Claude Code 👥 👥",
       "status": "published",
       "archived": false,
+      "category": "🎯 Prompting & Engineering Skills",
       "content_hash": "caff8ebb2bfce5ce",
       "files": [
         "agent_team_prompts.pdf"
@@ -468,6 +501,7 @@
       "name": "The OpenClaw Mind Virus Cure 💊",
       "status": "published",
       "archived": false,
+      "category": "🗂️ Frameworks, Meta Techniques & Experiments",
       "content_hash": "2a2b5b881ddea2c0",
       "files": [
         "framework-comparison.html"
@@ -481,6 +515,7 @@
       "name": "Claude Code Skills Guide 📓 🤖",
       "status": "published",
       "archived": false,
+      "category": "🎯 Prompting & Engineering Skills",
       "content_hash": "dc3387a6f2bad27d",
       "files": [
         "skill_examples.zip",
@@ -496,6 +531,7 @@
       "name": "Banana Squad - Image Agent Team 🍌",
       "status": "published",
       "archived": false,
+      "category": "🧠 Custom GPTs & AI Agents",
       "content_hash": "87f85851f29b1b35",
       "files": [
         "diagrams.zip",
@@ -512,6 +548,7 @@
       "name": "Claude Agent Teams Guide + Skill 🦾",
       "status": "published",
       "archived": false,
+      "category": "🧠 Custom GPTs & AI Agents",
       "content_hash": "2d2cdc9cb5deb12c",
       "files": [
         "agent_teams_diagrams.zip",
@@ -526,6 +563,7 @@
       "name": "Claude Cowork Plugin Superpowers ⚡️",
       "status": "published",
       "archived": false,
+      "category": "🧠 Custom GPTs & AI Agents",
       "content_hash": "66183b5568df0bfb",
       "files": [
         "claude_cowork_plugins_guide.pdf",
@@ -540,6 +578,7 @@
       "name": "Claude Code Foundations Kit 🛠️",
       "status": "published",
       "archived": false,
+      "category": "🧠 Custom GPTs & AI Agents",
       "content_hash": "42db9708a2194f7f",
       "files": [
         "Claude_Code_Deep_Dive_Guide.pdf"
@@ -553,6 +592,7 @@
       "name": "Clawdbot Setup & Security Kit 🦞",
       "status": "published",
       "archived": false,
+      "category": "🧠 Custom GPTs & AI Agents",
       "content_hash": "10c366c2722f446e",
       "files": [
         "Mac_Mini_Setup_Guide.pdf",
@@ -567,6 +607,7 @@
       "name": "Claude Code Council Kit 🤖",
       "status": "published",
       "archived": false,
+      "category": "🧠 Custom GPTs & AI Agents",
       "content_hash": "352bfcbabb7b2e86",
       "files": [
         "agent_prompt_guide.pdf",
@@ -584,6 +625,7 @@
       "name": "Claude CoWork Sub-Agents Guide 🤖",
       "status": "published",
       "archived": false,
+      "category": "🧠 Custom GPTs & AI Agents",
       "content_hash": "1074ac578655887d",
       "files": [
         "Claude_CoWork_SubAgents_Guide.pdf"
@@ -597,6 +639,7 @@
       "name": "Claude Code Terminals Playbook 📓",
       "status": "published",
       "archived": false,
+      "category": "🧠 Custom GPTs & AI Agents",
       "content_hash": "acf6e34c8039e8c3",
       "files": [
         "Diagrams.zip",
@@ -613,6 +656,7 @@
       "name": "NotebookLM Reimagined - Complete Build Kit 🛠️",
       "status": "published",
       "archived": false,
+      "category": "🧠 Custom GPTs & AI Agents",
       "content_hash": "335c77c6be23e16b",
       "files": [
         "01_VISION_DOCUMENT.md",
@@ -629,6 +673,7 @@
       "name": "Changelog Master Build Kit 🔔",
       "status": "published",
       "archived": false,
+      "category": "🗂️ Frameworks, Meta Techniques & Experiments",
       "content_hash": "10a0192b94f36783",
       "files": [
         "changelog_tracker_spec.pdf",
@@ -646,6 +691,7 @@
       "name": "Self-Improving AI Systems Kit 🔄",
       "status": "published",
       "archived": false,
+      "category": "🧠 Custom GPTs & AI Agents",
       "content_hash": "0ec4b43ba35b4af8",
       "files": [
         "Architecture_Guide.pdf",
@@ -663,6 +709,7 @@
       "name": "Create Your Own ChatGPT System 🎁",
       "status": "published",
       "archived": false,
+      "category": "🧠 Custom GPTs & AI Agents",
       "content_hash": "0a467ef49dbeb04d",
       "files": [
         "Create_Your_Own_GPT_Guide.pdf",
@@ -677,6 +724,7 @@
       "name": "Swiss Knife Superapp (Claude Code) 🇨🇭",
       "status": "published",
       "archived": false,
+      "category": "🗂️ Frameworks, Meta Techniques & Experiments",
       "content_hash": "b3ca4ea7bc551d9b",
       "files": [
         "00-planning-prompt.md",
@@ -699,6 +747,7 @@
       "name": "Claude Code Extraction Kit 🧠",
       "status": "published",
       "archived": false,
+      "category": "🗂️ Frameworks, Meta Techniques & Experiments",
       "content_hash": "c249961f6b1c3d42",
       "files": [
         "claude_skills_import.md",
@@ -714,6 +763,7 @@
       "name": "Claude Code Masterclass Guide 🧞‍♂️",
       "status": "published",
       "archived": false,
+      "category": "Other",
       "content_hash": "0e4dd99a6aace15f",
       "files": [
         "settings.local.json",
@@ -728,6 +778,7 @@
       "name": "Gemini File Search API Kit 🔎",
       "status": "published",
       "archived": false,
+      "category": "📊 Tools, Cheat Sheets & Evaluations",
       "content_hash": "f83a7bed0c70487e",
       "files": [
         "PDF and Text File Upload to Google Gemini File Search Store.json",
@@ -742,6 +793,7 @@
       "name": "Master Canvas Guide for n8n Vibe Automation",
       "status": "published",
       "archived": false,
+      "category": "🔌 Automation & Workflows (n8n, Replit, Make.com)",
       "content_hash": "f395f622faa4f9fc",
       "files": [
         "Intro to Vibe Automation.json"
@@ -755,6 +807,7 @@
       "name": "Claude Skills in n8n Workflow Template 🍳",
       "status": "published",
       "archived": false,
+      "category": "🔌 Automation & Workflows (n8n, Replit, Make.com)",
       "content_hash": "466a2521f5c8934b",
       "files": [
         "Anthropic Agent Skills Workflows.json"
@@ -768,6 +821,7 @@
       "name": "ChatGPT Atlas → n8n Builder Prompt ⚙️",
       "status": "published",
       "archived": false,
+      "category": "🎯 Prompting & Engineering Skills",
       "content_hash": "31ff08d9d91347ac",
       "files": [
         "Vibe Automation Prompt.md"
@@ -781,6 +835,7 @@
       "name": "Claude Skills Factory Prompt 🏭",
       "status": "published",
       "archived": false,
+      "category": "🎯 Prompting & Engineering Skills",
       "content_hash": "5bdc11a9bd725041",
       "files": [
         "SKILLS_FACTORY_GENERATOR_PROMPT.md"
@@ -794,6 +849,7 @@
       "name": "Claude Agent Skills Pack 🧰",
       "status": "published",
       "archived": false,
+      "category": "🔌 Automation & Workflows (n8n, Replit, Make.com)",
       "content_hash": "c913bb671fdf68c4",
       "files": [
         "SKILL.md",
@@ -811,6 +867,7 @@
       "name": "Agent Builder Starter Clone Kit 🧩",
       "status": "published",
       "archived": false,
+      "category": "🔌 Automation & Workflows (n8n, Replit, Make.com)",
       "content_hash": "8672ffc85a5ea383",
       "files": [
         "Visual_Workflow_Builder_Specification.docx",
@@ -825,6 +882,7 @@
       "name": "Sora Studio Builder 🎬",
       "status": "published",
       "archived": false,
+      "category": "🗂️ Frameworks, Meta Techniques & Experiments",
       "content_hash": "83c5e6336fd215e8",
       "files": [
         "openai-video-api-guide.md"
@@ -838,6 +896,7 @@
       "name": "AI Starter Care Package 🎒",
       "status": "published",
       "archived": false,
+      "category": "🧠 Custom GPTs & AI Agents",
       "content_hash": "4ba2a8bb1e663811",
       "files": [
         "Slack to YouTube Content Generator.json",
@@ -860,6 +919,7 @@
       "name": "Perplexity Search API Starter Pack 🌐",
       "status": "published",
       "archived": false,
+      "category": "🗂️ Frameworks, Meta Techniques & Experiments",
       "content_hash": "8adc8387da7a03a0",
       "files": [
         "Multi-Agent Prompt Engineering Research Synthesizer.json",
@@ -875,6 +935,7 @@
       "name": "Claude Code Agentic Architect 🧱",
       "status": "published",
       "archived": false,
+      "category": "🔌 Automation & Workflows (n8n, Replit, Make.com)",
       "content_hash": "e3b0c44298fc1c14",
       "files": [],
       "has_content": true
@@ -886,6 +947,7 @@
       "name": "Prompt Suite Factory 🏭",
       "status": "published",
       "archived": false,
+      "category": "🧠 Custom GPTs & AI Agents",
       "content_hash": "e3b0c44298fc1c14",
       "files": [],
       "has_content": true
@@ -897,6 +959,7 @@
       "name": "Claude Code GPT Factory Prompt ⚙️",
       "status": "published",
       "archived": false,
+      "category": "🧠 Custom GPTs & AI Agents",
       "content_hash": "e3b0c44298fc1c14",
       "files": [],
       "has_content": true
@@ -908,6 +971,7 @@
       "name": "ChatGPT Thinking Modes Analysis 🧠",
       "status": "published",
       "archived": false,
+      "category": "🎯 Prompting & Engineering Skills",
       "content_hash": "e3b0c44298fc1c14",
       "files": [],
       "has_content": true
@@ -919,6 +983,7 @@
       "name": "n8n Data Tables Kit 🧠",
       "status": "published",
       "archived": false,
+      "category": "🔌 Automation & Workflows (n8n, Replit, Make.com)",
       "content_hash": "9153373bf3291526",
       "files": [
         "Data Tables.json",
@@ -934,6 +999,7 @@
       "name": "Emoji Prompting Pack 🎨🤖",
       "status": "published",
       "archived": false,
+      "category": "🎯 Prompting & Engineering Skills",
       "content_hash": "e3b0c44298fc1c14",
       "files": [],
       "has_content": true
@@ -945,6 +1011,7 @@
       "name": "FULL Agentic Patterns Kit 🧠",
       "status": "published",
       "archived": false,
+      "category": "🔌 Automation & Workflows (n8n, Replit, Make.com)",
       "content_hash": "e3b0c44298fc1c14",
       "files": [],
       "has_content": true
@@ -956,6 +1023,7 @@
       "name": "Claude Code MCP Starter Kit 📦",
       "status": "published",
       "archived": false,
+      "category": "📊 Tools, Cheat Sheets & Evaluations",
       "content_hash": "7f13eaf468754bfa",
       "files": [
         "mcp-complete-implementation-guide.md",
@@ -971,6 +1039,7 @@
       "name": "Fine-Tuning Decision Kit 📊",
       "status": "published",
       "archived": false,
+      "category": "📊 Tools, Cheat Sheets & Evaluations",
       "content_hash": "e3b0c44298fc1c14",
       "files": [],
       "has_content": true
@@ -982,6 +1051,7 @@
       "name": "Universal AI Browser Prompts 🌐",
       "status": "published",
       "archived": false,
+      "category": "🎯 Prompting & Engineering Skills",
       "content_hash": "e3b0c44298fc1c14",
       "files": [],
       "has_content": true
@@ -993,6 +1063,7 @@
       "name": "Model Migration Master Prompt 🔄",
       "status": "published",
       "archived": false,
+      "category": "🎯 Prompting & Engineering Skills",
       "content_hash": "e3b0c44298fc1c14",
       "files": [],
       "has_content": true
@@ -1004,6 +1075,7 @@
       "name": "RAG Ladder Cheat Sheet 📖",
       "status": "published",
       "archived": false,
+      "category": "📊 Tools, Cheat Sheets & Evaluations",
       "content_hash": "8d89dad38c58cb5a",
       "files": [
         "The Complete RAG Ladder Cheat Sheet.pdf"
@@ -1017,6 +1089,7 @@
       "name": "AI Stack Decision Playbook 📚",
       "status": "published",
       "archived": false,
+      "category": "🧠 Custom GPTs & AI Agents",
       "content_hash": "63df746fa6bf0634",
       "files": [
         "How to Pick the Right AI Stack.pdf"
@@ -1030,6 +1103,7 @@
       "name": "90-Day AI Team Transformation Playbook 📓",
       "status": "published",
       "archived": false,
+      "category": "🗂️ Frameworks, Meta Techniques & Experiments",
       "content_hash": "9e70db98aecd83a8",
       "files": [
         "The 90 Day AI Playbook.pdf"
@@ -1043,6 +1117,7 @@
       "name": "Anti-Shiny-Object Coach 🧭",
       "status": "published",
       "archived": false,
+      "category": "🔌 Automation & Workflows (n8n, Replit, Make.com)",
       "content_hash": "e3b0c44298fc1c14",
       "files": [],
       "has_content": true
@@ -1054,6 +1129,7 @@
       "name": "Base44 & n8n Presentation Generator 🖼️",
       "status": "published",
       "archived": false,
+      "category": "🔌 Automation & Workflows (n8n, Replit, Make.com)",
       "content_hash": "5893359f8b698872",
       "files": [
         "Gamma (Base 44) Sanitized.json"
@@ -1067,6 +1143,7 @@
       "name": "n8n Text-to-Workflow Prompts ⚡️",
       "status": "published",
       "archived": false,
+      "category": "🔌 Automation & Workflows (n8n, Replit, Make.com)",
       "content_hash": "e3b0c44298fc1c14",
       "files": [],
       "has_content": true
@@ -1078,6 +1155,7 @@
       "name": "The Complete Guide to Using Claude Code 📘",
       "status": "published",
       "archived": false,
+      "category": "📊 Tools, Cheat Sheets & Evaluations",
       "content_hash": "7d1cf9706bec86e4",
       "files": [
         "Claude Code Complete Guide.pdf"
@@ -1091,6 +1169,7 @@
       "name": "Build Your Own GPT-5 Kit 🔌",
       "status": "published",
       "archived": false,
+      "category": "🧠 Custom GPTs & AI Agents",
       "content_hash": "e3b0c44298fc1c14",
       "files": [],
       "has_content": true
@@ -1102,6 +1181,7 @@
       "name": "Agent Mode Vibe Coding 🔮",
       "status": "published",
       "archived": false,
+      "category": "🎯 Prompting & Engineering Skills",
       "content_hash": "e3b0c44298fc1c14",
       "files": [],
       "has_content": true
@@ -1113,6 +1193,7 @@
       "name": "Abacus AI Plug & Play Prompts 🤖",
       "status": "published",
       "archived": false,
+      "category": "🎯 Prompting & Engineering Skills",
       "content_hash": "e3b0c44298fc1c14",
       "files": [],
       "has_content": true
@@ -1124,6 +1205,7 @@
       "name": "Agent Mode Prompt Pack 🧠📋",
       "status": "published",
       "archived": false,
+      "category": "🎯 Prompting & Engineering Skills",
       "content_hash": "e3b0c44298fc1c14",
       "files": [],
       "has_content": true
@@ -1135,6 +1217,7 @@
       "name": "ChatGPT & Claude Prompt Autopilot Extension 🛠️",
       "status": "published",
       "archived": false,
+      "category": "🧠 Custom GPTs & AI Agents",
       "content_hash": "e3b0c44298fc1c14",
       "files": [],
       "has_content": true
@@ -1146,6 +1229,7 @@
       "name": "AI Model Comparison Automation ⚖️",
       "status": "published",
       "archived": false,
+      "category": "🔌 Automation & Workflows (n8n, Replit, Make.com)",
       "content_hash": "ebd6fec32f9a701b",
       "files": [
         "Model Output Analyzer.json",
@@ -1160,6 +1244,7 @@
       "name": "MCP Workflow Power Bundle 🤖 ☢️",
       "status": "published",
       "archived": false,
+      "category": "🔌 Automation & Workflows (n8n, Replit, Make.com)",
       "content_hash": "ea098d379f90bc4d",
       "files": [
         "retrofuture-artisan-production-agent.json",
@@ -1180,6 +1265,7 @@
       "name": "Meeting Prep n8n Workflow 🗓️  ➡️ 🎧",
       "status": "published",
       "archived": false,
+      "category": "🔌 Automation & Workflows (n8n, Replit, Make.com)",
       "content_hash": "f519f1e29b20a5e6",
       "files": [
         "Calendly_to_Meeting_Prep__No_Creds_.json"
@@ -1193,6 +1279,7 @@
       "name": "Scrape Anything with Apify MCP Connector",
       "status": "published",
       "archived": false,
+      "category": "🎯 Prompting & Engineering Skills",
       "content_hash": "e3b0c44298fc1c14",
       "files": [],
       "has_content": true
@@ -1204,6 +1291,7 @@
       "name": "OpenAI Operator Sample Prompt 💻🌐",
       "status": "published",
       "archived": false,
+      "category": "🎯 Prompting & Engineering Skills",
       "content_hash": "e3b0c44298fc1c14",
       "files": [],
       "has_content": true
@@ -1215,6 +1303,7 @@
       "name": "X Live Search Vibe Code Pack 🐦",
       "status": "published",
       "archived": false,
+      "category": "🔌 Automation & Workflows (n8n, Replit, Make.com)",
       "content_hash": "b93496798772e03b",
       "files": [
         "Live_Search_Workflow.json"
@@ -1228,6 +1317,7 @@
       "name": "Perplexity Labs Prompts 🥼 🔬",
       "status": "published",
       "archived": false,
+      "category": "🎯 Prompting & Engineering Skills",
       "content_hash": "e3b0c44298fc1c14",
       "files": [],
       "has_content": true
@@ -1239,6 +1329,7 @@
       "name": "Instant n8n Agent Army Creator 🪖",
       "status": "published",
       "archived": false,
+      "category": "📊 Tools, Cheat Sheets & Evaluations",
       "content_hash": "b76053126dd32879",
       "files": [
         "sample_agent_army.zip"
@@ -1252,6 +1343,7 @@
       "name": "Promptify Chrome Extension ⚙️",
       "status": "published",
       "archived": false,
+      "category": "🔌 Automation & Workflows (n8n, Replit, Make.com)",
       "content_hash": "b04b0100dbbc9a76",
       "files": [
         "promptify_v1.zip"
@@ -1265,6 +1357,7 @@
       "name": "GenSpark Prompt Vault (7 Examples) 🐣",
       "status": "published",
       "archived": false,
+      "category": "🎯 Prompting & Engineering Skills",
       "content_hash": "e3b0c44298fc1c14",
       "files": [],
       "has_content": true
@@ -1276,6 +1369,7 @@
       "name": "Vibe Coding Starter Pack 🔥",
       "status": "published",
       "archived": false,
+      "category": "🔌 Automation & Workflows (n8n, Replit, Make.com)",
       "content_hash": "6ae0de0af655ae44",
       "files": [
         "Replit Cheat Sheet.pdf",
@@ -1295,6 +1389,7 @@
       "name": "Gemini Vibe Coding Prompts 😎 💖",
       "status": "published",
       "archived": false,
+      "category": "🎯 Prompting & Engineering Skills",
       "content_hash": "e3b0c44298fc1c14",
       "files": [],
       "has_content": true
@@ -1306,6 +1401,7 @@
       "name": "OpenAI Image API n8n Agents 🤖 🖼️",
       "status": "published",
       "archived": false,
+      "category": "🔌 Automation & Workflows (n8n, Replit, Make.com)",
       "content_hash": "42e1b84d35359831",
       "files": [
         "Main AI Agent Orchestrator.json",
@@ -1322,6 +1418,7 @@
       "name": "Ultimate o3 Prompt Bundle 🔋",
       "status": "published",
       "archived": false,
+      "category": "🎯 Prompting & Engineering Skills",
       "content_hash": "e3b0c44298fc1c14",
       "files": [],
       "has_content": true
@@ -1333,6 +1430,7 @@
       "name": "Claude Memory Supercharger 🧠 ⚡️",
       "status": "published",
       "archived": false,
+      "category": "🧠 Custom GPTs & AI Agents",
       "content_hash": "e3b0c44298fc1c14",
       "files": [],
       "has_content": true
@@ -1344,6 +1442,7 @@
       "name": "Manus AI n8n Automation Pack 🤖 🫰🏽",
       "status": "published",
       "archived": false,
+      "category": "🔌 Automation & Workflows (n8n, Replit, Make.com)",
       "content_hash": "35d09ffadd541752",
       "files": [
         "massage_therapy.zip",
@@ -1360,6 +1459,7 @@
       "name": "Gemini Data Demos 🧪",
       "status": "published",
       "archived": false,
+      "category": "📊 Tools, Cheat Sheets & Evaluations",
       "content_hash": "79c03288b98e2216",
       "files": [
         "automation.csv",
@@ -1376,6 +1476,7 @@
       "name": "4o Image Generation Suite 🖼️",
       "status": "published",
       "archived": false,
+      "category": "🎯 Prompting & Engineering Skills",
       "content_hash": "6c4c1ffd3626c5c7",
       "files": [
         "Knowledge Base.md",
@@ -1390,6 +1491,7 @@
       "name": "n8n Prompt Engineer Workflow ✏️",
       "status": "published",
       "archived": false,
+      "category": "🎯 Prompting & Engineering Skills",
       "content_hash": "30ec13d6db8cee85",
       "files": [
         "Tool_Call_for_Anthropic_Prompt_Engineer.json",
@@ -1407,6 +1509,7 @@
       "name": "Claude Project to n8n Workflow 🤖",
       "status": "published",
       "archived": false,
+      "category": "🔌 Automation & Workflows (n8n, Replit, Make.com)",
       "content_hash": "9f0584a2b63ed8b3",
       "files": [
         "n8n Cheat Sheet Guide.pdf",
@@ -1422,6 +1525,7 @@
       "name": "MCP 101 Slide Deck",
       "status": "published",
       "archived": false,
+      "category": "Other",
       "content_hash": "65adecdf37de62b9",
       "files": [
         "MCPs.pdf"
@@ -1435,6 +1539,7 @@
       "name": "Custom GPT Pinecone Memory",
       "status": "published",
       "archived": false,
+      "category": "🧠 Custom GPTs & AI Agents",
       "content_hash": "e3b0c44298fc1c14",
       "files": [],
       "has_content": true
@@ -1446,6 +1551,7 @@
       "name": "Easy Fine-Tuning Automation ⚙️",
       "status": "published",
       "archived": false,
+      "category": "🔌 Automation & Workflows (n8n, Replit, Make.com)",
       "content_hash": "52445ecca608491e",
       "files": [
         "AI_Fine_Tuning.json",
@@ -1461,6 +1567,7 @@
       "name": "n8n Agent-to-Agent Workflow 🤖",
       "status": "published",
       "archived": false,
+      "category": "🔌 Automation & Workflows (n8n, Replit, Make.com)",
       "content_hash": "0eabedb3d6bc5803",
       "files": [
         "N8N_Agent_creator.json",
@@ -1475,6 +1582,7 @@
       "name": "Make.com to n8n Converter Automation 🔁",
       "status": "published",
       "archived": false,
+      "category": "🔌 Automation & Workflows (n8n, Replit, Make.com)",
       "content_hash": "799f5234fbf71e57",
       "files": [
         "make_to_n8n_converter.json"
@@ -1488,6 +1596,7 @@
       "name": "Prompt-to-Agent n8n Guide 🦾",
       "status": "published",
       "archived": false,
+      "category": "🔌 Automation & Workflows (n8n, Replit, Make.com)",
       "content_hash": "e3b0c44298fc1c14",
       "files": [],
       "has_content": true
@@ -1499,6 +1608,7 @@
       "name": "Lovable Suite for AI-Powered App Building",
       "status": "published",
       "archived": false,
+      "category": "🔌 Automation & Workflows (n8n, Replit, Make.com)",
       "content_hash": "e3b0c44298fc1c14",
       "files": [],
       "has_content": true
@@ -1510,6 +1620,7 @@
       "name": "Email Automations Using DeepSeek 🐋",
       "status": "published",
       "archived": false,
+      "category": "🔌 Automation & Workflows (n8n, Replit, Make.com)",
       "content_hash": "5f16348b5cd0cc91",
       "files": [
         "blueprint.json"
@@ -1523,6 +1634,7 @@
       "name": "Deep Research Prompt Examples 📖 ",
       "status": "published",
       "archived": false,
+      "category": "🎯 Prompting & Engineering Skills",
       "content_hash": "3625d584b82e1548",
       "files": [
         "Deep Research Comparison.pdf"
@@ -1536,6 +1648,7 @@
       "name": "Comprehensive DeepSeek Cheat Sheet & Prompting Guide 🐳",
       "status": "published",
       "archived": false,
+      "category": "Other",
       "content_hash": "84b6aaae6ad41d5c",
       "files": [
         "DeepSeek Prompting Guide.pdf"
@@ -1549,6 +1662,7 @@
       "name": "ChatGPT Task Prompting Guide + Custom GPT 🤖✏️",
       "status": "published",
       "archived": false,
+      "category": "🎯 Prompting & Engineering Skills",
       "content_hash": "e3b0c44298fc1c14",
       "files": [],
       "has_content": true
@@ -1560,6 +1674,7 @@
       "name": "Prompt Engineer Anything ✏️ 📸 🎬 🎵",
       "status": "published",
       "archived": false,
+      "category": "🎯 Prompting & Engineering Skills",
       "content_hash": "e3b0c44298fc1c14",
       "files": [],
       "has_content": true
@@ -1571,6 +1686,7 @@
       "name": "Lovable.dev A-Z Guide + Custom GPT 💖",
       "status": "published",
       "archived": false,
+      "category": "📊 Tools, Cheat Sheets & Evaluations",
       "content_hash": "e3b0c44298fc1c14",
       "files": [],
       "has_content": true
@@ -1582,6 +1698,7 @@
       "name": "2025 Generative AI Roadmap 🗺️",
       "status": "published",
       "archived": false,
+      "category": "📊 Tools, Cheat Sheets & Evaluations",
       "content_hash": "e38aa4891130b607",
       "files": [
         "roadmap.pdf"
@@ -1595,6 +1712,7 @@
       "name": "Sora Zero-to-Hero Prompting Guide 🎬",
       "status": "published",
       "archived": false,
+      "category": "🎯 Prompting & Engineering Skills",
       "content_hash": "e3b0c44298fc1c14",
       "files": [],
       "has_content": true
@@ -1606,6 +1724,7 @@
       "name": "Agents Explanation: From Chatbots to Autonomous Systems",
       "status": "published",
       "archived": false,
+      "category": "Other",
       "content_hash": "1023e9a93aea24cd",
       "files": [
         "agents.pdf"
@@ -1619,6 +1738,7 @@
       "name": "Bolt.new Dating App A-Z Build 🤖💘",
       "status": "published",
       "archived": false,
+      "category": "📊 Tools, Cheat Sheets & Evaluations",
       "content_hash": "93667b7d245bd3d8",
       "files": [
         "datingapp.pdf",
@@ -1634,6 +1754,7 @@
       "name": "Advanced Voice + ChatGPT Use Cases",
       "status": "published",
       "archived": false,
+      "category": "🧠 Custom GPTs & AI Agents",
       "content_hash": "e3b0c44298fc1c14",
       "files": [],
       "has_content": true
@@ -1645,6 +1766,7 @@
       "name": "Supercharged Custom GPTs Guide ⚡️",
       "status": "published",
       "archived": false,
+      "category": "🧠 Custom GPTs & AI Agents",
       "content_hash": "af310144aca5847a",
       "files": [
         "custom gpt templates.pdf",
@@ -1659,6 +1781,7 @@
       "name": "Bolt.new Custom GPT",
       "status": "published",
       "archived": false,
+      "category": "Other",
       "content_hash": "e3b0c44298fc1c14",
       "files": [],
       "has_content": true
@@ -1670,6 +1793,7 @@
       "name": "OpenAI Evaluation B-Z Guide 📓",
       "status": "published",
       "archived": false,
+      "category": "📊 Tools, Cheat Sheets & Evaluations",
       "content_hash": "55d1fe4de99e5ca5",
       "files": [
         "custom_prompt_dataset.jsonl",
@@ -1692,6 +1816,7 @@
       "name": "Prompt Compression Guide 🗂️",
       "status": "published",
       "archived": false,
+      "category": "🎯 Prompting & Engineering Skills",
       "content_hash": "cfc64570a223e2e8",
       "files": [
         "Prompt Compression.pdf"
@@ -1705,6 +1830,7 @@
       "name": "Claude PDF Analysis Bundle 📜",
       "status": "published",
       "archived": false,
+      "category": "📊 Tools, Cheat Sheets & Evaluations",
       "content_hash": "33afcd98cb9d35c2",
       "files": [
         "gptschema.txt"
@@ -1718,6 +1844,7 @@
       "name": "AI Agent Army Pack (Custom GPTs on Steroids 🦾)",
       "status": "published",
       "archived": false,
+      "category": "🧠 Custom GPTs & AI Agents",
       "content_hash": "d27eb14ba83a1a7b",
       "files": [
         "proposalmakerprompt.txt",
@@ -1743,6 +1870,7 @@
       "name": "Claude Computer Use via Replit",
       "status": "published",
       "archived": false,
+      "category": "🧠 Custom GPTs & AI Agents",
       "content_hash": "e3b0c44298fc1c14",
       "files": [],
       "has_content": true
@@ -1754,6 +1882,7 @@
       "name": "Perplexity Spaces Prompts + Custom GPT Perplexity Power Pack 🔋",
       "status": "published",
       "archived": false,
+      "category": "Other",
       "content_hash": "d339e34643eaf567",
       "files": [
         "Spaces v Custom GPTs.pdf",
@@ -1769,6 +1898,7 @@
       "name": "Vapiception Voice Agent Builder Kit: Make Automation, Prompts & Slide Deck",
       "status": "published",
       "archived": false,
+      "category": "Other",
       "content_hash": "86c5bd4ce72c1da8",
       "files": [
         "VAPIception.pdf",
@@ -1783,6 +1913,7 @@
       "name": "Build a Realtime API and Pinecone Knowledge Base",
       "status": "published",
       "archived": false,
+      "category": "🔌 Automation & Workflows (n8n, Replit, Make.com)",
       "content_hash": "c75b209dc3358b92",
       "files": [
         "Realtime API with Knowledge.pdf"
@@ -1796,6 +1927,7 @@
       "name": "Voice Agent Space Breakdown (Deck + Voice Builds + Make Automations)",
       "status": "published",
       "archived": false,
+      "category": "Other",
       "content_hash": "f12a3f4117141cd7",
       "files": [
         "Voice Agent Breakdown.pdf"
@@ -1809,6 +1941,7 @@
       "name": "OpenAI Realtime API Full Implementation + UI",
       "status": "published",
       "archived": false,
+      "category": "🔌 Automation & Workflows (n8n, Replit, Make.com)",
       "content_hash": "a6e1ee4e43d17431",
       "files": [
         "Realtime API Breakdown.pdf"
@@ -1822,6 +1955,7 @@
       "name": "Link to Scrape of Assistants API Documentation",
       "status": "published",
       "archived": false,
+      "category": "🔌 Automation & Workflows (n8n, Replit, Make.com)",
       "content_hash": "e3b0c44298fc1c14",
       "files": [],
       "has_content": true
@@ -1833,6 +1967,7 @@
       "name": "Global Prompts vs Global Nodes Walkthrough Document",
       "status": "published",
       "archived": false,
+      "category": "Other",
       "content_hash": "e3b0c44298fc1c14",
       "files": [],
       "has_content": true
@@ -1844,6 +1979,7 @@
       "name": "How to Use Conditions in Your AI Agent Walkthrough Document",
       "status": "published",
       "archived": false,
+      "category": "Other",
       "content_hash": "e3b0c44298fc1c14",
       "files": [],
       "has_content": true
@@ -1855,6 +1991,7 @@
       "name": "How to use Pathway Labels in Bland AI",
       "status": "published",
       "archived": false,
+      "category": "🧠 Custom GPTs & AI Agents",
       "content_hash": "e3b0c44298fc1c14",
       "files": [],
       "has_content": true
@@ -1866,6 +2003,7 @@
       "name": "Meta Prompting Tutorial Demo",
       "status": "published",
       "archived": false,
+      "category": "🗂️ Frameworks, Meta Techniques & Experiments",
       "content_hash": "e3b0c44298fc1c14",
       "files": [],
       "has_content": true
@@ -1877,6 +2015,7 @@
       "name": "Agentic Meta Prompt Example",
       "status": "published",
       "archived": false,
+      "category": "🗂️ Frameworks, Meta Techniques & Experiments",
       "content_hash": "e3b0c44298fc1c14",
       "files": [],
       "has_content": true
@@ -1888,6 +2027,7 @@
       "name": "Meta Chain-of-Thought Prompt Example",
       "status": "published",
       "archived": false,
+      "category": "🗂️ Frameworks, Meta Techniques & Experiments",
       "content_hash": "e3b0c44298fc1c14",
       "files": [],
       "has_content": true
@@ -1899,6 +2039,7 @@
       "name": "List Removal Prompt Instruction",
       "status": "published",
       "archived": false,
+      "category": "🗂️ Frameworks, Meta Techniques & Experiments",
       "content_hash": "e3b0c44298fc1c14",
       "files": [],
       "has_content": true
@@ -1910,6 +2051,7 @@
       "name": "Blended Persona Prompt",
       "status": "published",
       "archived": false,
+      "category": "🎯 Prompting & Engineering Skills",
       "content_hash": "e3b0c44298fc1c14",
       "files": [],
       "has_content": true
@@ -1921,6 +2063,7 @@
       "name": "Framework Meta Prompt",
       "status": "published",
       "archived": false,
+      "category": "🗂️ Frameworks, Meta Techniques & Experiments",
       "content_hash": "e3b0c44298fc1c14",
       "files": [],
       "has_content": true
@@ -1932,6 +2075,7 @@
       "name": "Sample Prompt Engineer Validation Prompt",
       "status": "published",
       "archived": false,
+      "category": "🎯 Prompting & Engineering Skills",
       "content_hash": "e3b0c44298fc1c14",
       "files": [],
       "has_content": true
@@ -1943,6 +2087,7 @@
       "name": "DNA Extraction Prompt",
       "status": "published",
       "archived": false,
+      "category": "🎯 Prompting & Engineering Skills",
       "content_hash": "e3b0c44298fc1c14",
       "files": [],
       "has_content": true
@@ -1954,6 +2099,7 @@
       "name": "Custom GPT Pinecone Power Pack",
       "status": "published",
       "archived": false,
+      "category": "Other",
       "content_hash": "055727394090dfce",
       "files": [
         "Talk to Any Document.pdf",
@@ -1969,6 +2115,7 @@
       "name": "Prompt Battle Testing (Level 1 to Level 4)",
       "status": "published",
       "archived": false,
+      "category": "🎯 Prompting & Engineering Skills",
       "content_hash": "ad1524a09db1361c",
       "files": [
         "Prompt Battle Testing (Make File).json",
@@ -1984,6 +2131,7 @@
       "name": "OpenAI Zero-to-Hero Guides (Slides + 43 Sample Prompts)",
       "status": "published",
       "archived": false,
+      "category": "Other",
       "content_hash": "739be0d0527880ae",
       "files": [
         "How to Prompt Like a Pro.pdf"
@@ -1997,6 +2145,7 @@
       "name": "o1 Google Colab Workbook + Overview PDF",
       "status": "published",
       "archived": false,
+      "category": "📊 Tools, Cheat Sheets & Evaluations",
       "content_hash": "b6c3afdd5926487a",
       "files": [
         "OpenAI o1.pdf"
@@ -2010,6 +2159,7 @@
       "name": "Replit Agent Webapp Code",
       "status": "published",
       "archived": false,
+      "category": "🔌 Automation & Workflows (n8n, Replit, Make.com)",
       "content_hash": "e3b0c44298fc1c14",
       "files": [],
       "has_content": true
@@ -2021,6 +2171,7 @@
       "name": "'I Don't Know' Framework Prompts",
       "status": "published",
       "archived": false,
+      "category": "🗂️ Frameworks, Meta Techniques & Experiments",
       "content_hash": "7c6cdf136ac25075",
       "files": [
         "I Dont Know.pdf"
@@ -2034,6 +2185,7 @@
       "name": "Mermaid Cheat Sheet (with 43 sample flowcharts + prompts)",
       "status": "published",
       "archived": false,
+      "category": "Other",
       "content_hash": "0b0ea344972a7f94",
       "files": [
         "Mermaid Part 1.pdf",
@@ -2048,6 +2200,7 @@
       "name": "Temperature & Top P Prompt + Google Sheet + Slides",
       "status": "published",
       "archived": false,
+      "category": "🎯 Prompting & Engineering Skills",
       "content_hash": "416cd2a2a613b5fc",
       "files": [
         "Temperature v Top P.pdf"
@@ -2061,6 +2214,7 @@
       "name": "Prompt Caching Google Colab Workbook",
       "status": "published",
       "archived": false,
+      "category": "📊 Tools, Cheat Sheets & Evaluations",
       "content_hash": "6bd09e15b9ade5da",
       "files": [
         "Prompt Caching with Claude.pdf",

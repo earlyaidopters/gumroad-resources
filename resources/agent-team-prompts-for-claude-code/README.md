@@ -6,11 +6,11 @@
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/agent-team-prompts**
 
-`published` · CAD$0+
+`published` · CAD$0+ · 🎯 Prompting & Engineering Skills
 
 ## About
 
-# What You Get
+### What You Get
 
 - 
 7 Copy-Paste Agent Team Prompts: Ready-to-use prompts that spawn multi-agent teams in Claude Code for real business tasks -- not coding exercises. 

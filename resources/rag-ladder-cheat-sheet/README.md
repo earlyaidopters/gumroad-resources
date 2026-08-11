@@ -6,11 +6,11 @@
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/ragrealitycheck**
 
-`published` · CAD$0+
+`published` · CAD$0+ · 📊 Tools, Cheat Sheets & Evaluations
 
 ## About
 
-# What You Get
+### What You Get
 
 - A complete 10-level ladder from simple “just paste it” context dumps to cutting-edge Agentic GraphRAG, with setup time, cost, accuracy, and best-fit use cases at every stage.
 

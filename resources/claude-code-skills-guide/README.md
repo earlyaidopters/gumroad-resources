@@ -6,11 +6,11 @@
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/claude-code-skills-guide**
 
-`published` · CAD$0+
+`published` · CAD$0+ · 🎯 Prompting & Engineering Skills
 
 ## About
 
-# What You Get
+### What You Get
 
 - 
 Skill Examples (Bad vs Good): Two complete bad skills and two complete good skills side by side. See exactly what makes a skill fail (vague descriptions, wrong naming, no triggers) versus what makes it work (specific triggers, clear steps, error handling).

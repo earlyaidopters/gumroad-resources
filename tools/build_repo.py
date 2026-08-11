@@ -98,6 +98,17 @@ def main():
     yt_path = os.path.join(a.repo, "tools", "youtube_map.json")
     if os.path.exists(yt_path):
         ytmap = json.load(open(yt_path))  # permalink -> {video_id,url,title,thumbnail}
+    cats = {}
+    cat_path = os.path.join(a.repo, "tools", "categories.json")
+    if os.path.exists(cat_path):
+        cats = json.load(open(cat_path))  # permalink -> category label
+    UNCAT = "Other"
+    # display order for category sections (anything else falls after, then Other)
+    CAT_ORDER = ["🎯 Prompting & Engineering Skills",
+                 "🔌 Automation & Workflows (n8n, Replit, Make.com)",
+                 "🧠 Custom GPTs & AI Agents",
+                 "🗂️ Frameworks, Meta Techniques & Experiments",
+                 "📊 Tools, Cheat Sheets & Evaluations"]
     res_dir = os.path.join(a.repo, "resources")
     os.makedirs(res_dir, exist_ok=True)
 
@@ -194,6 +205,7 @@ def main():
             "numeric_id": row.get("id", 0),
             "url": meta.get("url") or row.get("url"),
             "status": status, "archived": archived,
+            "category": cats.get(permalink, UNCAT),
             "price": meta.get("price_formatted"),
             "sales": meta.get("sales_count") or row.get("successful_sales_count") or 0,
             "description_md": meta.get("description_md", ""),
@@ -217,9 +229,15 @@ def main():
         if e["url"]:
             lines.append(f"**Get it on Gumroad → {e['url']}**\n")
         badge = "archived" if e["archived"] else e["status"]
-        lines.append(f"`{badge}` · {e['price']}\n")
+        meta_line = f"`{badge}` · {e['price']}"
+        if e["category"] != UNCAT:
+            meta_line += f" · {e['category']}"
+        lines.append(meta_line + "\n")
         if e["description_md"]:
-            lines.append("## About\n\n" + e["description_md"] + "\n")
+            # demote in-description headings 2 levels so they sit under "## About"
+            about = re.sub(r"(?m)^(#{1,4}) ", lambda m: "#" * min(len(m.group(1)) + 2, 6) + " ",
+                           e["description_md"])
+            lines.append("## About\n\n" + about + "\n")
         if e["has_content"] and os.path.exists(os.path.join(dest, "content.md")):
             lines.append("## Resource content\n\nSee [`content.md`](content.md).\n")
         listable = [f for f in files if f not in oversized]
@@ -249,29 +267,43 @@ def main():
             out.append(f"| [{esc(e['name'])}](resources/{e['slug']}/) | {snip} | {vid} | {link} |")
         return "\n".join(out)
 
+    # group live resources by category (ordered), newest-first within each
+    def anchor(cat):
+        return re.sub(r"[^a-z0-9]+", "-",
+                      cat.encode("ascii", "ignore").decode().lower()).strip("-")
+    present = [c for c in CAT_ORDER if any(e["category"] == c for e in live)]
+    present += sorted({e["category"] for e in live} - set(CAT_ORDER) - {UNCAT})
+    if any(e["category"] == UNCAT for e in live):
+        present.append(UNCAT)
+
     readme = [
         "# Early AI-dopters · Gumroad Resource Vault\n",
-        "Every free resource from the Early AI-dopters Gumroad, "
-        "mirrored here and kept in sync. Newest first. Each folder holds the actual "
-        "files (zips unpacked so you can browse them on GitHub), the resource content "
-        "page, and a README. Watch or star this repo to catch every new drop.\n",
-        f"**{len(live)} published resources.** Where a resource came from a "
-        "YouTube video, the video is paired to it. Auto-synced from Gumroad every "
-        "few hours.\n",
-        "## Latest resources\n",
-        table(live),
+        "Every free resource from the Early AI-dopters Gumroad, mirrored here and "
+        "kept in sync. Each folder holds the actual files (zips unpacked so you can "
+        "browse them on GitHub), the resource content page, and a README. Where a "
+        "resource came from a YouTube video, the video is paired to it. Watch or star "
+        "this repo to catch every new drop.\n",
+        f"**{len(live)} published resources**, grouped by topic and newest-first "
+        "within each. Auto-synced from Gumroad every few hours.\n",
+        "## Categories\n",
+        "\n".join(f"- [{c}](#{anchor(c)}) ({sum(1 for e in live if e['category']==c)})"
+                  for c in present) + "\n",
     ]
+    for c in present:
+        rows = [e for e in live if e["category"] == c]
+        readme += [f"## {c}\n", table(rows), ""]
     if arch:
-        readme += ["\n<details>\n<summary>Archived resources</summary>\n",
+        readme += ["<details>\n<summary>Archived resources</summary>\n",
                    table(arch), "\n</details>\n"]
-    readme.append("\n---\n_Sorted newest-first by Gumroad product id. "
-                  "Managed by `.github/workflows/sync.yml`._\n")
+    readme.append("---\n_Grouped by topic (from the Skool YouTube Resources "
+                  "classroom), newest-first within each. Managed by "
+                  "`.github/workflows/sync.yml`._\n")
     open(os.path.join(a.repo, "README.md"), "w").write("\n".join(readme) + "\n")
 
     manifest = {"count": len(entries),
                 "products": [{k: e[k] for k in
                               ("slug", "permalink", "numeric_id", "name", "status",
-                               "archived", "content_hash", "files", "has_content")}
+                               "archived", "category", "content_hash", "files", "has_content")}
                              for e in entries]}
     json.dump(manifest, open(os.path.join(a.repo, "manifest.json"), "w"),
               indent=2, ensure_ascii=False)

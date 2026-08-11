@@ -6,11 +6,11 @@
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/claude-architect-study-guide**
 
-`published` · CAD$0+
+`published` · CAD$0+ · 🗂️ Frameworks, Meta Techniques & Experiments
 
 ## About
 
-# What You Get
+### What You Get
 
 - 
 Study Guide PDF (17 visual diagrams): Every concept from Anthropic's official certification exam guide broken down with full-page diagrams and plain English summaries. One concept per page. Print it, reference it, study it.

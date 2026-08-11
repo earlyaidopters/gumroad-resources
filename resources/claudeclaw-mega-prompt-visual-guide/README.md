@@ -6,11 +6,11 @@
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/claudeclaw**
 
-`published` · CAD$0+
+`published` · CAD$0+ · 🎯 Prompting & Engineering Skills
 
 ## About
 
-# What You Get
+### What You Get
 1. The Mega Prompt (900 lines)
 Paste it into Claude Code. Answer 4 questions. It builds your entire personal AI assistant — tailored to your preferences, your platform, your features. Nothing you didn't ask for. Everything you did.
 2. Visual Guide PDF (13 pages, landscape)
@@ -37,7 +37,7 @@ How It Works
 You already have Claude Code with all your skills, MCP servers, and context. ClaudeClaw adds a thin bridge (~200 lines) using Anthropic's official Agent SDK to connect your phone to your desktop. That's it. No third-party services. No OAuth extraction. No Terms of Service violations.
 ---
 Want the full repo? The mega prompt builds you a fresh version. 
-## But if you want to clone my exact setup - the one I use daily, with all features and regular updates, join the Early AI Dopters community: 
+#### But if you want to clone my exact setup - the one I use daily, with all features and regular updates, join the Early AI Dopters community: 
 
 skool.com/earlyaidopters
 

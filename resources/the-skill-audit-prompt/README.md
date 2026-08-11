@@ -6,11 +6,11 @@
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/skill-audit-prompt**
 
-`published` · CAD$0+
+`published` · CAD$0+ · 🎯 Prompting & Engineering Skills
 
 ## About
 
-# What You Get
+### What You Get
 
 - 
 The Skill Audit Prompt: A copy paste prompt that tags the claude-code-guide subagent and runs a full structural review on any Claude Code skill you have installed. Returns a critique, a concrete diff to the SKILL.md.

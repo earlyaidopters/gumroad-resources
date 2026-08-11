@@ -6,11 +6,11 @@
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/promptanything**
 
-`published` · CAD$0+
+`published` · CAD$0+ · 🎯 Prompting & Engineering Skills
 
 ## About
 
-### What You Get:
+##### What You Get:
 You'll be able to access the meta prompts I demonstrated in the video, to help give you a kickstart to your prompt engineering in the following areas, that can be generalized for any other area:
 
 - Text Prompt Engineering

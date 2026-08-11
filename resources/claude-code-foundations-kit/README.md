@@ -6,11 +6,11 @@
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/claude-code-deep-dive-guide**
 
-`published` · CAD$0+
+`published` · CAD$0+ · 🧠 Custom GPTs & AI Agents
 
 ## About
 
-# What You Get
+### What You Get
 Claude Code Deep Dive Guide (PDF): 25-page visual breakdown of how Claude Code actually works - the CLI architecture, tool system, context management, sessions, and customization layers.
 9 System Diagrams: Visual maps of the Gather-Act-Verify loop, tool calling flow, context bucket model, compaction process, and permission layers.
 Plain English Explanations: Every software engineering concept translated into analogies that make sense whether you code or not.

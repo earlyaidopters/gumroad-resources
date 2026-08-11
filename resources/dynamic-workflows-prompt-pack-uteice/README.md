@@ -10,7 +10,7 @@
 
 ## About
 
-# What You Get
+### What You Get
 
 - 
 The Prompt Pack PDF: a clean, copy-paste guide that teaches the five anchors of a great workflow prompt, then walks through every prompt with when to use it, the exact text, the guardrails, and what good output looks like.

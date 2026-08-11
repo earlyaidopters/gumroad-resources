@@ -10,7 +10,7 @@
 
 ## About
 
-# What You Get
+### What You Get
 
 - 
 Claude Code Mastery Guide (PDF) – a 9-hack, 4-act blueprint that walks you through multiplier workflows, multimodal setups, “replicate anything” patterns, and real-world team lessons so you can actually build an AI factory, not just vibe code.

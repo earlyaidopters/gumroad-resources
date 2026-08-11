@@ -6,11 +6,11 @@
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/hive-mind-blueprint-kit**
 
-`published` · CAD$0+
+`published` · CAD$0+ · 🧠 Custom GPTs & AI Agents
 
 ## About
 
-# What You Get
+### What You Get
 
 - 
 REBUILD_PROMPT_V3: A 30+ KB mega-prompt you paste into a fresh Claude Code session. It walks you through 6 questions, then scaffolds ClaudeClaw V3 from scratch. Same pattern as my V2 kit, evolved with the new V3 features (Hive Mind shared memory state, war room with slash standup and slash discuss, three-layer memory, suggestions feature, kill switches, audit log, exfiltration guard).
@@ -33,7 +33,7 @@ ClaudeClaw_V3_Visual_Guide.pdf: All 19 diagrams from the V3 video compiled into 
 - 
 terminal_prompts.md: Copy-paste prompts for common setup, agent management, memory operations, kill switch toggling, audit log queries, scheduled task management, and emergency procedures.
 
-## Want the Carbon-Copy Always-Updated Repo?
+#### Want the Carbon-Copy Always-Updated Repo?
 The full working repo, weekly updates as I evolve it, direct access to me and a team of coaches, plus the Claude Code Magic course covering everything from skills to plugins to hooks lives in the community.
 Join here: https://www.skool.com/earlyaidopters/about
 

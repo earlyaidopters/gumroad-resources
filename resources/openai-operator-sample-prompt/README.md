@@ -6,11 +6,11 @@
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/operatorn8n**
 
-`published` · CAD$0+
+`published` · CAD$0+ · 🎯 Prompting & Engineering Skills
 
 ## About
 
-## What You Get
+#### What You Get
 - Exact prompt blueprint for one n8n two-phase workflow (Gmail trigger → OpenAI model calls → Gmail send)
 - Step-by-step instructions to configure Gmail and OpenAI API credentials seamlessly
 

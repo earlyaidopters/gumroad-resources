@@ -6,11 +6,11 @@
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/claudecodemcp**
 
-`published` · CAD$0+
+`published` · CAD$0+ · 📊 Tools, Cheat Sheets & Evaluations
 
 ## About
 
-# What You Get
+### What You Get
 
 - A cheat-sheet style MCP 101 primer, so you (and your AI) get fluent fast.
 

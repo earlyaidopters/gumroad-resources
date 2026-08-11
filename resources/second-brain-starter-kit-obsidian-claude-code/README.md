@@ -10,7 +10,7 @@
 
 ## About
 
-# What You Get
+### What You Get
 /vault-setup Skill: Paste this into ~/.claude/skills/vault-setup/SKILL.md. Tell Claude Code about yourself in plain text and it generates your personalized vault structure, CLAUDE.md, and slash commands in seconds.
 Obsidian Setup Guide (PDF): Step-by-step installation guide for macOS and Windows. Download the app, enable the CLI, create your vault, and connect Claude Code. Everything you need to follow along with the video.
 ---

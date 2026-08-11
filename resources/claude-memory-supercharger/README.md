@@ -6,11 +6,11 @@
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/mcpclaude**
 
-`published` · CAD$0+
+`published` · CAD$0+ · 🧠 Custom GPTs & AI Agents
 
 ## About
 
-## What You Get
+#### What You Get
 
 - 
 Complete MCP Setup Guide: A clear, step-by-step Scribe reference document so you can effortlessly set up your MCP server locally using Docker

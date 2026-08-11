@@ -6,11 +6,11 @@
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/perplexitylabs**
 
-`published` · CAD$0+
+`published` · CAD$0+ · 🎯 Prompting & Engineering Skills
 
 ## About
 
-## What You Get
+#### What You Get
 
 - 
 Five fully-detailed, ready-to-use prompts tailored specifically for Perplexity Labs, enabling deep analysis of AI, robotics, AGI impacts, and disruptive investment opportunities.

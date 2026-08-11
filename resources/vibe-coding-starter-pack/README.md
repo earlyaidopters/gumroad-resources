@@ -6,11 +6,11 @@
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/vibecodingmasterclass**
 
-`published` · CAD$0+
+`published` · CAD$0+ · 🔌 Automation & Workflows (n8n, Replit, Make.com)
 
 ## About
 
-## What You Get
+#### What You Get
 
 - 
 Four pro PDF cheat sheets for Lovable 2.0, Bolt + Stripe, Replit Agent v2, and Cursor AI—perfect side-kicks while you watch the free YouTube masterclass.

@@ -10,7 +10,7 @@
 
 ## About
 
-# What You Get
+### What You Get
 
 - 
 The Crash Course Guide (PDF): A 21-page visual companion to the video. Every concept from the course as a one-page spread with the exact diagram from the video plus plain-English notes. 
@@ -31,7 +31,7 @@ The Can-I-Run-This Calculator: Built into the HTML guide.
 - 
 Plain-English Everywhere: Every intimidating term (quantization, KV cache, MLX, inference engines) explained with the same analogies used in the video, so you can reference them any time without rewatching.
 
-## Want to go deeper than the free resources?
+#### Want to go deeper than the free resources?
 Inside the Early AI Dopters community you get the full living AI course, direct access to me and my team of coaches, and a working group of builders setting up their own local rigs: https://www.skool.com/earlyaidopters/about
 
 ## Resource content

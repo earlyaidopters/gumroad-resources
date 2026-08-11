@@ -10,7 +10,7 @@
 
 ## About
 
-# WHAT YOU GET
+### WHAT YOU GET
 CORE GUIDES
 1. The Enterprise OS Blueprint (master guide, landscape, 34 pages, 4 chapters)
 

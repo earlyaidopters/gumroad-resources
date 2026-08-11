@@ -6,11 +6,11 @@
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/90dayplaybook**
 
-`published` · CAD$0+
+`published` · CAD$0+ · 🗂️ Frameworks, Meta Techniques & Experiments
 
 ## About
 
-## What You Get
+#### What You Get
 
 - A simple 30/60/90 roadmap to help make your team and/or company AI-first
 

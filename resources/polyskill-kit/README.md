@@ -6,11 +6,11 @@
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/polyskill-kit**
 
-`published` · CAD$0+
+`published` · CAD$0+ · 🎯 Prompting & Engineering Skills
 
 ## About
 
-# What You Get
+### What You Get
 
 - 
 The Polyskill Meta-Skill: A ready-to-install skill workspace. Drop it in, and you can invoke /polyskill in Claude Code or $polyskill in Codex with plain English. The skill picks up your request and runs the right commands behind the scenes.

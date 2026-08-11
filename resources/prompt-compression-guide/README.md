@@ -6,7 +6,7 @@
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/promptcompression**
 
-`published` · CAD$0+
+`published` · CAD$0+ · 🎯 Prompting & Engineering Skills
 
 ## About
 

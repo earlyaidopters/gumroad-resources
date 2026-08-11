@@ -6,11 +6,11 @@
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/promptfactoryclaude**
 
-`published` · CAD$0+
+`published` · CAD$0+ · 🧠 Custom GPTs & AI Agents
 
 ## About
 
-## What You Get
+#### What You Get
 
 - One master prompt that builds a full cross-modal AI prompt suite on /initialize.
 

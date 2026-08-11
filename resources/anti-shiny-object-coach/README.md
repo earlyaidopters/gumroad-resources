@@ -6,11 +6,11 @@
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/antishinyobjectgpt**
 
-`published` · CAD$0+
+`published` · CAD$0+ · 🔌 Automation & Workflows (n8n, Replit, Make.com)
 
 ## About
 
-# What You Get
+### What You Get
 
 - A custom GPT that cuts through tool overwhelm and gives 2–3 clear next steps.
 

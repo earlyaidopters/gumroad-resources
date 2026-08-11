@@ -6,11 +6,11 @@
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/customgptarmy**
 
-`published` · CAD$0+
+`published` · CAD$0+ · 🧠 Custom GPTs & AI Agents
 
 ## About
 
-### What You Get: 
+##### What You Get: 
 Slide Deck
 A step-by-step breakdown of AI agent workflows, featured in the video.
 Proposal Maker Agent

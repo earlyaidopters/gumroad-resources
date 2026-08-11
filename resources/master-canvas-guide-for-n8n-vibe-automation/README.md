@@ -6,11 +6,11 @@
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/n8nvibeautomation**
 
-`published` · CAD$0+
+`published` · CAD$0+ · 🔌 Automation & Workflows (n8n, Replit, Make.com)
 
 ## About
 
-# What You Get
+### What You Get
 
 - Import-ready n8n workflow JSON covering core triggers (Manual, Schedule, Webhook, Google Sheets), path splitters (If/Switch/Merge/Wait), and AI blocks (OpenAI, Anthropic, Gemini, AI Agent/Tools).
 

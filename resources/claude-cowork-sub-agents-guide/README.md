@@ -6,11 +6,11 @@
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/claude-cowork-subagents-guide**
 
-`published` · CAD$0+
+`published` · CAD$0+ · 🧠 Custom GPTs & AI Agents
 
 ## About
 
-# What You Get
+### What You Get
 
 - 
 Comprehensive PDF Guide (30+ Pages): A complete walkthrough of Claude Co-work's sub-agent system with step-by-step instructions

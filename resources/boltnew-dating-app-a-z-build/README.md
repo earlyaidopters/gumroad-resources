@@ -6,11 +6,11 @@
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/boltdatingapp**
 
-`published` · CAD$0+
+`published` · CAD$0+ · 📊 Tools, Cheat Sheets & Evaluations
 
 ## About
 
-## What You’ll Get
+#### What You’ll Get
 
 - 📄 Comprehensive Project Deck
 A detailed walkthrough of the entire project, from planning to deployment. Understand the step-by-step process to create a dynamic matchmaking app. (PDF - 3 MB)
@@ -28,7 +28,7 @@ A ready-to-use database setup for user authentication and subscription tracking.
 - 🎥 Loom Walkthrough Video
 A detailed, exclusive behind-the-scenes video walking you through the project setup and technical nuances.
 
-## What You’ll Learn
+#### What You’ll Learn
 
 - Integrating Stripe Payments for subscription management.
 

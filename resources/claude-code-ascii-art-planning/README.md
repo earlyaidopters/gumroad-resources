@@ -6,11 +6,11 @@
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/ascii-planning**
 
-`published` · CAD$0+
+`published` · CAD$0+ · 🗂️ Frameworks, Meta Techniques & Experiments
 
 ## About
 
-# What You Get
+### What You Get
 
 - 
 ASCII Planning Prompts PDF: 5 complete examples with 3-turn sketch sequences, without/with comparisons, and a master template for anything. Copy-paste ready.

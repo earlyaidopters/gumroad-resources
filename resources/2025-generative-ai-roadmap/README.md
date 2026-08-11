@@ -6,11 +6,11 @@
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/airoadmap2025**
 
-`published` · CAD$0+
+`published` · CAD$0+ · 📊 Tools, Cheat Sheets & Evaluations
 
 ## About
 
-### What You Get:
+##### What You Get:
 
 - 
 Notion Guide: The Ultimate Generative AI Resource

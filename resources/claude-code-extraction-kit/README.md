@@ -6,11 +6,11 @@
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/claude-code-extraction-kit**
 
-`published` · CAD$0+
+`published` · CAD$0+ · 🗂️ Frameworks, Meta Techniques & Experiments
 
 ## About
 
-# What You Get
+### What You Get
 The Extraction Super Prompt: A comprehensive prompt template that reverse-engineers ANY document Claude creates (Excel, PowerPoint, Word, PDF) - extracting structure, formulas, styling, and step-by-step recreation instructions.
 The Packaging Prompt: A follow-up prompt that bundles everything into a neat Markdown + ZIP care package for easy copy-paste recreation elsewhere.
 One-Line Skills Import Command: Skip the extraction entirely - directly import Anthropic's official Claude Code skills with a single terminal command. Works for technical AND non-technical users.

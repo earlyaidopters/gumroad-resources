@@ -6,11 +6,11 @@
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/finetuning**
 
-`published` · CAD$0+
+`published` · CAD$0+ · 🔌 Automation & Workflows (n8n, Replit, Make.com)
 
 ## About
 
-## What You Get
+#### What You Get
 
 - 
 All-In-One JSONL Prompt
@@ -33,7 +33,7 @@ Spans a variety of use cases—tweets, IG captions, FB posts, email intros, news
 Instant Fine-Tuning Kickstart
 Simply feed the output into your model-training process for a swift path to a more personalized AI experience.
 
-### 💖 This took around 5 hours to put together, so feel free to support the channel if you can or wish to.
+##### 💖 This took around 5 hours to put together, so feel free to support the channel if you can or wish to.
 
 ## Resource content
 

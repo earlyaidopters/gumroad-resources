@@ -6,11 +6,11 @@
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/parallel-terminals-playbook**
 
-`published` · CAD$0+
+`published` · CAD$0+ · 🧠 Custom GPTs & AI Agents
 
 ## About
 
-# What You Get
+### What You Get
 The Parallel Terminals Guide (PDF): A complete breakdown of the 3 scenarios for running Claude Code in parallel - True Parallel, Phased Parallel, and The Relay Race. Includes the one question to ask before starting any new session, dependency mental models, and copy-paste prompts for each scenario.
 23 Excalidraw Diagrams: All the visual diagrams from the video - scenario breakdowns, prompt templates, dependency flows, and the master overview. Ready to use in your own presentations or as reference while building.
 Plan.md Template: The exact plan file structure for managing phased builds with checkboxes, decision logs, and handoff documentation.

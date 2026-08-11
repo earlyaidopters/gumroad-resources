@@ -6,11 +6,11 @@
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/promptadvisers**
 
-`published` · $0+
+`published` · $0+ · 📊 Tools, Cheat Sheets & Evaluations
 
 ## About
 
-## What's Inside:
+#### What's Inside:
 
 - 
 Prompt Caching Implementation: Easily integrate Claude's new prompt caching feature into your projects

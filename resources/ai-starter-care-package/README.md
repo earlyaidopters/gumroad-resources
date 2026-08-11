@@ -6,11 +6,11 @@
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/n8ncarepackage**
 
-`published` · CAD$0+
+`published` · CAD$0+ · 🧠 Custom GPTs & AI Agents
 
 ## About
 
-# What You Get
+### What You Get
 
 - Automated client onboarding template — welcome emails, Drive folder + tailored onboarding checklist to get new clients live fast (attached: Automated Client Onboarding with AI-Generated Checklist.json).
 

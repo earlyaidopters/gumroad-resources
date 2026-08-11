@@ -6,11 +6,11 @@
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/openclaw-mind-virus-cure**
 
-`published` · CAD$0+
+`published` · CAD$0+ · 🗂️ Frameworks, Meta Techniques & Experiments
 
 ## About
 
-# What You Get
+### What You Get
 AI Agent Framework Comparison Page: A single interactive HTML file that lets you browse 9 open-source AI agent frameworks side-by-side -- OpenClaw, ZeroClaw, NanoClaw, PicoClaw, TinyClaw, IronClaw, NanoBot, Agent Zero, and Awesome-OpenClaw. Compare features, architecture patterns, and capabilities across every repo. Add the exact features you want to a shopping cart and export your custom wishlist.
 Why This Works
 You don't need someone else's 50,000-line framework. You need the 5% of features that actually matter to your workflow. This page lays out every feature from every major framework so you can pick and choose -- like a grocery store for AI agent capabilities. Take your wishlist to Claude Code and build something that's actually yours.

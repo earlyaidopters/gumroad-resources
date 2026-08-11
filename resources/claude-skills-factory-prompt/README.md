@@ -6,11 +6,11 @@
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/claudecodeskillsfactory**
 
-`published` · CAD$0+
+`published` · CAD$0+ · 🎯 Prompting & Engineering Skills
 
 ## About
 
-## What You Get
+#### What You Get
 
 - Claude Code ready master prompt you can copy-paste to scaffold complete skill folders, SKILL.md, sample_prompt.md, and ZIP packaging for immediate import.
 

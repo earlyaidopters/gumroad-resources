@@ -81,6 +81,9 @@ def skool_lessons():
             return []
         html = get(f"https://www.skool.com/{group}/classroom/{cid}")  # follows redirect
         d = _next_data(html)
+        course = d["props"]["pageProps"].get("course", {})
+
+        # lessons (title -> first video id), any depth
         out, seen = [], set()
 
         def walk(o):
@@ -96,11 +99,23 @@ def skool_lessons():
             elif isinstance(o, list):
                 for v in o:
                     walk(v)
-        walk(d["props"]["pageProps"].get("course", {}))
-        return out
+        walk(course)
+
+        # categories: top-level sections -> their lesson titles (skip recency bucket)
+        skip = {"LAST 10 VIDEO ASSETS", "YouTube Resources"}
+        title_cat = {}
+        for sec in course.get("children", []):
+            cat = sec.get("course", {}).get("metadata", {}).get("title", "").strip()
+            if not cat or cat in skip:
+                continue
+            for les in sec.get("children", []):
+                t = les.get("course", {}).get("metadata", {}).get("title")
+                if t and t not in title_cat:  # first real section wins
+                    title_cat[t] = cat
+        return out, title_cat
     except Exception as e:
         print(f"  (skool source skipped: {e})", file=sys.stderr)
-        return []
+        return [], {}
 
 
 def yt_service():
@@ -183,12 +198,14 @@ def main():
                                "resource_slug": folder[perm], "source": "youtube-desc"}
     authoritative = len(ytmap)
 
-    # source 2: Skool "YouTube Resources" classroom — lesson title == resource name
+    # source 2: Skool "YouTube Resources" classroom — lesson title == resource name.
+    # Same scrape also yields the topic sections -> categories.json.
     name_slug = {slugify(json.load(open(mp))["name"]): folder[json.load(open(mp))["permalink"]]
                  for mp in glob.glob(os.path.join(REPO, "resources", "*", "meta.json"))}
     perm_by_folder = {v: k for k, v in folder.items()}
+    lessons, title_cat = skool_lessons()
     added = 0
-    for title, vid in skool_lessons():
+    for title, vid in lessons:
         st = slugify(title)
         fslug = name_slug.get(st) or (st if st in perm_by_folder else None)
         perm = perm_by_folder.get(fslug)
@@ -205,6 +222,18 @@ def main():
     json.dump(ytmap, open(out, "w"), indent=1, ensure_ascii=False)
     print(f"paired {len(ytmap)} resources to videos "
           f"({authoritative} via YouTube links, {added} via Skool) -> {out}")
+
+    cats = {}
+    for title, cat in title_cat.items():
+        st = slugify(title)
+        perm = perm_by_folder.get(name_slug.get(st) or (st if st in perm_by_folder else None))
+        if perm:
+            cats[perm] = cat
+    if cats:
+        cout = os.path.join(REPO, "tools", "categories.json")
+        json.dump(cats, open(cout, "w"), indent=1, ensure_ascii=False)
+        print(f"categorized {len(cats)} resources into "
+              f"{len(set(cats.values()))} topics -> {cout}")
 
 
 if __name__ == "__main__":

@@ -6,11 +6,11 @@
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/AgentModeVibeCodingPrompts**
 
-`published` · CAD$0+
+`published` · CAD$0+ · 🎯 Prompting & Engineering Skills
 
 ## About
 
-## What You Get
+#### What You Get
 
 - A masterfully crafted prompt for lovable.dev, guiding an AI agent to autonomously build, refine, and troubleshoot a visually stunning, life-changing to-do app—from creative branding to playful dark mode and quick-win productivity features.
 

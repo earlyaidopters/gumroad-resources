@@ -6,11 +6,11 @@
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/claudeskillsn8n**
 
-`published` · CAD$0+
+`published` · CAD$0+ · 🔌 Automation & Workflows (n8n, Replit, Make.com)
 
 ## About
 
-# What You Get
+### What You Get
 
 - Import-ready n8n template (Anthropic Agent Skills Workflows.json) for PPTX, PDF, DOCX, XLSX.
 

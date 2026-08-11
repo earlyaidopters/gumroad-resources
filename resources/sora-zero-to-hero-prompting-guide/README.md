@@ -6,11 +6,11 @@
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/mcxxis**
 
-`published` · CAD$0+
+`published` · CAD$0+ · 🎯 Prompting & Engineering Skills
 
 ## About
 
-### What You Get
+##### What You Get
 
 - 
 Comprehensive Sora Prompting Guide: A detailed breakdown of shot types, camera movements, lighting techniques, and advanced descriptors to create visually stunning AI-generated videos.

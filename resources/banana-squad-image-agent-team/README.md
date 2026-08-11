@@ -6,11 +6,11 @@
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/banana-squad-agent-team**
 
-`published` · CAD$0+
+`published` · CAD$0+ · 🧠 Custom GPTs & AI Agents
 
 ## About
 
-# What You Get
+### What You Get
 Banana Squad Spawn Prompt (spawn-team-prompt.md): The exact prompt that spins up a 5-agent team in Claude Code -- a Lead, Researcher, Prompt Architect, Generator, and Critic -- that generates 5 ranked image variants from a single request. Copy it, paste it into Claude Code, done.
 Gemini 3 Pro Image API Guide (gemini-3-image-api-guide.md): Complete reference for the Nano Banana Pro API. Authentication, code patterns, aspect ratios, resolution options, reference image handling, and prompting best practices.
 10 Visual Diagrams (diagrams/): B&W doodle-style breakdowns of the entire pipeline -- from the PaperBanana research paper to the agent team architecture, communication flow, project structure, and evaluation dimensions.

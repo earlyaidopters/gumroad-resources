@@ -6,11 +6,11 @@
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/n8ndatatables**
 
-`published` · CAD$0+
+`published` · CAD$0+ · 🔌 Automation & Workflows (n8n, Replit, Make.com)
 
 ## About
 
-# What You Get
+### What You Get
 
 - Import-ready n8n workflow (.json) with three scenarios: Sheet→Table sync, AI Sales analysis, and a Sheets vs Data Tables speed test.
 

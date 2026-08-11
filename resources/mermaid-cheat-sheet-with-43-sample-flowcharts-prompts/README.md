@@ -8,7 +8,7 @@
 
 ## About
 
-### What's Included?
+##### What's Included?
 
 - 
 Styles:
@@ -41,7 +41,7 @@ dark and neutral: High contrast and print-optimized.
 - 
 Examples:- Pre-configured code snippets for each style and theme.
 
-### Why Use This Cheat Sheet?
+##### Why Use This Cheat Sheet?
 
 - 
 Quick Reference: Instantly find the perfect style and theme.

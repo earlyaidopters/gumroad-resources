@@ -6,11 +6,11 @@
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/promptn8ntemplates**
 
-`published` · CAD$0+
+`published` · CAD$0+ · 🔌 Automation & Workflows (n8n, Replit, Make.com)
 
 ## About
 
-## What You’ll Get
+#### What You’ll Get
 
 - 
 High-Performance Prompt for Deep Research- The exact prompt used in the video, proven to yield the best results when generating n8n workflows with ChatGPT’s Deep Research feature.

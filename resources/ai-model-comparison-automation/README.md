@@ -6,11 +6,11 @@
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/modelcomparisonworkflown8n**
 
-`published` · CAD$0+
+`published` · CAD$0+ · 🔌 Automation & Workflows (n8n, Replit, Make.com)
 
 ## About
 
-## What You Get
+#### What You Get
 
 - 
 Level-1 Workflow JSON (Workflow 1 of 2): Import-ready n8n file that runs on a schedule for hands-free model tests—its matching Judge workflow lives exclusively inside my paid community.

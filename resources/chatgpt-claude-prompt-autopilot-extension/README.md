@@ -6,11 +6,11 @@
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/promptificextension**
 
-`published` · CAD$0+
+`published` · CAD$0+ · 🧠 Custom GPTs & AI Agents
 
 ## About
 
-# What You Get
+### What You Get
 
 - The master “mega-prompt” (no code needed) to build your own Chrome extension for ChatGPT and Claude: auto-generates, queues, and stores optimized prompts on both platforms.
 

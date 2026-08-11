@@ -6,11 +6,11 @@
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/maketon8nconverter**
 
-`published` · CAD$0+
+`published` · CAD$0+ · 🔌 Automation & Workflows (n8n, Replit, Make.com)
 
 ## About
 
-## What You’ll Get
+#### What You’ll Get
 
 - 
 n8n Workflow Converter – A pre-built n8n workflow that automatically ingests and converts Make.com JSON files.

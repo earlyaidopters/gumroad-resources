@@ -6,11 +6,11 @@
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/perplexitysearchapi**
 
-`published` · CAD$0+
+`published` · CAD$0+ · 🗂️ Frameworks, Meta Techniques & Experiments
 
 ## About
 
-# What You Get
+### What You Get
 
 - Plug-and-play n8n workflow: four ready HTTP nodes (raw Search, Grounded Chat, Academic allowlist, Structured JSON output) with timing notes for demos—hit “Execute” and see the API in action instantly.
 

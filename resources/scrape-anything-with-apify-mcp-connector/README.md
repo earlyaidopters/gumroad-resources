@@ -6,11 +6,11 @@
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/apifymcpconnector**
 
-`published` · CAD$0+
+`published` · CAD$0+ · 🎯 Prompting & Engineering Skills
 
 ## About
 
-## What You Get
+#### What You Get
 
 - 
 Ready-to-Deploy MCP Config Schema: A clean JSON schema preconfigured with Apify’s top scrapers—YouTube, TikTok, Instagram, Google Maps, X (Twitter), and LinkedIn.
