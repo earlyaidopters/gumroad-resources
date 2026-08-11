@@ -62,3 +62,26 @@ jobs:
             git commit -m "sync: refresh resources from Gumroad ($(date -u +%Y-%m-%d)) [$n paths]"
             git push
           fi
+
+      - name: Flag drops with no video paired
+        if: steps.sync.outcome == 'success'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          missing=$(python3 tools/check_pairings.py --repo .)
+          title="Video pairing missing for the newest drop(s)"
+          existing=$(gh issue list --state open --search "$title in:title" --json number --jq '.[0].number // empty')
+          if [ -z "$missing" ]; then
+            if [ -n "$existing" ]; then
+              gh issue close "$existing" --comment "All recent resources are paired with a video again."
+            fi
+            echo "All recent resources have a video paired."
+            exit 0
+          fi
+          echo "Unpaired: $missing"
+          body=$(printf 'These resources are live in the repo with no YouTube video linked, so members see a dash in the Watch column:\n\n%s\n\nThe map cannot be refreshed in CI (no YouTube auth). On a machine with the YouTube token, run:\n\n```sh\nuv run --with google-api-python-client --with google-auth-oauthlib \\\n       --with google-auth tools/youtube_map.py\npython3 tools/build_repo.py --repo . --index <(python3 tools/gumroad-pull products)\n```\n\nthen commit `tools/youtube_map.json`. This issue closes itself on the next sync once every recent drop is paired.' "$missing")
+          if [ -n "$existing" ]; then
+            gh issue comment "$existing" --body "Still unpaired: $missing"
+          else
+            gh issue create --title "$title" --body "$body"
+          fi

@@ -33,6 +33,16 @@ uv run --with google-api-python-client --with google-auth-oauthlib \
        --with google-auth tools/youtube_map.py
 ```
 
+Forgetting used to fail silently — the drop shipped with a dash in the Watch
+column. `check_pairings.py` now runs at the end of every sync and opens a GitHub
+issue when any of the 5 newest live resources has no video paired; the issue
+closes itself once the map is refreshed. Re-index after regenerating the map,
+and always pass `--index` so the storefront keeps its newest-first order:
+
+```sh
+python3 tools/build_repo.py --repo . --index <(python3 tools/gumroad-pull products)
+```
+
 ## The `GUMROAD_COOKIE` secret
 
 The pull needs a logged-in gumroad.com session cookie string (it must include
