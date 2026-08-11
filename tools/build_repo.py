@@ -267,6 +267,20 @@ def main():
             out.append(f"| [{esc(e['name'])}](resources/{e['slug']}/) | {snip} | {vid} | {link} |")
         return "\n".join(out)
 
+    # "what's new" — the 10 newest resources, with video thumbnails, for members
+    def latest_table(rows):
+        out = ["| | Resource | Watch | Get it |", "|---|---|---|---|"]
+        for e in rows:
+            yt = ytmap.get(e["permalink"])
+            thumb = (yt or {}).get("thumbnail") or e.get("thumbnail")
+            link = (yt or {}).get("url") or e.get("url") or ""
+            cell = (f'<a href="{link}"><img src="{thumb}" width="200"></a>'
+                    if thumb else "")
+            watch = f"[▶ Watch]({yt['url']})" if yt else "-"
+            get = f"[Gumroad]({e['url']})" if e["url"] else "-"
+            out.append(f"| {cell} | [{esc(e['name'])}](resources/{e['slug']}/) | {watch} | {get} |")
+        return "\n".join(out)
+
     # group live resources by category (ordered), newest-first within each
     def anchor(cat):
         return re.sub(r"[^a-z0-9]+", "-",
@@ -285,6 +299,10 @@ def main():
         "this repo to catch every new drop.\n",
         f"**{len(live)} published resources**, grouped by topic and newest-first "
         "within each. Auto-synced from Gumroad every few hours.\n",
+        "## 🆕 Latest 10 drops\n",
+        "The newest resources with their videos. Updates automatically on every sync.\n",
+        latest_table(live[:10]),
+        "",
         "## Categories\n",
         "\n".join(f"- [{c}](#{anchor(c)}) ({sum(1 for e in live if e['category']==c)})"
                   for c in present) + "\n",

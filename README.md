@@ -4,6 +4,23 @@ Every free resource from the Early AI-dopters Gumroad, mirrored here and kept in
 
 **154 published resources**, grouped by topic and newest-first within each. Auto-synced from Gumroad every few hours.
 
+## 🆕 Latest 10 drops
+
+The newest resources with their videos. Updates automatically on every sync.
+
+| | Resource | Watch | Get it |
+|---|---|---|---|
+| <a href="https://youtu.be/3ICM9ZdflZA"><img src="https://i.ytimg.com/vi/3ICM9ZdflZA/maxresdefault.jpg" width="200"></a> | [Personal AI Benchmark Kit 🧪](resources/personal-ai-benchmark-kit/) | [▶ Watch](https://youtu.be/3ICM9ZdflZA) | [Gumroad](https://markkashef.gumroad.com/l/personal-ai-benchmark-kit) |
+| <a href="https://youtu.be/84POiAUhtSI"><img src="https://i.ytimg.com/vi/84POiAUhtSI/maxresdefault.jpg" width="200"></a> | [Open Source AI Crash Course Kit 🧰](resources/open-source-ai-crash-course-kit/) | [▶ Watch](https://youtu.be/84POiAUhtSI) | [Gumroad](https://markkashef.gumroad.com/l/open-source-ai-crash-course-kit) |
+| <a href="https://youtu.be/4__5q76f04s"><img src="https://i.ytimg.com/vi/4__5q76f04s/maxresdefault.jpg" width="200"></a> | [Effort Decoder Guide 🎛️](resources/effort-decoder-guide/) | [▶ Watch](https://youtu.be/4__5q76f04s) | [Gumroad](https://markkashef.gumroad.com/l/effort-decoder) |
+| <a href="https://youtu.be/nuwlyQXrADg"><img src="https://i.ytimg.com/vi/nuwlyQXrADg/maxresdefault.jpg" width="200"></a> | [Fable Wargame Kit 🎖️](resources/fable-wargame-kit/) | [▶ Watch](https://youtu.be/nuwlyQXrADg) | [Gumroad](https://markkashef.gumroad.com/l/fable-wargame-kit) |
+| <a href="https://youtu.be/YjkteijEyzQ"><img src="https://i.ytimg.com/vi/YjkteijEyzQ/maxresdefault.jpg" width="200"></a> | [Agentic OS Starter Kit 🌍](resources/agentic-os-starter-kit/) | [▶ Watch](https://youtu.be/YjkteijEyzQ) | [Gumroad](https://markkashef.gumroad.com/l/agentic-os-starter-kit) |
+| <a href="https://youtu.be/T17DYl_4Z-U"><img src="https://i.ytimg.com/vi/T17DYl_4Z-U/maxresdefault.jpg" width="200"></a> | [The Enterprise OS Blueprint Kit 🏢](resources/the-enterprise-os-blueprint-kit/) | [▶ Watch](https://youtu.be/T17DYl_4Z-U) | [Gumroad](https://markkashef.gumroad.com/l/enterprise-os-blueprint-kit-cc) |
+| <a href="https://youtu.be/B95cu7seTm8"><img src="https://i.ytimg.com/vi/B95cu7seTm8/maxresdefault.jpg" width="200"></a> | [The Fable Mindset Playbook 🧠](resources/the-fable-mindset-playbook/) | [▶ Watch](https://youtu.be/B95cu7seTm8) | [Gumroad](https://markkashef.gumroad.com/l/fable-mindset) |
+| <a href="https://youtu.be/113P6SBWAm8"><img src="https://i.ytimg.com/vi/113P6SBWAm8/maxresdefault.jpg" width="200"></a> | [Fable 5 Effort Cheat Sheet 🎛️](resources/fable-5-effort-cheat-sheet/) | [▶ Watch](https://youtu.be/113P6SBWAm8) | [Gumroad](https://markkashef.gumroad.com/l/claude-fable-5-wield-it-kit) |
+| <a href="https://youtu.be/g9b9G8dcS8Y"><img src="https://i.ytimg.com/vi/g9b9G8dcS8Y/maxresdefault.jpg" width="200"></a> | [6 Dynamic Workflow Patterns for Claude Code 👨🏽‍💻](resources/6-dynamic-workflow-patterns-for-claude-code/) | [▶ Watch](https://youtu.be/g9b9G8dcS8Y) | [Gumroad](https://markkashef.gumroad.com/l/dynamic-workflow-patterns) |
+| <a href="https://youtu.be/9_ExDZFlaNc"><img src="https://i.ytimg.com/vi/9_ExDZFlaNc/maxresdefault.jpg" width="200"></a> | [Dynamic Workflows Prompt Pack 🎛️](resources/dynamic-workflows-prompt-pack-jmduvg/) | [▶ Watch](https://youtu.be/9_ExDZFlaNc) | [Gumroad](https://markkashef.gumroad.com/l/dynamic-workflows-prompt-pack-claude) |
+
 ## Categories
 
 - [🎯 Prompting & Engineering Skills](#prompting-engineering-skills) (37)
