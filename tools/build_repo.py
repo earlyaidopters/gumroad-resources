@@ -73,17 +73,22 @@ def esc(s):
     return (s or "").replace("|", "\\|").replace("\n", " ").strip()
 
 
-def snippet(desc, n=130):
+def snippet(desc, n=150):
+    """A clean one-liner: the first sentence, never a mid-word cut."""
     import re as _re
     s = desc or ""
     s = _re.sub(r"!?\[([^\]]*)\]\([^)]*\)", r"\1", s)   # links/images -> text
     s = _re.sub(r"[#*`>_~-]", " ", s)                   # strip md marks
     s = _re.sub(r"\s+", " ", s).strip()
-    s = s.replace("|", "\\|")
     # drop a leading boilerplate heading like "What You Get"
     s = _re.sub(r"^(what you get|what's inside|what you'll get)\b[:\s]*", "",
                 s, flags=_re.I)
-    return (s[:n] + "…") if len(s) > n else s
+    # first sentence (allow a "Label:" lead-in to carry into it)
+    m = _re.match(r"(.+?[.!?])(?:\s|$)", s)
+    one = m.group(1) if m else s
+    if len(one) > n:  # unusually long first sentence -> cut at a word boundary
+        one = one[:n].rsplit(" ", 1)[0].rstrip(",;:") + "…"
+    return one.replace("|", "\\|")
 
 
 def main():
