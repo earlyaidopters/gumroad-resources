@@ -12,7 +12,9 @@ YouTube video, from two sources (highest-trust first):
 Run locally when new videos/lessons go up, then commit the updated map (the
 Gumroad sync cannot do this — it has no YouTube/Skool auth).
 
-Auth: reuses a YouTube OAuth token (youtube.force-ssl scope). Point these at an
+Auth: set YOUTUBE_API_KEY (a YouTube Data API key) and it runs unattended in
+CI, reading only public data. Otherwise it falls back to a YouTube OAuth token
+(youtube.force-ssl scope) for local runs that also want the Skool source. Point these at an
 existing token or run the youtube helper's auth flow first:
   GOOGLE_CREDS_PATH   default ~/.config/gmail/credentials.json
   YOUTUBE_TOKEN_PATH  default ~/.config/youtube/token.json
@@ -28,6 +30,7 @@ import glob, json, os, re, subprocess, sys, urllib.request
 
 REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SCOPES = ["https://www.googleapis.com/auth/youtube.force-ssl"]
+CHANNEL_ID = "UCHkzp52CldSPZqU5T49mOnA"  # youtube.com/@Mark_Kashef
 UA = ("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 "
       "(KHTML, like Gecko) Chrome/126 Safari/537.36")
 YT_ID = re.compile(r'(?:youtu\.be/|youtube\.com/(?:watch\?v=|embed/)|"videoId":")'
@@ -63,7 +66,8 @@ def skool_lessons():
     """Return [(title, video_id)] from the YouTube Resources classroom, or []."""
     ck = skool_cookie()
     if not ck:
-        return []
+        # Callers unpack (lessons, categories); a bare [] crashes them.
+        return [], {}
     group = os.environ.get("SKOOL_GROUP", "earlyaidopters")
 
     def get(url):
@@ -123,6 +127,12 @@ def yt_service():
     from google.oauth2.credentials import Credentials
     from google_auth_oauthlib.flow import InstalledAppFlow
     from googleapiclient.discovery import build
+    # CI path: a YouTube Data API key reads public uploads and descriptions,
+    # which is everything the pairing needs. No OAuth token, and a leaked key
+    # can only burn quota, never touch the channel.
+    api_key = os.environ.get("YOUTUBE_API_KEY")
+    if api_key:
+        return build("youtube", "v3", developerKey=api_key)
     token = os.path.expanduser(os.environ.get("YOUTUBE_TOKEN_PATH",
                                               "~/.config/youtube/token.json"))
     creds = None
@@ -150,7 +160,11 @@ def load_index():
 
 def main():
     svc = yt_service()
-    ch = svc.channels().list(part="contentDetails", mine=True).execute()["items"][0]
+    # mine=True needs OAuth; the channel id works for both auth modes.
+    if os.environ.get("YOUTUBE_API_KEY"):
+        ch = svc.channels().list(part="contentDetails", id=CHANNEL_ID).execute()["items"][0]
+    else:
+        ch = svc.channels().list(part="contentDetails", mine=True).execute()["items"][0]
     up = ch["contentDetails"]["relatedPlaylists"]["uploads"]
 
     vids, tok = [], None
@@ -219,9 +233,20 @@ def main():
             added += 1
 
     out = os.path.join(REPO, "tools", "youtube_map.json")
+    # Keep pairings this run could not reproduce. CI has no Skool cookie, so
+    # without this a scheduled run would silently delete every Skool-sourced
+    # link instead of only adding the new YouTube ones.
+    preserved = 0
+    if os.path.exists(out):
+        for perm, entry in json.load(open(out)).items():
+            if perm not in ytmap and perm in folder:
+                ytmap[perm] = entry
+                preserved += 1
+
     json.dump(ytmap, open(out, "w"), indent=1, ensure_ascii=False)
     print(f"paired {len(ytmap)} resources to videos "
-          f"({authoritative} via YouTube links, {added} via Skool) -> {out}")
+          f"({authoritative} via YouTube links, {added} via Skool, "
+          f"{preserved} kept from the existing map) -> {out}")
 
     cats = {}
     for title, cat in title_cat.items():
