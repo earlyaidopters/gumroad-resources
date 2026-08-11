@@ -262,7 +262,7 @@ def main():
         for e in rows:
             snip = snippet(e["description_md"])
             yt = ytmap.get(e["permalink"])
-            vid = f"[▶ Watch]({yt['url']})" if yt else "-"
+            vid = f"[▶\u00a0Watch]({yt['url']})" if yt else "-"
             link = f"[Gumroad]({e['url']})" if e["url"] else "-"
             out.append(f"| [{esc(e['name'])}](resources/{e['slug']}/) | {snip} | {vid} | {link} |")
         return "\n".join(out)
@@ -276,7 +276,7 @@ def main():
             link = (yt or {}).get("url") or e.get("url") or ""
             cell = (f'<a href="{link}"><img src="{thumb}" width="200"></a>'
                     if thumb else "")
-            watch = f"[▶ Watch]({yt['url']})" if yt else "-"
+            watch = f"[▶\u00a0Watch]({yt['url']})" if yt else "-"
             get = f"[Gumroad]({e['url']})" if e["url"] else "-"
             out.append(f"| {cell} | [{esc(e['name'])}](resources/{e['slug']}/) | {watch} | {get} |")
         return "\n".join(out)
