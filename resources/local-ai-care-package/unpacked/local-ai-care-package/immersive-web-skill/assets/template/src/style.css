@@ -1,0 +1,85 @@
+/* Immersive-site base styles. Dark canvas-first look; DOM floats above WebGL. */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --bg: #0a0a0c;
+  --fg: #f2f2ef;
+  --accent: #7ad7ff;
+  --font-display: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+html { background: var(--bg); }
+/* Lenis handles smoothing; native scroll must stay default (no scroll-behavior) */
+html.lenis, html.lenis body { height: auto; }
+.lenis.lenis-smooth { scroll-behavior: auto !important; }
+
+body {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-display);
+  overflow-x: hidden;
+}
+
+/* WebGL canvas sits fixed behind everything */
+#webgl {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  z-index: 0;
+}
+
+#content { position: relative; z-index: 1; }
+
+.section {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 0 8vw;
+  gap: 1.5rem;
+}
+
+.hero__title {
+  font-size: clamp(3rem, 12vw, 11rem);
+  line-height: 0.92;
+  letter-spacing: -0.03em;
+  text-transform: uppercase;
+}
+
+.hero__sub { font-size: clamp(1rem, 1.6vw, 1.4rem); opacity: 0.7; }
+
+h2 { font-size: clamp(2rem, 6vw, 5rem); letter-spacing: -0.02em; }
+p { max-width: 34em; font-size: clamp(1rem, 1.3vw, 1.2rem); line-height: 1.6; opacity: 0.85; }
+
+.cta {
+  color: var(--bg);
+  background: var(--fg);
+  width: fit-content;
+  padding: 1rem 2.2rem;
+  border-radius: 999px;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+/* Reveal elements start hidden; scroll.js animates them in */
+[data-reveal] { opacity: 0; transform: translateY(40px); will-change: transform, opacity; }
+
+/* Preloader */
+.preloader {
+  position: fixed;
+  inset: 0;
+  z-index: 10;
+  background: var(--bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.6s ease, visibility 0.6s;
+}
+.preloader.is-done { opacity: 0; visibility: hidden; }
+.preloader__counter { font-size: clamp(2rem, 8vw, 6rem); font-variant-numeric: tabular-nums; }
+
+@media (prefers-reduced-motion: reduce) {
+  [data-reveal] { opacity: 1; transform: none; }
+}

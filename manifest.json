@@ -1,6 +1,20 @@
 {
-  "count": 154,
+  "count": 155,
   "products": [
+    {
+      "slug": "local-ai-care-package",
+      "permalink": "qwvwbu",
+      "numeric_id": 13824163,
+      "name": "Local AI Care Package 📦",
+      "status": "published",
+      "archived": false,
+      "category": "Other",
+      "content_hash": "8aff1c1b5f7feda5",
+      "files": [
+        "local-ai-care-package.zip"
+      ],
+      "has_content": true
+    },
     {
       "slug": "personal-ai-benchmark-kit",
       "permalink": "bmwjym",

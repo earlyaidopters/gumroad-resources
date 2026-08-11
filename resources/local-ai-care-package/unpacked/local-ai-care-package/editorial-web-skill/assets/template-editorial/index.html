@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{{BRAND}} · {{TAGLINE}}</title>
+  <link rel="stylesheet" href="/src/style.css" />
+</head>
+<body>
+
+  <!-- Fixed nav -->
+  <header class="nav" id="nav">
+    <a class="nav__brand" href="#">{{BRAND}}</a>
+    <nav class="nav__links">
+      <a href="#story">{{NAV_1}}</a>
+      <a href="#features">{{NAV_2}}</a>
+      <a href="#collection">{{NAV_3}}</a>
+    </nav>
+    <a class="nav__cta" href="#cta">{{NAV_CTA}}</a>
+  </header>
+
+  <!-- Hero: big editorial serif statement over the soft canvas -->
+  <section class="hero">
+    <h1 class="hero__title" data-split>{{HERO_HEADLINE}}</h1>
+    <p class="hero__sub" data-reveal>{{HERO_SUB}}</p>
+    <a class="btn btn--primary" href="#cta" data-reveal>{{HERO_CTA}}</a>
+  </section>
+
+  <!-- Hero media: rounded frame, gentle parallax -->
+  <section class="hero-media" data-parallax>
+    <div class="hero-media__frame">
+      <video src="/media/{{HERO_VIDEO}}" autoplay muted loop playsinline></video>
+    </div>
+  </section>
+
+  <!-- Manifesto: serif paragraph that reads like an editorial pull-quote -->
+  <section class="manifesto" id="story">
+    <p class="manifesto__text" data-reveal>{{MANIFESTO}}</p>
+  </section>
+
+  <!-- Alternating feature rows -->
+  <section class="features" id="features">
+    <div class="feature" data-reveal-group>
+      <div class="feature__media"><img src="/media/{{FEATURE_1_IMG}}" alt="" /></div>
+      <div class="feature__text">
+        <span class="feature__label">{{FEATURE_1_LABEL}}</span>
+        <h2 class="feature__title">{{FEATURE_1_TITLE}}</h2>
+        <p class="feature__copy">{{FEATURE_1_COPY}}</p>
+      </div>
+    </div>
+    <div class="feature feature--flip" data-reveal-group>
+      <div class="feature__media"><img src="/media/{{FEATURE_2_IMG}}" alt="" /></div>
+      <div class="feature__text">
+        <span class="feature__label">{{FEATURE_2_LABEL}}</span>
+        <h2 class="feature__title">{{FEATURE_2_TITLE}}</h2>
+        <p class="feature__copy">{{FEATURE_2_COPY}}</p>
+      </div>
+    </div>
+    <div class="feature" data-reveal-group>
+      <div class="feature__media"><img src="/media/{{FEATURE_3_IMG}}" alt="" /></div>
+      <div class="feature__text">
+        <span class="feature__label">{{FEATURE_3_LABEL}}</span>
+        <h2 class="feature__title">{{FEATURE_3_TITLE}}</h2>
+        <p class="feature__copy">{{FEATURE_3_COPY}}</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Horizontal card rail -->
+  <section class="rail" id="collection">
+    <h2 class="rail__heading" data-reveal>{{RAIL_HEADING}}</h2>
+    <div class="rail__track" data-drag-rail>
+      <article class="card">
+        <div class="card__media"><img src="/media/{{CARD_1_IMG}}" alt="" /></div>
+        <h3 class="card__title">{{CARD_1_TITLE}}</h3>
+        <p class="card__meta">{{CARD_1_META}}</p>
+      </article>
+      <article class="card">
+        <div class="card__media"><img src="/media/{{CARD_2_IMG}}" alt="" /></div>
+        <h3 class="card__title">{{CARD_2_TITLE}}</h3>
+        <p class="card__meta">{{CARD_2_META}}</p>
+      </article>
+      <article class="card">
+        <div class="card__media"><img src="/media/{{CARD_3_IMG}}" alt="" /></div>
+        <h3 class="card__title">{{CARD_3_TITLE}}</h3>
+        <p class="card__meta">{{CARD_3_META}}</p>
+      </article>
+      <article class="card">
+        <div class="card__media"><img src="/media/{{CARD_4_IMG}}" alt="" /></div>
+        <h3 class="card__title">{{CARD_4_TITLE}}</h3>
+        <p class="card__meta">{{CARD_4_META}}</p>
+      </article>
+    </div>
+  </section>
+
+  <!-- Full-bleed banner panel -->
+  <section class="banner">
+    <div class="banner__inner">
+      <h2 class="banner__title" data-split>{{BANNER_HEADLINE}}</h2>
+      <p class="banner__sub" data-reveal>{{BANNER_SUB}}</p>
+    </div>
+  </section>
+
+  <!-- Stats strip -->
+  <section class="stats" data-reveal-group>
+    <div class="stat"><span class="stat__num">{{STAT_1_NUM}}</span><span class="stat__label">{{STAT_1_LABEL}}</span></div>
+    <div class="stat"><span class="stat__num">{{STAT_2_NUM}}</span><span class="stat__label">{{STAT_2_LABEL}}</span></div>
+    <div class="stat"><span class="stat__num">{{STAT_3_NUM}}</span><span class="stat__label">{{STAT_3_LABEL}}</span></div>
+  </section>
+
+  <!-- Closing CTA -->
+  <section class="cta" id="cta">
+    <h2 class="cta__title" data-split>{{CTA_HEADLINE}}</h2>
+    <a class="btn btn--primary btn--big" href="#" data-reveal>{{CTA_BUTTON}}</a>
+  </section>
+
+  <footer class="footer">
+    <span class="footer__brand">{{BRAND}}</span>
+    <span class="footer__line">{{FOOTER_LINE}}</span>
+  </footer>
+
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>

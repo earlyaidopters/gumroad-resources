@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>COVE · Client work, without the chaos</title>
+  <link rel="stylesheet" href="/src/style.css" />
+</head>
+<body>
+
+  <!-- Fixed nav -->
+  <header class="nav" id="nav">
+    <a class="nav__brand" href="#">COVE</a>
+    <nav class="nav__links">
+      <a href="#story">The Workspace</a>
+      <a href="#features">Features</a>
+      <a href="#collection">Workflows</a>
+    </nav>
+    <a class="nav__cta" href="#cta">Get Started</a>
+  </header>
+
+  <!-- Hero: big editorial serif statement over the soft canvas -->
+  <section class="hero">
+    <h1 class="hero__title">Client work, without the chaos</h1>
+    <p class="hero__sub" data-reveal>A calm, focused workspace designed for freelancers who value clarity over clutter. Cove brings your projects, conversations, and deliverables into one serene environment.</p>
+    <a class="btn btn--primary" href="#cta" data-reveal>Start your free trial</a>
+  </section>
+
+  <!-- Hero media: rounded frame, gentle parallax -->
+  <section class="hero-media" data-parallax>
+    <div class="hero-media__frame">
+      <video src="/media/hero-768p.mp4" poster="/media/hero-poster.jpg" preload="auto" autoplay muted loop playsinline></video>
+    </div>
+  </section>
+
+  <!-- Manifesto: serif paragraph that reads like an editorial pull-quote -->
+  <section class="manifesto" id="story">
+    <p class="manifesto__text" data-reveal>Freelancing demands focus, but client work often fragments it across endless tabs, scattered messages, and mismatched tools. Cove is built differently, a workspace that respects your attention and protects your flow state.</p>
+  </section>
+
+  <!-- Alternating feature rows -->
+  <section class="features" id="features">
+    <div class="feature" data-reveal-group>
+      <div class="feature__media"><img src="/media/paper.jpg" alt="" /></div>
+      <div class="feature__text">
+        <span class="feature__label">Organization</span>
+        <h2 class="feature__title">Projects that breathe</h2>
+        <p class="feature__copy">Each project lives in its own calm space. No clutter, no noise, just the work that matters, arranged exactly how you need it.</p>
+      </div>
+    </div>
+    <div class="feature feature--flip" data-reveal-group>
+      <div class="feature__media"><img src="/media/desk.jpg" alt="" /></div>
+      <div class="feature__text">
+        <span class="feature__label">Communication</span>
+        <h2 class="feature__title">Conversations that stay on track</h2>
+        <p class="feature__copy">Client feedback lives alongside the work it references. No more digging through email threads or lost Slack messages.</p>
+      </div>
+    </div>
+    <div class="feature" data-reveal-group>
+      <div class="feature__media"><img src="/media/orb.jpg" alt="" /></div>
+      <div class="feature__text">
+        <span class="feature__label">Deliverables</span>
+        <h2 class="feature__title">Handoffs that feel complete</h2>
+        <p class="feature__copy">Present work with intention. Cove's presentation mode removes distractions so clients can focus on what you've created.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Horizontal card rail -->
+  <section class="rail" id="collection">
+    <h2 class="rail__heading" data-reveal>Workflows built for how you actually work</h2>
+    <div class="rail__track" data-drag-rail>
+      <article class="card">
+        <div class="card__media"><img src="/media/blob-hero.jpg" alt="" /></div>
+        <h3 class="card__title">Project Hub</h3>
+        <p class="card__meta">Centralize files, briefs, and milestones</p>
+      </article>
+      <article class="card">
+        <div class="card__media"><img src="/media/paper.jpg" alt="" /></div>
+        <h3 class="card__title">Feedback Threads</h3>
+        <p class="card__meta">Contextual comments, never lost</p>
+      </article>
+      <article class="card">
+        <div class="card__media"><img src="/media/desk.jpg" alt="" /></div>
+        <h3 class="card__title">Time Tracking</h3>
+        <p class="card__meta">Quiet insights into your rhythm</p>
+      </article>
+      <article class="card">
+        <div class="card__media"><img src="/media/orb.jpg" alt="" /></div>
+        <h3 class="card__title">Client Portals</h3>
+        <p class="card__meta">Share work in a branded space</p>
+      </article>
+    </div>
+  </section>
+
+  <!-- Full-bleed banner panel -->
+  <section class="banner">
+    <div class="banner__inner">
+      <h2 class="banner__title" data-split>Designed for deep work</h2>
+      <p class="banner__sub" data-reveal>Every pixel of Cove serves your focus. Distractions fade away so you can do your best work.</p>
+    </div>
+  </section>
+
+  <!-- Stats strip -->
+  <section class="stats" data-reveal-group>
+    <div class="stat"><span class="stat__num">12,000+</span><span class="stat__label">Freelancers</span></div>
+    <div class="stat"><span class="stat__num">4.9/5</span><span class="stat__label">App Rating</span></div>
+    <div class="stat"><span class="stat__num">98%</span><span class="stat__label">Retention</span></div>
+  </section>
+
+  <!-- Closing CTA -->
+  <section class="cta" id="cta">
+    <h2 class="cta__title" data-split>Ready for a calmer workflow?</h2>
+    <a class="btn btn--primary btn--big" href="#" data-reveal>Start your free trial</a>
+  </section>
+
+  <footer class="footer">
+    <span class="footer__brand">COVE</span>
+    <span class="footer__line">© 2024 Cove. All rights reserved.</span>
+  </footer>
+
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>

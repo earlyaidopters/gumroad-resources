@@ -1,0 +1,21 @@
+{
+  "name": "Local AI Care Package 📦",
+  "external_id": "iyhje2ATZMqTEObY9_y73w==",
+  "permalink": "qwvwbu",
+  "unique_permalink": "qwvwbu",
+  "custom_permalink": "local-ai-care-package",
+  "url": "https://markkashef.gumroad.com/l/local-ai-care-package",
+  "status": "published",
+  "archived": false,
+  "kind": "products",
+  "price_formatted": "CAD$0+",
+  "description_md": "# What You Get\nThis is the care package from the video. The guide, both skills, the harness tips, and the raw source of every website I showed.\n\n- \nThe Local Harness Guide (16 pages, PDF): How to run a free local model as a real coding agent, and how to use Claude or Codex to train it into one.\n\n- \nThe immersive-web Skill: Scroll-scrubbed video sites where scroll drives the playhead, WebGL scroll-narratives, and game worlds. SKILL.md plus 8 reference documents plus two working templates.\n\n- \nThe editorial-web Skill: The premium lane. Expressive serif display type, soft warm canvases, rounded media plates, alternating feature rows, calm scroll reveals. \n\n- \nDesigning and Optimizing Your Own Harness: Ten practical tips, each one there because something broke on camera or off it. \n\n- \nThe Raw Website Source: DURABLE, MERIDIAN, COVE and HEARTH, exactly as the local model produced them.\n\n- \nThe One-Shot Video Pipeline: setup-scrub.sh takes one video file and scaffolds a complete scroll-scrubbed site, cinemagraph idle, brand title card, alternating text beats, altitude HUD, letterbox bars, velocity zoom and marquee. \n\n- \nThree Verified Templates: A Vite plus Three.js plus GSAP ScrollTrigger plus Lenis starter for interactive 3D, the scrub template for video-driven sites, and the editorial starter.\n\n- \nFour Archetypes, Reverse-Engineered: WebGL scroll-narrative, video-driven, scroll-scrubbed video, and game world. Each one has its anatomy and its steal-first list, pulled from shipped award-winning bundles.\n\n- \nThe Effects Menu: Magnetic buttons, custom cursor, film grain, clip-path reveals, tilt cards, character cascades, scroll progress, count-up stats, velocity skew. Verified recipes, not descriptions.\n\n- \nThe Variation Pass: Both skills ship variation axes, palette mood, typography voice, label treatment, beat placement, HUD metaphor, idle treatment, landing sections.\n\nThe skills run on local open-source models. That is the whole point of the video. No API key required.\nIf you want the rest of the local AI stack, the walkthroughs, and direct access to me and my team, consider joining my Early AI-dopters Community (https://www.skool.com/earlyaidopters/about). You won't regret it 😉",
+  "files": [
+    {
+      "file": "local-ai-care-package.zip",
+      "status": "downloaded",
+      "bytes": 152627
+    }
+  ],
+  "has_rich_content": true
+}

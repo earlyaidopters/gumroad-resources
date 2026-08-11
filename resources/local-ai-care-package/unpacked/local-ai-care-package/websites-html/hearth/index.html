@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HEARTH · Modern cabins for wild places</title>
+  <link rel="stylesheet" href="/src/style.css" />
+</head>
+<body>
+
+  <!-- Fixed nav -->
+  <header class="nav" id="nav">
+    <a class="nav__brand" href="#">HEARTH</a>
+    <nav class="nav__links">
+      <a href="#story">The Story</a>
+      <a href="#features">Features</a>
+      <a href="#collection">Locations</a>
+    </nav>
+    <a class="nav__cta" href="#cta">Explore Cabins</a>
+  </header>
+
+  <!-- Hero: big editorial serif statement over the soft canvas -->
+  <section class="hero">
+    <h1 class="hero__title" data-split>Modern cabins for wild places</h1>
+    <p class="hero__sub" data-reveal>Thoughtfully designed prefab retreats built for the world's most untamed landscapes. Where contemporary comfort meets raw natural beauty.</p>
+    <a class="btn btn--primary" href="#cta" data-reveal>Discover Your Retreat</a>
+  </section>
+
+  <!-- Hero media: rounded frame, gentle parallax -->
+  <section class="hero-media" data-parallax>
+    <div class="hero-media__frame">
+      <video poster="/media/hero-poster.jpg" preload="auto" src="/media/hero-768p.mp4" autoplay muted loop playsinline></video>
+    </div>
+  </section>
+
+  <!-- Manifesto: serif paragraph that reads like an editorial pull-quote -->
+  <section class="manifesto" id="story">
+    <p class="manifesto__text" data-reveal>HEARTH exists for those who seek the untamed. Our cabins are engineered for remote terrain, designed with warmth and intention, so you can live deeply in wild places without compromise. Every detail serves the experience, from floor-to-ceiling glass that frames the landscape to sustainable materials that age gracefully in the elements.</p>
+  </section>
+
+  <!-- Alternating feature rows -->
+  <section class="features" id="features">
+    <div class="feature">
+      <div class="feature__media"><img src="/media/cabin-forest.jpg" alt="" /></div>
+      <div class="feature__text">
+        <span class="feature__label">Design</span>
+        <h2 class="feature__title">Architecture that disappears</h2>
+        <p class="feature__copy">Minimal profiles and floor-to-ceiling glazing dissolve boundaries between inside and out. Our cabins blend into their surroundings while providing modern sanctuary.</p>
+      </div>
+    </div>
+    <div class="feature feature--flip">
+      <div class="feature__media"><img src="/media/interior-fire.jpg" alt="" /></div>
+      <div class="feature__text">
+        <span class="feature__label">Comfort</span>
+        <h2 class="feature__title">Warmth in the wildest places</h2>
+        <p class="feature__copy">Centrally heated spaces with natural wood finishes create cozy refuges after days spent exploring. Premium insulation keeps the elements at bay.</p>
+      </div>
+    </div>
+    <div class="feature">
+      <div class="feature__media"><img src="/media/cabin-meadow.jpg" alt="" /></div>
+      <div class="feature__text">
+        <span class="feature__label">Sustainability</span>
+        <h2 class="feature__title">Built for the long term</h2>
+        <p class="feature__copy">Durable, low-maintenance materials sourced responsibly. Our cabins are designed to withstand harsh climates while leaving minimal environmental impact.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Horizontal card rail -->
+  <section class="rail" id="collection">
+    <h2 class="rail__heading" data-reveal>Our Locations</h2>
+    <div class="rail__track" data-drag-rail>
+      <article class="card">
+        <div class="card__media"><img src="/media/cabin-forest.jpg" alt="" /></div>
+        <h3 class="card__title">Pacific Northwest</h3>
+        <p class="card__meta">Ancient rainforest • Washington</p>
+      </article>
+      <article class="card">
+        <div class="card__media"><img src="/media/cabin-lake.jpg" alt="" /></div>
+        <h3 class="card__title">Adirondack Lakes</h3>
+        <p class="card__meta">Waterfront retreat • New York</p>
+      </article>
+      <article class="card">
+        <div class="card__media"><img src="/media/cabin-snow.jpg" alt="" /></div>
+        <h3 class="card__title">Rocky Mountain</h3>
+        <p class="card__meta">High alpine • Colorado</p>
+      </article>
+      <article class="card">
+        <div class="card__media"><img src="/media/cabin-meadow.jpg" alt="" /></div>
+        <h3 class="card__title">Redwood Valley</h3>
+        <p class="card__meta">Coastal forest • California</p>
+      </article>
+    </div>
+  </section>
+
+  <!-- Full-bleed banner panel -->
+  <section class="banner">
+    <div class="banner__bg"></div>
+    <div class="banner__overlay"></div>
+    <div class="banner__inner">
+      <h2 class="banner__title" data-split>Find your wild</h2>
+      <p class="banner__sub" data-reveal>Explore our curated locations and discover the retreat that calls to you.</p>
+    </div>
+  </section>
+
+  <!-- Stats strip -->
+  <section class="stats" data-reveal-group>
+    <div class="stat"><span class="stat__num">12+</span><span class="stat__label">Wild Locations</span></div>
+    <div class="stat"><span class="stat__num">100%</span><span class="stat__label">Sustainable</span></div>
+    <div class="stat"><span class="stat__num">50+</span><span class="stat__label">Cabins Placed</span></div>
+  </section>
+
+  <!-- Closing CTA -->
+  <section class="cta" id="cta">
+    <h2 class="cta__title" data-split>Ready to answer the call of wild?</h2>
+    <a class="btn btn--primary btn--big" href="#" data-reveal>Schedule a Consultation</a>
+  </section>
+
+  <footer class="footer">
+    <span class="footer__brand">HEARTH</span>
+    <span class="footer__line">Modern cabins for wild places</span>
+  </footer>
+
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>

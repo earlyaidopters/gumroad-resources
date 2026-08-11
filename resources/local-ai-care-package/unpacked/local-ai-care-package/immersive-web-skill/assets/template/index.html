@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Immersive Site</title>
+  <link rel="stylesheet" href="/src/style.css" />
+</head>
+<body>
+  <!-- Preloader: covers everything until assets are ready -->
+  <div class="preloader" id="preloader">
+    <div class="preloader__counter" id="preloader-counter">0</div>
+  </div>
+
+  <!-- Fixed WebGL canvas behind the DOM content -->
+  <canvas id="webgl"></canvas>
+
+  <!-- DOM content scrolls over the canvas. Each section is one "scene beat". -->
+  <main id="content">
+    <section class="section section--hero" data-section="hero">
+      <h1 class="hero__title" data-reveal>YOUR<br />HEADLINE</h1>
+      <p class="hero__sub" data-reveal>A one-line promise. Scroll.</p>
+    </section>
+
+    <section class="section" data-section="chapter-1">
+      <h2 data-reveal>Chapter one</h2>
+      <p data-reveal>Copy block. The 3D scene reacts to this section's scroll progress.</p>
+    </section>
+
+    <section class="section" data-section="chapter-2">
+      <h2 data-reveal>Chapter two</h2>
+      <p data-reveal>Second beat. Camera moves, material morphs.</p>
+    </section>
+
+    <section class="section section--footer" data-section="footer">
+      <h2 data-reveal>Call to action</h2>
+      <a class="cta" href="#" data-reveal>Get in touch</a>
+    </section>
+  </main>
+
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>

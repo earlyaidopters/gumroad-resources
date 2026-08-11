@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MERIDIAN — WEALTH FORTIFIED</title>
+  <link rel="stylesheet" href="/src/style.css" />
+</head>
+<body>
+  <!-- Preloader: covers everything until frames are ready -->
+  <div class="preloader" id="preloader">
+    <div class="preloader__counter" id="preloader-counter">0</div>
+  </div>
+
+  <!-- Instrument HUD -->
+  <div class="hud">
+    <span class="hud__label">DEPTH</span>
+    <span class="hud__value" id="hud-alt">3,842M</span>
+    <div class="hud__bar"><div class="hud__bar-fill" id="hud-fill"></div></div>
+  </div>
+
+  <!-- Cinematic letterbox during descent -->
+  <div class="bar bar--top"></div>
+  <div class="bar bar--bottom"></div>
+
+  <!-- Wind ambience toggle -->
+  <button class="sound" id="sound-toggle" aria-label="Toggle sound">SOUND OFF</button>
+
+  <!-- Scroll-scrubbed video stage (archetype B2) -->
+  <div class="stage" id="stage">
+    <div class="stage__sticky">
+      <canvas id="cv"></canvas>
+      <div class="scrim scrim--top"></div>
+      <div class="scrim scrim--bottom"></div>
+
+      <!-- Beat zero: brand title card over the idle cinemagraph -->
+      <div class="beat beat--center" data-at="0" data-until="0.05">
+        <div class="beat__content beat__content--brand">
+          <span class="brand__mark" data-reveal>MERIDIAN</span>
+          <span class="brand__tag" data-reveal>WEALTH FORTIFIED</span>
+          <span class="brand__cue" data-reveal>SCROLL</span>
+        </div>
+      </div>
+
+      <!-- Narrative beats overlaying the video -->
+      <div class="beat beat--left" data-at="0.06" data-until="0.25">
+        <div class="beat__content">
+          <span class="beat__label" data-reveal>APPROACH</span>
+          <h1 class="beat__title" data-reveal><span>SECURE VAULT</span><br /><span>DEEP BELOW</span><br /><span>AWAITING</span></h1>
+        </div>
+      </div>
+
+      <div class="beat beat--right" data-at="0.28" data-until="0.35">
+        <div class="beat__content">
+          <span class="beat__label" data-reveal>DESCENT</span>
+          <h2 class="beat__title" data-reveal><span>400 METERS</span><br /><span>INTO STONE</span><br /><span>YOUR ASSETS</span></h2>
+          <p class="beat__copy" data-reveal>Where wealth becomes unassailable.</p>
+        </div>
+      </div>
+
+      <div class="beat beat--left" data-at="0.36" data-until="0.42">
+        <div class="beat__content">
+          <span class="beat__label" data-reveal>PENETRATION</span>
+          <h2 class="beat__title" data-reveal><span>REINFORCED</span><br /><span>STEEL DOOR</span><br /><span>IMPOSSIBLE BREACH</span></h2>
+          <p class="beat__copy" data-reveal>Military-grade protection for your legacy.</p>
+        </div>
+      </div>
+
+      <div class="beat beat--right" data-at="0.43" data-until="1.0">
+        <div class="beat__content">
+          <span class="beat__label" data-reveal>ARRIVAL</span>
+          <h2 class="beat__title" data-reveal><span>MERIDIAN VAULT</span><br /><span>ACCESS GRANTED</span><br /><span>ENTER YOUR FORTRESS</span></h2>
+          <a class="beat__cta" href="#order" data-reveal>REQUEST ACCESS</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Hero section before video stage -->
+  <section class="section section--hero" data-section="hero">
+    <h1 class="hero__title" data-reveal>THE WORLD'S MOST<br />SECURE DIGITAL BANK</h1>
+    <p class="hero__sub" data-reveal>Scroll to explore</p>
+  </section>
+
+  <!-- Static content sections after video -->
+  <main id="content" style="position: relative; z-index: 1;">
+    <section class="section section--specs" data-section="specs">
+      <h2 data-reveal>SPECIFICATIONS</h2>
+      <div class="specs-grid">
+        <div class="spec" data-reveal>
+          <h3>Encryption</h3>
+          <p>AES-256 + Quantum Key Distribution</p>
+        </div>
+        <div class="spec" data-reveal>
+          <h3>Ledger Depth</h3>
+          <p>400m stone + cloud redundancy</p>
+        </div>
+        <div class="spec" data-reveal>
+          <h3>Firewall Rating</h3>
+          <p>Zero-trust architecture</p>
+        </div>
+        <div class="spec" data-reveal>
+          <h3>Uptime</h3>
+          <p>99.99% guaranteed</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section--materials" data-section="materials">
+      <h2 data-reveal>INFRASTRUCTURE</h2>
+      <p class="materials-copy" data-reveal>Geologically anchored data centers. Multi-signature cold storage. Biometric access controls. Every layer designed for permanence in volatile markets.</p>
+    </section>
+
+    <section class="section section--footer" id="order" data-section="footer">
+      <h2 data-reveal>MERIDIAN</h2>
+      <p class="footer__copy" data-reveal>The first digital bank built like a fortress. Your wealth deserves more than software — it deserves geology.</p>
+      <a class="cta" href="#" data-reveal>Apply for Membership</a>
+    </section>
+  </main>
+
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>

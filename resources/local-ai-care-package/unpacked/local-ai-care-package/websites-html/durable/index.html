@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MERIDIAN — WEALTH FORTIFIED</title>
+  <link rel="stylesheet" href="/src/style.css" />
+</head>
+<body>
+  <!-- Preloader: covers everything until frames are ready -->
+  <div class="preloader" id="preloader">
+    <div class="preloader__counter" id="preloader-counter">0</div>
+  </div>
+
+  <!-- Instrument HUD -->
+  <div class="hud">
+    <span class="hud__label">DEPTH</span>
+    <span class="hud__value" id="hud-alt">3,842M</span>
+    <div class="hud__bar"><div class="hud__bar-fill" id="hud-fill"></div></div>
+  </div>
+
+  <!-- Cinematic letterbox during descent -->
+  <div class="bar bar--top"></div>
+  <div class="bar bar--bottom"></div>
+
+  <!-- Wind ambience toggle -->
+  <button class="sound" id="sound-toggle" aria-label="Toggle sound">SOUND OFF</button>
+
+  <!-- Scroll-scrubbed video stage (archetype B2) -->
+  <div class="stage" id="stage">
+    <div class="stage__sticky">
+      <canvas id="cv"></canvas>
+      <div class="scrim scrim--top"></div>
+      <div class="scrim scrim--bottom"></div>
+
+      <!-- Beat zero: brand title card over the idle cinemagraph -->
+      <div class="beat beat--center" data-at="0" data-until="0.05">
+        <div class="beat__content beat__content--brand">
+          <span class="brand__mark" data-reveal>MERIDIAN</span>
+          <span class="brand__tag" data-reveal>WEALTH FORTIFIED</span>
+          <span class="brand__cue" data-reveal>SCROLL</span>
+        </div>
+      </div>
+
+      <!-- Narrative beats overlaying the video -->
+      <div class="beat beat--left" data-at="0.12" data-until="0.30">
+        <div class="beat__content">
+          <span class="beat__label" data-reveal>THE VAULT</span>
+          <h1 class="beat__title" data-reveal><span>BUILT INTO</span><br /><span>THE BEDROCK</span><br /><span>ITSELF</span></h1>
+        </div>
+      </div>
+
+      <div class="beat beat--right" data-at="0.32" data-until="0.50">
+        <div class="beat__content">
+          <span class="beat__label" data-reveal>ACCESS</span>
+          <h2 class="beat__title" data-reveal><span>TWENTY-TON</span><br /><span>STEEL YIELDS</span><br /><span>SLOWLY</span></h2>
+          <p class="beat__copy" data-reveal>The locking bolts engage. Light reveals what lies beyond.</p>
+        </div>
+      </div>
+
+      <div class="beat beat--left" data-at="0.52" data-until="0.75">
+        <div class="beat__content">
+          <span class="beat__label" data-reveal>THE CHAMBER</span>
+          <h2 class="beat__title" data-reveal><span>HUNDREDS OF</span><br /><span>SAFE DEPOSIT</span><br /><span>BOXES</span></h2>
+          <p class="beat__copy" data-reveal>A corridor of brass. Each one a promise kept.</p>
+        </div>
+      </div>
+
+      <div class="beat beat--right" data-at="0.78" data-until="0.95">
+        <div class="beat__content">
+          <span class="beat__label" data-reveal>YOUR ASSETS</span>
+          <h2 class="beat__title" data-reveal><span>ONE PLACE</span><br /><span>OF HONOR</span><br /><span>ALONE</span></h2>
+          <a class="beat__cta" href="#contact" data-reveal>SCHEDULE AN APPOINTMENT</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Hero section before video stage -->
+  <section class="section section--hero" data-section="hero">
+    <h1 class="hero__title" data-reveal>PRIVATE BANKING<br />REIMAGINED</h1>
+    <p class="hero__sub" data-reveal>Scroll to explore</p>
+  </section>
+
+  <!-- Static content sections after video -->
+  <main id="content" style="position: relative; z-index: 1;">
+    <!-- Stat strip instead of marquee for fintech trust -->
+    <section class="section section--stats" data-section="stats">
+      <div class="stats-grid">
+        <div class="stat" data-reveal>
+          <span class="stat__value">$47B</span>
+          <span class="stat__label">Assets Under Custody</span>
+        </div>
+        <div class="stat" data-reveal>
+          <span class="stat__value">1892</span>
+          <span class="stat__label">Founded</span>
+        </div>
+        <div class="stat" data-reveal>
+          <span class="stat__value">24/7</span>
+          <span class="stat__label">Secure Access</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section--specs" data-section="specs">
+      <h2 data-reveal>THE MERIDIAN STANDARD</h2>
+      <div class="specs-grid">
+        <div class="spec" data-reveal>
+          <h3>Vault Security</h3>
+          <p>Grade 1 rated, UL certified</p>
+        </div>
+        <div class="spec" data-reveal>
+          <h3>Insurance</h3>
+          <p>Fully insured up to $50M per client</p>
+        </div>
+        <div class="spec" data-reveal>
+          <h3>Access</h3>
+          <p>Biometric authentication, 24/7</p>
+        </div>
+        <div class="spec" data-reveal>
+          <h3>Auditing</h3>
+          <p>Real-time blockchain verification</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section--materials" data-section="materials">
+      <h2 data-reveal>HOW IT WORKS</h2>
+      <p class="materials-copy" data-reveal>Begin with a confidential consultation. Your dedicated relationship manager designs a custody structure aligned with your objectives. Assets transfer through our secure logistics network, insured in transit and verified upon arrival. You receive access credentials within forty-eight hours.</p>
+    </section>
+
+    <section class="section section--footer" id="contact" data-section="footer">
+      <h2 data-reveal>MERIDIAN</h2>
+      <p class="footer__copy" data-reveal>Wealth fortified through physical custody, institutional-grade security, and relationships built over a century. Your assets deserve more than digital promises.</p>
+      <a class="cta" href="mailto:private@meridian.bank" data-reveal>INQUIRE PRIVATELY</a>
+    </section>
+  </main>
+
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>

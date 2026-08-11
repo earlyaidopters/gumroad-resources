@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{{BRAND}} — {{TAGLINE}}</title>
+  <link rel="stylesheet" href="/src/style.css" />
+</head>
+<body>
+  <!-- Preloader: covers everything until frames are ready -->
+  <div class="preloader" id="preloader">
+    <div class="preloader__counter" id="preloader-counter">0</div>
+  </div>
+
+  <!-- Instrument HUD -->
+  <div class="hud">
+    <span class="hud__label">{{HUD_LABEL}}</span>
+    <span class="hud__value" id="hud-alt">3,842M</span>
+    <div class="hud__bar"><div class="hud__bar-fill" id="hud-fill"></div></div>
+  </div>
+
+  <!-- Cinematic letterbox during descent -->
+  <div class="bar bar--top"></div>
+  <div class="bar bar--bottom"></div>
+
+  <!-- Wind ambience toggle -->
+  <button class="sound" id="sound-toggle" aria-label="Toggle sound">SOUND OFF</button>
+
+  <!-- Scroll-scrubbed video stage (archetype B2) -->
+  <div class="stage" id="stage">
+    <div class="stage__sticky">
+      <canvas id="cv"></canvas>
+      <div class="scrim scrim--top"></div>
+      <div class="scrim scrim--bottom"></div>
+
+      <!-- Beat zero: brand title card over the idle cinemagraph -->
+      <div class="beat beat--center" data-at="0" data-until="0.05">
+        <div class="beat__content beat__content--brand">
+          <span class="brand__mark" data-reveal>{{BRAND}}</span>
+          <span class="brand__tag" data-reveal>{{TAGLINE}}</span>
+          <span class="brand__cue" data-reveal>SCROLL</span>
+        </div>
+      </div>
+
+      <!-- Narrative beats overlaying the video -->
+      <div class="beat beat--left" data-at="0.06" data-until="0.25">
+        <div class="beat__content">
+          <span class="beat__label" data-reveal>{{BEAT1_LABEL}}</span>
+          <h1 class="beat__title" data-reveal><span>{{BEAT1_LINE1}}</span><br /><span>{{BEAT1_LINE2}}</span><br /><span>{{BEAT1_LINE3}}</span></h1>
+        </div>
+      </div>
+
+      <div class="beat beat--right" data-at="0.30" data-until="0.52">
+        <div class="beat__content">
+          <span class="beat__label" data-reveal>{{BEAT2_LABEL}}</span>
+          <h2 class="beat__title" data-reveal><span>{{BEAT2_LINE1}}</span><br /><span>{{BEAT2_LINE2}}</span><br /><span>{{BEAT2_LINE3}}</span></h2>
+          <p class="beat__copy" data-reveal>{{BEAT2_COPY}}</p>
+        </div>
+      </div>
+
+      <div class="beat beat--left" data-at="0.55" data-until="0.78">
+        <div class="beat__content">
+          <span class="beat__label" data-reveal>{{BEAT3_LABEL}}</span>
+          <h2 class="beat__title" data-reveal><span>{{BEAT3_LINE1}}</span><br /><span>{{BEAT3_LINE2}}</span><br /><span>{{BEAT3_LINE3}}</span></h2>
+          <p class="beat__copy" data-reveal>{{BEAT3_COPY}}</p>
+        </div>
+      </div>
+
+      <div class="beat beat--right" data-at="0.82" data-until="0.98">
+        <div class="beat__content">
+          <span class="beat__label" data-reveal>{{BEAT4_LABEL}}</span>
+          <h2 class="beat__title" data-reveal><span>{{BEAT4_LINE1}}</span><br /><span>{{BEAT4_LINE2}}</span><br /><span>{{BEAT4_LINE3}}</span></h2>
+          <a class="beat__cta" href="#order" data-reveal>{{CTA_TEXT}}</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Hero section before video stage -->
+  <section class="section section--hero" data-section="hero">
+    <h1 class="hero__title" data-reveal>{{LANDING_LINE1}}<br />{{LANDING_LINE2}}</h1>
+    <p class="hero__sub" data-reveal>Scroll to explore</p>
+  </section>
+
+  <!-- Static content sections after video -->
+  <main id="content" style="position: relative; z-index: 1;">
+    <section class="section section--specs" data-section="specs">
+      <h2 data-reveal>SPECIFICATIONS</h2>
+      <div class="specs-grid">
+        <div class="spec" data-reveal>
+          <h3>Weight</h3>
+          <p>2.1 kg / 4.6 lbs</p>
+        </div>
+        <div class="spec" data-reveal>
+          <h3>Capacity</h3>
+          <p>2P / 3P configurations</p>
+        </div>
+        <div class="spec" data-reveal>
+          <h3>Waterproof</h3>
+          <p>5000mm hydrostatic head</p>
+        </div>
+        <div class="spec" data-reveal>
+          <h3>Wind Rating</h3>
+          <p>Tested to 100 km/h</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section--materials" data-section="materials">
+      <h2 data-reveal>MATERIALS</h2>
+      <p class="materials-copy" data-reveal>30D ripstop nylon with silicone coating. DAC Featherlight poles. YKK waterproof zippers. Every component chosen for weight-to-durability ratio.</p>
+    </section>
+
+    <section class="section section--footer" id="order" data-section="footer">
+      <h2 data-reveal>{{BRAND}}</h2>
+      <p class="footer__copy" data-reveal>Engineered for conditions that kill lesser equipment. When the forecast says impossible, you're already set up.</p>
+      <a class="cta" href="#" data-reveal>Reserve Your Kit — $495</a>
+    </section>
+  </main>
+
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>
