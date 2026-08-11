@@ -10,7 +10,7 @@ The newest resources with their videos. Updates automatically on every sync.
 
 | | Resource | Watch | Get it |
 |---|---|---|---|
-| <a href="https://markkashef.gumroad.com/l/local-ai-care-package"><img src="https://public-files.gumroad.com/k28mjjy0t4twdaxm1uu97mgngzfx" width="200"></a> | [Local AI Care Package 📦](resources/local-ai-care-package/) | - | [Gumroad](https://markkashef.gumroad.com/l/local-ai-care-package) |
+| <a href="https://youtu.be/FSnubu4Lpz8"><img src="https://i.ytimg.com/vi/FSnubu4Lpz8/maxresdefault.jpg" width="200"></a> | [Local AI Care Package 📦](resources/local-ai-care-package/) | [▶ Watch](https://youtu.be/FSnubu4Lpz8) | [Gumroad](https://markkashef.gumroad.com/l/local-ai-care-package) |
 | <a href="https://youtu.be/3ICM9ZdflZA"><img src="https://i.ytimg.com/vi/3ICM9ZdflZA/maxresdefault.jpg" width="200"></a> | [Personal AI Benchmark Kit 🧪](resources/personal-ai-benchmark-kit/) | [▶ Watch](https://youtu.be/3ICM9ZdflZA) | [Gumroad](https://markkashef.gumroad.com/l/personal-ai-benchmark-kit) |
 | <a href="https://youtu.be/84POiAUhtSI"><img src="https://i.ytimg.com/vi/84POiAUhtSI/maxresdefault.jpg" width="200"></a> | [Open Source AI Crash Course Kit 🧰](resources/open-source-ai-crash-course-kit/) | [▶ Watch](https://youtu.be/84POiAUhtSI) | [Gumroad](https://markkashef.gumroad.com/l/open-source-ai-crash-course-kit) |
 | <a href="https://youtu.be/4__5q76f04s"><img src="https://i.ytimg.com/vi/4__5q76f04s/maxresdefault.jpg" width="200"></a> | [Effort Decoder Guide 🎛️](resources/effort-decoder-guide/) | [▶ Watch](https://youtu.be/4__5q76f04s) | [Gumroad](https://markkashef.gumroad.com/l/effort-decoder) |
@@ -26,9 +26,9 @@ The newest resources with their videos. Updates automatically on every sync.
 - [🎯 Prompting & Engineering Skills](#prompting-engineering-skills) (37)
 - [🔌 Automation & Workflows (n8n, Replit, Make.com)](#automation-workflows-n8n-replit-make-com) (29)
 - [🧠 Custom GPTs & AI Agents](#custom-gpts-ai-agents) (26)
-- [🗂️ Frameworks, Meta Techniques & Experiments](#frameworks-meta-techniques-experiments) (22)
+- [🗂️ Frameworks, Meta Techniques & Experiments](#frameworks-meta-techniques-experiments) (23)
 - [📊 Tools, Cheat Sheets & Evaluations](#tools-cheat-sheets-evaluations) (15)
-- [Other](#other) (26)
+- [Other](#other) (25)
 
 ## 🎯 Prompting & Engineering Skills
 
@@ -141,6 +141,7 @@ The newest resources with their videos. Updates automatically on every sync.
 
 | Resource | What it is | Video | Get it |
 |---|---|---|---|
+| [6 Dynamic Workflow Patterns for Claude Code 👨🏽‍💻](resources/6-dynamic-workflow-patterns-for-claude-code/) | Six copy paste prompts, one for each pattern that almost every dynamic workflow is built from, pulled straight from Anthropic's own dynamic workflows… | [▶ Watch](https://youtu.be/g9b9G8dcS8Y) | [Gumroad](https://markkashef.gumroad.com/l/dynamic-workflow-patterns) |
 | [The Agentic Goal Cookbook 📖](resources/the-agentic-goal-cookbook/) | The /goal Cookbook (PDF): A polished 10 page guide containing the 5 ready to paste /goal prompts from the Self Improving Agentic OS video, plus the 6… | [▶ Watch](https://youtu.be/5xrjO38WUYY) | [Gumroad](https://markkashef.gumroad.com/l/goal-cookbook-self-improving-agentic-os) |
 | [The Perfect Agentic OS Kit 🧱](resources/the-perfect-agentic-os-kit/) | /silver platter Skill: Drop it in any Claude Code project. | [▶ Watch](https://youtu.be/-WCNwxz3uoM) | [Gumroad](https://markkashef.gumroad.com/l/perfect-agentic-os-kit) |
 | [Memory Architect Kit 🧠 ⚡️](resources/memory-architect-kit/) | The /memory architect Skill: A Claude Code skill that walks you through a guided interview, teaches you 7 memory layers with plain language… | [▶ Watch](https://youtu.be/OMkdlwZxSt8) | [Gumroad](https://markkashef.gumroad.com/l/claude-memory-architect-kit) |
@@ -188,7 +189,7 @@ The newest resources with their videos. Updates automatically on every sync.
 
 | Resource | What it is | Video | Get it |
 |---|---|---|---|
-| [Local AI Care Package 📦](resources/local-ai-care-package/) | This is the care package from the video. | - | [Gumroad](https://markkashef.gumroad.com/l/local-ai-care-package) |
+| [Local AI Care Package 📦](resources/local-ai-care-package/) | This is the care package from the video. | [▶ Watch](https://youtu.be/FSnubu4Lpz8) | [Gumroad](https://markkashef.gumroad.com/l/local-ai-care-package) |
 | [Personal AI Benchmark Kit 🧪](resources/personal-ai-benchmark-kit/) | The /benchmark Skill (full source): The complete Claude Code skill that mines your own conversation history into a personal eval pack and benchmarks… | [▶ Watch](https://youtu.be/3ICM9ZdflZA) | [Gumroad](https://markkashef.gumroad.com/l/personal-ai-benchmark-kit) |
 | [Open Source AI Crash Course Kit 🧰](resources/open-source-ai-crash-course-kit/) | The Crash Course Guide (PDF): A 21 page visual companion to the video. | [▶ Watch](https://youtu.be/84POiAUhtSI) | [Gumroad](https://markkashef.gumroad.com/l/open-source-ai-crash-course-kit) |
 | [Effort Decoder Guide 🎛️](resources/effort-decoder-guide/) | The Effort Decoder Guide (16 page PDF): The end to end breakdown of the most misunderstood setting in AI. | [▶ Watch](https://youtu.be/4__5q76f04s) | [Gumroad](https://markkashef.gumroad.com/l/effort-decoder) |
@@ -197,7 +198,6 @@ The newest resources with their videos. Updates automatically on every sync.
 | [The Enterprise OS Blueprint Kit 🏢](resources/the-enterprise-os-blueprint-kit/) | CORE GUIDES 1. | [▶ Watch](https://youtu.be/T17DYl_4Z-U) | [Gumroad](https://markkashef.gumroad.com/l/enterprise-os-blueprint-kit-cc) |
 | [The Fable Mindset Playbook 🧠](resources/the-fable-mindset-playbook/) | The Fable Mindset is a free kit for keeping a piece of a frontier model after you lose access to it. | [▶ Watch](https://youtu.be/B95cu7seTm8) | [Gumroad](https://markkashef.gumroad.com/l/fable-mindset) |
 | [Fable 5 Effort Cheat Sheet 🎛️](resources/fable-5-effort-cheat-sheet/) | The Fable 5 Effort Cheat Sheet (PDF): The 12 page visual guide from the video. | [▶ Watch](https://youtu.be/113P6SBWAm8) | [Gumroad](https://markkashef.gumroad.com/l/claude-fable-5-wield-it-kit) |
-| [6 Dynamic Workflow Patterns for Claude Code 👨🏽‍💻](resources/6-dynamic-workflow-patterns-for-claude-code/) | Six copy paste prompts, one for each pattern that almost every dynamic workflow is built from, pulled straight from Anthropic's own dynamic workflows… | [▶ Watch](https://youtu.be/g9b9G8dcS8Y) | [Gumroad](https://markkashef.gumroad.com/l/dynamic-workflow-patterns) |
 | [Dynamic Workflows Prompt Pack 📝](resources/dynamic-workflows-prompt-pack-uteice/) | The Prompt Pack PDF: a clean, copy paste guide that teaches the five anchors of a great workflow prompt, then walks through every prompt with when to… | [▶ Watch](https://youtu.be/-tLlZqrXpo8) | [Gumroad](https://markkashef.gumroad.com/l/dynamic-workflows-prompt-pack) |
 | [Codex + Claude Code Dynamic Duo Kit 🤝](resources/codex-claude-code-dynamic-duo-kit/) | The two document take home from the video. | [▶ Watch](https://youtu.be/Fu5KIG2Jm1g) | [Gumroad](https://markkashef.gumroad.com/l/codex-claude-dynamic-duo-kit) |
 | [Second Brain Starter Kit - Obsidian + Claude Code 🧠](resources/second-brain-starter-kit-obsidian-claude-code/) | /vault setup Skill: Paste this into /.claude/skills/vault setup/SKILL.md. | [▶ Watch](https://youtu.be/2kbINqpluM0) | [Gumroad](https://markkashef.gumroad.com/l/second-brain-obsidian-claude-code) |

@@ -1,6 +1,8 @@
 # Local AI Care Package 📦
 
-![cover](https://public-files.gumroad.com/k28mjjy0t4twdaxm1uu97mgngzfx)
+[![watch on YouTube](https://i.ytimg.com/vi/FSnubu4Lpz8/maxresdefault.jpg)](https://youtu.be/FSnubu4Lpz8)
+
+**▶ Watch the video → https://youtu.be/FSnubu4Lpz8**
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/local-ai-care-package**
 
