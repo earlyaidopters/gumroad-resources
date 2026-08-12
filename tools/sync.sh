@@ -24,6 +24,19 @@ echo "==> pulling published products into resources/ (committed files cache down
 python3 tools/gumroad-pull pull --all --published-only --out=resources --delay=0.3 --max-file-mb=95
 rm -f resources/pull-manifest.json
 
+# Between the index and the rebuild, because build_repo.py reads the pairing
+# map. Reuses the index just built and the cookie already written above, so it
+# costs no extra Gumroad calls. A failure here keeps the existing map: the
+# script preserves any pairing it cannot reproduce, and a missing video link is
+# not worth failing a sync over.
+if [ -n "${YOUTUBE_API_KEY:-}" ]; then
+  echo "==> refreshing YouTube pairings"
+  GUMROAD_INDEX="$TMP/products_index.json" python3 tools/youtube_map.py \
+    || echo "  (pairing refresh failed, keeping the existing map)"
+else
+  echo "==> no YOUTUBE_API_KEY, keeping the existing pairing map"
+fi
+
 echo "==> re-indexing repo (README + manifest, unpublished held back)"
 python3 tools/build_repo.py --repo . --index "$TMP/products_index.json"
 echo "==> done"

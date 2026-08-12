@@ -23,28 +23,22 @@ jobs:
         with:
           python-version: "3.12"
 
-      # A YouTube Data API key reads public uploads and their descriptions,
-      # which is everything the pairing needs. It cannot touch the channel:
-      # the API refuses key auth for every write. Failing here must never stop
-      # the sync, and youtube_map.py preserves any pairing it cannot reproduce
-      # (CI has no Skool cookie), so a bad run leaves the map as it was.
-      - name: Refresh YouTube pairings
-        continue-on-error: true
-        env:
-          YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
-        run: |
-          if [ -z "$YOUTUBE_API_KEY" ]; then
-            echo "No YOUTUBE_API_KEY set, leaving tools/youtube_map.json untouched."
-            exit 0
-          fi
-          pip install --quiet google-api-python-client
-          python3 tools/youtube_map.py
+      # Only the read client. The OAuth libraries are needed solely by the
+      # local path in youtube_map.py, which CI never takes.
+      - name: Install the YouTube read client
+        run: pip install --quiet google-api-python-client
 
+      # sync.sh refreshes the pairing map itself, between building the product
+      # index and rebuilding the repo, so it reuses the index and the cookie it
+      # already has. A YouTube Data API key reads public uploads and their
+      # descriptions, which is everything the pairing needs, and cannot touch
+      # the channel: the API refuses key auth for every write.
       - name: Sync from Gumroad
         id: sync
         continue-on-error: true
         env:
           GUMROAD_COOKIE: ${{ secrets.GUMROAD_COOKIE }}
+          YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
         run: bash tools/sync.sh
 
       - name: Flag expired cookie
