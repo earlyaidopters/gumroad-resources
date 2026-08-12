@@ -123,16 +123,22 @@ def skool_lessons():
 
 
 def yt_service():
-    from google.auth.transport.requests import Request
-    from google.oauth2.credentials import Credentials
-    from google_auth_oauthlib.flow import InstalledAppFlow
     from googleapiclient.discovery import build
+
     # CI path: a YouTube Data API key reads public uploads and descriptions,
     # which is everything the pairing needs. No OAuth token, and a leaked key
-    # can only burn quota, never touch the channel.
+    # can only burn quota, never touch the channel: the API refuses key auth
+    # for every write.
     api_key = os.environ.get("YOUTUBE_API_KEY")
     if api_key:
         return build("youtube", "v3", developerKey=api_key)
+
+    # The OAuth libraries are imported only on the local path that needs them,
+    # so a CI run installs googleapiclient alone.
+    from google.auth.transport.requests import Request
+    from google.oauth2.credentials import Credentials
+    from google_auth_oauthlib.flow import InstalledAppFlow
+
     token = os.path.expanduser(os.environ.get("YOUTUBE_TOKEN_PATH",
                                               "~/.config/youtube/token.json"))
     creds = None

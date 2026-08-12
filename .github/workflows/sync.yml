@@ -23,6 +23,23 @@ jobs:
         with:
           python-version: "3.12"
 
+      # A YouTube Data API key reads public uploads and their descriptions,
+      # which is everything the pairing needs. It cannot touch the channel:
+      # the API refuses key auth for every write. Failing here must never stop
+      # the sync, and youtube_map.py preserves any pairing it cannot reproduce
+      # (CI has no Skool cookie), so a bad run leaves the map as it was.
+      - name: Refresh YouTube pairings
+        continue-on-error: true
+        env:
+          YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
+        run: |
+          if [ -z "$YOUTUBE_API_KEY" ]; then
+            echo "No YOUTUBE_API_KEY set, leaving tools/youtube_map.json untouched."
+            exit 0
+          fi
+          pip install --quiet google-api-python-client
+          python3 tools/youtube_map.py
+
       - name: Sync from Gumroad
         id: sync
         continue-on-error: true
@@ -79,7 +96,7 @@ jobs:
             exit 0
           fi
           echo "Unpaired: $missing"
-          body=$(printf 'These resources are live in the repo with no YouTube video linked, so members see a dash in the Watch column:\n\n%s\n\nThe map cannot be refreshed in CI (no YouTube auth). On a machine with the YouTube token, run:\n\n```sh\nuv run --with google-api-python-client --with google-auth-oauthlib \\\n       --with google-auth tools/youtube_map.py\npython3 tools/build_repo.py --repo . --index <(python3 tools/gumroad-pull products)\n```\n\nthen commit `tools/youtube_map.json`. This issue closes itself on the next sync once every recent drop is paired.' "$missing")
+          body=$(printf 'These resources are live in the repo with no YouTube video linked, so members see a dash in the Watch column:\n\n%s\n\nCI refreshes the pairing map on every run, so this means the drop is genuinely unpaired: usually the video description has no Gumroad link yet, or the Skool lesson has not been posted. Add the link to the video description and the next sync picks it up. This issue closes itself once every recent drop is paired.' "$missing")
           if [ -n "$existing" ]; then
             gh issue comment "$existing" --body "Still unpaired: $missing"
           else
