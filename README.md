@@ -2,7 +2,7 @@
 
 Every free resource from the Early AI-dopters Gumroad, mirrored here and kept in sync. Each folder holds the actual files (zips unpacked so you can browse them on GitHub), the resource content page, and a README. Where a resource came from a YouTube video, the video is paired to it. Watch or star this repo to catch every new drop.
 
-**155 published resources**, grouped by topic and newest-first within each. Auto-synced from Gumroad every few hours.
+**156 published resources**, grouped by topic and newest-first within each. Auto-synced from Gumroad every few hours.
 
 ## 🆕 Latest 10 drops
 
@@ -10,6 +10,7 @@ The newest resources with their videos. Updates automatically on every sync.
 
 | | Resource | Watch | Get it |
 |---|---|---|---|
+| <a href="https://youtu.be/_VX6BZDKgrg"><img src="https://i.ytimg.com/vi/_VX6BZDKgrg/maxresdefault.jpg" width="200"></a> | [Bench Studio Ownership Kit](resources/bench-studio-ownership-kit/) | [▶ Watch](https://youtu.be/_VX6BZDKgrg) | [Gumroad](https://markkashef.gumroad.com/l/bench-studio-ownership-kit) |
 | <a href="https://youtu.be/FSnubu4Lpz8"><img src="https://i.ytimg.com/vi/FSnubu4Lpz8/maxresdefault.jpg" width="200"></a> | [Local AI Care Package 📦](resources/local-ai-care-package/) | [▶ Watch](https://youtu.be/FSnubu4Lpz8) | [Gumroad](https://markkashef.gumroad.com/l/local-ai-care-package) |
 | <a href="https://youtu.be/3ICM9ZdflZA"><img src="https://i.ytimg.com/vi/3ICM9ZdflZA/maxresdefault.jpg" width="200"></a> | [Personal AI Benchmark Kit 🧪](resources/personal-ai-benchmark-kit/) | [▶ Watch](https://youtu.be/3ICM9ZdflZA) | [Gumroad](https://markkashef.gumroad.com/l/personal-ai-benchmark-kit) |
 | <a href="https://youtu.be/84POiAUhtSI"><img src="https://i.ytimg.com/vi/84POiAUhtSI/maxresdefault.jpg" width="200"></a> | [Open Source AI Crash Course Kit 🧰](resources/open-source-ai-crash-course-kit/) | [▶ Watch](https://youtu.be/84POiAUhtSI) | [Gumroad](https://markkashef.gumroad.com/l/open-source-ai-crash-course-kit) |
@@ -19,7 +20,6 @@ The newest resources with their videos. Updates automatically on every sync.
 | <a href="https://youtu.be/T17DYl_4Z-U"><img src="https://i.ytimg.com/vi/T17DYl_4Z-U/maxresdefault.jpg" width="200"></a> | [The Enterprise OS Blueprint Kit 🏢](resources/the-enterprise-os-blueprint-kit/) | [▶ Watch](https://youtu.be/T17DYl_4Z-U) | [Gumroad](https://markkashef.gumroad.com/l/enterprise-os-blueprint-kit-cc) |
 | <a href="https://youtu.be/B95cu7seTm8"><img src="https://i.ytimg.com/vi/B95cu7seTm8/maxresdefault.jpg" width="200"></a> | [The Fable Mindset Playbook 🧠](resources/the-fable-mindset-playbook/) | [▶ Watch](https://youtu.be/B95cu7seTm8) | [Gumroad](https://markkashef.gumroad.com/l/fable-mindset) |
 | <a href="https://youtu.be/113P6SBWAm8"><img src="https://i.ytimg.com/vi/113P6SBWAm8/maxresdefault.jpg" width="200"></a> | [Fable 5 Effort Cheat Sheet 🎛️](resources/fable-5-effort-cheat-sheet/) | [▶ Watch](https://youtu.be/113P6SBWAm8) | [Gumroad](https://markkashef.gumroad.com/l/claude-fable-5-wield-it-kit) |
-| <a href="https://youtu.be/g9b9G8dcS8Y"><img src="https://i.ytimg.com/vi/g9b9G8dcS8Y/maxresdefault.jpg" width="200"></a> | [6 Dynamic Workflow Patterns for Claude Code 👨🏽‍💻](resources/6-dynamic-workflow-patterns-for-claude-code/) | [▶ Watch](https://youtu.be/g9b9G8dcS8Y) | [Gumroad](https://markkashef.gumroad.com/l/dynamic-workflow-patterns) |
 
 ## Categories
 
@@ -28,7 +28,7 @@ The newest resources with their videos. Updates automatically on every sync.
 - [🧠 Custom GPTs & AI Agents](#custom-gpts-ai-agents) (26)
 - [🗂️ Frameworks, Meta Techniques & Experiments](#frameworks-meta-techniques-experiments) (23)
 - [📊 Tools, Cheat Sheets & Evaluations](#tools-cheat-sheets-evaluations) (15)
-- [Other](#other) (25)
+- [Other](#other) (26)
 
 ## 🎯 Prompting & Engineering Skills
 
@@ -189,6 +189,7 @@ The newest resources with their videos. Updates automatically on every sync.
 
 | Resource | What it is | Video | Get it |
 |---|---|---|---|
+| [Bench Studio Ownership Kit](resources/bench-studio-ownership-kit/) | The generate skill: Drop this into /.claude/skills/generate/ and Claude Code becomes your routing and prompt refinement layer. | [▶ Watch](https://youtu.be/_VX6BZDKgrg) | [Gumroad](https://markkashef.gumroad.com/l/bench-studio-ownership-kit) |
 | [Local AI Care Package 📦](resources/local-ai-care-package/) | This is the care package from the video. | [▶ Watch](https://youtu.be/FSnubu4Lpz8) | [Gumroad](https://markkashef.gumroad.com/l/local-ai-care-package) |
 | [Personal AI Benchmark Kit 🧪](resources/personal-ai-benchmark-kit/) | The /benchmark Skill (full source): The complete Claude Code skill that mines your own conversation history into a personal eval pack and benchmarks… | [▶ Watch](https://youtu.be/3ICM9ZdflZA) | [Gumroad](https://markkashef.gumroad.com/l/personal-ai-benchmark-kit) |
 | [Open Source AI Crash Course Kit 🧰](resources/open-source-ai-crash-course-kit/) | The Crash Course Guide (PDF): A 21 page visual companion to the video. | [▶ Watch](https://youtu.be/84POiAUhtSI) | [Gumroad](https://markkashef.gumroad.com/l/open-source-ai-crash-course-kit) |

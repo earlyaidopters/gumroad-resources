@@ -1,6 +1,20 @@
 {
-  "count": 155,
+  "count": 156,
   "products": [
+    {
+      "slug": "bench-studio-ownership-kit",
+      "permalink": "tppav",
+      "numeric_id": 13880078,
+      "name": "Bench Studio Ownership Kit",
+      "status": "published",
+      "archived": false,
+      "category": "Other",
+      "content_hash": "b5c33a7dec22615f",
+      "files": [
+        "bench_studio_ownership_kit.zip"
+      ],
+      "has_content": true
+    },
     {
       "slug": "local-ai-care-package",
       "permalink": "qwvwbu",
