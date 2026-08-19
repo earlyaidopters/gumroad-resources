@@ -13,12 +13,12 @@
   "files": [
     {
       "file": "Codex-SDK-Internal-Tools-Field-Guide.pdf",
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 660717
     },
     {
       "file": "Codex-SDK-Internal-Tools-Kit.zip",
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 929715
     }
   ],
