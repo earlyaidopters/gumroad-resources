@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Switchboard — Private AI task runner</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <main class="shell">
+      <header class="topbar">
+        <a class="brand" href="/" aria-label="Switchboard home">
+          <span class="brand-mark">↗</span>
+          <span>Switchboard</span>
+        </a>
+        <span class="backend" id="backend">Checking local worker…</span>
+      </header>
+
+      <section class="hero">
+        <p class="eyebrow">ONE PRIVATE BUTTON · ONE BOUNDED JOB</p>
+        <h1>Your app is the counter.<br /><em>Codex is the back room.</em></h1>
+        <p class="intro">Paste something you are authorized to process. This page sends it to a loopback-only server; credentials never enter the browser.</p>
+      </section>
+
+      <section class="workbench" aria-labelledby="task-heading">
+        <div class="step"><span>01</span><p>Choose the job</p></div>
+        <div class="step"><span>02</span><p>Give it the source</p></div>
+        <div class="step"><span>03</span><p>Review the result</p></div>
+
+        <form id="task-form">
+          <fieldset>
+            <legend id="task-heading">What should the worker make?</legend>
+            <div class="choices">
+              <label><input type="radio" name="kind" value="brief" checked /><span><strong>Decision brief</strong><small>Context, key points, risks, next actions</small></span></label>
+              <label><input type="radio" name="kind" value="rewrite" /><span><strong>Clear rewrite</strong><small>Shorter, stronger, faithful to the meaning</small></span></label>
+              <label><input type="radio" name="kind" value="extract" /><span><strong>Action extraction</strong><small>Decisions, owners, dates, open questions</small></span></label>
+            </div>
+          </fieldset>
+
+          <label class="field">
+            <span>Source material</span>
+            <textarea id="input" minlength="20" maxlength="40000" required>We agreed that the client onboarding feels too slow, but we did not decide who owns the fix. Priya will collect the three most common support issues by Friday. I think maybe we should probably simplify the intake form and test it with the next five customers. We need to reconnect next week.</textarea>
+          </label>
+
+          <label class="field compact">
+            <span>Optional direction</span>
+            <input id="direction" maxlength="1000" placeholder="For example: make this useful to a busy founder" />
+          </label>
+
+          <div class="actions">
+            <button type="submit" id="run">Send one job to the back room <span>→</span></button>
+            <p id="status" role="status" aria-live="polite">Ready. Nothing has been sent yet.</p>
+          </div>
+        </form>
+      </section>
+
+      <section class="result" id="result" hidden aria-labelledby="result-heading">
+        <div class="result-head">
+          <div><p class="eyebrow">FINISHED PLATE</p><h2 id="result-heading">The result</h2></div>
+          <button type="button" id="copy">Copy</button>
+        </div>
+        <pre id="output"></pre>
+      </section>
+
+      <aside class="boundary">
+        <strong>The bright line</strong>
+        <p>This starter is for a trusted owner on a private machine. Public, customer-facing, anonymous, or shared execution belongs on a properly provisioned API/service architecture.</p>
+      </aside>
+    </main>
+    <script src="/app.js" type="module"></script>
+  </body>
+</html>
+

@@ -1,6 +1,21 @@
 {
-  "count": 156,
+  "count": 157,
   "products": [
+    {
+      "slug": "the-codex-sdk-internal-tools-kit",
+      "permalink": "iaogys",
+      "numeric_id": 13933040,
+      "name": "The Codex SDK Internal Tools Kit",
+      "status": "published",
+      "archived": false,
+      "category": "Other",
+      "content_hash": "b52341922053264a",
+      "files": [
+        "Codex-SDK-Internal-Tools-Field-Guide.pdf",
+        "Codex-SDK-Internal-Tools-Kit.zip"
+      ],
+      "has_content": true
+    },
     {
       "slug": "bench-studio-ownership-kit",
       "permalink": "tppav",

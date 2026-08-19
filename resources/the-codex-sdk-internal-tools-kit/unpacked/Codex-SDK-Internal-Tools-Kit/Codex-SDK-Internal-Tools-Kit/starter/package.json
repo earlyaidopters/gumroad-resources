@@ -1,0 +1,28 @@
+{
+  "name": "codex-sdk-internal-tool-starter",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "dev": "tsx watch src/server.ts",
+    "start": "node dist/src/server.js",
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "tsx --test test/*.test.ts",
+    "check": "npm run typecheck && npm test && npm run build"
+  },
+  "dependencies": {
+    "@openai/codex-sdk": "0.147.0",
+    "dotenv": "17.4.2",
+    "openai": "7.5.0",
+    "zod": "4.4.3"
+  },
+  "devDependencies": {
+    "@types/node": "25.0.10",
+    "tsx": "4.23.12",
+    "typescript": "7.0.2"
+  }
+}

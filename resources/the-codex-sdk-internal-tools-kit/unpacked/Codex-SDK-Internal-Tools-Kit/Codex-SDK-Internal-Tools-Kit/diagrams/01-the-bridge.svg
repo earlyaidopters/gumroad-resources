@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900">
+  <defs>
+    <filter id="shadow" x="-20%" y="-20%" width="160%" height="160%"><feDropShadow dx="10" dy="12" stdDeviation="0" flood-color="#171715"/></filter>
+    <marker id="arrow" markerWidth="14" markerHeight="14" refX="11" refY="7" orient="auto"><path d="M1 1 L12 7 L1 13" fill="none" stroke="#c95f3b" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+  </defs>
+  <rect width="1600" height="900" fill="#f3f0e8"/>
+  <g stroke="#d2cec3" stroke-width="1" opacity=".55">
+    <path d="M0 150H1600M0 300H1600M0 450H1600M0 600H1600M0 750H1600"/>
+    <path d="M200 0V900M400 0V900M600 0V900M800 0V900M1000 0V900M1200 0V900M1400 0V900"/>
+  </g>
+  <rect x="515" y="34" width="570" height="52" rx="26" fill="#fffdf8" stroke="#171715" stroke-width="2"/>
+  <circle cx="548" cy="60" r="9" fill="#c95f3b" stroke="#171715" stroke-width="2"/>
+  <text x="574" y="68" fill="#171715" font-family="Arial, sans-serif" font-size="20" font-weight="800" letter-spacing="2">THE CODEX SDK · PLAIN ENGLISH</text>
+
+  <text x="90" y="176" fill="#c95f3b" font-family="Arial, sans-serif" font-size="20" font-weight="800" letter-spacing="4">THE PRIVATE BRIDGE</text>
+  <text x="90" y="252" fill="#171715" font-family="Arial, sans-serif" font-size="66" font-weight="900" letter-spacing="-3">Your tiny app stays friendly.</text>
+  <text x="90" y="320" fill="#171715" font-family="Arial, sans-serif" font-size="66" font-weight="900" letter-spacing="-3">Codex works in the back room.</text>
+
+  <g transform="translate(70 430)" filter="url(#shadow)">
+    <rect x="0" y="0" width="300" height="230" rx="30" fill="#fff8df" stroke="#171715" stroke-width="3"/>
+    <circle cx="60" cy="58" r="28" fill="#f2cb67" stroke="#171715" stroke-width="2"/>
+    <text x="60" y="69" text-anchor="middle" font-family="Arial" font-size="29">☝</text>
+    <text x="38" y="124" fill="#171715" font-family="Arial" font-size="30" font-weight="900">YOUR APP</text>
+    <text x="38" y="162" fill="#666259" font-family="Arial" font-size="20">One button.</text>
+    <text x="38" y="190" fill="#666259" font-family="Arial" font-size="20">One clear request.</text>
+  </g>
+
+  <path d="M390 545 C470 495 520 495 600 545" fill="none" stroke="#c95f3b" stroke-width="7" stroke-linecap="round" marker-end="url(#arrow)"/>
+  <text x="495" y="482" text-anchor="middle" fill="#c95f3b" font-family="Arial" font-size="19" font-weight="900" letter-spacing="2">REQUEST</text>
+
+  <g transform="translate(630 405)" filter="url(#shadow)">
+    <rect x="0" y="0" width="340" height="280" rx="36" fill="#efd6cb" stroke="#171715" stroke-width="3"/>
+    <path d="M55 150 C120 70 220 70 285 150" fill="none" stroke="#171715" stroke-width="7" stroke-linecap="round"/>
+    <path d="M55 150 C120 230 220 230 285 150" fill="none" stroke="#171715" stroke-width="7" stroke-linecap="round"/>
+    <circle cx="55" cy="150" r="16" fill="#c95f3b" stroke="#171715" stroke-width="3"/>
+    <circle cx="285" cy="150" r="16" fill="#c95f3b" stroke="#171715" stroke-width="3"/>
+    <rect x="129" y="126" width="82" height="48" rx="12" fill="#fffdf8" stroke="#171715" stroke-width="3"/>
+    <text x="170" y="158" text-anchor="middle" fill="#171715" font-family="Arial" font-size="18" font-weight="900">SDK</text>
+    <text x="42" y="47" fill="#171715" font-family="Arial" font-size="30" font-weight="900">THE BRIDGE</text>
+    <text x="42" y="239" fill="#666259" font-family="Arial" font-size="18">Carries a bounded job across.</text>
+  </g>
+
+  <path d="M990 545 C1070 495 1120 495 1200 545" fill="none" stroke="#c95f3b" stroke-width="7" stroke-linecap="round" marker-end="url(#arrow)"/>
+  <text x="1095" y="482" text-anchor="middle" fill="#c95f3b" font-family="Arial" font-size="19" font-weight="900" letter-spacing="2">RESULT</text>
+
+  <g transform="translate(1230 430)" filter="url(#shadow)">
+    <rect x="0" y="0" width="300" height="230" rx="30" fill="#dce6dc" stroke="#171715" stroke-width="3"/>
+    <circle cx="60" cy="58" r="28" fill="#fffdf8" stroke="#171715" stroke-width="2"/>
+    <text x="60" y="69" text-anchor="middle" font-family="Arial" font-size="29">⚙</text>
+    <text x="38" y="124" fill="#171715" font-family="Arial" font-size="30" font-weight="900">CODEX</text>
+    <text x="38" y="162" fill="#666259" font-family="Arial" font-size="20">Your signed-in worker.</text>
+    <text x="38" y="190" fill="#666259" font-family="Arial" font-size="20">Hidden, not unbounded.</text>
+  </g>
+
+  <rect x="250" y="746" width="1100" height="90" rx="22" fill="#171715"/>
+  <text x="800" y="785" text-anchor="middle" fill="#fffdf8" font-family="Arial" font-size="22" font-weight="900">THE RULE</text>
+  <text x="800" y="816" text-anchor="middle" fill="#f3d6c9" font-family="Arial" font-size="20">Private owner-operated work here. Shared or public work moves to a production API backend.</text>
+</svg>
