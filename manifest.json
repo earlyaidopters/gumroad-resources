@@ -1,6 +1,21 @@
 {
-  "count": 157,
+  "count": 158,
   "products": [
+    {
+      "slug": "the-ai-assistant-decision-kit",
+      "permalink": "uwzxrt",
+      "numeric_id": 13996775,
+      "name": "The AI Assistant Decision Kit",
+      "status": "published",
+      "archived": false,
+      "category": "Other",
+      "content_hash": "30e9764b07e8ff23",
+      "files": [
+        "AI-Assistant-Decision-Kit.zip",
+        "AI-Assistant-System-Advisor-Skill.zip"
+      ],
+      "has_content": true
+    },
     {
       "slug": "the-codex-sdk-internal-tools-kit",
       "permalink": "iaogys",

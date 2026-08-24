@@ -1,0 +1,26 @@
+{
+  "name": "The AI Assistant Decision Kit",
+  "external_id": "iRZsr3W7ARQ7mpm6EIK54g==",
+  "permalink": "uwzxrt",
+  "unique_permalink": "uwzxrt",
+  "custom_permalink": "ai-assistant-decision-kit",
+  "url": "https://markkashef.gumroad.com/l/ai-assistant-decision-kit",
+  "status": "published",
+  "archived": false,
+  "kind": "products",
+  "price_formatted": "CAD$0+",
+  "description_md": "Stop rebuilding the same assistant somewhere else\n\nEvery new AI personal assistant makes your current setup feel obsolete. This free kit helps you step back, compare what actually changes, and decide whether you should stay put, use a managed product, choose an open-source runtime, or build an owned system.\n\n- \nOpen the live map: https://ai-assistant-house-map.markkashef.chatgpt.site/\n\n- \nInteractive Map: The exact visual comparison from the video, including Grok Bot, Hermes Agent, Claude Cowork, ChatGPT Work, OpenClaw, an editable tier board, architecture cutaways, and the combined capability map.\n\n- \nResearch-Backed System Advisor: An importable skill with current product dossiers, adaptive questions, native Claude Code and Codex question-tool support, defaults-versus-ceiling analysis, user-specific scoring, a switching ledger, and a reversible test plan.\n\n- \nUniversal Prompt: A copy-ready version of the same decision interview for ChatGPT, Claude, Codex, or another capable assistant.\n\n- \nStay-First Logic: The advisor treats keeping your current setup as a real option and will not push you toward the newest product without a concrete reason.\n\n- \nReversible Next Step: Every recommendation ends with a 30 to 60 minute comparison and a seven-day pilot that do not destroy or prematurely migrate the system you already use.\n\n- \nCurrent Research Dossiers: Detailed, dated analysis of Grok Bot, Hermes Agent, Claude Cowork, ChatGPT Work, OpenClaw, and the owned DIY path. The open-source dossiers include canonical releases and harness architecture. The managed-product dossiers cover runtime location, local-file reach, connectors, memory, orchestration, automation, permissions, usage, and trust boundaries.\n\nThe advisor dossiers were researched through 23 August 2026. Provider features, prices, limits, availability, and terms can change quickly, so the advisor verifies current first-party information again when browsing is available.\n\nOpen the map first, then run the system audit. You should finish with one clear recommendation, one runner-up, the reasons every other serious option lost, the layers you would need to rebuild, and the exact threshold that would make switching worthwhile.",
+  "files": [
+    {
+      "file": "AI-Assistant-Decision-Kit.zip",
+      "status": "downloaded",
+      "bytes": 42122
+    },
+    {
+      "file": "AI-Assistant-System-Advisor-Skill.zip",
+      "status": "downloaded",
+      "bytes": 34916
+    }
+  ],
+  "has_rich_content": true
+}

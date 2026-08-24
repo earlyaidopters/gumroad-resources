@@ -1,0 +1,7 @@
+interface:
+  display_name: "AI Assistant System Advisor"
+  short_description: "Research, compare, and test the right assistant setup"
+  default_prompt: "Use $ai-assistant-system-advisor to interview me and recommend the least disruptive AI assistant setup that fits my work."
+policy:
+  allow_implicit_invocation: true
+

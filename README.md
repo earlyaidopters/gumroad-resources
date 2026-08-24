@@ -2,7 +2,7 @@
 
 Every free resource from the Early AI-dopters Gumroad, mirrored here and kept in sync. Each folder holds the actual files (zips unpacked so you can browse them on GitHub), the resource content page, and a README. Where a resource came from a YouTube video, the video is paired to it. Watch or star this repo to catch every new drop.
 
-**157 published resources**, grouped by topic and newest-first within each. Auto-synced from Gumroad every few hours.
+**158 published resources**, grouped by topic and newest-first within each. Auto-synced from Gumroad every few hours.
 
 ## 🆕 Latest 10 drops
 
@@ -10,6 +10,7 @@ The newest resources with their videos. Updates automatically on every sync.
 
 | | Resource | Watch | Get it |
 |---|---|---|---|
+| <a href="https://youtu.be/aBdMey9nqcM"><img src="https://i.ytimg.com/vi/aBdMey9nqcM/maxresdefault.jpg" width="200"></a> | [The AI Assistant Decision Kit](resources/the-ai-assistant-decision-kit/) | [▶ Watch](https://youtu.be/aBdMey9nqcM) | [Gumroad](https://markkashef.gumroad.com/l/ai-assistant-decision-kit) |
 | <a href="https://youtu.be/JlXfoZvTwzk"><img src="https://i.ytimg.com/vi/JlXfoZvTwzk/maxresdefault.jpg" width="200"></a> | [The Codex SDK Internal Tools Kit](resources/the-codex-sdk-internal-tools-kit/) | [▶ Watch](https://youtu.be/JlXfoZvTwzk) | [Gumroad](https://markkashef.gumroad.com/l/codex-sdk-internal-tools-kit) |
 | <a href="https://youtu.be/_VX6BZDKgrg"><img src="https://i.ytimg.com/vi/_VX6BZDKgrg/maxresdefault.jpg" width="200"></a> | [Bench Studio Ownership Kit](resources/bench-studio-ownership-kit/) | [▶ Watch](https://youtu.be/_VX6BZDKgrg) | [Gumroad](https://markkashef.gumroad.com/l/bench-studio-ownership-kit) |
 | <a href="https://youtu.be/FSnubu4Lpz8"><img src="https://i.ytimg.com/vi/FSnubu4Lpz8/maxresdefault.jpg" width="200"></a> | [Local AI Care Package 📦](resources/local-ai-care-package/) | [▶ Watch](https://youtu.be/FSnubu4Lpz8) | [Gumroad](https://markkashef.gumroad.com/l/local-ai-care-package) |
@@ -19,7 +20,6 @@ The newest resources with their videos. Updates automatically on every sync.
 | <a href="https://youtu.be/nuwlyQXrADg"><img src="https://i.ytimg.com/vi/nuwlyQXrADg/maxresdefault.jpg" width="200"></a> | [Fable Wargame Kit 🎖️](resources/fable-wargame-kit/) | [▶ Watch](https://youtu.be/nuwlyQXrADg) | [Gumroad](https://markkashef.gumroad.com/l/fable-wargame-kit) |
 | <a href="https://youtu.be/YjkteijEyzQ"><img src="https://i.ytimg.com/vi/YjkteijEyzQ/maxresdefault.jpg" width="200"></a> | [Agentic OS Starter Kit 🌍](resources/agentic-os-starter-kit/) | [▶ Watch](https://youtu.be/YjkteijEyzQ) | [Gumroad](https://markkashef.gumroad.com/l/agentic-os-starter-kit) |
 | <a href="https://youtu.be/T17DYl_4Z-U"><img src="https://i.ytimg.com/vi/T17DYl_4Z-U/maxresdefault.jpg" width="200"></a> | [The Enterprise OS Blueprint Kit 🏢](resources/the-enterprise-os-blueprint-kit/) | [▶ Watch](https://youtu.be/T17DYl_4Z-U) | [Gumroad](https://markkashef.gumroad.com/l/enterprise-os-blueprint-kit-cc) |
-| <a href="https://youtu.be/B95cu7seTm8"><img src="https://i.ytimg.com/vi/B95cu7seTm8/maxresdefault.jpg" width="200"></a> | [The Fable Mindset Playbook 🧠](resources/the-fable-mindset-playbook/) | [▶ Watch](https://youtu.be/B95cu7seTm8) | [Gumroad](https://markkashef.gumroad.com/l/fable-mindset) |
 
 ## Categories
 
@@ -28,7 +28,7 @@ The newest resources with their videos. Updates automatically on every sync.
 - [🧠 Custom GPTs & AI Agents](#custom-gpts-ai-agents) (26)
 - [🗂️ Frameworks, Meta Techniques & Experiments](#frameworks-meta-techniques-experiments) (23)
 - [📊 Tools, Cheat Sheets & Evaluations](#tools-cheat-sheets-evaluations) (15)
-- [Other](#other) (27)
+- [Other](#other) (28)
 
 ## 🎯 Prompting & Engineering Skills
 
@@ -189,6 +189,7 @@ The newest resources with their videos. Updates automatically on every sync.
 
 | Resource | What it is | Video | Get it |
 |---|---|---|---|
+| [The AI Assistant Decision Kit](resources/the-ai-assistant-decision-kit/) | Stop rebuilding the same assistant somewhere else Every new AI personal assistant makes your current setup feel obsolete. | [▶ Watch](https://youtu.be/aBdMey9nqcM) | [Gumroad](https://markkashef.gumroad.com/l/ai-assistant-decision-kit) |
 | [The Codex SDK Internal Tools Kit](resources/the-codex-sdk-internal-tools-kit/) | Your private Codex back room If you have ever vibe coded a useful internal app and then realized every click needs another paid API call, this kit… | [▶ Watch](https://youtu.be/JlXfoZvTwzk) | [Gumroad](https://markkashef.gumroad.com/l/codex-sdk-internal-tools-kit) |
 | [Bench Studio Ownership Kit](resources/bench-studio-ownership-kit/) | The generate skill: Drop this into /.claude/skills/generate/ and Claude Code becomes your routing and prompt refinement layer. | [▶ Watch](https://youtu.be/_VX6BZDKgrg) | [Gumroad](https://markkashef.gumroad.com/l/bench-studio-ownership-kit) |
 | [Local AI Care Package 📦](resources/local-ai-care-package/) | This is the care package from the video. | [▶ Watch](https://youtu.be/FSnubu4Lpz8) | [Gumroad](https://markkashef.gumroad.com/l/local-ai-care-package) |
