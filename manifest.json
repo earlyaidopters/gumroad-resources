@@ -1,6 +1,21 @@
 {
-  "count": 158,
+  "count": 159,
   "products": [
+    {
+      "slug": "the-grok-bot-agent-blueprint",
+      "permalink": "ulrrl",
+      "numeric_id": 14038440,
+      "name": "The Grok Bot Agent Blueprint",
+      "status": "published",
+      "archived": false,
+      "category": "Other",
+      "content_hash": "6b395d4818f7a961",
+      "files": [
+        "Grok-Bot-Agent-Blueprint-Resource-Pack.zip",
+        "Grok-Bot-Agent-Blueprint.pdf"
+      ],
+      "has_content": true
+    },
     {
       "slug": "the-ai-assistant-decision-kit",
       "permalink": "uwzxrt",

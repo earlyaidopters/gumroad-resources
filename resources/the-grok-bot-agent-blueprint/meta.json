@@ -1,0 +1,26 @@
+{
+  "name": "The Grok Bot Agent Blueprint",
+  "external_id": "0YIGA7u4AZFl15yw09yr4A==",
+  "permalink": "ulrrl",
+  "unique_permalink": "ulrrl",
+  "custom_permalink": "grok-bot-agent-blueprint",
+  "url": "https://markkashef.gumroad.com/l/grok-bot-agent-blueprint",
+  "status": "published",
+  "archived": false,
+  "kind": "products",
+  "price_formatted": "CAD$0+",
+  "description_md": "Stop treating a multi-agent system like one big AI brain\nThis free companion pack breaks the system into understandable parts: agent identity, isolated transcripts, durable memory, asynchronous direct messages, priority interruption, bounded group meetings, separate desktop screens, scoped permissions, workflows, model adapters, and the scheduler underneath everything.\n\n- \nVisual Guide: A polished, first-principles PDF that explains every mechanism discussed in the video with practical examples, architecture diagrams, build order, failure modes, and a full end-to-end request flow.\n\n- \nAI-Readable Edition: The complete guide as clean Markdown, ready to attach to ChatGPT, Claude, Codex, or another capable assistant.\n\n- \nImplementation Prompt: A staged repository-audit prompt for adding the same primitives to Hermes, OpenClaw, a custom app, or another existing agent without copying recovered code.\n\n- \nBuild Checklist: Concrete acceptance tests for isolated transcripts, durable wakes, priority lanes, bounded meetings, private screens, scoped memory, approvals, and restart recovery.",
+  "files": [
+    {
+      "file": "Grok-Bot-Agent-Blueprint-Resource-Pack.zip",
+      "status": "downloaded",
+      "bytes": 107192
+    },
+    {
+      "file": "Grok-Bot-Agent-Blueprint.pdf",
+      "status": "downloaded",
+      "bytes": 114283
+    }
+  ],
+  "has_rich_content": true
+}

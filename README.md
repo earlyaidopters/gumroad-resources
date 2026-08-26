@@ -2,7 +2,7 @@
 
 Every free resource from the Early AI-dopters Gumroad, mirrored here and kept in sync. Each folder holds the actual files (zips unpacked so you can browse them on GitHub), the resource content page, and a README. Where a resource came from a YouTube video, the video is paired to it. Watch or star this repo to catch every new drop.
 
-**158 published resources**, grouped by topic and newest-first within each. Auto-synced from Gumroad every few hours.
+**159 published resources**, grouped by topic and newest-first within each. Auto-synced from Gumroad every few hours.
 
 ## 🆕 Latest 10 drops
 
@@ -10,6 +10,7 @@ The newest resources with their videos. Updates automatically on every sync.
 
 | | Resource | Watch | Get it |
 |---|---|---|---|
+| <a href="https://youtu.be/mAWT1HCBgbQ"><img src="https://i.ytimg.com/vi/mAWT1HCBgbQ/maxresdefault.jpg" width="200"></a> | [The Grok Bot Agent Blueprint](resources/the-grok-bot-agent-blueprint/) | [▶ Watch](https://youtu.be/mAWT1HCBgbQ) | [Gumroad](https://markkashef.gumroad.com/l/grok-bot-agent-blueprint) |
 | <a href="https://youtu.be/aBdMey9nqcM"><img src="https://i.ytimg.com/vi/aBdMey9nqcM/maxresdefault.jpg" width="200"></a> | [The AI Assistant Decision Kit](resources/the-ai-assistant-decision-kit/) | [▶ Watch](https://youtu.be/aBdMey9nqcM) | [Gumroad](https://markkashef.gumroad.com/l/ai-assistant-decision-kit) |
 | <a href="https://youtu.be/JlXfoZvTwzk"><img src="https://i.ytimg.com/vi/JlXfoZvTwzk/maxresdefault.jpg" width="200"></a> | [The Codex SDK Internal Tools Kit](resources/the-codex-sdk-internal-tools-kit/) | [▶ Watch](https://youtu.be/JlXfoZvTwzk) | [Gumroad](https://markkashef.gumroad.com/l/codex-sdk-internal-tools-kit) |
 | <a href="https://youtu.be/_VX6BZDKgrg"><img src="https://i.ytimg.com/vi/_VX6BZDKgrg/maxresdefault.jpg" width="200"></a> | [Bench Studio Ownership Kit](resources/bench-studio-ownership-kit/) | [▶ Watch](https://youtu.be/_VX6BZDKgrg) | [Gumroad](https://markkashef.gumroad.com/l/bench-studio-ownership-kit) |
@@ -19,7 +20,6 @@ The newest resources with their videos. Updates automatically on every sync.
 | <a href="https://youtu.be/4__5q76f04s"><img src="https://i.ytimg.com/vi/4__5q76f04s/maxresdefault.jpg" width="200"></a> | [Effort Decoder Guide 🎛️](resources/effort-decoder-guide/) | [▶ Watch](https://youtu.be/4__5q76f04s) | [Gumroad](https://markkashef.gumroad.com/l/effort-decoder) |
 | <a href="https://youtu.be/nuwlyQXrADg"><img src="https://i.ytimg.com/vi/nuwlyQXrADg/maxresdefault.jpg" width="200"></a> | [Fable Wargame Kit 🎖️](resources/fable-wargame-kit/) | [▶ Watch](https://youtu.be/nuwlyQXrADg) | [Gumroad](https://markkashef.gumroad.com/l/fable-wargame-kit) |
 | <a href="https://youtu.be/YjkteijEyzQ"><img src="https://i.ytimg.com/vi/YjkteijEyzQ/maxresdefault.jpg" width="200"></a> | [Agentic OS Starter Kit 🌍](resources/agentic-os-starter-kit/) | [▶ Watch](https://youtu.be/YjkteijEyzQ) | [Gumroad](https://markkashef.gumroad.com/l/agentic-os-starter-kit) |
-| <a href="https://youtu.be/T17DYl_4Z-U"><img src="https://i.ytimg.com/vi/T17DYl_4Z-U/maxresdefault.jpg" width="200"></a> | [The Enterprise OS Blueprint Kit 🏢](resources/the-enterprise-os-blueprint-kit/) | [▶ Watch](https://youtu.be/T17DYl_4Z-U) | [Gumroad](https://markkashef.gumroad.com/l/enterprise-os-blueprint-kit-cc) |
 
 ## Categories
 
@@ -28,7 +28,7 @@ The newest resources with their videos. Updates automatically on every sync.
 - [🧠 Custom GPTs & AI Agents](#custom-gpts-ai-agents) (26)
 - [🗂️ Frameworks, Meta Techniques & Experiments](#frameworks-meta-techniques-experiments) (23)
 - [📊 Tools, Cheat Sheets & Evaluations](#tools-cheat-sheets-evaluations) (15)
-- [Other](#other) (28)
+- [Other](#other) (29)
 
 ## 🎯 Prompting & Engineering Skills
 
@@ -189,6 +189,7 @@ The newest resources with their videos. Updates automatically on every sync.
 
 | Resource | What it is | Video | Get it |
 |---|---|---|---|
+| [The Grok Bot Agent Blueprint](resources/the-grok-bot-agent-blueprint/) | Stop treating a multi agent system like one big AI brain This free companion pack breaks the system into understandable parts: agent identity… | [▶ Watch](https://youtu.be/mAWT1HCBgbQ) | [Gumroad](https://markkashef.gumroad.com/l/grok-bot-agent-blueprint) |
 | [The AI Assistant Decision Kit](resources/the-ai-assistant-decision-kit/) | Stop rebuilding the same assistant somewhere else Every new AI personal assistant makes your current setup feel obsolete. | [▶ Watch](https://youtu.be/aBdMey9nqcM) | [Gumroad](https://markkashef.gumroad.com/l/ai-assistant-decision-kit) |
 | [The Codex SDK Internal Tools Kit](resources/the-codex-sdk-internal-tools-kit/) | Your private Codex back room If you have ever vibe coded a useful internal app and then realized every click needs another paid API call, this kit… | [▶ Watch](https://youtu.be/JlXfoZvTwzk) | [Gumroad](https://markkashef.gumroad.com/l/codex-sdk-internal-tools-kit) |
 | [Bench Studio Ownership Kit](resources/bench-studio-ownership-kit/) | The generate skill: Drop this into /.claude/skills/generate/ and Claude Code becomes your routing and prompt refinement layer. | [▶ Watch](https://youtu.be/_VX6BZDKgrg) | [Gumroad](https://markkashef.gumroad.com/l/bench-studio-ownership-kit) |
