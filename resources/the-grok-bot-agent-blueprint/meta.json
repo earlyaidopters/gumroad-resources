@@ -13,12 +13,12 @@
   "files": [
     {
       "file": "Grok-Bot-Agent-Blueprint-Resource-Pack.zip",
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 107192
     },
     {
       "file": "Grok-Bot-Agent-Blueprint.pdf",
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 114283
     }
   ],
