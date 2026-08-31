@@ -1,0 +1,21 @@
+{
+  "name": "GrokRouter Source Repo",
+  "external_id": "Nh9vTErp9Ne9j_PG9cRfBw==",
+  "permalink": "qcksdn",
+  "unique_permalink": "qcksdn",
+  "custom_permalink": "grokrouter-source-repo",
+  "url": "https://markkashef.gumroad.com/l/grokrouter-source-repo",
+  "status": "published",
+  "archived": false,
+  "kind": "products",
+  "price_formatted": "CAD$0+",
+  "description_md": "# GrokRouter is a public experiment\n\nGrokRouter is an experimental source project I am actively building. It keeps Grok Bot as the interface while letting each Bot route its thinking through Codex or OpenRouter.\n\n- \nPublic Source Repo: Read the code, architecture, setup notes, tests, and ongoing updates on GitHub.\n\n- \nHow It Works Guide: A short visual PDF explaining the routing flow, installation boundary, provider and tool split, and the current way to try it.\n\nI will keep adding to this as Grok Bot changes, more provider paths are tested, and the project becomes easier to use.\n\nStart with the public repo, build it, test it, and follow the updates as the experiment evolves.",
+  "files": [
+    {
+      "file": "GrokRouter-How-It-Works.pdf",
+      "status": "downloaded",
+      "bytes": 3116329
+    }
+  ],
+  "has_rich_content": true
+}

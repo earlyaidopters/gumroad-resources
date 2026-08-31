@@ -1,6 +1,20 @@
 {
-  "count": 159,
+  "count": 160,
   "products": [
+    {
+      "slug": "grokrouter-source-repo",
+      "permalink": "qcksdn",
+      "numeric_id": 14113895,
+      "name": "GrokRouter Source Repo",
+      "status": "published",
+      "archived": false,
+      "category": "Other",
+      "content_hash": "64da23dde637054f",
+      "files": [
+        "GrokRouter-How-It-Works.pdf"
+      ],
+      "has_content": true
+    },
     {
       "slug": "the-grok-bot-agent-blueprint",
       "permalink": "ulrrl",
