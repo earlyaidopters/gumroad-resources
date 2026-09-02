@@ -1,6 +1,20 @@
 {
-  "count": 160,
+  "count": 161,
   "products": [
+    {
+      "slug": "fable-51-system-prompt-field-guide",
+      "permalink": "sewpu",
+      "numeric_id": 14139033,
+      "name": "Fable 5.1 System Prompt Field Guide",
+      "status": "published",
+      "archived": false,
+      "category": "Other",
+      "content_hash": "b5af3d1c7773aebc",
+      "files": [
+        "Fable-5-1-System-Prompt-Field-Guide.pdf"
+      ],
+      "has_content": true
+    },
     {
       "slug": "grokrouter-source-repo",
       "permalink": "qcksdn",

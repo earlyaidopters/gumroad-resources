@@ -2,7 +2,7 @@
 
 Every free resource from the Early AI-dopters Gumroad, mirrored here and kept in sync. Each folder holds the actual files (zips unpacked so you can browse them on GitHub), the resource content page, and a README. Where a resource came from a YouTube video, the video is paired to it. Watch or star this repo to catch every new drop.
 
-**160 published resources**, grouped by topic and newest-first within each. Auto-synced from Gumroad every few hours.
+**161 published resources**, grouped by topic and newest-first within each. Auto-synced from Gumroad every few hours.
 
 ## 🆕 Latest 10 drops
 
@@ -10,6 +10,7 @@ The newest resources with their videos. Updates automatically on every sync.
 
 | | Resource | Watch | Get it |
 |---|---|---|---|
+| <a href="https://youtu.be/cHVB2e-V80Y"><img src="https://i.ytimg.com/vi/cHVB2e-V80Y/maxresdefault.jpg" width="200"></a> | [Fable 5.1 System Prompt Field Guide](resources/fable-51-system-prompt-field-guide/) | [▶ Watch](https://youtu.be/cHVB2e-V80Y) | [Gumroad](https://markkashef.gumroad.com/l/fable-5-1-system-prompt-field-guide) |
 | <a href="https://youtu.be/Jq3WcqtakNQ"><img src="https://i.ytimg.com/vi/Jq3WcqtakNQ/maxresdefault.jpg" width="200"></a> | [GrokRouter Source Repo](resources/grokrouter-source-repo/) | [▶ Watch](https://youtu.be/Jq3WcqtakNQ) | [Gumroad](https://markkashef.gumroad.com/l/grokrouter-source-repo) |
 | <a href="https://youtu.be/mAWT1HCBgbQ"><img src="https://i.ytimg.com/vi/mAWT1HCBgbQ/maxresdefault.jpg" width="200"></a> | [The Grok Bot Agent Blueprint](resources/the-grok-bot-agent-blueprint/) | [▶ Watch](https://youtu.be/mAWT1HCBgbQ) | [Gumroad](https://markkashef.gumroad.com/l/grok-bot-agent-blueprint) |
 | <a href="https://youtu.be/aBdMey9nqcM"><img src="https://i.ytimg.com/vi/aBdMey9nqcM/maxresdefault.jpg" width="200"></a> | [The AI Assistant Decision Kit](resources/the-ai-assistant-decision-kit/) | [▶ Watch](https://youtu.be/aBdMey9nqcM) | [Gumroad](https://markkashef.gumroad.com/l/ai-assistant-decision-kit) |
@@ -19,7 +20,6 @@ The newest resources with their videos. Updates automatically on every sync.
 | <a href="https://youtu.be/3ICM9ZdflZA"><img src="https://i.ytimg.com/vi/3ICM9ZdflZA/maxresdefault.jpg" width="200"></a> | [Personal AI Benchmark Kit 🧪](resources/personal-ai-benchmark-kit/) | [▶ Watch](https://youtu.be/3ICM9ZdflZA) | [Gumroad](https://markkashef.gumroad.com/l/personal-ai-benchmark-kit) |
 | <a href="https://youtu.be/84POiAUhtSI"><img src="https://i.ytimg.com/vi/84POiAUhtSI/maxresdefault.jpg" width="200"></a> | [Open Source AI Crash Course Kit 🧰](resources/open-source-ai-crash-course-kit/) | [▶ Watch](https://youtu.be/84POiAUhtSI) | [Gumroad](https://markkashef.gumroad.com/l/open-source-ai-crash-course-kit) |
 | <a href="https://youtu.be/4__5q76f04s"><img src="https://i.ytimg.com/vi/4__5q76f04s/maxresdefault.jpg" width="200"></a> | [Effort Decoder Guide 🎛️](resources/effort-decoder-guide/) | [▶ Watch](https://youtu.be/4__5q76f04s) | [Gumroad](https://markkashef.gumroad.com/l/effort-decoder) |
-| <a href="https://youtu.be/nuwlyQXrADg"><img src="https://i.ytimg.com/vi/nuwlyQXrADg/maxresdefault.jpg" width="200"></a> | [Fable Wargame Kit 🎖️](resources/fable-wargame-kit/) | [▶ Watch](https://youtu.be/nuwlyQXrADg) | [Gumroad](https://markkashef.gumroad.com/l/fable-wargame-kit) |
 
 ## Categories
 
@@ -28,7 +28,7 @@ The newest resources with their videos. Updates automatically on every sync.
 - [🧠 Custom GPTs & AI Agents](#custom-gpts-ai-agents) (26)
 - [🗂️ Frameworks, Meta Techniques & Experiments](#frameworks-meta-techniques-experiments) (23)
 - [📊 Tools, Cheat Sheets & Evaluations](#tools-cheat-sheets-evaluations) (15)
-- [Other](#other) (30)
+- [Other](#other) (31)
 
 ## 🎯 Prompting & Engineering Skills
 
@@ -189,6 +189,7 @@ The newest resources with their videos. Updates automatically on every sync.
 
 | Resource | What it is | Video | Get it |
 |---|---|---|---|
+| [Fable 5.1 System Prompt Field Guide](resources/fable-51-system-prompt-field-guide/) | Anthropic reports higher Fable 5.1 scores on selected agentic benchmarks. | [▶ Watch](https://youtu.be/cHVB2e-V80Y) | [Gumroad](https://markkashef.gumroad.com/l/fable-5-1-system-prompt-field-guide) |
 | [GrokRouter Source Repo](resources/grokrouter-source-repo/) | GrokRouter is a public experiment GrokRouter is an experimental source project I am actively building. | [▶ Watch](https://youtu.be/Jq3WcqtakNQ) | [Gumroad](https://markkashef.gumroad.com/l/grokrouter-source-repo) |
 | [The Grok Bot Agent Blueprint](resources/the-grok-bot-agent-blueprint/) | Stop treating a multi agent system like one big AI brain This free companion pack breaks the system into understandable parts: agent identity… | [▶ Watch](https://youtu.be/mAWT1HCBgbQ) | [Gumroad](https://markkashef.gumroad.com/l/grok-bot-agent-blueprint) |
 | [The AI Assistant Decision Kit](resources/the-ai-assistant-decision-kit/) | Stop rebuilding the same assistant somewhere else Every new AI personal assistant makes your current setup feel obsolete. | [▶ Watch](https://youtu.be/aBdMey9nqcM) | [Gumroad](https://markkashef.gumroad.com/l/ai-assistant-decision-kit) |
