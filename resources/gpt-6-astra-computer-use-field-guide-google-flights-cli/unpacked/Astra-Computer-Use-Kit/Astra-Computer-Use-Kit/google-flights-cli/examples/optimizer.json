@@ -1,0 +1,54 @@
+{
+  "base": {
+    "origin": "SFO",
+    "destination": "JFK",
+    "depart": "2027-03-20",
+    "return": "2027-03-25",
+    "adults": 2,
+    "cabin": "business",
+    "currency": "CAD"
+  },
+  "flex": {
+    "depart_days": 2,
+    "return_days": 2,
+    "min_trip_days": 4,
+    "max_trip_days": 9
+  },
+  "origins": ["SFO", "OAK", "SJC"],
+  "destinations": ["JFK"],
+  "return_origins": ["JFK", "BOS", "PHL"],
+  "max_searches": 24,
+  "include_split_oneways": true,
+  "positioning": [
+    {
+      "gateway": "SEA",
+      "feeder_depart": "2027-03-19",
+      "feeder_return": "2027-03-27"
+    }
+  ],
+  "multi_city": [
+    {
+      "name": "Include the New York–Boston flight in the multi-city quote",
+      "legs": [
+        { "origin": "SFO", "destination": "JFK", "date": "2027-03-20" },
+        { "origin": "JFK", "destination": "BOS", "date": "2027-03-24" },
+        { "origin": "BOS", "destination": "SFO", "date": "2027-03-25" }
+      ]
+    },
+    {
+      "name": "Test an outbound Seattle stopover",
+      "legs": [
+        { "origin": "SFO", "destination": "SEA", "date": "2027-03-20" },
+        { "origin": "SEA", "destination": "JFK", "date": "2027-03-21" },
+        { "origin": "JFK", "destination": "SFO", "date": "2027-03-25" }
+      ]
+    }
+  ],
+  "extra_costs_cad": {
+    "origin:OAK": null,
+    "origin:SJC": null,
+    "gap:JFK:BOS": null,
+    "gap:JFK:PHL": null,
+    "positioning:SEA": null
+  }
+}

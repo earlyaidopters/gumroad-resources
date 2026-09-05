@@ -1,0 +1,16 @@
+Build a reusable browser-backed flight-search CLI for this request:
+
+Origin: <ORIGIN_AIRPORT>
+Destination: <DESTINATION_AIRPORT>
+Departure / return: <YYYY-MM-DD> / <YYYY-MM-DD>
+Adults: <COUNT>
+Cabin / currency: business / CAD
+Output folder: <PROJECT_FOLDER>
+
+First inspect Google Flights using Codex's supported internal browser. Read the active tool documentation and observe the actual controls. Separate the local planner/parser from the browser adapter, and state exactly which parts require Codex. Do not claim a shell command can retrieve live fares if it cannot.
+
+Create explicit inputs for the route and dates. Export airline, displayed total for the whole party, outbound stops and duration, warnings, source link, price scope and retrieval time as JSON and CSV. Keep unverified return details and all-segment cabin checks marked unknown. Missing data must not become zero.
+
+Run two future date pairs in fresh output folders. Verify the visible airports, full dates including year, adults, cabin and currency. Wait for settled fare cards and compare one exported result with the page. Preserve the capture and original timestamp.
+
+Deliver a quickstart, browser dependency notes, synthetic parser tests and the two verification reports. Search only; do not book or enter traveler or payment information.

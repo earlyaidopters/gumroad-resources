@@ -1,6 +1,21 @@
 {
-  "count": 161,
+  "count": 162,
   "products": [
+    {
+      "slug": "gpt-6-astra-computer-use-field-guide-google-flights-cli",
+      "permalink": "xvejz",
+      "numeric_id": 14178127,
+      "name": "GPT-6 Astra Computer Use Field Guide + Google Flights CLI",
+      "status": "published",
+      "archived": false,
+      "category": "Other",
+      "content_hash": "a5352e16606308ab",
+      "files": [
+        "Astra-Computer-Use-Kit.zip",
+        "Computer-Use-Field-Guide.pdf"
+      ],
+      "has_content": true
+    },
     {
       "slug": "fable-51-system-prompt-field-guide",
       "permalink": "sewpu",

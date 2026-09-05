@@ -1,0 +1,15 @@
+Use computer use to test my existing integration inside its actual host app.
+
+Host app and workspace: <APP_AND_WORKSPACE>
+Tool / MCP / integration: <TOOL_NAME>
+Safe test source or topic: <SOURCE_OR_TOPIC>
+Expected successful result: <EXPECTED_RESULT>
+Optional source checkout: <REPO_PATH_OR_NONE>
+
+Confirm you are in the right app and workspace. Check whether the tool is available. If setup is required, use the supplied installation instructions, preserve existing configuration, and report exactly what changed. Stop at any login or secret entry that needs me. Do not rebuild a tool that already exists.
+
+Run a realistic read-only request. Inspect the actual tool-call details, not just the final assistant message. Ask two natural follow-ups that depend on the first answer. Include one missing-source or no-result case to check whether it handles uncertainty honestly.
+
+Verify one material answer against the underlying source. Record the observed inputs, output, errors and elapsed time. Separate model response time, tool execution time and any setup friction when evidence supports that distinction. Do not invent timing breakdowns.
+
+Return a short report: passed checks, reproduced failures, evidence, and the highest-value fix. If source code is available, identify the likely location without applying changes in this test. Keep private records out of the report. Do not send messages to other people.

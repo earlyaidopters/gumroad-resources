@@ -1,0 +1,14 @@
+node_modules/
+runs/
+results/
+history/
+evidence/
+benchmarks/
+.env
+.env.*
+!.env.example
+*.log
+*.lock
+*.tmp
+.DS_Store
+coverage/

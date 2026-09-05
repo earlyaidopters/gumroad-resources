@@ -1,0 +1,20 @@
+{
+  "defaults": {
+    "origin": "SFO",
+    "adults": 1,
+    "currency": "CAD",
+    "cabin": "business"
+  },
+  "favorites": {
+    "new-york": {
+      "destination": "JFK",
+      "depart": "2027-03-20",
+      "return": "2027-03-25"
+    },
+    "new-york-reuse-test": {
+      "destination": "JFK",
+      "depart": "2027-03-21",
+      "return": "2027-03-26"
+    }
+  }
+}

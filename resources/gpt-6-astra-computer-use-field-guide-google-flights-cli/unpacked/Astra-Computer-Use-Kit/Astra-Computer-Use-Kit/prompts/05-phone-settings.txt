@@ -1,0 +1,13 @@
+Use the iPhone Mirroring window I opened to configure Instagram on my actual phone.
+
+Account to confirm: <ACCOUNT_HANDLE>
+Requested change: enable Upload at highest quality, if that control is available
+Other approved changes: <SETTING_AND_TARGET_VALUE_OR_NONE>
+
+Confirm the visible account before changing anything. Inspect the current settings and explain the effect of each requested change. Use the labels actually present in this app version; do not assume a remembered menu path is still correct.
+
+Apply only the requested changes. If a requested value is already set, record it as already correct. Leave the settings screen, reopen it and verify that each value persisted. Keep a before/after table with the visible setting label, old value, new value and verification result.
+
+If you find other potentially useful creator settings, list them separately as suggestions. Distinguish upload quality from claims about distribution or reach. Verify any platform-policy or performance claim against current official documentation before recommending it.
+
+Do not alter account privacy, security, recovery details, profile identity or paid features. Do not publish, send DMs or browse unrelated photos. If mirroring, login or an unavailable setting blocks the task, stop at that screen and tell me the exact action needed. Return completed, already-correct and blocked items separately.

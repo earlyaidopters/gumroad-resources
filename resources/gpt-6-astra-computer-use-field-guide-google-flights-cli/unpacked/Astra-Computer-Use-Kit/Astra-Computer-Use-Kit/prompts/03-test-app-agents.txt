@@ -1,0 +1,15 @@
+Test my app through its real interface, including its own computer-use feature.
+
+App: <APP_NAME_OR_PATH>
+Matching source repository: <REPO_PATH>
+Browser task: <SMALL_READ_ONLY_TASK>
+Source to verify against: <PUBLIC_SOURCE_URL>
+Success criteria: <OBSERVABLE_PASS_CONDITIONS>
+
+Open a clean test conversation in the correct app. Ask the app's agent to perform the browser task using its own computer-use capability. Observe its actions and tool output. Do not substitute your own browsing for the app's work and then mark the app as passing.
+
+Check one returned fact against the public source. Close and reopen the conversation to test persistence. Capture the precise point of failure if the task stalls, loses context, uses the wrong window or returns an unsupported claim.
+
+If it fails, reproduce the failure and verify that the supplied checkout builds this app. In the local development copy, fix the smallest cause, run relevant tests, rebuild or relaunch as needed, and repeat the identical interface test. Preserve unrelated work. Limit this run to three repair attempts; if still failing, return the evidence and next diagnostic step.
+
+Return before/after behavior, changed files, test results, any remaining failure, and a reproducible request. Do not deploy publicly, access private conversations, make purchases or send external messages.

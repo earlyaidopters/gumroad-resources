@@ -1,0 +1,26 @@
+{
+  "name": "GPT-6 Astra Computer Use Field Guide + Google Flights CLI",
+  "external_id": "JReQpNEFKI02O7bl3Qr5sA==",
+  "permalink": "xvejz",
+  "unique_permalink": "xvejz",
+  "custom_permalink": "astra-computer-use",
+  "url": "https://markkashef.gumroad.com/l/astra-computer-use",
+  "status": "published",
+  "archived": false,
+  "kind": "products",
+  "price_formatted": "CAD$0+",
+  "description_md": "# Put computer use to work\nTake the five workflows from the video and adapt them to your own apps, files and projects. Each prompt spells out the job, the boundaries and the proof of completion.\n\n- \nField guide: A beautifully designed 13-page PDF with setup notes, reusable prompts, completion checks and ideas for adapting each workflow.\n\n- \nCopy-ready prompts: Nine separate text files plus one combined Markdown file. Includes the five main workflows, flight-search expansion, conservative Descript cleanup, a benchmark prompt and a reusable template.\n\n- \nGoogle Flights CLI: Full MIT-licensed source, a visual README, architecture diagrams, example requests, synthetic tests and an offline JSON/CSV demo. The public GitHub repository is included below.\n\n- \nFive workflows: Turn manual searches into a tool; test MCPs, APIs and integrations inside their host app; let one agent test another; finish a video-editing handoff; change a phone setting from your Mac.",
+  "files": [
+    {
+      "file": "Astra-Computer-Use-Kit.zip",
+      "status": "downloaded",
+      "bytes": 1888645
+    },
+    {
+      "file": "Computer-Use-Field-Guide.pdf",
+      "status": "downloaded",
+      "bytes": 1989904
+    }
+  ],
+  "has_rich_content": true
+}

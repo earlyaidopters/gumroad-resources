@@ -1,0 +1,15 @@
+Run my post-render editing workflow using the completed sample below.
+
+Source video: <SOURCE_VIDEO_PATH>
+Output folder: <OUTPUT_FOLDER>
+Output filename: <NEW_FILENAME>
+Optional Drive folder: <FOLDER_URL_OR_NONE>
+Cleanup prompt file: <PATH_TO_07_DESCRIPT_CLEANUP_TXT>
+
+Verify that the source file is stable and decodable; record its duration, resolution and audio properties. Preserve the original. Create a fresh Descript project and import the video. Use the app's available CLI or API for supported steps and computer use for the interface steps that require it. Wait for import and transcription to finish.
+
+Submit the complete supplied conservative-cleanup prompt. Wait for the edit to finish, then compare the original and edited transcripts. Keep the final retake and every unique point. Watch and listen around changed cuts, the opening and the ending. Repair clipped words, missing unique content or awkward joins before exporting.
+
+Export to the new filename at the source resolution. Verify that the exported file decodes, contains picture and sound, and matches the intended edit and resolution. Report source versus export duration without treating a shorter edit as proof of quality.
+
+If I supplied a Drive folder, upload the verified export and check its filename, size and destination. Otherwise save locally. Return the local path, optional Drive link and verification summary. Do not send it to anyone or publish publicly. Stop with the exact blocker if authentication or a required control is unavailable.

@@ -1,0 +1,32 @@
+Clean up this tutorial video segment. Treat the supplied video as a standalone segment and apply the rules below. If it is part of a longer recording, use the pacing appropriate to its role.
+
+GOAL
+Remove retakes, filler words, and tighten extended pauses while keeping the delivery natural. Conservative editing - when uncertain, leave it in.
+
+NON-NEGOTIABLE RULES (apply these first):
+1. Always keep the LAST/final version of any retake. Cut the earlier failed attempts, never the final clean one.
+2. Never cut unique content. Only cut clear retakes and abandoned attempts. It is not your job to judge whether content is "worth keeping" - if a sentence says something new, it stays.
+3. Leave buffer around every cut. Do not splice so tightly that the last word of the kept take gets clipped or the next clip starts before the previous word fully finishes. Err toward a few extra frames of breathing room over an abrupt jump.
+
+WHAT COUNTS AS A RETAKE
+I frequently stutter, repeat similar sentences, or abandon a sentence mid-way and restart with different phrasing. All of these are retakes:
+- Repeated openings (starting the same sentence two or more times).
+- Mid-sentence restarts and self-corrections.
+- Filler stutters ("but the, I...", "so it's, it's like...").
+- Trailing off, stammering, or visibly giving up on a sentence, then pivoting to say the same idea a cleaner way.
+- A sentence that cuts off and is immediately followed by a rephrased version of the same point.
+For all of the above: cut the failed attempt(s), keep the clean final version.
+
+SEPARATE RETAKES FROM UNIQUE CONTENT
+A messy block often mixes failed attempts AND unique sentences. Do not delete the whole block.
+- If a block has 3 failed starts followed by a clean unique sentence, cut only the 3 failed starts and keep the unique sentence.
+- Any sentence that introduces new or different information stays, even when surrounded by retakes.
+
+COHERENCE CHECK (after cutting)
+- The result must flow naturally - no orphaned transition words, no jarring jumps, no half-pronounced words bleeding into the next clip.
+- Re-listen to each cut point and confirm the audio lands cleanly. If a cut sounds abrupt, restore a little buffer rather than leaving it tight.
+
+PACING
+- If this segment is the intro/hook (the very beginning of the full video), keep it tight - minimize spacing between sentences for energy.
+- For all other segments (body and outro), use natural pacing with more nuance - don't over-compress.
+- Tighten extended pauses and dead gaps everywhere, but keep enough breathing room that it sounds human, not robotic or rushed.

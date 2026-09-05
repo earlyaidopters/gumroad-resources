@@ -1,0 +1,5 @@
+Compare the reusable flight runner with direct computer use on <TWO_NEW_ROUTE_AND_DATE_REQUESTS>. Use separate fresh task contexts with the same browser capability, model settings, route, dates, adults, cabin, currency and result coverage. Alternate which method runs first.
+
+Define the timer start and finish before testing. Record elapsed time, tool calls, failed attempts and final evidence. Compare all exported fares and warnings against equivalent visible results. If prices change between runs, record the mismatch instead of treating it as a method error.
+
+Report each run and the small-sample limits. Distinguish navigation-to-export time from total task time. Do not claim a universal speedup from two searches or call a faster incomplete result a success.

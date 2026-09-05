@@ -1,0 +1,5 @@
+Extend the flight search using <BASE_REQUEST> and these explicit alternatives: <DATE_WINDOW>, <ALTERNATE_AIRPORTS>, <OPEN_JAW_OR_STOPOVER_OPTIONS>. Use the included campaign planner with a maximum of <SEARCH_BUDGET> browser searches. Explain which combinations are omitted.
+
+Start from the original route. Use the visible date-grid and airport controls to narrow promising options, then capture exact requests. Include ground transport, positioning flights, bags and extra hotel nights in comparisons; leave unknown costs unknown. Treat separate-ticket trips as requiring connection and ticket-protection review. Do not claim that a longer connection is feasible merely because the dates are chronological.
+
+Rank only complete, fresh observations with matching price scope. Keep planning-only strategies and incomplete component pairs separate. Do not claim the global cheapest fare or invent award-seat availability. Return a shortlist with evidence links, retrieval times, missing costs and what still needs checking.

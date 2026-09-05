@@ -1,0 +1,11 @@
+Use <EXACT_APP_OR_BROWSER> to complete <OBSERVABLE_OUTCOME>.
+
+Inputs: <FILES, URLS, ACCOUNT_OR_WORKSPACE>
+Scope: <WHAT_MAY_CHANGE>
+Success: <VISIBLE_ACCEPTANCE_CHECKS>
+Deliverables: <FILES_AND_REPORT>
+Budget: <TIME_OR_ATTEMPT_LIMIT>
+
+Inspect the current state and active tool documentation before acting. Use the intended app's own capabilities where that is what we are testing. Keep source material and unrelated work intact. Make reasonable choices inside the requested scope; ask only for missing information that materially changes the result.
+
+After the work, verify the result in the interface or exported artifact. If it fails, reproduce the problem and return the evidence. Report what completed, what remains unverified, and the exact next step.

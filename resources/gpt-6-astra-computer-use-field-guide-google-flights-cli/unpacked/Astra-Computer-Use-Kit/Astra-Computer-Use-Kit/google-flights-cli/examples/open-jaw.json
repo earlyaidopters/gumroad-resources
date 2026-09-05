@@ -1,0 +1,10 @@
+{
+  "trip_type": "multi_city",
+  "adults": 2,
+  "cabin": "business",
+  "currency": "CAD",
+  "legs": [
+    { "origin": "SFO", "destination": "JFK", "date": "2027-03-20" },
+    { "origin": "BOS", "destination": "SFO", "date": "2027-03-25" }
+  ]
+}

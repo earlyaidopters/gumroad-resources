@@ -1,0 +1,26 @@
+{
+  "name": "@promptadvisers/google-flights-cli",
+  "version": "1.2.0",
+  "private": true,
+  "description": "Reusable Google Flights search plans, verified browser captures, CSV exports and price-drop candidates.",
+  "type": "module",
+  "license": "MIT",
+  "engines": {
+    "node": ">=22"
+  },
+  "bin": {
+    "flight-search": "./flight-search.mjs"
+  },
+  "scripts": {
+    "test": "node --test test/*.test.mjs",
+    "demo": "node scripts/demo.mjs",
+    "example": "node scripts/example.mjs"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/promptadvisers/google-flights-cli.git"
+  },
+  "bugs": {
+    "url": "https://github.com/promptadvisers/google-flights-cli/issues"
+  }
+}
