@@ -13,12 +13,12 @@
   "files": [
     {
       "file": "Astra-Computer-Use-Kit.zip",
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 1888645
     },
     {
       "file": "Computer-Use-Field-Guide.pdf",
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 1989904
     }
   ],
