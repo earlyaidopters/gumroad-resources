@@ -1,0 +1,21 @@
+{
+  "name": "Five Boundaries Before an Agent Goes Live",
+  "external_id": "2DEadfc3Cjsf2fs4jnj_5A==",
+  "permalink": "iivkmh",
+  "unique_permalink": "iivkmh",
+  "custom_permalink": "sf-ig-agent-boundaries",
+  "url": "https://markkashef.gumroad.com/l/sf-ig-agent-boundaries",
+  "status": "published",
+  "archived": false,
+  "kind": "products",
+  "price_formatted": "CAD$0+",
+  "description_md": "Before you give an AI agent access, set its boundaries.\n\n- What it can read, change, and send\n\n- How far it can run\n\n- How to stop it and recover\n\nIncludes practical examples, safe tests, and a fillable worksheet.\nFree 9-page PDF.",
+  "files": [
+    {
+      "file": "five-agent-boundaries.pdf",
+      "status": "downloaded",
+      "bytes": 152633
+    }
+  ],
+  "has_rich_content": true
+}

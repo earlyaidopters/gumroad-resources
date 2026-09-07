@@ -1,6 +1,20 @@
 {
-  "count": 162,
+  "count": 163,
   "products": [
+    {
+      "slug": "five-boundaries-before-an-agent-goes-live",
+      "permalink": "iivkmh",
+      "numeric_id": 14194303,
+      "name": "Five Boundaries Before an Agent Goes Live",
+      "status": "published",
+      "archived": false,
+      "category": "Other",
+      "content_hash": "2dde111cb95f8e2f",
+      "files": [
+        "five-agent-boundaries.pdf"
+      ],
+      "has_content": true
+    },
     {
       "slug": "gpt-6-astra-computer-use-field-guide-google-flights-cli",
       "permalink": "xvejz",
