@@ -2,7 +2,7 @@
 
 Every free resource from the Early AI-dopters Gumroad, mirrored here and kept in sync. Each folder holds the actual files (zips unpacked so you can browse them on GitHub), the resource content page, and a README. Where a resource came from a YouTube video, the video is paired to it. Watch or star this repo to catch every new drop.
 
-**163 published resources**, grouped by topic and newest-first within each. Auto-synced from Gumroad every few hours.
+**164 published resources**, grouped by topic and newest-first within each. Auto-synced from Gumroad every few hours.
 
 ## 🆕 Latest 10 drops
 
@@ -10,6 +10,7 @@ The newest resources with their videos. Updates automatically on every sync.
 
 | | Resource | Watch | Get it |
 |---|---|---|---|
+| <a href="https://markkashef.gumroad.com/l/sf-ig-codex-claude-matrix"><img src="https://public-files.gumroad.com/ovse5df6fdq75p0a30rhtl1wz0py" width="200"></a> | [Codex or Claude Code? The Task Decision Tree](resources/codex-or-claude-code-the-task-decision-tree/) | - | [Gumroad](https://markkashef.gumroad.com/l/sf-ig-codex-claude-matrix) |
 | <a href="https://markkashef.gumroad.com/l/sf-ig-agent-boundaries"><img src="https://public-files.gumroad.com/tzdy8jjfipbh6rppwm5sween3yzi" width="200"></a> | [Five Boundaries Before an Agent Goes Live](resources/five-boundaries-before-an-agent-goes-live/) | - | [Gumroad](https://markkashef.gumroad.com/l/sf-ig-agent-boundaries) |
 | <a href="https://youtu.be/tU-fO6cADvQ"><img src="https://i.ytimg.com/vi/tU-fO6cADvQ/maxresdefault.jpg" width="200"></a> | [GPT-6 Astra Computer Use Field Guide + Google Flights CLI](resources/gpt-6-astra-computer-use-field-guide-google-flights-cli/) | [▶ Watch](https://youtu.be/tU-fO6cADvQ) | [Gumroad](https://markkashef.gumroad.com/l/astra-computer-use) |
 | <a href="https://youtu.be/cHVB2e-V80Y"><img src="https://i.ytimg.com/vi/cHVB2e-V80Y/maxresdefault.jpg" width="200"></a> | [Fable 5.1 System Prompt Field Guide](resources/fable-51-system-prompt-field-guide/) | [▶ Watch](https://youtu.be/cHVB2e-V80Y) | [Gumroad](https://markkashef.gumroad.com/l/fable-5-1-system-prompt-field-guide) |
@@ -19,7 +20,6 @@ The newest resources with their videos. Updates automatically on every sync.
 | <a href="https://youtu.be/JlXfoZvTwzk"><img src="https://i.ytimg.com/vi/JlXfoZvTwzk/maxresdefault.jpg" width="200"></a> | [The Codex SDK Internal Tools Kit](resources/the-codex-sdk-internal-tools-kit/) | [▶ Watch](https://youtu.be/JlXfoZvTwzk) | [Gumroad](https://markkashef.gumroad.com/l/codex-sdk-internal-tools-kit) |
 | <a href="https://youtu.be/_VX6BZDKgrg"><img src="https://i.ytimg.com/vi/_VX6BZDKgrg/maxresdefault.jpg" width="200"></a> | [Bench Studio Ownership Kit](resources/bench-studio-ownership-kit/) | [▶ Watch](https://youtu.be/_VX6BZDKgrg) | [Gumroad](https://markkashef.gumroad.com/l/bench-studio-ownership-kit) |
 | <a href="https://youtu.be/FSnubu4Lpz8"><img src="https://i.ytimg.com/vi/FSnubu4Lpz8/maxresdefault.jpg" width="200"></a> | [Local AI Care Package 📦](resources/local-ai-care-package/) | [▶ Watch](https://youtu.be/FSnubu4Lpz8) | [Gumroad](https://markkashef.gumroad.com/l/local-ai-care-package) |
-| <a href="https://youtu.be/3ICM9ZdflZA"><img src="https://i.ytimg.com/vi/3ICM9ZdflZA/maxresdefault.jpg" width="200"></a> | [Personal AI Benchmark Kit 🧪](resources/personal-ai-benchmark-kit/) | [▶ Watch](https://youtu.be/3ICM9ZdflZA) | [Gumroad](https://markkashef.gumroad.com/l/personal-ai-benchmark-kit) |
 
 ## Categories
 
@@ -28,7 +28,7 @@ The newest resources with their videos. Updates automatically on every sync.
 - [🧠 Custom GPTs & AI Agents](#custom-gpts-ai-agents) (26)
 - [🗂️ Frameworks, Meta Techniques & Experiments](#frameworks-meta-techniques-experiments) (23)
 - [📊 Tools, Cheat Sheets & Evaluations](#tools-cheat-sheets-evaluations) (15)
-- [Other](#other) (33)
+- [Other](#other) (34)
 
 ## 🎯 Prompting & Engineering Skills
 
@@ -189,6 +189,7 @@ The newest resources with their videos. Updates automatically on every sync.
 
 | Resource | What it is | Video | Get it |
 |---|---|---|---|
+| [Codex or Claude Code? The Task Decision Tree](resources/codex-or-claude-code-the-task-decision-tree/) | Choose your coding agent by the job in front of you. | - | [Gumroad](https://markkashef.gumroad.com/l/sf-ig-codex-claude-matrix) |
 | [Five Boundaries Before an Agent Goes Live](resources/five-boundaries-before-an-agent-goes-live/) | Before you give an AI agent access, set its boundaries. | - | [Gumroad](https://markkashef.gumroad.com/l/sf-ig-agent-boundaries) |
 | [GPT-6 Astra Computer Use Field Guide + Google Flights CLI](resources/gpt-6-astra-computer-use-field-guide-google-flights-cli/) | Put computer use to work Take the five workflows from the video and adapt them to your own apps, files and projects. | [▶ Watch](https://youtu.be/tU-fO6cADvQ) | [Gumroad](https://markkashef.gumroad.com/l/astra-computer-use) |
 | [Fable 5.1 System Prompt Field Guide](resources/fable-51-system-prompt-field-guide/) | Anthropic reports higher Fable 5.1 scores on selected agentic benchmarks. | [▶ Watch](https://youtu.be/cHVB2e-V80Y) | [Gumroad](https://markkashef.gumroad.com/l/fable-5-1-system-prompt-field-guide) |

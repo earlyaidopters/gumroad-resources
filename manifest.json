@@ -1,6 +1,20 @@
 {
-  "count": 163,
+  "count": 164,
   "products": [
+    {
+      "slug": "codex-or-claude-code-the-task-decision-tree",
+      "permalink": "btjucj",
+      "numeric_id": 14211048,
+      "name": "Codex or Claude Code? The Task Decision Tree",
+      "status": "published",
+      "archived": false,
+      "category": "Other",
+      "content_hash": "9b3bef8627d0f8ae",
+      "files": [
+        "codex-claude-decision-tree.pdf"
+      ],
+      "has_content": true
+    },
     {
       "slug": "five-boundaries-before-an-agent-goes-live",
       "permalink": "iivkmh",
