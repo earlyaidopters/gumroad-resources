@@ -1,0 +1,197 @@
+[
+  {
+    "path": "Astra-Effort-Super-Guide.pdf",
+    "bytes": 2182542,
+    "sha256": "85ec37f50e79f53315626616425e98b3d360e338026a32cc1aef810c8478fa21"
+  },
+  {
+    "path": "PROMPTS.md",
+    "bytes": 7460,
+    "sha256": "a7e2cc85667261ea18a3659fc033d4bbb87fce098b48dc7730bc318040412256"
+  },
+  {
+    "path": "SOURCE-NOTES.md",
+    "bytes": 10547,
+    "sha256": "12d448755b6731929c5d727d73916b2c0fc24a871d56de5ed4296b7d8b8888a4"
+  },
+  {
+    "path": "START-HERE.md",
+    "bytes": 1901,
+    "sha256": "1cd5701766db871c5ee51968591f03b87a3edce5a8cb31b233de4b4181e5ec7b"
+  },
+  {
+    "path": "SUPER-GUIDE.md",
+    "bytes": 30028,
+    "sha256": "3a2240ae97e6ce487a325e314ba2c8d5d4e32f686585aad1daefdfcbda44e0e2"
+  },
+  {
+    "path": "canvases/high-fieldwork.excalidraw",
+    "bytes": 703296,
+    "sha256": "47e31680800718d2a424009961beb32ceea07e7ee10777b3b53d94ed600f7fa0"
+  },
+  {
+    "path": "canvases/low-clearshift.excalidraw",
+    "bytes": 525092,
+    "sha256": "51462c77ae6d6f4d180d0ee5ceac55ecbb24f288725297b023ba1bb2ef88b5f0"
+  },
+  {
+    "path": "canvases/max-fieldnote.excalidraw",
+    "bytes": 537960,
+    "sha256": "8c41e68b5ca6f4c96db48f7e427dbe5b6ba095192c1939b3550fa0f547c732cf"
+  },
+  {
+    "path": "canvases/medium-scopewell.excalidraw",
+    "bytes": 124458,
+    "sha256": "eab87bf0648d80a1bc043eb5c94133a66924eb7db6bda275a169f47cc929d43f"
+  },
+  {
+    "path": "canvases/sol-relayops.excalidraw",
+    "bytes": 178719,
+    "sha256": "5110f3f87c6eb01d6af3f858dc5d3b79916c098c323692466f38d743ab1914fc"
+  },
+  {
+    "path": "canvases/ultra-accord.excalidraw",
+    "bytes": 540405,
+    "sha256": "77dac5fea6843c62a0af84fc8443673d13c92c022e3fe1b4602b4d1e951920b7"
+  },
+  {
+    "path": "canvases/xhigh-scopekeep.excalidraw",
+    "bytes": 111525,
+    "sha256": "5dce1c14ff922fc30640abae2da11d19bcca68a9c473f549ea2754793cb94779"
+  },
+  {
+    "path": "evidence/BONUS-ARITHMETIC-DEMO.json",
+    "bytes": 875,
+    "sha256": "dab5c231b3d66232a910279fd27258de6ab6673bb3dce37106b3d1a31e4ed131"
+  },
+  {
+    "path": "evidence/BONUS-ARITHMETIC-DEMO.md",
+    "bytes": 1055,
+    "sha256": "3a9dc525efa2f007514f5317b36de3528748060dc670dfba4eb3e9b216cc1787"
+  },
+  {
+    "path": "evidence/PRODUCER-CHECKS.md",
+    "bytes": 8003,
+    "sha256": "db4518a5fa3bf9a18bd5d44be0ae5eb1fd7f5d636aa5aaad51a3e057d4eed91b"
+  },
+  {
+    "path": "evidence/high-scorecard.png",
+    "bytes": 276087,
+    "sha256": "a7832dca7100074bda516982b87d21aded3b45df24bbe8cea7122cb216d67a33"
+  },
+  {
+    "path": "evidence/low-scorecard.png",
+    "bytes": 265545,
+    "sha256": "9c3c45eae842e697e3db3a3c6928d5ca201d77ad32b0ddeee069e4110c7df0e9"
+  },
+  {
+    "path": "evidence/max-scorecard.png",
+    "bytes": 309517,
+    "sha256": "f94f29ce91ee9cc75c37682479f1b51c4f9a356208dedbaefb90a315c0c60e0a"
+  },
+  {
+    "path": "evidence/medium-scorecard.png",
+    "bytes": 287956,
+    "sha256": "81f7c38903272ebd7dbd84c7694ea273da989e859971cbbc223232ed12e58e81"
+  },
+  {
+    "path": "evidence/results.csv",
+    "bytes": 4347,
+    "sha256": "5eeba146915ddca0c2aeee3fde83cee83d5ffa464b7c9b436c07deaee6f88890"
+  },
+  {
+    "path": "evidence/results.json",
+    "bytes": 7114,
+    "sha256": "aa86c638967259ee2515056f80659c4a1bed3a7e52777d64b88841ed8f396fcc"
+  },
+  {
+    "path": "evidence/sol-scorecard.png",
+    "bytes": 257587,
+    "sha256": "15124827b6e7c644c236d841c1fd36ac4c4d9677e8890a37db77057f026d1203"
+  },
+  {
+    "path": "evidence/ultra-scorecard.png",
+    "bytes": 275676,
+    "sha256": "c018a1a59d6d50c88f4218e0b99d44b1a81dee085972b47ce703a19e7cc1b893"
+  },
+  {
+    "path": "evidence/xhigh-scorecard.png",
+    "bytes": 287230,
+    "sha256": "68a4fc35342c26da5dc56b163199b9309c66bbe6f6098f2afa172ea29b47c185"
+  },
+  {
+    "path": "experiment/ASSIGNMENT.txt",
+    "bytes": 2444,
+    "sha256": "45d564de3d8ab0e132c8079750d55ead222cfbf8436785bf5adf81a187b94148"
+  },
+  {
+    "path": "experiment/Assignment.png",
+    "bytes": 295999,
+    "sha256": "ad244d7e311d000d1547704e811ec86e397357cdf4545ffea8f5aff2be2cc7e1"
+  },
+  {
+    "path": "experiment/Astra-Context-Board.excalidraw",
+    "bytes": 48642,
+    "sha256": "148a5db5cd05cffb0294a5b926d00e9e3d087cfe95a96d2d816c625797b4a8d1"
+  },
+  {
+    "path": "experiment/EXECUTION-CONDITIONS.txt",
+    "bytes": 909,
+    "sha256": "7b63c1e5d0f1c987caafe8ae7b2fa799028072767011d3a3a1d517dbc33d224e"
+  },
+  {
+    "path": "experiment/YOUR-RUN-LOG.csv",
+    "bytes": 220,
+    "sha256": "c075fac66e5696273e0ee4ec5b1fe8caf920be60a67fd3710e2ddd668966b647"
+  },
+  {
+    "path": "prompts/01-personal-effort-picker.txt",
+    "bytes": 752,
+    "sha256": "bdd3b6d77484b73377a50a526eaa066933ed7bcb301be91758176a4e2eb021a2"
+  },
+  {
+    "path": "prompts/02-three-thread-comparison.txt",
+    "bytes": 999,
+    "sha256": "b1a32b1d47d35a723c45969715c0744e5d07c104f08dbaa96491743e6c9ef076"
+  },
+  {
+    "path": "prompts/03-follow-through-contract.txt",
+    "bytes": 706,
+    "sha256": "5739a5a509ca8954c2d60585f24deb85dac50210e019f10ec465a706a1d415b8"
+  },
+  {
+    "path": "prompts/04-causal-ui-check.txt",
+    "bytes": 706,
+    "sha256": "8d2e734d7c29a3539a06148263e670f90e0ef19c03fc9a5321d12dbfbc04ea58"
+  },
+  {
+    "path": "prompts/05-research-counterexample.txt",
+    "bytes": 686,
+    "sha256": "c17f42048a9ebdae983285681f62524888be9df70c0961b0fe6581146bd4c77b"
+  },
+  {
+    "path": "prompts/06-moat-stress-test.txt",
+    "bytes": 613,
+    "sha256": "17c0721c575cb59819ca1844140ef0d87ef4b93726bac456d75672d55bc8e816"
+  },
+  {
+    "path": "prompts/07-bound-delegation.txt",
+    "bytes": 641,
+    "sha256": "f49116e4073d1f6708a91604d7f87fe1dcb5d11f0ac574296f8e58b5de623a56"
+  },
+  {
+    "path": "prompts/08-escalate-one-failure.txt",
+    "bytes": 537,
+    "sha256": "fccdd4eef42b5d3efd6e0022ce1f969d6645a8c37ebc4de6dcc50d71c773dfa4"
+  },
+  {
+    "path": "prompts/09-review-usage-correctly.txt",
+    "bytes": 629,
+    "sha256": "41786a128a175aec7670240f82aaa3f9bf3fc6e599c1ef4744ab4cab23997fae"
+  },
+  {
+    "path": "prompts/10-evidence-first-grok-sidequest.txt",
+    "bytes": 632,
+    "sha256": "eceb58d94516ffa7ed9e5c9a5420348450288ee09451158e91d2444453ee0e8e"
+  }
+]

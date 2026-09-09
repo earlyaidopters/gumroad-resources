@@ -1,6 +1,36 @@
 {
-  "count": 164,
+  "count": 166,
   "products": [
+    {
+      "slug": "five-hourly-jobs-to-move-to-ai-first",
+      "permalink": "rhkmg",
+      "numeric_id": 14226215,
+      "name": "Five Hourly Jobs to Move to AI First",
+      "status": "published",
+      "archived": false,
+      "category": "Other",
+      "content_hash": "301d51824077d9fc",
+      "files": [
+        "five-hourly-jobs.pdf",
+        "hours-prompts.txt"
+      ],
+      "has_content": true
+    },
+    {
+      "slug": "gpt-6-astra-effort-super-guide",
+      "permalink": "flctlk",
+      "numeric_id": 14223217,
+      "name": "GPT-6 Astra Effort Super Guide",
+      "status": "published",
+      "archived": false,
+      "category": "Other",
+      "content_hash": "7399bd93a55be05d",
+      "files": [
+        "Astra-Effort-Super-Guide.pdf",
+        "Astra-Super-Guide.zip"
+      ],
+      "has_content": true
+    },
     {
       "slug": "codex-or-claude-code-the-task-decision-tree",
       "permalink": "btjucj",

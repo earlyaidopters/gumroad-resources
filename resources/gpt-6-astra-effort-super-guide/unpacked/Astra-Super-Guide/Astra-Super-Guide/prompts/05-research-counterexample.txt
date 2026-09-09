@@ -1,0 +1,4 @@
+Evaluate this product idea for this customer: [IDEA + AVATAR].
+Find real customer conversations and credible alternatives using the research tools available to you. Look specifically for someone solving this already, refusing to pay, abandoning a similar tool, or saying the proposed problem is not the real problem.
+
+For each useful source give its original URL, what the person actually experienced, whether they fit the target customer and which product decision it changes. Distinguish direct evidence from inference. Track access failures and do not invent sources to hit a quota. End with the strongest case against building this and the cheapest test that could change our mind.

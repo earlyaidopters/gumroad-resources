@@ -1,0 +1,5 @@
+Inspect the usage records I provide for these runs. Define each field before comparing it. Report input, cached input, output, reasoning output and child-agent totals separately where available.
+
+Avoid double counting: cached input may be a subset of input, and reasoning output may be a subset of output. Confirm the schema. Do not infer a bill from cumulative processed tokens or account-wide allowance movement. If cost can be calculated, name the product surface, dated rate source, cache rate and speed/context tier used; otherwise mark cost unavailable.
+
+Reconcile totals and tell me which comparisons the records support.

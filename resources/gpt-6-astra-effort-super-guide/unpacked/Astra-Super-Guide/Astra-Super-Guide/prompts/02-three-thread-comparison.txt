@@ -1,0 +1,8 @@
+Create three separate tasks for a comparison: "LOW | My test", "MED | My test" and "HIGH | My test". Use GPT-6 Astra at low, medium and high reasoning effort respectively, if supported here. Keep the speed setting identical. Verify and report the effective model and effort; labels alone are not enough.
+
+Give all three the identical assignment below in fresh isolated folders. Do not include other runs or their outputs. Keep discretionary delegation disabled. Give each up to [TIME LIMIT] for a first attempt. Preserve its output before any follow-up. Record completed work, missing requirements, blockers, elapsed time and attributable usage when available.
+
+Run in parallel only if their tools and workspaces are isolated; serialize any shared computer-control workflow. Monitor progress without coaching. If this environment cannot create tasks or set their effort, tell me precisely which step I must do manually. Never silently substitute settings.
+
+ASSIGNMENT:
+[PASTE ONE FROZEN ASSIGNMENT]

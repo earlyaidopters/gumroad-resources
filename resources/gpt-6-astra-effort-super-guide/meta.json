@@ -1,0 +1,26 @@
+{
+  "name": "GPT-6 Astra Effort Super Guide",
+  "external_id": "rGdwUU3nBzsUHbAYr8LFJg==",
+  "permalink": "flctlk",
+  "unique_permalink": "flctlk",
+  "custom_permalink": "astra-effort-super-guide",
+  "url": "https://markkashef.gumroad.com/l/astra-effort-super-guide",
+  "status": "published",
+  "archived": false,
+  "kind": "products",
+  "price_formatted": "CAD$0+",
+  "description_md": "# What You Get\nI tested every Astra effort level on the same research-and-build project. This is the companion kit: the results, the prompts, the plans, and practical ways to test the right setting for your own work.\n\n- \nThe Super Guide: A readable PDF with the results, effort-level guidance, and sourced tips for context, prompting, verification, Fast mode, and delegation.\n\n- \nThe Actual Experiment: Seven run profiles with elapsed time, processed-token totals, source coverage, workflow checks, and the gaps that mattered.\n\n- \nCopy-Ready Prompts: Ten prompts for comparing efforts, defining done, finding missing work, checking evidence, and reviewing a prototype.\n\n- \nEditable Plans: Seven Excalidraw canvases from the project outputs, plus the exact shared assignment and a blank run log.\n\n- \nAI-Ready Files: Markdown, CSV, and JSON you can drop into Codex or Claude and ask it to break down for your own projects.\n\n- \nEight Extra Nuggets: Practical additions grounded in OpenAI documentation, with source links so you can check the details.\n\nStart with the PDF. If you want to work through the material with an agent, unzip the kit and open START-HERE.md. The kit includes the filming-site reference link and the essential comparison material offline.\nThese are observed runs and practical recommendations. Processed tokens include cached input and are not a credit or dollar bill. Medium is my starting point for this kind of work, not a universal winner for every task.",
+  "files": [
+    {
+      "file": "Astra-Effort-Super-Guide.pdf",
+      "status": "downloaded",
+      "bytes": 2182542
+    },
+    {
+      "file": "Astra-Super-Guide.zip",
+      "status": "downloaded",
+      "bytes": 4895609
+    }
+  ],
+  "has_rich_content": true
+}

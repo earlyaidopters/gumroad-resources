@@ -1,0 +1,10 @@
+Review the finished prototype without editing its source first. Use a fresh or reset sample state and record the starting state.
+
+1. Change a meaningful input or select a different option.
+2. Predict which total, record or downstream summary should change.
+3. Complete the main workflow.
+4. Compare the final output with the choice actually made.
+5. Refresh and verify persistence.
+6. Check one invalid input and one unrelated record.
+
+Capture receipts for each result. Separate tested behavior, source-code inspection and unverified behavior. Preserve the first-attempt artifact before proposing fixes. A working button or attractive screenshot is not sufficient evidence that the decision flows through.

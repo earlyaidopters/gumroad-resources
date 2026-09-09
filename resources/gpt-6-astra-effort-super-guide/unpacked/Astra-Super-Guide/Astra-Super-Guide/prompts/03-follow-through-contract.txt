@@ -1,0 +1,7 @@
+Complete this task: [TASK].
+Done means: [OBSERVABLE DELIVERABLES AND ACCEPTANCE CHECKS].
+You may decide [REVERSIBLE CHOICES] without asking me. Use reasonable assumptions where they do not change the objective; state any material assumption briefly.
+
+Continue through implementation and verification within this scope. A plan, acknowledgement or offer to continue is not the finished deliverable. If you hit a real blocker, identify it, preserve the work and finish any independent parts that remain possible. Ask before [SPECIFIC ACTIONS REQUIRING MY DECISION].
+
+At the end, show what you changed, the checks you actually ran and any requirement still unmet. Do not claim a test passed unless you ran it.

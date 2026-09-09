@@ -1,0 +1,1 @@
+run_id,date,task,model,effort,speed,delegation,start_state,attempt,elapsed_seconds,input_tokens,cached_input_tokens,output_tokens,child_tokens,acceptance_passed,acceptance_failed,blockers,evidence_path,cost_if_verified

@@ -1,0 +1,23 @@
+{
+  "verified": "2026-09-08",
+  "run_date": "2026-09-07",
+  "task": "No-tools arithmetic recording demonstration",
+  "prompt": "Complete this simple task without tools: A notebook costs $4 and a pen costs $2. Maya buys 3 notebooks and 5 pens, then pays with $30. How much change should she receive? Reply with exactly two lines: the calculation, then the answer.",
+  "identical_answer": "$30 \u2212 (3 \u00d7 $4 + 5 \u00d7 $2) = $8\nMaya should receive $8 in change.",
+  "runs": [
+    {
+      "effort": "low",
+      "duration_ms": 4641
+    },
+    {
+      "effort": "medium",
+      "duration_ms": 5461
+    },
+    {
+      "effort": "high",
+      "duration_ms": 5130
+    }
+  ],
+  "tokens": null,
+  "boundary": "One concurrent demonstration per setting, no repeated trials. Tiny timing differences are not a reliable speed ranking. Separate from seven research-and-build runs."
+}

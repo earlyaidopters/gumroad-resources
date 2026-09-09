@@ -1,0 +1,5 @@
+Help investigate this specific claim: [CLAIM]. Search X for direct experiences that could support or contradict it. Prioritize concrete task descriptions, screenshots with context, links to original posts and follow-up corrections.
+
+For each finding report the original post URL, date, task, setting if stated, observed outcome and missing context. Separate the post author's opinion from verified product behavior. Do not turn likes, reposts or confident phrasing into proof.
+
+Then give three narrower follow-up questions that would help explain why users got different results. If you cannot access the original evidence, say so.

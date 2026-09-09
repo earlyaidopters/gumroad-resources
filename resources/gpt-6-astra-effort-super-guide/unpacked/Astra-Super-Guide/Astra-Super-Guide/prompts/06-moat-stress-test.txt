@@ -1,0 +1,5 @@
+Assume a capable competitor and my customer can reproduce the software interface and basic logic in a weekend. Stress-test this product: [PRODUCT].
+
+Separate what is easily copied from any advantage that has to be earned. Explain the day-one customer value before a moat exists. Identify how we could earn the first advantage from zero, why an incumbent could still beat us and what a customer might use instead.
+
+Design a small first-customer experiment with an explicit pass/fail threshold. Label proposed defensibility as a hypothesis. Do not call a generic database, AI wrapper or feature list a proven moat.

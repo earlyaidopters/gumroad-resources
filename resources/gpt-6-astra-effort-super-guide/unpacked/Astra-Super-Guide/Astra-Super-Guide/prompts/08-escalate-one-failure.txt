@@ -1,0 +1,5 @@
+The current result misses this acceptance check: [SPECIFIC FAILURE]. Here is the smallest reproduction: [STEPS / INPUT / EXPECTED / ACTUAL].
+
+Investigate this failure, make a targeted repair and rerun the failing check plus the relevant regression checks. Keep working parts intact. Do not broaden the project or rebuild the design without evidence that it is necessary. Explain the cause and show the passing result.
+
+If we are comparing effort levels, record this as a separate follow-up stage, not part of the original first attempt.

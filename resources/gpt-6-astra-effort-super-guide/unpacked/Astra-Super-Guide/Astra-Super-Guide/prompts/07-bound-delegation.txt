@@ -1,0 +1,5 @@
+The overall deliverable is [DELIVERABLE]. Identify at most [NUMBER] independent subtasks that would benefit from parallel research or checking. Delegate only where it can run alongside useful parent work.
+
+For each delegate specify one bounded question, inputs, required evidence, a concise output format and a stopping condition. Record each effective model and effort. Do not have every agent rediscover the entire project. Reuse relevant findings, reconcile conflicts and include child usage in the final total when available.
+
+The parent owns integration and verifies the completed workflow. More agents are not an acceptance criterion.

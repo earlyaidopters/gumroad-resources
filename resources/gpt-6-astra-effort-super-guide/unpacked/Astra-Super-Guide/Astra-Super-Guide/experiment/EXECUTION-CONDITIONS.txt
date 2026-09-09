@@ -1,0 +1,5 @@
+Run conditions: Work only in this task’s fresh working folder. Do not inspect other tasks or their outputs. Keep the assigned model and reasoning effort unchanged. Use your own newly created browser tabs; never operate tabs belonging to another task. Do not use shared native-app control while other tasks may be running; record any resulting access limitation. Serve the finished website locally, with no hosted deployment. Record your start time. Use up to 45 minutes for this first attempt, then preserve what exists and report completed work, unfinished requirements, and blockers honestly. Do not wait for a producer follow-up within this attempt. These are execution conditions, not part of the product.
+
+Single-agent arm: Do this task as a single agent; do not delegate or change models.
+
+Ultra arm instead: You may delegate independent work to subagents. Record which subagents and models you used.

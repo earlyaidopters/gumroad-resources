@@ -1,0 +1,26 @@
+{
+  "name": "Five Hourly Jobs to Move to AI First",
+  "external_id": "oods2vDJxXV32Wa-GHzZSQ==",
+  "permalink": "rhkmg",
+  "unique_permalink": "rhkmg",
+  "custom_permalink": "sf-ig-hourly-first-pass",
+  "url": "https://markkashef.gumroad.com/l/sf-ig-hourly-first-pass",
+  "status": "published",
+  "archived": false,
+  "kind": "products",
+  "price_formatted": "CAD$0+",
+  "description_md": "Turn five document-heavy jobs into a first pass you can check.\n\n- Five copy-ready prompts for contracts, vendor terms, policies, evidence and invoices.\n\n- The inputs to attach and human checks for each job.\n\n- A simple trial that counts review time as well as AI cost.\n\n3-page PDF + plain-text prompts. Free download. Legal and compliance decisions stay with a qualified reviewer.",
+  "files": [
+    {
+      "file": "five-hourly-jobs.pdf",
+      "status": "downloaded",
+      "bytes": 103352
+    },
+    {
+      "file": "hours-prompts.txt",
+      "status": "downloaded",
+      "bytes": 4883
+    }
+  ],
+  "has_rich_content": true
+}
