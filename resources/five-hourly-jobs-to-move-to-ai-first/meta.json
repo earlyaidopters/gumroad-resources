@@ -13,12 +13,12 @@
   "files": [
     {
       "file": "five-hourly-jobs.pdf",
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 103352
     },
     {
       "file": "hours-prompts.txt",
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 4883
     }
   ],
