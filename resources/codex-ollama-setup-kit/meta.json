@@ -13,12 +13,12 @@
   "files": [
     {
       "file": "CODEX-OLLAMA-SETUP-GUIDE.pdf",
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 27731
     },
     {
       "file": "CODEX-OLLAMA-SETUP-KIT.zip",
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 26171
     }
   ],

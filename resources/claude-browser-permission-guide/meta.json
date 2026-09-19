@@ -13,12 +13,12 @@
   "files": [
     {
       "file": "claude-browser-permission-guide.pdf",
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 6419063
     },
     {
       "file": "browser-first-task.txt",
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 699
     }
   ],

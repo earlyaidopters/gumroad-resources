@@ -13,12 +13,12 @@
   "files": [
     {
       "file": "voice-ai-qualification-checklist.pdf",
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 5090
     },
     {
       "file": "voice-ai-qualification-checklist.txt",
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 3460
     }
   ],

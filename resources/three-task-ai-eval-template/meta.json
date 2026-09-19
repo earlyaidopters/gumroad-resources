@@ -13,12 +13,12 @@
   "files": [
     {
       "file": "three-task-eval-template.pdf",
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 4736
     },
     {
       "file": "three-task-eval-template.txt",
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 2454
     }
   ],
