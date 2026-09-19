@@ -42,12 +42,12 @@ jobs:
         run: bash tools/sync.sh
 
       - name: Flag expired cookie
-        if: steps.sync.outcome == 'failure' && hashFiles(format('{0}/auth_failed', runner.temp)) != ''
+        if: steps.sync.outcome == 'failure' && hashFiles('.sync-auth-failed') != ''
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
           title="Gumroad session cookie expired — sync paused"
-          existing=$(gh issue list --state open --search "$title in:title" --json number --jq 'length')
+          existing=$(gh issue list --state open --search "\"$title\" in:title" --json number --jq 'length')
           if [ "$existing" = "0" ]; then
             gh issue create --title "$title" --body \
               "The scheduled Gumroad sync could not authenticate. The session cookie in the \`GUMROAD_COOKIE\` secret has expired. Refresh it (see \`tools/README.md\`) and update the secret. New resources will not appear until this is fixed."
@@ -55,7 +55,7 @@ jobs:
           exit 1
 
       - name: Fail if sync errored for another reason
-        if: steps.sync.outcome == 'failure' && hashFiles(format('{0}/auth_failed', runner.temp)) == ''
+        if: steps.sync.outcome == 'failure' && hashFiles('.sync-auth-failed') == ''
         run: |
           echo "sync.sh failed for a non-auth reason; see the Sync step log."
           exit 1
@@ -81,7 +81,7 @@ jobs:
         run: |
           missing=$(python3 tools/check_pairings.py --repo .)
           title="Video pairing missing for the newest drop(s)"
-          existing=$(gh issue list --state open --search "$title in:title" --json number --jq '.[0].number // empty')
+          existing=$(gh issue list --state open --search "\"$title\" in:title" --json number --jq '.[0].number // empty')
           if [ -z "$missing" ]; then
             if [ -n "$existing" ]; then
               gh issue close "$existing" --comment "All recent resources are paired with a video again."

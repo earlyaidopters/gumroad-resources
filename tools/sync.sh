@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 # Cloud sync: refresh the repo from Gumroad using the seller session cookie.
 # Exit 0 = synced (commit step decides if anything changed).
-# Touches $RUNNER_TEMP/auth_failed and exits 1 if the cookie is dead.
+# Writes .sync-auth-failed at the repo root and exits 1 if the cookie is dead,
+# so the workflow can detect it with hashFiles (which cannot see runner.temp).
 set -euo pipefail
 cd "$(dirname "$0")/.."
 
@@ -13,7 +14,7 @@ chmod 600 "$HOME/.config/gumroad/cookies"
 echo "==> checking Gumroad session"
 if ! python3 tools/gumroad-pull check | tee "$TMP/check.json" | grep -q '"ok": true'; then
   echo "Gumroad session cookie is invalid or expired."
-  touch "$TMP/auth_failed"
+  touch .sync-auth-failed
   exit 1
 fi
 
