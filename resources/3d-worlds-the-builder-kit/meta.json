@@ -1,0 +1,26 @@
+{
+  "name": "3D Worlds - The Builder Kit 🧱",
+  "external_id": "n28o_OGRDhM1D1Q8flvz3g==",
+  "permalink": "uvvrx",
+  "unique_permalink": "uvvrx",
+  "custom_permalink": "3d-worlds-builder-kit",
+  "url": "https://markkashef.gumroad.com/l/3d-worlds-builder-kit",
+  "status": "published",
+  "archived": false,
+  "kind": "products",
+  "price_formatted": "CAD$0+",
+  "description_md": "# What You Get\n\n- \nPlay the example: Open Inside Codex in your browser and explore the learning world from the video.\n\n- \nThe original plan: The retained 15-section production plan, with a link to the annotated walkthrough and clear provenance notes.\n\n- \nThe build requests: 20 retained development requests showing how the idea, quality expectations, tour and refinements evolved. Login and administrative material is excluded.\n\n- \nEight reusable prompts: Scope your idea, write the plan, finish one lesson, expand the world, test it, host it, add a tour and maintain it.\n\n- \nThe full guide: A 10-page PDF plus matching Markdown you can feed to your AI to prime it for the work.\n\n- \nEditable templates: A world brief, mission worksheet, asset register and release record you can adapt to your own subject.\n\n- \nTesting tools: A release checklist and reproducible defect report template for checking function, teaching and presentation.\n\n- \nStart here: Try the live game, fill in the world brief, then attach the guide and original plan to your coding agent. Use the prompt pack one stage at a time.\n\n- \nFree access: Enter $0 to download the complete kit. An optional contribution is welcome. No community membership is required.\n\n- \nScope: This kit provides live game access and the planning method. It does not include the private full game source repository or third-party subscriptions. Your own tools, generation and hosting may have costs.",
+  "files": [
+    {
+      "file": "3D-Worlds-Builder-Kit.zip",
+      "status": "downloaded",
+      "bytes": 3677165
+    },
+    {
+      "file": "Build-a-Learning-World.pdf",
+      "status": "downloaded",
+      "bytes": 4483810
+    }
+  ],
+  "has_rich_content": true
+}

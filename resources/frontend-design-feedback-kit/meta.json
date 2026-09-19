@@ -1,0 +1,26 @@
+{
+  "name": "Frontend Design & Feedback Kit",
+  "external_id": "XlRhAYmCngTQ2irJNJVFUQ==",
+  "permalink": "euoylx",
+  "unique_permalink": "euoylx",
+  "custom_permalink": "sf-ig-frontend-design-loop",
+  "url": "https://markkashef.gumroad.com/l/sf-ig-frontend-design-loop",
+  "status": "published",
+  "archived": false,
+  "kind": "products",
+  "price_formatted": "CAD$0+",
+  "description_md": "Give your coding agent a clear design reference and a repeatable way to check its work.\n\n- Define spacing, colours, components and screen states\n\n- Use a copyable design brief and feedback log\n\n- Pair Figma references with browser checks and Playwright\n\nTwo-page PDF plus editable Markdown templates in a ZIP. Free download. Includes a worked example and prompts for your existing coding agent.",
+  "files": [
+    {
+      "file": "frontend-design-loop.pdf",
+      "status": "downloaded",
+      "bytes": 5468
+    },
+    {
+      "file": "frontend-templates.zip",
+      "status": "downloaded",
+      "bytes": 2396
+    }
+  ],
+  "has_rich_content": true
+}

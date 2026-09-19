@@ -1,0 +1,26 @@
+{
+  "name": "Voice AI Qualification Checklist",
+  "external_id": "4ExKKbLRoFq6_4I9hr4gBA==",
+  "permalink": "jwhjnuc",
+  "unique_permalink": "jwhjnuc",
+  "custom_permalink": "sf-ig-voice-qualification",
+  "url": "https://markkashef.gumroad.com/l/sf-ig-voice-qualification",
+  "status": "published",
+  "archived": false,
+  "kind": "products",
+  "price_formatted": "CAD$0+",
+  "description_md": "Decide which calls are ready for a voice AI pilot.\n\n- Check the job, data access, allowed actions and human handoff - Run seven test calls before customers depend on it - Adapt a copyable setup brief and opening-hours example\n\nTwo-page PDF plus a plain-text worksheet. Free download. Keep required gates open until you have evidence they work.",
+  "files": [
+    {
+      "file": "voice-ai-qualification-checklist.pdf",
+      "status": "downloaded",
+      "bytes": 5090
+    },
+    {
+      "file": "voice-ai-qualification-checklist.txt",
+      "status": "downloaded",
+      "bytes": 3460
+    }
+  ],
+  "has_rich_content": true
+}

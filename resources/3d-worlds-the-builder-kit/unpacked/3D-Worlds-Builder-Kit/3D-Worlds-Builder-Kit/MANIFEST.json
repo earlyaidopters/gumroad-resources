@@ -1,0 +1,26 @@
+{
+  "version": "1.0",
+  "date": "2026-09-13",
+  "sha256": {
+    "01-original-material/GAME-PRODUCTION-PLAN.md": "7990c6b4db5064463599be0301cad19dc648e30c6af67207ca3d878018e8cdfe",
+    "01-original-material/ORIGINAL-BUILD-REQUESTS.md": "8750da39f917fbfbabaec281a2ac0b92ae6d121f5573f939788dbc31856acbef",
+    "01-original-material/PLAN-PROVENANCE.md": "3a98a002b59faed1f70ae558d1e48bb75d086c08e58a3392521613b3bc21266f",
+    "02-prompts/01-prime-and-scope.md": "4c9faefdad2a6dc6d54e95bd1205d2cd4a4099d63c4911de2860ef384fb15e9e",
+    "02-prompts/02-production-plan.md": "74d2159980acd02e6c94094ebcd70d2401b2fe6fe0553b7fee0d909bbc7a38f5",
+    "02-prompts/03-one-room-build.md": "6ba95d033a2593c39aa48dc87dc1c8b533d3140bb8b7da2e577396eaac17328b",
+    "02-prompts/04-expand-world.md": "51248cc2cf6a0138a24c1ee41105e2ad28445f692c31771903c50956e3b0c62c",
+    "02-prompts/05-test-and-assess.md": "9a95b6c5ec1b202f1a8b72fa73fb6d148068339cc46dbecfbe440bd541834d40",
+    "02-prompts/06-publish-and-verify.md": "1ba88dd3840503d9b44fb89fbf5dd889d3a4a618c0c41c19a9c110928d00e35d",
+    "02-prompts/07-world-tour.md": "3de8ec1b5dad592676b8834957fdce99f284dcbe8935b492c7bcd1b8bab529c0",
+    "02-prompts/08-improve-and-handoff.md": "806dff67d1d95cbc0867df4a2f508d177c4d07b8960271423c248530f70bc8dd",
+    "03-templates/ASSET-REGISTER.csv": "ef39a37a8cf52ec80012890fc94c39c206fa806e7b90aa176a922dcb88b9c837",
+    "03-templates/MISSION.md": "929455cbe3d381eaff62f074d1fa9ab7b8a1c580300e408ffced4c5a97668f6e",
+    "03-templates/RELEASE-RECORD.md": "801fb34cb2d7d9f0460273b9327968f80314b76e751d852d0715c1afdbd888d5",
+    "03-templates/WORLD-BRIEF.md": "37fa9a3fcdd9e990501df3b4ec5bcfbbbc6aca109190b2dd84334c6420cdb410",
+    "04-checklists/DEFECT-REPORT.md": "7cbbad375ad5e443f778b45f78fb7fdf1b15d01a9bf7bf50260eccb9d95aa57d",
+    "04-checklists/RELEASE-CHECKLIST.md": "83f75b86148709be7e1eb58d7784155f8c289001a0fe66720242d9ffc8f19d7d",
+    "05-guide/BUILD-A-LEARNING-WORLD.md": "a7bb20743a58b06b968ff6d585345032965bd9330af29dcfaa43aadb40598428",
+    "05-guide/BUILD-A-LEARNING-WORLD.pdf": "f8cc72225512196e5e65288be4d6f195cd9b5962facf13eab9dcd117407e9053",
+    "START-HERE.md": "cdb9fc2a0dafcdacab650160f07a074b9d66b4752ec4ae46b0ad404e260066f6"
+  }
+}

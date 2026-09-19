@@ -1,0 +1,26 @@
+{
+  "name": "Claude Browser Permission Guide",
+  "external_id": "MsaUu0xhDlhBJSDUk-uyLA==",
+  "permalink": "sbcud",
+  "unique_permalink": "sbcud",
+  "custom_permalink": "sf-ig-claude-browser-permissions",
+  "url": "https://markkashef.gumroad.com/l/sf-ig-claude-browser-permissions",
+  "status": "published",
+  "archived": false,
+  "kind": "products",
+  "price_formatted": "CAD$0+",
+  "description_md": "Choose what Claude can access before your first browser task.\n\n- Six permission decisions, in order\n\n- A copyable prompt for a public-page trial\n\n- Login cleanup steps and official documentation\n\nA two-page illustrated PDF plus a plain-text prompt. Free download. Based on current Anthropic documentation; the suggested trial still needs your review.",
+  "files": [
+    {
+      "file": "claude-browser-permission-guide.pdf",
+      "status": "downloaded",
+      "bytes": 6419063
+    },
+    {
+      "file": "browser-first-task.txt",
+      "status": "downloaded",
+      "bytes": 699
+    }
+  ],
+  "has_rich_content": true
+}

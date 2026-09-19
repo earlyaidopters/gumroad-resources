@@ -1,0 +1,26 @@
+{
+  "name": "Codex + Ollama Setup Kit",
+  "external_id": "WNyiLwcoIIil3oy86cuCRw==",
+  "permalink": "wibpwf",
+  "unique_permalink": "wibpwf",
+  "custom_permalink": "codex-ollama-setup-kit",
+  "url": "https://markkashef.gumroad.com/l/codex-ollama-setup-kit",
+  "status": "published",
+  "archived": false,
+  "kind": "products",
+  "price_formatted": "CAD$0+",
+  "description_md": "Use more models. Keep your workspace.\nThe companion resource for my Codex + Ollama video. Get the setup prompt, a practical guide and the workflow website in one place, so you can choose a suitable model, connect it and check that it actually completes a small task.\n\n- \nSetup guide: An eight-page PDF covering the desktop integration, local versus cloud routes, a real file-write test, troubleshooting and cost per completed task.\n\n- \nCopy-ready prompts: The exact prompt from the website, plus a guided version that checks your hardware, preserves existing settings and asks before downloads or paid changes.\n\n- \nVerification test: A small, disposable file task to check tool execution and readback. A model appearing in a dropdown is only the first step.\n\n- \nTask handoff template: Define the outcome, allowed changes, inputs, checks and budget before switching models.\n\n- \nCompanion website: Revisit the workflow diagrams and economics shown in the video through a direct link included in the kit and your download page.\n\nStart with the PDF, or download the complete ZIP for all the prompts and templates. The kit explains the current desktop setup labels and links to the official documentation. Reviewed September 16, 2026.\nYou will need a compatible desktop app, Ollama and a suitable model. Local models need sufficient memory and disk space; cloud models may have separate usage costs. Model quality and tool support vary, and this kit does not promise a successful fresh install on every computer.",
+  "files": [
+    {
+      "file": "CODEX-OLLAMA-SETUP-GUIDE.pdf",
+      "status": "downloaded",
+      "bytes": 27731
+    },
+    {
+      "file": "CODEX-OLLAMA-SETUP-KIT.zip",
+      "status": "downloaded",
+      "bytes": 26171
+    }
+  ],
+  "has_rich_content": true
+}

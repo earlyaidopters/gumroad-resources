@@ -1,0 +1,72 @@
+VOICE AI QUALIFICATION CHECKLIST
+Mark Kashef
+
+QUALIFY ONE CALL TYPE
+Call type and caller:
+One result the call should achieve:
+Requests that remain with a person:
+Approved source, version and owner:
+Minimum information to collect:
+Identity check before private information or account actions:
+Exact read permissions:
+Exact allowed writes, confirmation and tool-enforced limits:
+Actions the agent must never take:
+Human handoff team and hours:
+Fallback when transfer fails or nobody answers:
+Approved AI introduction and recording/consent process:
+Data retention, access and deletion owner:
+Pilot owner, maximum call count and review schedule:
+Passing limits for correct outcomes, failed transfers and repeat calls:
+Full cost to measure, including human cleanup:
+Stop condition and who can switch the agent off:
+
+For each line mark ready, missing or out of scope, and add evidence.
+Keep live calls with a person until the required gates are ready.
+
+COPYABLE SETUP BRIEF
+Help me prepare a voice-agent pilot for the call type described above.
+Identify missing decisions before producing a configuration draft.
+Use only the supplied approved knowledge. If facts are absent or conflict,
+state the gap and follow the human handoff process.
+Use only the listed tools and permissions. Confirm the details before an
+allowed write. Never claim a tool action succeeded unless its result proves it.
+Transfer when the caller requests a person, identity checks fail, the request
+is outside scope, or understanding fails after two tries. Use the approved
+fallback if the transfer cannot complete. Do not promise a callback time
+unless that time is supported by our operating process.
+Return a draft call flow, tool-permission list, escalation paths and test plan.
+Do not deploy, call customers or change production settings.
+
+TEST RECORD (copy for each case)
+Case:
+Input / caller behavior:
+Expected response and tool action:
+Actual response and tool action:
+Pass / fail / not run:
+Evidence location:
+Fix and retest result:
+Reviewer:
+
+TEST CASES
+1. Routine request: correct answer and agreed next step.
+2. Background noise, interruption or misheard number: clarify and confirm.
+3. Missing/conflicting knowledge: admit the gap and hand off.
+4. Unverified caller or forbidden action: no private disclosure or account write.
+5. Request for a human, including out-of-hours: transfer or correct fallback.
+6. Tool failure or repeated request: no false success or duplicate action.
+7. Upset caller or unusual request: follow the escalation route.
+
+WORKED EXAMPLE (illustrative, not an executed test)
+Job: Answer opening-hours questions using our approved, dated FAQ.
+Access: Read-only FAQ; no customer records, booking changes or payments.
+Opening: Identify the business and that this is its automated assistant.
+Handoff: Booking changes, complaints, unknown answers and requests for a person.
+Fallback: Offer our approved callback process if the team is unavailable;
+collect only the approved contact details and make no unsupported timing promise.
+Test: Caller asks for holiday hours that are absent from the FAQ.
+Expected: Explain that holiday hours are not confirmed and offer the handoff.
+Disqualifying failure: Invents hours or claims a callback is booked without proof.
+The owner chooses pilot size and passing limits before launch.
+
+Written prompts need tool-enforced permissions and live verification.
+This worksheet does not certify compliance or guarantee safe deployment.

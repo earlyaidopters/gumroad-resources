@@ -1,0 +1,21 @@
+{
+  "name": "Jev Starter Kit: Explainer + Live Playground",
+  "external_id": "opVMbX5tsa7Ktb7NEtikOQ==",
+  "permalink": "fzmxzm",
+  "unique_permalink": "fzmxzm",
+  "custom_permalink": "jev-starter-kit",
+  "url": "https://markkashef.gumroad.com/l/jev-starter-kit",
+  "status": "published",
+  "archived": false,
+  "kind": "products",
+  "price_formatted": "CAD$0+",
+  "description_md": "# What You Get\n\nEverything you need to revisit the Jev walkthrough and try a decision of your own.\n\n- \nInteractive explainer: Follow the visual walkthrough of what Jev does, how its questions work, and where it can fit into a workflow.\n\n- \nAsk Jev playground: Bring a question, add context, choose your possible answers, and inspect the result and probabilities.\n\n- \nCoding-assistant guide: Download a ready-to-use prompt, a hotel fine-print API example, and the essentials for building your own integration.\n\nThe live playground runs on a limited shared credit pool. Access to the sites is public; live requests depend on credits and service availability. Your own integration requires your own TypeSafe access.",
+  "files": [
+    {
+      "file": "JEV-STARTER-GUIDE.md",
+      "status": "downloaded",
+      "bytes": 5514
+    }
+  ],
+  "has_rich_content": true
+}

@@ -2,7 +2,7 @@
 
 Every free resource from the Early AI-dopters Gumroad, mirrored here and kept in sync. Each folder holds the actual files (zips unpacked so you can browse them on GitHub), the resource content page, and a README. Where a resource came from a YouTube video, the video is paired to it. Watch or star this repo to catch every new drop.
 
-**166 published resources**, grouped by topic and newest-first within each. Auto-synced from Gumroad every few hours.
+**174 published resources**, grouped by topic and newest-first within each. Auto-synced from Gumroad every few hours.
 
 ## 🆕 Latest 10 drops
 
@@ -10,16 +10,16 @@ The newest resources with their videos. Updates automatically on every sync.
 
 | | Resource | Watch | Get it |
 |---|---|---|---|
+| <a href="https://youtu.be/zZNm4zP_lEE"><img src="https://i.ytimg.com/vi/zZNm4zP_lEE/maxresdefault.jpg" width="200"></a> | [Jev Starter Kit: Explainer + Live Playground](resources/jev-starter-kit-explainer-live-playground/) | [▶ Watch](https://youtu.be/zZNm4zP_lEE) | [Gumroad](https://markkashef.gumroad.com/l/jev-starter-kit) |
+| <a href="https://youtu.be/575v0WYJQsE"><img src="https://i.ytimg.com/vi/575v0WYJQsE/maxresdefault.jpg" width="200"></a> | [Codex + Ollama Setup Kit](resources/codex-ollama-setup-kit/) | [▶ Watch](https://youtu.be/575v0WYJQsE) | [Gumroad](https://markkashef.gumroad.com/l/codex-ollama-setup-kit) |
+| <a href="https://markkashef.gumroad.com/l/sf-ig-frontend-design-loop"><img src="https://public-files.gumroad.com/v3ormgouaorqmqdyfdbc5khgkis4" width="200"></a> | [Frontend Design & Feedback Kit](resources/frontend-design-feedback-kit/) | - | [Gumroad](https://markkashef.gumroad.com/l/sf-ig-frontend-design-loop) |
+| <a href="https://markkashef.gumroad.com/l/sf-ig-voice-qualification"><img src="https://public-files.gumroad.com/5gvxgzzd9otxkkqu5gs3kiyhlc3b" width="200"></a> | [Voice AI Qualification Checklist](resources/voice-ai-qualification-checklist/) | - | [Gumroad](https://markkashef.gumroad.com/l/sf-ig-voice-qualification) |
+| <a href="https://markkashef.gumroad.com/l/sf-ig-three-task-eval"><img src="https://public-files.gumroad.com/3lpwgc5ab5xnp58l0hmuneadbysu" width="200"></a> | [Three-Task AI Eval Template](resources/three-task-ai-eval-template/) | - | [Gumroad](https://markkashef.gumroad.com/l/sf-ig-three-task-eval) |
+| <a href="https://youtu.be/27qpBfBhpDk"><img src="https://i.ytimg.com/vi/27qpBfBhpDk/maxresdefault.jpg" width="200"></a> | [3D Worlds - The Builder Kit 🧱](resources/3d-worlds-the-builder-kit/) | [▶ Watch](https://youtu.be/27qpBfBhpDk) | [Gumroad](https://markkashef.gumroad.com/l/3d-worlds-builder-kit) |
+|  | [Definition of Done Template](resources/definition-of-done-template/) | - | [Gumroad](https://markkashef.gumroad.com/l/sf-ig-definition-of-done) |
+|  | [Claude Browser Permission Guide](resources/claude-browser-permission-guide/) | - | [Gumroad](https://markkashef.gumroad.com/l/sf-ig-claude-browser-permissions) |
 | <a href="https://markkashef.gumroad.com/l/sf-ig-hourly-first-pass"><img src="https://public-files.gumroad.com/wdq1guaawjc4m7m51qu5gs3sk6s3" width="200"></a> | [Five Hourly Jobs to Move to AI First](resources/five-hourly-jobs-to-move-to-ai-first/) | - | [Gumroad](https://markkashef.gumroad.com/l/sf-ig-hourly-first-pass) |
 | <a href="https://youtu.be/OQipTxv9Qv0"><img src="https://i.ytimg.com/vi/OQipTxv9Qv0/maxresdefault.jpg" width="200"></a> | [GPT-6 Astra Effort Super Guide](resources/gpt-6-astra-effort-super-guide/) | [▶ Watch](https://youtu.be/OQipTxv9Qv0) | [Gumroad](https://markkashef.gumroad.com/l/astra-effort-super-guide) |
-| <a href="https://markkashef.gumroad.com/l/sf-ig-codex-claude-matrix"><img src="https://public-files.gumroad.com/ovse5df6fdq75p0a30rhtl1wz0py" width="200"></a> | [Codex or Claude Code? The Task Decision Tree](resources/codex-or-claude-code-the-task-decision-tree/) | - | [Gumroad](https://markkashef.gumroad.com/l/sf-ig-codex-claude-matrix) |
-| <a href="https://markkashef.gumroad.com/l/sf-ig-agent-boundaries"><img src="https://public-files.gumroad.com/tzdy8jjfipbh6rppwm5sween3yzi" width="200"></a> | [Five Boundaries Before an Agent Goes Live](resources/five-boundaries-before-an-agent-goes-live/) | - | [Gumroad](https://markkashef.gumroad.com/l/sf-ig-agent-boundaries) |
-| <a href="https://youtu.be/tU-fO6cADvQ"><img src="https://i.ytimg.com/vi/tU-fO6cADvQ/maxresdefault.jpg" width="200"></a> | [GPT-6 Astra Computer Use Field Guide + Google Flights CLI](resources/gpt-6-astra-computer-use-field-guide-google-flights-cli/) | [▶ Watch](https://youtu.be/tU-fO6cADvQ) | [Gumroad](https://markkashef.gumroad.com/l/astra-computer-use) |
-| <a href="https://youtu.be/cHVB2e-V80Y"><img src="https://i.ytimg.com/vi/cHVB2e-V80Y/maxresdefault.jpg" width="200"></a> | [Fable 5.1 System Prompt Field Guide](resources/fable-51-system-prompt-field-guide/) | [▶ Watch](https://youtu.be/cHVB2e-V80Y) | [Gumroad](https://markkashef.gumroad.com/l/fable-5-1-system-prompt-field-guide) |
-| <a href="https://youtu.be/Jq3WcqtakNQ"><img src="https://i.ytimg.com/vi/Jq3WcqtakNQ/maxresdefault.jpg" width="200"></a> | [GrokRouter Source Repo](resources/grokrouter-source-repo/) | [▶ Watch](https://youtu.be/Jq3WcqtakNQ) | [Gumroad](https://markkashef.gumroad.com/l/grokrouter-source-repo) |
-| <a href="https://youtu.be/mAWT1HCBgbQ"><img src="https://i.ytimg.com/vi/mAWT1HCBgbQ/maxresdefault.jpg" width="200"></a> | [The Grok Bot Agent Blueprint](resources/the-grok-bot-agent-blueprint/) | [▶ Watch](https://youtu.be/mAWT1HCBgbQ) | [Gumroad](https://markkashef.gumroad.com/l/grok-bot-agent-blueprint) |
-| <a href="https://youtu.be/aBdMey9nqcM"><img src="https://i.ytimg.com/vi/aBdMey9nqcM/maxresdefault.jpg" width="200"></a> | [The AI Assistant Decision Kit](resources/the-ai-assistant-decision-kit/) | [▶ Watch](https://youtu.be/aBdMey9nqcM) | [Gumroad](https://markkashef.gumroad.com/l/ai-assistant-decision-kit) |
-| <a href="https://youtu.be/JlXfoZvTwzk"><img src="https://i.ytimg.com/vi/JlXfoZvTwzk/maxresdefault.jpg" width="200"></a> | [The Codex SDK Internal Tools Kit](resources/the-codex-sdk-internal-tools-kit/) | [▶ Watch](https://youtu.be/JlXfoZvTwzk) | [Gumroad](https://markkashef.gumroad.com/l/codex-sdk-internal-tools-kit) |
 
 ## Categories
 
@@ -28,7 +28,7 @@ The newest resources with their videos. Updates automatically on every sync.
 - [🧠 Custom GPTs & AI Agents](#custom-gpts-ai-agents) (26)
 - [🗂️ Frameworks, Meta Techniques & Experiments](#frameworks-meta-techniques-experiments) (23)
 - [📊 Tools, Cheat Sheets & Evaluations](#tools-cheat-sheets-evaluations) (15)
-- [Other](#other) (36)
+- [Other](#other) (44)
 
 ## 🎯 Prompting & Engineering Skills
 
@@ -189,6 +189,14 @@ The newest resources with their videos. Updates automatically on every sync.
 
 | Resource | What it is | Video | Get it |
 |---|---|---|---|
+| [Jev Starter Kit: Explainer + Live Playground](resources/jev-starter-kit-explainer-live-playground/) | Everything you need to revisit the Jev walkthrough and try a decision of your own. | [▶ Watch](https://youtu.be/zZNm4zP_lEE) | [Gumroad](https://markkashef.gumroad.com/l/jev-starter-kit) |
+| [Codex + Ollama Setup Kit](resources/codex-ollama-setup-kit/) | Use more models. | [▶ Watch](https://youtu.be/575v0WYJQsE) | [Gumroad](https://markkashef.gumroad.com/l/codex-ollama-setup-kit) |
+| [Frontend Design & Feedback Kit](resources/frontend-design-feedback-kit/) | Give your coding agent a clear design reference and a repeatable way to check its work. | - | [Gumroad](https://markkashef.gumroad.com/l/sf-ig-frontend-design-loop) |
+| [Voice AI Qualification Checklist](resources/voice-ai-qualification-checklist/) | Decide which calls are ready for a voice AI pilot. | - | [Gumroad](https://markkashef.gumroad.com/l/sf-ig-voice-qualification) |
+| [Three-Task AI Eval Template](resources/three-task-ai-eval-template/) | Compare two AI models on three tasks from your actual work. | - | [Gumroad](https://markkashef.gumroad.com/l/sf-ig-three-task-eval) |
+| [3D Worlds - The Builder Kit 🧱](resources/3d-worlds-the-builder-kit/) | Play the example: Open Inside Codex in your browser and explore the learning world from the video. | [▶ Watch](https://youtu.be/27qpBfBhpDk) | [Gumroad](https://markkashef.gumroad.com/l/3d-worlds-builder-kit) |
+| [Definition of Done Template](resources/definition-of-done-template/) | Give your AI agent a clear finish line before it starts. | - | [Gumroad](https://markkashef.gumroad.com/l/sf-ig-definition-of-done) |
+| [Claude Browser Permission Guide](resources/claude-browser-permission-guide/) | Choose what Claude can access before your first browser task. | - | [Gumroad](https://markkashef.gumroad.com/l/sf-ig-claude-browser-permissions) |
 | [Five Hourly Jobs to Move to AI First](resources/five-hourly-jobs-to-move-to-ai-first/) | Turn five document heavy jobs into a first pass you can check. | - | [Gumroad](https://markkashef.gumroad.com/l/sf-ig-hourly-first-pass) |
 | [GPT-6 Astra Effort Super Guide](resources/gpt-6-astra-effort-super-guide/) | I tested every Astra effort level on the same research and build project. | [▶ Watch](https://youtu.be/OQipTxv9Qv0) | [Gumroad](https://markkashef.gumroad.com/l/astra-effort-super-guide) |
 | [Codex or Claude Code? The Task Decision Tree](resources/codex-or-claude-code-the-task-decision-tree/) | Choose your coding agent by the job in front of you. | - | [Gumroad](https://markkashef.gumroad.com/l/sf-ig-codex-claude-matrix) |

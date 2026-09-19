@@ -1,6 +1,125 @@
 {
-  "count": 166,
+  "count": 174,
   "products": [
+    {
+      "slug": "jev-starter-kit-explainer-live-playground",
+      "permalink": "fzmxzm",
+      "numeric_id": 14351804,
+      "name": "Jev Starter Kit: Explainer + Live Playground",
+      "status": "published",
+      "archived": false,
+      "category": "Other",
+      "content_hash": "ac38836c0ce8d715",
+      "files": [
+        "JEV-STARTER-GUIDE.md"
+      ],
+      "has_content": true
+    },
+    {
+      "slug": "codex-ollama-setup-kit",
+      "permalink": "wibpwf",
+      "numeric_id": 14332405,
+      "name": "Codex + Ollama Setup Kit",
+      "status": "published",
+      "archived": false,
+      "category": "Other",
+      "content_hash": "f92f616b1db4895c",
+      "files": [
+        "CODEX-OLLAMA-SETUP-GUIDE.pdf",
+        "CODEX-OLLAMA-SETUP-KIT.zip"
+      ],
+      "has_content": true
+    },
+    {
+      "slug": "frontend-design-feedback-kit",
+      "permalink": "euoylx",
+      "numeric_id": 14323892,
+      "name": "Frontend Design & Feedback Kit",
+      "status": "published",
+      "archived": false,
+      "category": "Other",
+      "content_hash": "7726dd86c07e7f7d",
+      "files": [
+        "frontend-design-loop.pdf",
+        "frontend-templates.zip"
+      ],
+      "has_content": true
+    },
+    {
+      "slug": "voice-ai-qualification-checklist",
+      "permalink": "jwhjnuc",
+      "numeric_id": 14316359,
+      "name": "Voice AI Qualification Checklist",
+      "status": "published",
+      "archived": false,
+      "category": "Other",
+      "content_hash": "52c19396b7a86403",
+      "files": [
+        "voice-ai-qualification-checklist.pdf",
+        "voice-ai-qualification-checklist.txt"
+      ],
+      "has_content": true
+    },
+    {
+      "slug": "three-task-ai-eval-template",
+      "permalink": "lfpfl",
+      "numeric_id": 14295294,
+      "name": "Three-Task AI Eval Template",
+      "status": "published",
+      "archived": false,
+      "category": "Other",
+      "content_hash": "a677a374ab8925c9",
+      "files": [
+        "three-task-eval-template.pdf",
+        "three-task-eval-template.txt"
+      ],
+      "has_content": true
+    },
+    {
+      "slug": "3d-worlds-the-builder-kit",
+      "permalink": "uvvrx",
+      "numeric_id": 14290417,
+      "name": "3D Worlds - The Builder Kit 🧱",
+      "status": "published",
+      "archived": false,
+      "category": "Other",
+      "content_hash": "2a8aa127251e67f9",
+      "files": [
+        "3D-Worlds-Builder-Kit.zip",
+        "Build-a-Learning-World.pdf"
+      ],
+      "has_content": true
+    },
+    {
+      "slug": "definition-of-done-template",
+      "permalink": "srwct",
+      "numeric_id": 14281709,
+      "name": "Definition of Done Template",
+      "status": "published",
+      "archived": false,
+      "category": "Other",
+      "content_hash": "d0010f095f8e3d5e",
+      "files": [
+        "definition-of-done-template.pdf",
+        "definition-of-done-template.txt"
+      ],
+      "has_content": true
+    },
+    {
+      "slug": "claude-browser-permission-guide",
+      "permalink": "sbcud",
+      "numeric_id": 14265586,
+      "name": "Claude Browser Permission Guide",
+      "status": "published",
+      "archived": false,
+      "category": "Other",
+      "content_hash": "8a42296682566ef0",
+      "files": [
+        "claude-browser-permission-guide.pdf",
+        "browser-first-task.txt"
+      ],
+      "has_content": true
+    },
     {
       "slug": "five-hourly-jobs-to-move-to-ai-first",
       "permalink": "rhkmg",

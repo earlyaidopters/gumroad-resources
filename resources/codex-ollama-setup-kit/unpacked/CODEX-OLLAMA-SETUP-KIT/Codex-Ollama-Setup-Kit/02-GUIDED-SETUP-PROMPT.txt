@@ -1,0 +1,10 @@
+Help me use an Ollama model inside Codex. I want to keep my existing projects, cloud-model access and working default available.
+
+1. Inspect my operating system, available memory/GPU memory, free disk space, installed Ollama and Codex/ChatGPT desktop versions, and downloaded models. Do not print credentials or unrelated private files.
+2. Read the current official Ollama desktop-integration documentation. Tell me which supported connection flow applies to my installed version. Distinguish the desktop app from Codex CLI.
+3. Recommend one compatible tool-capable model and one smaller fallback. Explain expected memory needs at the intended context length, download size, and whether each option runs on my hardware or on a provider's servers. Prefer a suitable installed model. Do not pick a model solely from its download size.
+4. Show me the proposed download and configuration changes, any change to the default model, and how to restore the previous setup. Wait for my choice before a large download, paid service, or configuration change.
+5. After I approve, use the supported integration. Back up configuration you need to change; preserve unrelated settings and existing model access. Do not invent configuration keys or rewrite the whole configuration blindly. Tell me if I must quit and reopen the desktop app.
+6. In a fresh task using the selected model, run the separate verification prompt from this kit. Check the actual file contents and report the exact model, local/cloud route, commands, test result and any errors. A visible dropdown entry or a conversational answer is not enough.
+7. Stop after two failed attempts at the same step. Explain what failed, the available evidence, and the smallest reversible next step. Do not claim success or switch silently to a cloud model.
+

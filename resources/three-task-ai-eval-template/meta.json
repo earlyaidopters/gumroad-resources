@@ -1,0 +1,26 @@
+{
+  "name": "Three-Task AI Eval Template",
+  "external_id": "9SXiGGFIEYkFmWyvEDkZhg==",
+  "permalink": "lfpfl",
+  "unique_permalink": "lfpfl",
+  "custom_permalink": "sf-ig-three-task-eval",
+  "url": "https://markkashef.gumroad.com/l/sf-ig-three-task-eval",
+  "status": "published",
+  "archived": false,
+  "kind": "products",
+  "price_formatted": "CAD$0+",
+  "description_md": "Compare two AI models on three tasks from your actual work.\n\n- Keep the brief, context and scoring rules consistent - Score accuracy, usefulness and cleanup time - Use a blank scorecard and a worked customer-reply example\n\nTwo-page PDF plus a copyable text template. Free download. Start with these tasks, then test more examples before switching.",
+  "files": [
+    {
+      "file": "three-task-eval-template.pdf",
+      "status": "downloaded",
+      "bytes": 4736
+    },
+    {
+      "file": "three-task-eval-template.txt",
+      "status": "downloaded",
+      "bytes": 2454
+    }
+  ],
+  "has_rich_content": true
+}

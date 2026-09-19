@@ -1,0 +1,26 @@
+{
+  "name": "Definition of Done Template",
+  "external_id": "r5MxIcDXFNTR5pOkrf2u-g==",
+  "permalink": "srwct",
+  "unique_permalink": "srwct",
+  "custom_permalink": "sf-ig-definition-of-done",
+  "url": "https://markkashef.gumroad.com/l/sf-ig-definition-of-done",
+  "status": "published",
+  "archived": false,
+  "kind": "products",
+  "price_formatted": "CAD$0+",
+  "description_md": "Give your AI agent a clear finish line before it starts.\n\n- Define the output, three passing checks and the evidence you need - Set scope, stop conditions and a review handoff - Adapt a worked contact-form example\n\nTwo-page PDF plus a copyable plain-text template. Free download. You review the evidence before accepting the work.",
+  "files": [
+    {
+      "file": "definition-of-done-template.pdf",
+      "status": "downloaded",
+      "bytes": 4994
+    },
+    {
+      "file": "definition-of-done-template.txt",
+      "status": "downloaded",
+      "bytes": 2363
+    }
+  ],
+  "has_rich_content": true
+}

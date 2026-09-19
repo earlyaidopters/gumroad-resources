@@ -1,0 +1,6 @@
+Use a disposable folder named ollama-verification in the current project. If it already exists, choose a new unused sibling folder. Do not edit other project files.
+
+Use an actual shell/tool call to calculate 137 * 249. Write the result to result.txt in the new folder. Use a separate tool call to read result.txt back. Report the full file path, observed contents and whether they equal 34113. Show the tool evidence, not just the answer.
+
+Report the exact selected model and whether it is local or cloud. For a local model, inspect `ollama ps` while it is running and report the model, processor split and context. If you cannot inspect that, say that the local route remains unverified. Do not silently use another model or retry indefinitely.
+

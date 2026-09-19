@@ -1,0 +1,60 @@
+THREE-TASK AI EVAL TEMPLATE
+Mark Kashef
+
+Choose three tasks from your own work: one routine task, one multi-step task,
+and one difficult case. Use approved or synthetic data. Fill out a task brief
+for each, then send that exact brief and files to both models in fresh chats.
+Use the same tools/settings where possible and record any differences.
+
+COPY THIS TASK BRIEF THREE TIMES
+Task number and name:
+Source material / attached files:
+What I need you to produce:
+Who will use the output:
+Required format and length:
+Constraints:
+If needed information is missing, identify it instead of inventing an answer.
+
+KEEP THIS ANSWER KEY FOR YOUR REVIEW
+Required check 1 and supporting evidence:
+Required check 2 and supporting evidence:
+Required check 3 and supporting evidence:
+Failure that disqualifies the output:
+
+RUN RECORD (copy for each task and model)
+Task number:
+Model and version shown in the app:
+Date, app, settings and tools available:
+Input file version:
+Saved original output location:
+Accuracy (0 material error / 1 minor error / 2 required facts and checks pass):
+Usefulness (0 unusable / 1 partly meets brief / 2 meets required output):
+Cleanup (0 rewrite / 1 meaningful edits / 2 at most tiny edits):
+Total out of 6:
+Disqualifying failure? Describe:
+Actual cleanup minutes:
+One specific strength or error with evidence:
+Any test not run:
+
+DECISION
+For task 1, keep or try:
+For task 2, keep or try:
+For task 3, keep or try:
+Extra examples needed before switching:
+Cost and setup effort to check:
+
+A disqualifying failure overrides the total. Three tasks are an initial fit
+check; repeat close results and add examples before an expensive switch.
+These are worksheet rules, not results from a model benchmark.
+
+SMALL WORKED EXAMPLE (synthetic task, no model results claimed)
+Source: Order 1042 shipped Monday. Tracking has no new scan since Tuesday.
+The policy says to investigate after five business days without a scan.
+Today is Thursday. No refund has been approved.
+Task: Draft a customer reply under 80 words using only these facts. Explain
+the next step without promising a delivery date or refund.
+Check 1: Correctly states the known shipping/tracking facts.
+Check 2: Uses the five-business-day investigation threshold.
+Check 3: Stays under 80 words and explains the next step clearly.
+Disqualifying failure: Invents a delivery date or says a refund was approved.
+Review the actual output against these checks before assigning a score.

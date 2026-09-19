@@ -1,0 +1,36 @@
+DEFINITION OF DONE TEMPLATE
+Mark Kashef
+
+Fill in the blank lines or let the agent ask for the missing details. Approve its proposed checks before it starts.
+
+Help me define this task before starting the work.
+
+Task:
+Desired output and where to save it:
+Who will use it:
+Inputs and reference files:
+
+Propose three checks I can verify. For each, state the input or action, expected result and evidence you will return. Ask me about any missing detail that changes the result. Wait for me to approve the completed definition before executing.
+
+Allowed files, systems and actions:
+Changes or actions that need my approval:
+Time or cost limit, with the tool setting that enforces it:
+
+Once approved, work within those limits. Stop if a requirement is unclear, required access is missing, or the same check fails twice. Explain the blocker and return partial work. Do not lower the passing criteria to make a check pass.
+
+At the end, return the output and a table with each check, pass/fail/not run, and its evidence. List unresolved issues. A check you could not run stays "not run". Leave final acceptance to me.
+
+WORKED EXAMPLE
+Illustrative specification; no execution or test result is claimed.
+
+TASK: Fix the contact form on the local preview of our landing page.
+OUTPUT: A reviewable change and screenshots. Keep the current copy and design.
+INPUTS: The existing page, its form and our approved test environment.
+
+CHECK 1: Submit with the email field empty. An email-required message appears and no request is sent. Evidence: screenshot and request log.
+CHECK 2: Submit an invalid email such as abc. An invalid-email message appears and no request is sent. Evidence: screenshot and request log.
+CHECK 3: Submit a valid test address with the test receiver returning success. Exactly one request reaches the test receiver and a confirmation appears. Evidence: request log and screenshot.
+
+SCOPE: Change only the form and its validation. Use synthetic data and the test receiver. Ask before adding a dependency. Production publishing needs my approval.
+STOP: Stop after two attempts at the same failed check, or if the test receiver is unavailable. Report the blocker. Set any time or cost cap in the tool before starting.
+HANDOFF: Return the change, the three check results and the evidence. Mark any check you could not run as not run. I review before publishing.
