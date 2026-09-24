@@ -1,0 +1,36 @@
+{
+  "name": "Your Own Jev: Prompt, Guide & Local AI Starter Kit",
+  "external_id": "RzUaVWRPW0azp-Kqwv_k9g==",
+  "permalink": "awfis",
+  "unique_permalink": "awfis",
+  "custom_permalink": "your-own-jev",
+  "url": "https://markkashef.gumroad.com/l/your-own-jev",
+  "status": "published",
+  "archived": false,
+  "kind": "products",
+  "price_formatted": "CAD$0+",
+  "description_md": "Build a small AI specialist for one job you understand.\nGet the complete prompt and practical guide from Mark Kashef’s Jev-inspired travel experiment. Explore the visual walkthrough, try the sample agency, and use the public starter to run a small training experiment on your own computer.\nIncluded: \n• A copy-ready TXT prompt with editable task fields. \n• A polished one-page PDF with clickable links to the demo, public GitHub and full online guide. \n• The public visual walkthrough and interactive sample agency. \n• The MIT-licensed public starter, small example dataset and training recipe.\nStart without installing anything. The browser demo uses recorded local-model outputs for 40 fictional holidays and nine photos. Budgets, preferences and photo selections update through application rules. The full V2 app, saved checkpoints and image integration are part of the community edition.\nThe measured result: 95.28% agreement for the local V2 model versus 98.61% for Jev on the same synthetic travel test. It improved on V1 and did not beat Jev. This is a learning resource, not a production booking service.\nFree to download with a $0 minimum. Optional contributions support the work. Local hardware, storage, electricity, coding-assistant use and optional hosted benchmark calls have separate costs.\nOriginal project code is MIT. Upstream code, models, fonts and datasets retain their own terms.\nBuild your own version with us. Get the complete project code, training pipeline, model checkpoints, and exclusive training inside Early AI Adopters. https://www.skool.com/earlyaidopters/about",
+  "files": [
+    {
+      "file": "Your-Own-Jev-Starter-Kit.zip",
+      "status": "downloaded",
+      "bytes": 8869
+    },
+    {
+      "file": "Your-Own-Jev-Starter-Kit.zip",
+      "status": "downloaded",
+      "bytes": 8863
+    },
+    {
+      "file": "Your-Own-Jev-Start-Here.pdf",
+      "status": "downloaded",
+      "bytes": 12503
+    },
+    {
+      "file": "TRAIN-MY-SPECIALIST.txt",
+      "status": "downloaded",
+      "bytes": 7212
+    }
+  ],
+  "has_rich_content": true
+}

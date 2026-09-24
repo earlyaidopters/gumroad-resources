@@ -1,6 +1,23 @@
 {
-  "count": 174,
+  "count": 175,
   "products": [
+    {
+      "slug": "your-own-jev-prompt-guide-local-ai-starter-kit",
+      "permalink": "awfis",
+      "numeric_id": 14431921,
+      "name": "Your Own Jev: Prompt, Guide & Local AI Starter Kit",
+      "status": "published",
+      "archived": false,
+      "category": "Other",
+      "content_hash": "0eb89363be6d812c",
+      "files": [
+        "Your-Own-Jev-Starter-Kit.zip",
+        "Your-Own-Jev-Starter-Kit.zip",
+        "Your-Own-Jev-Start-Here.pdf",
+        "TRAIN-MY-SPECIALIST.txt"
+      ],
+      "has_content": true
+    },
     {
       "slug": "jev-starter-kit-explainer-live-playground",
       "permalink": "fzmxzm",
