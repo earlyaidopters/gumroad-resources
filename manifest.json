@@ -1,6 +1,21 @@
 {
-  "count": 175,
+  "count": 176,
   "products": [
+    {
+      "slug": "use-both-claude-codex-workflow-kit",
+      "permalink": "oheeob",
+      "numeric_id": 14474488,
+      "name": "Use Both: Claude + Codex Workflow Kit",
+      "status": "published",
+      "archived": false,
+      "category": "Other",
+      "content_hash": "ee334ab1d9abbd29",
+      "files": [
+        "USE-BOTH-WORKFLOW-GUIDE.pdf",
+        "claude-codex-workflow-kit-v1.0.0.zip"
+      ],
+      "has_content": true
+    },
     {
       "slug": "your-own-jev-prompt-guide-local-ai-starter-kit",
       "permalink": "awfis",

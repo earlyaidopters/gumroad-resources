@@ -1,0 +1,14 @@
+__pycache__/
+*.py[cod]
+.DS_Store
+.env
+.env.*
+!.env.example
+.venv/
+node_modules/
+/handoff/
+*.log
+*.wav
+*.mp4
+*.mp3
+.claude/settings.local.json

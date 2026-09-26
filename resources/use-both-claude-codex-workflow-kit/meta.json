@@ -1,0 +1,26 @@
+{
+  "name": "Use Both: Claude + Codex Workflow Kit",
+  "external_id": "OrngrVg8WN5ncUDg0xfy-A==",
+  "permalink": "oheeob",
+  "unique_permalink": "oheeob",
+  "custom_permalink": "use-both-claude-codex-workflow-kit",
+  "url": "https://markkashef.gumroad.com/l/use-both-claude-codex-workflow-kit",
+  "status": "published",
+  "archived": false,
+  "kind": "products",
+  "price_formatted": "CAD$0+",
+  "description_md": "Use Both: Claude + Codex Workflow Kit\nStop choosing one assistant for every job. Use one to plan and build, the other to challenge the work, and a simple handoff file to keep the project moving.\n\n- \nStep-by-step guide: A polished 16-page PDF and editable Markdown walkthrough of all six workflows from the video.\n\n- \nNine copy-ready prompts: Planning and critique, image generation, code review, supervised computer use, bounded goals, and session continuity.\n\n- \nTwo installable skills: Public-safe, rewritten prime and handoff skills for Claude Code and Codex, plus a manual route for other assistants.\n\n- \nPractical setup: A preview-first installer, official plugin and CLI routes, name-collision guidance, and troubleshooting.\n\n- \nWorked example: A fictional task-board feature with runnable tests, showing how a specific critique turns into a better plan.\n\n- \nEditable templates: Task brief, plan, review, and handoff forms you can adapt to your own project.\n\nThis is a public-safe teaching kit, not a copy of my private workspace or private skill wording. No client data, account credentials, or private session history is included.",
+  "files": [
+    {
+      "file": "USE-BOTH-WORKFLOW-GUIDE.pdf",
+      "status": "downloaded",
+      "bytes": 227133
+    },
+    {
+      "file": "claude-codex-workflow-kit-v1.0.0.zip",
+      "status": "downloaded",
+      "bytes": 362448
+    }
+  ],
+  "has_rich_content": true
+}
