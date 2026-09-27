@@ -13,12 +13,12 @@
   "files": [
     {
       "file": "USE-BOTH-WORKFLOW-GUIDE.pdf",
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 227133
     },
     {
       "file": "claude-codex-workflow-kit-v1.0.0.zip",
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 362448
     }
   ],
