@@ -1,23 +1,23 @@
 # Claude Agent Skills Pack 🧰
 ## **Quarterly Data Presentation Slides**
 
-📎 **File:** [`SKILL.md`](files/SKILL.md)
+📎 **File:** [`SKILL-c3bcf855e9.md`](files/SKILL-c3bcf855e9.md)
 
 ## **Revenue Forecast with Data Project**
 
-📎 **File:** [`SKILL.md`](files/SKILL.md)
+📎 **File:** [`SKILL-8a7a14ed95.md`](files/SKILL-8a7a14ed95.md)
 
 ## **Zoom Meeting Transcript Extractor**
 
-📎 **File:** [`SKILL.md`](files/SKILL.md)
+📎 **File:** [`SKILL-bb99ff2fc2.md`](files/SKILL-bb99ff2fc2.md)
 
 ## **Pipeline Doctor**
 
-📎 **File:** [`SKILL.md`](files/SKILL.md)
+📎 **File:** [`SKILL-e87cc77632.md`](files/SKILL-e87cc77632.md)
 
 ## **Pitch Wizard**
 
-📎 **File:** [`SKILL.md`](files/SKILL.md)
+📎 **File:** [`SKILL-64548ee0dc.md`](files/SKILL-64548ee0dc.md)
 
 ---
 

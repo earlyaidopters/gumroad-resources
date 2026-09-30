@@ -29,8 +29,8 @@ See [`content.md`](content.md).
 
 ## Files
 
-- [`Your-Own-Jev-Starter-Kit.zip`](files/Your-Own-Jev-Starter-Kit.zip)
-- [`Your-Own-Jev-Starter-Kit.zip`](files/Your-Own-Jev-Starter-Kit.zip)
+- [`Your-Own-Jev-Starter-Kit-e780c62fda.zip`](files/Your-Own-Jev-Starter-Kit-e780c62fda.zip)
+- [`Your-Own-Jev-Starter-Kit-91595f2bc3.zip`](files/Your-Own-Jev-Starter-Kit-91595f2bc3.zip)
 - [`Your-Own-Jev-Start-Here.pdf`](files/Your-Own-Jev-Start-Here.pdf)
 - [`TRAIN-MY-SPECIALIST.txt`](files/TRAIN-MY-SPECIALIST.txt)
 

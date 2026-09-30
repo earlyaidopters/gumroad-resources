@@ -13,13 +13,21 @@
   "files": [
     {
       "file": "Fable5_Effort_Cheat_Sheet.pdf",
+      "source_revision": "b27f59fe56c758523c28e13ceefb9ab156b89c632264661b4593d463c7c6a9a6",
+      "expected_bytes": 3286022,
       "status": "cached",
-      "bytes": 3286022
+      "bytes": 3286022,
+      "source_sha256": "2f477bc8b53dca98f37411e807a10443a5b2609d5c407e34db2ec31f27d81732",
+      "local_sha256": "2f477bc8b53dca98f37411e807a10443a5b2609d5c407e34db2ec31f27d81732"
     },
     {
       "file": "orchestration_recipes.txt",
+      "source_revision": "5cca212470f78e5f4317e47fd169fd2bc09351e6d99e8aaa1bb00f0ecbdf470f",
+      "expected_bytes": 14050,
       "status": "cached",
-      "bytes": 14050
+      "bytes": 14050,
+      "source_sha256": "1749e30e52c9e3edba9a7a7dbf2143ca5df0109b911b49361e6c79c5c408d1ae",
+      "local_sha256": "1749e30e52c9e3edba9a7a7dbf2143ca5df0109b911b49361e6c79c5c408d1ae"
     }
   ],
   "has_rich_content": true

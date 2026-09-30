@@ -13,8 +13,13 @@
   "files": [
     {
       "file": "bench_studio_ownership_kit.zip",
+      "source_revision": "1478aafa0c995f9f9893ffcc1de389b921be8e05c77be36918973d8ead8f660c",
+      "expected_bytes": 39462,
       "status": "cached",
-      "bytes": 39462
+      "bytes": 39462,
+      "source_sha256": "0359bee891fdfea981cc2f3ae2b9fe009d17e1d96d154ff6de5bc956ef011e82",
+      "local_sha256": "0359bee891fdfea981cc2f3ae2b9fe009d17e1d96d154ff6de5bc956ef011e82",
+      "unpacked_sha256": "0359bee891fdfea981cc2f3ae2b9fe009d17e1d96d154ff6de5bc956ef011e82"
     }
   ],
   "has_rich_content": true

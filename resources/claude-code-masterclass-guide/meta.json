@@ -13,13 +13,21 @@
   "files": [
     {
       "file": "settings.local.json",
-      "status": "cached",
-      "bytes": 550
+      "source_revision": "569bf55409b7417747d7725f2e6cd5b3a12690f90adb97604f86a684f365f7af",
+      "expected_bytes": 550,
+      "status": "downloaded",
+      "bytes": 550,
+      "source_sha256": "e1d05438b14fcff9530a41ec2e09df19bbb86050ec40f88f019be99a2936c7b1",
+      "local_sha256": "e1d05438b14fcff9530a41ec2e09df19bbb86050ec40f88f019be99a2936c7b1"
     },
     {
       "file": "Claude_Code_Mastery_Guide.pdf",
-      "status": "cached",
-      "bytes": 139473
+      "source_revision": "9f5e557f1820c6dc9ca8b558a7adaa0e3ea775afad82d00919cc6115ab05a69b",
+      "expected_bytes": 139473,
+      "status": "downloaded",
+      "bytes": 139473,
+      "source_sha256": "f678ad5c5e016924a79f111890e7024c01eea12ada12a5cd572515ea9c5b1f65",
+      "local_sha256": "f678ad5c5e016924a79f111890e7024c01eea12ada12a5cd572515ea9c5b1f65"
     }
   ],
   "has_rich_content": true

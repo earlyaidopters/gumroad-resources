@@ -13,8 +13,12 @@
   "files": [
     {
       "file": "5_LEVELS_CLAUDE_CODE_GUIDE.pdf",
-      "status": "cached",
-      "bytes": 12500
+      "source_revision": "2aea4f2ca24c3d86379697f0321150b46d5b079d660233485649902d50f572e6",
+      "expected_bytes": 12500,
+      "status": "downloaded",
+      "bytes": 12500,
+      "source_sha256": "e7867594804d46cca3d1c5f8c0054282cc868acd64a21a8252df5cebeea8da33",
+      "local_sha256": "e7867594804d46cca3d1c5f8c0054282cc868acd64a21a8252df5cebeea8da33"
     }
   ],
   "has_rich_content": true

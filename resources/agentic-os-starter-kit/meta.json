@@ -13,28 +13,48 @@
   "files": [
     {
       "file": "Agentic_OS_Starter_Kit.pdf",
+      "source_revision": "08143f605e3c758374447c3d6d4f4b767128a7a0ad8ffd19ea22872c7b419db9",
+      "expected_bytes": 22653,
       "status": "cached",
-      "bytes": 22653
+      "bytes": 22653,
+      "source_sha256": "fd4b923b86005147d9528633dcf321f16c338bf0800bc694c2c6db6cb51a1ff4",
+      "local_sha256": "fd4b923b86005147d9528633dcf321f16c338bf0800bc694c2c6db6cb51a1ff4"
     },
     {
       "file": "master_prompt_A_simple.txt",
+      "source_revision": "edf1e6ff900626b0317ac783c193f8f9531c935e45f4d763a690b19289f80efe",
+      "expected_bytes": 8403,
       "status": "cached",
-      "bytes": 8403
+      "bytes": 8403,
+      "source_sha256": "1ac1bc91c6b9690db454acf2b7a0122425569c7efdc686c89adc6dc92ac840e8",
+      "local_sha256": "1ac1bc91c6b9690db454acf2b7a0122425569c7efdc686c89adc6dc92ac840e8"
     },
     {
       "file": "master_prompt_B_workflows.txt",
+      "source_revision": "2f72ec7b3037a5deb93d1aa29d756f92b3c8c3321d38f26a70b677c16ec4e91f",
+      "expected_bytes": 8756,
       "status": "cached",
-      "bytes": 8756
+      "bytes": 8756,
+      "source_sha256": "1196465da269cb8d94c097b20aa81eb61e302ada47cdaf92d948c8b4a2e50b9f",
+      "local_sha256": "1196465da269cb8d94c097b20aa81eb61e302ada47cdaf92d948c8b4a2e50b9f"
     },
     {
       "file": "os-blueprint_EXAMPLE.md",
+      "source_revision": "8479a1bd56482e023d93014b5dd6910fb94e502dd7abc57e82f3208927c434c1",
+      "expected_bytes": 10094,
       "status": "cached",
-      "bytes": 10094
+      "bytes": 10094,
+      "source_sha256": "84538d48f6d65961dd1e8e3b051c3fd2559a87c1d822d2789f0c4567afa34ddb",
+      "local_sha256": "84538d48f6d65961dd1e8e3b051c3fd2559a87c1d822d2789f0c4567afa34ddb"
     },
     {
       "file": "ROT_template.md",
+      "source_revision": "9b4b723ee962574780e9072f6372e05ff2ce4cceb7aebebe56217c765d029df1",
+      "expected_bytes": 4228,
       "status": "cached",
-      "bytes": 4228
+      "bytes": 4228,
+      "source_sha256": "2d66fce7306c9c5762dd93991600dd7419a800d9fb2132cd598dd95cea33d6d9",
+      "local_sha256": "2d66fce7306c9c5762dd93991600dd7419a800d9fb2132cd598dd95cea33d6d9"
     }
   ],
   "has_rich_content": true

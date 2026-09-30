@@ -13,13 +13,21 @@
   "files": [
     {
       "file": "three-task-eval-template.pdf",
+      "source_revision": "9195e94ec3df11cb1c6651f6734c5f7f59c0ddd35ed8da684801a24c2d5d0918",
+      "expected_bytes": 4736,
       "status": "cached",
-      "bytes": 4736
+      "bytes": 4736,
+      "source_sha256": "f886c2e5f14ca3bff78b6b4a44d1623a3d3a4ca0273b59e40a51a54c6161fe35",
+      "local_sha256": "f886c2e5f14ca3bff78b6b4a44d1623a3d3a4ca0273b59e40a51a54c6161fe35"
     },
     {
       "file": "three-task-eval-template.txt",
+      "source_revision": "405934529b28ebcba0640cbe7a63fe2f58e273ac394abfc3d3a9b8fa3d4836c4",
+      "expected_bytes": 2454,
       "status": "cached",
-      "bytes": 2454
+      "bytes": 2454,
+      "source_sha256": "0b1f8ea5204d48fee88d5a3304b27cde757a837397bd18fb03b282c9d925a455",
+      "local_sha256": "0b1f8ea5204d48fee88d5a3304b27cde757a837397bd18fb03b282c9d925a455"
     }
   ],
   "has_rich_content": true

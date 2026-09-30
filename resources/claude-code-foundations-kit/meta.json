@@ -13,13 +13,19 @@
   "files": [
     {
       "file": "claude_diagrams.zip",
+      "source_revision": "62fa9da26fb533b8d3891402c519d304f4cf4d6a4884023a8259a945fda12495",
+      "expected_bytes": 134665919,
       "status": "skipped-oversized",
       "bytes": 134665919
     },
     {
       "file": "Claude_Code_Deep_Dive_Guide.pdf",
-      "status": "cached",
-      "bytes": 93333
+      "source_revision": "6cc3edb3006ec24120c028c158f6aea7b9a1b9cb15233480cd066521de1765e2",
+      "expected_bytes": 93333,
+      "status": "downloaded",
+      "bytes": 93333,
+      "source_sha256": "1f4ce841079d9235eaa944cd945110c1df5a9cb456950a1398908ecc74c87d95",
+      "local_sha256": "1f4ce841079d9235eaa944cd945110c1df5a9cb456950a1398908ecc74c87d95"
     }
   ],
   "has_rich_content": true

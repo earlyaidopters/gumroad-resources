@@ -13,8 +13,12 @@
   "files": [
     {
       "file": "agents.pdf",
-      "status": "cached",
-      "bytes": 1338060
+      "source_revision": "d441963407c030f2ff1e5a4e47462ef0f6e597326064a14214339a7daa05145d",
+      "expected_bytes": 1338060,
+      "status": "downloaded",
+      "bytes": 1338060,
+      "source_sha256": "a60023a0169a3221569c73217cb9d64cdaf21ae94f9d1e612568d30fda5b95dc",
+      "local_sha256": "a60023a0169a3221569c73217cb9d64cdaf21ae94f9d1e612568d30fda5b95dc"
     }
   ],
   "has_rich_content": true

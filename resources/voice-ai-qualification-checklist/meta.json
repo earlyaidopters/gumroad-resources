@@ -13,13 +13,21 @@
   "files": [
     {
       "file": "voice-ai-qualification-checklist.pdf",
+      "source_revision": "5113d72fe4d47fc0f06c99ca281ff0ac5601c43c8cb60b9f5dde91273e921ca4",
+      "expected_bytes": 5090,
       "status": "cached",
-      "bytes": 5090
+      "bytes": 5090,
+      "source_sha256": "dd3e41505953cbe03002e9c7611e88b3b745cf9e73a459caae496ca148a7d29d",
+      "local_sha256": "dd3e41505953cbe03002e9c7611e88b3b745cf9e73a459caae496ca148a7d29d"
     },
     {
       "file": "voice-ai-qualification-checklist.txt",
+      "source_revision": "90d1483132a5175d570bff8437212f73bbf33ee9a66495ccc647f60ccb8309c1",
+      "expected_bytes": 3460,
       "status": "cached",
-      "bytes": 3460
+      "bytes": 3460,
+      "source_sha256": "54b3c16c2301cb43bed6b91a1495663856729fb0f226822536606ccf095475b3",
+      "local_sha256": "54b3c16c2301cb43bed6b91a1495663856729fb0f226822536606ccf095475b3"
     }
   ],
   "has_rich_content": true

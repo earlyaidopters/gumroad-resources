@@ -13,13 +13,21 @@
   "files": [
     {
       "file": "council.skill",
-      "status": "cached",
-      "bytes": 6944
+      "source_revision": "16312bda180e3ca54ae7597a0e09ba230e0fcffb78acd300a0a9bf1823f6384e",
+      "expected_bytes": 6944,
+      "status": "downloaded",
+      "bytes": 6944,
+      "source_sha256": "4a38a927743efa10cf84ee79d687e2fbf67ddcb958177e65aeb975f8c1323800",
+      "local_sha256": "4a38a927743efa10cf84ee79d687e2fbf67ddcb958177e65aeb975f8c1323800"
     },
     {
       "file": "README.md",
-      "status": "cached",
-      "bytes": 1683
+      "source_revision": "b9d2df6226b3c22cf97e7d9f4a7b06efc2770a096114d400004e271c58f9a98f",
+      "expected_bytes": 1683,
+      "status": "downloaded",
+      "bytes": 1683,
+      "source_sha256": "99b3e6a9cdf77064e1313ca52f780bdfba13d8208a61ace85046867873ba8baf",
+      "local_sha256": "99b3e6a9cdf77064e1313ca52f780bdfba13d8208a61ace85046867873ba8baf"
     }
   ],
   "has_rich_content": true

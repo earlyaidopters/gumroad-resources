@@ -13,13 +13,21 @@
   "files": [
     {
       "file": "obsidian-setup-guide.pdf",
-      "status": "cached",
-      "bytes": 16828
+      "source_revision": "aa950b9b7d9030b75c4d15e8081791fe871043ce7756afbc3ba85272f34d6e3d",
+      "expected_bytes": 16828,
+      "status": "downloaded",
+      "bytes": 16828,
+      "source_sha256": "631898dc3bfa7b305792065634edfb418435e6ce942f9cdd297b402659060336",
+      "local_sha256": "631898dc3bfa7b305792065634edfb418435e6ce942f9cdd297b402659060336"
     },
     {
       "file": "vault-setup-SKILL.md",
-      "status": "cached",
-      "bytes": 5540
+      "source_revision": "e2d41dccc444fd63c068b48a16f2c629b8061fb19cfba834370957ab999003b6",
+      "expected_bytes": 5540,
+      "status": "downloaded",
+      "bytes": 5540,
+      "source_sha256": "6c52a91e5c1ad4f0888dcb88d7c8ecbb5d29e63f75373c6d80f517861aaca183",
+      "local_sha256": "6c52a91e5c1ad4f0888dcb88d7c8ecbb5d29e63f75373c6d80f517861aaca183"
     }
   ],
   "has_rich_content": true

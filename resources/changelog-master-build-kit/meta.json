@@ -13,28 +13,48 @@
   "files": [
     {
       "file": "changelog_tracker_spec.pdf",
-      "status": "cached",
-      "bytes": 20572
+      "source_revision": "c1d0961015e964fe50a5cc12ae7d645a98faa78521111bfdc8fa41134a4a1778",
+      "expected_bytes": 20572,
+      "status": "downloaded",
+      "bytes": 20572,
+      "source_sha256": "9936f6104423ebb10b8dd91d5580f1e21bd6b214b462a2b2968e0a307186bb90",
+      "local_sha256": "9936f6104423ebb10b8dd91d5580f1e21bd6b214b462a2b2968e0a307186bb90"
     },
     {
       "file": "prompt_playbook.pdf",
-      "status": "cached",
-      "bytes": 19348
+      "source_revision": "a327623307bb714fb0c3b088fad88317e052e2bde65b1f6ddafcb178ba6a41e3",
+      "expected_bytes": 19348,
+      "status": "downloaded",
+      "bytes": 19348,
+      "source_sha256": "0646fecffe385709582d1f7ac50bbf89724ac651b6eaf19415fe2a96a0467252",
+      "local_sha256": "0646fecffe385709582d1f7ac50bbf89724ac651b6eaf19415fe2a96a0467252"
     },
     {
       "file": "audio_understanding.md",
-      "status": "cached",
-      "bytes": 28759
+      "source_revision": "6ce0c5891395732e185c436c2853d48c92a081e3ca675068f2d453c50b14e6f3",
+      "expected_bytes": 28759,
+      "status": "downloaded",
+      "bytes": 28759,
+      "source_sha256": "0021e6167d5d7d077f8463ac1a3c1436ed48ee2a6a80213f849e08fd1b1651eb",
+      "local_sha256": "0021e6167d5d7d077f8463ac1a3c1436ed48ee2a6a80213f849e08fd1b1651eb"
     },
     {
       "file": "claude-changelog-app.md",
-      "status": "cached",
-      "bytes": 13053
+      "source_revision": "f4f963bbf0de0f3ca329d453e7a9b890e5d36fc7814ce9f1ce25ba5450faeafd",
+      "expected_bytes": 13053,
+      "status": "downloaded",
+      "bytes": 13053,
+      "source_sha256": "ea82a1046282b4f5ffc22bf49e19e78a9830fe86b5fdfe6dba8fdbc69b0362c5",
+      "local_sha256": "ea82a1046282b4f5ffc22bf49e19e78a9830fe86b5fdfe6dba8fdbc69b0362c5"
     },
     {
       "file": "gemini-3.md",
-      "status": "cached",
-      "bytes": 32794
+      "source_revision": "2527faba258d2662f413cb67ab7acba236652f3f2516c752f62b2bc83f948cf4",
+      "expected_bytes": 32794,
+      "status": "downloaded",
+      "bytes": 32794,
+      "source_sha256": "cdf3197ac8f7dcbc5a8eb9c6afbfebb2d5fcf1b42f456d433763229dbf61dcb1",
+      "local_sha256": "cdf3197ac8f7dcbc5a8eb9c6afbfebb2d5fcf1b42f456d433763229dbf61dcb1"
     }
   ],
   "has_rich_content": true

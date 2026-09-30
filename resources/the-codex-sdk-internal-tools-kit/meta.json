@@ -13,13 +13,22 @@
   "files": [
     {
       "file": "Codex-SDK-Internal-Tools-Field-Guide.pdf",
+      "source_revision": "c7d9656c2fc860f875b160fa442aa075fec3e850577c28eb92a11a2ace7baa20",
+      "expected_bytes": 660717,
       "status": "cached",
-      "bytes": 660717
+      "bytes": 660717,
+      "source_sha256": "7a286928722c28ec65b75ccdf2d6db60b4cbb20beb802625345762bb317ca4d8",
+      "local_sha256": "7a286928722c28ec65b75ccdf2d6db60b4cbb20beb802625345762bb317ca4d8"
     },
     {
       "file": "Codex-SDK-Internal-Tools-Kit.zip",
+      "source_revision": "63b573142e029063a2b920dd323b2aa98fbca64586803d59b26dc04dc58125d8",
+      "expected_bytes": 929715,
       "status": "cached",
-      "bytes": 929715
+      "bytes": 929715,
+      "source_sha256": "8c9f63d96fd0499e778fbad82bcf0eaeb5627d694519f721d9124e5faf8b998d",
+      "local_sha256": "8c9f63d96fd0499e778fbad82bcf0eaeb5627d694519f721d9124e5faf8b998d",
+      "unpacked_sha256": "8c9f63d96fd0499e778fbad82bcf0eaeb5627d694519f721d9124e5faf8b998d"
     }
   ],
   "has_rich_content": true

@@ -13,13 +13,21 @@
   "files": [
     {
       "file": "Visual_Workflow_Builder_Specification.docx",
-      "status": "cached",
-      "bytes": 28615
+      "source_revision": "5e2f240da3be7468295d8e00e42ec4fbcd5d5109840441915408c9f91f0b84b2",
+      "expected_bytes": 28615,
+      "status": "downloaded",
+      "bytes": 28615,
+      "source_sha256": "141df2332c5cfa7ae855267c1d330ec3101b8ac909fdf51cf93d27c8658ebb84",
+      "local_sha256": "141df2332c5cfa7ae855267c1d330ec3101b8ac909fdf51cf93d27c8658ebb84"
     },
     {
       "file": "Vibe Coding Mistakes.pdf",
-      "status": "cached",
-      "bytes": 98170
+      "source_revision": "59e026175712d2b60ba56e227d33a8907d5b09a810f295c57460a83cd4d94ce4",
+      "expected_bytes": 98170,
+      "status": "downloaded",
+      "bytes": 98170,
+      "source_sha256": "ff95b1f70364ff9feb6e04b865feac0830435a0b15c37c3eed07ea6f29e31846",
+      "local_sha256": "ff95b1f70364ff9feb6e04b865feac0830435a0b15c37c3eed07ea6f29e31846"
     }
   ],
   "has_rich_content": true

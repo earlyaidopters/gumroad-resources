@@ -13,8 +13,12 @@
   "files": [
     {
       "file": "JEV-STARTER-GUIDE.md",
+      "source_revision": "7578a544bba2adf6f197a5eab9c9c2e5ac0b9444c1aef765f761e1abf8cea6a9",
+      "expected_bytes": 5514,
       "status": "cached",
-      "bytes": 5514
+      "bytes": 5514,
+      "source_sha256": "b842d6cf11cf2528dc09e7dce384c60874f54bcbb9ad5532a0fb7e4d3165b6bc",
+      "local_sha256": "b842d6cf11cf2528dc09e7dce384c60874f54bcbb9ad5532a0fb7e4d3165b6bc"
     }
   ],
   "has_rich_content": true

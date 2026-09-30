@@ -12,24 +12,42 @@
   "description_md": "Build a small AI specialist for one job you understand.\nGet the complete prompt and practical guide from Mark Kashef’s Jev-inspired travel experiment. Explore the visual walkthrough, try the sample agency, and use the public starter to run a small training experiment on your own computer.\nIncluded: \n• A copy-ready TXT prompt with editable task fields. \n• A polished one-page PDF with clickable links to the demo, public GitHub and full online guide. \n• The public visual walkthrough and interactive sample agency. \n• The MIT-licensed public starter, small example dataset and training recipe.\nStart without installing anything. The browser demo uses recorded local-model outputs for 40 fictional holidays and nine photos. Budgets, preferences and photo selections update through application rules. The full V2 app, saved checkpoints and image integration are part of the community edition.\nThe measured result: 95.28% agreement for the local V2 model versus 98.61% for Jev on the same synthetic travel test. It improved on V1 and did not beat Jev. This is a learning resource, not a production booking service.\nFree to download with a $0 minimum. Optional contributions support the work. Local hardware, storage, electricity, coding-assistant use and optional hosted benchmark calls have separate costs.\nOriginal project code is MIT. Upstream code, models, fonts and datasets retain their own terms.\nBuild your own version with us. Get the complete project code, training pipeline, model checkpoints, and exclusive training inside Early AI Adopters. https://www.skool.com/earlyaidopters/about",
   "files": [
     {
-      "file": "Your-Own-Jev-Starter-Kit.zip",
-      "status": "downloaded",
-      "bytes": 8869
+      "file": "Your-Own-Jev-Starter-Kit-e780c62fda.zip",
+      "source_revision": "108872bf21c49948c1e3261bb8e65a3da772fd4458051660677ae99d20ed7b91",
+      "expected_bytes": 8869,
+      "status": "cached",
+      "bytes": 8869,
+      "source_sha256": "c10187768f25577a4020a62efce6c7338999b6bc54e0553dd3736a8a96a03e14",
+      "local_sha256": "c10187768f25577a4020a62efce6c7338999b6bc54e0553dd3736a8a96a03e14",
+      "unpacked_sha256": "c10187768f25577a4020a62efce6c7338999b6bc54e0553dd3736a8a96a03e14"
     },
     {
-      "file": "Your-Own-Jev-Starter-Kit.zip",
-      "status": "downloaded",
-      "bytes": 8863
+      "file": "Your-Own-Jev-Starter-Kit-91595f2bc3.zip",
+      "source_revision": "a060570cd7d84b47d922547eed92fbbf77f1868ab50480c2d93283b84d497d29",
+      "expected_bytes": 8863,
+      "status": "cached",
+      "bytes": 8863,
+      "source_sha256": "04be07c5d873c659674004bfc12e56f985b81ef05aa3b703f4cedd33cf556863",
+      "local_sha256": "04be07c5d873c659674004bfc12e56f985b81ef05aa3b703f4cedd33cf556863",
+      "unpacked_sha256": "04be07c5d873c659674004bfc12e56f985b81ef05aa3b703f4cedd33cf556863"
     },
     {
       "file": "Your-Own-Jev-Start-Here.pdf",
+      "source_revision": "f17c37095e7b13b61afd498e1472c989bb609f5ea6cfc8151323827207daf1bc",
+      "expected_bytes": 12503,
       "status": "cached",
-      "bytes": 12503
+      "bytes": 12503,
+      "source_sha256": "71344926db5397ef14a4fb833bdf451a8d8dad90e322f33d875383d932cc3af2",
+      "local_sha256": "71344926db5397ef14a4fb833bdf451a8d8dad90e322f33d875383d932cc3af2"
     },
     {
       "file": "TRAIN-MY-SPECIALIST.txt",
+      "source_revision": "dccc36c4821e3c4fd62ea2f30164fb81a9913f428f1eedd24b23125c48dcbace",
+      "expected_bytes": 7212,
       "status": "cached",
-      "bytes": 7212
+      "bytes": 7212,
+      "source_sha256": "2df7b3f95163e8dffb9d7f074cc1d9ee7aec89d998fc9b1ed6083a3b8c0a5fe0",
+      "local_sha256": "2df7b3f95163e8dffb9d7f074cc1d9ee7aec89d998fc9b1ed6083a3b8c0a5fe0"
     }
   ],
   "has_rich_content": true

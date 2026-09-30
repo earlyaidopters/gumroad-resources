@@ -13,28 +13,48 @@
   "files": [
     {
       "file": "agent_prompt_guide.pdf",
-      "status": "cached",
-      "bytes": 15331
+      "source_revision": "40ccb6896d3925e1851380589e4564469969768facac506ad8bf3af5d92e2f5b",
+      "expected_bytes": 15331,
+      "status": "downloaded",
+      "bytes": 15331,
+      "source_sha256": "fe038e2a50f75169c54886d2c25d6f1b74ba8c521e93d09d075e1a832805ac5c",
+      "local_sha256": "fe038e2a50f75169c54886d2c25d6f1b74ba8c521e93d09d075e1a832805ac5c"
     },
     {
       "file": "devils-advocate.md",
-      "status": "cached",
-      "bytes": 6728
+      "source_revision": "559429c6430e09d70cd23011be11555ab2b1a483d55a3f5b8b0c710c6973f16a",
+      "expected_bytes": 6728,
+      "status": "downloaded",
+      "bytes": 6728,
+      "source_sha256": "4aa07d7150a00f84ba65141f90c67fc58e63d00868ab378d2f27db4b4f3db53a",
+      "local_sha256": "4aa07d7150a00f84ba65141f90c67fc58e63d00868ab378d2f27db4b4f3db53a"
     },
     {
       "file": "neutral-analyst.md",
-      "status": "cached",
-      "bytes": 7046
+      "source_revision": "a4e733486dde9654e545c0add8271be2e4e504b568f300517d210f0a7a219219",
+      "expected_bytes": 7046,
+      "status": "downloaded",
+      "bytes": 7046,
+      "source_sha256": "f7e4af42645fc5c63214eba0dd6298ed368f848cbaa5616c90907ff158c10bc4",
+      "local_sha256": "f7e4af42645fc5c63214eba0dd6298ed368f848cbaa5616c90907ff158c10bc4"
     },
     {
       "file": "optimist-strategist.md",
-      "status": "cached",
-      "bytes": 6363
+      "source_revision": "55f94da2915ee3f4401ced10f5e23a65839211d4f2d1ff8f5eba06a0f448f6cd",
+      "expected_bytes": 6363,
+      "status": "downloaded",
+      "bytes": 6363,
+      "source_sha256": "9ee601a994f4a883f948d43471ca9c78f4e5c34625e94d6196d2666fa952f345",
+      "local_sha256": "9ee601a994f4a883f948d43471ca9c78f4e5c34625e94d6196d2666fa952f345"
     },
     {
       "file": "agent_prompt_guide.md",
-      "status": "cached",
-      "bytes": 12540
+      "source_revision": "9861a39f0ddf761efb35c027813f0df3fa93d79b470032be9ee1746cacd04970",
+      "expected_bytes": 12540,
+      "status": "downloaded",
+      "bytes": 12540,
+      "source_sha256": "0060b62559e6a2bac20cd2316be3516c56545beaaf6b85817f663fb31cf03a35",
+      "local_sha256": "0060b62559e6a2bac20cd2316be3516c56545beaaf6b85817f663fb31cf03a35"
     }
   ],
   "has_rich_content": true

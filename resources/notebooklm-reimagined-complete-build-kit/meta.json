@@ -13,23 +13,40 @@
   "files": [
     {
       "file": "01_VISION_DOCUMENT.md",
-      "status": "cached",
-      "bytes": 16895
+      "source_revision": "78fee64aad88c33d866c0b507e439eed01b3b40320d42511d74533f74b161062",
+      "expected_bytes": 16895,
+      "status": "downloaded",
+      "bytes": 16895,
+      "source_sha256": "379d1a84d9723e48a087e1b814a81097facbfcc7331a3584c431032363616226",
+      "local_sha256": "379d1a84d9723e48a087e1b814a81097facbfcc7331a3584c431032363616226"
     },
     {
       "file": "02_PROJECT_SPECIFICATION.md",
-      "status": "cached",
-      "bytes": 61173
+      "source_revision": "4fbb72192e9f61f518751c6f5fc9584e1e96ed0923bc647d8c48fe5772754850",
+      "expected_bytes": 61173,
+      "status": "downloaded",
+      "bytes": 61173,
+      "source_sha256": "11dfea53279880517db279b1aadcb814b6c55ae9fbf6b68c61a72eecaa4af9f8",
+      "local_sha256": "11dfea53279880517db279b1aadcb814b6c55ae9fbf6b68c61a72eecaa4af9f8"
     },
     {
       "file": "03_IMPLEMENTATION_GUIDE.md",
-      "status": "cached",
-      "bytes": 29842
+      "source_revision": "90f11094540f386b919bb77994301b51871763cf391cba323a5648ae3d98bc6f",
+      "expected_bytes": 29842,
+      "status": "downloaded",
+      "bytes": 29842,
+      "source_sha256": "fbd004fa30f08e12166539b1b9d21ec06637d97efe62e19f8b500e74be388e72",
+      "local_sha256": "fbd004fa30f08e12166539b1b9d21ec06637d97efe62e19f8b500e74be388e72"
     },
     {
       "file": "Diagrams.zip",
-      "status": "cached",
-      "bytes": 46017040
+      "source_revision": "ac51e3058845e8c7134d6a91f811750832798df949c0d035d58ff4d073f66948",
+      "expected_bytes": 46017040,
+      "status": "downloaded",
+      "bytes": 46017040,
+      "source_sha256": "36aabb02b50a396bd0f41ba15c4586abba66270c5aa259d15bb8000ec4513176",
+      "local_sha256": "36aabb02b50a396bd0f41ba15c4586abba66270c5aa259d15bb8000ec4513176",
+      "unpacked_sha256": "36aabb02b50a396bd0f41ba15c4586abba66270c5aa259d15bb8000ec4513176"
     }
   ],
   "has_rich_content": true

@@ -13,8 +13,12 @@
   "files": [
     {
       "file": "The 90 Day AI Playbook.pdf",
-      "status": "cached",
-      "bytes": 1905108
+      "source_revision": "74d938bceccbe99107787c6017990b830f9316b35538b0f39a5a23102639f62b",
+      "expected_bytes": 1905108,
+      "status": "downloaded",
+      "bytes": 1905108,
+      "source_sha256": "29395e5b6e50bf1217b85410e6104a353671bd0c861f34bfc40dddc225b563b7",
+      "local_sha256": "29395e5b6e50bf1217b85410e6104a353671bd0c861f34bfc40dddc225b563b7"
     }
   ],
   "has_rich_content": true

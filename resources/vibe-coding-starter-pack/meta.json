@@ -13,38 +13,66 @@
   "files": [
     {
       "file": "Replit Cheat Sheet.pdf",
-      "status": "cached",
-      "bytes": 3777876
+      "source_revision": "dd0a0b3bb64141845eb5d338f221d730e66edd81b49dde44605ca90a0e654ad0",
+      "expected_bytes": 3777876,
+      "status": "downloaded",
+      "bytes": 3777876,
+      "source_sha256": "4ddd5640a56cdea09d6d1411c18a58daa3fe2b5c8844816fe0ba793a445f918c",
+      "local_sha256": "4ddd5640a56cdea09d6d1411c18a58daa3fe2b5c8844816fe0ba793a445f918c"
     },
     {
       "file": "Lovable Cheet Sheet.pdf",
-      "status": "cached",
-      "bytes": 1776428
+      "source_revision": "01722a57f7ab7e0491f0bbd0acef9b3ebc83949fb4b3c922c54c11369759176f",
+      "expected_bytes": 1776428,
+      "status": "downloaded",
+      "bytes": 1776428,
+      "source_sha256": "d664153a2b36dbd5ea74cdb6c9f86120b17f2bbdbd6e06f6d3f3293d33a6b68d",
+      "local_sha256": "d664153a2b36dbd5ea74cdb6c9f86120b17f2bbdbd6e06f6d3f3293d33a6b68d"
     },
     {
       "file": "Cursor Cheat Sheet.pdf",
-      "status": "cached",
-      "bytes": 2124890
+      "source_revision": "f0510b2474af8e7667dea60b3462d7b1e9618e73439c4c682b246f786ffdffd4",
+      "expected_bytes": 2124890,
+      "status": "downloaded",
+      "bytes": 2124890,
+      "source_sha256": "8cc9bf0f3802e7249d099645a922fd251b6d60ba060250c3d89b68f7ee2836b2",
+      "local_sha256": "8cc9bf0f3802e7249d099645a922fd251b6d60ba060250c3d89b68f7ee2836b2"
     },
     {
       "file": "Bolt Cheat Sheet.pdf",
-      "status": "cached",
-      "bytes": 1933083
+      "source_revision": "8b19a1d94cba24663e5f2b6b5fe0fbe6635a163f392e7d75280657de9ed759e7",
+      "expected_bytes": 1933083,
+      "status": "downloaded",
+      "bytes": 1933083,
+      "source_sha256": "d2f3a146352b77d5761d78fb03d933eb0bd08b8040f0320b3e9d2530ca8dfd86",
+      "local_sha256": "d2f3a146352b77d5761d78fb03d933eb0bd08b8040f0320b3e9d2530ca8dfd86"
     },
     {
       "file": "Lovable_Image_Editing.json",
-      "status": "cached",
-      "bytes": 4926
+      "source_revision": "885889c76ec2505649e57ae779bbb98a14357dc4c795b0338adc6ac18459bf46",
+      "expected_bytes": 4926,
+      "status": "downloaded",
+      "bytes": 4926,
+      "source_sha256": "f1450d88cb8b7f522f57d042714227952942343c3214598a619edae9b800efb9",
+      "local_sha256": "f1450d88cb8b7f522f57d042714227952942343c3214598a619edae9b800efb9"
     },
     {
       "file": "Lovable_Image_Gen_Demo_1.json",
-      "status": "cached",
-      "bytes": 2036
+      "source_revision": "8b1998ae007e789f2f324ac01f0a3031e0dfa4bf4f2020f3ad9ce3ad21605810",
+      "expected_bytes": 2036,
+      "status": "downloaded",
+      "bytes": 2036,
+      "source_sha256": "0729d253fc1fcd02053098a2e1a5feb33e2393797dd9a4e0cf45b7e16d3f7ea3",
+      "local_sha256": "0729d253fc1fcd02053098a2e1a5feb33e2393797dd9a4e0cf45b7e16d3f7ea3"
     },
     {
       "file": "Security-Features-Comparison-for-AI-Development-Platforms.pdf",
-      "status": "cached",
-      "bytes": 435679
+      "source_revision": "a277c0ca4a6593de11fc35a5f3e7c6f0835fd4bbf1149ad41c67eb07d513a116",
+      "expected_bytes": 435679,
+      "status": "downloaded",
+      "bytes": 435679,
+      "source_sha256": "2c165f0708fe2757777adbe1a978d6cb954c59dd25cb1213c567332886f8ff05",
+      "local_sha256": "2c165f0708fe2757777adbe1a978d6cb954c59dd25cb1213c567332886f8ff05"
     }
   ],
   "has_rich_content": true

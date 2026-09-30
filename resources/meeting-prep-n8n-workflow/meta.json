@@ -13,8 +13,12 @@
   "files": [
     {
       "file": "Calendly_to_Meeting_Prep__No_Creds_.json",
-      "status": "cached",
-      "bytes": 23055
+      "source_revision": "52d2af86e505c1b0dd46900327d42989448ee37d242eb2f681f1a1c820d42348",
+      "expected_bytes": 23055,
+      "status": "downloaded",
+      "bytes": 23055,
+      "source_sha256": "08f7e2ad2bf2e65c9e6ea5c221855eaf50cc96b49fff59a5b99a93ad027a0cb3",
+      "local_sha256": "08f7e2ad2bf2e65c9e6ea5c221855eaf50cc96b49fff59a5b99a93ad027a0cb3"
     }
   ],
   "has_rich_content": true

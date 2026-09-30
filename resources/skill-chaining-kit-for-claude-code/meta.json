@@ -13,13 +13,23 @@
   "files": [
     {
       "file": "brain-chain.zip",
+      "source_revision": "dbfb8cda942b6933ecc9cb0ea30dabb4b571198c6d295674643badd7ead7ac04",
+      "expected_bytes": 8486,
       "status": "cached",
-      "bytes": 8486
+      "bytes": 8486,
+      "source_sha256": "b08379db8c23d341acb48e1e532ee47c56bd0909fd68b80e78566f66598b9b50",
+      "local_sha256": "b08379db8c23d341acb48e1e532ee47c56bd0909fd68b80e78566f66598b9b50",
+      "unpacked_sha256": "b08379db8c23d341acb48e1e532ee47c56bd0909fd68b80e78566f66598b9b50"
     },
     {
       "file": "launch-chain.zip",
+      "source_revision": "920d8f429b3f2a6b6c772b366f81d3a8b49e72933c71f9d4f6a2d80a1d3690fe",
+      "expected_bytes": 13473,
       "status": "cached",
-      "bytes": 13473
+      "bytes": 13473,
+      "source_sha256": "4fe74625d71c60220468db2fadf4d1b92f2cf1720c8cf7911c808af6beb531f9",
+      "local_sha256": "4fe74625d71c60220468db2fadf4d1b92f2cf1720c8cf7911c808af6beb531f9",
+      "unpacked_sha256": "4fe74625d71c60220468db2fadf4d1b92f2cf1720c8cf7911c808af6beb531f9"
     }
   ],
   "has_rich_content": true

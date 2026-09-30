@@ -13,13 +13,21 @@
   "files": [
     {
       "file": "VAPIception.pdf",
-      "status": "cached",
-      "bytes": 59402
+      "source_revision": "e2a5c7076ea5e0ea6dc0f8e08fa1d25457e4b9e750ad7e1dc65bb90713435fdc",
+      "expected_bytes": 59402,
+      "status": "downloaded",
+      "bytes": 59402,
+      "source_sha256": "5c1d0262562ae8ee7c6e898248d828fe2c5a7b36d98e6b4a97e14b5607c45266",
+      "local_sha256": "5c1d0262562ae8ee7c6e898248d828fe2c5a7b36d98e6b4a97e14b5607c45266"
     },
     {
       "file": "agentbuilder.json",
-      "status": "cached",
-      "bytes": 58453
+      "source_revision": "44c626c05bd896fee36cb0a0746d7757f1198954704b05257c4e21a5b7835f0b",
+      "expected_bytes": 58453,
+      "status": "downloaded",
+      "bytes": 58453,
+      "source_sha256": "5f46c27c372f404b37f49dbcc7388e4114aa9acabaaca7ed618d49cd3cb99ee1",
+      "local_sha256": "5f46c27c372f404b37f49dbcc7388e4114aa9acabaaca7ed618d49cd3cb99ee1"
     }
   ],
   "has_rich_content": true

@@ -13,8 +13,13 @@
   "files": [
     {
       "file": "polyskill-kit.zip",
+      "source_revision": "3eca308eb8e54a857c35a7ab6da209831241622a0cb719afae83c0e5b31bc449",
+      "expected_bytes": 21354,
       "status": "cached",
-      "bytes": 21354
+      "bytes": 21354,
+      "source_sha256": "c7710b8c7188474a1d60b5fdcc56417ab2286eb429f6bb9c5314045039796a2d",
+      "local_sha256": "c7710b8c7188474a1d60b5fdcc56417ab2286eb429f6bb9c5314045039796a2d",
+      "unpacked_sha256": "c7710b8c7188474a1d60b5fdcc56417ab2286eb429f6bb9c5314045039796a2d"
     }
   ],
   "has_rich_content": true

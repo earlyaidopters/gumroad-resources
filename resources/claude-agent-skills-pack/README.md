@@ -28,9 +28,9 @@ See [`content.md`](content.md).
 
 ## Files
 
-- [`SKILL.md`](files/SKILL.md)
-- [`SKILL.md`](files/SKILL.md)
-- [`SKILL.md`](files/SKILL.md)
-- [`SKILL.md`](files/SKILL.md)
-- [`SKILL.md`](files/SKILL.md)
+- [`SKILL-c3bcf855e9.md`](files/SKILL-c3bcf855e9.md)
+- [`SKILL-8a7a14ed95.md`](files/SKILL-8a7a14ed95.md)
+- [`SKILL-bb99ff2fc2.md`](files/SKILL-bb99ff2fc2.md)
+- [`SKILL-64548ee0dc.md`](files/SKILL-64548ee0dc.md)
+- [`SKILL-e87cc77632.md`](files/SKILL-e87cc77632.md)
 

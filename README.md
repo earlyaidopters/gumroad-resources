@@ -2,7 +2,12 @@
 
 Every free resource from the Early AI-dopters Gumroad, mirrored here and kept in sync. Each folder holds the actual files (zips unpacked so you can browse them on GitHub), the resource content page, and a README. Where a resource came from a YouTube video, the video is paired to it. Watch or star this repo to catch every new drop.
 
-**177 published resources**, grouped by topic and newest-first within each. Auto-synced from Gumroad every few hours.
+**177 published resources**, grouped by topic and newest-first within each. Sync scheduled hourly. See the latest verified check below.
+
+<!-- sync-status:start -->
+**Last verified sync: September 30, 2026 at 02:55 PM EDT** · 177/177 published resources accounted for; 305 mirrored attachments verified. Oversized attachments available on Gumroad: 1. [Sync details](sync-status.json).
+
+<!-- sync-status:end -->
 
 ## 🆕 Latest 10 drops
 

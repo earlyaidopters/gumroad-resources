@@ -13,13 +13,22 @@
   "files": [
     {
       "file": "Astra-Computer-Use-Kit.zip",
+      "source_revision": "4760f708ac06fdb379d5edeceec39d5ec22a87eb37be74a42ce9ac1a5f008a85",
+      "expected_bytes": 1888645,
       "status": "cached",
-      "bytes": 1888645
+      "bytes": 1888645,
+      "source_sha256": "c4604afb67e63c9bb571b06c3dbd27b894d6fdae0269dd9c4fc4f0e00cd6d9b3",
+      "local_sha256": "c4604afb67e63c9bb571b06c3dbd27b894d6fdae0269dd9c4fc4f0e00cd6d9b3",
+      "unpacked_sha256": "c4604afb67e63c9bb571b06c3dbd27b894d6fdae0269dd9c4fc4f0e00cd6d9b3"
     },
     {
       "file": "Computer-Use-Field-Guide.pdf",
+      "source_revision": "fd2eb03507f42aaa4cd8178b5ff2719464358a34e3053d28d4c9b5342efb92fc",
+      "expected_bytes": 1989904,
       "status": "cached",
-      "bytes": 1989904
+      "bytes": 1989904,
+      "source_sha256": "995e1cc9f2bce4371daada28315ce0e8a56e03276d601db8cd2e2426a9be7c46",
+      "local_sha256": "995e1cc9f2bce4371daada28315ce0e8a56e03276d601db8cd2e2426a9be7c46"
     }
   ],
   "has_rich_content": true

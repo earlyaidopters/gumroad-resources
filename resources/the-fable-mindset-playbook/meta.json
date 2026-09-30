@@ -13,23 +13,40 @@
   "files": [
     {
       "file": "PROMPTS.md",
+      "source_revision": "f82cfa0f252ee8f3c5a631cab7ed5d052dea334708c42eb4dab3a3f9e0f1d9c7",
+      "expected_bytes": 3129,
       "status": "cached",
-      "bytes": 3129
+      "bytes": 3129,
+      "source_sha256": "95b151d5aa56dd1bcf3c0607689723b8ec0a609c8fd859efa61fb9933265a684",
+      "local_sha256": "95b151d5aa56dd1bcf3c0607689723b8ec0a609c8fd859efa61fb9933265a684"
     },
     {
       "file": "Fable_Mindset_public.md",
+      "source_revision": "9f03bed1070b37d3ac0a5271c25546d4ffa067003c0d88a471e68827912a6cdb",
+      "expected_bytes": 12974,
       "status": "cached",
-      "bytes": 12974
+      "bytes": 12974,
+      "source_sha256": "35eb9c4f368e28cec89fff3e1274199433e02b86d14a0cd7a034d295d233a7de",
+      "local_sha256": "35eb9c4f368e28cec89fff3e1274199433e02b86d14a0cd7a034d295d233a7de"
     },
     {
       "file": "extract-mindset.zip",
+      "source_revision": "7ab6b304e619ecafe38a5122785504fa58363e014af1785ac8a80c9b695dbdb3",
+      "expected_bytes": 20351,
       "status": "cached",
-      "bytes": 20351
+      "bytes": 20351,
+      "source_sha256": "0f9e575bd30f36e723db22701a89e7060d8065c5d42c482d08e2cdb3323d08db",
+      "local_sha256": "0f9e575bd30f36e723db22701a89e7060d8065c5d42c482d08e2cdb3323d08db",
+      "unpacked_sha256": "0f9e575bd30f36e723db22701a89e7060d8065c5d42c482d08e2cdb3323d08db"
     },
     {
       "file": "DATASET.md",
+      "source_revision": "34a8c7305f7847df8a1e9b5a16f4c6854c945a1be5198818bc9bbc3201184560",
+      "expected_bytes": 4888,
       "status": "cached",
-      "bytes": 4888
+      "bytes": 4888,
+      "source_sha256": "a3aea6c9cca854119b861dce74db7ed74735ae79561ad4adba4a439294173955",
+      "local_sha256": "a3aea6c9cca854119b861dce74db7ed74735ae79561ad4adba4a439294173955"
     }
   ],
   "has_rich_content": true

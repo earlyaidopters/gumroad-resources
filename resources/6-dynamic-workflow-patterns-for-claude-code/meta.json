@@ -13,8 +13,12 @@
   "files": [
     {
       "file": "Dynamic_Workflow_Patterns.pdf",
+      "source_revision": "6f8da2a026c605ec1059be277b8b8faa3d9f8b118df82963d6e908d7c5d74e68",
+      "expected_bytes": 16634,
       "status": "cached",
-      "bytes": 16634
+      "bytes": 16634,
+      "source_sha256": "2fd6dd556dc0f6e9b448956871e1247042eb30d74df91600e1ea17e37d060337",
+      "local_sha256": "2fd6dd556dc0f6e9b448956871e1247042eb30d74df91600e1ea17e37d060337"
     }
   ],
   "has_rich_content": true

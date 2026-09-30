@@ -13,8 +13,12 @@
   "files": [
     {
       "file": "Realtime API Breakdown.pdf",
-      "status": "cached",
-      "bytes": 653961
+      "source_revision": "4f2eb8758e838566021d8393ba177eb59dfd0db329daf2908a68164930e983c1",
+      "expected_bytes": 653961,
+      "status": "downloaded",
+      "bytes": 653961,
+      "source_sha256": "3e949a62b6f75e43a99e3b5c5e2114b827a70e56a0ee0701ded33d33f00a52ed",
+      "local_sha256": "3e949a62b6f75e43a99e3b5c5e2114b827a70e56a0ee0701ded33d33f00a52ed"
     }
   ],
   "has_rich_content": true

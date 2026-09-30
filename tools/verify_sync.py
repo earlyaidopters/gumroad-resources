@@ -129,7 +129,7 @@ def write_status(repo, counts, index):
         label = f'[{label}]({run_url})'
     summary = (f'{label} · {counts["mirrored_products"]}/{counts["published_products"]} published resources accounted for; '
                f'{counts["attachments_verified"]} mirrored attachments verified. '
-               f'{counts["oversized_attachments_on_gumroad"]} oversized attachments remain on Gumroad. '
+               f'Oversized attachments available on Gumroad: {counts["oversized_attachments_on_gumroad"]}. '
                '[Sync details](sync-status.json).\n\n')
     p = repo / 'README.md'
     text = p.read_text()

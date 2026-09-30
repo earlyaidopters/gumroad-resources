@@ -13,8 +13,12 @@
   "files": [
     {
       "file": "Intro to Vibe Automation.json",
-      "status": "cached",
-      "bytes": 90933
+      "source_revision": "8e4b957a91a42da2d26e4b73189b2b12e4b46b05a8377a7ec5b70d3935f3cd49",
+      "expected_bytes": 90933,
+      "status": "downloaded",
+      "bytes": 90933,
+      "source_sha256": "0d1c61b34a66d46c9d62b9f220a022c66384e9030026d1515f2c2f2b3fa94792",
+      "local_sha256": "0d1c61b34a66d46c9d62b9f220a022c66384e9030026d1515f2c2f2b3fa94792"
     }
   ],
   "has_rich_content": true

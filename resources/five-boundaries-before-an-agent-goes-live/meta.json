@@ -13,8 +13,12 @@
   "files": [
     {
       "file": "five-agent-boundaries.pdf",
+      "source_revision": "02662adb26eac07d9ffe4252bbd3fd7a2e7bc8e010324893a9b0f59b2315eaa9",
+      "expected_bytes": 152633,
       "status": "cached",
-      "bytes": 152633
+      "bytes": 152633,
+      "source_sha256": "b7beafda74b4c073dc8843cd5ef045707920ced5bed047837c9d9f483cc35d03",
+      "local_sha256": "b7beafda74b4c073dc8843cd5ef045707920ced5bed047837c9d9f483cc35d03"
     }
   ],
   "has_rich_content": true

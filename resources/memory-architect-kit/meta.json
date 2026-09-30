@@ -13,13 +13,21 @@
   "files": [
     {
       "file": "Concept Walkthroughs.pdf",
+      "source_revision": "2537719203fcbe1fae2921d0fc99fc5a0e2e667768fd1da20338c2b57baa3f7b",
+      "expected_bytes": 9320892,
       "status": "cached",
-      "bytes": 9320892
+      "bytes": 9320892,
+      "source_sha256": "01c5895f11f014f4130516a2fb8e76008270628eb5bd4f8a46d992f025d18086",
+      "local_sha256": "01c5895f11f014f4130516a2fb8e76008270628eb5bd4f8a46d992f025d18086"
     },
     {
       "file": "SKILL.md",
+      "source_revision": "97210b6f0d302c55deaf3be70356b993565155d1f048246a6da2f2746192f69c",
+      "expected_bytes": 46068,
       "status": "cached",
-      "bytes": 46068
+      "bytes": 46068,
+      "source_sha256": "bff729299d2b3552a1361b8f995d3900cacb15e61578bf813cdfa4c4564bcb4e",
+      "local_sha256": "bff729299d2b3552a1361b8f995d3900cacb15e61578bf813cdfa4c4564bcb4e"
     }
   ],
   "has_rich_content": true

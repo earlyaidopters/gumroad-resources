@@ -13,8 +13,13 @@
   "files": [
     {
       "file": "fable_wargame_kit.zip",
+      "source_revision": "b6de7f0e65801000afc80be422052be90353a8217f2d90b8089f197b2728e800",
+      "expected_bytes": 1549501,
       "status": "cached",
-      "bytes": 1549501
+      "bytes": 1549501,
+      "source_sha256": "b250b2154ab3c660fd3aff5477de5c8c8b33ddb574c43cee8d3b9d66627a78f9",
+      "local_sha256": "b250b2154ab3c660fd3aff5477de5c8c8b33ddb574c43cee8d3b9d66627a78f9",
+      "unpacked_sha256": "b250b2154ab3c660fd3aff5477de5c8c8b33ddb574c43cee8d3b9d66627a78f9"
     }
   ],
   "has_rich_content": true

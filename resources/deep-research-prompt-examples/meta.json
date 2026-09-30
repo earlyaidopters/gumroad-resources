@@ -13,8 +13,12 @@
   "files": [
     {
       "file": "Deep Research Comparison.pdf",
-      "status": "cached",
-      "bytes": 76591
+      "source_revision": "6eaa515bb391f2fa1a26fb800b7a8a4ddcd90f389edbbef901a4969c6a63a794",
+      "expected_bytes": 76591,
+      "status": "downloaded",
+      "bytes": 76591,
+      "source_sha256": "9d7dbbe103099f0890aebf6fe3df937b452f7ded6168ea11854f1d3a5d54ff5d",
+      "local_sha256": "9d7dbbe103099f0890aebf6fe3df937b452f7ded6168ea11854f1d3a5d54ff5d"
     }
   ],
   "has_rich_content": true

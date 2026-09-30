@@ -13,13 +13,21 @@
   "files": [
     {
       "file": "DEMO_PROMPTS.pdf",
-      "status": "cached",
-      "bytes": 19999
+      "source_revision": "5ff64bee185da2c8c70ff2a129414859b4404278de5da8341da9a6b86fbab38b",
+      "expected_bytes": 19999,
+      "status": "downloaded",
+      "bytes": 19999,
+      "source_sha256": "1bf0323cbf183572912acfa822e5c453ab8812ce0752ca6de7aa0569520ec6f7",
+      "local_sha256": "1bf0323cbf183572912acfa822e5c453ab8812ce0752ca6de7aa0569520ec6f7"
     },
     {
       "file": "gws_setup_prompt.pdf",
-      "status": "cached",
-      "bytes": 6639
+      "source_revision": "3cdf57452e13c8338afa21926555e18ac2848889dadc57f8f1545e8d858af906",
+      "expected_bytes": 6639,
+      "status": "downloaded",
+      "bytes": 6639,
+      "source_sha256": "e47f63662e048419eacc3773c0b45f45220b10ca53bf0b9bb010d63692b9209a",
+      "local_sha256": "e47f63662e048419eacc3773c0b45f45220b10ca53bf0b9bb010d63692b9209a"
     }
   ],
   "has_rich_content": true

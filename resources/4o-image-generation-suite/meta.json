@@ -13,13 +13,21 @@
   "files": [
     {
       "file": "Knowledge Base.md",
-      "status": "cached",
-      "bytes": 5852
+      "source_revision": "49cdbdc3de3a4195e338720ebfdb938e59bfc409da3930a4cfd8a08845eea8b7",
+      "expected_bytes": 5852,
+      "status": "downloaded",
+      "bytes": 5852,
+      "source_sha256": "4d8c2a70397a57a853ba24d34690d31bb2d983020a10c11e8e62a95cde8d13d1",
+      "local_sha256": "4d8c2a70397a57a853ba24d34690d31bb2d983020a10c11e8e62a95cde8d13d1"
     },
     {
       "file": "Knowledge Base.pdf",
-      "status": "cached",
-      "bytes": 94623
+      "source_revision": "9611ac2e59b54b0c54112c788eaf979689999166d16cd3afce359c03c3f530e7",
+      "expected_bytes": 94623,
+      "status": "downloaded",
+      "bytes": 94623,
+      "source_sha256": "dc9a920710ab857578f4b5fffe5895eb20eb90ec96c7a10c0a9b2048a25fb5e3",
+      "local_sha256": "dc9a920710ab857578f4b5fffe5895eb20eb90ec96c7a10c0a9b2048a25fb5e3"
     }
   ],
   "has_rich_content": true

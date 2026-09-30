@@ -13,13 +13,22 @@
   "files": [
     {
       "file": "meetingflow_demo.zip",
-      "status": "cached",
-      "bytes": 21179
+      "source_revision": "8486e4435ef92465189972c8b75b3ae93be38c1d0325c4cdfdad116095bb6fea",
+      "expected_bytes": 21179,
+      "status": "downloaded",
+      "bytes": 21179,
+      "source_sha256": "fc446bab880c84984a31190dda0213151afc83e06669abbb375aad04b212b859",
+      "local_sha256": "fc446bab880c84984a31190dda0213151afc83e06669abbb375aad04b212b859",
+      "unpacked_sha256": "fc446bab880c84984a31190dda0213151afc83e06669abbb375aad04b212b859"
     },
     {
       "file": "claude_folder_viewer_guide.pdf",
-      "status": "cached",
-      "bytes": 7932984
+      "source_revision": "309ab581e02658a380e20ad2e434398d5fa3b5ef0e55ae958beab050ef45cf37",
+      "expected_bytes": 7932984,
+      "status": "downloaded",
+      "bytes": 7932984,
+      "source_sha256": "f9ccb46bc90dec6ad48867be4eecbe5ecbf087e8703656e762e9dfc662e6a078",
+      "local_sha256": "f9ccb46bc90dec6ad48867be4eecbe5ecbf087e8703656e762e9dfc662e6a078"
     }
   ],
   "has_rich_content": true

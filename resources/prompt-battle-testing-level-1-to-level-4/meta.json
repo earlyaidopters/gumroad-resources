@@ -13,18 +13,30 @@
   "files": [
     {
       "file": "Prompt Battle Testing (Make File).json",
-      "status": "cached",
-      "bytes": 206339
+      "source_revision": "8a3fbe7c93da836bfd4f52f5aac3ce7d9562d926acb1e4341be0d12990375407",
+      "expected_bytes": 206339,
+      "status": "downloaded",
+      "bytes": 206339,
+      "source_sha256": "2b56ca310bcc4af1b7dca312fa26b0c6bbede06a1131764dbca6e256208daec1",
+      "local_sha256": "2b56ca310bcc4af1b7dca312fa26b0c6bbede06a1131764dbca6e256208daec1"
     },
     {
       "file": "Simulated Conversation Testing (Make).json",
-      "status": "cached",
-      "bytes": 150604
+      "source_revision": "625e7cbceca0a8e023d363a1f04c716bc70d0893a31dbf6e9174e302f6078034",
+      "expected_bytes": 150604,
+      "status": "downloaded",
+      "bytes": 150604,
+      "source_sha256": "3b7bfa81f0131e6054f3e655e563e37e81b7a4ef25f2c4060ceff4475f953a8f",
+      "local_sha256": "3b7bfa81f0131e6054f3e655e563e37e81b7a4ef25f2c4060ceff4475f953a8f"
     },
     {
       "file": "Battle Testing Prompts.pdf",
-      "status": "cached",
-      "bytes": 553109
+      "source_revision": "bddfb1ceb4f6a690c93a6bba290e67cac941d359e6f1fe49c9c01c3c505f3212",
+      "expected_bytes": 553109,
+      "status": "downloaded",
+      "bytes": 553109,
+      "source_sha256": "79bc452a0dc48a9234379a9954d7d426e63569765db608bb18f9c7f7c4c72417",
+      "local_sha256": "79bc452a0dc48a9234379a9954d7d426e63569765db608bb18f9c7f7c4c72417"
     }
   ],
   "has_rich_content": true

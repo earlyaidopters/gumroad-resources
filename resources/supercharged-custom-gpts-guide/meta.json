@@ -13,13 +13,21 @@
   "files": [
     {
       "file": "custom gpt templates.pdf",
-      "status": "cached",
-      "bytes": 466583
+      "source_revision": "64a06d26e5062bd60b5428b84d9f10919cdfdc5f0e994b327404c03e331f4c63",
+      "expected_bytes": 466583,
+      "status": "downloaded",
+      "bytes": 466583,
+      "source_sha256": "520d07c33fa19a6118acf58a05f725a6378cf26818fcb863b2284b4701bfa3d5",
+      "local_sha256": "520d07c33fa19a6118acf58a05f725a6378cf26818fcb863b2284b4701bfa3d5"
     },
     {
       "file": "blueprint (5).json",
-      "status": "cached",
-      "bytes": 16221
+      "source_revision": "bee801b1ab2409e2380605912f9ac63ed7d2191e9a8e8cb44da0296fdcefcd03",
+      "expected_bytes": 16221,
+      "status": "downloaded",
+      "bytes": 16221,
+      "source_sha256": "a4600a161aeb74ff57ea0c2757e1d43dffae7c3c897052a8bd64fe5250fa8e64",
+      "local_sha256": "a4600a161aeb74ff57ea0c2757e1d43dffae7c3c897052a8bd64fe5250fa8e64"
     }
   ],
   "has_rich_content": true

@@ -13,13 +13,21 @@
   "files": [
     {
       "file": "N8N_Agent_creator.json",
-      "status": "cached",
-      "bytes": 3061
+      "source_revision": "85da5a16f3067ffbccbf0dbb5334db12f5a340138855f32db8854059af6ad6fe",
+      "expected_bytes": 3061,
+      "status": "downloaded",
+      "bytes": 3061,
+      "source_sha256": "340f06cb9dcc0fb7467444e4b6b9eb263251dddf3a6e4d2fb498025b7d769e7a",
+      "local_sha256": "340f06cb9dcc0fb7467444e4b6b9eb263251dddf3a6e4d2fb498025b7d769e7a"
     },
     {
       "file": "N8N_Agent_Creator__Sub_Flow.json",
-      "status": "cached",
-      "bytes": 35604
+      "source_revision": "44ecc7795de09beb89a3cb0eae9d030ed4c21e33a15be57765ebb2935ee56f23",
+      "expected_bytes": 35604,
+      "status": "downloaded",
+      "bytes": 35604,
+      "source_sha256": "987d22f9b6fc27d4f16a32fe4b6331acc82503d049613622a1929bd2ba80de70",
+      "local_sha256": "987d22f9b6fc27d4f16a32fe4b6331acc82503d049613622a1929bd2ba80de70"
     }
   ],
   "has_rich_content": true

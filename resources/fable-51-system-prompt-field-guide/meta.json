@@ -13,8 +13,12 @@
   "files": [
     {
       "file": "Fable-5-1-System-Prompt-Field-Guide.pdf",
+      "source_revision": "5eebea0c6806bc6d07f89d10303a80965b944bd0f9f382a0bbbca18777fc727f",
+      "expected_bytes": 2386953,
       "status": "cached",
-      "bytes": 2386953
+      "bytes": 2386953,
+      "source_sha256": "4d8754b184bb86809221b5da1d391d847ff7229bc8c6544caa75da5a0c510d7a",
+      "local_sha256": "4d8754b184bb86809221b5da1d391d847ff7229bc8c6544caa75da5a0c510d7a"
     }
   ],
   "has_rich_content": true

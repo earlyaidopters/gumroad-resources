@@ -13,13 +13,21 @@
   "files": [
     {
       "file": "Model Output Analyzer.json",
-      "status": "cached",
-      "bytes": 19407
+      "source_revision": "02ae507ccf79a233276423def76892b40645e227d65507c945c2b02a685607c4",
+      "expected_bytes": 19407,
+      "status": "downloaded",
+      "bytes": 19407,
+      "source_sha256": "3662d150c35a56d4a59dbd9d14daed37f134e7e9f46790d39dd36f8498d9f560",
+      "local_sha256": "3662d150c35a56d4a59dbd9d14daed37f134e7e9f46790d39dd36f8498d9f560"
     },
     {
       "file": "Models' Output Analyzer.xlsx",
-      "status": "cached",
-      "bytes": 251619
+      "source_revision": "9b31b724c12193395868933a10fb07b435efaececed869b827c47cc0c0a2f1e0",
+      "expected_bytes": 251619,
+      "status": "downloaded",
+      "bytes": 251619,
+      "source_sha256": "c699008bf464252ea8072df43213dd326510c1715c73c0e759d9b0edebd7e3cb",
+      "local_sha256": "c699008bf464252ea8072df43213dd326510c1715c73c0e759d9b0edebd7e3cb"
     }
   ],
   "has_rich_content": true

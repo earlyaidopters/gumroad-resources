@@ -13,13 +13,21 @@
   "files": [
     {
       "file": "codex_duo_concepts_companion.pdf",
+      "source_revision": "e930df655ce5ebb765d5da4ea31c30c4e9f364462156269095c335302e198ba7",
+      "expected_bytes": 26112,
       "status": "cached",
-      "bytes": 26112
+      "bytes": 26112,
+      "source_sha256": "401b53c5f8135de881bdb4f1bcb608c75b7b88ba758a216a240d9c6f042ce527",
+      "local_sha256": "401b53c5f8135de881bdb4f1bcb608c75b7b88ba758a216a240d9c6f042ce527"
     },
     {
       "file": "codex_duo_field_guide.pdf",
+      "source_revision": "c461469a5793a5c47cefd372d2c25f66ab673b3c31f38d951fafd5e40f4ad6b3",
+      "expected_bytes": 12463484,
       "status": "cached",
-      "bytes": 12463484
+      "bytes": 12463484,
+      "source_sha256": "ccc87c13c62e35fd3e59c953db035444bc16343e704c6c9093842489e654d3b7",
+      "local_sha256": "ccc87c13c62e35fd3e59c953db035444bc16343e704c6c9093842489e654d3b7"
     }
   ],
   "has_rich_content": true

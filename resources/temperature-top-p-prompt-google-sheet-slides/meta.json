@@ -13,8 +13,12 @@
   "files": [
     {
       "file": "Temperature v Top P.pdf",
-      "status": "cached",
-      "bytes": 353186
+      "source_revision": "b6b7713d44a46f3b47a7e6c0f8e9346beba8be865520351540a32805a937c84d",
+      "expected_bytes": 353186,
+      "status": "downloaded",
+      "bytes": 353186,
+      "source_sha256": "48d0fd5dac0e25a74d173872b91075e2123c5245097fd6fbec98aff862f35a2b",
+      "local_sha256": "48d0fd5dac0e25a74d173872b91075e2123c5245097fd6fbec98aff862f35a2b"
     }
   ],
   "has_rich_content": true

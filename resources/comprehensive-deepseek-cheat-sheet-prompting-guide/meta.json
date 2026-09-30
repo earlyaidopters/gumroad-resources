@@ -13,8 +13,12 @@
   "files": [
     {
       "file": "DeepSeek Prompting Guide.pdf",
-      "status": "cached",
-      "bytes": 529961
+      "source_revision": "a76a098c7cdc371612e84b37761ef203435ca17b20a7fb8a9f0644b661373161",
+      "expected_bytes": 529961,
+      "status": "downloaded",
+      "bytes": 529961,
+      "source_sha256": "b3ba546db2703dce8f2a69adbf37fc4cb6a042f13fb89609fa178dc0dbece763",
+      "local_sha256": "b3ba546db2703dce8f2a69adbf37fc4cb6a042f13fb89609fa178dc0dbece763"
     }
   ],
   "has_rich_content": true

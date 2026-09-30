@@ -13,8 +13,13 @@
   "files": [
     {
       "file": "promptify_v1.zip",
-      "status": "cached",
-      "bytes": 29293
+      "source_revision": "6940a273b037adc499e62ee057e798e37ee26f61da25167ae1489d18da66542c",
+      "expected_bytes": 29293,
+      "status": "downloaded",
+      "bytes": 29293,
+      "source_sha256": "ba7463025325985668bf64db6c0116b660e3c95a94652c01128bba9bc832a806",
+      "local_sha256": "ba7463025325985668bf64db6c0116b660e3c95a94652c01128bba9bc832a806",
+      "unpacked_sha256": "ba7463025325985668bf64db6c0116b660e3c95a94652c01128bba9bc832a806"
     }
   ],
   "has_rich_content": true

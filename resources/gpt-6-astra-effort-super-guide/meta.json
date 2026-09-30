@@ -13,13 +13,22 @@
   "files": [
     {
       "file": "Astra-Effort-Super-Guide.pdf",
+      "source_revision": "03dda445ded4339626c80a36f751d5e6c960345a0acf86f99b1c0658608a0154",
+      "expected_bytes": 2182542,
       "status": "cached",
-      "bytes": 2182542
+      "bytes": 2182542,
+      "source_sha256": "85ec37f50e79f53315626616425e98b3d360e338026a32cc1aef810c8478fa21",
+      "local_sha256": "85ec37f50e79f53315626616425e98b3d360e338026a32cc1aef810c8478fa21"
     },
     {
       "file": "Astra-Super-Guide.zip",
+      "source_revision": "bb48ef23d8975a8cb4b95a8a0837f31027c315b06c8f099da45062ee2a9fa945",
+      "expected_bytes": 4895609,
       "status": "cached",
-      "bytes": 4895609
+      "bytes": 4895609,
+      "source_sha256": "bf842baa8ddda198082cee05ce24fe863f4bc2903ef5eee7ed5b25a811423f9a",
+      "local_sha256": "bf842baa8ddda198082cee05ce24fe863f4bc2903ef5eee7ed5b25a811423f9a",
+      "unpacked_sha256": "bf842baa8ddda198082cee05ce24fe863f4bc2903ef5eee7ed5b25a811423f9a"
     }
   ],
   "has_rich_content": true

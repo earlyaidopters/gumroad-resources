@@ -13,13 +13,22 @@
   "files": [
     {
       "file": "CODEX-OLLAMA-SETUP-GUIDE.pdf",
+      "source_revision": "1ff8d1c6d041e15005486c2b44de59885de7269e2bbdfc7ac94dd45ff8ddb3af",
+      "expected_bytes": 27731,
       "status": "cached",
-      "bytes": 27731
+      "bytes": 27731,
+      "source_sha256": "858557b7b35acbb66c5bfc0578bb93f3ed738f738850566d26c5ffd1b05b3a79",
+      "local_sha256": "858557b7b35acbb66c5bfc0578bb93f3ed738f738850566d26c5ffd1b05b3a79"
     },
     {
       "file": "CODEX-OLLAMA-SETUP-KIT.zip",
+      "source_revision": "af8719a4590b71588b1cb8267e2cf0be1428dfa53fb79aa32aab9bd0c24606e4",
+      "expected_bytes": 26171,
       "status": "cached",
-      "bytes": 26171
+      "bytes": 26171,
+      "source_sha256": "40d3956a1d2569c940f24b14f03edd76f92490901816eab3a458ab258ffbc84e",
+      "local_sha256": "40d3956a1d2569c940f24b14f03edd76f92490901816eab3a458ab258ffbc84e",
+      "unpacked_sha256": "40d3956a1d2569c940f24b14f03edd76f92490901816eab3a458ab258ffbc84e"
     }
   ],
   "has_rich_content": true

@@ -13,8 +13,12 @@
   "files": [
     {
       "file": "claudemaxxing_guide.pdf",
-      "status": "cached",
-      "bytes": 32605
+      "source_revision": "7be3adc4565bf35d9292bb555646156074fa5b5a1bde024ab0212cedbffb2647",
+      "expected_bytes": 32605,
+      "status": "downloaded",
+      "bytes": 32605,
+      "source_sha256": "33c1a964eb9192d0d3d0edf6cabc0340ecd7160fd70b0353f49dc956e267c245",
+      "local_sha256": "33c1a964eb9192d0d3d0edf6cabc0340ecd7160fd70b0353f49dc956e267c245"
     }
   ],
   "has_rich_content": true

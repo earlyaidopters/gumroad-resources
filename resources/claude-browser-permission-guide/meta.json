@@ -13,13 +13,21 @@
   "files": [
     {
       "file": "claude-browser-permission-guide.pdf",
+      "source_revision": "6f9b412f96fead5eff74368127158b3760e3ec1c99cc17b5f15f0c700394057b",
+      "expected_bytes": 6419063,
       "status": "cached",
-      "bytes": 6419063
+      "bytes": 6419063,
+      "source_sha256": "5a6ede319091f49ee3d36fbaab63500feaea72f1c82cb8ba31e9337f21156eff",
+      "local_sha256": "5a6ede319091f49ee3d36fbaab63500feaea72f1c82cb8ba31e9337f21156eff"
     },
     {
       "file": "browser-first-task.txt",
+      "source_revision": "5e5654c7a86bece361b0aacb876bb59ced06bdb5aac7a30bab1bb8ed3be0b0c0",
+      "expected_bytes": 699,
       "status": "cached",
-      "bytes": 699
+      "bytes": 699,
+      "source_sha256": "6050bfc52e17ef8030405e15dc4bbf926a026812c55a56728e13143083faaaaf",
+      "local_sha256": "6050bfc52e17ef8030405e15dc4bbf926a026812c55a56728e13143083faaaaf"
     }
   ],
   "has_rich_content": true

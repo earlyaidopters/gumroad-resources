@@ -13,8 +13,12 @@
   "files": [
     {
       "file": "Vibe Automation Prompt.md",
-      "status": "cached",
-      "bytes": 3081
+      "source_revision": "eafc03d088592b1e22247c780121d5c547c0d787efa1a7262ece042652935093",
+      "expected_bytes": 3081,
+      "status": "downloaded",
+      "bytes": 3081,
+      "source_sha256": "8fb4b51b73386a6d3ece7c67b51f60acc62f8214ee6b554c42dac03905d293b1",
+      "local_sha256": "8fb4b51b73386a6d3ece7c67b51f60acc62f8214ee6b554c42dac03905d293b1"
     }
   ],
   "has_rich_content": true

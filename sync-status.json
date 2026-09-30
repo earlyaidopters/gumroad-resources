@@ -1,0 +1,11 @@
+{
+  "schema_version": 1,
+  "verified_at": "2026-09-30T18:55:44.288246+00:00",
+  "source_index_observed_at": "2026-09-30T18:54:46.006681+00:00",
+  "run_url": null,
+  "published_products": 177,
+  "mirrored_products": 177,
+  "attachments_verified": 305,
+  "oversized_attachments_on_gumroad": 1,
+  "manifest_sha256": "42c5fa69a246e674e8433bd160bf96ec90717e705547b47985d115ae8a10755f"
+}

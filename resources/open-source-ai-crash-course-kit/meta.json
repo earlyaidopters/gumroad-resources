@@ -13,13 +13,22 @@
   "files": [
     {
       "file": "open_source_ai_crash_course_guide.pdf",
+      "source_revision": "85ae9714ff3b6091f2cb2a6c50567d34acaeec13924f38dc32885576d5635033",
+      "expected_bytes": 4991764,
       "status": "cached",
-      "bytes": 4991764
+      "bytes": 4991764,
+      "source_sha256": "2b0ead1e68ac6ffe8514fbf5239c6aa8ff8b44545e44c4770cc2ad9ba194125f",
+      "local_sha256": "2b0ead1e68ac6ffe8514fbf5239c6aa8ff8b44545e44c4770cc2ad9ba194125f"
     },
     {
       "file": "open_source_ai_crash_course_kit.zip",
+      "source_revision": "b58993630a1c9bd0f50d35c81a6a57bbb949182c780c2c4b7e31003ee74c2a3b",
+      "expected_bytes": 3975541,
       "status": "cached",
-      "bytes": 3975541
+      "bytes": 3975541,
+      "source_sha256": "3b0efb998b8e3b79764fdb7fd614b9e6cab9525ad6c2ceafa0bfa5ebf67c675a",
+      "local_sha256": "3b0efb998b8e3b79764fdb7fd614b9e6cab9525ad6c2ceafa0bfa5ebf67c675a",
+      "unpacked_sha256": "3b0efb998b8e3b79764fdb7fd614b9e6cab9525ad6c2ceafa0bfa5ebf67c675a"
     }
   ],
   "has_rich_content": true

@@ -13,13 +13,22 @@
   "files": [
     {
       "file": "USE-BOTH-WORKFLOW-GUIDE.pdf",
+      "source_revision": "75428b9f5bd9c0171487d4f6440d5e0ac4689ca7302272a7a9e4bf3b7cbc57da",
+      "expected_bytes": 227133,
       "status": "cached",
-      "bytes": 227133
+      "bytes": 227133,
+      "source_sha256": "239c07ef1d664a32cfcc869228965ff8097f4ba8841251e16ecadb067184bf67",
+      "local_sha256": "239c07ef1d664a32cfcc869228965ff8097f4ba8841251e16ecadb067184bf67"
     },
     {
       "file": "claude-codex-workflow-kit-v1.0.0.zip",
+      "source_revision": "33ffa952d9fc3c18d4a62d14d44b8fe087aa53ae41703ff97e436d7db4292dc1",
+      "expected_bytes": 362448,
       "status": "cached",
-      "bytes": 362448
+      "bytes": 362448,
+      "source_sha256": "dcd6a51674e182eb580b2c93914b657ef6e6504b1b1a2d50ee11230a39ef285a",
+      "local_sha256": "dcd6a51674e182eb580b2c93914b657ef6e6504b1b1a2d50ee11230a39ef285a",
+      "unpacked_sha256": "dcd6a51674e182eb580b2c93914b657ef6e6504b1b1a2d50ee11230a39ef285a"
     }
   ],
   "has_rich_content": true

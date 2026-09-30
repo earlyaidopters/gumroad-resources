@@ -1,0 +1,1636 @@
+{
+  "name": "AI Fine Tuning using JSONL",
+  "nodes": [
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.openai.com/v1/fine_tuning/jobs",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "openAiApi",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {}
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "training_file",
+              "value": "={{ $json.id }}"
+            },
+            {
+              "name": "model",
+              "value": "={{ $('Edit Fields').item.json.Model }}"
+            },
+            {
+              "name": "method",
+              "value": "={{ $('Edit Fields').item.json.method }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1260,
+        0
+      ],
+      "id": "47c4f1bb-5d5b-4139-ac8b-06ee73651ea7",
+      "name": "OpenAI: Create Finetuning Job",
+      "credentials": {
+        "openAiApi": {
+          "id": "bBtD8KtcEPsOhElY",
+          "name": "Prompt Advisers OpenAI Account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.openai.com/v1/files",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "openAiApi",
+        "sendBody": true,
+        "contentType": "multipart-form-data",
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "purpose",
+              "value": "fine-tune"
+            },
+            {
+              "parameterType": "formBinaryData",
+              "name": "file",
+              "inputDataFieldName": "data"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1020,
+        0
+      ],
+      "id": "557aebe7-df5d-4c88-9859-b1a0a6a560be",
+      "name": "OpenAI: Upload file",
+      "credentials": {
+        "openAiApi": {
+          "id": "bBtD8KtcEPsOhElY",
+          "name": "Prompt Advisers OpenAI Account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "=https://api.openai.com/v1/fine_tuning/jobs/{{ $json.id }}",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "openAiApi",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1800,
+        0
+      ],
+      "id": "b6eaeb57-d68a-41f0-8a19-6e1044a3a8ef",
+      "name": "OpenAI: Check Fine-Tune Job",
+      "credentials": {
+        "openAiApi": {
+          "id": "bBtD8KtcEPsOhElY",
+          "name": "Prompt Advisers OpenAI Account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "83652061-c04a-4371-a614-682c397ece74",
+              "leftValue": "={{ $json.status }}",
+              "rightValue": "succeeded",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "or"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        2360,
+        0
+      ],
+      "id": "ce37489c-5e91-41aa-8116-be8ab69552dc",
+      "name": "If Job Finished"
+    },
+    {
+      "parameters": {
+        "amount": 30
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        1260,
+        280
+      ],
+      "id": "c5e7d7d0-ab3e-40b0-b544-a25b6585f815",
+      "name": "Wait",
+      "webhookId": "6782b051-b9c7-4cdd-bc6e-355e9624b40b"
+    },
+    {
+      "parameters": {
+        "aggregate": "aggregateAllItemData",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        3500,
+        -20
+      ],
+      "id": "f8f861d4-54eb-4997-b1dc-63dd67ec75f1",
+      "name": "Aggregate1"
+    },
+    {
+      "parameters": {
+        "url": "={{ $json['Finetune File'][0].url }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        800,
+        0
+      ],
+      "id": "384850b9-b240-49c5-a4bb-d4fd65951590",
+      "name": "Download JSONL"
+    },
+    {
+      "parameters": {
+        "url": "={{ $('Edit Fields').first().json['Finetune File'][0].url }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        2860,
+        -20
+      ],
+      "id": "e698c927-900e-4448-9c40-3493342c11d6",
+      "name": "Download JSONL for Testing"
+    },
+    {
+      "parameters": {
+        "jsCode": "async function extractBinaryData() {\n  const results = [];\n\n  for (const item of $input.all()) {\n    if (item.binary && item.binary.data) {\n      // Await the binary data buffer\n      const binaryDataBuffer = await this.helpers.getBinaryDataBuffer(0, 'data');\n      \n      if (binaryDataBuffer) {\n        // Convert binary buffer to string (UTF-8)\n        const fileContent = binaryDataBuffer.toString('utf-8');\n\n        results.push({\n          json: {\n            extractedText: fileContent\n          }\n        });\n      } else {\n        throw new Error('Binary data buffer is empty.');\n      }\n    } else {\n      throw new Error('No binary data found in the input item.');\n    }\n  }\n\n  return results;\n}\n\nreturn extractBinaryData();\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        3080,
+        -20
+      ],
+      "id": "064b1b90-a636-4cd8-a06e-0806e635cfeb",
+      "name": "Convert Binary to String"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Initialize an array to hold each individual JSON object\nconst parsedItems = [];\n\n// Loop over the input items\nfor (const item of $input.all()) {\n  // Get the raw JSONL string from the input\n  const jsonlString = item.json.extractedText; // using 'extractedText' as the input data field\n\n  // Split the JSONL string by new lines to get each JSON object\n  const jsonLines = jsonlString.split('\\n');\n\n  // Loop over each line (JSON object) in the split string\n  for (const jsonLine of jsonLines) {\n    // Parse the line as a JSON object\n    try {\n      const parsedJson = JSON.parse(jsonLine);\n\n      // Add the parsed JSON as a new item in the parsedItems array\n      parsedItems.push({\n        json: parsedJson,\n      });\n    } catch (error) {\n      // Handle the case where a line is not valid JSON\n      console.error('Error parsing JSON:', error);\n    }\n  }\n}\n\n// Return the parsed items as separate bundles\nreturn parsedItems;"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        3300,
+        -20
+      ],
+      "id": "d9a83d76-86b7-402a-8251-f21e1d769db9",
+      "name": "Convert to JSON"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://api.openai.com/v1/chat/completions",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "openAiApi",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "model",
+              "value": "={{ $('If Job Finished').item.json.fine_tuned_model }}"
+            },
+            {
+              "name": "messages",
+              "value": "={{ $json.messages }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        3980,
+        -20
+      ],
+      "id": "d019cea4-0b53-4e10-8d10-4eb22c163479",
+      "name": "OpenAI: Test Fine-Tuned Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "bBtD8KtcEPsOhElY",
+          "name": "Prompt Advisers OpenAI Account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "base": {
+          "__rl": true,
+          "value": "appBq8glCuLooaXl9",
+          "mode": "list",
+          "cachedResultName": "Fine-Tuning AI",
+          "cachedResultUrl": "https://airtable.com/appBq8glCuLooaXl9"
+        },
+        "table": {
+          "__rl": true,
+          "value": "tblUHQNvlmmJDDE0W",
+          "mode": "list",
+          "cachedResultName": "Fine-Tune Jobs",
+          "cachedResultUrl": "https://airtable.com/appBq8glCuLooaXl9/tblUHQNvlmmJDDE0W"
+        },
+        "id": "={{ $json.query.recordId }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2.1,
+      "position": [
+        240,
+        0
+      ],
+      "id": "e01cfa77-4586-4314-9dd6-d624060a1ed7",
+      "name": "Airtable",
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "OU4HfdQQJQ6VMVog",
+          "name": "Fine-Tuning AI Base Connection"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// Get input data from the previous node\nconst inputData = $json[\"data\"];\n\n// Shuffle the array and pick 3 random elements\nconst shuffled = inputData.sort(() => 0.5 - Math.random());\nconst selectedMessages = shuffled.slice(0, 3).map(item => {\n    // Separate messages by role\n    const userMessages = item.messages.filter(msg => msg.role !== \"assistant\");\n    const assistantMessage = item.messages.find(msg => msg.role === \"assistant\");\n\n    // Return structured object with both keys\n    return { \n        json: { \n            messages: userMessages, \n            assistant: assistantMessage || null  // Ensure assistant exists, or set as null\n        } \n    };\n});\n\n// Return multiple structured objects\nreturn selectedMessages;\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        3720,
+        -20
+      ],
+      "id": "7eb80d4f-cbce-4852-a4d9-647afd0debaf",
+      "name": "Select 3 Random Prompts"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "328a849c-3e4b-4b15-a5f3-f6bd532111fb",
+              "name": "method",
+              "value": "={\"type\": \"supervised\",\"supervised\":{\"hyperparameters\":{\"n_epochs\": {{ $json.Epochs }}}} }",
+              "type": "object"
+            },
+            {
+              "id": "95f0e1a3-0987-454f-9536-c7e48cd8c7de",
+              "name": "Finetune File",
+              "value": "={{ $json['Finetune File'] }}",
+              "type": "array"
+            },
+            {
+              "id": "3e59d3d7-8717-4cfd-9190-b9c0f638138e",
+              "name": "Model",
+              "value": "={{ $json.Model }}",
+              "type": "string"
+            },
+            {
+              "id": "0827224b-1f22-4bc4-babc-b5d8a0a8ae64",
+              "name": "RecordId",
+              "value": "={{ $('Webhook').first().json.query.recordId }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {
+          "ignoreConversionErrors": false
+        }
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        480,
+        0
+      ],
+      "id": "fa1be16c-cc2a-4547-9a22-d4cace7212fa",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "base": {
+          "__rl": true,
+          "value": "appBq8glCuLooaXl9",
+          "mode": "list",
+          "cachedResultName": "Fine-Tuning AI",
+          "cachedResultUrl": "https://airtable.com/appBq8glCuLooaXl9"
+        },
+        "table": {
+          "__rl": true,
+          "value": "tblUHQNvlmmJDDE0W",
+          "mode": "list",
+          "cachedResultName": "Fine-Tune Jobs",
+          "cachedResultUrl": "https://airtable.com/appBq8glCuLooaXl9/tblUHQNvlmmJDDE0W"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Start Fine-Tuning?": false,
+            "id": "={{ $('Edit Fields').first().json.RecordId }}",
+            "Monitor Status": "={{ $json.data[0].message }}"
+          },
+          "matchingColumns": [
+            "id"
+          ],
+          "schema": [
+            {
+              "id": "id",
+              "displayName": "id",
+              "required": false,
+              "defaultMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": true,
+              "removed": false
+            },
+            {
+              "id": "ID",
+              "displayName": "ID",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": true,
+              "removed": true
+            },
+            {
+              "id": "Name",
+              "displayName": "Name",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Finetune File",
+              "displayName": "Finetune File",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "array",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Epochs",
+              "displayName": "Epochs",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "number",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Model",
+              "displayName": "Model",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "options",
+              "options": [
+                {
+                  "name": "gpt-4o-mini-2024-07-18",
+                  "value": "gpt-4o-mini-2024-07-18"
+                },
+                {
+                  "name": "gpt-4o-2024-08-06",
+                  "value": "gpt-4o-2024-08-06"
+                },
+                {
+                  "name": "gpt-3.5-turbo-0125",
+                  "value": "gpt-3.5-turbo-0125"
+                }
+              ],
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Start Fine-Tuning?",
+              "displayName": "Start Fine-Tuning?",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "boolean",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Status",
+              "displayName": "Status",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "options",
+              "options": [
+                {
+                  "name": "Not Started",
+                  "value": "Not Started"
+                },
+                {
+                  "name": "Fine-Tuning...",
+                  "value": "Fine-Tuning..."
+                },
+                {
+                  "name": "Finished",
+                  "value": "Finished"
+                }
+              ],
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Monitor Status",
+              "displayName": "Monitor Status",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Test Results",
+              "displayName": "Test Results",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "array",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Fine-Tuned Models",
+              "displayName": "Fine-Tuned Models",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "array",
+              "readOnly": false,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2.1,
+      "position": [
+        2340,
+        680
+      ],
+      "id": "8b4faf52-c6a0-4e7e-88f6-1099bb28a246",
+      "name": "Update Monitoring",
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "OU4HfdQQJQ6VMVog",
+          "name": "Fine-Tuning AI Base Connection"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "create",
+        "base": {
+          "__rl": true,
+          "value": "appBq8glCuLooaXl9",
+          "mode": "list",
+          "cachedResultName": "Fine-Tuning AI",
+          "cachedResultUrl": "https://airtable.com/appBq8glCuLooaXl9"
+        },
+        "table": {
+          "__rl": true,
+          "value": "tbl1JSVMcHLiKwWE6",
+          "mode": "list",
+          "cachedResultName": "Test Results",
+          "cachedResultUrl": "https://airtable.com/appBq8glCuLooaXl9/tbl1JSVMcHLiKwWE6"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Test Prompt": "={{ $json['Test Prompts'] }}",
+            "Fine-Tuned Response": "={{ $json.choices[0].message.content }}",
+            "Fine-Tune Job": "={{ $json.recordId }}",
+            "Original Response": "={{ $json['Original Response'] }}"
+          },
+          "matchingColumns": [
+            "id"
+          ],
+          "schema": [
+            {
+              "id": "id",
+              "displayName": "id",
+              "required": false,
+              "defaultMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": true,
+              "removed": false
+            },
+            {
+              "id": "ID",
+              "displayName": "ID",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": true,
+              "removed": true
+            },
+            {
+              "id": "Model Name",
+              "displayName": "Model Name",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": true,
+              "removed": true
+            },
+            {
+              "id": "Test Prompt",
+              "displayName": "Test Prompt",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Original Response",
+              "displayName": "Original Response",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Fine-Tuned Response",
+              "displayName": "Fine-Tuned Response",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Fine-Tune Job",
+              "displayName": "Fine-Tune Job",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "array",
+              "readOnly": false,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2.1,
+      "position": [
+        4420,
+        -20
+      ],
+      "id": "c79c5379-0416-403c-9b1c-6ae939623186",
+      "name": "Add Test Results",
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "OU4HfdQQJQ6VMVog",
+          "name": "Fine-Tuning AI Base Connection"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "e92b4d85-9d44-4bbc-b769-6286295b5bd2",
+              "name": "choices[0].message",
+              "value": "={{ $json.choices[0].message }}",
+              "type": "object"
+            },
+            {
+              "id": "1eb5aad4-339d-4c85-adfb-6db76f6de403",
+              "name": "messages",
+              "value": "={{ $('Select 3 Random Prompts').item.json.messages }}",
+              "type": "array"
+            },
+            {
+              "id": "c5c7eeb6-4c46-41db-b450-0a77a2f297f2",
+              "name": "recordId",
+              "value": "=[\"{{ $('Edit Fields').first().json.RecordId }}\"]",
+              "type": "array"
+            },
+            {
+              "id": "7291526a-f4d1-45b2-bede-bf9618e3ee64",
+              "name": "Test Prompts",
+              "value": "={{ $('Select 3 Random Prompts').item.json.messages }}",
+              "type": "string"
+            },
+            {
+              "id": "e6875575-b256-4c38-97dd-02f6778e5cfc",
+              "name": "Original Response",
+              "value": "={{ $('Select 3 Random Prompts').item.json.assistant }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        4200,
+        -20
+      ],
+      "id": "2c798074-dc68-4e24-a3a5-fb72d7cdc883",
+      "name": "Edit Fields1"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "8347cd30-af86-42ac-9865-67b95310f959",
+              "name": "fine_tuned_model",
+              "value": "={{ $json.fine_tuned_model }}",
+              "type": "string"
+            },
+            {
+              "id": "975e373b-e9d5-412b-9d79-7a315aa97d24",
+              "name": "recordId",
+              "value": "=[\"{{ $('Edit Fields').first().json.RecordId }}\"]",
+              "type": "array"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        2840,
+        180
+      ],
+      "id": "51d2eb8d-1f67-4613-95d7-102e102f71a5",
+      "name": "Edit Fields2",
+      "executeOnce": true
+    },
+    {
+      "parameters": {
+        "operation": "create",
+        "base": {
+          "__rl": true,
+          "value": "appBq8glCuLooaXl9",
+          "mode": "list",
+          "cachedResultName": "Fine-Tuning AI",
+          "cachedResultUrl": "https://airtable.com/appBq8glCuLooaXl9"
+        },
+        "table": {
+          "__rl": true,
+          "value": "tblIvkmzqG22bey33",
+          "mode": "list",
+          "cachedResultName": "Fine-Tuned Models",
+          "cachedResultUrl": "https://airtable.com/appBq8glCuLooaXl9/tblIvkmzqG22bey33"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Model ID": "={{ $json.fine_tuned_model }}",
+            "Fine-Tune Job": "={{ $json.recordId }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "ID",
+              "displayName": "ID",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": true,
+              "removed": true
+            },
+            {
+              "id": "Model Name",
+              "displayName": "Model Name",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": true,
+              "removed": true
+            },
+            {
+              "id": "Model ID",
+              "displayName": "Model ID",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Fine-Tune Job",
+              "displayName": "Fine-Tune Job",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "array",
+              "readOnly": false,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2.1,
+      "position": [
+        3100,
+        180
+      ],
+      "id": "86432718-f5e5-43ed-85c6-8dacc928964d",
+      "name": "Add Fine-Tuned Model",
+      "executeOnce": false,
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "OU4HfdQQJQ6VMVog",
+          "name": "Fine-Tuning AI Base Connection"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "base": {
+          "__rl": true,
+          "value": "appBq8glCuLooaXl9",
+          "mode": "list",
+          "cachedResultName": "Fine-Tuning AI",
+          "cachedResultUrl": "https://airtable.com/appBq8glCuLooaXl9"
+        },
+        "table": {
+          "__rl": true,
+          "value": "tblUHQNvlmmJDDE0W",
+          "mode": "list",
+          "cachedResultName": "Fine-Tune Jobs",
+          "cachedResultUrl": "https://airtable.com/appBq8glCuLooaXl9/tblUHQNvlmmJDDE0W"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Start Fine-Tuning?": false,
+            "id": "={{ $('Edit Fields2').item.json.recordId[0] }}",
+            "Status": "Finished"
+          },
+          "matchingColumns": [
+            "id"
+          ],
+          "schema": [
+            {
+              "id": "id",
+              "displayName": "id",
+              "required": false,
+              "defaultMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": true
+            },
+            {
+              "id": "ID",
+              "displayName": "ID",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": true,
+              "removed": true
+            },
+            {
+              "id": "Name",
+              "displayName": "Name",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Finetune File",
+              "displayName": "Finetune File",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "array",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Epochs",
+              "displayName": "Epochs",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "number",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Model",
+              "displayName": "Model",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "options",
+              "options": [
+                {
+                  "name": "gpt-4o-mini-2024-07-18",
+                  "value": "gpt-4o-mini-2024-07-18"
+                },
+                {
+                  "name": "gpt-4o-2024-08-06",
+                  "value": "gpt-4o-2024-08-06"
+                },
+                {
+                  "name": "gpt-3.5-turbo-0125",
+                  "value": "gpt-3.5-turbo-0125"
+                }
+              ],
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Start Fine-Tuning?",
+              "displayName": "Start Fine-Tuning?",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "boolean",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Status",
+              "displayName": "Status",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "options",
+              "options": [
+                {
+                  "name": "Not Started",
+                  "value": "Not Started"
+                },
+                {
+                  "name": "Fine-Tuning...",
+                  "value": "Fine-Tuning..."
+                },
+                {
+                  "name": "Testing",
+                  "value": "Testing"
+                },
+                {
+                  "name": "Finished",
+                  "value": "Finished"
+                }
+              ],
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Test Results",
+              "displayName": "Test Results",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "array",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Fine-Tuned Models",
+              "displayName": "Fine-Tuned Models",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "array",
+              "readOnly": false,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2.1,
+      "position": [
+        3320,
+        180
+      ],
+      "id": "71336b29-5bb4-4533-9a0f-4fb78eb49185",
+      "name": "Update Status of Job",
+      "executeOnce": false,
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "OU4HfdQQJQ6VMVog",
+          "name": "Fine-Tuning AI Base Connection"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "=https://api.openai.com/v1/fine_tuning/jobs/{{ $json.id }}/events",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "openAiApi",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        2340,
+        260
+      ],
+      "id": "e2d32b3e-8541-4800-b41f-60af9beb3a61",
+      "name": "OpenAI: Check Fine-Tune Job1",
+      "credentials": {
+        "openAiApi": {
+          "id": "bBtD8KtcEPsOhElY",
+          "name": "Prompt Advisers OpenAI Account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "b19528d4-3e5f-451c-bab9-e94d8c400e1e",
+              "name": "data[0].message",
+              "value": "={{ $json.data[0].message }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        2340,
+        480
+      ],
+      "id": "4c29fc82-273e-40de-94f6-1e2614f0dd61",
+      "name": "Edit Fields3"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "base": {
+          "__rl": true,
+          "value": "appBq8glCuLooaXl9",
+          "mode": "list",
+          "cachedResultName": "Fine-Tuning AI",
+          "cachedResultUrl": "https://airtable.com/appBq8glCuLooaXl9"
+        },
+        "table": {
+          "__rl": true,
+          "value": "tblUHQNvlmmJDDE0W",
+          "mode": "list",
+          "cachedResultName": "Fine-Tune Jobs",
+          "cachedResultUrl": "https://airtable.com/appBq8glCuLooaXl9/tblUHQNvlmmJDDE0W"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Start Fine-Tuning?": false,
+            "id": "={{ $('Edit Fields').first().json.RecordId }}",
+            "Status": "Fine-Tuning..."
+          },
+          "matchingColumns": [
+            "id"
+          ],
+          "schema": [
+            {
+              "id": "id",
+              "displayName": "id",
+              "required": false,
+              "defaultMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": true
+            },
+            {
+              "id": "ID",
+              "displayName": "ID",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": true,
+              "removed": true
+            },
+            {
+              "id": "Name",
+              "displayName": "Name",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Finetune File",
+              "displayName": "Finetune File",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "array",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Epochs",
+              "displayName": "Epochs",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "number",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Model",
+              "displayName": "Model",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "options",
+              "options": [
+                {
+                  "name": "gpt-4o-mini-2024-07-18",
+                  "value": "gpt-4o-mini-2024-07-18"
+                },
+                {
+                  "name": "gpt-4o-2024-08-06",
+                  "value": "gpt-4o-2024-08-06"
+                },
+                {
+                  "name": "gpt-3.5-turbo-0125",
+                  "value": "gpt-3.5-turbo-0125"
+                }
+              ],
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Start Fine-Tuning?",
+              "displayName": "Start Fine-Tuning?",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "boolean",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Status",
+              "displayName": "Status",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "options",
+              "options": [
+                {
+                  "name": "Not Started",
+                  "value": "Not Started"
+                },
+                {
+                  "name": "Fine-Tuning...",
+                  "value": "Fine-Tuning..."
+                },
+                {
+                  "name": "Testing",
+                  "value": "Testing"
+                },
+                {
+                  "name": "Finished",
+                  "value": "Finished"
+                }
+              ],
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Test Results",
+              "displayName": "Test Results",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "array",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Fine-Tuned Models",
+              "displayName": "Fine-Tuned Models",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "array",
+              "readOnly": false,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2.1,
+      "position": [
+        1460,
+        -240
+      ],
+      "id": "a4f0e916-adcf-4119-ae62-683599b7add0",
+      "name": "Update Status of Job1",
+      "executeOnce": false,
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "OU4HfdQQJQ6VMVog",
+          "name": "Fine-Tuning AI Base Connection"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "c815cb13-7326-4c45-bd53-b353da001242",
+              "name": "id",
+              "value": "={{ $json.id }}",
+              "type": "string"
+            },
+            {
+              "id": "28056276-690a-434f-8f4f-434b9ce093e0",
+              "name": "fields['Finetune File'][0].url",
+              "value": "={{ $json.fields['Finetune File'][0].url }}",
+              "type": "string"
+            },
+            {
+              "id": "96c7c692-fe8b-4dac-9f76-c7a8445f65f1",
+              "name": "id",
+              "value": "={{ $('OpenAI: Create Finetuning Job').item.json.id }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1700,
+        -240
+      ],
+      "id": "6ec7737b-5fa7-4ff4-a876-cebd5bb4f6c4",
+      "name": "Edit Fields4"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "db166327-c438-4327-9ba7-e7c2dfe3b2cc",
+              "name": "id",
+              "value": "={{ $('If Job Finished').item.json.id }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1480,
+        280
+      ],
+      "id": "35834c7e-5b40-40f5-bfff-1d35049f067b",
+      "name": "Edit Fields5"
+    },
+    {
+      "parameters": {
+        "path": "5d70914e-dadf-40bc-9dcb-ebb06c4665cb",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        -200,
+        100
+      ],
+      "id": "4a6ef309-e829-4418-8c53-d06ca7b0ff7f",
+      "name": "Webhook",
+      "webhookId": "5d70914e-dadf-40bc-9dcb-ebb06c4665cb"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "OpenAI: Create Finetuning Job": {
+      "main": [
+        [
+          {
+            "node": "OpenAI: Check Fine-Tune Job",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Update Status of Job1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI: Upload file": {
+      "main": [
+        [
+          {
+            "node": "OpenAI: Create Finetuning Job",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI: Check Fine-Tune Job": {
+      "main": [
+        [
+          {
+            "node": "If Job Finished",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If Job Finished": {
+      "main": [
+        [
+          {
+            "node": "Download JSONL for Testing",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Edit Fields2",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "OpenAI: Check Fine-Tune Job1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields5",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Download JSONL": {
+      "main": [
+        [
+          {
+            "node": "OpenAI: Upload file",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Download JSONL for Testing": {
+      "main": [
+        [
+          {
+            "node": "Convert Binary to String",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Convert Binary to String": {
+      "main": [
+        [
+          {
+            "node": "Convert to JSON",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Convert to JSON": {
+      "main": [
+        [
+          {
+            "node": "Aggregate1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Aggregate1": {
+      "main": [
+        [
+          {
+            "node": "Select 3 Random Prompts",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Airtable": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Select 3 Random Prompts": {
+      "main": [
+        [
+          {
+            "node": "OpenAI: Test Fine-Tuned Model",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Download JSONL",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update Monitoring": {
+      "main": [
+        [
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI: Test Fine-Tuned Model": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields1": {
+      "main": [
+        [
+          {
+            "node": "Add Test Results",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Add Test Results": {
+      "main": [
+        []
+      ]
+    },
+    "Edit Fields2": {
+      "main": [
+        [
+          {
+            "node": "Add Fine-Tuned Model",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Add Fine-Tuned Model": {
+      "main": [
+        [
+          {
+            "node": "Update Status of Job",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI: Check Fine-Tune Job1": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields3": {
+      "main": [
+        [
+          {
+            "node": "Update Monitoring",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update Status of Job1": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields4": {
+      "main": [
+        []
+      ]
+    },
+    "Edit Fields5": {
+      "main": [
+        [
+          {
+            "node": "OpenAI: Check Fine-Tune Job",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Airtable",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "eeeb0d7a-91fd-4164-83f9-26ca9f46c698",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "aaadb797535f05587ee95b776c942a7c3f7a46fd7aa0c9b6a9d64e1e595f8af1"
+  },
+  "id": "7qQYyAT1j6jHx6lE",
+  "tags": []
+}

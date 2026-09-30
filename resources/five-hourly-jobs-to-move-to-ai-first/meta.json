@@ -13,13 +13,21 @@
   "files": [
     {
       "file": "five-hourly-jobs.pdf",
+      "source_revision": "57ef80ede2b8cdc6908d3efc5cd64f00f86326552f5513470f73475038d96bdd",
+      "expected_bytes": 103352,
       "status": "cached",
-      "bytes": 103352
+      "bytes": 103352,
+      "source_sha256": "9f75e7efe83be445c2411a809e608da17c8723206df71e500e1a24caaa242212",
+      "local_sha256": "9f75e7efe83be445c2411a809e608da17c8723206df71e500e1a24caaa242212"
     },
     {
       "file": "hours-prompts.txt",
+      "source_revision": "92b42c21070438e0f27f9ee9204e8f5e427755cdf3d27afe28ef30655dd8801e",
+      "expected_bytes": 4883,
       "status": "cached",
-      "bytes": 4883
+      "bytes": 4883,
+      "source_sha256": "91c9990891cb46077d37dfbcb10ff70951fc7b3b5eee9d083aafec00988bbb91",
+      "local_sha256": "91c9990891cb46077d37dfbcb10ff70951fc7b3b5eee9d083aafec00988bbb91"
     }
   ],
   "has_rich_content": true

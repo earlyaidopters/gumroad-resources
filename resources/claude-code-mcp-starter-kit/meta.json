@@ -13,18 +13,30 @@
   "files": [
     {
       "file": "mcp-complete-implementation-guide.md",
-      "status": "cached",
-      "bytes": 28529
+      "source_revision": "d92e978904db66670144b679c0e20272196495252d7cf84aea0d955208a06b28",
+      "expected_bytes": 28529,
+      "status": "downloaded",
+      "bytes": 28529,
+      "source_sha256": "541c1b98ca99ff383b52e6e4c8e0306c6387153b8bb978e17bfabf3ba969b880",
+      "local_sha256": "541c1b98ca99ff383b52e6e4c8e0306c6387153b8bb978e17bfabf3ba969b880"
     },
     {
       "file": "mcps-101.md",
-      "status": "cached",
-      "bytes": 782557
+      "source_revision": "186b6ee8d75e88d298e114976da331bcd757ff0a834b589fe5d07aa6415bde84",
+      "expected_bytes": 782557,
+      "status": "downloaded",
+      "bytes": 782557,
+      "source_sha256": "1a8659a154ad827173190b55982daed82d57bec1e89054b1045b6c4ca33fba0e",
+      "local_sha256": "1a8659a154ad827173190b55982daed82d57bec1e89054b1045b6c4ca33fba0e"
     },
     {
       "file": "lazycalculator.md",
-      "status": "cached",
-      "bytes": 15464
+      "source_revision": "685933fccf37d92fd91ec9c48d9b2eeec76f309781807db0a0374f52f335818e",
+      "expected_bytes": 15464,
+      "status": "downloaded",
+      "bytes": 15464,
+      "source_sha256": "f44623e0ace0ac4b89be2b1aaff76d958d3514e844815d91ca76ac1f1c350303",
+      "local_sha256": "f44623e0ace0ac4b89be2b1aaff76d958d3514e844815d91ca76ac1f1c350303"
     }
   ],
   "has_rich_content": true

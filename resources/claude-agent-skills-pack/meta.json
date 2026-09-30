@@ -12,29 +12,49 @@
   "description_md": "# What You Get\n\n- CSV → Slides automator: a ready-to-run skill that turns spreadsheets into presentation-ready PowerPoints (tables + charts).\n\n- Revenue forecaster: ML-powered time-series forecasting (Prophet) with plots, confidence intervals, and CSV outputs for planning.\n\n- Sales pipeline health analyzer: conversion funnels, win-rate by source, cycle-length analysis, and an exportable pipeline report.\n\n- Pitch deck builder: converts rough notes into a polished 10-slide investor or sales deck (.pptx) with customizable styles and speaker notes.\n\n- Editable SKILL.md + install-ready structure you can drop into Claude Code or the ~/.claude/skills folder so your team can reuse and version these skills across Claude apps and the API.",
   "files": [
     {
-      "file": "SKILL.md",
+      "file": "SKILL-c3bcf855e9.md",
+      "source_revision": "8b69ea08d945c3b6c343f24e8a712df57853c01674034be3d4eeff16c46b93e0",
+      "expected_bytes": 2980,
       "status": "downloaded",
-      "bytes": 2980
+      "bytes": 2980,
+      "source_sha256": "e4d88c82c30617a0c861284f0c4ab0061b4e00d4680b6ea99da8867f3557a241",
+      "local_sha256": "e4d88c82c30617a0c861284f0c4ab0061b4e00d4680b6ea99da8867f3557a241"
     },
     {
-      "file": "SKILL.md",
+      "file": "SKILL-8a7a14ed95.md",
+      "source_revision": "2ff15480629c941291f619175ffd9f3bd528acd09a54335daa51dabe44ab6a0a",
+      "expected_bytes": 2396,
       "status": "downloaded",
-      "bytes": 2396
+      "bytes": 2396,
+      "source_sha256": "910b9234604803f10ef5be6f25fc6ca19fe1eded10b7551c8ccde576b9823008",
+      "local_sha256": "910b9234604803f10ef5be6f25fc6ca19fe1eded10b7551c8ccde576b9823008"
     },
     {
-      "file": "SKILL.md",
+      "file": "SKILL-bb99ff2fc2.md",
+      "source_revision": "d7eb3d583e29677816fa2c0ceeff21805d3f610f235b97ec6e2a3d79e6ffd2ef",
+      "expected_bytes": 4083,
       "status": "downloaded",
-      "bytes": 4083
+      "bytes": 4083,
+      "source_sha256": "22c865dbee12f8e29d6cce0aed26cbdccd6bcca4e341100d4dc83e27d8d9668a",
+      "local_sha256": "22c865dbee12f8e29d6cce0aed26cbdccd6bcca4e341100d4dc83e27d8d9668a"
     },
     {
-      "file": "SKILL.md",
+      "file": "SKILL-64548ee0dc.md",
+      "source_revision": "09344cbbc2af620028ecef516df3ce196ef8b0979bc39e262cc5575467ba4d72",
+      "expected_bytes": 3677,
       "status": "downloaded",
-      "bytes": 3677
+      "bytes": 3677,
+      "source_sha256": "794c04364a443d7fcd610e60f632c6ee90e3cb1e39939d1090b1354324f19d85",
+      "local_sha256": "794c04364a443d7fcd610e60f632c6ee90e3cb1e39939d1090b1354324f19d85"
     },
     {
-      "file": "SKILL.md",
+      "file": "SKILL-e87cc77632.md",
+      "source_revision": "579e449f2f19fb5b3ffde138da3fbc180a65c7a996674c920829e082133c6cf3",
+      "expected_bytes": 12003,
       "status": "downloaded",
-      "bytes": 12003
+      "bytes": 12003,
+      "source_sha256": "02e4d1783d61bfc1572a5e0856b191b19c4c5fffe6475ca936399df9c298648f",
+      "local_sha256": "02e4d1783d61bfc1572a5e0856b191b19c4c5fffe6475ca936399df9c298648f"
     }
   ],
   "has_rich_content": true

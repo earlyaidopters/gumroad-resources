@@ -13,28 +13,48 @@
   "files": [
     {
       "file": "Tool_Call_for_Anthropic_Prompt_Engineer.json",
-      "status": "cached",
-      "bytes": 8161
+      "source_revision": "f2a6b2f24d700aec770930506779c11c2b8d4e11e2c2cf3764687c308d7ec4bf",
+      "expected_bytes": 8161,
+      "status": "downloaded",
+      "bytes": 8161,
+      "source_sha256": "272ee56fc21292fab88ae094dd4ff06fe45f125d1f4110b6e39ea5cc48db6fe4",
+      "local_sha256": "272ee56fc21292fab88ae094dd4ff06fe45f125d1f4110b6e39ea5cc48db6fe4"
     },
     {
       "file": "Tool_Call_for_OpenAI_Prompt_Engineer.json",
-      "status": "cached",
-      "bytes": 7339
+      "source_revision": "886b9071ceb978c0937f615dd10ee02cc09a7bc2dd2b358426590ffc7f119715",
+      "expected_bytes": 7339,
+      "status": "downloaded",
+      "bytes": 7339,
+      "source_sha256": "b9754a7314ae347dabfc4bcf149520621a26c4f7088c72e0e36959e3190c293c",
+      "local_sha256": "b9754a7314ae347dabfc4bcf149520621a26c4f7088c72e0e36959e3190c293c"
     },
     {
       "file": "Tool_Call_for_Google_Prompt_Engineer.json",
-      "status": "cached",
-      "bytes": 6972
+      "source_revision": "499adec399889605c571f96a06c2fb3c42c5a5c3857408b66680ab07afdc7a9e",
+      "expected_bytes": 6972,
+      "status": "downloaded",
+      "bytes": 6972,
+      "source_sha256": "637983f2977246a5c12030ed57998a01ade46c24d5baf412f1e335204c0434b6",
+      "local_sha256": "637983f2977246a5c12030ed57998a01ade46c24d5baf412f1e335204c0434b6"
     },
     {
       "file": "Tool_Call_for_Other_Models_Prompt_Engineer.json",
-      "status": "cached",
-      "bytes": 5994
+      "source_revision": "ecd3d5c452e623e9d34fbca2264e6cc5c6f185449bd5a0d33749c6cf6194fe77",
+      "expected_bytes": 5994,
+      "status": "downloaded",
+      "bytes": 5994,
+      "source_sha256": "1da86837bc5442ec695e2e8a2d638c71e7bb052d67d32f4a735157c65a53c603",
+      "local_sha256": "1da86837bc5442ec695e2e8a2d638c71e7bb052d67d32f4a735157c65a53c603"
     },
     {
       "file": "Prompt_Engineer_Optimized.json",
-      "status": "cached",
-      "bytes": 10647
+      "source_revision": "24d724e2ba89eebf8041b985776021855c85fe9a625348e41a3bc068624d1730",
+      "expected_bytes": 10647,
+      "status": "downloaded",
+      "bytes": 10647,
+      "source_sha256": "898136dc8120161e0d90cf3457b698dd838e5e0533125233820e613847a9d44c",
+      "local_sha256": "898136dc8120161e0d90cf3457b698dd838e5e0533125233820e613847a9d44c"
     }
   ],
   "has_rich_content": true

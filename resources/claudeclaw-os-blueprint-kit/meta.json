@@ -13,28 +13,48 @@
   "files": [
     {
       "file": "ClaudeClaw_v2_Visual_Guide.pdf",
+      "source_revision": "d25fa6e53609f6578236991825315e615e71729b73726ad4340bf655241a0689",
+      "expected_bytes": 12554460,
       "status": "cached",
-      "bytes": 12554460
+      "bytes": 12554460,
+      "source_sha256": "8b6ce83a5b5446c236c3fab3f54de2ee08a37f7303d1d234595f9f4f15f1349f",
+      "local_sha256": "8b6ce83a5b5446c236c3fab3f54de2ee08a37f7303d1d234595f9f4f15f1349f"
     },
     {
       "file": "POWER_PACKS_GUIDE.md",
+      "source_revision": "35fc29912643f528cbf0ac5f5215ce2f47ee73e1ae99dd2bc5bec17a7e71562f",
+      "expected_bytes": 43788,
       "status": "cached",
-      "bytes": 43788
+      "bytes": 43788,
+      "source_sha256": "62bd84d3eaa04f7c164aad1c45a8b42e2fd4ee871d745a1cb8de99a105493936",
+      "local_sha256": "62bd84d3eaa04f7c164aad1c45a8b42e2fd4ee871d745a1cb8de99a105493936"
     },
     {
       "file": "POWER_PACKS.md",
+      "source_revision": "8c2beed8f349e353316965ead266b000da4548b0ad2fc5e919875d0ecf32ca6f",
+      "expected_bytes": 48649,
       "status": "cached",
-      "bytes": 48649
+      "bytes": 48649,
+      "source_sha256": "239da3a1823732bd3ff470b3300238019ffdb538423c00f0d2476573ece7c1be",
+      "local_sha256": "239da3a1823732bd3ff470b3300238019ffdb538423c00f0d2476573ece7c1be"
     },
     {
       "file": "REBUILD_PROMPT_V2.md",
+      "source_revision": "14c3c12634e1c0bf1693db5cf8275fea6de2984e4c8e4a2b9c4c5ec4e2dd91f9",
+      "expected_bytes": 115498,
       "status": "cached",
-      "bytes": 115498
+      "bytes": 115498,
+      "source_sha256": "10f0e2a4102616659fa778361ec2374d9a0c47ff91eef4a6a3cbb4c2a8549c96",
+      "local_sha256": "10f0e2a4102616659fa778361ec2374d9a0c47ff91eef4a6a3cbb4c2a8549c96"
     },
     {
       "file": "CLAUDECLAW_ASSESSMENT_PROMPT.md",
+      "source_revision": "d02085a77f8db79eddf51acc600da05046c98a87f170a380c01ea29c61ed8336",
+      "expected_bytes": 6286,
       "status": "cached",
-      "bytes": 6286
+      "bytes": 6286,
+      "source_sha256": "62d71f3f773b9c5ab09d575a065b627b9abd08f1a9eaf5634c04d76077fc3743",
+      "local_sha256": "62d71f3f773b9c5ab09d575a065b627b9abd08f1a9eaf5634c04d76077fc3743"
     }
   ],
   "has_rich_content": true

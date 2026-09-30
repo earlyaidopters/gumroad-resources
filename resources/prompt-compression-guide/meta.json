@@ -13,8 +13,12 @@
   "files": [
     {
       "file": "Prompt Compression.pdf",
-      "status": "cached",
-      "bytes": 539962
+      "source_revision": "75a54fe0612337835c5a4514818a962b1e5049973c210e868695044619912995",
+      "expected_bytes": 539962,
+      "status": "downloaded",
+      "bytes": 539962,
+      "source_sha256": "7502f2a81874bd19f24417e91ca485cac423f30b8ec4f7dd89cfa335cba7736a",
+      "local_sha256": "7502f2a81874bd19f24417e91ca485cac423f30b8ec4f7dd89cfa335cba7736a"
     }
   ],
   "has_rich_content": true

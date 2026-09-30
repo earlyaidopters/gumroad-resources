@@ -13,8 +13,12 @@
   "files": [
     {
       "file": "dynamic_workflows_prompt_pack.pdf",
+      "source_revision": "016f26b0e2c8dd7116707a644c3d2df45cbc69e0f4035710691cd27632206d7a",
+      "expected_bytes": 17104,
       "status": "cached",
-      "bytes": 17104
+      "bytes": 17104,
+      "source_sha256": "f5a06f41cd0633f55b18f1e676ffdd99af0d1601240297e84c7fbfe420e3fd49",
+      "local_sha256": "f5a06f41cd0633f55b18f1e676ffdd99af0d1601240297e84c7fbfe420e3fd49"
     }
   ],
   "has_rich_content": true

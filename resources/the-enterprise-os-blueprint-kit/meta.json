@@ -13,8 +13,13 @@
   "files": [
     {
       "file": "Enterprise_OS_Blueprint_Kit.zip",
+      "source_revision": "19c5943a3a1bbd1709cb82a0b7cbec52ac3e3452021c3486ca37cdffd6d847b6",
+      "expected_bytes": 6823189,
       "status": "cached",
-      "bytes": 6823189
+      "bytes": 6823189,
+      "source_sha256": "945d3c621333f0364e5cdfd48fc771c9b4294b62cf13bd85ae5fc8aecbd83c49",
+      "local_sha256": "945d3c621333f0364e5cdfd48fc771c9b4294b62cf13bd85ae5fc8aecbd83c49",
+      "unpacked_sha256": "945d3c621333f0364e5cdfd48fc771c9b4294b62cf13bd85ae5fc8aecbd83c49"
     }
   ],
   "has_rich_content": true

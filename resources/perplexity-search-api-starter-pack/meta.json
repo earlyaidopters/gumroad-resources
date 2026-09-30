@@ -13,18 +13,30 @@
   "files": [
     {
       "file": "Multi-Agent Prompt Engineering Research Synthesizer.json",
-      "status": "cached",
-      "bytes": 14558
+      "source_revision": "e526814e33e0bf1e497eadff92b6744a9c0e95982b59cb58ca27d5e8eb5100ed",
+      "expected_bytes": 14558,
+      "status": "downloaded",
+      "bytes": 14558,
+      "source_sha256": "ed2fbf034c1aefe175d456c158f4d081a24da9de7456d3a544eebd0790632e71",
+      "local_sha256": "ed2fbf034c1aefe175d456c158f4d081a24da9de7456d3a544eebd0790632e71"
     },
     {
       "file": "Perplexity Search API (Basic).json",
-      "status": "cached",
-      "bytes": 7507
+      "source_revision": "367dbf96ad1c6b97262b2f8998a6008ff609e1e35cdf70c85f20b0b3a2b53bc2",
+      "expected_bytes": 7507,
+      "status": "downloaded",
+      "bytes": 7507,
+      "source_sha256": "0d435b8cc5db31520c542588fda6063beabce3db78ed27af1e0eefc2ae10e6f3",
+      "local_sha256": "0d435b8cc5db31520c542588fda6063beabce3db78ed27af1e0eefc2ae10e6f3"
     },
     {
       "file": "perplexity_search_api_documentation.md",
-      "status": "cached",
-      "bytes": 10161
+      "source_revision": "8cbdad9d522a1111658e9089014246ec382f4d3578ed79d6dd216c1b2280f6df",
+      "expected_bytes": 10161,
+      "status": "downloaded",
+      "bytes": 10161,
+      "source_sha256": "dc197046f9539233239c53f00e9a0a6d9ed3c7223f3db980856ad4617a926373",
+      "local_sha256": "dc197046f9539233239c53f00e9a0a6d9ed3c7223f3db980856ad4617a926373"
     }
   ],
   "has_rich_content": true

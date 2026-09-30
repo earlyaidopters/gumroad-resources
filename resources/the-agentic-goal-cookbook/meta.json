@@ -13,13 +13,22 @@
   "files": [
     {
       "file": "goal_cookbook.pdf",
+      "source_revision": "8a676c42f711fcdf68b05f3f54cb7a40da542d200190784acf2916e602717477",
+      "expected_bytes": 20317,
       "status": "cached",
-      "bytes": 20317
+      "bytes": 20317,
+      "source_sha256": "8711cc3e2a0eb99347d01ad6ac22cd2a9340ce67b1ea7ccd612408eba9e0a6d5",
+      "local_sha256": "8711cc3e2a0eb99347d01ad6ac22cd2a9340ce67b1ea7ccd612408eba9e0a6d5"
     },
     {
       "file": "Raw Text Prompts.zip",
+      "source_revision": "e6c2d3073f49f355acd189ad1749cc6b9608fa881f66e5f435c2c6c3fcb5be4f",
+      "expected_bytes": 7828,
       "status": "cached",
-      "bytes": 7828
+      "bytes": 7828,
+      "source_sha256": "a33039e627e0782886186d05353e0d364e7397b894c9e3967d077145ff01ebe3",
+      "local_sha256": "a33039e627e0782886186d05353e0d364e7397b894c9e3967d077145ff01ebe3",
+      "unpacked_sha256": "a33039e627e0782886186d05353e0d364e7397b894c9e3967d077145ff01ebe3"
     }
   ],
   "has_rich_content": true

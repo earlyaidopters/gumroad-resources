@@ -13,8 +13,12 @@
   "files": [
     {
       "file": "codex_loop_field_guide.pdf",
+      "source_revision": "e294255a1ae44546b51a1ab3348d5950468e928912c32b18d5926ab69a409c82",
+      "expected_bytes": 7453105,
       "status": "cached",
-      "bytes": 7453105
+      "bytes": 7453105,
+      "source_sha256": "f8c54a38c1b736548c2559e3cd47200082fa8dde4ffc15be85c9e1a41baa991f",
+      "local_sha256": "f8c54a38c1b736548c2559e3cd47200082fa8dde4ffc15be85c9e1a41baa991f"
     }
   ],
   "has_rich_content": true

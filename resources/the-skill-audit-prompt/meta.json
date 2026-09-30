@@ -13,8 +13,12 @@
   "files": [
     {
       "file": "optimize_skill_prompt.md",
+      "source_revision": "601535d9e3a97f01eb1ca6db31dd64e6b685524b5b913cf66312b525a0cf3a22",
+      "expected_bytes": 5252,
       "status": "cached",
-      "bytes": 5252
+      "bytes": 5252,
+      "source_sha256": "e3f773eaaf01013e51a70739312a5766123255450d5072f815534b02a5988598",
+      "local_sha256": "e3f773eaaf01013e51a70739312a5766123255450d5072f815534b02a5988598"
     }
   ],
   "has_rich_content": true

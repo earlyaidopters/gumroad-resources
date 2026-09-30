@@ -13,8 +13,13 @@
   "files": [
     {
       "file": "local-ai-care-package.zip",
+      "source_revision": "3276d6bc3288f542466908886063783c27ec17ee8a90717c928f55a24d810743",
+      "expected_bytes": 152627,
       "status": "cached",
-      "bytes": 152627
+      "bytes": 152627,
+      "source_sha256": "faadc7693ec158802aeb2f30b82d706d987f250b3329f7e06e5e8ed444c58ec2",
+      "local_sha256": "faadc7693ec158802aeb2f30b82d706d987f250b3329f7e06e5e8ed444c58ec2",
+      "unpacked_sha256": "faadc7693ec158802aeb2f30b82d706d987f250b3329f7e06e5e8ed444c58ec2"
     }
   ],
   "has_rich_content": true

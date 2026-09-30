@@ -13,13 +13,22 @@
   "files": [
     {
       "file": "claude_cowork_plugins_guide.pdf",
-      "status": "cached",
-      "bytes": 20389
+      "source_revision": "5e15c2c7a227e3e5a65aed03555e22e7dd1c4db8b3e014b4862c96a0916e212b",
+      "expected_bytes": 20389,
+      "status": "downloaded",
+      "bytes": 20389,
+      "source_sha256": "3cb5bb8443860197d387b54f19545e16b12ad9e7ca92adc6288bc8344d57f0aa",
+      "local_sha256": "3cb5bb8443860197d387b54f19545e16b12ad9e7ca92adc6288bc8344d57f0aa"
     },
     {
       "file": "diagrams.zip",
-      "status": "cached",
-      "bytes": 37780694
+      "source_revision": "238bdf999f9706f0325d49748266878b28036d822195c4a52c5a81eb7b512f38",
+      "expected_bytes": 37780694,
+      "status": "downloaded",
+      "bytes": 37780694,
+      "source_sha256": "dda840be23b519886122651c87bba5080cb3aa3d869a01c4507731c341f44759",
+      "local_sha256": "dda840be23b519886122651c87bba5080cb3aa3d869a01c4507731c341f44759",
+      "unpacked_sha256": "dda840be23b519886122651c87bba5080cb3aa3d869a01c4507731c341f44759"
     }
   ],
   "has_rich_content": true

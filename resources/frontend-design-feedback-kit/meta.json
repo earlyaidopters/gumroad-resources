@@ -13,13 +13,22 @@
   "files": [
     {
       "file": "frontend-design-loop.pdf",
+      "source_revision": "0c8dc3030f6a2f89989265ecc22fd13897fb6f494858962d5a62def82a9a4a5d",
+      "expected_bytes": 5468,
       "status": "cached",
-      "bytes": 5468
+      "bytes": 5468,
+      "source_sha256": "b0c428ca8ff3e8a73529acd4baa639e8614827bb24acdf84bbc1c933315aaf7d",
+      "local_sha256": "b0c428ca8ff3e8a73529acd4baa639e8614827bb24acdf84bbc1c933315aaf7d"
     },
     {
       "file": "frontend-templates.zip",
+      "source_revision": "67901d0d04d7b09ecb478dc30dd85002142f98a019d2ec52d548b8cce8ae1771",
+      "expected_bytes": 2396,
       "status": "cached",
-      "bytes": 2396
+      "bytes": 2396,
+      "source_sha256": "edff068a34d1da55d986f6c406aac7e0bd9ef9ff638e23062670358915f4b261",
+      "local_sha256": "edff068a34d1da55d986f6c406aac7e0bd9ef9ff638e23062670358915f4b261",
+      "unpacked_sha256": "edff068a34d1da55d986f6c406aac7e0bd9ef9ff638e23062670358915f4b261"
     }
   ],
   "has_rich_content": true

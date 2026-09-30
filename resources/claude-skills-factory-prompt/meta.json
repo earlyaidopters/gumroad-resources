@@ -13,8 +13,12 @@
   "files": [
     {
       "file": "SKILLS_FACTORY_GENERATOR_PROMPT.md",
-      "status": "cached",
-      "bytes": 10633
+      "source_revision": "8a2cf89572b3af77b82cae932fdcc28e6cc78700a985ee3b47709f5aa0261de5",
+      "expected_bytes": 10633,
+      "status": "downloaded",
+      "bytes": 10633,
+      "source_sha256": "820563516e9587f0d2a52b6e05443595ca8eb1e6afd46bae7f55d3cd4ca6cd0f",
+      "local_sha256": "820563516e9587f0d2a52b6e05443595ca8eb1e6afd46bae7f55d3cd4ca6cd0f"
     }
   ],
   "has_rich_content": true

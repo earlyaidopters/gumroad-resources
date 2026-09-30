@@ -9,7 +9,7 @@
       "status": "published",
       "archived": false,
       "category": "Other",
-      "content_hash": "c31ad43546c002b4",
+      "content_hash": "9630063700dfd618",
       "files": [
         "Relay-Voice-Resource.zip"
       ],
@@ -23,7 +23,7 @@
       "status": "published",
       "archived": false,
       "category": "Other",
-      "content_hash": "ee334ab1d9abbd29",
+      "content_hash": "c8e976289c2f1ba9",
       "files": [
         "USE-BOTH-WORKFLOW-GUIDE.pdf",
         "claude-codex-workflow-kit-v1.0.0.zip"
@@ -38,10 +38,10 @@
       "status": "published",
       "archived": false,
       "category": "Other",
-      "content_hash": "0eb89363be6d812c",
+      "content_hash": "a2ec818373d90cad",
       "files": [
-        "Your-Own-Jev-Starter-Kit.zip",
-        "Your-Own-Jev-Starter-Kit.zip",
+        "Your-Own-Jev-Starter-Kit-e780c62fda.zip",
+        "Your-Own-Jev-Starter-Kit-91595f2bc3.zip",
         "Your-Own-Jev-Start-Here.pdf",
         "TRAIN-MY-SPECIALIST.txt"
       ],
@@ -55,7 +55,7 @@
       "status": "published",
       "archived": false,
       "category": "Other",
-      "content_hash": "ac38836c0ce8d715",
+      "content_hash": "f8255707047517fa",
       "files": [
         "JEV-STARTER-GUIDE.md"
       ],
@@ -69,7 +69,7 @@
       "status": "published",
       "archived": false,
       "category": "Other",
-      "content_hash": "f92f616b1db4895c",
+      "content_hash": "6c0d413b0d1847e7",
       "files": [
         "CODEX-OLLAMA-SETUP-GUIDE.pdf",
         "CODEX-OLLAMA-SETUP-KIT.zip"
@@ -84,7 +84,7 @@
       "status": "published",
       "archived": false,
       "category": "Other",
-      "content_hash": "7726dd86c07e7f7d",
+      "content_hash": "65ea644db1840b64",
       "files": [
         "frontend-design-loop.pdf",
         "frontend-templates.zip"
@@ -99,7 +99,7 @@
       "status": "published",
       "archived": false,
       "category": "Other",
-      "content_hash": "52c19396b7a86403",
+      "content_hash": "3cf7907a5b2df4cc",
       "files": [
         "voice-ai-qualification-checklist.pdf",
         "voice-ai-qualification-checklist.txt"
@@ -114,7 +114,7 @@
       "status": "published",
       "archived": false,
       "category": "Other",
-      "content_hash": "a677a374ab8925c9",
+      "content_hash": "239e6f622b7e2ef0",
       "files": [
         "three-task-eval-template.pdf",
         "three-task-eval-template.txt"
@@ -129,7 +129,7 @@
       "status": "published",
       "archived": false,
       "category": "Other",
-      "content_hash": "2a8aa127251e67f9",
+      "content_hash": "c4c3457d695646f3",
       "files": [
         "3D-Worlds-Builder-Kit.zip",
         "Build-a-Learning-World.pdf"
@@ -144,7 +144,7 @@
       "status": "published",
       "archived": false,
       "category": "Other",
-      "content_hash": "d0010f095f8e3d5e",
+      "content_hash": "2107a24eabdcf1ac",
       "files": [
         "definition-of-done-template.pdf",
         "definition-of-done-template.txt"
@@ -159,7 +159,7 @@
       "status": "published",
       "archived": false,
       "category": "Other",
-      "content_hash": "8a42296682566ef0",
+      "content_hash": "23b35cba71a039ea",
       "files": [
         "claude-browser-permission-guide.pdf",
         "browser-first-task.txt"
@@ -174,7 +174,7 @@
       "status": "published",
       "archived": false,
       "category": "Other",
-      "content_hash": "301d51824077d9fc",
+      "content_hash": "c391f53ab5ab86c8",
       "files": [
         "five-hourly-jobs.pdf",
         "hours-prompts.txt"
@@ -189,7 +189,7 @@
       "status": "published",
       "archived": false,
       "category": "Other",
-      "content_hash": "7399bd93a55be05d",
+      "content_hash": "0ff5b746aff87c96",
       "files": [
         "Astra-Effort-Super-Guide.pdf",
         "Astra-Super-Guide.zip"
@@ -204,7 +204,7 @@
       "status": "published",
       "archived": false,
       "category": "Other",
-      "content_hash": "9b3bef8627d0f8ae",
+      "content_hash": "c7607315b3dee49c",
       "files": [
         "codex-claude-decision-tree.pdf"
       ],
@@ -218,7 +218,7 @@
       "status": "published",
       "archived": false,
       "category": "Other",
-      "content_hash": "2dde111cb95f8e2f",
+      "content_hash": "08fcd73e909831bf",
       "files": [
         "five-agent-boundaries.pdf"
       ],
@@ -232,7 +232,7 @@
       "status": "published",
       "archived": false,
       "category": "Other",
-      "content_hash": "a5352e16606308ab",
+      "content_hash": "929afecd5a716233",
       "files": [
         "Astra-Computer-Use-Kit.zip",
         "Computer-Use-Field-Guide.pdf"
@@ -247,7 +247,7 @@
       "status": "published",
       "archived": false,
       "category": "Other",
-      "content_hash": "b5af3d1c7773aebc",
+      "content_hash": "7b2a370c7ac3280b",
       "files": [
         "Fable-5-1-System-Prompt-Field-Guide.pdf"
       ],
@@ -261,7 +261,7 @@
       "status": "published",
       "archived": false,
       "category": "Other",
-      "content_hash": "64da23dde637054f",
+      "content_hash": "cda6ea09a1f40098",
       "files": [
         "GrokRouter-How-It-Works.pdf"
       ],
@@ -275,7 +275,7 @@
       "status": "published",
       "archived": false,
       "category": "Other",
-      "content_hash": "6b395d4818f7a961",
+      "content_hash": "8617927396631404",
       "files": [
         "Grok-Bot-Agent-Blueprint-Resource-Pack.zip",
         "Grok-Bot-Agent-Blueprint.pdf"
@@ -290,7 +290,7 @@
       "status": "published",
       "archived": false,
       "category": "Other",
-      "content_hash": "30e9764b07e8ff23",
+      "content_hash": "0f674047135e3d56",
       "files": [
         "AI-Assistant-Decision-Kit.zip",
         "AI-Assistant-System-Advisor-Skill.zip"
@@ -305,7 +305,7 @@
       "status": "published",
       "archived": false,
       "category": "Other",
-      "content_hash": "b52341922053264a",
+      "content_hash": "b06df6a6df456fe0",
       "files": [
         "Codex-SDK-Internal-Tools-Field-Guide.pdf",
         "Codex-SDK-Internal-Tools-Kit.zip"
@@ -320,7 +320,7 @@
       "status": "published",
       "archived": false,
       "category": "Other",
-      "content_hash": "b5c33a7dec22615f",
+      "content_hash": "33fd7d5527a1210b",
       "files": [
         "bench_studio_ownership_kit.zip"
       ],
@@ -334,7 +334,7 @@
       "status": "published",
       "archived": false,
       "category": "Other",
-      "content_hash": "8aff1c1b5f7feda5",
+      "content_hash": "10257a3b9d4c8f31",
       "files": [
         "local-ai-care-package.zip"
       ],
@@ -348,7 +348,7 @@
       "status": "published",
       "archived": false,
       "category": "Other",
-      "content_hash": "a910bb2d4263ffe8",
+      "content_hash": "81b8f3f48f04ee91",
       "files": [
         "personal_benchmark_skill.zip"
       ],
@@ -362,7 +362,7 @@
       "status": "published",
       "archived": false,
       "category": "Other",
-      "content_hash": "3cd37c4d2a176bd8",
+      "content_hash": "0c02548f0ea7fae4",
       "files": [
         "open_source_ai_crash_course_guide.pdf",
         "open_source_ai_crash_course_kit.zip"
@@ -377,7 +377,7 @@
       "status": "published",
       "archived": false,
       "category": "Other",
-      "content_hash": "fc52133f9df6b295",
+      "content_hash": "be10e84f1fa01c25",
       "files": [
         "Effort_Decoder_Guide.pdf"
       ],
@@ -391,7 +391,7 @@
       "status": "published",
       "archived": false,
       "category": "Other",
-      "content_hash": "eafb4776223e40e2",
+      "content_hash": "e1556cac0f993f15",
       "files": [
         "fable_wargame_kit.zip"
       ],
@@ -405,7 +405,7 @@
       "status": "published",
       "archived": false,
       "category": "Other",
-      "content_hash": "bf04ed92c1e12ca7",
+      "content_hash": "4716b910c2048097",
       "files": [
         "Agentic_OS_Starter_Kit.pdf",
         "master_prompt_A_simple.txt",
@@ -423,7 +423,7 @@
       "status": "published",
       "archived": false,
       "category": "Other",
-      "content_hash": "6c8cf23f1de84199",
+      "content_hash": "0aae696b32dfb545",
       "files": [
         "Enterprise_OS_Blueprint_Kit.zip"
       ],
@@ -437,7 +437,7 @@
       "status": "published",
       "archived": false,
       "category": "Other",
-      "content_hash": "bcfddeeab6e40cc7",
+      "content_hash": "4641f27838960ce7",
       "files": [
         "PROMPTS.md",
         "Fable_Mindset_public.md",
@@ -454,7 +454,7 @@
       "status": "published",
       "archived": false,
       "category": "Other",
-      "content_hash": "0b4c80dff06de1e0",
+      "content_hash": "5f5399798fda8cff",
       "files": [
         "Fable5_Effort_Cheat_Sheet.pdf",
         "orchestration_recipes.txt"
@@ -469,7 +469,7 @@
       "status": "published",
       "archived": false,
       "category": "🗂️ Frameworks, Meta Techniques & Experiments",
-      "content_hash": "26037119a120ca4d",
+      "content_hash": "97c21e26b3977272",
       "files": [
         "Dynamic_Workflow_Patterns.pdf"
       ],
@@ -483,7 +483,7 @@
       "status": "published",
       "archived": false,
       "category": "🎯 Prompting & Engineering Skills",
-      "content_hash": "d5c6d71f12840a48",
+      "content_hash": "0eec8fa946e0e017",
       "files": [
         "dynamic_workflows_prompt_pack.pdf"
       ],
@@ -497,7 +497,7 @@
       "status": "published",
       "archived": false,
       "category": "Other",
-      "content_hash": "2489f789960ec3df",
+      "content_hash": "a22d2dbee3f217f6",
       "files": [
         "Dynamic_Workflows_Prompt_Pack.pdf"
       ],
@@ -511,7 +511,7 @@
       "status": "published",
       "archived": false,
       "category": "🎯 Prompting & Engineering Skills",
-      "content_hash": "39d7b49a31c6a873",
+      "content_hash": "3ce0ca13fd81c199",
       "files": [
         "polyskill-kit.zip"
       ],
@@ -525,7 +525,7 @@
       "status": "published",
       "archived": false,
       "category": "🗂️ Frameworks, Meta Techniques & Experiments",
-      "content_hash": "9968f666d540a756",
+      "content_hash": "e40134117db4dd3a",
       "files": [
         "goal_cookbook.pdf",
         "Raw Text Prompts.zip"
@@ -540,7 +540,7 @@
       "status": "published",
       "archived": false,
       "category": "🎯 Prompting & Engineering Skills",
-      "content_hash": "10eb08873b61ad9e",
+      "content_hash": "8b6ec50377fa3732",
       "files": [
         "optimize_skill_prompt.md"
       ],
@@ -554,7 +554,7 @@
       "status": "published",
       "archived": false,
       "category": "🗂️ Frameworks, Meta Techniques & Experiments",
-      "content_hash": "6a3056dc57f004b7",
+      "content_hash": "9506ed19a1eee3e7",
       "files": [
         "skill_assets.zip"
       ],
@@ -568,7 +568,7 @@
       "status": "published",
       "archived": false,
       "category": "🧠 Custom GPTs & AI Agents",
-      "content_hash": "d159b44f4efa874f",
+      "content_hash": "c2e29afb06bcf832",
       "files": [
         "DISCLAIMER.md",
         "ClaudeClaw_V3_Visual_Guide.pdf",
@@ -591,7 +591,7 @@
       "status": "published",
       "archived": false,
       "category": "🧠 Custom GPTs & AI Agents",
-      "content_hash": "b82b9e303c74d72d",
+      "content_hash": "c404147cdd873350",
       "files": [
         "codex_loop_field_guide.pdf"
       ],
@@ -605,7 +605,7 @@
       "status": "published",
       "archived": false,
       "category": "Other",
-      "content_hash": "fd90322ba8798a73",
+      "content_hash": "ef58761cbac588c9",
       "files": [
         "codex_duo_concepts_companion.pdf",
         "codex_duo_field_guide.pdf"
@@ -620,7 +620,7 @@
       "status": "published",
       "archived": false,
       "category": "🗂️ Frameworks, Meta Techniques & Experiments",
-      "content_hash": "f01210ffc4e456bc",
+      "content_hash": "8e98c7d768d24aa2",
       "files": [
         "Concept Walkthroughs.pdf",
         "SKILL.md"
@@ -635,7 +635,7 @@
       "status": "published",
       "archived": false,
       "category": "🗂️ Frameworks, Meta Techniques & Experiments",
-      "content_hash": "b2d941c2d09be825",
+      "content_hash": "ee580060a3a2cd6d",
       "files": [
         "ClaudeClaw_v2_Visual_Guide.pdf",
         "POWER_PACKS_GUIDE.md",
@@ -653,7 +653,7 @@
       "status": "published",
       "archived": false,
       "category": "🗂️ Frameworks, Meta Techniques & Experiments",
-      "content_hash": "510d46724b3b361a",
+      "content_hash": "5de8cff869dc4228",
       "files": [
         "brain-chain.zip",
         "launch-chain.zip"
@@ -668,7 +668,7 @@
       "status": "published",
       "archived": false,
       "category": "🎯 Prompting & Engineering Skills",
-      "content_hash": "ccc1f777a9678f9c",
+      "content_hash": "86b9bcf6d181179a",
       "files": [
         "SKILL.md"
       ],
@@ -682,7 +682,7 @@
       "status": "published",
       "archived": false,
       "category": "🗂️ Frameworks, Meta Techniques & Experiments",
-      "content_hash": "83e7c3f632aba20f",
+      "content_hash": "47d7fe9b5f3146cd",
       "files": [
         "claudemaxxing_guide.pdf"
       ],
@@ -696,7 +696,7 @@
       "status": "published",
       "archived": false,
       "category": "🗂️ Frameworks, Meta Techniques & Experiments",
-      "content_hash": "9da36ba4bb251641",
+      "content_hash": "ba3f8b11b503b68c",
       "files": [
         "meetingflow_demo.zip",
         "claude_folder_viewer_guide.pdf"
@@ -711,7 +711,7 @@
       "status": "published",
       "archived": false,
       "category": "🎯 Prompting & Engineering Skills",
-      "content_hash": "ec51e784c44fd425",
+      "content_hash": "c2eb0113cdeba7f1",
       "files": [
         "one_shot_skill_prompt.md"
       ],
@@ -725,7 +725,7 @@
       "status": "published",
       "archived": false,
       "category": "🗂️ Frameworks, Meta Techniques & Experiments",
-      "content_hash": "c82f05e042a2892f",
+      "content_hash": "223dd8c58effdbc3",
       "files": [
         "claude_architect_study_guide.pdf"
       ],
@@ -739,7 +739,7 @@
       "status": "published",
       "archived": false,
       "category": "Other",
-      "content_hash": "72fd441b69fc4e66",
+      "content_hash": "8fb1b1b7e89888be",
       "files": [
         "obsidian-setup-guide.pdf",
         "vault-setup-SKILL.md"
@@ -754,7 +754,7 @@
       "status": "published",
       "archived": false,
       "category": "🎯 Prompting & Engineering Skills",
-      "content_hash": "a481b754dd7ced38",
+      "content_hash": "e605d555e926a3c5",
       "files": [
         "5_LEVELS_CLAUDE_CODE_GUIDE.pdf"
       ],
@@ -768,7 +768,7 @@
       "status": "published",
       "archived": false,
       "category": "📊 Tools, Cheat Sheets & Evaluations",
-      "content_hash": "ae9ed88c2a86bd60",
+      "content_hash": "6e629ce6c990c9fc",
       "files": [
         "DEMO_PROMPTS.pdf",
         "gws_setup_prompt.pdf"
@@ -783,7 +783,7 @@
       "status": "published",
       "archived": false,
       "category": "🎯 Prompting & Engineering Skills",
-      "content_hash": "fcad5e147e30e4e2",
+      "content_hash": "373095e6b1689f6e",
       "files": [
         "council.skill",
         "README.md"
@@ -798,7 +798,7 @@
       "status": "published",
       "archived": false,
       "category": "🗂️ Frameworks, Meta Techniques & Experiments",
-      "content_hash": "d63dc288056ae4c8",
+      "content_hash": "37431ffbe2cfeafa",
       "files": [
         "ASCII_Planning_Prompts.pdf"
       ],
@@ -812,7 +812,7 @@
       "status": "published",
       "archived": false,
       "category": "🎯 Prompting & Engineering Skills",
-      "content_hash": "23d44241e1b50617",
+      "content_hash": "0e2a9c5183138e71",
       "files": [
         "REBUILD_PROMPT.md",
         "ClaudeClaw_Visual_Guide.pdf"
@@ -827,7 +827,7 @@
       "status": "published",
       "archived": false,
       "category": "🎯 Prompting & Engineering Skills",
-      "content_hash": "caff8ebb2bfce5ce",
+      "content_hash": "1371e7727f54fe9e",
       "files": [
         "agent_team_prompts.pdf"
       ],
@@ -841,7 +841,7 @@
       "status": "published",
       "archived": false,
       "category": "🗂️ Frameworks, Meta Techniques & Experiments",
-      "content_hash": "2a2b5b881ddea2c0",
+      "content_hash": "ee02df466fb3a1ce",
       "files": [
         "framework-comparison.html"
       ],
@@ -855,7 +855,7 @@
       "status": "published",
       "archived": false,
       "category": "🎯 Prompting & Engineering Skills",
-      "content_hash": "dc3387a6f2bad27d",
+      "content_hash": "12d19f162a80ec3d",
       "files": [
         "skill_examples.zip",
         "skills_guide_diagrams.zip",
@@ -871,7 +871,7 @@
       "status": "published",
       "archived": false,
       "category": "🧠 Custom GPTs & AI Agents",
-      "content_hash": "87f85851f29b1b35",
+      "content_hash": "f151e2d01bb21a1d",
       "files": [
         "diagrams.zip",
         "gemini-3-image-api-guide.md",
@@ -888,7 +888,7 @@
       "status": "published",
       "archived": false,
       "category": "🧠 Custom GPTs & AI Agents",
-      "content_hash": "2d2cdc9cb5deb12c",
+      "content_hash": "61840413ce9b9971",
       "files": [
         "agent_teams_diagrams.zip",
         "BUILD-PROMPT.md"
@@ -903,7 +903,7 @@
       "status": "published",
       "archived": false,
       "category": "🧠 Custom GPTs & AI Agents",
-      "content_hash": "66183b5568df0bfb",
+      "content_hash": "445ab7673e87ce99",
       "files": [
         "claude_cowork_plugins_guide.pdf",
         "diagrams.zip"
@@ -918,7 +918,7 @@
       "status": "published",
       "archived": false,
       "category": "🧠 Custom GPTs & AI Agents",
-      "content_hash": "42db9708a2194f7f",
+      "content_hash": "6a3f8f54227ae0cf",
       "files": [
         "Claude_Code_Deep_Dive_Guide.pdf"
       ],
@@ -932,7 +932,7 @@
       "status": "published",
       "archived": false,
       "category": "🧠 Custom GPTs & AI Agents",
-      "content_hash": "10c366c2722f446e",
+      "content_hash": "bba9cb4ac7bbb99d",
       "files": [
         "Mac_Mini_Setup_Guide.pdf",
         "Clawdbot_Security_Checklist.pdf"
@@ -947,7 +947,7 @@
       "status": "published",
       "archived": false,
       "category": "🧠 Custom GPTs & AI Agents",
-      "content_hash": "352bfcbabb7b2e86",
+      "content_hash": "f614da934e9a9c52",
       "files": [
         "agent_prompt_guide.pdf",
         "devils-advocate.md",
@@ -965,7 +965,7 @@
       "status": "published",
       "archived": false,
       "category": "🧠 Custom GPTs & AI Agents",
-      "content_hash": "1074ac578655887d",
+      "content_hash": "6b38635fabc928b7",
       "files": [
         "Claude_CoWork_SubAgents_Guide.pdf"
       ],
@@ -979,7 +979,7 @@
       "status": "published",
       "archived": false,
       "category": "🧠 Custom GPTs & AI Agents",
-      "content_hash": "acf6e34c8039e8c3",
+      "content_hash": "29838197b709fbfd",
       "files": [
         "Diagrams.zip",
         "plan_template.md",
@@ -996,7 +996,7 @@
       "status": "published",
       "archived": false,
       "category": "🧠 Custom GPTs & AI Agents",
-      "content_hash": "335c77c6be23e16b",
+      "content_hash": "3cdde0d20ed4e4a3",
       "files": [
         "01_VISION_DOCUMENT.md",
         "02_PROJECT_SPECIFICATION.md",
@@ -1013,7 +1013,7 @@
       "status": "published",
       "archived": false,
       "category": "🗂️ Frameworks, Meta Techniques & Experiments",
-      "content_hash": "10a0192b94f36783",
+      "content_hash": "76e9b4c2f8a15ead",
       "files": [
         "changelog_tracker_spec.pdf",
         "prompt_playbook.pdf",
@@ -1031,7 +1031,7 @@
       "status": "published",
       "archived": false,
       "category": "🧠 Custom GPTs & AI Agents",
-      "content_hash": "0ec4b43ba35b4af8",
+      "content_hash": "a0ad4a8af76a59a6",
       "files": [
         "Architecture_Guide.pdf",
         "Handoff_Template.pdf",
@@ -1049,7 +1049,7 @@
       "status": "published",
       "archived": false,
       "category": "🧠 Custom GPTs & AI Agents",
-      "content_hash": "0a467ef49dbeb04d",
+      "content_hash": "86134d85c4ac3d78",
       "files": [
         "Create_Your_Own_GPT_Guide.pdf",
         "gemini_api_documentation_december_2025.md"
@@ -1064,7 +1064,7 @@
       "status": "published",
       "archived": false,
       "category": "🗂️ Frameworks, Meta Techniques & Experiments",
-      "content_hash": "b3ca4ea7bc551d9b",
+      "content_hash": "41e72f7519a1bdce",
       "files": [
         "00-planning-prompt.md",
         "01-project-setup.md",
@@ -1087,7 +1087,7 @@
       "status": "published",
       "archived": false,
       "category": "🗂️ Frameworks, Meta Techniques & Experiments",
-      "content_hash": "c249961f6b1c3d42",
+      "content_hash": "80897ba2281817e8",
       "files": [
         "claude_skills_import.md",
         "extraction_prompt.md",
@@ -1103,7 +1103,7 @@
       "status": "published",
       "archived": false,
       "category": "Other",
-      "content_hash": "0e4dd99a6aace15f",
+      "content_hash": "f6520eb37fb87ef4",
       "files": [
         "settings.local.json",
         "Claude_Code_Mastery_Guide.pdf"
@@ -1118,7 +1118,7 @@
       "status": "published",
       "archived": false,
       "category": "📊 Tools, Cheat Sheets & Evaluations",
-      "content_hash": "f83a7bed0c70487e",
+      "content_hash": "33514af27ba9083e",
       "files": [
         "PDF and Text File Upload to Google Gemini File Search Store.json",
         "MEGA_PROMPT.md"
@@ -1133,7 +1133,7 @@
       "status": "published",
       "archived": false,
       "category": "🔌 Automation & Workflows (n8n, Replit, Make.com)",
-      "content_hash": "f395f622faa4f9fc",
+      "content_hash": "e17b72c8e062bdb8",
       "files": [
         "Intro to Vibe Automation.json"
       ],
@@ -1147,7 +1147,7 @@
       "status": "published",
       "archived": false,
       "category": "🔌 Automation & Workflows (n8n, Replit, Make.com)",
-      "content_hash": "466a2521f5c8934b",
+      "content_hash": "117263a4dafc3550",
       "files": [
         "Anthropic Agent Skills Workflows.json"
       ],
@@ -1161,7 +1161,7 @@
       "status": "published",
       "archived": false,
       "category": "🎯 Prompting & Engineering Skills",
-      "content_hash": "31ff08d9d91347ac",
+      "content_hash": "343779ffc33529ac",
       "files": [
         "Vibe Automation Prompt.md"
       ],
@@ -1175,7 +1175,7 @@
       "status": "published",
       "archived": false,
       "category": "🎯 Prompting & Engineering Skills",
-      "content_hash": "5bdc11a9bd725041",
+      "content_hash": "dd8f056640ca1b8c",
       "files": [
         "SKILLS_FACTORY_GENERATOR_PROMPT.md"
       ],
@@ -1189,13 +1189,13 @@
       "status": "published",
       "archived": false,
       "category": "🔌 Automation & Workflows (n8n, Replit, Make.com)",
-      "content_hash": "c913bb671fdf68c4",
+      "content_hash": "f1b1b9b036f0a469",
       "files": [
-        "SKILL.md",
-        "SKILL.md",
-        "SKILL.md",
-        "SKILL.md",
-        "SKILL.md"
+        "SKILL-c3bcf855e9.md",
+        "SKILL-8a7a14ed95.md",
+        "SKILL-bb99ff2fc2.md",
+        "SKILL-64548ee0dc.md",
+        "SKILL-e87cc77632.md"
       ],
       "has_content": true
     },
@@ -1207,7 +1207,7 @@
       "status": "published",
       "archived": false,
       "category": "🔌 Automation & Workflows (n8n, Replit, Make.com)",
-      "content_hash": "8672ffc85a5ea383",
+      "content_hash": "52466a8caa278d2d",
       "files": [
         "Visual_Workflow_Builder_Specification.docx",
         "Vibe Coding Mistakes.pdf"
@@ -1222,7 +1222,7 @@
       "status": "published",
       "archived": false,
       "category": "🗂️ Frameworks, Meta Techniques & Experiments",
-      "content_hash": "83c5e6336fd215e8",
+      "content_hash": "02ab6930dfa080cb",
       "files": [
         "openai-video-api-guide.md"
       ],
@@ -1236,7 +1236,7 @@
       "status": "published",
       "archived": false,
       "category": "🧠 Custom GPTs & AI Agents",
-      "content_hash": "4ba2a8bb1e663811",
+      "content_hash": "fea953bab948be75",
       "files": [
         "Slack to YouTube Content Generator.json",
         "Voice Notes to Searchable Knowledge Base.json",
@@ -1259,7 +1259,7 @@
       "status": "published",
       "archived": false,
       "category": "🗂️ Frameworks, Meta Techniques & Experiments",
-      "content_hash": "8adc8387da7a03a0",
+      "content_hash": "6872080f08c22334",
       "files": [
         "Multi-Agent Prompt Engineering Research Synthesizer.json",
         "Perplexity Search API (Basic).json",
@@ -1323,7 +1323,7 @@
       "status": "published",
       "archived": false,
       "category": "🔌 Automation & Workflows (n8n, Replit, Make.com)",
-      "content_hash": "9153373bf3291526",
+      "content_hash": "3e07f02d7b27efde",
       "files": [
         "Data Tables.json",
         "DATA_TABLES_PM - Sheet1.csv",
@@ -1363,7 +1363,7 @@
       "status": "published",
       "archived": false,
       "category": "📊 Tools, Cheat Sheets & Evaluations",
-      "content_hash": "7f13eaf468754bfa",
+      "content_hash": "4809f6d4195eb64c",
       "files": [
         "mcp-complete-implementation-guide.md",
         "mcps-101.md",
@@ -1415,7 +1415,7 @@
       "status": "published",
       "archived": false,
       "category": "📊 Tools, Cheat Sheets & Evaluations",
-      "content_hash": "8d89dad38c58cb5a",
+      "content_hash": "39a7638792c40b0f",
       "files": [
         "The Complete RAG Ladder Cheat Sheet.pdf"
       ],
@@ -1429,7 +1429,7 @@
       "status": "published",
       "archived": false,
       "category": "🧠 Custom GPTs & AI Agents",
-      "content_hash": "63df746fa6bf0634",
+      "content_hash": "8b37f203eadfe5de",
       "files": [
         "How to Pick the Right AI Stack.pdf"
       ],
@@ -1443,7 +1443,7 @@
       "status": "published",
       "archived": false,
       "category": "🗂️ Frameworks, Meta Techniques & Experiments",
-      "content_hash": "9e70db98aecd83a8",
+      "content_hash": "598870a7352946b6",
       "files": [
         "The 90 Day AI Playbook.pdf"
       ],
@@ -1469,7 +1469,7 @@
       "status": "published",
       "archived": false,
       "category": "🔌 Automation & Workflows (n8n, Replit, Make.com)",
-      "content_hash": "5893359f8b698872",
+      "content_hash": "8f1d0d4224948ff2",
       "files": [
         "Gamma (Base 44) Sanitized.json"
       ],
@@ -1495,7 +1495,7 @@
       "status": "published",
       "archived": false,
       "category": "📊 Tools, Cheat Sheets & Evaluations",
-      "content_hash": "7d1cf9706bec86e4",
+      "content_hash": "b9596b46c31e3ec4",
       "files": [
         "Claude Code Complete Guide.pdf"
       ],
@@ -1569,7 +1569,7 @@
       "status": "published",
       "archived": false,
       "category": "🔌 Automation & Workflows (n8n, Replit, Make.com)",
-      "content_hash": "ebd6fec32f9a701b",
+      "content_hash": "9b977799bf42cab7",
       "files": [
         "Model Output Analyzer.json",
         "Models' Output Analyzer.xlsx"
@@ -1584,7 +1584,7 @@
       "status": "published",
       "archived": false,
       "category": "🔌 Automation & Workflows (n8n, Replit, Make.com)",
-      "content_hash": "ea098d379f90bc4d",
+      "content_hash": "e234cd28fe9a7344",
       "files": [
         "retrofuture-artisan-production-agent.json",
         "retrofuture-custom-orders-agent.json",
@@ -1605,7 +1605,7 @@
       "status": "published",
       "archived": false,
       "category": "🔌 Automation & Workflows (n8n, Replit, Make.com)",
-      "content_hash": "f519f1e29b20a5e6",
+      "content_hash": "cc67e73ecd35fe2d",
       "files": [
         "Calendly_to_Meeting_Prep__No_Creds_.json"
       ],
@@ -1643,7 +1643,7 @@
       "status": "published",
       "archived": false,
       "category": "🔌 Automation & Workflows (n8n, Replit, Make.com)",
-      "content_hash": "b93496798772e03b",
+      "content_hash": "27004d27271dc0be",
       "files": [
         "Live_Search_Workflow.json"
       ],
@@ -1669,7 +1669,7 @@
       "status": "published",
       "archived": false,
       "category": "📊 Tools, Cheat Sheets & Evaluations",
-      "content_hash": "b76053126dd32879",
+      "content_hash": "56665a293561be34",
       "files": [
         "sample_agent_army.zip"
       ],
@@ -1683,7 +1683,7 @@
       "status": "published",
       "archived": false,
       "category": "🔌 Automation & Workflows (n8n, Replit, Make.com)",
-      "content_hash": "b04b0100dbbc9a76",
+      "content_hash": "23e781226a681517",
       "files": [
         "promptify_v1.zip"
       ],
@@ -1709,7 +1709,7 @@
       "status": "published",
       "archived": false,
       "category": "🔌 Automation & Workflows (n8n, Replit, Make.com)",
-      "content_hash": "6ae0de0af655ae44",
+      "content_hash": "665d680cdc06bb7e",
       "files": [
         "Replit Cheat Sheet.pdf",
         "Lovable Cheet Sheet.pdf",
@@ -1741,7 +1741,7 @@
       "status": "published",
       "archived": false,
       "category": "🔌 Automation & Workflows (n8n, Replit, Make.com)",
-      "content_hash": "42e1b84d35359831",
+      "content_hash": "0e339bde756b0a35",
       "files": [
         "Main AI Agent Orchestrator.json",
         "Create Image Subflow.json",
@@ -1782,7 +1782,7 @@
       "status": "published",
       "archived": false,
       "category": "🔌 Automation & Workflows (n8n, Replit, Make.com)",
-      "content_hash": "35d09ffadd541752",
+      "content_hash": "6c2455e869463003",
       "files": [
         "massage_therapy.zip",
         "venture_capital.zip",
@@ -1799,7 +1799,7 @@
       "status": "published",
       "archived": false,
       "category": "📊 Tools, Cheat Sheets & Evaluations",
-      "content_hash": "79c03288b98e2216",
+      "content_hash": "e09ca0e768b6fd6b",
       "files": [
         "automation.csv",
         "forecasting.csv",
@@ -1816,7 +1816,7 @@
       "status": "published",
       "archived": false,
       "category": "🎯 Prompting & Engineering Skills",
-      "content_hash": "6c4c1ffd3626c5c7",
+      "content_hash": "a6694dbfb6735c9d",
       "files": [
         "Knowledge Base.md",
         "Knowledge Base.pdf"
@@ -1831,7 +1831,7 @@
       "status": "published",
       "archived": false,
       "category": "🎯 Prompting & Engineering Skills",
-      "content_hash": "30ec13d6db8cee85",
+      "content_hash": "36cf5103dae637aa",
       "files": [
         "Tool_Call_for_Anthropic_Prompt_Engineer.json",
         "Tool_Call_for_OpenAI_Prompt_Engineer.json",
@@ -1849,7 +1849,7 @@
       "status": "published",
       "archived": false,
       "category": "🔌 Automation & Workflows (n8n, Replit, Make.com)",
-      "content_hash": "9f0584a2b63ed8b3",
+      "content_hash": "37859f3f100bc17f",
       "files": [
         "n8n Cheat Sheet Guide.pdf",
         "n8n_Tips_and_Tricks.txt",
@@ -1865,7 +1865,7 @@
       "status": "published",
       "archived": false,
       "category": "Other",
-      "content_hash": "65adecdf37de62b9",
+      "content_hash": "f0cd671c71d45bd5",
       "files": [
         "MCPs.pdf"
       ],
@@ -1891,10 +1891,10 @@
       "status": "published",
       "archived": false,
       "category": "🔌 Automation & Workflows (n8n, Replit, Make.com)",
-      "content_hash": "52445ecca608491e",
+      "content_hash": "ab2805ab35a16098",
       "files": [
-        "AI_Fine_Tuning.json",
-        "AI_Fine_Tuning.json",
+        "AI_Fine_Tuning-86692ec37c.json",
+        "AI_Fine_Tuning-bbbbc34dc8.json",
         "n8n fine-tuning.pdf"
       ],
       "has_content": true
@@ -1907,7 +1907,7 @@
       "status": "published",
       "archived": false,
       "category": "🔌 Automation & Workflows (n8n, Replit, Make.com)",
-      "content_hash": "0eabedb3d6bc5803",
+      "content_hash": "04cb01f3cce3b49b",
       "files": [
         "N8N_Agent_creator.json",
         "N8N_Agent_Creator__Sub_Flow.json"
@@ -1922,7 +1922,7 @@
       "status": "published",
       "archived": false,
       "category": "🔌 Automation & Workflows (n8n, Replit, Make.com)",
-      "content_hash": "799f5234fbf71e57",
+      "content_hash": "23267c2d8bff1236",
       "files": [
         "make_to_n8n_converter.json"
       ],
@@ -1960,7 +1960,7 @@
       "status": "published",
       "archived": false,
       "category": "🔌 Automation & Workflows (n8n, Replit, Make.com)",
-      "content_hash": "5f16348b5cd0cc91",
+      "content_hash": "531528e14994a020",
       "files": [
         "blueprint.json"
       ],
@@ -1974,7 +1974,7 @@
       "status": "published",
       "archived": false,
       "category": "🎯 Prompting & Engineering Skills",
-      "content_hash": "3625d584b82e1548",
+      "content_hash": "cc674f538f7bd032",
       "files": [
         "Deep Research Comparison.pdf"
       ],
@@ -1988,7 +1988,7 @@
       "status": "published",
       "archived": false,
       "category": "Other",
-      "content_hash": "84b6aaae6ad41d5c",
+      "content_hash": "30550de17a67f626",
       "files": [
         "DeepSeek Prompting Guide.pdf"
       ],
@@ -2038,7 +2038,7 @@
       "status": "published",
       "archived": false,
       "category": "📊 Tools, Cheat Sheets & Evaluations",
-      "content_hash": "e38aa4891130b607",
+      "content_hash": "ca56b25534e624e6",
       "files": [
         "roadmap.pdf"
       ],
@@ -2064,7 +2064,7 @@
       "status": "published",
       "archived": false,
       "category": "Other",
-      "content_hash": "1023e9a93aea24cd",
+      "content_hash": "2de39b5a77a8f7b1",
       "files": [
         "agents.pdf"
       ],
@@ -2078,7 +2078,7 @@
       "status": "published",
       "archived": false,
       "category": "📊 Tools, Cheat Sheets & Evaluations",
-      "content_hash": "93667b7d245bd3d8",
+      "content_hash": "218bc4454e2f269a",
       "files": [
         "datingapp.pdf",
         "Bolt_Cancellation_Demo_Sanitized.json",
@@ -2106,7 +2106,7 @@
       "status": "published",
       "archived": false,
       "category": "🧠 Custom GPTs & AI Agents",
-      "content_hash": "af310144aca5847a",
+      "content_hash": "acf216b5f8236980",
       "files": [
         "custom gpt templates.pdf",
         "blueprint (5).json"
@@ -2133,7 +2133,7 @@
       "status": "published",
       "archived": false,
       "category": "📊 Tools, Cheat Sheets & Evaluations",
-      "content_hash": "55d1fe4de99e5ca5",
+      "content_hash": "8e68c590dbfa3a7b",
       "files": [
         "custom_prompt_dataset.jsonl",
         "customer_support_responses.jsonl",
@@ -2156,7 +2156,7 @@
       "status": "published",
       "archived": false,
       "category": "🎯 Prompting & Engineering Skills",
-      "content_hash": "cfc64570a223e2e8",
+      "content_hash": "55dc6a472d187490",
       "files": [
         "Prompt Compression.pdf"
       ],
@@ -2170,7 +2170,7 @@
       "status": "published",
       "archived": false,
       "category": "📊 Tools, Cheat Sheets & Evaluations",
-      "content_hash": "33afcd98cb9d35c2",
+      "content_hash": "38feb94524a3304a",
       "files": [
         "gptschema.txt"
       ],
@@ -2184,7 +2184,7 @@
       "status": "published",
       "archived": false,
       "category": "🧠 Custom GPTs & AI Agents",
-      "content_hash": "d27eb14ba83a1a7b",
+      "content_hash": "76d60f8d829e26f8",
       "files": [
         "proposalmakerprompt.txt",
         "proposalmakerschema.txt",
@@ -2222,7 +2222,7 @@
       "status": "published",
       "archived": false,
       "category": "Other",
-      "content_hash": "d339e34643eaf567",
+      "content_hash": "28b45b086f58f477",
       "files": [
         "Spaces v Custom GPTs.pdf",
         "Custom Action Schema.txt",
@@ -2238,7 +2238,7 @@
       "status": "published",
       "archived": false,
       "category": "Other",
-      "content_hash": "86c5bd4ce72c1da8",
+      "content_hash": "df58d8b707639ed3",
       "files": [
         "VAPIception.pdf",
         "agentbuilder.json"
@@ -2253,7 +2253,7 @@
       "status": "published",
       "archived": false,
       "category": "🔌 Automation & Workflows (n8n, Replit, Make.com)",
-      "content_hash": "c75b209dc3358b92",
+      "content_hash": "97623ff75e33eec4",
       "files": [
         "Realtime API with Knowledge.pdf"
       ],
@@ -2267,7 +2267,7 @@
       "status": "published",
       "archived": false,
       "category": "Other",
-      "content_hash": "f12a3f4117141cd7",
+      "content_hash": "d4d4a8dd5a1c31e8",
       "files": [
         "Voice Agent Breakdown.pdf"
       ],
@@ -2281,7 +2281,7 @@
       "status": "published",
       "archived": false,
       "category": "🔌 Automation & Workflows (n8n, Replit, Make.com)",
-      "content_hash": "a6e1ee4e43d17431",
+      "content_hash": "8a5d5affa9aa9ccf",
       "files": [
         "Realtime API Breakdown.pdf"
       ],
@@ -2439,7 +2439,7 @@
       "status": "published",
       "archived": false,
       "category": "Other",
-      "content_hash": "055727394090dfce",
+      "content_hash": "1ec162a4809369cc",
       "files": [
         "Talk to Any Document.pdf",
         "pinecone-gdrive.json",
@@ -2455,7 +2455,7 @@
       "status": "published",
       "archived": false,
       "category": "🎯 Prompting & Engineering Skills",
-      "content_hash": "ad1524a09db1361c",
+      "content_hash": "f0a8e35645ac8d25",
       "files": [
         "Prompt Battle Testing (Make File).json",
         "Simulated Conversation Testing (Make).json",
@@ -2471,7 +2471,7 @@
       "status": "published",
       "archived": false,
       "category": "Other",
-      "content_hash": "739be0d0527880ae",
+      "content_hash": "f70d788382c776a2",
       "files": [
         "How to Prompt Like a Pro.pdf"
       ],
@@ -2485,7 +2485,7 @@
       "status": "published",
       "archived": false,
       "category": "📊 Tools, Cheat Sheets & Evaluations",
-      "content_hash": "b6c3afdd5926487a",
+      "content_hash": "4e86dfa7d565fe8b",
       "files": [
         "OpenAI o1.pdf"
       ],
@@ -2511,7 +2511,7 @@
       "status": "published",
       "archived": false,
       "category": "🗂️ Frameworks, Meta Techniques & Experiments",
-      "content_hash": "7c6cdf136ac25075",
+      "content_hash": "5a92618a765d2a4c",
       "files": [
         "I Dont Know.pdf"
       ],
@@ -2525,7 +2525,7 @@
       "status": "published",
       "archived": false,
       "category": "Other",
-      "content_hash": "0b0ea344972a7f94",
+      "content_hash": "cff167e4faf04bb3",
       "files": [
         "Mermaid Part 1.pdf",
         "Mermaid Part 2.pdf"
@@ -2540,7 +2540,7 @@
       "status": "published",
       "archived": false,
       "category": "🎯 Prompting & Engineering Skills",
-      "content_hash": "416cd2a2a613b5fc",
+      "content_hash": "d5b85c525b02b306",
       "files": [
         "Temperature v Top P.pdf"
       ],
@@ -2554,7 +2554,7 @@
       "status": "published",
       "archived": false,
       "category": "📊 Tools, Cheat Sheets & Evaluations",
-      "content_hash": "6bd09e15b9ade5da",
+      "content_hash": "ae64a2606e466367",
       "files": [
         "Prompt Caching with Claude.pdf",
         "Prompt_Caching_with_Claude.ipynb"

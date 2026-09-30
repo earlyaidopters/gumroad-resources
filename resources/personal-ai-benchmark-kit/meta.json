@@ -13,8 +13,13 @@
   "files": [
     {
       "file": "personal_benchmark_skill.zip",
+      "source_revision": "051f0e9206e0707185955800ec3b22f715b1c5aaac354d76ada08e2373abd966",
+      "expected_bytes": 55861,
       "status": "cached",
-      "bytes": 55861
+      "bytes": 55861,
+      "source_sha256": "dca08b129bf1a21398d7c3ef9c01e68b4c3a494d32fa41dfdffb9d4c41efc470",
+      "local_sha256": "dca08b129bf1a21398d7c3ef9c01e68b4c3a494d32fa41dfdffb9d4c41efc470",
+      "unpacked_sha256": "dca08b129bf1a21398d7c3ef9c01e68b4c3a494d32fa41dfdffb9d4c41efc470"
     }
   ],
   "has_rich_content": true

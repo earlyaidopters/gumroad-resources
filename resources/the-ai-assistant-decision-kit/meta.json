@@ -13,13 +13,23 @@
   "files": [
     {
       "file": "AI-Assistant-Decision-Kit.zip",
+      "source_revision": "b5aafbabec0cd7446b346edd70b8d002fc5e6dea6ecdb844d54c63b249a0151a",
+      "expected_bytes": 42122,
       "status": "cached",
-      "bytes": 42122
+      "bytes": 42122,
+      "source_sha256": "10c342a4e6d4935b966fbd1500160fd35826576f945c0a2c5d9fd296e0b658ea",
+      "local_sha256": "10c342a4e6d4935b966fbd1500160fd35826576f945c0a2c5d9fd296e0b658ea",
+      "unpacked_sha256": "10c342a4e6d4935b966fbd1500160fd35826576f945c0a2c5d9fd296e0b658ea"
     },
     {
       "file": "AI-Assistant-System-Advisor-Skill.zip",
+      "source_revision": "83c37f287a13da558853cc0f8a6757fce4256ccbef72840ea106af275e6ff5a1",
+      "expected_bytes": 34916,
       "status": "cached",
-      "bytes": 34916
+      "bytes": 34916,
+      "source_sha256": "d8c6e141125aa5dc918a92e1b744815ec612ea42a6341a9738ccf28ca8f92981",
+      "local_sha256": "d8c6e141125aa5dc918a92e1b744815ec612ea42a6341a9738ccf28ca8f92981",
+      "unpacked_sha256": "d8c6e141125aa5dc918a92e1b744815ec612ea42a6341a9738ccf28ca8f92981"
     }
   ],
   "has_rich_content": true

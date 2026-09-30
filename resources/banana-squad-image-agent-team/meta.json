@@ -13,23 +13,40 @@
   "files": [
     {
       "file": "diagrams.zip",
-      "status": "cached",
-      "bytes": 7106030
+      "source_revision": "ea3b0f8315bfecb990ccf8efd940dffc3a9de92dd3a00477dcd03d066ba1654b",
+      "expected_bytes": 7106030,
+      "status": "downloaded",
+      "bytes": 7106030,
+      "source_sha256": "4f6d7b3cc3d3173cc2d617254fe0a3dd122e120f5a464c64a32e010d03a3936c",
+      "local_sha256": "4f6d7b3cc3d3173cc2d617254fe0a3dd122e120f5a464c64a32e010d03a3936c",
+      "unpacked_sha256": "4f6d7b3cc3d3173cc2d617254fe0a3dd122e120f5a464c64a32e010d03a3936c"
     },
     {
       "file": "gemini-3-image-api-guide.md",
-      "status": "cached",
-      "bytes": 11899
+      "source_revision": "4954819d9181d9158909d54c6b304b1244b27bd7ca284b3235d3722ef2c5d921",
+      "expected_bytes": 11899,
+      "status": "downloaded",
+      "bytes": 11899,
+      "source_sha256": "c6d17474723a4c04095f3bca1c3f211f595e15ca6e6ed267f78c23263509eda6",
+      "local_sha256": "c6d17474723a4c04095f3bca1c3f211f595e15ca6e6ed267f78c23263509eda6"
     },
     {
       "file": "paperbanana.md",
-      "status": "cached",
-      "bytes": 124675
+      "source_revision": "f6c742847097736141e277e0e6281225158f93ab75acc1a7ab08ff6bc389a1ac",
+      "expected_bytes": 124675,
+      "status": "downloaded",
+      "bytes": 124675,
+      "source_sha256": "126adb9527ac90c47f438994b3629e24df76b7b118f70825cfeb691cd04c7e80",
+      "local_sha256": "126adb9527ac90c47f438994b3629e24df76b7b118f70825cfeb691cd04c7e80"
     },
     {
       "file": "spawn-team-prompt.md",
-      "status": "cached",
-      "bytes": 8360
+      "source_revision": "61d113a9df04a5f3e9247d48331f2f50f4e6cc82b491a761ec4519640416a45c",
+      "expected_bytes": 8360,
+      "status": "downloaded",
+      "bytes": 8360,
+      "source_sha256": "f2aac00eead0575db425a06cc04d721e940a0d36b1a1947abf3852b95d19430c",
+      "local_sha256": "f2aac00eead0575db425a06cc04d721e940a0d36b1a1947abf3852b95d19430c"
     }
   ],
   "has_rich_content": true

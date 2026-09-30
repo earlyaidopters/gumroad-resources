@@ -13,53 +13,94 @@
   "files": [
     {
       "file": "DISCLAIMER.md",
+      "source_revision": "389296ecb790b9bc3cd41e06466fe0157940268fa08e4076a7a723ee942222e8",
+      "expected_bytes": 5090,
       "status": "cached",
-      "bytes": 5090
+      "bytes": 5090,
+      "source_sha256": "dc50b3e2575556749fbf8b55f5bfc566a25fa652ad8da141e95c5dfeea918616",
+      "local_sha256": "dc50b3e2575556749fbf8b55f5bfc566a25fa652ad8da141e95c5dfeea918616"
     },
     {
       "file": "ClaudeClaw_V3_Visual_Guide.pdf",
+      "source_revision": "ca85f1feb03c730c0443c1164252a60b0eec035f5fb71579388b9810450db07b",
+      "expected_bytes": 14030653,
       "status": "cached",
-      "bytes": 14030653
+      "bytes": 14030653,
+      "source_sha256": "d8f8095540270337335a0098a6e642de7beb7b13acbbd77c63b7e236e952b0cb",
+      "local_sha256": "d8f8095540270337335a0098a6e642de7beb7b13acbbd77c63b7e236e952b0cb"
     },
     {
       "file": "REBUILD_PROMPT_V3.md",
+      "source_revision": "6435f8701016d07bd5569b033af0553857a9383eedfdd90ce8501db3ae808c8d",
+      "expected_bytes": 33865,
       "status": "cached",
-      "bytes": 33865
+      "bytes": 33865,
+      "source_sha256": "22e63bbed56ac0c4475d35a6f5572600933659e4189c9b25aee0ffb7e6729ad6",
+      "local_sha256": "22e63bbed56ac0c4475d35a6f5572600933659e4189c9b25aee0ffb7e6729ad6"
     },
     {
       "file": "POWER_PACKS_V3.md",
+      "source_revision": "284fcfacd0e22d774e4e8b0bab497c9803e74baa10b2236ea429765ac1f18ff5",
+      "expected_bytes": 23166,
       "status": "cached",
-      "bytes": 23166
+      "bytes": 23166,
+      "source_sha256": "420196fe2d33a9ae73fe9ea55627a18ac853daef3fd1050ec3c0a661c1d58ac2",
+      "local_sha256": "420196fe2d33a9ae73fe9ea55627a18ac853daef3fd1050ec3c0a661c1d58ac2"
     },
     {
       "file": "README.md",
+      "source_revision": "9bdafc0db865ed502518549e11b514a671dcc50eefbb067ecc4580f14ef927e7",
+      "expected_bytes": 4793,
       "status": "cached",
-      "bytes": 4793
+      "bytes": 4793,
+      "source_sha256": "cccad306a8255f31f4fcb0e75a8c024c7efdadecbe357a98d93cd5bb0c558a35",
+      "local_sha256": "cccad306a8255f31f4fcb0e75a8c024c7efdadecbe357a98d93cd5bb0c558a35"
     },
     {
       "file": "terminal_prompts.md",
+      "source_revision": "8dccf72bcfe5b993f4b09424e3b4785ed0d952ac846cf887b4958bb86181b938",
+      "expected_bytes": 7827,
       "status": "cached",
-      "bytes": 7827
+      "bytes": 7827,
+      "source_sha256": "d8e2334dbfb699aeb1b979c2c150975840f8e05870c76149bbac0674502439c1",
+      "local_sha256": "d8e2334dbfb699aeb1b979c2c150975840f8e05870c76149bbac0674502439c1"
     },
     {
       "file": "memory.zip",
+      "source_revision": "8c909a3a43dbf3c7c66a36ad63055f0d67a95af75e74c0d479e1d3a488925eae",
+      "expected_bytes": 35909,
       "status": "cached",
-      "bytes": 35909
+      "bytes": 35909,
+      "source_sha256": "28e4a22b46188d64086721572bdb644a47b46d590701537499a934cc18feead7",
+      "local_sha256": "28e4a22b46188d64086721572bdb644a47b46d590701537499a934cc18feead7",
+      "unpacked_sha256": "28e4a22b46188d64086721572bdb644a47b46d590701537499a934cc18feead7"
     },
     {
       "file": "5_STEP_JOURNEY.md",
+      "source_revision": "2dad447ee52d9a5116815e2470deafeaf62a69bbda6d06a4533a5cba7df85a41",
+      "expected_bytes": 8528,
       "status": "cached",
-      "bytes": 8528
+      "bytes": 8528,
+      "source_sha256": "5ed79cf78d162fe13c1329c224a0bc3c5b3c84c3ed2b3ac3b45161582633c012",
+      "local_sha256": "5ed79cf78d162fe13c1329c224a0bc3c5b3c84c3ed2b3ac3b45161582633c012"
     },
     {
       "file": "CLAUDECLAW_ASSESSMENT_PROMPT_V3.md",
+      "source_revision": "6e850be19c3fb868d8a110461cc6631acbe5798d5b6615a9a0bf7e5bbeec9ba6",
+      "expected_bytes": 6265,
       "status": "cached",
-      "bytes": 6265
+      "bytes": 6265,
+      "source_sha256": "2ed0b1bd4df6cd661edd9bfed3956d7358361311a8de2d911874c43f69479fb6",
+      "local_sha256": "2ed0b1bd4df6cd661edd9bfed3956d7358361311a8de2d911874c43f69479fb6"
     },
     {
       "file": "CLAUDECLAW_V3_BLUEPRINT.md",
+      "source_revision": "2c3db6542d8c6a6416afec06d79650149c0544a2282659ab81a6bc40f2513882",
+      "expected_bytes": 16207,
       "status": "cached",
-      "bytes": 16207
+      "bytes": 16207,
+      "source_sha256": "90cea80f90aae40bc33ee9cfe49858a3ecdbfeaa95b9e916376417f317895262",
+      "local_sha256": "90cea80f90aae40bc33ee9cfe49858a3ecdbfeaa95b9e916376417f317895262"
     }
   ],
   "has_rich_content": true

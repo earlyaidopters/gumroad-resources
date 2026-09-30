@@ -13,8 +13,12 @@
   "files": [
     {
       "file": "GrokRouter-How-It-Works.pdf",
+      "source_revision": "7e39af63309b131da59567ad864a45823c5ac940620125ba3198134621fb6c2d",
+      "expected_bytes": 3116329,
       "status": "cached",
-      "bytes": 3116329
+      "bytes": 3116329,
+      "source_sha256": "89ef4ff3ebb017b0e2739fae1dbbb5b7da87c3ca5bacbcc9401aad02fc6a2e0c",
+      "local_sha256": "89ef4ff3ebb017b0e2739fae1dbbb5b7da87c3ca5bacbcc9401aad02fc6a2e0c"
     }
   ],
   "has_rich_content": true

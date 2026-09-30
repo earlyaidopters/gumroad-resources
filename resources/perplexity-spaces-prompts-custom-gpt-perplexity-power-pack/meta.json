@@ -13,18 +13,30 @@
   "files": [
     {
       "file": "Spaces v Custom GPTs.pdf",
-      "status": "cached",
-      "bytes": 658322
+      "source_revision": "ecc932e1481ae08a206f3be07a1e82f5b6051b53e29f69b08008b073aedc8f15",
+      "expected_bytes": 658322,
+      "status": "downloaded",
+      "bytes": 658322,
+      "source_sha256": "f1ff1888bd497c3954957c0c1675256bfa7e5e1a8e36d6c38ec2649248d27b94",
+      "local_sha256": "f1ff1888bd497c3954957c0c1675256bfa7e5e1a8e36d6c38ec2649248d27b94"
     },
     {
       "file": "Custom Action Schema.txt",
-      "status": "cached",
-      "bytes": 2801
+      "source_revision": "40cfdbdb89fcb5bf539ad1e2d9f4d1eb8b64f0ee0296f181aa7bc4e291a65ba0",
+      "expected_bytes": 2801,
+      "status": "downloaded",
+      "bytes": 2801,
+      "source_sha256": "bb77b5da58089eafe517a7d5c979eaf8d64124196b0ffb6d2268f86b6c3e3f2b",
+      "local_sha256": "bb77b5da58089eafe517a7d5c979eaf8d64124196b0ffb6d2268f86b6c3e3f2b"
     },
     {
       "file": "Perplexity Spaces Prompts.pdf",
-      "status": "cached",
-      "bytes": 57612
+      "source_revision": "a3f5e9910ad649b7e7d08cc118fbe140325b66f2682f2335414a8b175ffb328b",
+      "expected_bytes": 57612,
+      "status": "downloaded",
+      "bytes": 57612,
+      "source_sha256": "6d0f27d8ac2ddf5f10d5d6e56502cac9c8ee00623b42863bd48008b6c3c1e82b",
+      "local_sha256": "6d0f27d8ac2ddf5f10d5d6e56502cac9c8ee00623b42863bd48008b6c3c1e82b"
     }
   ],
   "has_rich_content": true

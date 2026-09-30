@@ -13,8 +13,13 @@
   "files": [
     {
       "file": "Relay-Voice-Resource.zip",
+      "source_revision": "d6a775f64419e21494834c9c832eb3cefdd696d9581ae0c01db9d606c2d49d5d",
+      "expected_bytes": 5945910,
       "status": "cached",
-      "bytes": 5945910
+      "bytes": 5945910,
+      "source_sha256": "ceaf346b96503ef10a3ee04c598bf8a627f89ee2dd60a45b74560edef8f7da65",
+      "local_sha256": "ceaf346b96503ef10a3ee04c598bf8a627f89ee2dd60a45b74560edef8f7da65",
+      "unpacked_sha256": "ceaf346b96503ef10a3ee04c598bf8a627f89ee2dd60a45b74560edef8f7da65"
     }
   ],
   "has_rich_content": true

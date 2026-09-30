@@ -13,8 +13,12 @@
   "files": [
     {
       "file": "SKILL.md",
+      "source_revision": "9e06bbd96aa1e596df4ff5c8b6a45b52cf05f5fdbc9acc85da05cecab313cf89",
+      "expected_bytes": 3779,
       "status": "cached",
-      "bytes": 3779
+      "bytes": 3779,
+      "source_sha256": "9395f6735b1ce95c94f8fa3032ff2448494c78c8c73fd0baa6f27263dfd7db2d",
+      "local_sha256": "9395f6735b1ce95c94f8fa3032ff2448494c78c8c73fd0baa6f27263dfd7db2d"
     }
   ],
   "has_rich_content": true
