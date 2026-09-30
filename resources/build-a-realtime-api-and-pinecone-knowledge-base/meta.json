@@ -15,7 +15,7 @@
       "file": "Realtime API with Knowledge.pdf",
       "source_revision": "8a545126289ec34895cd7178bc006056add08e612fc96ba637be050cf428253d",
       "expected_bytes": 112911,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 112911,
       "source_sha256": "feaa5ed93c9a9546ba8228a0cef02af5aa2c892c991475ce5dcce43c150f9b43",
       "local_sha256": "feaa5ed93c9a9546ba8228a0cef02af5aa2c892c991475ce5dcce43c150f9b43"

@@ -15,7 +15,7 @@
       "file": "MCPs.pdf",
       "source_revision": "ab2ce306da117adb671c8771b516dfca5550f62cab8a682f24ee0b6e6e8aea0b",
       "expected_bytes": 1795222,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 1795222,
       "source_sha256": "561ff838e8bb806e3dc3a654937f81dbb8ee25474e01538c363ba137d14d06fb",
       "local_sha256": "561ff838e8bb806e3dc3a654937f81dbb8ee25474e01538c363ba137d14d06fb"

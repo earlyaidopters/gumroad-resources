@@ -15,7 +15,7 @@
       "file": "roadmap.pdf",
       "source_revision": "4369f0adbb5bd5a8b1949e7396d3814390e9f847c46098e253362c86a726ce0f",
       "expected_bytes": 11167239,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 11167239,
       "source_sha256": "33ed7aa4bbc43c6350421e46c148ed089381e031b3bcd1ef0c535c6b015db4c5",
       "local_sha256": "33ed7aa4bbc43c6350421e46c148ed089381e031b3bcd1ef0c535c6b015db4c5"

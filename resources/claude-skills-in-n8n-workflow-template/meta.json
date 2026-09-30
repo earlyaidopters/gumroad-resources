@@ -15,7 +15,7 @@
       "file": "Anthropic Agent Skills Workflows.json",
       "source_revision": "9f3eb1c5f0915a79aa331ffd9f545fb254a1de02f44ce9845c8934eed87bd09a",
       "expected_bytes": 24246,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 24246,
       "source_sha256": "74374b738b234d2607b3a670ce844d0687d6d0f5058123bd3b5d9da7b6fa5fa0",
       "local_sha256": "6839ef82496ea48cc4cc09d506fdf9338f07b4148ea59fc10d78fd313d1ba26a"

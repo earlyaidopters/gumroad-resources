@@ -15,7 +15,7 @@
       "file": "gptschema.txt",
       "source_revision": "617aefc7be9fe1809bae588ba5715573dbf2e707ffa3099402b5dbe315861a86",
       "expected_bytes": 2152,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 2152,
       "source_sha256": "76d7940c45393cd23963fe0196887c1cce9158da3828a1787f850a8a005a8d68",
       "local_sha256": "76d7940c45393cd23963fe0196887c1cce9158da3828a1787f850a8a005a8d68"

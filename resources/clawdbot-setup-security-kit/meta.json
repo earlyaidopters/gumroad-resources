@@ -15,7 +15,7 @@
       "file": "Mac_Mini_Setup_Guide.pdf",
       "source_revision": "d2d1c206680593039640516d3cae6e35e19fa9bef1d9cf4037e1a1fef31e5eea",
       "expected_bytes": 4837,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 4837,
       "source_sha256": "e1fa0b71d2b8165bc5219bd583559ed4bd4152f564991f822147681313535eec",
       "local_sha256": "e1fa0b71d2b8165bc5219bd583559ed4bd4152f564991f822147681313535eec"
@@ -24,7 +24,7 @@
       "file": "Clawdbot_Security_Checklist.pdf",
       "source_revision": "bbce774287e5e8a40962d4decf35e06e9bc9019148b6e8a7983d157d15c101f8",
       "expected_bytes": 9360,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 9360,
       "source_sha256": "98aef803625376d295bb4ae3b993c97feb60d02f5ffa8c4404c9c2d1d83b04e9",
       "local_sha256": "98aef803625376d295bb4ae3b993c97feb60d02f5ffa8c4404c9c2d1d83b04e9"

@@ -15,7 +15,7 @@
       "file": "Gamma (Base 44) Sanitized.json",
       "source_revision": "5af175a6cd7379e22be48b9a6326c52d26b28330a4992561f7f5db77372b5390",
       "expected_bytes": 13556,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 13556,
       "source_sha256": "e64a857cb122625ca87154f8bf4040d0f3d46942da7e18c7b93fde2f792bc502",
       "local_sha256": "e64a857cb122625ca87154f8bf4040d0f3d46942da7e18c7b93fde2f792bc502"

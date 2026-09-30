@@ -15,7 +15,7 @@
       "file": "Prompt Caching with Claude.pdf",
       "source_revision": "d963115842a22bb868bf565163cdb086c6e469434290a0861a5a3054da5c131a",
       "expected_bytes": 329487,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 329487,
       "source_sha256": "e592af3f87639e7bc514bdb213b7c742e384825c806004262fc05dbe2cdc4b09",
       "local_sha256": "e592af3f87639e7bc514bdb213b7c742e384825c806004262fc05dbe2cdc4b09"
@@ -24,7 +24,7 @@
       "file": "Prompt_Caching_with_Claude.ipynb",
       "source_revision": "ab613414aaaf8d4bc028683873ecfdbf0a65ac75e7ce60a32781ac7edce02e86",
       "expected_bytes": 1431237,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 1431237,
       "source_sha256": "06beaed744544cb3abf94f76364c40d7c5544402533105dc8712e5dbe392c37a",
       "local_sha256": "06beaed744544cb3abf94f76364c40d7c5544402533105dc8712e5dbe392c37a"

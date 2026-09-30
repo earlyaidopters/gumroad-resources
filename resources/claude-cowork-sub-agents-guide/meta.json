@@ -15,7 +15,7 @@
       "file": "Claude_CoWork_SubAgents_Guide.pdf",
       "source_revision": "3cebd43a0198d5bb54c435205801bbc64e2147f2b680d007694934673d4b6d80",
       "expected_bytes": 35318,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 35318,
       "source_sha256": "e712ed91ddf6ccfe99b5ca81ca50047ff58ef3c350051e76412dea54d192ff43",
       "local_sha256": "e712ed91ddf6ccfe99b5ca81ca50047ff58ef3c350051e76412dea54d192ff43"

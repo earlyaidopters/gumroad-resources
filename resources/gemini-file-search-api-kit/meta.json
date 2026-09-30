@@ -15,7 +15,7 @@
       "file": "PDF and Text File Upload to Google Gemini File Search Store.json",
       "source_revision": "37f77570f6bc3a12fd333f6c8720f5b85784084ff16c3f2ff172f6a39d477bd0",
       "expected_bytes": 15091,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 15091,
       "source_sha256": "eaa5308c4e9bca091479cd5d7a4ef318d626caef653bd3c6cdc2eff6650a85dc",
       "local_sha256": "795614d7fde960b3671baa378c369c9dd650af5af332a26db4b5cd1f3241eb50"
@@ -24,7 +24,7 @@
       "file": "MEGA_PROMPT.md",
       "source_revision": "36f7ae5b5c5ec01d132e7560dd353878fd5a8d738c05bd86b5ef59ed1f290639",
       "expected_bytes": 55796,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 55796,
       "source_sha256": "50b53a73dbb071253102a0a20867bd23eac90146b7bae1fa424721da96f7b610",
       "local_sha256": "50b53a73dbb071253102a0a20867bd23eac90146b7bae1fa424721da96f7b610"

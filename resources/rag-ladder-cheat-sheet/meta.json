@@ -15,7 +15,7 @@
       "file": "The Complete RAG Ladder Cheat Sheet.pdf",
       "source_revision": "c5c7910f4e8657d09334f16138150389e3195ec1beb8b7574b991c47e44c725c",
       "expected_bytes": 482626,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 482626,
       "source_sha256": "ecd42e6cfe0652ba89e3f09032e83f64996c21249b2feaaffa9a3a3a2daf289e",
       "local_sha256": "ecd42e6cfe0652ba89e3f09032e83f64996c21249b2feaaffa9a3a3a2daf289e"

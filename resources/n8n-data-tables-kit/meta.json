@@ -15,7 +15,7 @@
       "file": "Data Tables.json",
       "source_revision": "a919c3809261ca5ac5b84405807ddab7373309f0abbcccbf1bd7fe518e8de8b6",
       "expected_bytes": 27088,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 27088,
       "source_sha256": "92e267a3af9f68803eebb5a94c81f851e3819aee81c26c4a938689d6b452a3ba",
       "local_sha256": "92e267a3af9f68803eebb5a94c81f851e3819aee81c26c4a938689d6b452a3ba"
@@ -24,7 +24,7 @@
       "file": "DATA_TABLES_PM - Sheet1.csv",
       "source_revision": "5689fc2855538745af89f8afe8fdc4048be3c9de5ebb8f0dd38291662a2bf733",
       "expected_bytes": 572,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 572,
       "source_sha256": "1760990cdd4b9ea2dce8d952aa40fa1b695670f4c3eec365d4b342fa9131892c",
       "local_sha256": "1760990cdd4b9ea2dce8d952aa40fa1b695670f4c3eec365d4b342fa9131892c"
@@ -33,7 +33,7 @@
       "file": "DATA_TABLES_PM_DEMO - Sheet1.csv",
       "source_revision": "be44bd34a95892fe5ca1c8a4359f6d2dbe44d3826dfea2fbb2b3cff0521b2cd3",
       "expected_bytes": 572,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 572,
       "source_sha256": "1760990cdd4b9ea2dce8d952aa40fa1b695670f4c3eec365d4b342fa9131892c",
       "local_sha256": "1760990cdd4b9ea2dce8d952aa40fa1b695670f4c3eec365d4b342fa9131892c"

@@ -15,7 +15,7 @@
       "file": "I Dont Know.pdf",
       "source_revision": "49f11bebdfe4f90b7426fc8468c9558c248d307bb2c6c1eec9eac97aa93d69d9",
       "expected_bytes": 2481702,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 2481702,
       "source_sha256": "42f310d5ff3d086253c258f2d89f186d238e5cd38c848c00531916b803bda22f",
       "local_sha256": "42f310d5ff3d086253c258f2d89f186d238e5cd38c848c00531916b803bda22f"

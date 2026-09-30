@@ -15,7 +15,7 @@
       "file": "Voice Agent Breakdown.pdf",
       "source_revision": "59469b80b6ce36307a043d5caec27479c99d7222c2e1a786e997938b8fa6dcd5",
       "expected_bytes": 173438,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 173438,
       "source_sha256": "04f85c97db63728c0040f386440827726166c3f72208cb71538dd612b9dccf2c",
       "local_sha256": "04f85c97db63728c0040f386440827726166c3f72208cb71538dd612b9dccf2c"

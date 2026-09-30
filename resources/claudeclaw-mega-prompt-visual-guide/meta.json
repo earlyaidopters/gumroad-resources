@@ -15,7 +15,7 @@
       "file": "REBUILD_PROMPT.md",
       "source_revision": "a23735b729a61ccffbc35d3eb56625f9ec1f61e9c7c2a61596896513dc95af7d",
       "expected_bytes": 41670,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 41670,
       "source_sha256": "5a59a98034d9f6f08a80f43665357ea5e2d86f9debbb02af579e8cda114349dd",
       "local_sha256": "5a59a98034d9f6f08a80f43665357ea5e2d86f9debbb02af579e8cda114349dd"
@@ -24,7 +24,7 @@
       "file": "ClaudeClaw_Visual_Guide.pdf",
       "source_revision": "027455dca65f32a2a088774f4a0e02a1aa5f936b385b072bcc007ec63df4161f",
       "expected_bytes": 15335686,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 15335686,
       "source_sha256": "34584768f2f666f3b7d06685ce4734ef48cdf1b08227adbe43a1f099aada6e12",
       "local_sha256": "34584768f2f666f3b7d06685ce4734ef48cdf1b08227adbe43a1f099aada6e12"

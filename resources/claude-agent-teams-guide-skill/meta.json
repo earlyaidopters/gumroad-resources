@@ -15,7 +15,7 @@
       "file": "agent_teams_diagrams.zip",
       "source_revision": "45b347823c3003ae4715bbe7cf4ae5d1946b084920282ebe01260c97eb5896d4",
       "expected_bytes": 19069321,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 19069321,
       "source_sha256": "b7d1f573d384f0914b2a2b3ca3f04199180df8379c1e2da43763546f927604ba",
       "local_sha256": "b7d1f573d384f0914b2a2b3ca3f04199180df8379c1e2da43763546f927604ba",
@@ -25,7 +25,7 @@
       "file": "BUILD-PROMPT.md",
       "source_revision": "05000161c6bf99510d65d026aa4055605cc0017ebeb47f683e691a48ad26a586",
       "expected_bytes": 14949,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 14949,
       "source_sha256": "2ee7b88df08a8db4e376f7c596d47c724c4301ffdd5515baa3211f3fef1a2ed1",
       "local_sha256": "2ee7b88df08a8db4e376f7c596d47c724c4301ffdd5515baa3211f3fef1a2ed1"

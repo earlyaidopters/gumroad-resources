@@ -15,7 +15,7 @@
       "file": "ASCII_Planning_Prompts.pdf",
       "source_revision": "d51032388362c33f404a884a62ad75bbc5e0bffaf5f10003a1d7b043cc42666c",
       "expected_bytes": 418444,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 418444,
       "source_sha256": "c35afc11c9b7eae74527c070c887c52753745f5254d9d37e599c08ba85e21d9a",
       "local_sha256": "c35afc11c9b7eae74527c070c887c52753745f5254d9d37e599c08ba85e21d9a"

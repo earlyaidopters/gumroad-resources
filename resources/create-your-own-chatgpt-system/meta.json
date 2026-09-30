@@ -15,7 +15,7 @@
       "file": "Create_Your_Own_GPT_Guide.pdf",
       "source_revision": "7b936a9445aef65efa1664f832dee398608b7612430eb082fb88a788bb5efe3d",
       "expected_bytes": 704384,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 704384,
       "source_sha256": "337c93373c581da55430f680272987ef045a3f5196ee18ab7d9b735beffeb54a",
       "local_sha256": "337c93373c581da55430f680272987ef045a3f5196ee18ab7d9b735beffeb54a"
@@ -24,7 +24,7 @@
       "file": "gemini_api_documentation_december_2025.md",
       "source_revision": "1aec3d4c2c585648f9048ff8701c9524e933beafa43a6689d57a26bbd2299dbd",
       "expected_bytes": 31451,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 31451,
       "source_sha256": "2e3662365b38f58df64830411d5ac55a7b825ba4a3d574392bd058ecd318f49c",
       "local_sha256": "2e3662365b38f58df64830411d5ac55a7b825ba4a3d574392bd058ecd318f49c"

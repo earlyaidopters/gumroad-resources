@@ -15,7 +15,7 @@
       "file": "00-planning-prompt.md",
       "source_revision": "47f29c62371edcfa27ff48ed3865bca83b4a3184e670dbb0fc363ee5e08cac8b",
       "expected_bytes": 2381,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 2381,
       "source_sha256": "d316c3c4ae3666e761a85c72800296dbe77cba60860569c16b03f51820c694b1",
       "local_sha256": "d316c3c4ae3666e761a85c72800296dbe77cba60860569c16b03f51820c694b1"
@@ -24,7 +24,7 @@
       "file": "01-project-setup.md",
       "source_revision": "3f1b682a4cee761e411346ce8231da6ed48fa2338944fdc824afa11d0c2c8c33",
       "expected_bytes": 4434,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 4434,
       "source_sha256": "f23092a33000d7b9e2d829d21634617ad04b35c42e81ff6f584bc7b4ccf2e069",
       "local_sha256": "f23092a33000d7b9e2d829d21634617ad04b35c42e81ff6f584bc7b4ccf2e069"
@@ -33,7 +33,7 @@
       "file": "02-image-conversion.md",
       "source_revision": "52bdea71dc417efe610659a65442edff4c49f93754a4207fcdeb1a547608cfe5",
       "expected_bytes": 5950,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 5950,
       "source_sha256": "346369b17b0ff496be6ff47d2c254f0d5d40d33573bfe0d6ef8532e366d8084f",
       "local_sha256": "346369b17b0ff496be6ff47d2c254f0d5d40d33573bfe0d6ef8532e366d8084f"
@@ -42,7 +42,7 @@
       "file": "03-pdf-tools.md",
       "source_revision": "c7797e31f7233e4ccd779d3cfa3213434438a72a38618d1ad8746494c51b41b7",
       "expected_bytes": 6508,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 6508,
       "source_sha256": "9bf1ddb665b4cb4f20d92abca7edea75b0ee15f0ca464ea182eb7c78286f5cbb",
       "local_sha256": "9bf1ddb665b4cb4f20d92abca7edea75b0ee15f0ca464ea182eb7c78286f5cbb"
@@ -51,7 +51,7 @@
       "file": "04-audio-extraction.md",
       "source_revision": "d39e7b7f378e726dcef8ba2d6808f4d301af001a4a7cc3d46783ed13968523e3",
       "expected_bytes": 5929,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 5929,
       "source_sha256": "0017f332a6cf322aa4131326cc09a58de04a0e4f865d91a23e9239b5606a20c1",
       "local_sha256": "0017f332a6cf322aa4131326cc09a58de04a0e4f865d91a23e9239b5606a20c1"
@@ -60,7 +60,7 @@
       "file": "05-video-splitting.md",
       "source_revision": "74ac5c9bdf57c8937fc650e8b0d7d029b79b6282548f7636a46497ffff5c5d27",
       "expected_bytes": 7185,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 7185,
       "source_sha256": "6507743c9db07afb21e2809c049f3b7064ee4c677a397ce6ce028c7f833c1aa4",
       "local_sha256": "6507743c9db07afb21e2809c049f3b7064ee4c677a397ce6ce028c7f833c1aa4"
@@ -69,7 +69,7 @@
       "file": "06-video-compression.md",
       "source_revision": "5c934e5c9a248e6b18a094f860ea75f4c65a3ff4bfc2b9a5dcc6bf37a74f368a",
       "expected_bytes": 8465,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 8465,
       "source_sha256": "4c09731fba6e341dc21186b9683580c0f88b4e17ab6dec72a25a769c1b8010e8",
       "local_sha256": "4c09731fba6e341dc21186b9683580c0f88b4e17ab6dec72a25a769c1b8010e8"
@@ -78,7 +78,7 @@
       "file": "07-ai-image-editor.md",
       "source_revision": "4bfc384a82fd5a6296f3844373df605a07f4b48d3c98d929ebabab8caf3cc609",
       "expected_bytes": 11206,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 11206,
       "source_sha256": "01504ccc49c6488955b671ca537143e5e5fa525e62c38cd1f7226edd0cd51169",
       "local_sha256": "01504ccc49c6488955b671ca537143e5e5fa525e62c38cd1f7226edd0cd51169"
@@ -87,7 +87,7 @@
       "file": "08-polish-and-testing.md",
       "source_revision": "34b27fbc5deb05a71147e040454ad67e1949b0a6fa09c671fc7135469249e5d5",
       "expected_bytes": 7094,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 7094,
       "source_sha256": "e0f4fb3258ee656f1d7cad59d376e73f9b3ff5b5066f125b9761fc96f3fe6971",
       "local_sha256": "e0f4fb3258ee656f1d7cad59d376e73f9b3ff5b5066f125b9761fc96f3fe6971"
@@ -96,7 +96,7 @@
       "file": "gemini_api_documentation_december_2025.md",
       "source_revision": "0b92e152f658245f738b82438627fe303ae3933b2914fec28c8c15d485d63a41",
       "expected_bytes": 31451,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 31451,
       "source_sha256": "2e3662365b38f58df64830411d5ac55a7b825ba4a3d574392bd058ecd318f49c",
       "local_sha256": "2e3662365b38f58df64830411d5ac55a7b825ba4a3d574392bd058ecd318f49c"

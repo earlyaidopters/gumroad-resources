@@ -15,7 +15,7 @@
       "file": "Architecture_Guide.pdf",
       "source_revision": "478a95dfa733bca50030a3cc34c1099c5dd20189dd7ffabd64d28d9fdcc7348a",
       "expected_bytes": 29971,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 29971,
       "source_sha256": "21f60dd435da43437e13e34c2bcce4ee95e396de4e27e66069a595cebbfe0227",
       "local_sha256": "21f60dd435da43437e13e34c2bcce4ee95e396de4e27e66069a595cebbfe0227"
@@ -24,7 +24,7 @@
       "file": "Handoff_Template.pdf",
       "source_revision": "b50d9ada43cc5e60b6dfede328dc292e06f68ce724060d73bf755fe0156fc2f5",
       "expected_bytes": 20137,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 20137,
       "source_sha256": "c8292059da46f812f9210d0c53ebb143036a74fa9162d9f3bac76cbf20bb3d7a",
       "local_sha256": "c8292059da46f812f9210d0c53ebb143036a74fa9162d9f3bac76cbf20bb3d7a"
@@ -33,7 +33,7 @@
       "file": "Mega_Prompt.pdf",
       "source_revision": "9203a2d919e8cd98bace3aefbe7f26ea5bead64cf2c6a592b168c830b487d272",
       "expected_bytes": 11068,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 11068,
       "source_sha256": "2c2ae03e548fe134e10470defe8ab9b2372d3c533505140b4d1600165a71575a",
       "local_sha256": "2c2ae03e548fe134e10470defe8ab9b2372d3c533505140b4d1600165a71575a"
@@ -42,7 +42,7 @@
       "file": "Quick_Start_Guide.pdf",
       "source_revision": "7458e4417237e0a7de1be6c74f3fa59c4b047d61ead8dd8df7624fe54439c489",
       "expected_bytes": 21348,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 21348,
       "source_sha256": "5d2efa2f2dfb95ed319e85e7c097dad8bb3892bae100afa11c990c14011840dd",
       "local_sha256": "5d2efa2f2dfb95ed319e85e7c097dad8bb3892bae100afa11c990c14011840dd"
@@ -51,7 +51,7 @@
       "file": "Rubric_Template.pdf",
       "source_revision": "6ff268b17eee0463c42ca431991c7a9fac42c7340d3552c6816c9101e394f4ab",
       "expected_bytes": 31739,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 31739,
       "source_sha256": "28bf1b9dc7401934cb0dec0ff01674f028a3589397f81821c695914dd116b780",
       "local_sha256": "28bf1b9dc7401934cb0dec0ff01674f028a3589397f81821c695914dd116b780"

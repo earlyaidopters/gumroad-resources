@@ -15,7 +15,7 @@
       "file": "one_shot_skill_prompt.md",
       "source_revision": "5620edfee12b0f6ae7e09f12db0912f83d7040ebb1994742e0e500e42bee8a77",
       "expected_bytes": 3895,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 3895,
       "source_sha256": "05fbcb369ac960a804df22774159a072c3df0ba06013871b99d0e23321d53e9b",
       "local_sha256": "05fbcb369ac960a804df22774159a072c3df0ba06013871b99d0e23321d53e9b"

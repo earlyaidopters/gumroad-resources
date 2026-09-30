@@ -15,7 +15,7 @@
       "file": "proposalmakerprompt.txt",
       "source_revision": "33c4b5b292fe6fa9ed121fd8a37dc0400de7d112dcfd2bbac70b81c98fd1a5ae",
       "expected_bytes": 624,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 624,
       "source_sha256": "313b64500f3ee5b7c75a135302021004f0518d75e050c451fd3b8ea2eb41a3af",
       "local_sha256": "313b64500f3ee5b7c75a135302021004f0518d75e050c451fd3b8ea2eb41a3af"
@@ -24,7 +24,7 @@
       "file": "proposalmakerschema.txt",
       "source_revision": "dc85b0c03190fca7600254abdbb9162bcfbc99f71a0a3d69d102c5fc250d2ca8",
       "expected_bytes": 2098,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 2098,
       "source_sha256": "97c4cbf352d8ac2493bc3604ab9c6369d0936a4b4b63fc21fb5596873fcf134f",
       "local_sha256": "97c4cbf352d8ac2493bc3604ab9c6369d0936a4b4b63fc21fb5596873fcf134f"
@@ -33,7 +33,7 @@
       "file": "openrouterprompt.txt",
       "source_revision": "48843f223def628b804770da0fc7efee022f592bb2230263d28207fca3348a13",
       "expected_bytes": 151,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 151,
       "source_sha256": "33c124775ef90004f3b080d633e2694ac3056f9850d3e52ef000b2dccfd3ff84",
       "local_sha256": "33c124775ef90004f3b080d633e2694ac3056f9850d3e52ef000b2dccfd3ff84"
@@ -42,7 +42,7 @@
       "file": "openrouterschema.txt",
       "source_revision": "4df06bee574aee091052ba2a8666437d06cf460a11c65adc892f897f9171a82e",
       "expected_bytes": 3776,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 3776,
       "source_sha256": "818f83190c0e5e3581465f62dd89e79236b3f500b4b5abaf069f8c0823faba2f",
       "local_sha256": "818f83190c0e5e3581465f62dd89e79236b3f500b4b5abaf069f8c0823faba2f"
@@ -51,7 +51,7 @@
       "file": "airtableprompt.txt",
       "source_revision": "0009e00d3556ee9334afc10129938de24fa6cc79d09a89718c985c1939f3f7bb",
       "expected_bytes": 247,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 247,
       "source_sha256": "de52cba6d65c1b025e74429fc3198ff841d8234349105f600205c0a9b1fce57a",
       "local_sha256": "de52cba6d65c1b025e74429fc3198ff841d8234349105f600205c0a9b1fce57a"
@@ -60,7 +60,7 @@
       "file": "airtableschema.txt",
       "source_revision": "a27e0088cb1c2bbead9a43e1062f102397faf620114ecb3e27a7f4f1fcbdee06",
       "expected_bytes": 3980,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 3980,
       "source_sha256": "e6e6e0be2d803c222d1bdcfe8cc6a360f99d0a3ba57cfece2aac99417ec07c21",
       "local_sha256": "e6e6e0be2d803c222d1bdcfe8cc6a360f99d0a3ba57cfece2aac99417ec07c21"
@@ -69,7 +69,7 @@
       "file": "pineconeprompt.txt",
       "source_revision": "75a93baeb76f5b5b30eeb5379dc20faca28ef6e1e9293182fe9114408248ae61",
       "expected_bytes": 84,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 84,
       "source_sha256": "0ae859bce43160636d88b74a25f711d959cea04b640bd6039e8c962ca3ba3948",
       "local_sha256": "0ae859bce43160636d88b74a25f711d959cea04b640bd6039e8c962ca3ba3948"
@@ -78,7 +78,7 @@
       "file": "pineconereplit.txt",
       "source_revision": "edb842f594a2ff4f9ecc49b037b301a03310d445fd68f8c87fc54403ac2dc810",
       "expected_bytes": 2686,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 2686,
       "source_sha256": "c3f5f2ff3f7e4abd11e684aec900d465348d789001dde88aa2979a3d60745df1",
       "local_sha256": "c3f5f2ff3f7e4abd11e684aec900d465348d789001dde88aa2979a3d60745df1"
@@ -87,7 +87,7 @@
       "file": "gmailprompt.txt",
       "source_revision": "7bfa2665113dad7d05625fb759139a2e11588fb89b3bee0458ce2d182b70cd97",
       "expected_bytes": 446,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 446,
       "source_sha256": "85230d44d08c7e9650ffd96d639149ea9626d656324a70621e5043ab3340aa79",
       "local_sha256": "85230d44d08c7e9650ffd96d639149ea9626d656324a70621e5043ab3340aa79"
@@ -96,7 +96,7 @@
       "file": "gmaildrafterschema.txt",
       "source_revision": "2547417b342af88d86c42fb31750e818197af4a01c8ff49746c45fb5d722ac3d",
       "expected_bytes": 2137,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 2137,
       "source_sha256": "bbb44b4b23d6673bf657b43e60f5d115d171bbf9c1ef8565eb94a6d07a99ee4b",
       "local_sha256": "bbb44b4b23d6673bf657b43e60f5d115d171bbf9c1ef8565eb94a6d07a99ee4b"
@@ -105,7 +105,7 @@
       "file": "proposalmaker.json",
       "source_revision": "4bb980066c3eebcf627a77e6f7a37d29a678d376002b003ac830762440a4d110",
       "expected_bytes": 30623,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 30623,
       "source_sha256": "ad9b47eb515eef4dac66acaeb26134b79bb77de3ba8a93fc7a219e03d55c6849",
       "local_sha256": "ad9b47eb515eef4dac66acaeb26134b79bb77de3ba8a93fc7a219e03d55c6849"
@@ -114,7 +114,7 @@
       "file": "gmaildrafter.json",
       "source_revision": "e82a304bc1184f0e859b6eabb413704631193c21834b0dd378c04d3e493e9aec",
       "expected_bytes": 50945,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 50945,
       "source_sha256": "8024af2d1d939bcbca6b5ad40a46cedcb6787f375b8c5ce25f09840366e63f7c",
       "local_sha256": "8024af2d1d939bcbca6b5ad40a46cedcb6787f375b8c5ce25f09840366e63f7c"
@@ -123,7 +123,7 @@
       "file": "GPT Army.pdf",
       "source_revision": "efabcf80886a86b810bb21e9861ebdcc8806ecdbb18358c7ad7cdc4da37351ba",
       "expected_bytes": 444787,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 444787,
       "source_sha256": "116aa4a348deabac136c88d90efcdeea9427a40e1845f40002b73083fc32effb",
       "local_sha256": "116aa4a348deabac136c88d90efcdeea9427a40e1845f40002b73083fc32effb"

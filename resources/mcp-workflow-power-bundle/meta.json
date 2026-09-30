@@ -15,7 +15,7 @@
       "file": "retrofuture-artisan-production-agent.json",
       "source_revision": "1b8289ce040396476c92e83f788a1b83822dab67f8c39100a3a3b9f9bd0f8001",
       "expected_bytes": 10673,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 10673,
       "source_sha256": "eebb9af83a0bc176441fa129231d95b46e34d27e239ccb4be3a3a22710fb0215",
       "local_sha256": "eebb9af83a0bc176441fa129231d95b46e34d27e239ccb4be3a3a22710fb0215"
@@ -24,7 +24,7 @@
       "file": "retrofuture-custom-orders-agent.json",
       "source_revision": "a4fcc88a0ce3b90c9aed0523156a351b52654b76994e1bf7003c1c8c56111a4d",
       "expected_bytes": 13382,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 13382,
       "source_sha256": "3d4218738af8c0fa875a937648b79a8ec2792e3c6ebb56cb70760ed14ab9f5ea",
       "local_sha256": "3d4218738af8c0fa875a937648b79a8ec2792e3c6ebb56cb70760ed14ab9f5ea"
@@ -33,7 +33,7 @@
       "file": "retrofuture-customer-experience-agent.json",
       "source_revision": "d6a4eb5acb44925ac8524faf4bcdf70a2aade70b35437af0f0933914c56a1602",
       "expected_bytes": 8923,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 8923,
       "source_sha256": "759734f400e29378905544cebfb93969dd7c069308a9a05bb4df933d56c6abce",
       "local_sha256": "759734f400e29378905544cebfb93969dd7c069308a9a05bb4df933d56c6abce"
@@ -42,7 +42,7 @@
       "file": "retrofuture-master-assistant.json",
       "source_revision": "cafb2c458a90f6a4bdc0c126ef1b46b49406ac4719574e03416ac7951373ecb2",
       "expected_bytes": 9612,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 9612,
       "source_sha256": "8705aa9f617e6023a64e8ec1dbae9fcdd570bf48a0f29e7b1ff33412b024ab06",
       "local_sha256": "8705aa9f617e6023a64e8ec1dbae9fcdd570bf48a0f29e7b1ff33412b024ab06"
@@ -51,7 +51,7 @@
       "file": "retrofuture-order-analytics-agent.json",
       "source_revision": "b823103970ae37f4ff45a0484175393bbd8aabc7fc35cf3de619b52e93662b9b",
       "expected_bytes": 14805,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 14805,
       "source_sha256": "9191f5e55856aecc2110633fa47a041825c08685eb5541d07445b547004c87ec",
       "local_sha256": "9191f5e55856aecc2110633fa47a041825c08685eb5541d07445b547004c87ec"
@@ -60,7 +60,7 @@
       "file": "retrofuture-sales-design-agent.json",
       "source_revision": "e6df7efff3f46a28e937904300ad55e53fa45c1dba3595f1eba2b9ac8439b2e4",
       "expected_bytes": 13184,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 13184,
       "source_sha256": "11e2a19ea0703aded38c565e24fa1b87bc87c8586e6fc15ed7a6c0c2c96f0c62",
       "local_sha256": "11e2a19ea0703aded38c565e24fa1b87bc87c8586e6fc15ed7a6c0c2c96f0c62"
@@ -69,7 +69,7 @@
       "file": "retrofuture-supply-chain-agent.json",
       "source_revision": "4ca6016d25d50b0450af6576ca66b6e1ba67f891fb644555003d5257b56c7647",
       "expected_bytes": 12262,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 12262,
       "source_sha256": "575e9e14753932dd40c564908b2bde508d0b7d46649216892ae0f10290b4bbec",
       "local_sha256": "575e9e14753932dd40c564908b2bde508d0b7d46649216892ae0f10290b4bbec"
@@ -78,7 +78,7 @@
       "file": "retrofuture-workshop-technical-agent.json",
       "source_revision": "3f53c290ebb5601932d7f8175e079ffe11c2d67801e52286624992c7a3bf3a62",
       "expected_bytes": 10201,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 10201,
       "source_sha256": "a14dfd574efe7bd9d10958323c8963b27c52f436479c77d1e463632dd76f8e91",
       "local_sha256": "a14dfd574efe7bd9d10958323c8963b27c52f436479c77d1e463632dd76f8e91"

@@ -15,7 +15,7 @@
       "file": "make_to_n8n_converter.json",
       "source_revision": "40e2ac11dd983d3f2cb6ec76de1cbeb4c3bf0a4ad5df1bc5d68bad57be64a93b",
       "expected_bytes": 58864,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 58864,
       "source_sha256": "cd920757979c4afa983443e56a8998ad392d49f621eecb1a447775b8a7c60002",
       "local_sha256": "cd920757979c4afa983443e56a8998ad392d49f621eecb1a447775b8a7c60002"

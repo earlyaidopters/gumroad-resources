@@ -15,7 +15,7 @@
       "file": "Diagrams.zip",
       "source_revision": "1eff45ff3ba19be0cecf8185c35c069b624f59b7e6acde54c60554e4b297dc6f",
       "expected_bytes": 47847058,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 47847058,
       "source_sha256": "0f4f70006e9123fa0659e825a37cf24a477a0ae6f90d2fc59d63189cf55afb33",
       "local_sha256": "0f4f70006e9123fa0659e825a37cf24a477a0ae6f90d2fc59d63189cf55afb33",
@@ -25,7 +25,7 @@
       "file": "plan_template.md",
       "source_revision": "e83bfa01258ecc113edc70e4201a331622787fe0171c70f498b3ed3af74f7d7b",
       "expected_bytes": 865,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 865,
       "source_sha256": "25c3fdc08f16df963291a8f0dcfe0ce49672d08ca2af75162bedaf1d9b550b47",
       "local_sha256": "25c3fdc08f16df963291a8f0dcfe0ce49672d08ca2af75162bedaf1d9b550b47"
@@ -34,7 +34,7 @@
       "file": "session_prompts.md",
       "source_revision": "adca400285e73db07798c2a4a8e400139b46577b2da7f2624fd99763ddd085b6",
       "expected_bytes": 2439,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 2439,
       "source_sha256": "ba9185a2ac88b8980d3eb074b8062334461eaa8255833043c849398a6d687458",
       "local_sha256": "ba9185a2ac88b8980d3eb074b8062334461eaa8255833043c849398a6d687458"
@@ -43,7 +43,7 @@
       "file": "parallel_terminals_guide.pdf",
       "source_revision": "4dc67bcde22dd09e5411ebef0ca0fff1383af2ab277cac5bbbf86d98972a43a6",
       "expected_bytes": 166758,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 166758,
       "source_sha256": "caffd9e01d523434ec74c8b696b9d1e3d91f5cc1b53d747ac19c74aa9f6f4016",
       "local_sha256": "caffd9e01d523434ec74c8b696b9d1e3d91f5cc1b53d747ac19c74aa9f6f4016"

@@ -15,7 +15,7 @@
       "file": "Mermaid Part 1.pdf",
       "source_revision": "e8f751a6a0333be14fc367f880a867d8cdb248de1070928bcabc75f92c793b0a",
       "expected_bytes": 69640,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 69640,
       "source_sha256": "7b239c20f494bb7519a680898bf449483712e6b61cb3aabf84e1df7b1978dd20",
       "local_sha256": "7b239c20f494bb7519a680898bf449483712e6b61cb3aabf84e1df7b1978dd20"
@@ -24,7 +24,7 @@
       "file": "Mermaid Part 2.pdf",
       "source_revision": "7aad9f2eeb454b3f820d7fd8710220544c441746a93d92a23b94eba612a065e4",
       "expected_bytes": 1408272,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 1408272,
       "source_sha256": "63071fb686b1ceb3b3fe520cb23a843f6962dccd39f04f76161a4694b4775433",
       "local_sha256": "63071fb686b1ceb3b3fe520cb23a843f6962dccd39f04f76161a4694b4775433"
