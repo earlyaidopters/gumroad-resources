@@ -2,7 +2,7 @@
 
 Every free resource from the Early AI-dopters Gumroad, mirrored here and kept in sync. Each folder holds the actual files (zips unpacked so you can browse them on GitHub), the resource content page, and a README. Where a resource came from a YouTube video, the video is paired to it. Watch or star this repo to catch every new drop.
 
-**176 published resources**, grouped by topic and newest-first within each. Auto-synced from Gumroad every few hours.
+**177 published resources**, grouped by topic and newest-first within each. Auto-synced from Gumroad every few hours.
 
 ## 🆕 Latest 10 drops
 
@@ -10,6 +10,7 @@ The newest resources with their videos. Updates automatically on every sync.
 
 | | Resource | Watch | Get it |
 |---|---|---|---|
+| <a href="https://markkashef.gumroad.com/l/wisprclone"><img src="https://public-files.gumroad.com/q6j0hn2ue1kx8c4yedfxltj6ctiq" width="200"></a> | [WisprFlow Clone: Mac App Source + Build Prompts](resources/wisprflow-clone-mac-app-source-build-prompts/) | - | [Gumroad](https://markkashef.gumroad.com/l/wisprclone) |
 | <a href="https://markkashef.gumroad.com/l/use-both-claude-codex-workflow-kit"><img src="https://public-files.gumroad.com/lpvokrqflyo89ahmuqj6b9udw1b3" width="200"></a> | [Use Both: Claude + Codex Workflow Kit](resources/use-both-claude-codex-workflow-kit/) | - | [Gumroad](https://markkashef.gumroad.com/l/use-both-claude-codex-workflow-kit) |
 | <a href="https://youtu.be/z8My0bX2-ZU"><img src="https://i.ytimg.com/vi/z8My0bX2-ZU/maxresdefault.jpg" width="200"></a> | [Your Own Jev: Prompt, Guide & Local AI Starter Kit](resources/your-own-jev-prompt-guide-local-ai-starter-kit/) | [▶ Watch](https://youtu.be/z8My0bX2-ZU) | [Gumroad](https://markkashef.gumroad.com/l/your-own-jev) |
 | <a href="https://youtu.be/zZNm4zP_lEE"><img src="https://i.ytimg.com/vi/zZNm4zP_lEE/maxresdefault.jpg" width="200"></a> | [Jev Starter Kit: Explainer + Live Playground](resources/jev-starter-kit-explainer-live-playground/) | [▶ Watch](https://youtu.be/zZNm4zP_lEE) | [Gumroad](https://markkashef.gumroad.com/l/jev-starter-kit) |
@@ -19,7 +20,6 @@ The newest resources with their videos. Updates automatically on every sync.
 | <a href="https://markkashef.gumroad.com/l/sf-ig-three-task-eval"><img src="https://public-files.gumroad.com/3lpwgc5ab5xnp58l0hmuneadbysu" width="200"></a> | [Three-Task AI Eval Template](resources/three-task-ai-eval-template/) | - | [Gumroad](https://markkashef.gumroad.com/l/sf-ig-three-task-eval) |
 | <a href="https://youtu.be/27qpBfBhpDk"><img src="https://i.ytimg.com/vi/27qpBfBhpDk/maxresdefault.jpg" width="200"></a> | [3D Worlds - The Builder Kit 🧱](resources/3d-worlds-the-builder-kit/) | [▶ Watch](https://youtu.be/27qpBfBhpDk) | [Gumroad](https://markkashef.gumroad.com/l/3d-worlds-builder-kit) |
 |  | [Definition of Done Template](resources/definition-of-done-template/) | - | [Gumroad](https://markkashef.gumroad.com/l/sf-ig-definition-of-done) |
-|  | [Claude Browser Permission Guide](resources/claude-browser-permission-guide/) | - | [Gumroad](https://markkashef.gumroad.com/l/sf-ig-claude-browser-permissions) |
 
 ## Categories
 
@@ -28,7 +28,7 @@ The newest resources with their videos. Updates automatically on every sync.
 - [🧠 Custom GPTs & AI Agents](#custom-gpts-ai-agents) (26)
 - [🗂️ Frameworks, Meta Techniques & Experiments](#frameworks-meta-techniques-experiments) (23)
 - [📊 Tools, Cheat Sheets & Evaluations](#tools-cheat-sheets-evaluations) (15)
-- [Other](#other) (46)
+- [Other](#other) (47)
 
 ## 🎯 Prompting & Engineering Skills
 
@@ -189,6 +189,7 @@ The newest resources with their videos. Updates automatically on every sync.
 
 | Resource | What it is | Video | Get it |
 |---|---|---|---|
+| [WisprFlow Clone: Mac App Source + Build Prompts](resources/wisprflow-clone-mac-app-source-build-prompts/) | Build Your Own Relay Voice Get the original Mac voice app demonstrated in the Astra versus Sol comparison, along with the source code, setup… | - | [Gumroad](https://markkashef.gumroad.com/l/wisprclone) |
 | [Use Both: Claude + Codex Workflow Kit](resources/use-both-claude-codex-workflow-kit/) | Use Both: Claude + Codex Workflow Kit Stop choosing one assistant for every job. | - | [Gumroad](https://markkashef.gumroad.com/l/use-both-claude-codex-workflow-kit) |
 | [Your Own Jev: Prompt, Guide & Local AI Starter Kit](resources/your-own-jev-prompt-guide-local-ai-starter-kit/) | Build a small AI specialist for one job you understand. | [▶ Watch](https://youtu.be/z8My0bX2-ZU) | [Gumroad](https://markkashef.gumroad.com/l/your-own-jev) |
 | [Jev Starter Kit: Explainer + Live Playground](resources/jev-starter-kit-explainer-live-playground/) | Everything you need to revisit the Jev walkthrough and try a decision of your own. | [▶ Watch](https://youtu.be/zZNm4zP_lEE) | [Gumroad](https://markkashef.gumroad.com/l/jev-starter-kit) |

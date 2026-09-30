@@ -1,6 +1,20 @@
 {
-  "count": 176,
+  "count": 177,
   "products": [
+    {
+      "slug": "wisprflow-clone-mac-app-source-build-prompts",
+      "permalink": "zzusvd",
+      "numeric_id": 14530268,
+      "name": "WisprFlow Clone: Mac App Source + Build Prompts",
+      "status": "published",
+      "archived": false,
+      "category": "Other",
+      "content_hash": "c31ad43546c002b4",
+      "files": [
+        "Relay-Voice-Resource.zip"
+      ],
+      "has_content": true
+    },
     {
       "slug": "use-both-claude-codex-workflow-kit",
       "permalink": "oheeob",

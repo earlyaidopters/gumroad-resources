@@ -1,0 +1,21 @@
+{
+  "name": "WisprFlow Clone: Mac App Source + Build Prompts",
+  "external_id": "cYhHzf0ByJLSV2WxnN0omQ==",
+  "permalink": "zzusvd",
+  "unique_permalink": "zzusvd",
+  "custom_permalink": "wisprclone",
+  "url": "https://markkashef.gumroad.com/l/wisprclone",
+  "status": "published",
+  "archived": false,
+  "kind": "products",
+  "price_formatted": "CAD$0+",
+  "description_md": "# Build Your Own Relay Voice\n\nGet the original Mac voice app demonstrated in the Astra versus Sol comparison, along with the source code, setup instructions and reusable build prompts.\n\nSource code: Clone the clean GitHub repository or download the included source snapshot. Build prompts: Get the phased build recipe and the shared comparison specification, adapted for your own setup. Interactive walkthrough: Explore the public guide with the original app walkthrough and annotated prompt embedded in one page. Setup guide: Connect your own Gemini key, optionally add Firecrawl and Gmail, and run the first-use checks.\n\nRequires macOS and local developer tools. This is source code, not a notarized installer. You supply your own provider credentials; API usage is billed separately by those providers.",
+  "files": [
+    {
+      "file": "Relay-Voice-Resource.zip",
+      "status": "downloaded",
+      "bytes": 5945910
+    }
+  ],
+  "has_rich_content": true
+}
