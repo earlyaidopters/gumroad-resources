@@ -20,6 +20,9 @@ Flags: --out DIR (default ./gumroad-export), --skip-existing (default on),
        --force (re-download), --delay SECONDS (default 0.4)
 """
 import html
+import hashlib
+import glob
+from collections import Counter
 import json
 import os
 import re
@@ -46,7 +49,7 @@ def load_cookie():
         die(f"cookie file not found at {COOKIE_FILE}.\n"
             "Export gumroad.com cookies with the Cookie-Editor extension "
             "(Export -> Header String) and save them to that file. "
-            "The _gumroad_app_session cookie is required.")
+            "The _gumroad_app_session cookie is required.", code=3)
     cookie = open(COOKIE_FILE).read().strip()
     if "_gumroad_app_session" not in cookie:
         print("warning: cookie file has no _gumroad_app_session; "
@@ -82,7 +85,7 @@ def inertia_page(path, cookie):
     """Fetch a dashboard page and return its parsed Inertia data-page object."""
     status, body, _ = http_get(path, cookie)
     if status in (301, 302, 401, 403) or "login" in body[:2000].lower() and "data-page" not in body:
-        die(f"not authenticated (HTTP {status} on {path}); refresh the cookie file")
+        die(f"not authenticated (HTTP {status} on {path}); refresh the cookie file", code=3)
     m = re.search(r'data-page="([^"]+)"', body)
     if not m:
         die(f"no Inertia data-page found on {path} (HTTP {status}); "
@@ -118,8 +121,12 @@ def list_products(cookie, archived=False, delay=0.4):
         while page_no <= pages:
             j = inertia_partial(f"{path}?{page_param}={page_no}", cookie,
                                 component, [data_key])
-            block = j.get("props", {}).get(data_key) or {}
-            items = block.get("products") or block.get("memberships") or []
+            block = j.get("props", {}).get(data_key)
+            if not isinstance(block, dict):
+                raise ValueError(f"Missing product listing block: {data_key}")
+            items = block.get("products", block.get("memberships"))
+            if not isinstance(items, list):
+                raise ValueError(f"Malformed product listing: {data_key}")
             for it in items:
                 it["_kind"] = data_key.replace("_data", "")
                 it["_archived"] = archived
@@ -195,6 +202,7 @@ def _node_md(node, files_by_id, depth=0):
         f = files_by_id.get(fid)
         if f:
             fname = f"{f.get('file_name') or f.get('display_name')}.{(f.get('extension') or '').lower()}".rstrip(".")
+            fname = f.get("_mirror_name", fname)
             return f"📎 **File:** [`{fname}`](files/{fname})\n\n"
         return f"📎 **File:** (id {fid})\n\n"
     if t == "button":
@@ -237,58 +245,105 @@ def html_description_to_md(desc_html):
     return html.unescape(re.sub(r"\n{3,}", "\n\n", txt)).strip()
 
 
+def file_sha256(path):
+    h = hashlib.sha256()
+    with open(path, "rb") as fh:
+        for chunk in iter(lambda: fh.read(1024 * 1024), b""):
+            h.update(chunk)
+    return h.hexdigest()
+
+
 def pull_product(row, cookie, out_dir, skip_existing=True, delay=0.4, max_file_mb=0):
     permalink = row["permalink"]
     ext_id, product, uniq = get_edit_payload(permalink, cookie)
-    name = product.get("name") or row.get("name") or permalink
-    slug = row.get("_slug") or slugify(name)
+    product_name = product.get("name") or row.get("name") or permalink
+    slug = row.get("_slug") or slugify(product_name)
     pdir = os.path.join(out_dir, slug)
     os.makedirs(os.path.join(pdir, "files"), exist_ok=True)
 
-    files = product.get("files") or []
+    if not ext_id or not product.get("name") or not isinstance(product.get("files"), list):
+        raise ValueError("Product editor payload is incomplete")
+    if row.get("status") == "published" and product.get("is_published") is False:
+        raise ValueError("Product was unpublished during sync; retry with a fresh index")
+    files = product["files"]
+    meta_path = os.path.join(pdir, "meta.json")
+    previous = json.load(open(meta_path)) if os.path.exists(meta_path) else {}
+    previous_files = {f["file"]: f for f in previous.get("files", [])}
+    names = []
+    for f in files:
+        ext = (f.get("extension") or "").lower()
+        name = f.get("file_name") or f.get("display_name") or "file"
+        names.append(f"{name}.{ext}".rstrip("."))
+    counts = Counter(names)
+    for f, name in zip(files, names):
+        if counts[name] > 1:
+            stem, ext = os.path.splitext(name)
+            suffix = hashlib.sha256(str(f["id"]).encode()).hexdigest()[:10]
+            name = f"{stem}-{suffix}{ext}"
+        if name in (".", "..") or os.path.basename(name) != name or "\\" in name:
+            raise ValueError("Unsafe attachment filename")
+        f["_mirror_name"] = name
+    if len({f["_mirror_name"] for f in files}) != len(files):
+        raise ValueError("Duplicate attachment identity")
     files_by_id = {f.get("id"): f for f in files}
 
     downloaded = []
     for f in files:
-        ext = (f.get("extension") or "").lower()
-        fname = f.get("file_name") or f.get("display_name") or "file"
-        fname = f"{fname}.{ext}".rstrip(".")
+        fname = f["_mirror_name"]
         dest = os.path.join(pdir, "files", fname)
         size = f.get("file_size")
-        # skip files too big for downstream (e.g. GitHub's 100MB limit) using the
-        # size Gumroad reports, so we never download bytes we'll only drop.
+        # Hash the source identity, not private storage URLs, into public metadata.
+        identity = {k: f.get(k) for k in ("id", "url", "file_size")}
+        revision = hashlib.sha256(json.dumps(identity, sort_keys=True).encode()).hexdigest()
+        record = {"file": fname, "source_revision": revision, "expected_bytes": size}
         if max_file_mb and size and size > max_file_mb * 1024 * 1024:
             if os.path.exists(dest):
                 os.remove(dest)
-            downloaded.append({"file": fname, "status": "skipped-oversized", "bytes": size})
+            downloaded.append({**record, "status": "skipped-oversized", "bytes": size})
             continue
-        if skip_existing and os.path.exists(dest) and size and os.path.getsize(dest) == size:
-            downloaded.append({"file": fname, "status": "cached", "bytes": size})
+        old = previous_files.get(fname, {})
+        if (skip_existing and os.path.isfile(dest)
+                and old.get("source_revision") == revision
+                and old.get("local_sha256") == file_sha256(dest)):
+            downloaded.append({**old, **record, "status": "cached"})
             continue
         q = urllib.parse.urlencode({"product_file_ids[]": f["id"]})
         status, data, _ = http_get(
             f"/product_files_utility/product_files/{urllib.parse.quote(ext_id)}?{q}",
             cookie, binary=True)
-        if status == 200 and data:
-            with open(dest, "wb") as fh:
-                fh.write(data)
-            ok = (not size) or len(data) == size
-            downloaded.append({"file": fname, "status": "downloaded" if ok else "size-mismatch",
-                               "bytes": len(data)})
-        else:
-            downloaded.append({"file": fname, "status": f"failed-http-{status}", "bytes": 0})
+        if status != 200 or not data:
+            raise ValueError(f"Attachment {fname}: download failed (HTTP {status})")
+        if size is not None and len(data) != size:
+            raise ValueError(f"Attachment {fname}: expected {size} bytes, received {len(data)}")
+        # Keep the previous complete file if a transfer or size check fails.
+        with open(dest + ".part", "wb") as fh:
+            fh.write(data)
+        os.replace(dest + ".part", dest)
+        digest = hashlib.sha256(data).hexdigest()
+        downloaded.append({**record, "status": "downloaded", "bytes": len(data),
+                           "source_sha256": digest, "local_sha256": digest})
         time.sleep(delay)
 
+    # Only remove old attachments after every current attachment succeeds.
+    current_names = {f["_mirror_name"] for f in files}
+    for old_name in set(os.listdir(os.path.join(pdir, "files"))) - current_names:
+        old_path = os.path.join(pdir, "files", old_name)
+        if os.path.basename(old_name) == old_name and os.path.isfile(old_path):
+            os.remove(old_path)
+
     rich = product.get("rich_content") or []
-    content_md = rich_content_to_md(rich, files_by_id, name) if rich else ""
+    content_md = rich_content_to_md(rich, files_by_id, product_name) if rich else ""
     if content_md.strip():
         with open(os.path.join(pdir, "content.md"), "w") as fh:
             fh.write(content_md)
 
+    elif os.path.exists(os.path.join(pdir, "content.md")):
+        os.remove(os.path.join(pdir, "content.md"))
+
     desc_md = html_description_to_md(product.get("description"))
 
     meta = {
-        "name": name,
+        "name": product_name,
         "external_id": ext_id,
         "permalink": permalink,
         "unique_permalink": uniq,
@@ -334,7 +389,8 @@ def main():
         return
 
     if cmd == "pull":
-        rows = list_products(cookie, archived=False, delay=delay)
+        rows = (json.load(open(kv["index"])) if "index" in kv
+                else list_products(cookie, archived=False, delay=delay))
         if "--archived" in flags:
             rows += list_products(cookie, archived=True, delay=delay)
         if "--all" not in flags:
@@ -357,6 +413,22 @@ def main():
         for r in rows:
             b = base[id(r)]
             r["_slug"] = f"{b}-{r.get('permalink')}" if counts[b] > 1 else b
+        # Keep folder links stable when a product title changes.
+        existing_slugs = {}
+        for mp in glob.glob(os.path.join(out_dir, "*", "meta.json")):
+            old_meta = json.load(open(mp))
+            perm = old_meta.get("permalink")
+            if perm in existing_slugs:
+                raise ValueError(f"Duplicate existing product folders: {perm}")
+            existing_slugs[perm] = os.path.basename(os.path.dirname(mp))
+        reserved = set(existing_slugs.values())
+        for row in rows:
+            perm = row["permalink"]
+            if perm in existing_slugs:
+                row["_slug"] = existing_slugs[perm]
+            elif row["_slug"] in reserved:
+                row["_slug"] += "-" + perm
+            reserved.add(row["_slug"])
         os.makedirs(out_dir, exist_ok=True)
         results = []
         for i, row in enumerate(rows, 1):
@@ -369,19 +441,23 @@ def main():
                       f"content:{'yes' if meta['has_rich_content'] else 'no'}",
                       file=sys.stderr)
                 results.append({"slug": slug, "ok": True,
-                                "files": meta["files"], "name": meta["name"]})
+                                "files": meta["files"], "name": meta["name"],
+                                "permalink": row["permalink"]})
             except SystemExit:
                 raise
             except Exception as e:
                 print(f"[{i}/{len(rows)}] FAILED {row.get('permalink')}: {e}",
                       file=sys.stderr)
-                results.append({"slug": row.get("permalink"), "ok": False, "error": str(e)})
+                results.append({"slug": row.get("permalink"), "ok": False, "error": str(e),
+                                "permalink": row.get("permalink")})
             time.sleep(delay)
         with open(os.path.join(out_dir, "pull-manifest.json"), "w") as fh:
             json.dump({"pulled_at": time.strftime("%Y-%m-%dT%H:%M:%S%z"),
                        "results": results}, fh, indent=2, ensure_ascii=False)
         ok = sum(1 for r in results if r["ok"])
         print(json.dumps({"ok": ok, "failed": len(results) - ok, "out": out_dir}))
+        if ok != len(results):
+            raise SystemExit(1)
         return
 
     die(f"unknown command: {cmd}")

@@ -1,62 +1,103 @@
-# Sync tooling
+# Gumroad mirror operations
 
-This repo is a self-updating mirror of the Early AI-dopters Gumroad store.
-`.github/workflows/sync.yml` runs every 6 hours and:
+The public vault mirrors published Gumroad resources. The sync workflow is
+scheduled hourly at minute 17, and can also be run immediately:
 
-1. writes the `GUMROAD_COOKIE` secret to a session cookie file,
-2. lists published products and pulls any new ones into `resources/`,
-3. re-indexes the repo (root `README.md` + `manifest.json`),
-4. commits and pushes only if something changed.
+```sh
+gh workflow run sync.yml --repo earlyaidopters/gumroad-resources --ref main
+```
 
-Unpublished and archived products are held back. Files over 100 MB are dropped
-(their unpacked contents stay). Anything that looks like an API key is redacted
-before it is ever committed.
+GitHub schedules are best-effort and may be delayed. The root README shows the
+**last verified sync**, with product and attachment counts and a link to that
+run. `sync-status.json` records the source observation time, verification time,
+manifest SHA-256 and explicit oversized-file exceptions. A green job alone is
+not the evidence: the catalogue and files must pass the checks below.
 
-## Files
+## What a successful run means
 
-- `gumroad-pull` — pulls product files + content pages using a seller session
-  cookie (the public Gumroad API exposes metadata only). Commands:
-  `check`, `products`, `pull <permalink>... | --all [--published-only]`.
-- `build_repo.py` — turns a pulled export into the repo layout, newest-first.
-- `sync.sh` — the end-to-end job the workflow runs.
+1. The seller session authenticates. A private temporary cookie file is removed
+   when the process exits; local runs can use the existing private cookie file.
+2. A nonempty, structurally valid product index is captured. Drafts are excluded.
+3. Every published product in that snapshot is pulled. Failed transfers and
+   incorrect byte counts cause a nonzero exit. Partial files cannot overwrite
+   a complete prior download.
+4. Reusing a file requires matching its source identity (file ID, storage URL
+   and size, stored only as a hash) and the SHA-256 of the local file. A replaced
+   file with the same name and size is downloaded again. The first hardened run
+   downloads existing files once to establish these records.
+5. Duplicate attachment names receive stable file-ID-based suffixes, preserving
+   both files and fixing their rich-content links. Removed attachments and
+   removed content are removed locally after a successful product pull.
+6. Download coverage, statuses, file existence and hashes are verified. The
+   builder refreshes changed ZIP extractions, deletes obsolete extracted files,
+   rejects corrupt/unsafe ZIPs, and applies the existing text-secret redaction.
+7. The finished manifest, README links, attachments and extracted archives are
+   checked against the source snapshot before the verified timestamp is written.
+8. Only a successful run can commit and push the verified catalogue. The workflow
+   stages an explicit list of mirror paths; transient authentication files,
+   downloaded private product indexes and pull reports are excluded.
+
+Attachments over 95 MiB are deliberately excluded to stay below GitHub's file
+limit. They are counted separately, with Gumroad download guidance in each
+resource README. Existing browsable extractions may remain available. These are
+explicit exceptions, never represented as verified mirrored downloads.
+
+Source SHA-256 and local SHA-256 are separate because existing secret redaction
+can legitimately change a text file before publication. The local hash verifies
+the committed form; source identity detects upstream attachment replacement.
+Gumroad does not supply a content checksum: this does not detect a provider
+silently changing bytes at the same storage URL with the same ID and size.
+Use `--force` on `tools/gumroad-pull` to bypass its cache when auditing that case.
+
+## Failure and recovery
+
+Authentication failure opens the existing cookie incident. Download, verification,
+build and push failures open one general sync incident. Repeated failures do not
+create duplicate issues or repeated comments. A fully verified successful push
+closes the corresponding incident automatically. Native GitHub notification
+settings determine who receives issue and failed-run notifications; this tooling
+does not send email or Slack messages.
+
+The job has a 40-minute timeout. If GitHub never starts a scheduled run, that run
+cannot raise its own failure alert. The timestamp remains old and visible. For a
+strict freshness SLA, use an independent external monitor; none is configured
+by this change.
+
+## Refreshing authentication
+
+File downloads need a logged-in Gumroad seller session; the public product API
+does not expose these files. A session can expire and requires a new seller
+login. Keep cookies outside this public repository.
+
+After verifying the private local cookie works:
+
+```sh
+python3 tools/gumroad-pull check
+gh secret set GUMROAD_COOKIE --repo earlyaidopters/gumroad-resources < "$HOME/.config/gumroad/cookies"
+gh workflow run sync.yml --repo earlyaidopters/gumroad-resources --ref main
+```
+
+Only use the second command when refreshing the deployed cookie. Never print,
+commit or attach the cookie to an issue. If the local session is also expired,
+log into Gumroad and export its Cookie header to the private configuration file.
 
 ## YouTube pairing
 
-`youtube_map.json` pairs each resource with the YouTube video whose description
-links it (`gumroad.com/l/<permalink>`) — authoritative, not fuzzy title matching.
-`build_repo.py` reads it and adds the video thumbnail + watch link to each
-resource. The Gumroad sync cannot refresh this (no YouTube auth in CI), so
-regenerate it locally when new videos go up and commit the result:
+`youtube_map.py` runs during sync when `YOUTUBE_API_KEY` is configured. It pairs
+videos by the Gumroad links in their public descriptions; unmatched resources
+retain existing pairings. A missing video does not mean the resource is missing.
+The existing pairing issue covers missing links among the newest resources,
+without posting the same comment on every hourly run. Pairing refresh failures
+are warnings; file and catalogue verification remain mandatory.
+
+## Tests and local verification
 
 ```sh
-uv run --with google-api-python-client --with google-auth-oauthlib \
-       --with google-auth tools/youtube_map.py
+python3 -m unittest discover -s tools/tests -v
+bash -n tools/sync.sh
+bash tools/sync.sh
 ```
 
-Forgetting used to fail silently — the drop shipped with a dash in the Watch
-column. `check_pairings.py` now runs at the end of every sync and opens a GitHub
-issue when any of the 5 newest live resources has no video paired; the issue
-closes itself once the map is refreshed. Re-index after regenerating the map,
-and always pass `--index` so the storefront keeps its newest-first order:
-
-```sh
-python3 tools/build_repo.py --repo . --index <(python3 tools/gumroad-pull products)
-```
-
-## The `GUMROAD_COOKIE` secret
-
-The pull needs a logged-in gumroad.com session cookie string (it must include
-the `_gumroad_app_session` cookie). Cookies expire; when they do, the workflow
-opens an issue and stops publishing until the secret is refreshed.
-
-To refresh: on a machine logged into Gumroad in Chrome, export the gumroad.com
-cookies as a single "Header String" (e.g. with the Cookie-Editor extension),
-then update the repo secret:
-
-```sh
-gh secret set GUMROAD_COOKIE --repo <owner>/<repo> < cookies.txt
-```
-
-Run `gh workflow run sync-gumroad.yml` to sync immediately, or wait for the
-next scheduled run. Change the cron in `sync.yml` to `0 */3 * * *` for every
-3 hours.
+The last command reads the live seller catalogue and changes local generated
+mirror files. It never pushes to GitHub. Regression tests use synthetic products,
+files, cookies and mocked issue commands, with no production mutations.

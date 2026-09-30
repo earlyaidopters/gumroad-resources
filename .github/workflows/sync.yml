@@ -2,7 +2,7 @@ name: sync-gumroad
 
 on:
   schedule:
-    - cron: "0 */6 * * *"   # every 6 hours; change to "0 */3 * * *" for every 3h
+    - cron: "17 * * * *"   # hourly, away from the busy start of the hour
   workflow_dispatch: {}
 
 permissions:
@@ -16,12 +16,17 @@ concurrency:
 jobs:
   sync:
     runs-on: ubuntu-latest
+    timeout-minutes: 40
+    if: github.ref == 'refs/heads/main'
     steps:
       - uses: actions/checkout@v4
 
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
+
+      - name: Regression tests
+        run: python3 -m unittest discover -s tools/tests -v
 
       # Only the read client. The OAuth libraries are needed solely by the
       # local path in youtube_map.py, which CI never takes.
@@ -35,37 +40,18 @@ jobs:
       # the channel: the API refuses key auth for every write.
       - name: Sync from Gumroad
         id: sync
-        continue-on-error: true
         env:
           GUMROAD_COOKIE: ${{ secrets.GUMROAD_COOKIE }}
           YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
         run: bash tools/sync.sh
 
-      - name: Flag expired cookie
-        if: steps.sync.outcome == 'failure' && hashFiles('.sync-auth-failed') != ''
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: |
-          title="Gumroad session cookie expired — sync paused"
-          existing=$(gh issue list --state open --search "\"$title\" in:title" --json number --jq 'length')
-          if [ "$existing" = "0" ]; then
-            gh issue create --title "$title" --body \
-              "The scheduled Gumroad sync could not authenticate. The session cookie in the \`GUMROAD_COOKIE\` secret has expired. Refresh it (see \`tools/README.md\`) and update the secret. New resources will not appear until this is fixed."
-          fi
-          exit 1
-
-      - name: Fail if sync errored for another reason
-        if: steps.sync.outcome == 'failure' && hashFiles('.sync-auth-failed') == ''
-        run: |
-          echo "sync.sh failed for a non-auth reason; see the Sync step log."
-          exit 1
-
       - name: Commit & push changes
+        id: publish
         if: steps.sync.outcome == 'success'
         run: |
           git config user.name "gumroad-sync[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add -A
+          git add README.md manifest.json sync-status.json resources tools/youtube_map.json tools/categories.json
           if git diff --cached --quiet; then
             echo "No changes to commit."
           else
@@ -91,8 +77,18 @@ jobs:
           fi
           echo "Unpaired: $missing"
           body=$(printf 'These resources are live in the repo with no YouTube video linked, so members see a dash in the Watch column:\n\n%s\n\nCI refreshes the pairing map on every run, so this means the drop is genuinely unpaired: usually the video description has no Gumroad link yet, or the Skool lesson has not been posted. Add the link to the video description and the next sync picks it up. This issue closes itself once every recent drop is paired.' "$missing")
-          if [ -n "$existing" ]; then
-            gh issue comment "$existing" --body "Still unpaired: $missing"
-          else
+          if [ -z "$existing" ]; then
             gh issue create --title "$title" --body "$body"
           fi
+
+      - name: Resolve recovered sync incidents
+        if: success() && steps.publish.outcome == 'success'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python3 tools/report_sync.py success
+
+      - name: Report failed sync
+        if: failure()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python3 tools/report_sync.py failure

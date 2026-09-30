@@ -17,7 +17,7 @@ Unpublished products are held back entirely — never copied in, and any that
 already exist under resources/ are removed. Newest-first = descending numeric
 Gumroad product id (monotonic with creation order).
 """
-import argparse, hashlib, json, os, re, shutil, zipfile
+import argparse, hashlib, json, os, re, shutil, zipfile, tempfile, stat
 
 GENERATED = {"README.md", "content.md", "unpacked"}  # not part of file hash
 MAX_FILE_MB = 95  # stay under GitHub's 100MB hard limit
@@ -59,13 +59,21 @@ def load_index(path):
     return idx
 
 
+def file_sha256(path):
+    h = hashlib.sha256()
+    with open(path, "rb") as fh:
+        for chunk in iter(lambda: fh.read(1024 * 1024), b""):
+            h.update(chunk)
+    return h.hexdigest()
+
+
 def dir_hash(folder):
     h = hashlib.sha256()
     if os.path.isdir(folder):
         for root, _, files in sorted(os.walk(folder)):
             for fn in sorted(files):
                 h.update(fn.encode())
-                h.update(str(os.path.getsize(os.path.join(root, fn))).encode())
+                h.update(file_sha256(os.path.join(root, fn)).encode())
     return h.hexdigest()[:16]
 
 
@@ -146,22 +154,40 @@ def main():
                 shutil.rmtree(dest)
             shutil.copytree(src, dest)
 
-        # unpack zips (skip if already unpacked)
+        # Re-extract when the archive changes, removing files deleted upstream.
         fdir = os.path.join(dest, "files")
         unpacked = []
-        if os.path.isdir(fdir):
-            for fn in os.listdir(fdir):
-                if not fn.lower().endswith(".zip"):
-                    continue
-                target = os.path.join(dest, "unpacked", fn[:-4])
-                if not os.path.isdir(target) or not os.listdir(target):
-                    os.makedirs(target, exist_ok=True)
-                    try:
-                        with zipfile.ZipFile(os.path.join(fdir, fn)) as z:
-                            z.extractall(target)
-                    except zipfile.BadZipFile:
-                        pass
-                unpacked.append(fn)
+        current_zips = {f["file"][:-4] for f in meta.get("files", [])
+                        if f["file"].lower().endswith(".zip")}
+        unpack_root = os.path.join(dest, "unpacked")
+        if os.path.isdir(unpack_root):
+            for old in os.listdir(unpack_root):
+                target = os.path.join(unpack_root, old)
+                if old not in current_zips and os.path.isdir(target):
+                    shutil.rmtree(target)
+        for record in meta.get("files", []):
+            fn = record["file"]
+            if not fn.lower().endswith(".zip") or record["status"] == "skipped-oversized":
+                continue
+            archive = os.path.join(fdir, fn)
+            digest = file_sha256(archive)
+            target = os.path.join(unpack_root, fn[:-4])
+            if record.get("unpacked_sha256") != digest or not os.path.isdir(target):
+                # Reject corrupt/unsafe archives before replacing the prior tree.
+                with tempfile.TemporaryDirectory(dir=dest) as staging:
+                    with zipfile.ZipFile(archive) as z:
+                        for member in z.infolist():
+                            parts = member.filename.replace("\\", "/").split("/")
+                            if (member.filename.startswith(("/", "\\")) or ".." in parts
+                                    or stat.S_ISLNK(member.external_attr >> 16)):
+                                raise ValueError(f"Unsafe ZIP member in {fn}")
+                        z.extractall(staging)
+                    if os.path.isdir(target):
+                        shutil.rmtree(target)
+                    os.makedirs(unpack_root, exist_ok=True)
+                    shutil.move(staging, target)
+                record["unpacked_sha256"] = digest
+            unpacked.append(fn)
 
         # GitHub rejects files >100MB. Drop oversized raw archives that we've
         # already unpacked (contents stay browsable); note anything else.
@@ -201,6 +227,13 @@ def main():
             redacted += redact_file(cmd_p)
         if redacted:
             REDACTIONS.append((slug, redacted))
+
+        for record in meta.get("files", []):
+            file_path = os.path.join(fdir, record["file"])
+            if record["status"] in ("downloaded", "cached") and os.path.isfile(file_path):
+                record["local_sha256"] = file_sha256(file_path)
+        with open(os.path.join(dest, "meta.json"), "w") as fh:
+            json.dump(meta, fh, indent=2, ensure_ascii=False)
 
         files = [f["file"] for f in meta.get("files", [])
                  if f.get("status") in ("downloaded", "cached")]
@@ -303,7 +336,7 @@ def main():
         "resource came from a YouTube video, the video is paired to it. Watch or star "
         "this repo to catch every new drop.\n",
         f"**{len(live)} published resources**, grouped by topic and newest-first "
-        "within each. Auto-synced from Gumroad every few hours.\n",
+        "within each. Sync scheduled hourly. See the latest verified check below.\n",
         "## 🆕 Latest 10 drops\n",
         "The newest resources with their videos. Updates automatically on every sync.\n",
         latest_table(live[:10]),
