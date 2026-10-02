@@ -1,0 +1,58 @@
+{
+  "name": "claude-mods-kit",
+  "owner": {
+    "name": "Prompt Advisers"
+  },
+  "plugins": [
+    {
+      "name": "terminal-pet",
+      "source": "./plugins/terminal-pet",
+      "description": "A pixel-art crab above the prompt that reacts live to what Claude is doing. /pet for commands."
+    },
+    {
+      "name": "coral-skin",
+      "source": "./plugins/coral-skin",
+      "description": "Coral, ink and cream reskin of Claude Code with risk-coded tool rows. Toggle with /skin."
+    },
+    {
+      "name": "context-meter",
+      "source": "./plugins/context-meter",
+      "description": "Context window and session cost meter, drawn above the prompt."
+    },
+    {
+      "name": "repo-heatmap",
+      "source": "./plugins/repo-heatmap",
+      "description": "Watch where Claude looks: a live treemap of the repo that lights up as files are read, searched and edited."
+    },
+    {
+      "name": "flight-recorder",
+      "source": "./plugins/flight-recorder",
+      "description": "See inside a turn: a live Gantt timeline of model requests, tool calls and subagents, with tokens and cost per lane."
+    },
+    {
+      "name": "model-router",
+      "source": "./plugins/model-router",
+      "description": "Route supported subagent work to Sonnet or Haiku while keeping the main conversation on its model. /router for controls."
+    },
+    {
+      "name": "output-tray",
+      "source": "./plugins/output-tray",
+      "description": "A side panel of the files this session created, with Open, Reveal in Finder and Copy path."
+    },
+    {
+      "name": "changes-receipt",
+      "source": "./plugins/changes-receipt",
+      "description": "A plain-English receipt after every turn: files created, changed and deleted, by tool or via shell, with failed attempts listed apart."
+    },
+    {
+      "name": "session-bookmarks",
+      "source": "./plugins/session-bookmarks",
+      "description": "Explicit bookmarks for Claude Code sessions you want to come back to. /bm saves one, /bm open lists them with a copyable resume command."
+    },
+    {
+      "name": "auto-handoff",
+      "source": "./plugins/auto-handoff",
+      "description": "Writes a cold-start handoff to handoff/ before the context fills up or compacts, and offers to resume from it in the next session."
+    }
+  ]
+}

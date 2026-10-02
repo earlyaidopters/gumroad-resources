@@ -1,0 +1,9 @@
+{
+  "name": "changes-receipt",
+  "version": "0.1.1",
+  "description": "A plain-English receipt after every turn: files created, changed and deleted, by tool or via shell, with failed attempts listed apart.",
+  "author": {
+    "name": "Prompt Advisers"
+  },
+  "types": "./types/index.d.ts"
+}

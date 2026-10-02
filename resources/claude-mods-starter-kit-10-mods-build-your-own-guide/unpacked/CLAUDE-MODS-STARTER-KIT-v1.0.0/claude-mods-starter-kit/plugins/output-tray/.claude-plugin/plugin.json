@@ -1,0 +1,9 @@
+{
+  "name": "output-tray",
+  "version": "0.1.1",
+  "description": "A side panel of the files this session created, with Open, Reveal in Finder and Copy path.",
+  "author": {
+    "name": "Prompt Advisers"
+  },
+  "types": "./types/index.d.ts"
+}

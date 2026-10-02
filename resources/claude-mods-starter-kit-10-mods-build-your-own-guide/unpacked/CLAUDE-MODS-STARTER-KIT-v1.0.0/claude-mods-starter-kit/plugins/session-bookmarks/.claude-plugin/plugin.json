@@ -1,0 +1,23 @@
+{
+  "name": "session-bookmarks",
+  "version": "0.1.0",
+  "description": "Explicit bookmarks for Claude Code sessions you want to come back to. /bm saves one, /bm open lists them with a copyable resume command.",
+  "author": {
+    "name": "Prompt Advisers"
+  },
+  "types": "./types/index.d.ts",
+  "userConfig": {
+    "bookmarksFile": {
+      "type": "string",
+      "title": "Bookmarks file",
+      "description": "Where bookmarks are kept as JSON. Empty means ~/.claude/bookmarks/bookmarks.json. The SESSION_BOOKMARKS_FILE environment variable wins over this.",
+      "default": ""
+    },
+    "titleModel": {
+      "type": "string",
+      "title": "Title model",
+      "description": "Model alias for the one short call that writes a title when /bm gets no note.",
+      "default": "haiku"
+    }
+  }
+}

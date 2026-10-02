@@ -1,0 +1,8 @@
+{
+  "name": "read-counter-example",
+  "version": "0.1.0",
+  "description": "Teaching example: count successful Read events.",
+  "author": {
+    "name": "Prompt Advisers"
+  }
+}

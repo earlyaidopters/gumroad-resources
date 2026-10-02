@@ -1,0 +1,9 @@
+{
+  "name": "flight-recorder",
+  "version": "0.1.0",
+  "description": "See inside a turn: a live Gantt timeline of model requests, tool calls and subagents, with tokens and cost per lane.",
+  "author": {
+    "name": "Prompt Advisers"
+  },
+  "types": "./types/index.d.ts"
+}

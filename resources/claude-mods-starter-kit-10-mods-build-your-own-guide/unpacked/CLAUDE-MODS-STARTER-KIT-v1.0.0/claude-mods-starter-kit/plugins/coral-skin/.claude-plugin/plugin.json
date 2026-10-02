@@ -1,0 +1,9 @@
+{
+  "name": "coral-skin",
+  "version": "0.1.0",
+  "description": "Coral, ink and cream reskin of Claude Code with risk-coded tool rows. Toggle with /skin.",
+  "author": {
+    "name": "Prompt Advisers"
+  },
+  "types": "./types/index.d.ts"
+}

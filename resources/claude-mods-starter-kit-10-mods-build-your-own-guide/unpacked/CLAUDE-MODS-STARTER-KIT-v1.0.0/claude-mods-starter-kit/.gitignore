@@ -1,0 +1,10 @@
+.DS_Store
+**/.claude-plugin/types/
+node_modules/
+__pycache__/
+*.log
+.env*
+**/.claude/settings*
+demo-project/demo-output/
+demo-project/handoff/
+demo-project/.demo-bookmarks/

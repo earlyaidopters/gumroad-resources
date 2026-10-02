@@ -1,0 +1,35 @@
+{
+  "name": "Claude Mods Starter Kit: 10 Mods + Build-Your-Own Guide",
+  "external_id": "P51SWJlPIvAyLb0s_crM5w==",
+  "permalink": "fzelplt",
+  "unique_permalink": "fzelplt",
+  "custom_permalink": "claude-mods-starter-kit",
+  "url": "https://markkashef.gumroad.com/l/claude-mods-starter-kit",
+  "status": "published",
+  "archived": false,
+  "kind": "products",
+  "price_formatted": "CAD$0+",
+  "description_md": "# Make Claude Code feel like yours\nA little pet while Claude works. A map of the files it touches. A timeline of its helpers. A tray for the files it creates. This kit turns the mods from the walkthrough into something you can try, understand and make your own.\nStart with one mod. See it work. Learn how to switch it off. Then build your own version with a complete, editable prompt.\n\n- \n10 ready-to-inspect mods: Terminal Pet, Coral Skin, Context Meter, Repo Heatmap, Flight Recorder, Model Router, Output Tray, Changes Receipt, Session Bookmarks and Auto Handoff.\n\n- \nPlain-English viewer guide: A 31-page PDF plus a searchable offline browser guide. Learn what each mod does, where to type the commands, and what should happen next.\n\n- \n10 creation prompts: Full specifications with controls, off switches, failure cases and acceptance checks. Copy a prompt into Claude Code and adapt the idea to your own work.\n\n- \nUser and project setup: Separate instructions for one terminal trial, every project, one shared project, and a private project setting. Includes the desktop-versus-terminal explanation.\n\n- \nA safe place to practice: A fictional demo project, repeatable task prompts and a launcher that creates a new folder instead of resetting your work.\n\n- \nEditable source and a starter template: All ten plugins, their tests, a public GitHub repository, and a tiny example that shows how an event becomes a useful response.\n\n- \nClear off and removal instructions: Hide a panel, disable a plugin, or uninstall only this kit. No instruction to wipe your Claude settings.\n\nWho this is for\nYou use Claude Code and want it to be easier to understand, easier to return to, or more fun to work in. You do not need to know how to code to follow the guide. You do need to be willing to paste a few labeled commands into Terminal.",
+  "files": [
+    {
+      "file": "CLAUDE-MODS-STARTER-KIT-v1.0.0.zip",
+      "source_revision": "58c81794fce0af7ea2b9da9d51379934e3213f3160ce92fc4155de014987f6ef",
+      "expected_bytes": 609829,
+      "status": "downloaded",
+      "bytes": 609829,
+      "source_sha256": "a34b672bdb028d81e32697af14068519b709169f9a9c9f3547e6bab76ff035f4",
+      "local_sha256": "a34b672bdb028d81e32697af14068519b709169f9a9c9f3547e6bab76ff035f4",
+      "unpacked_sha256": "a34b672bdb028d81e32697af14068519b709169f9a9c9f3547e6bab76ff035f4"
+    },
+    {
+      "file": "CLAUDE-MODS-VIEWER-GUIDE.pdf",
+      "source_revision": "1b369d1bc96e6bbf0362df1404d2d206581f32633a4f72934d37acefba5187fe",
+      "expected_bytes": 222981,
+      "status": "downloaded",
+      "bytes": 222981,
+      "source_sha256": "8bd589c01f569a7bfc57527e76ea81edd165effa76d2307d290fcb6243cec638",
+      "local_sha256": "8bd589c01f569a7bfc57527e76ea81edd165effa76d2307d290fcb6243cec638"
+    }
+  ],
+  "has_rich_content": true
+}

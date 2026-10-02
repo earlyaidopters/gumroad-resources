@@ -1,6 +1,21 @@
 {
-  "count": 177,
+  "count": 178,
   "products": [
+    {
+      "slug": "claude-mods-starter-kit-10-mods-build-your-own-guide",
+      "permalink": "fzelplt",
+      "numeric_id": 14578062,
+      "name": "Claude Mods Starter Kit: 10 Mods + Build-Your-Own Guide",
+      "status": "published",
+      "archived": false,
+      "category": "Other",
+      "content_hash": "7cf26809be119ba3",
+      "files": [
+        "CLAUDE-MODS-STARTER-KIT-v1.0.0.zip",
+        "CLAUDE-MODS-VIEWER-GUIDE.pdf"
+      ],
+      "has_content": true
+    },
     {
       "slug": "wisprflow-clone-mac-app-source-build-prompts",
       "permalink": "zzusvd",

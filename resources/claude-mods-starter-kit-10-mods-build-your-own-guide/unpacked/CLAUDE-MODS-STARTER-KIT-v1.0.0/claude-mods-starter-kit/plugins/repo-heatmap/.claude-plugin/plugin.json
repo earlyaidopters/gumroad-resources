@@ -1,0 +1,9 @@
+{
+  "name": "repo-heatmap",
+  "version": "0.1.0",
+  "description": "Watch where Claude looks: a live treemap of the repo that lights up as files are read, searched and edited.",
+  "author": {
+    "name": "Prompt Advisers"
+  },
+  "types": "./types/index.d.ts"
+}

@@ -1,0 +1,23 @@
+{
+  "name": "auto-handoff",
+  "version": "0.1.1",
+  "description": "Writes a cold-start handoff to handoff/ before the context fills up or compacts, and offers to resume from it in the next session.",
+  "author": {
+    "name": "Prompt Advisers"
+  },
+  "types": "./types/index.d.ts",
+  "userConfig": {
+    "threshold": {
+      "type": "number",
+      "title": "Context threshold (%)",
+      "description": "Write a handoff automatically once the context window is this full. /autohandoff threshold <n> overrides it.",
+      "default": 85
+    },
+    "enabled": {
+      "type": "boolean",
+      "title": "Automatic handoffs",
+      "description": "Write handoffs automatically at the threshold and before compaction. /autohandoff on|off overrides it.",
+      "default": true
+    }
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "name": "context-meter",
+  "version": "0.1.0",
+  "description": "Context window and session cost meter, drawn above the prompt.",
+  "author": {
+    "name": "Prompt Advisers"
+  },
+  "types": "./types/index.d.ts"
+}

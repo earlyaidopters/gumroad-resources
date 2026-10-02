@@ -1,0 +1,9 @@
+{
+  "name": "model-router",
+  "version": "0.1.1",
+  "description": "Route supported subagent work to Sonnet or Haiku while keeping the main conversation on its model. /router for controls.",
+  "author": {
+    "name": "Prompt Advisers"
+  },
+  "types": "./types/index.d.ts"
+}
