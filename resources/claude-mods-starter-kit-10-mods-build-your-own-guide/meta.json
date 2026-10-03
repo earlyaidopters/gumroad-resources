@@ -15,7 +15,7 @@
       "file": "CLAUDE-MODS-STARTER-KIT-v1.0.0.zip",
       "source_revision": "58c81794fce0af7ea2b9da9d51379934e3213f3160ce92fc4155de014987f6ef",
       "expected_bytes": 609829,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 609829,
       "source_sha256": "a34b672bdb028d81e32697af14068519b709169f9a9c9f3547e6bab76ff035f4",
       "local_sha256": "a34b672bdb028d81e32697af14068519b709169f9a9c9f3547e6bab76ff035f4",
@@ -25,7 +25,7 @@
       "file": "CLAUDE-MODS-VIEWER-GUIDE.pdf",
       "source_revision": "1b369d1bc96e6bbf0362df1404d2d206581f32633a4f72934d37acefba5187fe",
       "expected_bytes": 222981,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 222981,
       "source_sha256": "8bd589c01f569a7bfc57527e76ea81edd165effa76d2307d290fcb6243cec638",
       "local_sha256": "8bd589c01f569a7bfc57527e76ea81edd165effa76d2307d290fcb6243cec638"
