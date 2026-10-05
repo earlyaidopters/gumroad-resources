@@ -1,0 +1,105 @@
+export type ThreadsReport = { at: number; text: string; source?: "peer" | "watcher" | "inline" };
+export type ThreadsRow = {
+  id: string;
+  backend?: "session" | "inline";
+  agentId?: string;
+  resolvedModel?: string;
+  title: string;
+  requestedModel: string;
+  verifiedModel: string;
+  sessionId: string;
+  tmux: string;
+  cwd: string;
+  permissionMode: string;
+  reportBack: boolean;
+  parent: { sessionId: string; title: string; socket: string };
+  task: string;
+  createdAt: number;
+  status: string;
+  lastReport: ThreadsReport | null;
+  bridgeSessionId: string;
+  closedAt: number;
+  endedAt?: number;
+  pid: number;
+  socket: string;
+  appendedKey?: string;
+  costUsd?: number;
+  pinned?: boolean;
+  archived?: boolean;
+  forkedFrom?: { sessionId: string; title: string; include: string; file: string };
+  handedOff?: boolean;
+  seenAt?: number;
+  worktree?: { name: string; repo: string; path: string; branch: string; base: string; launchCwd: string; removed?: boolean; kept?: boolean; commits?: number; dirty?: boolean };
+  adoptedAt?: number;
+  closedBy?: string;
+  effort?: string;
+  planId?: string;
+  phaseIndex?: number;
+  predecessorId?: string;
+  successorId?: string;
+  handoffPath?: string;
+  gate?: string;
+  acceptance?: string;
+  isMine: boolean;
+  lastLine: string;
+  lastKind: string;
+  prompt: string;
+};
+export type ThreadsActivity = { kind: string; text: string; at: number };
+export type ThreadsAgentMeta = { costUsd?: number; effort?: string; status?: string; needsYou?: boolean; model?: string; partial?: string; lastAt?: number };
+export type ThreadsPlanPhase = {
+  name: string;
+  model: string;
+  effort?: string;
+  task: string;
+  acceptance: string;
+  permissionMode?: string;
+  gate?: string;
+  status: string;
+  threadId: string;
+  handoffPath: string;
+  revisions: number;
+  nudges: number;
+  startedAt: number;
+  endedAt: number;
+  note: string;
+};
+export type ThreadsPlan = {
+  id: string;
+  title: string;
+  cwd: string;
+  gate: string;
+  keepThreads?: boolean;
+  handoffDir: string;
+  backend: string;
+  createdAt: number;
+  lead: { sessionId: string; title: string };
+  status: string;
+  current: number;
+  phases: ThreadsPlanPhase[];
+  history?: Array<{ at: number; event: string; phase: number; decision?: string; feedback?: string; thread?: string; hasHandoff?: boolean; then: string[] }>;
+};
+export type ThreadsView = { plans?: ThreadsPlan[]; threads: ThreadsRow[]; selfId: string; leadTitle: string; refreshedAt: number; cap: number };
+export type ThreadsUi = { selected: string; mode: "transcript" | "screen"; showOthers: boolean; steering: boolean; notice: string; planView?: boolean; picker?: string; armedClose?: { id: string; at: number } | null; showArchived?: boolean; planIndex?: number; renaming?: boolean };
+export type ThreadsDetail = { id: string; mode: "transcript" | "screen"; lines: string[]; at: number };
+
+declare module "claude-code" {
+  interface PluginState {
+    threads: {
+      view: ThreadsView;
+      ui: ThreadsUi;
+      detail: ThreadsDetail;
+      auth: { at: number; loggedIn: boolean; detail: string };
+      inline: Record<string, string>;
+      activity: Record<string, ThreadsActivity[]>;
+      agents: Record<string, ThreadsAgentMeta>;
+      watch: Record<string, string>;
+      sent: Record<string, { text: string; at: number }>;
+      wakes: Record<string, { key: string; kind: string; planId?: string; index?: number; threadId?: string; text: string; at: number }>;
+      lead: { busy?: boolean };
+      setupRan: { at: number; passed: boolean; summary: string };
+      cost: Record<string, { size: number; usd: number }>;
+      surface: string;
+    };
+  }
+}

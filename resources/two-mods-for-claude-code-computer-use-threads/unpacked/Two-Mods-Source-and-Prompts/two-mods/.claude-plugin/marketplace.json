@@ -1,0 +1,19 @@
+{
+  "name": "two-mods",
+  "owner": {
+    "name": "Prompt Advisers"
+  },
+  "plugins": [
+    {
+      "name": "threads",
+      "source": "./plugins/threads"
+    },
+    {
+      "name": "codex-computer-use",
+      "source": "./plugins/codex-computer-use"
+    }
+  ],
+  "metadata": {
+    "description": "Computer Use and Threads: two Claude Code mods with build prompts and setup guides."
+  }
+}

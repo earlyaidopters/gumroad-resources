@@ -1,0 +1,80 @@
+I want to build a Claude Code mod called "threads". Before you write anything, load the plugin-authoring skill (/plugin-authoring) and read how mods work, so you build it the right way.
+
+Here's the idea. I want this chat to be the boss of a small team. When I say something like "start a Haiku helper to list my files and an Opus helper to review my README", the mod should start each helper as its own real Claude Code session, on the model I asked for. I want to see what each helper is doing, send it a message while it works, and get its answer back in this chat when it's done.
+
+Before deciding a feature is impossible, inspect the installed mod-authoring API, current CLI help and available tools. Distinguish a missing tool in this chat from a capability that can be implemented. Explain unavailable features and account restrictions accurately; do not bypass them or invent APIs. Prove one real helper session before building the whole interface.
+
+How the helpers should work:
+- Each helper is a normal Claude Code session running quietly in the background (use tmux so no windows pop up).
+- Check `claude --help` for the options that set the model, give the session a name, show it in the Claude desktop app sidebar, skip the permission prompts, set the effort level, and add extra instructions. Use them so each helper starts on the right model, is named "Thread | <its title>", shows up in my sidebar, and never stops to ask me for permission.
+- Give each helper a short note explaining who started it, what its job is, which folder to work in, and to always finish with a full answer.
+- Before starting one, check that I'm signed in, that tmux is installed, and that the folder is one I've trusted. If something's missing, tell me exactly how to fix it.
+
+Use real Claude Code CLI sessions with Remote Control for the automatic helpers. In current CLI help, verify the options corresponding to --model, --effort, --session-id, session naming, --remote-control, --permission-mode, --append-system-prompt and --worktree. Flag names and availability must come from this installation. Use a private tmux server for the processes and retain each session ID. Verify that Remote Control produces an app-opening link before claiming the helper is visible in the desktop sidebar.
+
+Do not silently substitute an inline subagent: it is tied to the lead chat and does not provide all the same independent-session behavior. If the real-session route is unavailable, explain why and ask before offering an inline alternative. Missing login, folder trust or required approvals are setup issues to resolve through the supported flow. Do not bypass a denial.
+
+Keeping track:
+- Save a list of my helpers in a file, so any chat can see them.
+- Keep an eye on each helper: is it working, done, waiting on me, or stuck?
+- When a helper finishes, put its answer in this chat once, as a short report.
+- Show each helper’s estimated API-equivalent cost, clearly labeled as an estimate, not my bill.
+
+Read the current session metadata and transcripts to determine activity and retrieve the final answer. Do not rely only on a helper remembering to send a message back. Deduplicate completion reports by session and turn so each answer is delivered once. Distinguish waiting for permission, still working, finished and exited.
+
+Label cost as estimated API-equivalent cost from logged usage and a dated price table. It is not the user's subscription bill. Show unavailable data as unavailable rather than inventing a number.
+
+Things I want to be able to just ask for:
+start a helper, list them, see what one is doing, send it a message, wait for them to finish, close one (ask me first unless I clearly said to), start a helper that already knows what we talked about in this chat, hand my current work off to a helper so it keeps going, rename one, pin one, hide one, and mark them as read.
+
+Register the tools through the mod API so the lead can discover and call them. Use supported session messaging for steering and report when delivery fails. Preserve permission decisions. Build fork and handoff context from a conversation summary or a saved transcript that the helper reads first; say which was used. Distinguish pinning or archiving inside the mod panel from changing the app's native sidebar. Do not promise native sidebar grouping for Remote Control sessions unless it is actually supported and verified. Native ccd_* desktop tools are a separate route, not a dependency of this automatic-session implementation.
+
+Step-by-step jobs:
+Let me say "run a plan: plan it on Opus, build it on Sonnet, test it on Haiku". Run the steps one at a time. Each step leaves a note file for the next step to read first. Between steps, either keep going on its own, let this chat check the work and approve it or ask for fixes, or wait for me. Save a record of every plan so I can look back at it.
+
+Persist phase state and review decisions. Do not start a later phase until the previous phase has finished, written its handoff, and passed the selected review gate. Close completed phase sessions after collecting their output so they do not exhaust the helper cap. Keep an accurate record of failed or interrupted phases; do not mark them complete.
+
+Separate copies of my project:
+If I ask for a helper "in its own worktree", it should work in its own copy of my project on its own git branch, so two helpers never edit the same files. When it's done, delete the copy if nothing changed. If it made changes, keep the copy and tell me the exact command to merge them.
+
+Use the CLI's supported worktree route when available and verify the resulting branch and working directory. Separate checkouts prevent simultaneous edits to the same working files; they do not guarantee conflict-free merges. Before cleanup, check both uncommitted changes and commits ahead of the starting revision. Preserve either kind of work. Only offer a merge command for committed changes; explain any uncommitted work that still needs review.
+
+What I see:
+A panel next to the chat listing my helpers, with a colored dot for status, the model, the cost, and a "new" tag when there's a report I haven't read. Clicking one shows its details and what it's doing right now. Every action should be a button I can click. It has to work in the Claude desktop app, not just the terminal. Also add a /threads command to open the panel, and a small line above where I type, like "2 helpers, 1 working".
+
+Use the current mod UI API for the actual desktop panel and status line. Verify it in the desktop app, not just a terminal rendering. Show the backend type, actual model when known, waiting state and estimated cost accurately. If the desktop UI API is unavailable, report that limitation instead of presenting an external webpage as the requested native panel.
+
+When codex-computer-use is installed, make sure each helper loads it and sends its own caller identity to the computer-use helper process. Each needs its own persistent Codex session, separate approvals and app ownership. Show which app a helper is using, surface approval waits, and release its Codex session when it closes. If the computer-use mod is missing or older than this integration requires, report that dependency; the rest of Threads should still work.
+
+Please don't:
+- grab my login from the keychain
+- change the Claude app's own files
+- type into the Claude app window
+
+Do not change account feature gates, silently switch execution backends, or use another route to bypass a permission refusal. Keep secrets and private transcript contents out of shared test fixtures and example files.
+
+Build it one piece at a time and test each piece before moving on:
+1. Start one helper and show it in the panel.
+2. Send it a message, and get its answer back.
+3. Step-by-step plans.
+4. Everything else.
+Write tests that don't start real sessions, check the mod is valid after every change, then do one real test with two Haiku helpers in a scratch folder. Finish with a one-page README in plain English.
+
+For the real-session check, verify each helper's requested model, separate session identity, desktop opening link, a delivered steering message and exactly one final report returned to the lead. Also check a small gated plan and worktree preservation. If the computer-use integration is installed, separately verify two helpers in different clean apps and rejection of conflicting control of one app. Do not claim these checks passed unless you observed them. Finish with the actual installed path, setup steps and remaining limitations.
+
+Put the files here (inside the mods folder the plugin-authoring skill tells you to use):
+threads/.claude-plugin/plugin.json        the mod's name, version and settings
+threads/hooks/hooks.json                  points to the main file
+threads/hooks/threads.mjs                 the main file: buttons, panel, commands, watching helpers, plans
+threads/hooks/core.mjs                    small helper functions that are easy to test
+threads/types/index.d.ts                  what the saved data looks like
+threads/tests/threads.test.ts             the tests
+threads/README.md                         how to install and use it
+
+While it runs, it saves:
+~/.claude/threads/registry.json           the list of helpers
+~/.claude/threads/events.jsonl            a log of everything it did
+~/.claude/threads/plans/                  a record of every plan
+<your project>/handoff/                   the note files plan steps leave for each other
+
+Verify these paths against the current authoring skill. Keep the saved registry and plan format versioned so new sessions can read it safely. Document the supported installation and update procedure, and test that a fresh chat can load the mod.

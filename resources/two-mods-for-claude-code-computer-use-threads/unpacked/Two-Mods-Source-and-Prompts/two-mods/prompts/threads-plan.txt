@@ -1,0 +1,5 @@
+Run a plan called Subscription fix in this scratch project. Let me review each step before starting the next:
+1. Opus: inspect the code and README, then write a short fix plan and acceptance checks in a handoff note.
+2. Sonnet: read the note, implement the approved fix, and add a small test for the corrected behavior. Leave a note explaining what changed.
+3. Haiku: read the handoff and run the tests. Report what actually passed or failed.
+Show the plan in the panel and return the final result here. Do not install dependencies or edit files outside this project.

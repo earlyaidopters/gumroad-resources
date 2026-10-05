@@ -1,0 +1,45 @@
+{
+  "date": "2026-10-05",
+  "status": "passed automated fresh-unpack checks",
+  "source_commit": "07e752f0edc4724b41ffff3532416db38dfd48c2",
+  "checks": [
+    {
+      "command": "claude plugin test plugins/threads",
+      "exit_code": 0
+    },
+    {
+      "command": "claude plugin test plugins/codex-computer-use",
+      "exit_code": 0
+    },
+    {
+      "command": "python3 -m unittest discover -s tests",
+      "exit_code": 0
+    },
+    {
+      "command": "node --test tests/bridge.test.mjs",
+      "exit_code": 0
+    },
+    {
+      "command": "claude plugin validate . --strict --json",
+      "exit_code": 0
+    },
+    {
+      "command": "claude plugin validate plugins/threads --strict --json",
+      "exit_code": 0
+    },
+    {
+      "command": "claude plugin validate plugins/codex-computer-use --strict --json",
+      "exit_code": 0
+    }
+  ],
+  "tests": {
+    "threads": 102,
+    "computer_use": 7,
+    "setup": 4,
+    "bridge_integration": 3
+  },
+  "relative_markdown_links": "pass",
+  "sensitive_pattern_scan": "pass (personal home paths, creator email, common credential patterns); no runtime state exported",
+  "native_app_replay": false,
+  "new_machine_installation": false
+}

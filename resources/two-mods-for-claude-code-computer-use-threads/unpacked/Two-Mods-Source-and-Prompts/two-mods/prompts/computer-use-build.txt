@@ -1,0 +1,56 @@
+I want a Claude Code mod that makes you use Codex's computer use instead of your own whenever I ask you to do something on my Mac, like use Calculator or write a note. Codex can click and type inside my apps in the background without taking over my mouse.
+
+The ChatGPT app on my Mac comes with Codex computer use, and you can connect to it like any other MCP server. Its settings are in a file inside the Codex folder (path below). Look for the part called "cua_repl" in the newest version folder.
+
+Please:
+
+Before deciding this cannot be done, load the installed plugin-authoring skill and inspect the current mod API, available tools, CLI options, and relevant local configuration. Separate a missing tool in this chat from a feature that can be built. Report missing prerequisites or account restrictions precisely; do not bypass them or invent APIs. First prove the smallest working connection, then build the mod around it.
+
+1. Hook Claude Code up to Codex computer use. Make it read the newest settings each time it starts, so routine version-path changes do not require a manual edit. Call the connection "codex-cu".
+
+Use a launcher that reads mcpServers.cua_repl from the newest installed configuration and starts its command with its arguments and required environment. Do not print secrets from that configuration. Check that the runtime and mod features are available on this Mac; if not, explain the prerequisite. Finding the newest version avoids a pinned version path, but does not guarantee compatibility with future updates.
+
+Build a persistent local helper that acts as an MCP client to that server. It must initialize the connection, handle tools/call and app-approval requests (elicitation/create), preserve the JavaScript session between calls, and return errors clearly. Register a model-callable bridge tool in the mod that sends actions to this helper over a private local socket. Registering the codex-cu MCP connection alone is not the finished bridge.
+
+2. Make it ask me before it uses an app for the first time. Give me three choices: just this session, always, or no. I'd also like a switch to stop asking altogether.
+
+The helper must answer app-approval requests only from the person's session approval, saved always-allow choice, or explicitly enabled auto-approve setting. Preserve denials and organization/runtime restrictions. Start with auto-approve off. Keep approvals separate for different callers. If an unapproved request is declined while the pane waits for the person, retry only after they allow it.
+
+3. Make it a mod I can turn on and off by typing /codex-cu on or /codex-cu off. While it's on, use Codex instead of your own computer use every time.
+
+While enabled, use the mod's prompt-composition hook to explain the bridge and its API-discovery steps. Use a tool-call hook to block Claude's own desktop computer-use tools, so a failed bridge cannot silently fall back. Keep purpose-built APIs, CLIs and browser tools available; route native desktop actions through the bridge. Turning the mod off restores the default desktop route.
+
+The first call in a new or reset Codex session must be a documented entry call, such as cua.getState() or cua.getApp("Calculator"). Read the returned documentation before using other methods; do not guess the API.
+
+4. Install it so it's there every time I open Claude Code, without me having to do anything.
+
+Use the installation method supported by the current plugin-authoring documentation. Report the actual installed source path and how updates are picked up. Verify that a fresh Claude Code chat loads the plugin, its commands and bridge tool. If a new chat needs me to start it, say so instead of claiming the check passed.
+
+For compatibility with the Threads mod, give each Claude session and each subagent its own persistent Codex session, keyed by caller identity. Serialize calls within each caller. Keep variables and approvals separate. Give an app to one caller at a time; tell other callers it is busy. Release ownership on reset, session close or a defined idle expiry. Never let two helpers fight over the same app.
+
+5. Test it while I watch. Open Calculator, bring it to the front, and do 25 × 4.
+
+Verify the result by reading it back from Calculator. Also check that state survives two bridge calls, an unapproved app asks first, a denial is respected, and on/off changes the desktop route. Test session isolation and app ownership with controlled tests. If both mods are available, run a separate live check with two helpers in different clean apps, Calculator and a new unsaved TextEdit document. Do not open Notes or personal documents for this test. Report observed results separately from tests you could not run.
+
+A few things I've heard trip people up:
+- Don't give the mod the same name as the connection. Call it "codex-computer-use".
+- Your mod can't answer Codex's "can I use this app?" question by itself. Build a persistent local helper that handles those approval requests from my choices.
+- A connection you add during this chat might not work until I start a new chat.
+- When you open an app you'll see everything on its screen. Don't repeat anything private.
+
+Use the installed plugin-authoring skill; if it is missing, explain what needs to be installed before continuing. Explain what you did in plain words when you're done.
+
+Treat the background helper as required for this implementation, not an optional convenience. Keep the bridge, approval handling and routing as separate pieces so each can be tested. Respect genuine permission denials; do not route around them through another tool.
+
+Where things are:
+Codex computer use settings:
+  ~/.codex/plugins/cache/openai-bundled/unified-computer-use/<newest version>/.mcp.json
+The program that runs it (comes with the ChatGPT app):
+  /Applications/ChatGPT.app/Contents/Resources/cua_node/bin/node
+Apps I already told Codex to always allow:
+  ~/Library/Group Containers/2DC432GLL2.com.openai.sky.CUAService/Library/Application Support/Software/ComputerUseAppApprovals.json
+Where to put the new files:
+  ~/.claude/mcp/codex-cu/
+  ~/.claude/mods/codex-cu/
+
+These are discovery starting points from the working Mac, not paths guaranteed on every machine. Verify them before use. Use the current authoring skill's supported install location if it differs from the original development folder. Do not copy credentials or personal app data into the mod. Finish with install/update instructions and a short list of what actually passed.

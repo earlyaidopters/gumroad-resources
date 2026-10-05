@@ -1,0 +1,11 @@
+.DS_Store
+__pycache__/
+*.pyc
+node_modules/
+.env*
+*.log
+*.sock
+always-allowed.json
+registry.json
+events.jsonl
+.claude-plugin/types/

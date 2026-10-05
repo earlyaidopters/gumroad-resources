@@ -1,0 +1,53 @@
+{
+  "name": "Two Mods for Claude Code: Computer Use + Threads",
+  "external_id": "i81JO4wVt_jf2H5lbHUQmw==",
+  "permalink": "jtevma",
+  "unique_permalink": "jtevma",
+  "custom_permalink": "claude-computer-use-threads",
+  "url": "https://markkashef.gumroad.com/l/claude-computer-use-threads",
+  "status": "published",
+  "archived": false,
+  "kind": "products",
+  "price_formatted": "CAD$0+",
+  "description_md": "# Make Claude work the way you want\n\nUse Codex’s computer controls from Claude Code, then give one chat a team of real Claude sessions. This is the source and prompt bundle behind the two mods in the video.\n\nWhat you get\n\nComputer Use source: The mod, launcher and background helper, with app approvals and on/off controls. Threads source: Separate Claude sessions, chosen models, progress tracking, messages, plans and returned answers. Complete build prompts: Both detailed prompts, ready to copy, adapt and give to Claude. Quick-start PDF: A short visual guide to requirements, setup and your first two demos. Demo prompts and sample project: The Calculator-to-TextEdit opening, a two-helper walkthrough and a step-by-step plan. Setup and troubleshooting: A read-only prerequisite check, an explicit installer, plain-English documentation and included tests.\n\nStart with the PDF, then extract the source ZIP and open START-HERE.md. You can install the existing code or use the prompts to rebuild and extend it. The interactive prompt breakdown is linked inside.\n\nRequires a compatible mod-enabled Claude Code runtime. Computer Use additionally requires macOS and Codex computer use already configured in the ChatGPT Mac app. Threads needs tmux, terminal login and a trusted project. Provider runtimes, accounts and subscriptions are not included.\n\nThis is an unofficial integration. The code passed local automated tests; a fresh setup still needs the included live checks. Updates can require adjustments. Threads preserves the filmed bypass-permissions default, with instructions to change it. Computer Use starts with app approval enabled.\n\nFree to download, with an optional contribution. Source includes an MIT license.",
+  "files": [
+    {
+      "file": "Two-Mods-Quick-Start.pdf",
+      "source_revision": "22f5af3da7d86e9dd25b53f4638acfd492b3a022351cdc958a70ff3a752891b9",
+      "expected_bytes": 1751751,
+      "status": "downloaded",
+      "bytes": 1751751,
+      "source_sha256": "ab196585b7bda234b5a113f968610659788a62fb0cecb8035be69b36ddc18ce9",
+      "local_sha256": "ab196585b7bda234b5a113f968610659788a62fb0cecb8035be69b36ddc18ce9"
+    },
+    {
+      "file": "Two-Mods-Source-and-Prompts.zip",
+      "source_revision": "7f36f843e3579df13651cad512e42fb77d4606951227b283c01b9bf84a2f4400",
+      "expected_bytes": 2762318,
+      "status": "downloaded",
+      "bytes": 2762318,
+      "source_sha256": "7aaaa18b66cf6e6345e626ea663c70388a4d4dc6315e10fb10dff3a46bad3eae",
+      "local_sha256": "7aaaa18b66cf6e6345e626ea663c70388a4d4dc6315e10fb10dff3a46bad3eae",
+      "unpacked_sha256": "7aaaa18b66cf6e6345e626ea663c70388a4d4dc6315e10fb10dff3a46bad3eae"
+    },
+    {
+      "file": "computer-use-build.txt",
+      "source_revision": "29d344acb257c3ebe8828798187bf6e2ab14a5b35e2c0a9a88f964954c45f3c0",
+      "expected_bytes": 6500,
+      "status": "downloaded",
+      "bytes": 6500,
+      "source_sha256": "a1b133209aa946c60722619c9374270f95c009bac043cc4746828426891a5a2a",
+      "local_sha256": "a1b133209aa946c60722619c9374270f95c009bac043cc4746828426891a5a2a"
+    },
+    {
+      "file": "threads-build.txt",
+      "source_revision": "fd78e4cdd48f8e582b3dca7010dc0687508892abed3e8331262b958f4a025482",
+      "expected_bytes": 9738,
+      "status": "downloaded",
+      "bytes": 9738,
+      "source_sha256": "604ae52b4e535a42fa768948fc99ef5d373c189c075213c5dfc5e1f89753081e",
+      "local_sha256": "604ae52b4e535a42fa768948fc99ef5d373c189c075213c5dfc5e1f89753081e"
+    }
+  ],
+  "has_rich_content": true
+}

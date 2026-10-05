@@ -1,6 +1,23 @@
 {
-  "count": 178,
+  "count": 179,
   "products": [
+    {
+      "slug": "two-mods-for-claude-code-computer-use-threads",
+      "permalink": "jtevma",
+      "numeric_id": 14625244,
+      "name": "Two Mods for Claude Code: Computer Use + Threads",
+      "status": "published",
+      "archived": false,
+      "category": "Other",
+      "content_hash": "93812232a5cd549d",
+      "files": [
+        "Two-Mods-Quick-Start.pdf",
+        "Two-Mods-Source-and-Prompts.zip",
+        "computer-use-build.txt",
+        "threads-build.txt"
+      ],
+      "has_content": true
+    },
     {
       "slug": "claude-mods-starter-kit-10-mods-build-your-own-guide",
       "permalink": "fzelplt",

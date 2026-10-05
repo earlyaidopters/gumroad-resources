@@ -2,10 +2,10 @@
 
 Every free resource from the Early AI-dopters Gumroad, mirrored here and kept in sync. Each folder holds the actual files (zips unpacked so you can browse them on GitHub), the resource content page, and a README. Where a resource came from a YouTube video, the video is paired to it. Watch or star this repo to catch every new drop.
 
-**178 published resources**, grouped by topic and newest-first within each. Sync scheduled hourly. See the latest verified check below.
+**179 published resources**, grouped by topic and newest-first within each. Sync scheduled hourly. See the latest verified check below.
 
 <!-- sync-status:start -->
-[**Last verified sync: October 05, 2026 at 03:09 AM EDT**](https://github.com/earlyaidopters/gumroad-resources/actions/runs/37275817554) · 178/178 published resources accounted for; 307 mirrored attachments verified. Oversized attachments available on Gumroad: 1. [Sync details](sync-status.json).
+[**Last verified sync: October 05, 2026 at 12:07 PM EDT**](https://github.com/earlyaidopters/gumroad-resources/actions/runs/37337862719) · 179/179 published resources accounted for; 311 mirrored attachments verified. Oversized attachments available on Gumroad: 1. [Sync details](sync-status.json).
 
 <!-- sync-status:end -->
 
@@ -15,6 +15,7 @@ The newest resources with their videos. Updates automatically on every sync.
 
 | | Resource | Watch | Get it |
 |---|---|---|---|
+| <a href="https://youtu.be/UcvD53jqHRU"><img src="https://i.ytimg.com/vi/UcvD53jqHRU/maxresdefault.jpg" width="200"></a> | [Two Mods for Claude Code: Computer Use + Threads](resources/two-mods-for-claude-code-computer-use-threads/) | [▶ Watch](https://youtu.be/UcvD53jqHRU) | [Gumroad](https://markkashef.gumroad.com/l/claude-computer-use-threads) |
 | <a href="https://youtu.be/uvIopT_2sY0"><img src="https://i.ytimg.com/vi/uvIopT_2sY0/maxresdefault.jpg" width="200"></a> | [Claude Mods Starter Kit: 10 Mods + Build-Your-Own Guide](resources/claude-mods-starter-kit-10-mods-build-your-own-guide/) | [▶ Watch](https://youtu.be/uvIopT_2sY0) | [Gumroad](https://markkashef.gumroad.com/l/claude-mods-starter-kit) |
 | <a href="https://markkashef.gumroad.com/l/wisprclone"><img src="https://public-files.gumroad.com/q6j0hn2ue1kx8c4yedfxltj6ctiq" width="200"></a> | [WisprFlow Clone: Mac App Source + Build Prompts](resources/wisprflow-clone-mac-app-source-build-prompts/) | - | [Gumroad](https://markkashef.gumroad.com/l/wisprclone) |
 | <a href="https://markkashef.gumroad.com/l/use-both-claude-codex-workflow-kit"><img src="https://public-files.gumroad.com/lpvokrqflyo89ahmuqj6b9udw1b3" width="200"></a> | [Use Both: Claude + Codex Workflow Kit](resources/use-both-claude-codex-workflow-kit/) | - | [Gumroad](https://markkashef.gumroad.com/l/use-both-claude-codex-workflow-kit) |
@@ -24,7 +25,6 @@ The newest resources with their videos. Updates automatically on every sync.
 | <a href="https://markkashef.gumroad.com/l/sf-ig-frontend-design-loop"><img src="https://public-files.gumroad.com/v3ormgouaorqmqdyfdbc5khgkis4" width="200"></a> | [Frontend Design & Feedback Kit](resources/frontend-design-feedback-kit/) | - | [Gumroad](https://markkashef.gumroad.com/l/sf-ig-frontend-design-loop) |
 | <a href="https://markkashef.gumroad.com/l/sf-ig-voice-qualification"><img src="https://public-files.gumroad.com/5gvxgzzd9otxkkqu5gs3kiyhlc3b" width="200"></a> | [Voice AI Qualification Checklist](resources/voice-ai-qualification-checklist/) | - | [Gumroad](https://markkashef.gumroad.com/l/sf-ig-voice-qualification) |
 | <a href="https://markkashef.gumroad.com/l/sf-ig-three-task-eval"><img src="https://public-files.gumroad.com/3lpwgc5ab5xnp58l0hmuneadbysu" width="200"></a> | [Three-Task AI Eval Template](resources/three-task-ai-eval-template/) | - | [Gumroad](https://markkashef.gumroad.com/l/sf-ig-three-task-eval) |
-| <a href="https://youtu.be/27qpBfBhpDk"><img src="https://i.ytimg.com/vi/27qpBfBhpDk/maxresdefault.jpg" width="200"></a> | [3D Worlds - The Builder Kit 🧱](resources/3d-worlds-the-builder-kit/) | [▶ Watch](https://youtu.be/27qpBfBhpDk) | [Gumroad](https://markkashef.gumroad.com/l/3d-worlds-builder-kit) |
 
 ## Categories
 
@@ -33,7 +33,7 @@ The newest resources with their videos. Updates automatically on every sync.
 - [🧠 Custom GPTs & AI Agents](#custom-gpts-ai-agents) (26)
 - [🗂️ Frameworks, Meta Techniques & Experiments](#frameworks-meta-techniques-experiments) (23)
 - [📊 Tools, Cheat Sheets & Evaluations](#tools-cheat-sheets-evaluations) (15)
-- [Other](#other) (48)
+- [Other](#other) (49)
 
 ## 🎯 Prompting & Engineering Skills
 
@@ -194,6 +194,7 @@ The newest resources with their videos. Updates automatically on every sync.
 
 | Resource | What it is | Video | Get it |
 |---|---|---|---|
+| [Two Mods for Claude Code: Computer Use + Threads](resources/two-mods-for-claude-code-computer-use-threads/) | Make Claude work the way you want Use Codex’s computer controls from Claude Code, then give one chat a team of real Claude sessions. | [▶ Watch](https://youtu.be/UcvD53jqHRU) | [Gumroad](https://markkashef.gumroad.com/l/claude-computer-use-threads) |
 | [Claude Mods Starter Kit: 10 Mods + Build-Your-Own Guide](resources/claude-mods-starter-kit-10-mods-build-your-own-guide/) | Make Claude Code feel like yours A little pet while Claude works. | [▶ Watch](https://youtu.be/uvIopT_2sY0) | [Gumroad](https://markkashef.gumroad.com/l/claude-mods-starter-kit) |
 | [WisprFlow Clone: Mac App Source + Build Prompts](resources/wisprflow-clone-mac-app-source-build-prompts/) | Build Your Own Relay Voice Get the original Mac voice app demonstrated in the Astra versus Sol comparison, along with the source code, setup… | - | [Gumroad](https://markkashef.gumroad.com/l/wisprclone) |
 | [Use Both: Claude + Codex Workflow Kit](resources/use-both-claude-codex-workflow-kit/) | Use Both: Claude + Codex Workflow Kit Stop choosing one assistant for every job. | - | [Gumroad](https://markkashef.gumroad.com/l/use-both-claude-codex-workflow-kit) |

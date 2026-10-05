@@ -1,0 +1,72 @@
+[
+  {
+    "file": "plugins/threads/.claude-plugin/plugin.json",
+    "sha256": "c1ec3ce868ad25e271d8742419ac028db6ad2537cdb8ca18f15fcf80a1851337",
+    "source": "working local mod snapshot 2026-10-05"
+  },
+  {
+    "file": "plugins/threads/hooks/hooks.json",
+    "sha256": "281292a5c5f1915be0f6abc6664d951264357d021de0b26f75d79e2fd728c93c",
+    "source": "working local mod snapshot 2026-10-05"
+  },
+  {
+    "file": "plugins/threads/hooks/threads.mjs",
+    "sha256": "378490364aa9eee22f242c6af3002a1f12d7b9a6d89fcdd6d0888541b3891943",
+    "source": "working local mod snapshot 2026-10-05"
+  },
+  {
+    "file": "plugins/threads/hooks/core.mjs",
+    "sha256": "fd28b6f7102a95126fa897d17c355ed35ece487fa921888a8dfb7fea5133d389",
+    "source": "working local mod snapshot 2026-10-05"
+  },
+  {
+    "file": "plugins/threads/types/index.d.ts",
+    "sha256": "55d02a31c53d48711e142237505d944c92bcafec63ae83ed01344c3ff9f58a61",
+    "source": "working local mod snapshot 2026-10-05"
+  },
+  {
+    "file": "plugins/threads/tests/threads.test.ts",
+    "sha256": "94e5ad7988b316ea820edb2fb49345a8565a7d9575de868b1c0dda2aa5a3718b",
+    "source": "working local mod snapshot 2026-10-05"
+  },
+  {
+    "file": "plugins/threads/skills/native-threads/SKILL.md",
+    "sha256": "687d459d30eafbf62813c2402dd01d5d1c8820cb1a3a46430857e9368cd5da09",
+    "source": "working local mod snapshot 2026-10-05"
+  },
+  {
+    "file": "plugins/codex-computer-use/.claude-plugin/plugin.json",
+    "sha256": "1ce83644404d5e952a8a93eadb199a22f015e0cb767fc7e80c1aac20cefbab26",
+    "source": "working local mod snapshot 2026-10-05"
+  },
+  {
+    "file": "plugins/codex-computer-use/hooks/hooks.json",
+    "sha256": "d842d789476d67282d0f04b7e5fdc68a3d981ccec65dd79cfa2d11eed13fb828",
+    "source": "working local mod snapshot 2026-10-05"
+  },
+  {
+    "file": "plugins/codex-computer-use/hooks/register.tsx",
+    "sha256": "0ef4ccb23ccd83a255f3e5c783683634dc9423cd68b1904fb0ac1abea7e6c15d",
+    "source": "working local mod snapshot 2026-10-05"
+  },
+  {
+    "file": "plugins/codex-computer-use/types/index.d.ts",
+    "sha256": "50e0c64cf5c330d2f6d2c6094b11db473f0479bdbc38391280816f5f9665c706",
+    "source": "working local mod snapshot 2026-10-05"
+  },
+  {
+    "file": "plugins/codex-computer-use/codex-cu.test.ts",
+    "sha256": "de2e52d3e99683265bf41c2970329e5e5e6b3bef6155a1a161d915f5159af2e5",
+    "source": "working local mod snapshot 2026-10-05"
+  },
+  {
+    "file": "bridge/launch.mjs",
+    "sha256": "d7a9cec8403b9025eb0c2648a07d2a8bb97b83e3f570b93258bab8253cacd648",
+    "source": "working local bridge snapshot 2026-10-05"
+  },
+  {
+    "file": "bridge/daemon.mjs",
+    "sha256": "25350633334e950af8153d3155bf84b73adb71e818482cc051adf21441e4cb9f",
+    "source": "working local bridge snapshot 2026-10-05"
+  }
+]

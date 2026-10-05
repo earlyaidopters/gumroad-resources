@@ -1,0 +1,13 @@
+Use Codex computer use for this entire demo. Bring each app forward while you use it so I can watch.
+
+1. Open Calculator and calculate 149 × 12. Read the answer from Calculator.
+2. Open a new TextEdit document and write:
+
+My subscription costs
+$149 a month
+$[the answer from Calculator] a year
+
+3. Make the title bold and the document text large enough to read on camera. Use the app’s menus and keyboard shortcuts.
+4. Leave the finished document visible.
+
+Use the actual apps through Codex computer use. Don’t use Terminal, scripts, or file-writing tools to produce the result.

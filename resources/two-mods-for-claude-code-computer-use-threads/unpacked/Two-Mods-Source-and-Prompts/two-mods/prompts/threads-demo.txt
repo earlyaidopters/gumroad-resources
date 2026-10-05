@@ -1,0 +1,10 @@
+Show me the Threads panel first.
+
+Start two real session helpers at the same time in this project:
+
+1. An Opus helper called Reviewer. Read subscription.mjs and README.md. Find the most important mismatch between the behavior and the documented promise. Explain its effect with a concrete example. Read only; no edits or commands.
+2. A Haiku helper called Checker. Read README.md and check that its stated input/output examples match the code. Report the exact example that needs attention and explain it in plain language. Read only; no edits or commands.
+
+If separate sessions cannot start, tell me what prerequisite is missing. Do not silently substitute inline helpers for this demo.
+
+Wait for both to finish and bring their complete answers back here. Show the actual model and status for each. Label any cost as an estimated API-equivalent cost, not my bill.

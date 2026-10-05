@@ -1,0 +1,30 @@
+{
+  "name": "threads",
+  "version": "0.5.3",
+  "description": "A lead chat creates real Claude Code sessions on chosen models, watches them live and steers them.",
+  "author": {
+    "name": "Prompt Advisers"
+  },
+  "types": "./types/index.d.ts",
+  "userConfig": {
+    "defaultPermissionMode": {
+      "type": "string",
+      "title": "Default permission mode",
+      "description": "Permission mode for new session threads and plan phases unless one sets its own. /threads mode overrides this for the install.",
+      "default": "bypassPermissions",
+      "options": [
+        "bypassPermissions",
+        "default",
+        "acceptEdits",
+        "plan",
+        "auto"
+      ]
+    },
+    "idleCloseMinutes": {
+      "type": "number",
+      "title": "Close idle threads after (minutes)",
+      "description": "Finished session threads of this chat that stay idle this long are closed (transcript kept). Working, waiting and pinned threads are never closed. 0 turns it off.",
+      "default": 120
+    }
+  }
+}
