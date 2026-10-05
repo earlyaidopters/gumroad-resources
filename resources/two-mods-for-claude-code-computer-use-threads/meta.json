@@ -15,7 +15,7 @@
       "file": "Two-Mods-Quick-Start.pdf",
       "source_revision": "22f5af3da7d86e9dd25b53f4638acfd492b3a022351cdc958a70ff3a752891b9",
       "expected_bytes": 1751751,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 1751751,
       "source_sha256": "ab196585b7bda234b5a113f968610659788a62fb0cecb8035be69b36ddc18ce9",
       "local_sha256": "ab196585b7bda234b5a113f968610659788a62fb0cecb8035be69b36ddc18ce9"
@@ -24,7 +24,7 @@
       "file": "Two-Mods-Source-and-Prompts.zip",
       "source_revision": "7f36f843e3579df13651cad512e42fb77d4606951227b283c01b9bf84a2f4400",
       "expected_bytes": 2762318,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 2762318,
       "source_sha256": "7aaaa18b66cf6e6345e626ea663c70388a4d4dc6315e10fb10dff3a46bad3eae",
       "local_sha256": "7aaaa18b66cf6e6345e626ea663c70388a4d4dc6315e10fb10dff3a46bad3eae",
@@ -34,7 +34,7 @@
       "file": "computer-use-build.txt",
       "source_revision": "29d344acb257c3ebe8828798187bf6e2ab14a5b35e2c0a9a88f964954c45f3c0",
       "expected_bytes": 6500,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 6500,
       "source_sha256": "a1b133209aa946c60722619c9374270f95c009bac043cc4746828426891a5a2a",
       "local_sha256": "a1b133209aa946c60722619c9374270f95c009bac043cc4746828426891a5a2a"
@@ -43,7 +43,7 @@
       "file": "threads-build.txt",
       "source_revision": "fd78e4cdd48f8e582b3dca7010dc0687508892abed3e8331262b958f4a025482",
       "expected_bytes": 9738,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 9738,
       "source_sha256": "604ae52b4e535a42fa768948fc99ef5d373c189c075213c5dfc5e1f89753081e",
       "local_sha256": "604ae52b4e535a42fa768948fc99ef5d373c189c075213c5dfc5e1f89753081e"
