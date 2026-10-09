@@ -2,10 +2,10 @@
 
 Every free resource from the Early AI-dopters Gumroad, mirrored here and kept in sync. Each folder holds the actual files (zips unpacked so you can browse them on GitHub), the resource content page, and a README. Where a resource came from a YouTube video, the video is paired to it. Watch or star this repo to catch every new drop.
 
-**179 published resources**, grouped by topic and newest-first within each. Sync scheduled hourly. See the latest verified check below.
+**180 published resources**, grouped by topic and newest-first within each. Sync scheduled hourly. See the latest verified check below.
 
 <!-- sync-status:start -->
-[**Last verified sync: October 08, 2026 at 06:08 PM EDT**](https://github.com/earlyaidopters/gumroad-resources/actions/runs/37851296045) · 179/179 published resources accounted for; 311 mirrored attachments verified. Oversized attachments available on Gumroad: 1. [Sync details](sync-status.json).
+[**Last verified sync: October 08, 2026 at 10:15 PM EDT**](https://github.com/earlyaidopters/gumroad-resources/actions/runs/37873449413) · 180/180 published resources accounted for; 313 mirrored attachments verified. Oversized attachments available on Gumroad: 1. [Sync details](sync-status.json).
 
 <!-- sync-status:end -->
 
@@ -15,6 +15,7 @@ The newest resources with their videos. Updates automatically on every sync.
 
 | | Resource | Watch | Get it |
 |---|---|---|---|
+|  | [Jev vs OpenAI Decisions: Results + Setup Guide](resources/jev-vs-openai-decisions-results-setup-guide/) | - | [Gumroad](https://markkashef.gumroad.com/l/sf-ig-decisions-vs-jev) |
 | <a href="https://youtu.be/UcvD53jqHRU"><img src="https://i.ytimg.com/vi/UcvD53jqHRU/maxresdefault.jpg" width="200"></a> | [Two Mods for Claude Code: Computer Use + Threads](resources/two-mods-for-claude-code-computer-use-threads/) | [▶ Watch](https://youtu.be/UcvD53jqHRU) | [Gumroad](https://markkashef.gumroad.com/l/claude-computer-use-threads) |
 | <a href="https://youtu.be/uvIopT_2sY0"><img src="https://i.ytimg.com/vi/uvIopT_2sY0/maxresdefault.jpg" width="200"></a> | [Claude Mods Starter Kit: 10 Mods + Build-Your-Own Guide](resources/claude-mods-starter-kit-10-mods-build-your-own-guide/) | [▶ Watch](https://youtu.be/uvIopT_2sY0) | [Gumroad](https://markkashef.gumroad.com/l/claude-mods-starter-kit) |
 | <a href="https://markkashef.gumroad.com/l/wisprclone"><img src="https://public-files.gumroad.com/q6j0hn2ue1kx8c4yedfxltj6ctiq" width="200"></a> | [WisprFlow Clone: Mac App Source + Build Prompts](resources/wisprflow-clone-mac-app-source-build-prompts/) | - | [Gumroad](https://markkashef.gumroad.com/l/wisprclone) |
@@ -24,7 +25,6 @@ The newest resources with their videos. Updates automatically on every sync.
 | <a href="https://youtu.be/575v0WYJQsE"><img src="https://i.ytimg.com/vi/575v0WYJQsE/maxresdefault.jpg" width="200"></a> | [Codex + Ollama Setup Kit](resources/codex-ollama-setup-kit/) | [▶ Watch](https://youtu.be/575v0WYJQsE) | [Gumroad](https://markkashef.gumroad.com/l/codex-ollama-setup-kit) |
 | <a href="https://markkashef.gumroad.com/l/sf-ig-frontend-design-loop"><img src="https://public-files.gumroad.com/v3ormgouaorqmqdyfdbc5khgkis4" width="200"></a> | [Frontend Design & Feedback Kit](resources/frontend-design-feedback-kit/) | - | [Gumroad](https://markkashef.gumroad.com/l/sf-ig-frontend-design-loop) |
 | <a href="https://markkashef.gumroad.com/l/sf-ig-voice-qualification"><img src="https://public-files.gumroad.com/5gvxgzzd9otxkkqu5gs3kiyhlc3b" width="200"></a> | [Voice AI Qualification Checklist](resources/voice-ai-qualification-checklist/) | - | [Gumroad](https://markkashef.gumroad.com/l/sf-ig-voice-qualification) |
-| <a href="https://markkashef.gumroad.com/l/sf-ig-three-task-eval"><img src="https://public-files.gumroad.com/3lpwgc5ab5xnp58l0hmuneadbysu" width="200"></a> | [Three-Task AI Eval Template](resources/three-task-ai-eval-template/) | - | [Gumroad](https://markkashef.gumroad.com/l/sf-ig-three-task-eval) |
 
 ## Categories
 
@@ -33,7 +33,7 @@ The newest resources with their videos. Updates automatically on every sync.
 - [🧠 Custom GPTs & AI Agents](#custom-gpts-ai-agents) (26)
 - [🗂️ Frameworks, Meta Techniques & Experiments](#frameworks-meta-techniques-experiments) (23)
 - [📊 Tools, Cheat Sheets & Evaluations](#tools-cheat-sheets-evaluations) (15)
-- [Other](#other) (49)
+- [Other](#other) (50)
 
 ## 🎯 Prompting & Engineering Skills
 
@@ -194,6 +194,7 @@ The newest resources with their videos. Updates automatically on every sync.
 
 | Resource | What it is | Video | Get it |
 |---|---|---|---|
+| [Jev vs OpenAI Decisions: Results + Setup Guide](resources/jev-vs-openai-decisions-results-setup-guide/) | Jev vs OpenAI Decisions Get the results behind my comparison and a setup guide for both APIs. | - | [Gumroad](https://markkashef.gumroad.com/l/sf-ig-decisions-vs-jev) |
 | [Two Mods for Claude Code: Computer Use + Threads](resources/two-mods-for-claude-code-computer-use-threads/) | Make Claude work the way you want Use Codex’s computer controls from Claude Code, then give one chat a team of real Claude sessions. | [▶ Watch](https://youtu.be/UcvD53jqHRU) | [Gumroad](https://markkashef.gumroad.com/l/claude-computer-use-threads) |
 | [Claude Mods Starter Kit: 10 Mods + Build-Your-Own Guide](resources/claude-mods-starter-kit-10-mods-build-your-own-guide/) | Make Claude Code feel like yours A little pet while Claude works. | [▶ Watch](https://youtu.be/uvIopT_2sY0) | [Gumroad](https://markkashef.gumroad.com/l/claude-mods-starter-kit) |
 | [WisprFlow Clone: Mac App Source + Build Prompts](resources/wisprflow-clone-mac-app-source-build-prompts/) | Build Your Own Relay Voice Get the original Mac voice app demonstrated in the Astra versus Sol comparison, along with the source code, setup… | - | [Gumroad](https://markkashef.gumroad.com/l/wisprclone) |

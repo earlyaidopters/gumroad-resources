@@ -1,0 +1,35 @@
+{
+  "name": "Jev vs OpenAI Decisions: Results + Setup Guide",
+  "external_id": "qJjbux-Hd8YbsljeaNjY3w==",
+  "permalink": "drndvm",
+  "unique_permalink": "drndvm",
+  "custom_permalink": "sf-ig-decisions-vs-jev",
+  "url": "https://markkashef.gumroad.com/l/sf-ig-decisions-vs-jev",
+  "status": "published",
+  "archived": false,
+  "kind": "products",
+  "price_formatted": "CAD$0+",
+  "description_md": "# Jev vs OpenAI Decisions\n\nGet the results behind my comparison and a setup guide for both APIs.\n\nResults: All 100 held-out runs and 857 request records, with inputs, choices, timings and estimated costs. Setup: A PDF guide, copyable Markdown, a Python starter script and an image-request template. Limits: What the perfect test scores do—and don’t—prove.\n\nFree download. Provider API usage may cost money.",
+  "files": [
+    {
+      "file": "Jev-vs-OpenAI-Decisions-Guide.pdf",
+      "source_revision": "18a9c6a196f320127d1829b862a2e31bd31a9e3cdd8f64fe67a0f8c83c02cf8d",
+      "expected_bytes": 11592,
+      "status": "downloaded",
+      "bytes": 11592,
+      "source_sha256": "09ba549c17d6a28320ef1be85e81bd2209ee5e865f5a45852227b459861b00dd",
+      "local_sha256": "09ba549c17d6a28320ef1be85e81bd2209ee5e865f5a45852227b459861b00dd"
+    },
+    {
+      "file": "Jev-vs-OpenAI-Results-and-Code.zip",
+      "source_revision": "ef34bc1a57d4bc27ed519da38823e3d9a02e44e38d799697a56fedc7ffe3cb19",
+      "expected_bytes": 253571,
+      "status": "downloaded",
+      "bytes": 253571,
+      "source_sha256": "eb172db15a3258201fe60b3ab0a810619a97b062c0edf96f1ea62dbdb85ce352",
+      "local_sha256": "eb172db15a3258201fe60b3ab0a810619a97b062c0edf96f1ea62dbdb85ce352",
+      "unpacked_sha256": "eb172db15a3258201fe60b3ab0a810619a97b062c0edf96f1ea62dbdb85ce352"
+    }
+  ],
+  "has_rich_content": true
+}

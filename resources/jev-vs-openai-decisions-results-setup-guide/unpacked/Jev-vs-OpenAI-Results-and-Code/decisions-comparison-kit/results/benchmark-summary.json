@@ -1,0 +1,1528 @@
+{
+  "status": "complete",
+  "date": "2026-10-06T22:32:20.308Z",
+  "scope": "200 claims in 40 fresh reports; 60 investigations across six scripted fault families",
+  "protocol": "No prompt tuning after this point. 40 fresh report packets of 5 claims. 60 incident runs across SIX FIXED FAMILIES (ten repetitions per family; not 60 independently different incidents). No automatic retries. Provider calls paired concurrently. One outstanding request per provider. Latency excludes UI and manual waits. Generated image examples establish only capability, not production accuracy.",
+  "reports": {
+    "jev": {
+      "attempts": 200,
+      "correct": 200,
+      "errors": 0,
+      "requests": 200,
+      "median_ms": 148.0054999999993,
+      "p95_ms": 193.12279199999466,
+      "median_workflow_api_ms": 755.416459,
+      "cost": 0.004684554,
+      "cost_unknown_requests": 0,
+      "cost_per_correct": 0.000023422769999999997,
+      "per_class": {
+        "supported": {
+          "n": 80,
+          "correct": 80
+        },
+        "contradicted": {
+          "n": 80,
+          "correct": 80
+        },
+        "insufficient": {
+          "n": 40,
+          "correct": 40
+        }
+      },
+      "false_approvals": 0,
+      "groups": [
+        {
+          "id": "heldout-report-1",
+          "correct": 5,
+          "n": 5,
+          "api_ms": 987.4813339999819,
+          "steps": 5
+        },
+        {
+          "id": "heldout-report-2",
+          "correct": 5,
+          "n": 5,
+          "api_ms": 735.3105000000069,
+          "steps": 5
+        },
+        {
+          "id": "heldout-report-3",
+          "correct": 5,
+          "n": 5,
+          "api_ms": 746.2581260000152,
+          "steps": 5
+        },
+        {
+          "id": "heldout-report-4",
+          "correct": 5,
+          "n": 5,
+          "api_ms": 794.4826659999962,
+          "steps": 5
+        },
+        {
+          "id": "heldout-report-5",
+          "correct": 5,
+          "n": 5,
+          "api_ms": 709.966540999987,
+          "steps": 5
+        },
+        {
+          "id": "heldout-report-6",
+          "correct": 5,
+          "n": 5,
+          "api_ms": 755.416459,
+          "steps": 5
+        },
+        {
+          "id": "heldout-report-7",
+          "correct": 5,
+          "n": 5,
+          "api_ms": 736.8818329999922,
+          "steps": 5
+        },
+        {
+          "id": "heldout-report-8",
+          "correct": 5,
+          "n": 5,
+          "api_ms": 923.2827499999985,
+          "steps": 5
+        },
+        {
+          "id": "heldout-report-9",
+          "correct": 5,
+          "n": 5,
+          "api_ms": 728.9854159999959,
+          "steps": 5
+        },
+        {
+          "id": "heldout-report-10",
+          "correct": 5,
+          "n": 5,
+          "api_ms": 668.1366679999919,
+          "steps": 5
+        },
+        {
+          "id": "heldout-report-11",
+          "correct": 5,
+          "n": 5,
+          "api_ms": 753.374501000013,
+          "steps": 5
+        },
+        {
+          "id": "heldout-report-12",
+          "correct": 5,
+          "n": 5,
+          "api_ms": 670.3114599999972,
+          "steps": 5
+        },
+        {
+          "id": "heldout-report-13",
+          "correct": 5,
+          "n": 5,
+          "api_ms": 785.1616240000003,
+          "steps": 5
+        },
+        {
+          "id": "heldout-report-14",
+          "correct": 5,
+          "n": 5,
+          "api_ms": 819.5984990000288,
+          "steps": 5
+        },
+        {
+          "id": "heldout-report-15",
+          "correct": 5,
+          "n": 5,
+          "api_ms": 776.2759580000129,
+          "steps": 5
+        },
+        {
+          "id": "heldout-report-16",
+          "correct": 5,
+          "n": 5,
+          "api_ms": 691.0076249999984,
+          "steps": 5
+        },
+        {
+          "id": "heldout-report-17",
+          "correct": 5,
+          "n": 5,
+          "api_ms": 770.9340840000077,
+          "steps": 5
+        },
+        {
+          "id": "heldout-report-18",
+          "correct": 5,
+          "n": 5,
+          "api_ms": 764.7706250000047,
+          "steps": 5
+        },
+        {
+          "id": "heldout-report-19",
+          "correct": 5,
+          "n": 5,
+          "api_ms": 848.480917000008,
+          "steps": 5
+        },
+        {
+          "id": "heldout-report-20",
+          "correct": 5,
+          "n": 5,
+          "api_ms": 931.1962080000085,
+          "steps": 5
+        },
+        {
+          "id": "heldout-report-21",
+          "correct": 5,
+          "n": 5,
+          "api_ms": 717.1980409999815,
+          "steps": 5
+        },
+        {
+          "id": "heldout-report-22",
+          "correct": 5,
+          "n": 5,
+          "api_ms": 831.5305399999925,
+          "steps": 5
+        },
+        {
+          "id": "heldout-report-23",
+          "correct": 5,
+          "n": 5,
+          "api_ms": 862.4851659999986,
+          "steps": 5
+        },
+        {
+          "id": "heldout-report-24",
+          "correct": 5,
+          "n": 5,
+          "api_ms": 914.3025859999907,
+          "steps": 5
+        },
+        {
+          "id": "heldout-report-25",
+          "correct": 5,
+          "n": 5,
+          "api_ms": 755.5515420000011,
+          "steps": 5
+        },
+        {
+          "id": "heldout-report-26",
+          "correct": 5,
+          "n": 5,
+          "api_ms": 898.7747919999965,
+          "steps": 5
+        },
+        {
+          "id": "heldout-report-27",
+          "correct": 5,
+          "n": 5,
+          "api_ms": 691.1055000000197,
+          "steps": 5
+        },
+        {
+          "id": "heldout-report-28",
+          "correct": 5,
+          "n": 5,
+          "api_ms": 782.5618350000004,
+          "steps": 5
+        },
+        {
+          "id": "heldout-report-29",
+          "correct": 5,
+          "n": 5,
+          "api_ms": 749.6822499999835,
+          "steps": 5
+        },
+        {
+          "id": "heldout-report-30",
+          "correct": 5,
+          "n": 5,
+          "api_ms": 811.960459000009,
+          "steps": 5
+        },
+        {
+          "id": "heldout-report-31",
+          "correct": 5,
+          "n": 5,
+          "api_ms": 671.1272089999984,
+          "steps": 5
+        },
+        {
+          "id": "heldout-report-32",
+          "correct": 5,
+          "n": 5,
+          "api_ms": 752.2404160000006,
+          "steps": 5
+        },
+        {
+          "id": "heldout-report-33",
+          "correct": 5,
+          "n": 5,
+          "api_ms": 712.8134149999969,
+          "steps": 5
+        },
+        {
+          "id": "heldout-report-34",
+          "correct": 5,
+          "n": 5,
+          "api_ms": 747.1741240000265,
+          "steps": 5
+        },
+        {
+          "id": "heldout-report-35",
+          "correct": 5,
+          "n": 5,
+          "api_ms": 800.9230829999724,
+          "steps": 5
+        },
+        {
+          "id": "heldout-report-36",
+          "correct": 5,
+          "n": 5,
+          "api_ms": 692.3307500000083,
+          "steps": 5
+        },
+        {
+          "id": "heldout-report-37",
+          "correct": 5,
+          "n": 5,
+          "api_ms": 814.0817490000045,
+          "steps": 5
+        },
+        {
+          "id": "heldout-report-38",
+          "correct": 5,
+          "n": 5,
+          "api_ms": 689.4549600000028,
+          "steps": 5
+        },
+        {
+          "id": "heldout-report-39",
+          "correct": 5,
+          "n": 5,
+          "api_ms": 744.1278340000135,
+          "steps": 5
+        },
+        {
+          "id": "heldout-report-40",
+          "correct": 5,
+          "n": 5,
+          "api_ms": 757.5204590000212,
+          "steps": 5
+        }
+      ]
+    },
+    "decisions": {
+      "attempts": 200,
+      "correct": 200,
+      "errors": 0,
+      "requests": 200,
+      "median_ms": 141.8219589999935,
+      "p95_ms": 195.8252499999944,
+      "median_workflow_api_ms": 726.7681259999954,
+      "cost": 0.006459899999999998,
+      "cost_unknown_requests": 0,
+      "cost_per_correct": 0.00003229949999999999,
+      "per_class": {
+        "supported": {
+          "n": 80,
+          "correct": 80
+        },
+        "contradicted": {
+          "n": 80,
+          "correct": 80
+        },
+        "insufficient": {
+          "n": 40,
+          "correct": 40
+        }
+      },
+      "false_approvals": 0,
+      "groups": [
+        {
+          "id": "heldout-report-1",
+          "correct": 5,
+          "n": 5,
+          "api_ms": 803.0020820000063,
+          "steps": 5
+        },
+        {
+          "id": "heldout-report-2",
+          "correct": 5,
+          "n": 5,
+          "api_ms": 661.2012489999906,
+          "steps": 5
+        },
+        {
+          "id": "heldout-report-3",
+          "correct": 5,
+          "n": 5,
+          "api_ms": 727.213167000009,
+          "steps": 5
+        },
+        {
+          "id": "heldout-report-4",
+          "correct": 5,
+          "n": 5,
+          "api_ms": 693.6203320000059,
+          "steps": 5
+        },
+        {
+          "id": "heldout-report-5",
+          "correct": 5,
+          "n": 5,
+          "api_ms": 781.3052500000049,
+          "steps": 5
+        },
+        {
+          "id": "heldout-report-6",
+          "correct": 5,
+          "n": 5,
+          "api_ms": 1079.9545840000064,
+          "steps": 5
+        },
+        {
+          "id": "heldout-report-7",
+          "correct": 5,
+          "n": 5,
+          "api_ms": 811.6423749999958,
+          "steps": 5
+        },
+        {
+          "id": "heldout-report-8",
+          "correct": 5,
+          "n": 5,
+          "api_ms": 731.4489990000147,
+          "steps": 5
+        },
+        {
+          "id": "heldout-report-9",
+          "correct": 5,
+          "n": 5,
+          "api_ms": 661.6396260000038,
+          "steps": 5
+        },
+        {
+          "id": "heldout-report-10",
+          "correct": 5,
+          "n": 5,
+          "api_ms": 814.3635000000068,
+          "steps": 5
+        },
+        {
+          "id": "heldout-report-11",
+          "correct": 5,
+          "n": 5,
+          "api_ms": 816.0082490000059,
+          "steps": 5
+        },
+        {
+          "id": "heldout-report-12",
+          "correct": 5,
+          "n": 5,
+          "api_ms": 723.9333749999932,
+          "steps": 5
+        },
+        {
+          "id": "heldout-report-13",
+          "correct": 5,
+          "n": 5,
+          "api_ms": 822.4440830000094,
+          "steps": 5
+        },
+        {
+          "id": "heldout-report-14",
+          "correct": 5,
+          "n": 5,
+          "api_ms": 813.393624999997,
+          "steps": 5
+        },
+        {
+          "id": "heldout-report-15",
+          "correct": 5,
+          "n": 5,
+          "api_ms": 763.5605009999708,
+          "steps": 5
+        },
+        {
+          "id": "heldout-report-16",
+          "correct": 5,
+          "n": 5,
+          "api_ms": 693.025375000012,
+          "steps": 5
+        },
+        {
+          "id": "heldout-report-17",
+          "correct": 5,
+          "n": 5,
+          "api_ms": 613.4690009999904,
+          "steps": 5
+        },
+        {
+          "id": "heldout-report-18",
+          "correct": 5,
+          "n": 5,
+          "api_ms": 738.0664170000236,
+          "steps": 5
+        },
+        {
+          "id": "heldout-report-19",
+          "correct": 5,
+          "n": 5,
+          "api_ms": 588.0145849999972,
+          "steps": 5
+        },
+        {
+          "id": "heldout-report-20",
+          "correct": 5,
+          "n": 5,
+          "api_ms": 629.7308750000229,
+          "steps": 5
+        },
+        {
+          "id": "heldout-report-21",
+          "correct": 5,
+          "n": 5,
+          "api_ms": 731.0853340000176,
+          "steps": 5
+        },
+        {
+          "id": "heldout-report-22",
+          "correct": 5,
+          "n": 5,
+          "api_ms": 792.487415999989,
+          "steps": 5
+        },
+        {
+          "id": "heldout-report-23",
+          "correct": 5,
+          "n": 5,
+          "api_ms": 710.9057489999832,
+          "steps": 5
+        },
+        {
+          "id": "heldout-report-24",
+          "correct": 5,
+          "n": 5,
+          "api_ms": 711.4348329999775,
+          "steps": 5
+        },
+        {
+          "id": "heldout-report-25",
+          "correct": 5,
+          "n": 5,
+          "api_ms": 645.0601670000033,
+          "steps": 5
+        },
+        {
+          "id": "heldout-report-26",
+          "correct": 5,
+          "n": 5,
+          "api_ms": 771.0052490000089,
+          "steps": 5
+        },
+        {
+          "id": "heldout-report-27",
+          "correct": 5,
+          "n": 5,
+          "api_ms": 838.0302509999747,
+          "steps": 5
+        },
+        {
+          "id": "heldout-report-28",
+          "correct": 5,
+          "n": 5,
+          "api_ms": 646.9376250000205,
+          "steps": 5
+        },
+        {
+          "id": "heldout-report-29",
+          "correct": 5,
+          "n": 5,
+          "api_ms": 747.0873750000028,
+          "steps": 5
+        },
+        {
+          "id": "heldout-report-30",
+          "correct": 5,
+          "n": 5,
+          "api_ms": 732.2985829999961,
+          "steps": 5
+        },
+        {
+          "id": "heldout-report-31",
+          "correct": 5,
+          "n": 5,
+          "api_ms": 648.625875999991,
+          "steps": 5
+        },
+        {
+          "id": "heldout-report-32",
+          "correct": 5,
+          "n": 5,
+          "api_ms": 715.23016799998,
+          "steps": 5
+        },
+        {
+          "id": "heldout-report-33",
+          "correct": 5,
+          "n": 5,
+          "api_ms": 726.7681259999954,
+          "steps": 5
+        },
+        {
+          "id": "heldout-report-34",
+          "correct": 5,
+          "n": 5,
+          "api_ms": 576.5344570000016,
+          "steps": 5
+        },
+        {
+          "id": "heldout-report-35",
+          "correct": 5,
+          "n": 5,
+          "api_ms": 716.0712920000078,
+          "steps": 5
+        },
+        {
+          "id": "heldout-report-36",
+          "correct": 5,
+          "n": 5,
+          "api_ms": 613.8224579999951,
+          "steps": 5
+        },
+        {
+          "id": "heldout-report-37",
+          "correct": 5,
+          "n": 5,
+          "api_ms": 791.6782499999972,
+          "steps": 5
+        },
+        {
+          "id": "heldout-report-38",
+          "correct": 5,
+          "n": 5,
+          "api_ms": 683.3981239999848,
+          "steps": 5
+        },
+        {
+          "id": "heldout-report-39",
+          "correct": 5,
+          "n": 5,
+          "api_ms": 754.5202499999868,
+          "steps": 5
+        },
+        {
+          "id": "heldout-report-40",
+          "correct": 5,
+          "n": 5,
+          "api_ms": 720.0420840000006,
+          "steps": 5
+        }
+      ]
+    },
+    "paired_difference": {
+      "jev_minus_decisions": 0,
+      "cluster_bootstrap_95": [
+        0,
+        0
+      ],
+      "clusters": 40,
+      "caution": "Descriptive synthetic sample only. Degenerate intervals on all-correct template tasks do not imply population certainty."
+    }
+  },
+  "incidents": {
+    "jev": {
+      "attempts": 60,
+      "correct": 60,
+      "errors": 0,
+      "requests": 210,
+      "median_ms": 163.52070800005458,
+      "p95_ms": 296.6859580000164,
+      "median_workflow_api_ms": 468.81212600006256,
+      "cost": 0.007069062000000001,
+      "cost_unknown_requests": 0,
+      "cost_per_correct": 0.00011781770000000002,
+      "per_class": null,
+      "false_approvals": null,
+      "groups": [
+        {
+          "id": "heldout-incident-1",
+          "correct": 1,
+          "n": 1,
+          "api_ms": 462.9693739999784,
+          "steps": 2
+        },
+        {
+          "id": "heldout-incident-2",
+          "correct": 1,
+          "n": 1,
+          "api_ms": 315.42587499995716,
+          "steps": 2
+        },
+        {
+          "id": "heldout-incident-3",
+          "correct": 1,
+          "n": 1,
+          "api_ms": 303.4928340000333,
+          "steps": 2
+        },
+        {
+          "id": "heldout-incident-4",
+          "correct": 1,
+          "n": 1,
+          "api_ms": 751.0241669998504,
+          "steps": 5
+        },
+        {
+          "id": "heldout-incident-5",
+          "correct": 1,
+          "n": 1,
+          "api_ms": 1060.5864589998964,
+          "steps": 6
+        },
+        {
+          "id": "heldout-incident-6",
+          "correct": 1,
+          "n": 1,
+          "api_ms": 1017.5077899999451,
+          "steps": 6
+        },
+        {
+          "id": "heldout-incident-7",
+          "correct": 1,
+          "n": 1,
+          "api_ms": 531.0964170000516,
+          "steps": 2
+        },
+        {
+          "id": "heldout-incident-8",
+          "correct": 1,
+          "n": 1,
+          "api_ms": 444.1803330000257,
+          "steps": 2
+        },
+        {
+          "id": "heldout-incident-9",
+          "correct": 1,
+          "n": 1,
+          "api_ms": 404.78770900005475,
+          "steps": 2
+        },
+        {
+          "id": "heldout-incident-10",
+          "correct": 1,
+          "n": 1,
+          "api_ms": 282.8587909999769,
+          "steps": 2
+        },
+        {
+          "id": "heldout-incident-11",
+          "correct": 1,
+          "n": 1,
+          "api_ms": 1004.4904180000303,
+          "steps": 6
+        },
+        {
+          "id": "heldout-incident-12",
+          "correct": 1,
+          "n": 1,
+          "api_ms": 869.9222089998657,
+          "steps": 6
+        },
+        {
+          "id": "heldout-incident-13",
+          "correct": 1,
+          "n": 1,
+          "api_ms": 276.17620700004045,
+          "steps": 2
+        },
+        {
+          "id": "heldout-incident-14",
+          "correct": 1,
+          "n": 1,
+          "api_ms": 381.68041700008325,
+          "steps": 2
+        },
+        {
+          "id": "heldout-incident-15",
+          "correct": 1,
+          "n": 1,
+          "api_ms": 287.58399999991525,
+          "steps": 2
+        },
+        {
+          "id": "heldout-incident-16",
+          "correct": 1,
+          "n": 1,
+          "api_ms": 689.735039999825,
+          "steps": 5
+        },
+        {
+          "id": "heldout-incident-17",
+          "correct": 1,
+          "n": 1,
+          "api_ms": 978.1787089999998,
+          "steps": 6
+        },
+        {
+          "id": "heldout-incident-18",
+          "correct": 1,
+          "n": 1,
+          "api_ms": 1201.9597490000306,
+          "steps": 6
+        },
+        {
+          "id": "heldout-incident-19",
+          "correct": 1,
+          "n": 1,
+          "api_ms": 479.68745800002944,
+          "steps": 2
+        },
+        {
+          "id": "heldout-incident-20",
+          "correct": 1,
+          "n": 1,
+          "api_ms": 311.24233299994376,
+          "steps": 2
+        },
+        {
+          "id": "heldout-incident-21",
+          "correct": 1,
+          "n": 1,
+          "api_ms": 413.8388749998994,
+          "steps": 2
+        },
+        {
+          "id": "heldout-incident-22",
+          "correct": 1,
+          "n": 1,
+          "api_ms": 299.25116799981333,
+          "steps": 2
+        },
+        {
+          "id": "heldout-incident-23",
+          "correct": 1,
+          "n": 1,
+          "api_ms": 731.2584569999017,
+          "steps": 4
+        },
+        {
+          "id": "heldout-incident-24",
+          "correct": 1,
+          "n": 1,
+          "api_ms": 1097.3326249999227,
+          "steps": 6
+        },
+        {
+          "id": "heldout-incident-25",
+          "correct": 1,
+          "n": 1,
+          "api_ms": 362.9743329999037,
+          "steps": 2
+        },
+        {
+          "id": "heldout-incident-26",
+          "correct": 1,
+          "n": 1,
+          "api_ms": 342.27808299998287,
+          "steps": 2
+        },
+        {
+          "id": "heldout-incident-27",
+          "correct": 1,
+          "n": 1,
+          "api_ms": 292.60399899992626,
+          "steps": 2
+        },
+        {
+          "id": "heldout-incident-28",
+          "correct": 1,
+          "n": 1,
+          "api_ms": 713.034958000062,
+          "steps": 5
+        },
+        {
+          "id": "heldout-incident-29",
+          "correct": 1,
+          "n": 1,
+          "api_ms": 1284.2736230000155,
+          "steps": 6
+        },
+        {
+          "id": "heldout-incident-30",
+          "correct": 1,
+          "n": 1,
+          "api_ms": 1151.6226660000393,
+          "steps": 6
+        },
+        {
+          "id": "heldout-incident-31",
+          "correct": 1,
+          "n": 1,
+          "api_ms": 445.19854199991096,
+          "steps": 2
+        },
+        {
+          "id": "heldout-incident-32",
+          "correct": 1,
+          "n": 1,
+          "api_ms": 274.74379199999385,
+          "steps": 2
+        },
+        {
+          "id": "heldout-incident-33",
+          "correct": 1,
+          "n": 1,
+          "api_ms": 402.2928330000723,
+          "steps": 2
+        },
+        {
+          "id": "heldout-incident-34",
+          "correct": 1,
+          "n": 1,
+          "api_ms": 902.639957999927,
+          "steps": 4
+        },
+        {
+          "id": "heldout-incident-35",
+          "correct": 1,
+          "n": 1,
+          "api_ms": 743.0998340001097,
+          "steps": 4
+        },
+        {
+          "id": "heldout-incident-36",
+          "correct": 1,
+          "n": 1,
+          "api_ms": 1250.5101240000222,
+          "steps": 6
+        },
+        {
+          "id": "heldout-incident-37",
+          "correct": 1,
+          "n": 1,
+          "api_ms": 376.8405840001069,
+          "steps": 2
+        },
+        {
+          "id": "heldout-incident-38",
+          "correct": 1,
+          "n": 1,
+          "api_ms": 351.3429999999935,
+          "steps": 2
+        },
+        {
+          "id": "heldout-incident-39",
+          "correct": 1,
+          "n": 1,
+          "api_ms": 890.2984589999542,
+          "steps": 2
+        },
+        {
+          "id": "heldout-incident-40",
+          "correct": 1,
+          "n": 1,
+          "api_ms": 1148.7393750000047,
+          "steps": 4
+        },
+        {
+          "id": "heldout-incident-41",
+          "correct": 1,
+          "n": 1,
+          "api_ms": 964.1604989999905,
+          "steps": 5
+        },
+        {
+          "id": "heldout-incident-42",
+          "correct": 1,
+          "n": 1,
+          "api_ms": 1204.673625000054,
+          "steps": 6
+        },
+        {
+          "id": "heldout-incident-43",
+          "correct": 1,
+          "n": 1,
+          "api_ms": 310.33158399991225,
+          "steps": 2
+        },
+        {
+          "id": "heldout-incident-44",
+          "correct": 1,
+          "n": 1,
+          "api_ms": 338.3632079999661,
+          "steps": 2
+        },
+        {
+          "id": "heldout-incident-45",
+          "correct": 1,
+          "n": 1,
+          "api_ms": 267.17983300006017,
+          "steps": 2
+        },
+        {
+          "id": "heldout-incident-46",
+          "correct": 1,
+          "n": 1,
+          "api_ms": 732.274250999908,
+          "steps": 4
+        },
+        {
+          "id": "heldout-incident-47",
+          "correct": 1,
+          "n": 1,
+          "api_ms": 993.3948729999829,
+          "steps": 6
+        },
+        {
+          "id": "heldout-incident-48",
+          "correct": 1,
+          "n": 1,
+          "api_ms": 950.3378760002088,
+          "steps": 6
+        },
+        {
+          "id": "heldout-incident-49",
+          "correct": 1,
+          "n": 1,
+          "api_ms": 361.62120899988804,
+          "steps": 2
+        },
+        {
+          "id": "heldout-incident-50",
+          "correct": 1,
+          "n": 1,
+          "api_ms": 468.81212600006256,
+          "steps": 2
+        },
+        {
+          "id": "heldout-incident-51",
+          "correct": 1,
+          "n": 1,
+          "api_ms": 307.045541999978,
+          "steps": 2
+        },
+        {
+          "id": "heldout-incident-52",
+          "correct": 1,
+          "n": 1,
+          "api_ms": 739.6082490000408,
+          "steps": 4
+        },
+        {
+          "id": "heldout-incident-53",
+          "correct": 1,
+          "n": 1,
+          "api_ms": 1022.8284150001127,
+          "steps": 6
+        },
+        {
+          "id": "heldout-incident-54",
+          "correct": 1,
+          "n": 1,
+          "api_ms": 1011.5222499999218,
+          "steps": 6
+        },
+        {
+          "id": "heldout-incident-55",
+          "correct": 1,
+          "n": 1,
+          "api_ms": 341.7150829999009,
+          "steps": 2
+        },
+        {
+          "id": "heldout-incident-56",
+          "correct": 1,
+          "n": 1,
+          "api_ms": 371.4576249999227,
+          "steps": 2
+        },
+        {
+          "id": "heldout-incident-57",
+          "correct": 1,
+          "n": 1,
+          "api_ms": 331.03383299999405,
+          "steps": 2
+        },
+        {
+          "id": "heldout-incident-58",
+          "correct": 1,
+          "n": 1,
+          "api_ms": 264.149875999894,
+          "steps": 2
+        },
+        {
+          "id": "heldout-incident-59",
+          "correct": 1,
+          "n": 1,
+          "api_ms": 627.2871670001186,
+          "steps": 4
+        },
+        {
+          "id": "heldout-incident-60",
+          "correct": 1,
+          "n": 1,
+          "api_ms": 811.9171240000287,
+          "steps": 6
+        }
+      ]
+    },
+    "decisions": {
+      "attempts": 60,
+      "correct": 60,
+      "errors": 0,
+      "requests": 247,
+      "median_ms": 134.72124999994412,
+      "p95_ms": 211.24962499993853,
+      "median_workflow_api_ms": 589.1821260000579,
+      "cost": 0.013004300000000002,
+      "cost_unknown_requests": 0,
+      "cost_per_correct": 0.00021673833333333336,
+      "per_class": null,
+      "false_approvals": null,
+      "groups": [
+        {
+          "id": "heldout-incident-1",
+          "correct": 1,
+          "n": 1,
+          "api_ms": 568.2549580000341,
+          "steps": 3
+        },
+        {
+          "id": "heldout-incident-2",
+          "correct": 1,
+          "n": 1,
+          "api_ms": 381.15174999984447,
+          "steps": 2
+        },
+        {
+          "id": "heldout-incident-3",
+          "correct": 1,
+          "n": 1,
+          "api_ms": 289.1530410000123,
+          "steps": 2
+        },
+        {
+          "id": "heldout-incident-4",
+          "correct": 1,
+          "n": 1,
+          "api_ms": 874.1765829999931,
+          "steps": 5
+        },
+        {
+          "id": "heldout-incident-5",
+          "correct": 1,
+          "n": 1,
+          "api_ms": 964.7211250001565,
+          "steps": 6
+        },
+        {
+          "id": "heldout-incident-6",
+          "correct": 1,
+          "n": 1,
+          "api_ms": 922.6463749998948,
+          "steps": 6
+        },
+        {
+          "id": "heldout-incident-7",
+          "correct": 1,
+          "n": 1,
+          "api_ms": 515.4036239999114,
+          "steps": 4
+        },
+        {
+          "id": "heldout-incident-8",
+          "correct": 1,
+          "n": 1,
+          "api_ms": 212.1847490000073,
+          "steps": 2
+        },
+        {
+          "id": "heldout-incident-9",
+          "correct": 1,
+          "n": 1,
+          "api_ms": 273.28945800010115,
+          "steps": 2
+        },
+        {
+          "id": "heldout-incident-10",
+          "correct": 1,
+          "n": 1,
+          "api_ms": 723.3665839998284,
+          "steps": 5
+        },
+        {
+          "id": "heldout-incident-11",
+          "correct": 1,
+          "n": 1,
+          "api_ms": 706.6641240000026,
+          "steps": 6
+        },
+        {
+          "id": "heldout-incident-12",
+          "correct": 1,
+          "n": 1,
+          "api_ms": 857.6449999999022,
+          "steps": 6
+        },
+        {
+          "id": "heldout-incident-13",
+          "correct": 1,
+          "n": 1,
+          "api_ms": 518.5387500000652,
+          "steps": 4
+        },
+        {
+          "id": "heldout-incident-14",
+          "correct": 1,
+          "n": 1,
+          "api_ms": 277.2113749999553,
+          "steps": 2
+        },
+        {
+          "id": "heldout-incident-15",
+          "correct": 1,
+          "n": 1,
+          "api_ms": 738.4324999998789,
+          "steps": 4
+        },
+        {
+          "id": "heldout-incident-16",
+          "correct": 1,
+          "n": 1,
+          "api_ms": 621.4200420000125,
+          "steps": 5
+        },
+        {
+          "id": "heldout-incident-17",
+          "correct": 1,
+          "n": 1,
+          "api_ms": 779.4490820000647,
+          "steps": 6
+        },
+        {
+          "id": "heldout-incident-18",
+          "correct": 1,
+          "n": 1,
+          "api_ms": 870.7027930000331,
+          "steps": 6
+        },
+        {
+          "id": "heldout-incident-19",
+          "correct": 1,
+          "n": 1,
+          "api_ms": 229.24658400006592,
+          "steps": 2
+        },
+        {
+          "id": "heldout-incident-20",
+          "correct": 1,
+          "n": 1,
+          "api_ms": 324.7779579999624,
+          "steps": 2
+        },
+        {
+          "id": "heldout-incident-21",
+          "correct": 1,
+          "n": 1,
+          "api_ms": 224.41787499992643,
+          "steps": 2
+        },
+        {
+          "id": "heldout-incident-22",
+          "correct": 1,
+          "n": 1,
+          "api_ms": 589.1821260000579,
+          "steps": 5
+        },
+        {
+          "id": "heldout-incident-23",
+          "correct": 1,
+          "n": 1,
+          "api_ms": 899.9580820000265,
+          "steps": 6
+        },
+        {
+          "id": "heldout-incident-24",
+          "correct": 1,
+          "n": 1,
+          "api_ms": 882.0161260000896,
+          "steps": 6
+        },
+        {
+          "id": "heldout-incident-25",
+          "correct": 1,
+          "n": 1,
+          "api_ms": 471.5394170000218,
+          "steps": 3
+        },
+        {
+          "id": "heldout-incident-26",
+          "correct": 1,
+          "n": 1,
+          "api_ms": 255.80445900012273,
+          "steps": 2
+        },
+        {
+          "id": "heldout-incident-27",
+          "correct": 1,
+          "n": 1,
+          "api_ms": 394.70304099982604,
+          "steps": 3
+        },
+        {
+          "id": "heldout-incident-28",
+          "correct": 1,
+          "n": 1,
+          "api_ms": 623.8724569999613,
+          "steps": 5
+        },
+        {
+          "id": "heldout-incident-29",
+          "correct": 1,
+          "n": 1,
+          "api_ms": 770.4052929999307,
+          "steps": 6
+        },
+        {
+          "id": "heldout-incident-30",
+          "correct": 1,
+          "n": 1,
+          "api_ms": 854.3991240001051,
+          "steps": 6
+        },
+        {
+          "id": "heldout-incident-31",
+          "correct": 1,
+          "n": 1,
+          "api_ms": 261.58820800005924,
+          "steps": 2
+        },
+        {
+          "id": "heldout-incident-32",
+          "correct": 1,
+          "n": 1,
+          "api_ms": 271.59875000000466,
+          "steps": 2
+        },
+        {
+          "id": "heldout-incident-33",
+          "correct": 1,
+          "n": 1,
+          "api_ms": 545.016207999899,
+          "steps": 4
+        },
+        {
+          "id": "heldout-incident-34",
+          "correct": 1,
+          "n": 1,
+          "api_ms": 670.4532909999834,
+          "steps": 5
+        },
+        {
+          "id": "heldout-incident-35",
+          "correct": 1,
+          "n": 1,
+          "api_ms": 839.5828329999931,
+          "steps": 6
+        },
+        {
+          "id": "heldout-incident-36",
+          "correct": 1,
+          "n": 1,
+          "api_ms": 953.6060830000788,
+          "steps": 6
+        },
+        {
+          "id": "heldout-incident-37",
+          "correct": 1,
+          "n": 1,
+          "api_ms": 584.8447090000845,
+          "steps": 4
+        },
+        {
+          "id": "heldout-incident-38",
+          "correct": 1,
+          "n": 1,
+          "api_ms": 379.6490000000922,
+          "steps": 2
+        },
+        {
+          "id": "heldout-incident-39",
+          "correct": 1,
+          "n": 1,
+          "api_ms": 565.6663340000669,
+          "steps": 3
+        },
+        {
+          "id": "heldout-incident-40",
+          "correct": 1,
+          "n": 1,
+          "api_ms": 678.4192500000354,
+          "steps": 5
+        },
+        {
+          "id": "heldout-incident-41",
+          "correct": 1,
+          "n": 1,
+          "api_ms": 812.8654589999933,
+          "steps": 6
+        },
+        {
+          "id": "heldout-incident-42",
+          "correct": 1,
+          "n": 1,
+          "api_ms": 900.6334999999963,
+          "steps": 6
+        },
+        {
+          "id": "heldout-incident-43",
+          "correct": 1,
+          "n": 1,
+          "api_ms": 368.905582999927,
+          "steps": 3
+        },
+        {
+          "id": "heldout-incident-44",
+          "correct": 1,
+          "n": 1,
+          "api_ms": 264.27395900001284,
+          "steps": 2
+        },
+        {
+          "id": "heldout-incident-45",
+          "correct": 1,
+          "n": 1,
+          "api_ms": 232.404916999978,
+          "steps": 2
+        },
+        {
+          "id": "heldout-incident-46",
+          "correct": 1,
+          "n": 1,
+          "api_ms": 473.51350000011735,
+          "steps": 4
+        },
+        {
+          "id": "heldout-incident-47",
+          "correct": 1,
+          "n": 1,
+          "api_ms": 910.1163320001215,
+          "steps": 6
+        },
+        {
+          "id": "heldout-incident-48",
+          "correct": 1,
+          "n": 1,
+          "api_ms": 762.3074580000248,
+          "steps": 6
+        },
+        {
+          "id": "heldout-incident-49",
+          "correct": 1,
+          "n": 1,
+          "api_ms": 612.1442919999827,
+          "steps": 4
+        },
+        {
+          "id": "heldout-incident-50",
+          "correct": 1,
+          "n": 1,
+          "api_ms": 328.24700099998154,
+          "steps": 2
+        },
+        {
+          "id": "heldout-incident-51",
+          "correct": 1,
+          "n": 1,
+          "api_ms": 281.7207499999786,
+          "steps": 2
+        },
+        {
+          "id": "heldout-incident-52",
+          "correct": 1,
+          "n": 1,
+          "api_ms": 765.6630009999499,
+          "steps": 5
+        },
+        {
+          "id": "heldout-incident-53",
+          "correct": 1,
+          "n": 1,
+          "api_ms": 774.461457000114,
+          "steps": 6
+        },
+        {
+          "id": "heldout-incident-54",
+          "correct": 1,
+          "n": 1,
+          "api_ms": 804.2840419999557,
+          "steps": 6
+        },
+        {
+          "id": "heldout-incident-55",
+          "correct": 1,
+          "n": 1,
+          "api_ms": 441.80845799983945,
+          "steps": 3
+        },
+        {
+          "id": "heldout-incident-56",
+          "correct": 1,
+          "n": 1,
+          "api_ms": 506.2149989999598,
+          "steps": 2
+        },
+        {
+          "id": "heldout-incident-57",
+          "correct": 1,
+          "n": 1,
+          "api_ms": 324.34666700009257,
+          "steps": 2
+        },
+        {
+          "id": "heldout-incident-58",
+          "correct": 1,
+          "n": 1,
+          "api_ms": 727.1439589998918,
+          "steps": 5
+        },
+        {
+          "id": "heldout-incident-59",
+          "correct": 1,
+          "n": 1,
+          "api_ms": 873.6865419999231,
+          "steps": 6
+        },
+        {
+          "id": "heldout-incident-60",
+          "correct": 1,
+          "n": 1,
+          "api_ms": 851.0575419998495,
+          "steps": 6
+        }
+      ]
+    },
+    "paired_difference": {
+      "jev_minus_decisions": 0,
+      "cluster_bootstrap_95": [
+        0,
+        0
+      ],
+      "clusters": 6,
+      "caution": "Descriptive synthetic sample only. No population certainty from repeated simulator families."
+    }
+  },
+  "completed": "2026-10-06T22:43:27.664Z",
+  "incident_revision": {
+    "date": "2026-10-06T22:42:35.589Z",
+    "exact_development_symptom_overlap": 0,
+    "incidents": 60,
+    "families": 6,
+    "within_heldout_unique_symptom_texts": 50,
+    "labels": "Hidden fault and acceptable conclusion unchanged; fixed before model calls.",
+    "caution": "Same six underlying simulator fault families. Descriptive task result only, not independent evidence of 60 real-world failure modes."
+  }
+}

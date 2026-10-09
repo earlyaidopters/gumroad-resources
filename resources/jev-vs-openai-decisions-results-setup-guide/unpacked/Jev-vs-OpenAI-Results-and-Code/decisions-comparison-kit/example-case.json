@@ -1,0 +1,5 @@
+{
+  "evidence": "The fictional quarterly report records revenue of $80,000.",
+  "claim": "Quarterly revenue was $100,000.",
+  "expected": "contradicted"
+}

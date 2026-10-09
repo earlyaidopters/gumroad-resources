@@ -1,6 +1,21 @@
 {
-  "count": 179,
+  "count": 180,
   "products": [
+    {
+      "slug": "jev-vs-openai-decisions-results-setup-guide",
+      "permalink": "drndvm",
+      "numeric_id": 14686325,
+      "name": "Jev vs OpenAI Decisions: Results + Setup Guide",
+      "status": "published",
+      "archived": false,
+      "category": "Other",
+      "content_hash": "e72baa9096683c65",
+      "files": [
+        "Jev-vs-OpenAI-Decisions-Guide.pdf",
+        "Jev-vs-OpenAI-Results-and-Code.zip"
+      ],
+      "has_content": true
+    },
     {
       "slug": "two-mods-for-claude-code-computer-use-threads",
       "permalink": "jtevma",

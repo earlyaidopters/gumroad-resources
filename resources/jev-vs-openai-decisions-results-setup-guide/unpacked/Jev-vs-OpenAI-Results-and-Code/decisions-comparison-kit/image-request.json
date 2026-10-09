@@ -1,0 +1,40 @@
+{
+  "model": "gpt-6-luna",
+  "input": [
+    {
+      "role": "user",
+      "content": [
+        {
+          "type": "input_text",
+          "text": "Inspect only visible damage; if the item is obscured, choose cannot_assess."
+        },
+        {
+          "type": "input_image",
+          "image_url": "data:image/png;base64,REPLACE_WITH_ACTUAL_BASE64",
+          "detail": "auto"
+        }
+      ]
+    }
+  ],
+  "questions": [
+    {
+      "type": "choice",
+      "name": "result",
+      "instructions": "Assess only visible physical damage, not whether the item functions.",
+      "choices": [
+        {
+          "value": "visible_damage",
+          "description": "A visible crack, chip, dent or break in the item itself."
+        },
+        {
+          "value": "no_visible_damage",
+          "description": "Clear usable view with no visible external damage."
+        },
+        {
+          "value": "cannot_assess",
+          "description": "Blur, obstruction or framing prevents assessment."
+        }
+      ]
+    }
+  ]
+}

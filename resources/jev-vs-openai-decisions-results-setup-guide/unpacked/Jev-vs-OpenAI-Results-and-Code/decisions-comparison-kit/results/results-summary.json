@@ -1,0 +1,58 @@
+{
+  "date": "2026-10-06",
+  "scope": "200 claims in 40 fresh reports; 60 investigations across six scripted fault families",
+  "tasks": {
+    "reports": {
+      "jev": {
+        "correct": 200,
+        "attempts": 200,
+        "requests": 200,
+        "median_ms": 148.0054999999993,
+        "p95_ms": 193.12279199999466,
+        "median_workflow_api_ms": 755.416459,
+        "cost": 0.004684554,
+        "mean_ms": 154.9713025200003,
+        "mean_workflow_api_ms": 774.8565126000016,
+        "mean_steps": 5.0
+      },
+      "decisions": {
+        "correct": 200,
+        "attempts": 200,
+        "requests": 200,
+        "median_ms": 141.8219589999935,
+        "p95_ms": 195.8252499999944,
+        "median_workflow_api_ms": 726.7681259999954,
+        "cost": 0.006459899999999998,
+        "mean_ms": 146.2003045849999,
+        "mean_workflow_api_ms": 731.0015229249996,
+        "mean_steps": 5.0
+      }
+    },
+    "incidents": {
+      "jev": {
+        "correct": 60,
+        "attempts": 60,
+        "requests": 210,
+        "median_ms": 163.52070800005458,
+        "p95_ms": 296.6859580000164,
+        "median_workflow_api_ms": 468.81212600006256,
+        "cost": 0.007069062000000001,
+        "mean_ms": 180.70702773809066,
+        "mean_workflow_api_ms": 632.4745970833173,
+        "mean_steps": 3.5
+      },
+      "decisions": {
+        "correct": 60,
+        "attempts": 60,
+        "requests": 247,
+        "median_ms": 134.72124999994412,
+        "p95_ms": 211.24962499993853,
+        "median_workflow_api_ms": 589.1821260000579,
+        "cost": 0.013004300000000002,
+        "mean_ms": 143.2427471214566,
+        "mean_workflow_api_ms": 589.682642316663,
+        "mean_steps": 4.116666666666666
+      }
+    }
+  }
+}

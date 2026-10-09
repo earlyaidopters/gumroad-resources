@@ -1,0 +1,625 @@
+{
+  "started": "2026-10-06T22:32:20.307Z",
+  "dataset_sha256": "48fad369ee166ff17c3f6d5a066c0c10545a35f99ff4693094cf03fac368e3ef",
+  "freeze": {
+    "frozen": "2026-10-06T22:31:40.649Z",
+    "files": {
+      "server/providers.mjs": "b705d1aecc8d5477dfe374f3742d090afe47d34cd1e2e013b10a3aac673dee1e",
+      "server/tasks.mjs": "2e89923387c617976cc30ea859c3d9a903bb6625bb0d3fb96f68de41168d16ca",
+      "server/server.mjs": "ebb86e28bd06aadf663636bd09c88611f560225364f7008a7267f115049f8ec4",
+      "scripts/make-data.mjs": "37491692c481c5c1da7b4a4cb57424021caf0b3d50c3ef33b5d0ae56d0fcd0f0"
+    },
+    "protocol": "No prompt tuning after this point. 40 fresh report packets of 5 claims. 60 incident runs across SIX FIXED FAMILIES (ten repetitions per family; not 60 independently different incidents). No automatic retries. Provider calls paired concurrently. One outstanding request per provider. Latency excludes UI and manual waits. Generated image examples establish only capability, not production accuracy."
+  },
+  "runs": [
+    {
+      "kind": "reports",
+      "caseId": "heldout-report-1",
+      "id": "d22e6a90-759e-46d1-abf2-5d2aaac96a27",
+      "wall_ms": 1132.667625
+    },
+    {
+      "kind": "reports",
+      "caseId": "heldout-report-2",
+      "id": "062f5405-2f65-43fd-9a3c-a895e425a412",
+      "wall_ms": 820.5338330000002
+    },
+    {
+      "kind": "reports",
+      "caseId": "heldout-report-3",
+      "id": "973cf22a-d35f-4d50-b076-a6cd0ffa349a",
+      "wall_ms": 919.3881670000001
+    },
+    {
+      "kind": "reports",
+      "caseId": "heldout-report-4",
+      "id": "5efc5fb8-06d1-4188-bb03-0238dc27072e",
+      "wall_ms": 917.6093340000002
+    },
+    {
+      "kind": "reports",
+      "caseId": "heldout-report-5",
+      "id": "3331ad40-6aa8-44db-a5da-9d4393bdd875",
+      "wall_ms": 982.4297080000006
+    },
+    {
+      "kind": "reports",
+      "caseId": "heldout-report-6",
+      "id": "c64545d8-07bb-43c9-88f4-efa83ee25de0",
+      "wall_ms": 1251.1932500000003
+    },
+    {
+      "kind": "reports",
+      "caseId": "heldout-report-7",
+      "id": "2ad49b00-7d4b-479c-bf91-ed1c8a2d3aa8",
+      "wall_ms": 990.8508750000001
+    },
+    {
+      "kind": "reports",
+      "caseId": "heldout-report-8",
+      "id": "a62bdb52-8251-4691-91cc-1368719de065",
+      "wall_ms": 1074.5124160000005
+    },
+    {
+      "kind": "reports",
+      "caseId": "heldout-report-9",
+      "id": "be9ff232-6767-4e36-b6d7-5c275986163c",
+      "wall_ms": 920.0114999999996
+    },
+    {
+      "kind": "reports",
+      "caseId": "heldout-report-10",
+      "id": "5565b863-1bd6-4df9-b65d-4457b631cf5e",
+      "wall_ms": 1026.0392080000001
+    },
+    {
+      "kind": "reports",
+      "caseId": "heldout-report-11",
+      "id": "e6cedab4-2fa1-4678-bf61-1a3f94603ffa",
+      "wall_ms": 1019.5533340000002
+    },
+    {
+      "kind": "reports",
+      "caseId": "heldout-report-12",
+      "id": "e40504e3-ab80-45eb-a7f9-4b829d8dd3fb",
+      "wall_ms": 860.6468750000004
+    },
+    {
+      "kind": "reports",
+      "caseId": "heldout-report-13",
+      "id": "994660e9-4ded-4e80-b7a1-832aa5fad5f9",
+      "wall_ms": 1073.0829170000015
+    },
+    {
+      "kind": "reports",
+      "caseId": "heldout-report-14",
+      "id": "2d289537-1217-4196-90ce-a4d5c57d3f2b",
+      "wall_ms": 1016.3530410000003
+    },
+    {
+      "kind": "reports",
+      "caseId": "heldout-report-15",
+      "id": "be6b2391-d4f5-4752-8f9c-a0188a831614",
+      "wall_ms": 873.5822910000006
+    },
+    {
+      "kind": "reports",
+      "caseId": "heldout-report-16",
+      "id": "655f68f8-91be-4d1d-94b4-e17ee196b5ae",
+      "wall_ms": 863.9347080000007
+    },
+    {
+      "kind": "reports",
+      "caseId": "heldout-report-17",
+      "id": "f23c02b1-c871-4f6e-ad62-41679e951379",
+      "wall_ms": 865.9085410000007
+    },
+    {
+      "kind": "reports",
+      "caseId": "heldout-report-18",
+      "id": "b897f4a7-d6a1-4642-9614-be0bcc020cee",
+      "wall_ms": 972.7095419999969
+    },
+    {
+      "kind": "reports",
+      "caseId": "heldout-report-19",
+      "id": "c8f49e97-85d4-4080-8e77-d3e79df02686",
+      "wall_ms": 973.5544579999987
+    },
+    {
+      "kind": "reports",
+      "caseId": "heldout-report-20",
+      "id": "b27ce574-4797-4bbd-98f8-ca505f6c33ad",
+      "wall_ms": 1025.2577919999967
+    },
+    {
+      "kind": "reports",
+      "caseId": "heldout-report-21",
+      "id": "197b7d64-08d4-49ab-8863-a4217af4857f",
+      "wall_ms": 977.4601670000011
+    },
+    {
+      "kind": "reports",
+      "caseId": "heldout-report-22",
+      "id": "f94095ad-e68d-45e8-9a5b-b8bc90fd40b0",
+      "wall_ms": 968.836292
+    },
+    {
+      "kind": "reports",
+      "caseId": "heldout-report-23",
+      "id": "a4c9a792-3339-44fc-be68-82596ddf7c9a",
+      "wall_ms": 1040.8054580000025
+    },
+    {
+      "kind": "reports",
+      "caseId": "heldout-report-24",
+      "id": "6d96e3e1-051d-4e8f-b7e0-63ec888cf2da",
+      "wall_ms": 1019.1316249999982
+    },
+    {
+      "kind": "reports",
+      "caseId": "heldout-report-25",
+      "id": "e48424cd-d444-4c44-b1f9-ecab6a18898d",
+      "wall_ms": 917.4046669999989
+    },
+    {
+      "kind": "reports",
+      "caseId": "heldout-report-26",
+      "id": "c8d68046-aa0a-4167-9b47-44182ec4fc35",
+      "wall_ms": 1026.614125
+    },
+    {
+      "kind": "reports",
+      "caseId": "heldout-report-27",
+      "id": "57149ff3-4a62-4629-bdbe-e18b3ddd1599",
+      "wall_ms": 982.9004999999997
+    },
+    {
+      "kind": "reports",
+      "caseId": "heldout-report-28",
+      "id": "44acda6c-df7f-4342-99db-a60aacb5de1d",
+      "wall_ms": 916.2962079999998
+    },
+    {
+      "kind": "reports",
+      "caseId": "heldout-report-29",
+      "id": "1e603c4d-7bd4-4b3f-8e05-69fd98424c28",
+      "wall_ms": 865.3665829999991
+    },
+    {
+      "kind": "reports",
+      "caseId": "heldout-report-30",
+      "id": "b0a91701-7645-4b23-a84d-e070f7cc4dc5",
+      "wall_ms": 1073.945917000001
+    },
+    {
+      "kind": "reports",
+      "caseId": "heldout-report-31",
+      "id": "285812b5-b19b-4fdc-8b65-da92aa5192db",
+      "wall_ms": 824.6990420000002
+    },
+    {
+      "kind": "reports",
+      "caseId": "heldout-report-32",
+      "id": "a8c801e0-b869-4378-982b-fe71d6f7de9c",
+      "wall_ms": 921.8739160000005
+    },
+    {
+      "kind": "reports",
+      "caseId": "heldout-report-33",
+      "id": "71b18914-3bd5-4672-b536-d73f10d60a29",
+      "wall_ms": 830.5340829999986
+    },
+    {
+      "kind": "reports",
+      "caseId": "heldout-report-34",
+      "id": "02874700-2929-4415-a363-4ea87e5089d0",
+      "wall_ms": 868.3863749999982
+    },
+    {
+      "kind": "reports",
+      "caseId": "heldout-report-35",
+      "id": "01bc6e1e-a679-45e6-b0c1-e0ad999f06a2",
+      "wall_ms": 921.463708000003
+    },
+    {
+      "kind": "reports",
+      "caseId": "heldout-report-36",
+      "id": "246ebfdf-0a31-4824-b2e5-90d448a6d53c",
+      "wall_ms": 818.8375830000004
+    },
+    {
+      "kind": "reports",
+      "caseId": "heldout-report-37",
+      "id": "a3ab05e8-4def-403b-bad9-71363ecb79ae",
+      "wall_ms": 1078.506917000006
+    },
+    {
+      "kind": "reports",
+      "caseId": "heldout-report-38",
+      "id": "efc4dc89-e568-497c-830a-b578316eb1b5",
+      "wall_ms": 810.9620000000068
+    },
+    {
+      "kind": "reports",
+      "caseId": "heldout-report-39",
+      "id": "e406c249-dc60-4db1-9940-76ebc43370c2",
+      "wall_ms": 920.8389999999999
+    },
+    {
+      "kind": "reports",
+      "caseId": "heldout-report-40",
+      "id": "befaddd7-85d4-496d-8e3a-0689c3df5c99",
+      "wall_ms": 865.319875000001
+    },
+    {
+      "kind": "incidents",
+      "caseId": "heldout-incident-1",
+      "id": "879766fa-b334-46cf-9080-c98bdedfbf7e",
+      "wall_ms": 719.602042
+    },
+    {
+      "kind": "incidents",
+      "caseId": "heldout-incident-2",
+      "id": "6f9a5c9b-aa52-49bb-8cba-681e1c343d6f",
+      "wall_ms": 433.783583
+    },
+    {
+      "kind": "incidents",
+      "caseId": "heldout-incident-3",
+      "id": "44d46c90-9091-457e-ae0c-9eddc656aef5",
+      "wall_ms": 377.26649999999995
+    },
+    {
+      "kind": "incidents",
+      "caseId": "heldout-incident-4",
+      "id": "0619b098-1a1e-4ed8-a769-aa89c113be63",
+      "wall_ms": 1025.0590829999999
+    },
+    {
+      "kind": "incidents",
+      "caseId": "heldout-incident-5",
+      "id": "e2b6fc91-ebc6-415e-ad7b-9da325fd1fc5",
+      "wall_ms": 1213.8714579999996
+    },
+    {
+      "kind": "incidents",
+      "caseId": "heldout-incident-6",
+      "id": "9242e138-0c63-425e-b0e8-27093e0c253e",
+      "wall_ms": 1244.586084
+    },
+    {
+      "kind": "incidents",
+      "caseId": "heldout-incident-7",
+      "id": "9133432d-b3c3-4671-a9a7-9106be2c71f4",
+      "wall_ms": 919.6000839999997
+    },
+    {
+      "kind": "incidents",
+      "caseId": "heldout-incident-8",
+      "id": "2fe8bc8f-c6ea-44fd-b4b7-4f367d3ceb11",
+      "wall_ms": 536.0091670000002
+    },
+    {
+      "kind": "incidents",
+      "caseId": "heldout-incident-9",
+      "id": "cd17b6fe-59cd-4c78-a261-3dd8cfb577ca",
+      "wall_ms": 479.0711250000004
+    },
+    {
+      "kind": "incidents",
+      "caseId": "heldout-incident-10",
+      "id": "2d55667f-b9ca-46f5-aedc-33c8ff8fb96e",
+      "wall_ms": 860.1984999999995
+    },
+    {
+      "kind": "incidents",
+      "caseId": "heldout-incident-11",
+      "id": "5b2c6044-916c-40be-999f-5c7cd2850d09",
+      "wall_ms": 1183.2099159999998
+    },
+    {
+      "kind": "incidents",
+      "caseId": "heldout-incident-12",
+      "id": "de5d8214-215f-48a0-abd8-cc432d6afc15",
+      "wall_ms": 1077.386124999999
+    },
+    {
+      "kind": "incidents",
+      "caseId": "heldout-incident-13",
+      "id": "2c92ec82-b453-4fef-a26f-56a18913203f",
+      "wall_ms": 597.4255000000012
+    },
+    {
+      "kind": "incidents",
+      "caseId": "heldout-incident-14",
+      "id": "213dad1b-c2d5-4720-90a2-803edc9a938f",
+      "wall_ms": 430.77449999999953
+    },
+    {
+      "kind": "incidents",
+      "caseId": "heldout-incident-15",
+      "id": "6500ba43-d8ff-4ef3-9ee4-594ddd2c9b27",
+      "wall_ms": 911.2994999999992
+    },
+    {
+      "kind": "incidents",
+      "caseId": "heldout-incident-16",
+      "id": "db7ae6af-df6c-4e43-b4bc-23a68a801586",
+      "wall_ms": 869.3118749999994
+    },
+    {
+      "kind": "incidents",
+      "caseId": "heldout-incident-17",
+      "id": "36cfae64-b7cd-4c88-be49-eab593d976c9",
+      "wall_ms": 1189.4780409999985
+    },
+    {
+      "kind": "incidents",
+      "caseId": "heldout-incident-18",
+      "id": "172023d7-b0bd-4808-817d-c7f5cd5ab8cb",
+      "wall_ms": 1401.0567920000012
+    },
+    {
+      "kind": "incidents",
+      "caseId": "heldout-incident-19",
+      "id": "c611393e-c708-4c6b-9d74-9b37a9bd8593",
+      "wall_ms": 536.236667000001
+    },
+    {
+      "kind": "incidents",
+      "caseId": "heldout-incident-20",
+      "id": "b53c2681-24a7-4f5e-97be-61caa6eff18c",
+      "wall_ms": 374.5081250000003
+    },
+    {
+      "kind": "incidents",
+      "caseId": "heldout-incident-21",
+      "id": "bae617fa-4efd-4827-b1d5-3202f94fea3a",
+      "wall_ms": 481.3140830000011
+    },
+    {
+      "kind": "incidents",
+      "caseId": "heldout-incident-22",
+      "id": "ae87f3bc-28b5-4edb-9e38-4bc4e48b5642",
+      "wall_ms": 809.2891249999993
+    },
+    {
+      "kind": "incidents",
+      "caseId": "heldout-incident-23",
+      "id": "9e4a24d0-f933-4eb4-92de-704a13e6eedf",
+      "wall_ms": 1247.3835410000029
+    },
+    {
+      "kind": "incidents",
+      "caseId": "heldout-incident-24",
+      "id": "231e6d09-0bbf-4ac3-a38f-b9e67423b39e",
+      "wall_ms": 1293.7286660000027
+    },
+    {
+      "kind": "incidents",
+      "caseId": "heldout-incident-25",
+      "id": "7e45bb09-9f05-4a8d-9392-7ec51ef504a7",
+      "wall_ms": 646.8596249999973
+    },
+    {
+      "kind": "incidents",
+      "caseId": "heldout-incident-26",
+      "id": "62a5c991-d494-4d78-96a5-40f2d91e6e92",
+      "wall_ms": 373.68924999999945
+    },
+    {
+      "kind": "incidents",
+      "caseId": "heldout-incident-27",
+      "id": "872d9b22-c510-4c63-8805-a4a8cbad8cb5",
+      "wall_ms": 534.952709000001
+    },
+    {
+      "kind": "incidents",
+      "caseId": "heldout-incident-28",
+      "id": "9740adb3-05bf-4a67-b573-17b0f99b8b8c",
+      "wall_ms": 822.7798750000002
+    },
+    {
+      "kind": "incidents",
+      "caseId": "heldout-incident-29",
+      "id": "805d892b-19d4-40e9-98a3-937572a506d4",
+      "wall_ms": 1454.9560420000016
+    },
+    {
+      "kind": "incidents",
+      "caseId": "heldout-incident-30",
+      "id": "eb979b54-d50a-4b37-aeda-bd9e862471a0",
+      "wall_ms": 1398.996916
+    },
+    {
+      "kind": "incidents",
+      "caseId": "heldout-incident-31",
+      "id": "e611bbfe-d3b4-4625-91ea-e0cb293bed65",
+      "wall_ms": 535.601584
+    },
+    {
+      "kind": "incidents",
+      "caseId": "heldout-incident-32",
+      "id": "db237276-a63b-4197-a67d-67a331cf4956",
+      "wall_ms": 326.4492909999972
+    },
+    {
+      "kind": "incidents",
+      "caseId": "heldout-incident-33",
+      "id": "d358b30e-4323-4912-b9c8-20aa58d61ef8",
+      "wall_ms": 805.7122909999998
+    },
+    {
+      "kind": "incidents",
+      "caseId": "heldout-incident-34",
+      "id": "ec68f74c-df19-43c7-afc0-51bdb3ee29b4",
+      "wall_ms": 1134.320832999998
+    },
+    {
+      "kind": "incidents",
+      "caseId": "heldout-incident-35",
+      "id": "db369dad-576d-46d6-b9d0-8d5f44cb8bc7",
+      "wall_ms": 1132.4233329999988
+    },
+    {
+      "kind": "incidents",
+      "caseId": "heldout-incident-36",
+      "id": "0cf9890d-481c-4cfb-9c5c-8bac7dea9d9b",
+      "wall_ms": 1507.7765419999996
+    },
+    {
+      "kind": "incidents",
+      "caseId": "heldout-incident-37",
+      "id": "a2aeb601-6083-4bb5-b8b5-2310cbba8b1d",
+      "wall_ms": 812.817332999999
+    },
+    {
+      "kind": "incidents",
+      "caseId": "heldout-incident-38",
+      "id": "b15338d2-0490-4a9b-9744-cd3ae7100317",
+      "wall_ms": 502.79754200000025
+    },
+    {
+      "kind": "incidents",
+      "caseId": "heldout-incident-39",
+      "id": "8fa0892e-954b-4efc-9124-aea4c375aea4",
+      "wall_ms": 1235.6502089999958
+    },
+    {
+      "kind": "incidents",
+      "caseId": "heldout-incident-40",
+      "id": "9de44c18-7bef-4b26-a38a-6408ab982591",
+      "wall_ms": 1457.6000410000051
+    },
+    {
+      "kind": "incidents",
+      "caseId": "heldout-incident-41",
+      "id": "08549e8f-0565-42c1-a4f0-6aead19ec621",
+      "wall_ms": 1282.335834000005
+    },
+    {
+      "kind": "incidents",
+      "caseId": "heldout-incident-42",
+      "id": "f4c97187-ed7f-4d61-b376-116fcad685a3",
+      "wall_ms": 1399.5631250000006
+    },
+    {
+      "kind": "incidents",
+      "caseId": "heldout-incident-43",
+      "id": "349a0c72-c620-421f-8ca2-0b61438a724f",
+      "wall_ms": 490.1086249999935
+    },
+    {
+      "kind": "incidents",
+      "caseId": "heldout-incident-44",
+      "id": "a3e17136-e1e2-4c4d-aa8c-0b39188aa7e1",
+      "wall_ms": 428.2897499999963
+    },
+    {
+      "kind": "incidents",
+      "caseId": "heldout-incident-45",
+      "id": "a9f7a885-7587-4ddf-afd8-c89f309f2eaa",
+      "wall_ms": 330.4402919999993
+    },
+    {
+      "kind": "incidents",
+      "caseId": "heldout-incident-46",
+      "id": "147f1955-6c0f-4ba1-8432-22af71b90e84",
+      "wall_ms": 867.604333000003
+    },
+    {
+      "kind": "incidents",
+      "caseId": "heldout-incident-47",
+      "id": "a555c463-273a-46d6-a4a3-c9d34e5f0923",
+      "wall_ms": 1188.4479999999967
+    },
+    {
+      "kind": "incidents",
+      "caseId": "heldout-incident-48",
+      "id": "137e2d02-2011-4dc5-a20f-476743154b23",
+      "wall_ms": 1140.5157499999987
+    },
+    {
+      "kind": "incidents",
+      "caseId": "heldout-incident-49",
+      "id": "6f2ad356-6171-4933-84f1-52ecc83f1bc2",
+      "wall_ms": 775.802125000002
+    },
+    {
+      "kind": "incidents",
+      "caseId": "heldout-incident-50",
+      "id": "ba702e45-6e46-4723-9c7c-d58b1c171a01",
+      "wall_ms": 542.0716250000041
+    },
+    {
+      "kind": "incidents",
+      "caseId": "heldout-incident-51",
+      "id": "aebceff5-aae2-46b1-907c-ef81d126193e",
+      "wall_ms": 374.56533299999865
+    },
+    {
+      "kind": "incidents",
+      "caseId": "heldout-incident-52",
+      "id": "4b9ea37c-a748-4812-9284-53e3c0b867c7",
+      "wall_ms": 1024.1035420000044
+    },
+    {
+      "kind": "incidents",
+      "caseId": "heldout-incident-53",
+      "id": "93c7600a-526d-4a81-ad0c-32db5fecbe60",
+      "wall_ms": 1302.7923330000049
+    },
+    {
+      "kind": "incidents",
+      "caseId": "heldout-incident-54",
+      "id": "0dd30a52-58f4-452f-a972-340113bd6861",
+      "wall_ms": 1243.0607920000039
+    },
+    {
+      "kind": "incidents",
+      "caseId": "heldout-incident-55",
+      "id": "1a961dd6-f141-416c-9364-bbdb45b8292e",
+      "wall_ms": 595.9464999999982
+    },
+    {
+      "kind": "incidents",
+      "caseId": "heldout-incident-56",
+      "id": "3abd714d-591f-453b-bc00-9df9546dfa65",
+      "wall_ms": 644.8802920000016
+    },
+    {
+      "kind": "incidents",
+      "caseId": "heldout-incident-57",
+      "id": "ffd139d1-f249-4160-8bf8-f18d474aaaae",
+      "wall_ms": 373.4701249999998
+    },
+    {
+      "kind": "incidents",
+      "caseId": "heldout-incident-58",
+      "id": "d04b40eb-860e-4943-bc0f-9a7a63f705bc",
+      "wall_ms": 860.1256250000006
+    },
+    {
+      "kind": "incidents",
+      "caseId": "heldout-incident-59",
+      "id": "ffe3c61c-338c-4093-aa83-97339defed35",
+      "wall_ms": 1021.437417000001
+    },
+    {
+      "kind": "incidents",
+      "caseId": "heldout-incident-60",
+      "id": "0fda55fc-b547-4e87-b070-90f0c102d890",
+      "wall_ms": 1091.372083999995
+    }
+  ],
+  "incident_revision": {
+    "date": "2026-10-06T22:42:35.589Z",
+    "exact_development_symptom_overlap": 0,
+    "incidents": 60,
+    "families": 6,
+    "within_heldout_unique_symptom_texts": 50,
+    "labels": "Hidden fault and acceptable conclusion unchanged; fixed before model calls.",
+    "caution": "Same six underlying simulator fault families. Descriptive task result only, not independent evidence of 60 real-world failure modes."
+  }
+}

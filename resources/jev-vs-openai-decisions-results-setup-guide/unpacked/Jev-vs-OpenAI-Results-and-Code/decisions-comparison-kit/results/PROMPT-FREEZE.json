@@ -1,0 +1,10 @@
+{
+  "frozen": "2026-10-06T22:31:40.649Z",
+  "files": {
+    "server/providers.mjs": "b705d1aecc8d5477dfe374f3742d090afe47d34cd1e2e013b10a3aac673dee1e",
+    "server/tasks.mjs": "2e89923387c617976cc30ea859c3d9a903bb6625bb0d3fb96f68de41168d16ca",
+    "server/server.mjs": "ebb86e28bd06aadf663636bd09c88611f560225364f7008a7267f115049f8ec4",
+    "scripts/make-data.mjs": "37491692c481c5c1da7b4a4cb57424021caf0b3d50c3ef33b5d0ae56d0fcd0f0"
+  },
+  "protocol": "No prompt tuning after this point. 40 fresh report packets of 5 claims. 60 incident runs across SIX FIXED FAMILIES (ten repetitions per family; not 60 independently different incidents). No automatic retries. Provider calls paired concurrently. One outstanding request per provider. Latency excludes UI and manual waits. Generated image examples establish only capability, not production accuracy."
+}
