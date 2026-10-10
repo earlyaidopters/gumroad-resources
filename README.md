@@ -5,7 +5,7 @@ Every free resource from the Early AI-dopters Gumroad, mirrored here and kept in
 **180 published resources**, grouped by topic and newest-first within each. Sync scheduled hourly. See the latest verified check below.
 
 <!-- sync-status:start -->
-[**Last verified sync: October 10, 2026 at 03:14 AM EDT**](https://github.com/earlyaidopters/gumroad-resources/actions/runs/38033542997) · 180/180 published resources accounted for; 313 mirrored attachments verified. Oversized attachments available on Gumroad: 1. [Sync details](sync-status.json).
+[**Last verified sync: October 10, 2026 at 09:48 AM EDT**](https://github.com/earlyaidopters/gumroad-resources/actions/runs/38056946390) · 180/180 published resources accounted for; 313 mirrored attachments verified. Oversized attachments available on Gumroad: 1. [Sync details](sync-status.json).
 
 <!-- sync-status:end -->
 
