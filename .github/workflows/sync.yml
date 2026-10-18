@@ -53,6 +53,9 @@ jobs:
       - name: Commit & push changes
         id: publish
         if: steps.sync.outcome == 'success'
+        env:
+          GUMROAD_ACCESS_TOKEN: ${{ secrets.GUMROAD_ACCESS_TOKEN }}
+          YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
         run: bash tools/publish_sync.sh
 
       - name: Flag drops with no video paired
