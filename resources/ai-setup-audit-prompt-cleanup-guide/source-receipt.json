@@ -1,0 +1,33 @@
+{
+  "schema_version": 1,
+  "product_id": "CjD05sFFw2ZCkCuqtUB4RQ==",
+  "fingerprint": "9138dc5a5946fd316d9a3da38a1fa27132b65aefd26a847d077341a18ecc67c6",
+  "source_saved_at": "2026-10-18T19:14:37.028600+00:00",
+  "source": "private-original-package",
+  "files": [
+    {
+      "file": "AI-SETUP-AUDIT-GUIDE.pdf",
+      "source_sha256": "84b74c6768c3ef8e8f1f0afc6787adbf146e81e5af88728835ccbc023c142175",
+      "mirrored_sha256": "84b74c6768c3ef8e8f1f0afc6787adbf146e81e5af88728835ccbc023c142175",
+      "status": "downloaded"
+    },
+    {
+      "file": "AUDIT-PROMPT.md",
+      "source_sha256": "82172ad5196c0c9dd36b3287a427c085387d703118979043e3538b3fbe589ef3",
+      "mirrored_sha256": "82172ad5196c0c9dd36b3287a427c085387d703118979043e3538b3fbe589ef3",
+      "status": "downloaded"
+    },
+    {
+      "file": "CLEANUP-GUIDE.md",
+      "source_sha256": "2972949bee4f7be28f2fa8e461299f735f9edfc57f3db5fa4937c1aaa5a4b90b",
+      "mirrored_sha256": "2972949bee4f7be28f2fa8e461299f735f9edfc57f3db5fa4937c1aaa5a4b90b",
+      "status": "downloaded"
+    },
+    {
+      "file": "AI-SETUP-AUDIT-KIT.zip",
+      "source_sha256": "01358c8ebc9717984254ce0852f8e757dbecf527583e10be588f5650ecf03549",
+      "mirrored_sha256": "01358c8ebc9717984254ce0852f8e757dbecf527583e10be588f5650ecf03549",
+      "status": "downloaded"
+    }
+  ]
+}

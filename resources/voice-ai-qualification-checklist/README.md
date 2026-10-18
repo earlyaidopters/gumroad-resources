@@ -1,7 +1,5 @@
 # Voice AI Qualification Checklist
 
-![cover](https://public-files.gumroad.com/5gvxgzzd9otxkkqu5gs3kiyhlc3b)
-
 **Get it on Gumroad → https://markkashef.gumroad.com/l/sf-ig-voice-qualification**
 
 `published` · CAD$0+
