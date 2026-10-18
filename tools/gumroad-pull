@@ -49,6 +49,10 @@ def load_token():
     return token
 
 
+class AuthenticationError(Exception):
+    pass
+
+
 def api_get(path, token):
     # Pagination must stay on the fixed API origin; never forward credentials.
     if not path.startswith("/v2/") or path.startswith("//"):
@@ -67,13 +71,19 @@ def api_get(path, token):
                 time.sleep(2 ** attempt * 2)
                 continue
             if exc.code in (401, 403):
-                die("Gumroad API authentication failed; refresh GUMROAD_ACCESS_TOKEN", code=3)
+                raise AuthenticationError("Gumroad API authentication failed; refresh GUMROAD_ACCESS_TOKEN") from None
             raise ValueError(f"Gumroad API request failed (HTTP {exc.code})") from None
         except urllib.error.URLError:
             if attempt < 3:
                 time.sleep(2 ** attempt)
                 continue
             raise ValueError("Gumroad API network request failed") from None
+
+
+def verify_account(token):
+    user = api_get("/v2/user", token).get("user", {})
+    if (user.get("url") or "").rstrip("/") != "https://markkashef.gumroad.com":
+        raise ValueError("Gumroad token belongs to an unexpected storefront")
 
 
 def api_products(token, delay=0.4, out_dir="resources"):
@@ -338,7 +348,7 @@ def file_sha256(path):
     return h.hexdigest()
 
 
-def pull_product(row, cookie, out_dir, skip_existing=True, delay=0.4, max_file_mb=0):
+def pull_product(row, cookie, out_dir, skip_existing=True, delay=0.4, max_file_mb=0, source_files=None):
     permalink = row["permalink"]
     ext_id, product, uniq = (api_payload(row, cookie) if row.get("_api_id")
                              else get_edit_payload(permalink, cookie))
@@ -396,7 +406,14 @@ def pull_product(row, cookie, out_dir, skip_existing=True, delay=0.4, max_file_m
             downloaded.append({**old, **record, "status": "cached"})
             continue
         q = urllib.parse.urlencode({"product_file_ids[]": f["id"]})
-        if row.get("_api_id"):
+        if source_files is not None:
+            source = source_files.get(f["id"])
+            if source is None:
+                raise ValueError(f"Local source is missing attachment {fname}")
+            with open(source, "rb") as source_fh:
+                data = source_fh.read()
+            status = 200
+        elif row.get("_api_id"):
             # Signed URL is sufficient; do not forward seller tokens or cookies to storage.
             status, data, _ = http_get(f["url"], "", binary=True)
         else:
@@ -470,6 +487,7 @@ def main():
     cookie = token or load_cookie()
 
     if cmd == "check" and token:
+        verify_account(token)
         data = api_get("/v2/products", token)
         if not isinstance(data.get("products"), list) or not data["products"]:
             raise ValueError("Gumroad API returned an empty or malformed catalog")
@@ -569,4 +587,7 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    try:
+        main()
+    except AuthenticationError as error:
+        die(str(error), code=3)

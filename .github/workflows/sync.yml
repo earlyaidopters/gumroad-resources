@@ -43,7 +43,12 @@ jobs:
         env:
           GUMROAD_ACCESS_TOKEN: ${{ secrets.GUMROAD_ACCESS_TOKEN }}
           YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
-        run: bash tools/sync.sh
+        run: |
+          for attempt in 1 2 3; do
+            if bash tools/sync.sh; then exit 0; fi
+            if [ "$attempt" = 3 ]; then exit 1; fi
+            sleep $((attempt * 15))
+          done
 
       - name: Commit & push changes
         id: publish
@@ -89,8 +94,17 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: python3 tools/report_sync.py success
 
+      - name: Report degraded video pairing after publishing resources
+        if: success()
+        run: |
+          if [ -f .sync-video-failed ]; then
+            echo "::error::Resource sync succeeded but YouTube pairing needs retry"
+            exit 1
+          fi
+
       - name: Report failed sync
         if: failure()
         env:
+          RESOURCE_PUBLISHED: ${{ steps.publish.outcome == 'success' }}
           GH_TOKEN: ${{ github.token }}
         run: python3 tools/report_sync.py failure

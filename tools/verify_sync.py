@@ -121,7 +121,8 @@ def write_status(repo, counts, index):
     status = {'schema_version': 1, 'verified_at': now.isoformat(),
               'source_index_observed_at': os.environ.get('SYNC_INDEX_OBSERVED_AT'),
               'run_url': run_url, **counts,
-              'manifest_sha256': digest(repo / 'manifest.json')}
+              'manifest_sha256': digest(repo / 'manifest.json'),
+              'video_pairing_status': 'failed' if (repo / '.sync-video-failed').exists() else 'current'}
     (repo / 'sync-status.json').write_text(json.dumps(status, indent=2) + '\n')
     stamp = now.astimezone(ZoneInfo('America/Toronto')).strftime('%B %d, %Y at %I:%M %p %Z')
     label = f'**Last verified sync: {stamp}**'

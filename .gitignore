@@ -4,3 +4,5 @@ resources/pull-manifest.json
 .staging/
 products_index.json
 .sync-auth-failed
+
+.sync-video-failed

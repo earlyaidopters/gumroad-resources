@@ -2,7 +2,7 @@
 # Publish only after download and finished-catalogue verification both pass.
 set -euo pipefail
 cd "$(dirname "$0")/.."
-rm -f .sync-auth-failed resources/pull-manifest.json
+rm -f .sync-auth-failed .sync-video-failed resources/pull-manifest.json
 sync_tmp=$(mktemp -d "${RUNNER_TEMP:-/tmp}/gumroad-sync.XXXXXX")
 trap 'rm -rf "$sync_tmp"' EXIT
 if [ -n "${GUMROAD_COOKIE:-}" ]; then
@@ -44,11 +44,14 @@ python3 tools/verify_sync.py --index "$sync_tmp/products_index.json" --pull reso
 
 if [ -n "${YOUTUBE_API_KEY:-}" ]; then
   echo "==> refreshing YouTube pairings"
-  GUMROAD_INDEX="$sync_tmp/products_index.json" python3 tools/youtube_map.py
+  if ! GUMROAD_INDEX="$sync_tmp/products_index.json" python3 tools/youtube_map.py; then
+    touch .sync-video-failed
+    echo "::warning::Video pairing refresh failed; publishing verified resources with existing pairings"
+  fi
 else
   if [ "${GITHUB_ACTIONS:-}" = "true" ]; then
-    echo "::error::YOUTUBE_API_KEY is required for automated video pairing"
-    exit 1
+    touch .sync-video-failed
+    echo "::warning::YOUTUBE_API_KEY is missing; resource publication can still proceed"
   fi
   echo "==> no YOUTUBE_API_KEY, keeping existing pairings for local verification"
 fi

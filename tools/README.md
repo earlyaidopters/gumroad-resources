@@ -58,9 +58,14 @@ closes the corresponding incident automatically. Native GitHub notification
 settings determine who receives issue and failed-run notifications; this tooling
 does not send email or Slack messages.
 
-The job has a 40-minute timeout. If GitHub never starts a scheduled run, that run
-cannot raise its own failure alert. The timestamp remains old and visible. For a
-freshness monitoring, a separate Codex heartbeat checks the live source and
+The job has a 40-minute timeout and retries failed resource syncs up to three
+times before reporting failure. If GitHub never starts a scheduled run, that run
+cannot raise its own failure alert. The timestamp remains old and visible. For freshness monitoring, an hourly GitHub watchdog checks the storefront
+without Gumroad credentials, total product count, newest public product IDs,
+committed file hashes and the age of the last verified sync. It requests a new
+sync if unhealthy and avoids duplicate active runs. It cancels a stuck run after
+50 minutes. A separate hourly macOS LaunchAgent runs the same check even if a
+GitHub scheduled event never starts. A Codex heartbeat also checks the live source and
 GitHub every 12 hours, retries stale/failed runs, and reports unrecovered failures
 in the owning conversation. That secondary check depends on its Codex host; the
 primary scheduled sync runs on GitHub independently of the local computer.
@@ -96,8 +101,10 @@ The existing pairing issue covers missing links among the newest YouTube
 resources; Instagram-only resources are excluded from that main-channel check.
 Its body updates when the missing set changes,
 without posting the same comment on every scheduled run. Pairing refresh failures
-fail the automated run; stale pairings cannot be reported as a successful sync.
-A missing `YOUTUBE_API_KEY` also fails CI explicitly.
+are recorded as degraded in `sync-status.json`. Verified resource files still
+publish; the job then fails visibly with a separate video-pairing incident.
+A missing `YOUTUBE_API_KEY` behaves the same way. The next watchdog run retries
+the pairing, so a video service outage cannot freeze new resource files.
 
 ## Tests and local verification
 
@@ -110,3 +117,50 @@ bash tools/sync.sh
 The last command reads the live seller catalogue and changes local generated
 mirror files. It never pushes to GitHub. Regression tests use synthetic products,
 files, cookies and mocked issue commands, with no production mutations.
+
+
+## Original-package publication and durable retries
+
+`python3 tools/install_local.py` installs `gumroad-mirror`, the `gumroad-push`
+source-backup hook, and `com.markkashef.gumroad-mirror-watchdog`. The installer
+preserves the pre-hook publisher privately and refuses to patch an unfamiliar
+publisher layout. All state lives in `~/.local/state/gumroad-mirror` with private
+permissions, outside Git.
+
+For free resources created using `gumroad-push create` or `from-package`, the
+original files are copied, hashed, fsynced and queued **before publication**.
+A backup failure leaves the product as a draft and identifies it for resumption.
+Drafts can enter the private queue, but cannot enter GitHub. Once Gumroad verifies
+a product is published and free, the publisher attempts immediate GitHub delivery.
+Failure after Gumroad publication returns an explicit pending result; the hourly
+local worker retries the same product rather than creating a duplicate.
+
+The source worker uses an isolated managed checkout, preserves existing resource
+folder links, verifies local hashes and uploaded file identities, rebuilds and
+validates the catalog, and confirms the actual pushed bytes from GitHub. File
+bytes come from the retained original package, not a Gumroad download. If upstream
+attachments changed after queuing, it holds the old package rather than overwriting
+the new resource. Concurrent pushes retry against fresh main up to three times.
+A per-resource `source-receipt.json` records provenance. Partial source publication
+does not advance the last **full** catalog verification timestamp; a reconciliation
+run is requested after delivery.
+
+Other publishing routes can explicitly retain their original files:
+
+```sh
+gumroad-mirror enqueue --product-id PRODUCT_ID --file /path/to/guide.pdf --file /path/to/kit.zip
+gumroad-mirror drain --product-id PRODUCT_ID
+gumroad-mirror status
+```
+
+This never publishes a Gumroad draft, changes pricing, or edits a Gumroad product.
+Paid products are excluded from original-package auto-publication. Files above
+95 MiB remain safely backed up locally but use the existing Gumroad-only download
+exception in the public vault. The local worker needs this Mac on and GitHub/API
+access; GitHub's primary sync and public watchdog run independently in the cloud.
+
+The public storefront exposes its total and newest listings, not a guaranteed
+complete unauthenticated asset API. The public watchdog detects new releases and
+count mismatches; the authenticated paginated reconciler proves full coverage.
+Public schema changes and fetch failures produce an unhealthy report, never a
+false healthy result. Safe health reports are retained as workflow artifacts.

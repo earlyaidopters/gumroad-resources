@@ -1,0 +1,32 @@
+name: independent-mirror-watchdog
+on:
+  schedule:
+    - cron: '47 * * * *'
+  workflow_dispatch: {}
+permissions:
+  contents: read
+  actions: write
+  issues: write
+concurrency:
+  group: independent-mirror-watchdog
+  cancel-in-progress: false
+jobs:
+  inspect:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Check signed-out storefront, freshness and committed file hashes
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python3 tools/watchdog.py --repair --output /tmp/mirror-health.json
+      - name: Preserve safe health evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: mirror-health
+          path: /tmp/mirror-health.json
+          retention-days: 14
