@@ -6,7 +6,7 @@ import os
 from pathlib import Path
 import subprocess
 
-AUTH_TITLE = 'Gumroad session cookie expired — sync paused'
+AUTH_TITLE = 'Gumroad API authentication failed — sync paused'
 FAIL_TITLE = 'Gumroad resource sync failed — updates paused'
 
 
@@ -18,7 +18,7 @@ def report(outcome, auth_failed=False):
     issues = json.loads(gh('issue', 'list', '--state', 'open', '--limit', '100', '--json', 'number,title'))
     existing = {i['title']: str(i['number']) for i in issues}
     if outcome == 'success':
-        for title in (AUTH_TITLE, FAIL_TITLE):
+        for title in (AUTH_TITLE, FAIL_TITLE, "Gumroad session cookie expired — sync paused"):
             if title in existing:
                 gh('issue', 'close', existing[title], '--comment',
                    'A complete download, catalogue verification, and GitHub push have succeeded. See sync-status.json for the verified run.')
@@ -27,8 +27,8 @@ def report(outcome, auth_failed=False):
     if title in existing:
         return  # No repeated comments or duplicate issues for an unchanged failure.
     run = f'https://github.com/{os.environ["GITHUB_REPOSITORY"]}/actions/runs/{os.environ["GITHUB_RUN_ID"]}'
-    reason = ('The Gumroad session check failed. Check the run to distinguish an expired cookie from a network failure. '
-              'Refresh GUMROAD_COOKIE when needed; instructions are in tools/README.md.' if auth_failed else
+    reason = ('The Gumroad API authentication check failed. '
+              'Check the GUMROAD_ACCESS_TOKEN repository secret; instructions are in tools/README.md.' if auth_failed else
               'The download, verification, build, or push failed. Inspect the linked run before retrying.')
     body = (f'{reason}\n\nRun: {run}\n\nThe previous verified catalogue remains available. '
             'The last successful check is recorded in sync-status.json. This issue closes automatically only after a verified sync is pushed.')

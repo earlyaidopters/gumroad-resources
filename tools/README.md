@@ -1,7 +1,7 @@
 # Gumroad mirror operations
 
 The public vault mirrors published Gumroad resources. The sync workflow is
-scheduled hourly at minute 17, and can also be run immediately:
+scheduled every 12 hours at 00:17 and 12:17 UTC, and can also be run immediately:
 
 ```sh
 gh workflow run sync.yml --repo earlyaidopters/gumroad-resources --ref main
@@ -15,8 +15,8 @@ not the evidence: the catalogue and files must pass the checks below.
 
 ## What a successful run means
 
-1. The seller session authenticates. A private temporary cookie file is removed
-   when the process exits; local runs can use the existing private cookie file.
+1. The seller API token authenticates. No browser cookie is needed in CI.
+   Local runs can read the existing private `~/.config/gumroad/token` file.
 2. A nonempty, structurally valid product index is captured. Drafts are excluded.
 3. Every published product in that snapshot is pulled. Failed transfers and
    incorrect byte counts cause a nonzero exit. Partial files cannot overwrite
@@ -51,7 +51,7 @@ Use `--force` on `tools/gumroad-pull` to bypass its cache when auditing that cas
 
 ## Failure and recovery
 
-Authentication failure opens the existing cookie incident. Download, verification,
+Authentication failure opens an API authentication incident. Download, verification,
 build and push failures open one general sync incident. Repeated failures do not
 create duplicate issues or repeated comments. A fully verified successful push
 closes the corresponding incident automatically. Native GitHub notification
@@ -63,23 +63,27 @@ cannot raise its own failure alert. The timestamp remains old and visible. For a
 strict freshness SLA, use an independent external monitor; none is configured
 by this change.
 
-## Refreshing authentication
+## API authentication
 
-File downloads need a logged-in Gumroad seller session; the public product API
-does not expose these files. A session can expire and requires a new seller
-login. Keep cookies outside this public repository.
+The seller API now returns rich content and signed file URLs. The sync uses
+`GUMROAD_ACCESS_TOKEN`, not an expiring dashboard cookie. Every API page is
+fetched; drafts are excluded and existing resource folder links are preserved.
+The download request receives no API token. Signed URL query strings are excluded
+from file identity hashes so signature rotation does not force re-downloads.
+Keep tokens outside this public repository.
 
-After verifying the private local cookie works:
+After verifying the private local token works:
 
 ```sh
 python3 tools/gumroad-pull check
-gh secret set GUMROAD_COOKIE --repo earlyaidopters/gumroad-resources < "$HOME/.config/gumroad/cookies"
+python3 -c 'from pathlib import Path; print((Path.home()/".config/gumroad/token").read_text().strip().removeprefix("GUMROAD_ACCESS_TOKEN="), end="")' | gh secret set GUMROAD_ACCESS_TOKEN --repo earlyaidopters/gumroad-resources
 gh workflow run sync.yml --repo earlyaidopters/gumroad-resources --ref main
 ```
 
-Only use the second command when refreshing the deployed cookie. Never print,
-commit or attach the cookie to an issue. If the local session is also expired,
-log into Gumroad and export its Cookie header to the private configuration file.
+Only use the second command when refreshing the deployed token. It pipes the
+private value directly into GitHub Secrets; never print or commit that value.
+If the token is revoked, reauthenticate with `gumroad auth login`.
+The old cookie path remains available for manual legacy dashboard pulls.
 
 ## YouTube pairing
 
@@ -87,8 +91,9 @@ log into Gumroad and export its Cookie header to the private configuration file.
 videos by the Gumroad links in their public descriptions; unmatched resources
 retain existing pairings. A missing video does not mean the resource is missing.
 The existing pairing issue covers missing links among the newest resources,
-without posting the same comment on every hourly run. Pairing refresh failures
-are warnings; file and catalogue verification remain mandatory.
+without posting the same comment on every scheduled run. Pairing refresh failures
+fail the automated run; stale pairings cannot be reported as a successful sync.
+A missing `YOUTUBE_API_KEY` also fails CI explicitly.
 
 ## Tests and local verification
 

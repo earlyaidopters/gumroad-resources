@@ -291,7 +291,10 @@ def main():
             lines.append("")
         open(os.path.join(dest, "README.md"), "w").write("\n".join(lines) + "\n")
 
-    entries.sort(key=lambda e: (not e["archived"], e["numeric_id"]), reverse=True)
+    entries.sort(key=lambda e: (not e["archived"],
+                                   -idx[e["permalink"]]["_source_order"]
+                                   if "_source_order" in idx.get(e["permalink"], {})
+                                   else e["numeric_id"]), reverse=True)
     live = [e for e in entries if not e["archived"]]
     arch = [e for e in entries if e["archived"]]
 

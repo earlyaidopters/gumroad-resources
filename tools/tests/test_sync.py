@@ -33,6 +33,7 @@ class PullTests(unittest.TestCase):
         self.addCleanup(self.temp.cleanup)
         self.root = Path(self.temp.name)
         self.ns = runpy.run_path(str(TOOLS / 'gumroad-pull'))
+        self.ns['main'].__globals__['load_token'] = lambda: ''
         self.pull = self.ns['pull_product']
         self.g = self.pull.__globals__
         self.row = {'permalink': 'p', 'name': 'Guide', 'status': 'published', 'id': 1}
@@ -361,3 +362,67 @@ elif '-c' in args:
 
 if __name__ == '__main__':
     unittest.main()
+
+class ApiTests(unittest.TestCase):
+    def setUp(self):
+        self.ns = runpy.run_path(str(TOOLS / 'gumroad-pull'))
+        self.g = self.ns['api_products'].__globals__
+
+    def test_pagination_preserves_historical_identity(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            folder = Path(tmp) / 'original-folder'
+            folder.mkdir()
+            (folder / 'meta.json').write_text(json.dumps({'external_id': 'id1', 'permalink': 'original'}))
+            calls = []
+            def api(path, token):
+                calls.append(path)
+                if path == '/v2/products':
+                    return {'products': [{'id': 'id1', 'name': 'Renamed', 'published': True,
+                                          'short_url': 'https://seller.gumroad.com/l/new-slug'}],
+                            'next_page_url': '/v2/products?page_key=next'}
+                return {'products': [{'id': 'id2', 'name': 'Draft', 'published': False,
+                                      'short_url': 'https://seller.gumroad.com/l/draft'}]}
+            self.g['api_get'] = api
+            rows = self.ns['api_products']('token', 0, tmp)
+            self.assertEqual(len(calls), 2)
+            self.assertEqual(rows[0]['permalink'], 'original')
+            self.assertEqual(rows[1]['status'], 'unpublished')
+
+    def test_repeated_cursor_fails(self):
+        self.g['api_get'] = lambda *a: {'products': [], 'next_page_url': '/v2/products'}
+        with self.assertRaisesRegex(ValueError, 'Repeated'):
+            self.ns['api_products']('token', 0)
+
+    def test_pagination_cannot_forward_token_off_origin(self):
+        with self.assertRaisesRegex(ValueError, 'pagination'):
+            self.ns['api_get']('https://example.test/steal', 'secret')
+
+    def test_api_signed_download_and_signature_rotation_cache(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            file = {'id': 'f1', 'name': 'guide', 'filetype': 'txt', 'size': 4,
+                    'url': 'https://files.gumroad.com/guide?signature=first'}
+            product = {'id': 'p1', 'name': 'Guide', 'published': True, 'files': [file],
+                       'rich_content': [{'description': {'type': 'doc', 'content': [
+                           {'type': 'fileEmbed', 'attrs': {'id': 'f1'}}]}}]}
+            self.g['api_get'] = lambda *a: {'product': product}
+            calls = []
+            def download(url, cookie, **kwargs):
+                self.assertEqual(cookie, '')
+                calls.append(url)
+                return 200, b'abcd', {}
+            self.g['http_get'] = download
+            row = {'_api_id': 'p1', 'permalink': 'stable', 'name': 'Guide', 'status': 'published'}
+            self.ns['pull_product'](row, 'private-token', tmp, delay=0)
+            file['url'] = 'https://files.gumroad.com/guide?signature=rotated'
+            _, meta = self.ns['pull_product'](row, 'private-token', tmp, delay=0)
+            self.assertEqual(meta['files'][0]['status'], 'cached')
+            self.assertEqual(len(calls), 1)
+            serialized = json.dumps(meta)
+            self.assertNotIn('signature', serialized)
+            self.assertNotIn('private-token', serialized)
+            self.assertIn('guide.txt', (Path(tmp) / 'guide/content.md').read_text())
+
+    def test_incomplete_api_payload_cannot_erase_files(self):
+        self.g['api_get'] = lambda *a: {'product': {'id': 'p1', 'name': 'Guide'}}
+        with self.assertRaisesRegex(ValueError, 'Incomplete'):
+            self.ns['api_payload']({'_api_id': 'p1', 'permalink': 'p'}, 'token')

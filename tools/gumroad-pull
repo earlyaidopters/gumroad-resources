@@ -1,15 +1,12 @@
 #!/usr/bin/env python3
 """gumroad-pull — companion to the gumroad CLI that pulls product FILES and CONTENT.
 
-The public Gumroad v2 API exposes product metadata only. This tool uses the
-seller's own dashboard session (cookie) to pull what the API can't:
-  - every product's attached files (zip/pdf/etc, via the seller download endpoint)
-  - every product's rich content page (prompts written directly in Gumroad),
-    converted from TipTap JSON to markdown
+Uses the seller API token for paginated products, rich content and signed file
+links. Dashboard cookies are retained only as a legacy fallback when no token
+is configured. Tokens and signed download links never enter mirror metadata.
 
-Auth: put your gumroad.com Cookie header string in ~/.config/gumroad/cookies
-(export with the Cookie-Editor extension -> Header String, must include the
-HttpOnly _gumroad_app_session cookie). Override path with GUMROAD_COOKIE_FILE.
+Auth: GUMROAD_ACCESS_TOKEN, or ~/.config/gumroad/token. Legacy dashboard mode:
+GUMROAD_COOKIE_FILE (default ~/.config/gumroad/cookies).
 
 Commands:
   gumroad-pull check                       verify the session cookie works
@@ -42,6 +39,94 @@ COOKIE_FILE = os.environ.get("GUMROAD_COOKIE_FILE",
 def die(msg, code=1):
     print(f"error: {msg}", file=sys.stderr)
     sys.exit(code)
+
+
+def load_token():
+    token = os.environ.get("GUMROAD_ACCESS_TOKEN", "").strip()
+    path = os.path.expanduser(os.environ.get("GUMROAD_TOKEN_FILE", "~/.config/gumroad/token"))
+    if not token and os.path.isfile(path):
+        token = open(path).read().strip().removeprefix("GUMROAD_ACCESS_TOKEN=")
+    return token
+
+
+def api_get(path, token):
+    # Pagination must stay on the fixed API origin; never forward credentials.
+    if not path.startswith("/v2/") or path.startswith("//"):
+        raise ValueError("Invalid Gumroad API pagination path")
+    req = urllib.request.Request("https://api.gumroad.com" + path,
+                                 headers={"Authorization": "Bearer " + token, "User-Agent": UA})
+    for attempt in range(4):
+        try:
+            with urllib.request.urlopen(req, timeout=120) as response:
+                data = json.load(response)
+            if data.get("success") is not True:
+                raise ValueError("Gumroad API did not confirm success")
+            return data
+        except urllib.error.HTTPError as exc:
+            if exc.code in (429, 500, 502, 503, 504) and attempt < 3:
+                time.sleep(2 ** attempt * 2)
+                continue
+            if exc.code in (401, 403):
+                die("Gumroad API authentication failed; refresh GUMROAD_ACCESS_TOKEN", code=3)
+            raise ValueError(f"Gumroad API request failed (HTTP {exc.code})") from None
+        except urllib.error.URLError:
+            if attempt < 3:
+                time.sleep(2 ** attempt)
+                continue
+            raise ValueError("Gumroad API network request failed") from None
+
+
+def api_products(token, delay=0.4, out_dir="resources"):
+    # Keep historical internal permalinks/folders when moving from dashboard to API.
+    identities = {}
+    for mp in glob.glob(os.path.join(out_dir, "*", "meta.json")):
+        old = json.load(open(mp))
+        if old.get("external_id"):
+            identities[old["external_id"]] = old["permalink"]
+    path, seen, rows = "/v2/products", set(), []
+    while path:
+        if path in seen:
+            raise ValueError("Repeated Gumroad pagination cursor")
+        seen.add(path)
+        data = api_get(path, token)
+        if not isinstance(data.get("products"), list):
+            raise ValueError("Malformed Gumroad API products")
+        for product in data["products"]:
+            if not product.get("id") or not product.get("name") or not isinstance(product.get("published"), bool):
+                raise ValueError("Incomplete Gumroad API product identity")
+            url = product.get("short_url") or product.get("url")
+            match = re.search(r"/l/([^/?#]+)", url or "")
+            if not match:
+                raise ValueError("Gumroad API product has no permalink")
+            rows.append({"permalink": identities.get(product["id"], match[1]),
+                         "_api_id": product["id"], "_source_order": len(rows),
+                         "name": product["name"], "url": url,
+                         "thumbnail": {"url": product.get("thumbnail_url")},
+                         "status": "published" if product["published"] and not product.get("deleted") else "unpublished",
+                         "price_formatted": product.get("formatted_price"),
+                         "_kind": "products", "_archived": False})
+        path = data.get("next_page_url")
+        if path:
+            time.sleep(delay)
+    return rows
+
+
+def api_payload(row, token):
+    data = api_get("/v2/products/" + urllib.parse.quote(row["_api_id"], safe=""), token)
+    product = data.get("product")
+    if not isinstance(product, dict) or not isinstance(product.get("files"), list) or not isinstance(product.get("rich_content"), list):
+        raise ValueError("Incomplete Gumroad API product content")
+    normalized = dict(product)
+    normalized["is_published"] = product.get("published")
+    files = []
+    for file in product["files"]:
+        if not file.get("id") or not file.get("name") or not file.get("url") or not isinstance(file.get("size"), int):
+            raise ValueError("Incomplete Gumroad API attachment")
+        files.append({"id": file["id"], "file_name": file["name"],
+                      "extension": file.get("filetype", ""), "file_size": file["size"],
+                      "url": file["url"]})
+    normalized["files"] = files
+    return product["id"], normalized, row["permalink"]
 
 
 def load_cookie():
@@ -78,7 +163,7 @@ def http_get(path, cookie, headers=None, binary=False, max_retries=3):
             if attempt < max_retries - 1:
                 time.sleep(2 ** attempt)
                 continue
-            die(f"network error fetching {url}: {e}")
+            die("network error fetching Gumroad content (URL withheld)")
 
 
 def inertia_page(path, cookie):
@@ -255,7 +340,8 @@ def file_sha256(path):
 
 def pull_product(row, cookie, out_dir, skip_existing=True, delay=0.4, max_file_mb=0):
     permalink = row["permalink"]
-    ext_id, product, uniq = get_edit_payload(permalink, cookie)
+    ext_id, product, uniq = (api_payload(row, cookie) if row.get("_api_id")
+                             else get_edit_payload(permalink, cookie))
     product_name = product.get("name") or row.get("name") or permalink
     slug = row.get("_slug") or slugify(product_name)
     pdir = os.path.join(out_dir, slug)
@@ -294,6 +380,8 @@ def pull_product(row, cookie, out_dir, skip_existing=True, delay=0.4, max_file_m
         size = f.get("file_size")
         # Hash the source identity, not private storage URLs, into public metadata.
         identity = {k: f.get(k) for k in ("id", "url", "file_size")}
+        if row.get("_api_id"):
+            identity["url"] = urllib.parse.urlsplit(f["url"])._replace(query="", fragment="").geturl()
         revision = hashlib.sha256(json.dumps(identity, sort_keys=True).encode()).hexdigest()
         record = {"file": fname, "source_revision": revision, "expected_bytes": size}
         if max_file_mb and size and size > max_file_mb * 1024 * 1024:
@@ -308,9 +396,13 @@ def pull_product(row, cookie, out_dir, skip_existing=True, delay=0.4, max_file_m
             downloaded.append({**old, **record, "status": "cached"})
             continue
         q = urllib.parse.urlencode({"product_file_ids[]": f["id"]})
-        status, data, _ = http_get(
-            f"/product_files_utility/product_files/{urllib.parse.quote(ext_id)}?{q}",
-            cookie, binary=True)
+        if row.get("_api_id"):
+            # Signed URL is sufficient; do not forward seller tokens or cookies to storage.
+            status, data, _ = http_get(f["url"], "", binary=True)
+        else:
+            status, data, _ = http_get(
+                f"/product_files_utility/product_files/{urllib.parse.quote(ext_id)}?{q}",
+                cookie, binary=True)
         if status != 200 or not data:
             raise ValueError(f"Attachment {fname}: download failed (HTTP {status})")
         if size is not None and len(data) != size:
@@ -374,7 +466,18 @@ def main():
     out_dir = kv.get("out", "./gumroad-export")
     delay = float(kv.get("delay", "0.4"))
     max_file_mb = int(kv.get("max-file-mb", "0"))
-    cookie = load_cookie()
+    token = load_token()
+    cookie = token or load_cookie()
+
+    if cmd == "check" and token:
+        data = api_get("/v2/products", token)
+        if not isinstance(data.get("products"), list) or not data["products"]:
+            raise ValueError("Gumroad API returned an empty or malformed catalog")
+        print(json.dumps({"ok": True, "auth": "api-token"}))
+        return
+
+    if token and "--archived" in flags:
+        raise ValueError("Archived dashboard enumeration requires legacy cookie mode")
 
     if cmd == "check":
         page_obj = inertia_page("/products", cookie)
@@ -384,13 +487,15 @@ def main():
         return
 
     if cmd == "products":
-        rows = list_products(cookie, archived="--archived" in flags, delay=delay)
+        rows = (api_products(token, delay, kv.get("existing", "resources")) if token else
+                list_products(cookie, archived="--archived" in flags, delay=delay))
         print(json.dumps(rows, indent=2, ensure_ascii=False))
         return
 
     if cmd == "pull":
         rows = (json.load(open(kv["index"])) if "index" in kv
-                else list_products(cookie, archived=False, delay=delay))
+                else (api_products(token, delay, out_dir) if token else
+                      list_products(cookie, archived=False, delay=delay)))
         if "--archived" in flags:
             rows += list_products(cookie, archived=True, delay=delay)
         if "--all" not in flags:

@@ -12,13 +12,19 @@ if [ -n "${GUMROAD_COOKIE:-}" ]; then
   unset GUMROAD_COOKIE
 fi
 
-echo "==> checking Gumroad session"
+if [ "${GITHUB_ACTIONS:-}" = "true" ] && [ -z "${GUMROAD_ACCESS_TOKEN:-}" ]; then
+  touch .sync-auth-failed
+  echo "::error::GUMROAD_ACCESS_TOKEN is missing from repository secrets"
+  exit 3
+fi
+
+echo "==> checking Gumroad authentication"
 if python3 tools/gumroad-pull check > "$sync_tmp/check.json"; then
   :
 else
   check_exit=$?
   if [ "$check_exit" -eq 3 ]; then touch .sync-auth-failed; fi
-  echo "Gumroad session check failed (exit $check_exit); see the error above."
+  echo "Gumroad authentication check failed (exit $check_exit); see the error above."
   exit "$check_exit"
 fi
 if ! python3 -c 'import json,sys; sys.exit(0 if json.load(open(sys.argv[1])).get("ok") is True else 1)' "$sync_tmp/check.json"; then
@@ -38,10 +44,13 @@ python3 tools/verify_sync.py --index "$sync_tmp/products_index.json" --pull reso
 
 if [ -n "${YOUTUBE_API_KEY:-}" ]; then
   echo "==> refreshing YouTube pairings"
-  GUMROAD_INDEX="$sync_tmp/products_index.json" python3 tools/youtube_map.py \
-    || echo "::warning::YouTube pairing refresh failed; existing pairings retained."
+  GUMROAD_INDEX="$sync_tmp/products_index.json" python3 tools/youtube_map.py
 else
-  echo "==> no YOUTUBE_API_KEY, keeping the existing pairing map"
+  if [ "${GITHUB_ACTIONS:-}" = "true" ]; then
+    echo "::error::YOUTUBE_API_KEY is required for automated video pairing"
+    exit 1
+  fi
+  echo "==> no YOUTUBE_API_KEY, keeping existing pairings for local verification"
 fi
 
 echo "==> rebuilding and checking the finished catalogue"
