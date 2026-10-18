@@ -285,3 +285,33 @@ class SourceImportIntegrationTests(unittest.TestCase):
             self.assertEqual(result.returncode,0,result.stderr)
             self.assertEqual((work/'source.txt').read_text(),'other publisher')
             self.assertEqual(git('show','origin/main:README.md',cwd=work),'regenerated')
+
+class FailureRecoveryTests(unittest.TestCase):
+    def test_recent_failed_run_triggers_retry_even_when_catalog_is_fresh(self):
+        calls=[]
+        at=datetime.now(timezone.utc)
+        def call(*args):
+            calls.append(args)
+            if args[:2]==('run','list'):
+                return json.dumps([{'databaseId':1,'status':'completed','conclusion':'failure',
+                                    'createdAt':at.isoformat()}])
+            return '[]' if args[:2]==('issue','list') else ''
+        report={'healthy':True,'faults':[],'last_verified_at':(at-timedelta(minutes=10)).isoformat()}
+        watchdog.repair(report,call)
+        self.assertFalse(report['healthy'])
+        self.assertTrue(any(c[:2]==('workflow','run') for c in calls))
+
+    def test_stuck_run_is_cancelled_before_recovery_dispatch(self):
+        calls=[]
+        def call(*args):
+            calls.append(args)
+            if args[:2]==('run','list'):
+                return json.dumps([{'databaseId':1,'status':'in_progress','conclusion':None,
+                                    'createdAt':(datetime.now(timezone.utc)-timedelta(hours=1)).isoformat()}])
+            return '[]' if args[:2]==('issue','list') else ''
+        report={'healthy':True,'faults':[]}
+        watchdog.repair(report,call)
+        self.assertFalse(report['healthy'])
+        cancel=next(i for i,c in enumerate(calls) if c[:2]==('run','cancel'))
+        dispatch=next(i for i,c in enumerate(calls) if c[:2]==('workflow','run'))
+        self.assertLess(cancel,dispatch)

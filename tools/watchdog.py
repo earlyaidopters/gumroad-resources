@@ -94,7 +94,8 @@ def inspect(repo, observation, at=None):
     if total is not None and total != len(products):
         faults.append(f'Public storefront has {total} products; GitHub has {len(products)}')
     return {'checked_at': at.isoformat(), 'healthy': not faults, 'faults': faults,
-            'last_full_sync_age_hours': round(age, 2), 'mirrored_products': len(products),
+            'last_full_sync_age_hours': round(age, 2), 'last_verified_at': status['verified_at'],
+            'mirrored_products': len(products),
             'public_observation': observation}
 
 
@@ -103,6 +104,20 @@ def gh(*args):
 
 
 def repair(report, call=gh):
+    runs = json.loads(call('run', 'list', '-R', REPOSITORY, '--workflow', 'sync.yml',
+                           '--limit', '10', '--json', 'databaseId,status,conclusion,createdAt'))
+    active = [r for r in runs if r['status'] in ('queued', 'in_progress', 'waiting', 'pending', 'requested')]
+    if runs and runs[0].get('conclusion') in ('failure', 'timed_out'):
+        last_verified = report.get('last_verified_at')
+        newer_failure = not last_verified or (
+            datetime.fromisoformat(runs[0]['createdAt'].replace('Z', '+00:00')) >
+            datetime.fromisoformat(last_verified))
+        if newer_failure:
+            report['faults'].append('Latest full sync failed after the last verified catalog')
+            report['healthy'] = False
+    if any((now() - datetime.fromisoformat(r['createdAt'].replace('Z', '+00:00'))).total_seconds() > 50 * 60 for r in active):
+        report['faults'].append('A full sync has been queued or running for over 50 minutes')
+        report['healthy'] = False
     issues = json.loads(call('issue', 'list', '-R', REPOSITORY, '--state', 'open',
                              '--limit', '100', '--json', 'number,title,body'))
     incident = next((i for i in issues if i['title'] == TITLE), None)
@@ -120,9 +135,6 @@ def repair(report, call=gh):
         call('issue', 'create', '-R', REPOSITORY, '--title', TITLE, '--body', body)
     elif incident.get('body') != body:
         call('issue', 'edit', str(incident['number']), '-R', REPOSITORY, '--body', body)
-    runs = json.loads(call('run', 'list', '-R', REPOSITORY, '--workflow', 'sync.yml',
-                           '--limit', '10', '--json', 'databaseId,status,createdAt'))
-    active = [r for r in runs if r['status'] in ('queued', 'in_progress', 'waiting', 'pending', 'requested')]
     for run in active:
         age = (now() - datetime.fromisoformat(run['createdAt'].replace('Z', '+00:00'))).total_seconds()
         if age <= 50 * 60:
@@ -146,7 +158,11 @@ def main():
         report = {'checked_at': now().isoformat(), 'healthy': False,
                   'faults': [f'Independent verification unavailable: {type(error).__name__}: {error}']}
     if a.repair:
-        repair(report)
+        try:
+            repair(report)
+        except Exception as error:
+            report["healthy"] = False
+            report["faults"].append(f"GitHub recovery request failed: {type(error).__name__}: {error}")
     if a.output:
         a.output.parent.mkdir(parents=True, exist_ok=True)
         a.output.write_text(json.dumps(report, indent=2) + '\n')
