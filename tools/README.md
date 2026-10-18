@@ -117,7 +117,11 @@ bash tools/sync.sh
 
 The last command reads the live seller catalogue and changes local generated
 mirror files. It never pushes to GitHub. Regression tests use synthetic products,
-files, cookies and mocked issue commands, with no production mutations.
+files, cookies and mocked issue commands, with no production mutations. The
+resilience suite also uses two real temporary Git clones to force a concurrent
+push, verifies source backup corruption detection, rejects changed upstream file
+identities, keeps draft and paid-product packages private, and injects a YouTube
+failure while confirming that resource building still completes.
 
 
 ## Original-package publication and durable retries
