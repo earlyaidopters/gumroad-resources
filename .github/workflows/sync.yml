@@ -34,7 +34,7 @@ jobs:
         run: pip install --quiet google-api-python-client
 
       # sync.sh refreshes the pairing map itself, between building the product
-      # index and rebuilding the repo, so it reuses the index and the cookie it
+      # index and rebuilding the repo, so it reuses the index and the API credentials it
       # already has. A YouTube Data API key reads public uploads and their
       # descriptions, which is everything the pairing needs, and cannot touch
       # the channel: the API refuses key auth for every write.

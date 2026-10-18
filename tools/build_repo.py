@@ -107,6 +107,11 @@ def main():
     ap.add_argument("--index", default=None)
     a = ap.parse_args()
     idx = load_index(a.index)
+    previous_ids = {}
+    previous_manifest = os.path.join(a.repo, "manifest.json")
+    if os.path.exists(previous_manifest):
+        previous_ids = {p["permalink"]: p.get("numeric_id", 0)
+                        for p in json.load(open(previous_manifest)).get("products", [])}
     ytmap = {}
     yt_path = os.path.join(a.repo, "tools", "youtube_map.json")
     if os.path.exists(yt_path):
@@ -240,7 +245,7 @@ def main():
         e = {
             "slug": slug, "name": meta.get("name"),
             "permalink": meta.get("permalink"),
-            "numeric_id": row.get("id", 0),
+            "numeric_id": row.get("id", previous_ids.get(permalink, 0)),
             "url": meta.get("url") or row.get("url"),
             "status": status, "archived": archived,
             "category": cats.get(permalink, UNCAT),

@@ -60,8 +60,10 @@ does not send email or Slack messages.
 
 The job has a 40-minute timeout. If GitHub never starts a scheduled run, that run
 cannot raise its own failure alert. The timestamp remains old and visible. For a
-strict freshness SLA, use an independent external monitor; none is configured
-by this change.
+freshness monitoring, a separate Codex heartbeat checks the live source and
+GitHub every 12 hours, retries stale/failed runs, and reports unrecovered failures
+in the owning conversation. That secondary check depends on its Codex host; the
+primary scheduled sync runs on GitHub independently of the local computer.
 
 ## API authentication
 

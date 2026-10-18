@@ -9,8 +9,8 @@ Auth: GUMROAD_ACCESS_TOKEN, or ~/.config/gumroad/token. Legacy dashboard mode:
 GUMROAD_COOKIE_FILE (default ~/.config/gumroad/cookies).
 
 Commands:
-  gumroad-pull check                       verify the session cookie works
-  gumroad-pull products [--archived]       list all products (JSON) w/ internal permalinks
+  gumroad-pull check                       verify the configured authentication works
+  gumroad-pull products [--archived]       list all products (JSON) with stable mirror identities
   gumroad-pull pull <permalink>... --out DIR   pull specific products
   gumroad-pull pull --all [--archived] --out DIR   pull everything
 Flags: --out DIR (default ./gumroad-export), --skip-existing (default on),

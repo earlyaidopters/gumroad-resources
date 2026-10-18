@@ -352,16 +352,12 @@ elif '-c' in args:
 ''')
                 fake.chmod(0o755)
                 env = {**os.environ, 'PATH': str(root / 'bin') + ':' + os.environ['PATH'], 'RUNNER_TEMP': d,
-                       'GUMROAD_COOKIE': 'fixture-only', 'MODE': mode}
+                       'GUMROAD_COOKIE': 'fixture-only', 'MODE': mode, 'GITHUB_ACTIONS': 'false'}
                 result = subprocess.run(['bash', 'tools/sync.sh'], cwd=root, env=env, capture_output=True)
                 self.assertNotEqual(result.returncode, 0)
                 self.assertNotIn('build_repo.py', (root / 'calls.txt').read_text())
                 self.assertEqual((root / '.sync-auth-failed').exists(), mode in ('auth', 'auth_exit'))
                 self.assertFalse(Path((root / 'cookie-path.txt').read_text()).exists())
-
-
-if __name__ == '__main__':
-    unittest.main()
 
 class ApiTests(unittest.TestCase):
     def setUp(self):
@@ -426,3 +422,29 @@ class ApiTests(unittest.TestCase):
         self.g['api_get'] = lambda *a: {'product': {'id': 'p1', 'name': 'Guide'}}
         with self.assertRaisesRegex(ValueError, 'Incomplete'):
             self.ns['api_payload']({'_api_id': 'p1', 'permalink': 'p'}, 'token')
+
+class ApiBuildOrderTests(unittest.TestCase):
+    def test_api_order_wins_over_alphabetical_and_preserves_existing_numeric_id(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            rows = []
+            for i, name in enumerate(('Zulu latest', 'Alpha older')):
+                slug = name.lower().replace(' ', '-')
+                folder = root / 'resources' / slug
+                (folder / 'files').mkdir(parents=True)
+                (folder / 'meta.json').write_text(json.dumps({'name': name, 'permalink': slug,
+                    'status': 'published', 'files': [], 'has_rich_content': False}))
+                rows.append({'name': name, 'permalink': slug, 'status': 'published', '_source_order': i})
+            (root / 'index.json').write_text(json.dumps(rows))
+            (root / 'manifest.json').write_text(json.dumps({'products': [
+                {'permalink': 'alpha-older', 'numeric_id': 42}]}))
+            result = subprocess.run([sys.executable, str(TOOLS / 'build_repo.py'), '--repo', tmp,
+                '--index', str(root / 'index.json')], capture_output=True, text=True)
+            self.assertEqual(result.returncode, 0, result.stderr)
+            products = json.loads((root / 'manifest.json').read_text())['products']
+            self.assertEqual([p['name'] for p in products], ['Zulu latest', 'Alpha older'])
+            self.assertEqual(products[1]['numeric_id'], 42)
+
+
+if __name__ == '__main__':
+    unittest.main()
