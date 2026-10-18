@@ -228,3 +228,60 @@ elif args and args[0].endswith('build_repo.py'):Path('built').touch()
             self.assertEqual(result.returncode,0,result.stderr)
             self.assertTrue((root/'built').exists())
             self.assertTrue((root/'.sync-video-failed').exists())
+
+class SourceImportIntegrationTests(unittest.TestCase):
+    def test_original_import_handles_git_empty_dirs_and_preserves_full_sync_stamp(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root=Path(tmp); folder=root/'resources/existing'; folder.mkdir(parents=True)
+            meta={'name':'Existing','external_id':'old-id','permalink':'old','status':'published',
+                  'files':[],'has_rich_content':False,'description_md':''}
+            (folder/'meta.json').write_text(json.dumps(meta))
+            (root/'manifest.json').write_text(json.dumps({'count':1,'products':[
+                {'name':'Existing','slug':'existing','permalink':'old','numeric_id':1,'status':'published','archived':False}]}))
+            stamp='<!-- sync-status:start -->\nold full-catalog timestamp\n<!-- sync-status:end -->'
+            (root/'README.md').write_text(stamp+'\n\n## 🆕 Latest 10 drops')
+            source=root/'guide.txt'; source.write_bytes(b'abcd')
+            raw={'id':'new-id','name':'New Guide','published':True,'price':0,
+                 'short_url':'https://markkashef.gumroad.com/l/new-guide','formatted_price':'CAD$0+',
+                 'files':[{'id':'file-id','name':'guide','filetype':'txt','size':4,
+                           'url':'https://files.gumroad.com/guide?signature=x'}], 'rich_content':[]}
+            pull=runpy.run_path(str(TOOLS/'gumroad-pull'))
+            stub = lambda *a: {'product': copy.deepcopy(raw)}
+            pull['api_get'] = stub
+            pull['api_payload'].__globals__['api_get'] = stub
+            result=source_mirror.import_source(root,{'product_id':'new-id','expected_file_ids':['file-id'],
+                'fingerprint':'fingerprint','enqueued_at':'2026-10-18T00:00:00Z'}, {'guide.txt':source},pull,'fixture')
+            self.assertEqual(result['status'],'ready')
+            self.assertTrue((folder/'files').is_dir())
+            self.assertEqual((root/'resources/new-guide/files/guide.txt').read_bytes(),b'abcd')
+            self.assertIn(stamp,(root/'README.md').read_text())
+            self.assertEqual(json.loads((root/'resources/new-guide/source-receipt.json').read_text())['fingerprint'],'fingerprint')
+
+    def test_cloud_push_conflict_reconciles_without_losing_remote_changes(self):
+        import os,shutil
+        with tempfile.TemporaryDirectory() as tmp:
+            root=Path(tmp); remote=root/'remote.git'; work=root/'work'; other=root/'other'
+            def git(*args,cwd=None):
+                p=subprocess.run(['git',*args],cwd=cwd,capture_output=True,text=True)
+                self.assertEqual(p.returncode,0,p.stderr)
+                return p.stdout
+            git('init','--bare','--initial-branch=main',str(remote))
+            git('clone',str(remote),str(work))
+            git('config','user.email','test@example.test',cwd=work);git('config','user.name','Test',cwd=work)
+            (work/'tools').mkdir();(work/'resources').mkdir()
+            (work/'README.md').write_text('old');(work/'manifest.json').write_text('{}')
+            (work/'sync-status.json').write_text('{}');(work/'tools/youtube_map.json').write_text('{}')
+            (work/'tools/categories.json').write_text('{}')
+            (work/'tools/sync.sh').write_text('#!/bin/bash\nprintf regenerated > README.md\n')
+            shutil.copyfile(TOOLS/'publish_sync.sh',work/'tools/publish_sync.sh')
+            git('add','.',cwd=work);git('commit','-m','base',cwd=work);git('push','origin','main',cwd=work)
+            git('clone',str(remote),str(other))
+            git('config','user.email','test@example.test',cwd=other);git('config','user.name','Test',cwd=other)
+            (other/'source.txt').write_text('other publisher')
+            git('add','.',cwd=other);git('commit','-m','concurrent source',cwd=other);git('push','origin','main',cwd=other)
+            (work/'README.md').write_text('candidate')
+            result=subprocess.run(['bash','tools/publish_sync.sh'],cwd=work,
+                env={**os.environ,'GITHUB_ACTIONS':'true'},capture_output=True,text=True)
+            self.assertEqual(result.returncode,0,result.stderr)
+            self.assertEqual((work/'source.txt').read_text(),'other publisher')
+            self.assertEqual(git('show','origin/main:README.md',cwd=work),'regenerated')
