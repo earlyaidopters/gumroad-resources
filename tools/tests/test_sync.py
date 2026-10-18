@@ -446,5 +446,26 @@ class ApiBuildOrderTests(unittest.TestCase):
             self.assertEqual(products[1]['numeric_id'], 42)
 
 
+class PairingTests(unittest.TestCase):
+    def test_instagram_resources_do_not_hide_missing_longform_video(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            (root / 'tools').mkdir()
+            products = [
+                {'slug': 'instagram', 'permalink': 'internal1', 'status': 'published'},
+                {'slug': 'longform', 'permalink': 'internal2', 'status': 'published'}]
+            for product in products:
+                folder = root / 'resources' / product['slug']
+                folder.mkdir(parents=True)
+                (folder / 'meta.json').write_text(json.dumps({'custom_permalink':
+                    'sf-ig-example' if product['slug'] == 'instagram' else 'guide'}))
+            (root / 'manifest.json').write_text(json.dumps({'products': products}))
+            (root / 'tools/youtube_map.json').write_text('{}')
+            result = subprocess.run([sys.executable, str(TOOLS / 'check_pairings.py'),
+                '--repo', tmp, '--window', '1'], capture_output=True, text=True)
+            self.assertEqual(result.returncode, 0, result.stderr)
+            self.assertEqual(result.stdout.strip(), 'longform')
+
+
 if __name__ == '__main__':
     unittest.main()

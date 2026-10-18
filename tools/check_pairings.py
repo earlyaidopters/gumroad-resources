@@ -1,10 +1,9 @@
 #!/usr/bin/env python3
 """Flag recent resources that have no YouTube video paired.
 
-The Gumroad sync cannot refresh tools/youtube_map.json (no YouTube auth in CI),
-so a new drop can land in the repo with no video link and nobody notices. This
-runs after every sync and reports the newest live resources that are missing a
-pairing, so the workflow can raise an issue instead of failing quietly.
+The Gumroad sync refreshes the pairing map from public YouTube descriptions.
+This check reports recent long-form resources still missing a video link.
+Instagram-origin resources are excluded from this main-channel check.
 
 Only the newest RECENT_WINDOW resources are considered; older ones legitimately
 predate the videos.
@@ -36,7 +35,16 @@ def main() -> int:
         p for p in products
         if p.get("status") == "published" and not p.get("archived")
     ]
-    for product in live[: a.window]:
+    youtube_resources = []
+    for product in live:
+        meta_path = os.path.join(a.repo, "resources", product["slug"], "meta.json")
+        meta = json.load(open(meta_path)) if os.path.exists(meta_path) else {}
+        is_instagram = any(str(value or "").startswith("sf-ig-") for value in (
+            product.get("permalink"), meta.get("custom_permalink"),
+            (meta.get("url") or "").split("/l/")[-1]))
+        if not is_instagram:
+            youtube_resources.append(product)
+    for product in youtube_resources[: a.window]:
         if product.get("permalink") not in ytmap:
             print(product.get("slug", product.get("permalink", "?")))
     return 0

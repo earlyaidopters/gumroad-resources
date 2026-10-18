@@ -79,6 +79,8 @@ jobs:
           body=$(printf 'These resources are live in the repo with no YouTube video linked, so members see a dash in the Watch column:\n\n%s\n\nCI refreshes the pairing map on every run, so this means the drop is genuinely unpaired: usually the video description has no Gumroad link yet, or the Skool lesson has not been posted. Add the link to the video description and the next sync picks it up. This issue closes itself once every recent drop is paired.' "$missing")
           if [ -z "$existing" ]; then
             gh issue create --title "$title" --body "$body"
+          elif [ "$(gh issue view "$existing" --json body --jq .body)" != "$body" ]; then
+            gh issue edit "$existing" --body "$body"
           fi
 
       - name: Resolve recovered sync incidents

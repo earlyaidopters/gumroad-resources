@@ -92,7 +92,9 @@ The old cookie path remains available for manual legacy dashboard pulls.
 `youtube_map.py` runs during sync when `YOUTUBE_API_KEY` is configured. It pairs
 videos by the Gumroad links in their public descriptions; unmatched resources
 retain existing pairings. A missing video does not mean the resource is missing.
-The existing pairing issue covers missing links among the newest resources,
+The existing pairing issue covers missing links among the newest YouTube
+resources; Instagram-only resources are excluded from that main-channel check.
+Its body updates when the missing set changes,
 without posting the same comment on every scheduled run. Pairing refresh failures
 fail the automated run; stale pairings cannot be reported as a successful sync.
 A missing `YOUTUBE_API_KEY` also fails CI explicitly.
