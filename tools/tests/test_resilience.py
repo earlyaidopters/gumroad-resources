@@ -164,3 +164,67 @@ class PublisherHookTests(unittest.TestCase):
         ns['verify_account'].__globals__['api_get'] = lambda *a: {'user': {'url': 'https://wrong.gumroad.com'}}
         with self.assertRaisesRegex(ValueError, 'unexpected storefront'):
             ns['verify_account']('token')
+
+class IntegrationBoundaryTests(unittest.TestCase):
+    def test_new_upload_identity_requires_a_new_queue_revision(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp); file = root / 'guide.txt'; file.write_text('same bytes')
+            first = source_mirror.enqueue(root/'state', 'p', [file], ['old'])
+            second = source_mirror.enqueue(root/'state', 'p', [file], ['new'])
+            self.assertNotEqual(first['fingerprint'], second['fingerprint'])
+
+    def test_publisher_patch_is_idempotent_and_backs_up_before_publish(self):
+        from install_local import patch_publisher
+        source = 'import base64, hashlib\n    # 5) publish\n    return {"permalink": permalink,}\n'
+        result = patch_publisher(source)
+        self.assertEqual(result, patch_publisher(result))
+        self.assertLess(result.index('queue_originals(ext_id'), result.index('# 5) publish'))
+        with self.assertRaises(ValueError):
+            patch_publisher('unrelated executable')
+
+    def test_local_monitor_continues_when_source_queue_fails(self):
+        import local_watchdog
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            with patch.object(local_watchdog, 'DEFAULT_STATE', root), \
+                 patch.object(local_watchdog, 'drain', side_effect=PermissionError('API token rejected')), \
+                 patch.object(local_watchdog, 'prepare_checkout', return_value=root), \
+                 patch.object(local_watchdog, 'public_catalog', return_value={}) as public, \
+                 patch.object(local_watchdog, 'inspect', return_value={'healthy': True, 'faults': []}), \
+                 patch.object(local_watchdog, 'repair') as repair:
+                self.assertEqual(local_watchdog.main(), 1)
+                public.assert_called_once()
+                repair.assert_called_once()
+                report = json.loads((root/'health.json').read_text())
+                self.assertIn('Source queue', report['faults'][0])
+
+    def test_auth_failure_is_catchable_by_independent_monitor(self):
+        import urllib.error
+        ns = runpy.run_path(str(TOOLS/'gumroad-pull'))
+        error = urllib.error.HTTPError('https://api.gumroad.com', 401, 'Unauthorized', {}, None)
+        with patch.object(ns['urllib'].request, 'urlopen', side_effect=error):
+            with self.assertRaises(ns['AuthenticationError']):
+                ns['api_get']('/v2/products', 'fixture-only')
+
+    def test_video_failure_does_not_block_resource_build(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp); (root/'tools').mkdir(); (root/'bin').mkdir(); (root/'resources').mkdir()
+            (root/'tools/sync.sh').write_text((TOOLS/'sync.sh').read_text())
+            fake = root/'bin/python3'
+            fake.write_text('#!' + sys.executable + '\n' + '''import json,sys
+from pathlib import Path
+args=sys.argv[1:]
+if 'check' in args:print(json.dumps({'ok':True}))
+elif 'products' in args:print('[]')
+elif args and args[0].endswith('youtube_map.py'):sys.exit(7)
+elif args and args[0].endswith('build_repo.py'):Path('built').touch()
+''')
+            fake.chmod(0o755)
+            import os
+            env={**os.environ,'PATH':str(root/'bin')+':'+os.environ['PATH'],
+                 'GITHUB_ACTIONS':'true','GUMROAD_ACCESS_TOKEN':'fixture','YOUTUBE_API_KEY':'fixture',
+                 'RUNNER_TEMP':tmp}
+            result=subprocess.run(['bash','tools/sync.sh'],cwd=root,env=env,capture_output=True,text=True)
+            self.assertEqual(result.returncode,0,result.stderr)
+            self.assertTrue((root/'built').exists())
+            self.assertTrue((root/'.sync-video-failed').exists())

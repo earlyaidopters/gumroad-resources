@@ -39,16 +39,23 @@ def main():
     os.chmod(state, 0o700)
     bindir = home / '.local/bin'
     bindir.mkdir(parents=True, exist_ok=True)
+    runtime = home / '.local/lib/gumroad-mirror'
+    runtime.mkdir(parents=True, exist_ok=True, mode=0o700)
+    for file in TOOLS.iterdir():
+        if file.is_file() and (file.suffix == '.py' or file.name == 'gumroad-pull'):
+            shutil.copyfile(file, runtime / file.name)
     wrapper = bindir / 'gumroad-mirror'
     wrapper.write_text('#!/bin/sh\nexec ' + shlex.quote(sys.executable) + ' ' +
-                       shlex.quote(str(TOOLS / 'source_mirror.py')) + ' "$@"\n')
+                       shlex.quote(str(runtime / 'source_mirror.py')) + ' "$@"\n')
     wrapper.chmod(0o755)
     hook = bindir / 'gumroad_mirror_hook.py'
-    if hook.is_symlink() or hook.exists():
-        if hook.resolve() != TOOLS / 'publish_hook.py':
+    if hook.is_symlink():
+        if hook.resolve() not in (TOOLS / 'publish_hook.py', runtime / 'publish_hook.py'):
             raise ValueError('Unexpected existing publisher hook')
-    else:
-        hook.symlink_to(TOOLS / 'publish_hook.py')
+        hook.unlink()
+    elif hook.exists():
+        raise ValueError('Unexpected existing publisher hook')
+    hook.symlink_to(runtime / 'publish_hook.py')
     publisher = bindir / 'gumroad-push'
     source = publisher.read_text()
     patched = patch_publisher(source)
@@ -58,7 +65,7 @@ def main():
         backup.write_text(source); backup.chmod(0o600)
         publisher.write_text(patched)
         publisher.chmod(0o755)
-    config = {'Label': LABEL, 'ProgramArguments': [sys.executable, str(TOOLS / 'local_watchdog.py')],
+    config = {'Label': LABEL, 'ProgramArguments': [sys.executable, str(runtime / 'local_watchdog.py')],
               'StartInterval': 3600, 'RunAtLoad': True,
               'EnvironmentVariables': {'PATH': str(bindir) + ':/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin'},
               'StandardOutPath': str(state / 'watchdog.log'),

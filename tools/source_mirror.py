@@ -151,6 +151,8 @@ def import_source(checkout, manifest, sources, pull, token):
     slug = None
     for entry in old_manifest['products']:
         meta = json.loads((checkout / 'resources' / entry['slug'] / 'meta.json').read_text())
+        # Git does not retain empty directories for content-only resources.
+        (checkout / 'resources' / entry['slug'] / 'files').mkdir(exist_ok=True)
         row = {'name': meta['name'], 'permalink': meta['permalink'], 'status': meta['status'],
                'url': meta.get('url'), '_archived': meta.get('archived', False),
                'id': entry.get('numeric_id', 0)}

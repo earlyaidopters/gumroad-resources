@@ -59,7 +59,8 @@ settings determine who receives issue and failed-run notifications; this tooling
 does not send email or Slack messages.
 
 The job has a 40-minute timeout and retries failed resource syncs up to three
-times before reporting failure. If GitHub never starts a scheduled run, that run
+times before reporting failure. If another publisher advances main before the push,
+the cloud job fetches it, reconciles again and retries without force-pushing. If GitHub never starts a scheduled run, that run
 cannot raise its own failure alert. The timestamp remains old and visible. For freshness monitoring, an hourly GitHub watchdog checks the storefront
 without Gumroad credentials, total product count, newest public product IDs,
 committed file hashes and the age of the last verified sync. It requests a new
@@ -124,7 +125,8 @@ files, cookies and mocked issue commands, with no production mutations.
 `python3 tools/install_local.py` installs `gumroad-mirror`, the `gumroad-push`
 source-backup hook, and `com.markkashef.gumroad-mirror-watchdog`. The installer
 preserves the pre-hook publisher privately and refuses to patch an unfamiliar
-publisher layout. All state lives in `~/.local/state/gumroad-mirror` with private
+publisher layout. The background runtime is installed in `~/.local/lib/gumroad-mirror`, so macOS
+Desktop-folder permissions cannot block it. All state lives in `~/.local/state/gumroad-mirror` with private
 permissions, outside Git.
 
 For free resources created using `gumroad-push create` or `from-package`, the
