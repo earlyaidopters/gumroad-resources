@@ -13,9 +13,9 @@
   "files": [
     {
       "file": "codex-claude-decision-tree.pdf",
-      "source_revision": "f4e47f75e76965e8ca5b5026e1d10e6da0684d48b400b708cf978bfd5b374a98",
+      "source_revision": "bb5484546da6eb24834ce219b6915cc422becb989c35b0de6f31160634bc8dde",
       "expected_bytes": 105769,
-      "status": "cached",
+      "status": "downloaded",
       "bytes": 105769,
       "source_sha256": "6f2b98de3ab8c8f8bf633ad22809148d240171d01d51ac299f2fee8c9dd6bf76",
       "local_sha256": "6f2b98de3ab8c8f8bf633ad22809148d240171d01d51ac299f2fee8c9dd6bf76"

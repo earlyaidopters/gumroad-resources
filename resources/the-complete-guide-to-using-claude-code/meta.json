@@ -13,9 +13,9 @@
   "files": [
     {
       "file": "Claude Code Complete Guide.pdf",
-      "source_revision": "f43b17afe598552c0610bc11adde27fc36c905da527568ff8f1eaaeb4ad5ee7b",
+      "source_revision": "c97d6bca9da9669fb6dc853d485f6f06be0098830c81d167d324d444e7085ed1",
       "expected_bytes": 2732631,
-      "status": "cached",
+      "status": "downloaded",
       "bytes": 2732631,
       "source_sha256": "425212301a9cc87e5c8cde55c5cee8740f66604d774899df32f619cedf75493d",
       "local_sha256": "425212301a9cc87e5c8cde55c5cee8740f66604d774899df32f619cedf75493d"

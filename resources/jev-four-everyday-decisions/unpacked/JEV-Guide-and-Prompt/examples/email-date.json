@@ -1,0 +1,39 @@
+{
+  "request": {
+    "model": "jev-1.13.0",
+    "state": {
+      "launch_owner": "Priya",
+      "messages": [
+        {
+          "sender": "Alex",
+          "time": "Monday",
+          "text": "Could Thursday work?"
+        },
+        {
+          "sender": "Priya",
+          "time": "Tuesday",
+          "text": "Confirmed for Friday."
+        },
+        {
+          "sender": "Alex",
+          "time": "Wednesday",
+          "text": "Are we switching to Saturday?"
+        }
+      ]
+    },
+    "questions": {
+      "decision": {
+        "type": "choice",
+        "instructions": "Which day did the launch owner most recently confirm? Suggestions and questions are not confirmations. Choose unknown without a supported confirmation.",
+        "criteria": {
+          "thursday": "Thursday explicitly confirmed",
+          "friday": "Friday explicitly confirmed",
+          "saturday": "Saturday explicitly confirmed",
+          "unknown": "No confirmation, conflicting evidence or another day"
+        }
+      }
+    }
+  },
+  "expected_choice": "friday",
+  "always_review": false
+}

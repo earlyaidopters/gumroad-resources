@@ -13,9 +13,9 @@
   "files": [
     {
       "file": "framework-comparison.html",
-      "source_revision": "5a69d9ee2992eef9efd670737d5fb1762934a94739cff6e38dbca2fe36cbf57f",
+      "source_revision": "ad166a1a635b672e91906efac1c64e705c295c6a215ee20339e20bf475c2d652",
       "expected_bytes": 110960,
-      "status": "cached",
+      "status": "downloaded",
       "bytes": 110960,
       "source_sha256": "49502616932567733246c9e3e920214bee1563888f0113e93a782ee0f8d29e1b",
       "local_sha256": "49502616932567733246c9e3e920214bee1563888f0113e93a782ee0f8d29e1b"

@@ -13,9 +13,9 @@
   "files": [
     {
       "file": "skill_examples.zip",
-      "source_revision": "6a091f996b2cab55a6ff4bacb18ed7affd2b5c2f7786ab834d93237ecd9e4fa5",
+      "source_revision": "9c04c3ccd4dafc7b47a6e002092950654aec925c9325b9fe7ca3e8370c33e7cd",
       "expected_bytes": 32396,
-      "status": "cached",
+      "status": "downloaded",
       "bytes": 32396,
       "source_sha256": "d594904d61dc0f72a880a7b44ae74b16a51a1943bea269ac17a0da04c74d1a09",
       "local_sha256": "d594904d61dc0f72a880a7b44ae74b16a51a1943bea269ac17a0da04c74d1a09",
@@ -23,9 +23,9 @@
     },
     {
       "file": "skills_guide_diagrams.zip",
-      "source_revision": "61b2163e4736a9ddea83e98d1895c2da05e4ecc6b8f1674ef0cae2169b3137e8",
+      "source_revision": "4dab45d98255a3688d798b36b58996761986e3d98fa4a028af827be659793f1d",
       "expected_bytes": 36318165,
-      "status": "cached",
+      "status": "downloaded",
       "bytes": 36318165,
       "source_sha256": "f1d11375b705e50fc877ed3c5ee3434f8938ac1414818bb26b53e8469252166d",
       "local_sha256": "f1d11375b705e50fc877ed3c5ee3434f8938ac1414818bb26b53e8469252166d",
@@ -33,9 +33,9 @@
     },
     {
       "file": "The-Complete-Guide-to-Building-Skill-for-Claude.pdf",
-      "source_revision": "bbe4a9b647418631d1684698a95a07c10602d7def8068844760fd60fe4c67467",
+      "source_revision": "c0c539a3867868fcdd6921f20043532bcadf633b12a11dad3f62338c4797cecb",
       "expected_bytes": 561652,
-      "status": "cached",
+      "status": "downloaded",
       "bytes": 561652,
       "source_sha256": "66cbcc06df9271e0bb59986582646f0c4c7c94697554f893f937a5a55cef736d",
       "local_sha256": "66cbcc06df9271e0bb59986582646f0c4c7c94697554f893f937a5a55cef736d"

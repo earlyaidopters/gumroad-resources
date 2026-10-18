@@ -13,18 +13,18 @@
   "files": [
     {
       "file": "definition-of-done-template.pdf",
-      "source_revision": "0399b345338f9befc59dd5a1b9e3cb6362abc082958ed2ddff282beb428ea762",
+      "source_revision": "7fddbdb92d35ae7f6621df2acca0705114449bb40e53b1c754422c767ed0cf11",
       "expected_bytes": 4994,
-      "status": "cached",
+      "status": "downloaded",
       "bytes": 4994,
       "source_sha256": "12cf072c3cc9440433ae9130a8fa092738030a6e8523ee77c5a960b1e4b83cb9",
       "local_sha256": "12cf072c3cc9440433ae9130a8fa092738030a6e8523ee77c5a960b1e4b83cb9"
     },
     {
       "file": "definition-of-done-template.txt",
-      "source_revision": "f447dd0055c0ee85783e1c5b508d86122de424a428a3e69ca40a2acc415045f6",
+      "source_revision": "b1ddf0da0055c82794f8cd599dca6a468356e3374474ce7e7195457a3ef136ae",
       "expected_bytes": 2363,
-      "status": "cached",
+      "status": "downloaded",
       "bytes": 2363,
       "source_sha256": "6bb903c63276dc333ceac80c79702d2d6e7dde9e45dc7c9d1417170238420a5c",
       "local_sha256": "6bb903c63276dc333ceac80c79702d2d6e7dde9e45dc7c9d1417170238420a5c"

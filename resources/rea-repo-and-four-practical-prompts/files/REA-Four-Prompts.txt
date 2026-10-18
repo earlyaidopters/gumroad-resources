@@ -1,0 +1,14 @@
+REA: FOUR PRACTICAL PROMPTS
+Replace every [placeholder] before running a prompt. Run one phase at a time.
+
+1. CHECK AND SET UP
+I want to use the official REA project at https://github.com/morluto/rea with [Claude Code or Codex] on [operating system]. My target is [local app/path I own or may inspect]. Read the current official README and installation guide first. Check my environment and report missing prerequisites. List the exact proposed install commands, provider requirements, agent configuration changes, files affected and rollback steps. Ask before installing a provider or changing configuration. After setup, verify the registered tools and report which checks actually ran. Do not call setup successful from a config file alone.
+
+2. UNDERSTAND ONE FEATURE
+Use REA to investigate [one specific feature] in [target and version]. My concrete question is [question]. Start with the smallest relevant scope and preserve the original files. For every finding, give the observation, evidence location or tool result, and whether it is observed, inferred or still unknown. Trace the relevant inputs, state changes and outputs. Identify any network or server dependency that cannot be explained from local files. End with a short specification I can review. Stop before implementation or runtime actions outside this scope.
+
+3. BUILD A SMALL VERSION
+Using the reviewed specification and evidence from the investigation, implement [feature] in my project at [path]. The acceptance checks are [three concrete checks]. Preserve the target app and my unrelated changes. Use original implementation code; identify any proposed reused code or assets and their licenses before adding them. Write a brief plan, implement the smallest working version, and run the acceptance checks. Limit this phase to [time or usage budget]. If still stuck when the budget is reached, stop and report the blocker, attempted fixes, evidence and next smallest step. Do not claim to reproduce private server functionality or unobserved behaviour.
+
+4. CHECK THE RESULT
+Compare the implementation with the reviewed specification. Run these inputs: [normal case], [edge case], [failure case]. Report expected result, actual result, test evidence and pass/fail for each. Inspect regressions in the files changed. Mark anything you could not test as not run. List remaining mismatches by user impact. Propose the smallest next fix, and stop after at most two review rounds unless I explicitly extend the scope. A passing synthetic test does not prove compatibility with every file or app version.

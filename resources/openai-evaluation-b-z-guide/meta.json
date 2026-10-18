@@ -13,90 +13,90 @@
   "files": [
     {
       "file": "custom_prompt_dataset.jsonl",
-      "source_revision": "eaa95e1fefa8f0a7cb5bebd0d9bf03c65651c561001f689c727c937b7413a8a1",
+      "source_revision": "8cccb6eff220c5cec3813fc0bf1890c56a53c039c61e107643fc6d3f96215737",
       "expected_bytes": 1126,
-      "status": "cached",
+      "status": "downloaded",
       "bytes": 1126,
       "source_sha256": "6069b8cc3064a6313f7c4e3dbb37aee3b970dbaa9cd8267366fbb7541ee24755",
       "local_sha256": "6069b8cc3064a6313f7c4e3dbb37aee3b970dbaa9cd8267366fbb7541ee24755"
     },
     {
       "file": "customer_support_responses.jsonl",
-      "source_revision": "bf556ca0eb05e0841a40c66c2b90a140977d0f2e36b71dde0c48ea2662b24153",
+      "source_revision": "153bdbefd63ba9a69b8c22458e7bee36a98d1517570c14926595bf397756ac30",
       "expected_bytes": 1711,
-      "status": "cached",
+      "status": "downloaded",
       "bytes": 1711,
       "source_sha256": "cb1d38e93f539aab60e74f98b59cc604a4a64fd49850cec9cd33416f2932e08d",
       "local_sha256": "cb1d38e93f539aab60e74f98b59cc604a4a64fd49850cec9cd33416f2932e08d"
     },
     {
       "file": "ends_with_thank_you_dataset.jsonl",
-      "source_revision": "0b17b7c151c4e0e3a8d55497957e3b73752e5b11b367d0ec2921e0cf242c23e5",
+      "source_revision": "1eeab1d7c2906345a552ab159d009c4a34b3ab9d0baa39d8e441989e2834fe62",
       "expected_bytes": 1538,
-      "status": "cached",
+      "status": "downloaded",
       "bytes": 1538,
       "source_sha256": "4983ad9d2cfd36bb3fd6d82896427c3d208fb68697b92356f0b2630d441294f8",
       "local_sha256": "4983ad9d2cfd36bb3fd6d82896427c3d208fb68697b92356f0b2630d441294f8"
     },
     {
       "file": "factuality_dataset.jsonl",
-      "source_revision": "e2c7a87971e0c924d0aceffc9b37a86b4586e65e6a8fbcaf5eae8d88f4a7cd39",
+      "source_revision": "a6a8960e9f73e27baa95c1f904e5338890122236944e667d00ab7db607b23d52",
       "expected_bytes": 1023,
-      "status": "cached",
+      "status": "downloaded",
       "bytes": 1023,
       "source_sha256": "e1e9a829b04b3220138e4e2118ccc66b536d30a2264b27d9a602279d074e3fd0",
       "local_sha256": "e1e9a829b04b3220138e4e2118ccc66b536d30a2264b27d9a602279d074e3fd0"
     },
     {
       "file": "json_validation_dataset.jsonl",
-      "source_revision": "2afd4430223c03f50f18336c9541c5f8c8e57b179b60f648596e21e592e242d6",
+      "source_revision": "b72864e81ee39b512be973a6a698f6fa14a0851107ac46c7ff53c943d6e425c1",
       "expected_bytes": 935,
-      "status": "cached",
+      "status": "downloaded",
       "bytes": 935,
       "source_sha256": "cdcd1ba617eab81ad95572fd98f9017c01e0a4dab7b306f56df2b7be1bb6e468",
       "local_sha256": "cdcd1ba617eab81ad95572fd98f9017c01e0a4dab7b306f56df2b7be1bb6e468"
     },
     {
       "file": "product_reviews.jsonl",
-      "source_revision": "e185c0faa6d35dd3e75a77e886a8dfc595c354eb04ac75521d32171db37fd785",
+      "source_revision": "2d1bb9aacc4d2eac0f9d156611829d1e9680f49f1e440e4200c79e9eecb25f7e",
       "expected_bytes": 2507,
-      "status": "cached",
+      "status": "downloaded",
       "bytes": 2507,
       "source_sha256": "6f0d28d45fdb398009036a13b06498eadc1a0cb6c45187bbe2f64e70c5e21b01",
       "local_sha256": "6f0d28d45fdb398009036a13b06498eadc1a0cb6c45187bbe2f64e70c5e21b01"
     },
     {
       "file": "schema_validation_dataset.jsonl",
-      "source_revision": "8ce88d4764f1a49579ea0d9e7678298accd0e6acdc3bf762c0355a11a9088bdb",
+      "source_revision": "ea948cd97c77dadcaa588ee19606a7c8bf05f4c70b7c3bd89dceeff5e07d6815",
       "expected_bytes": 1270,
-      "status": "cached",
+      "status": "downloaded",
       "bytes": 1270,
       "source_sha256": "ba1f440f116dee844cafc2d1ddcfdc9ffcc67438f1787eb6f44758bbf50f80e9",
       "local_sha256": "ba1f440f116dee844cafc2d1ddcfdc9ffcc67438f1787eb6f44758bbf50f80e9"
     },
     {
       "file": "semantic_similarity_dataset.jsonl",
-      "source_revision": "021026be104bebce3fcfe914da4d26cbd3dbaa65b652400ad2b217581783e8d8",
+      "source_revision": "bf8479a9eb10f38de852313435e89211919300d484332f00b12f5a7c10127435",
       "expected_bytes": 1933,
-      "status": "cached",
+      "status": "downloaded",
       "bytes": 1933,
       "source_sha256": "e7c6eee29a4073579fe97b08a04e1f98c61f443589db71476cfb57f9e16a77dd",
       "local_sha256": "e7c6eee29a4073579fe97b08a04e1f98c61f443589db71476cfb57f9e16a77dd"
     },
     {
       "file": "simple_tenant_dataset.jsonl",
-      "source_revision": "407be19e88e2bcc97d698aaaea50fcfa97891d67b92232d3e5667d2433f8941a",
+      "source_revision": "e0fc0ad7fa8f187ba886a8a71e1c52728c6feecabd6f35a0a52c42ca9b9f70d1",
       "expected_bytes": 902,
-      "status": "cached",
+      "status": "downloaded",
       "bytes": 902,
       "source_sha256": "9347e615deb15c3f1d1b1f76f9fce76acfab7bea990642dd7a39a3b4dcc790fb",
       "local_sha256": "9347e615deb15c3f1d1b1f76f9fce76acfab7bea990642dd7a39a3b4dcc790fb"
     },
     {
       "file": "Evaluation Framework.pdf",
-      "source_revision": "2fc64f7736fa87a270f2c2e7622cd22bf73c38f533773f4cb7b8ef06a33a0b9c",
+      "source_revision": "b6e85b9bbc8b1bcfe0324562cac08d476e3ff8a9eab6f76c1ad4c3bc874b282f",
       "expected_bytes": 914751,
-      "status": "cached",
+      "status": "downloaded",
       "bytes": 914751,
       "source_sha256": "63de38dd0a2c844fe3fe5c37a18be5c22330de74e123bf2032420f227645c12b",
       "local_sha256": "63de38dd0a2c844fe3fe5c37a18be5c22330de74e123bf2032420f227645c12b"

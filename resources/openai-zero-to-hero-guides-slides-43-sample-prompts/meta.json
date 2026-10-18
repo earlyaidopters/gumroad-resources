@@ -13,9 +13,9 @@
   "files": [
     {
       "file": "How to Prompt Like a Pro.pdf",
-      "source_revision": "8884144946038611c8e53c2f04af7f4580c8d49d8fd7edcb00a1f4a4a97c4579",
+      "source_revision": "e7f734710403ca8723f462586d0e77395d763b71bcb4aab954f59cdb34f14fe6",
       "expected_bytes": 276429,
-      "status": "cached",
+      "status": "downloaded",
       "bytes": 276429,
       "source_sha256": "407e657ba372560495abf9162a75e10dc862db6e4178c7011dcab7d63fd036b1",
       "local_sha256": "407e657ba372560495abf9162a75e10dc862db6e4178c7011dcab7d63fd036b1"

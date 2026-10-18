@@ -1,0 +1,26 @@
+{
+  "name": "OrcaReplay Starter Kit",
+  "external_id": "T6eWAwRV3FyvsCUGhb63Uw==",
+  "permalink": "sf-ig-orca-replay-starter",
+  "unique_permalink": "sf-ig-orca-replay-starter",
+  "custom_permalink": "sf-ig-orca-replay-starter",
+  "url": "https://markkashef.gumroad.com/l/sf-ig-orca-replay-starter",
+  "status": "published",
+  "archived": false,
+  "kind": "products",
+  "price_formatted": "CAD$0+",
+  "description_md": "Check what your coding agent did before accepting its completion claim.\n\nRepository: The official OrcaReplay source link. First prompt: Try the included recording in a disposable project. Second prompt: Compare a claimed fix with recorded evidence and fresh tests.\n\nFree Markdown guide in a ZIP. Includes trace-handling notes. Documentation inspected; prompts have not been tested end to end. New model calls may cost extra.",
+  "files": [
+    {
+      "file": "OrcaReplay-Starter-Kit.zip",
+      "source_revision": "c91151de77593f3a11d986bcf28f274a946e810a7f4f431b286df3d6872fb471",
+      "expected_bytes": 1446,
+      "status": "downloaded",
+      "bytes": 1446,
+      "source_sha256": "41f7892820e50e6a2a24dbaa0a75da2c6b46cf0d01459af306f195b515771544",
+      "local_sha256": "41f7892820e50e6a2a24dbaa0a75da2c6b46cf0d01459af306f195b515771544",
+      "unpacked_sha256": "41f7892820e50e6a2a24dbaa0a75da2c6b46cf0d01459af306f195b515771544"
+    }
+  ],
+  "has_rich_content": true
+}

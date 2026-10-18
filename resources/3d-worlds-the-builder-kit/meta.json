@@ -13,9 +13,9 @@
   "files": [
     {
       "file": "3D-Worlds-Builder-Kit.zip",
-      "source_revision": "fc8c8f02d75f8fe1d273a36e200b6f5b7d9564f78a9147afcc06481fc6dc3ff9",
+      "source_revision": "f42d037fe67dced13cd93cb0f7063f5276adf47c49780aa9f31512ab04f86627",
       "expected_bytes": 3677165,
-      "status": "cached",
+      "status": "downloaded",
       "bytes": 3677165,
       "source_sha256": "fa91443c918dcc2060e9fe661ed85a9963d1601e762d047e0f2cf1c091f0f471",
       "local_sha256": "fa91443c918dcc2060e9fe661ed85a9963d1601e762d047e0f2cf1c091f0f471",
@@ -23,9 +23,9 @@
     },
     {
       "file": "Build-a-Learning-World.pdf",
-      "source_revision": "75bf62ee8acf7bb483deb1e53edf7f8012728a47a680494afa9d7466723e8be4",
+      "source_revision": "a52f1ade2d962028660e405f534f6046f68e418cdb7d3bb99b802cd7135baf3a",
       "expected_bytes": 4483810,
-      "status": "cached",
+      "status": "downloaded",
       "bytes": 4483810,
       "source_sha256": "f8cc72225512196e5e65288be4d6f195cd9b5962facf13eab9dcd117407e9053",
       "local_sha256": "f8cc72225512196e5e65288be4d6f195cd9b5962facf13eab9dcd117407e9053"

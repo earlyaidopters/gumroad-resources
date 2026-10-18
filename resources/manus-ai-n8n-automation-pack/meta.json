@@ -13,9 +13,9 @@
   "files": [
     {
       "file": "massage_therapy.zip",
-      "source_revision": "6ccd3df4c18ecae3a71508613445e572ba1b1af6a073f0e48f7712a9a55007b3",
+      "source_revision": "ba8bde42fb8216c3ee21f1efba1a32f1b2a153bd10122610abde25e5ec5c78b3",
       "expected_bytes": 89691,
-      "status": "cached",
+      "status": "downloaded",
       "bytes": 89691,
       "source_sha256": "94eb4fa6afbfc0ce44ba44f75f3b3065896f8822fd3fa4c82f64a1e178239cc6",
       "local_sha256": "94eb4fa6afbfc0ce44ba44f75f3b3065896f8822fd3fa4c82f64a1e178239cc6",
@@ -23,9 +23,9 @@
     },
     {
       "file": "venture_capital.zip",
-      "source_revision": "89142fd2cceefcf31f8902bf53645cc95a41b869eef7af0daf3b123490a82003",
+      "source_revision": "24f1b019129aedafb6d3dc1d5595b81712adc9e3fe90db5d5b97ecc36a76e312",
       "expected_bytes": 99236,
-      "status": "cached",
+      "status": "downloaded",
       "bytes": 99236,
       "source_sha256": "b97c527cfb7c7fa45a60e82edc63b10bec529f7bf562e41bb1eba04279802b7b",
       "local_sha256": "b97c527cfb7c7fa45a60e82edc63b10bec529f7bf562e41bb1eba04279802b7b",
@@ -33,9 +33,9 @@
     },
     {
       "file": "coaching_standard.zip",
-      "source_revision": "47f648e2ed54fa10a89c9408456ba563209a140c691b3e3a171a13e1cc3e18c0",
+      "source_revision": "5be6825cc20a0eaec283323ee187946cf7059b495900a2597936e358e9fc48ac",
       "expected_bytes": 70706,
-      "status": "cached",
+      "status": "downloaded",
       "bytes": 70706,
       "source_sha256": "fb1331e7c5fa7ac12408280e25d2319b7cab69cf0b46b998fe23012e990378e5",
       "local_sha256": "fb1331e7c5fa7ac12408280e25d2319b7cab69cf0b46b998fe23012e990378e5",
@@ -43,9 +43,9 @@
     },
     {
       "file": "coaching_high.zip",
-      "source_revision": "1f3369c4dd1c63b1fbd56eb087ae6e9c7ea7f8d2f503b1df25e4990bdc6ed59d",
+      "source_revision": "bf5165192113f9ccd612b1613043ef8c326066ef4dfa3e6435b1a03cc2926063",
       "expected_bytes": 58639,
-      "status": "cached",
+      "status": "downloaded",
       "bytes": 58639,
       "source_sha256": "7daa140097b381d900908dc527a21efef96a0c8b3890439c63eeae51961fac10",
       "local_sha256": "7daa140097b381d900908dc527a21efef96a0c8b3890439c63eeae51961fac10",

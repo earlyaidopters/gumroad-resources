@@ -13,9 +13,9 @@
   "files": [
     {
       "file": "OpenAI o1.pdf",
-      "source_revision": "46ea96a509f5d41c82cb037163e38db54e0d67be574bc1b5c7b47b3270d6a7d9",
+      "source_revision": "e2b0800027e88928c38a092a23400b7370cd8502679b968e308923a2d915a35b",
       "expected_bytes": 272288,
-      "status": "cached",
+      "status": "downloaded",
       "bytes": 272288,
       "source_sha256": "e947017f35228a26d79949cdf31b1f5fa62adb6678ac044617f49b549942446f",
       "local_sha256": "e947017f35228a26d79949cdf31b1f5fa62adb6678ac044617f49b549942446f"

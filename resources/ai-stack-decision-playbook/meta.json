@@ -13,9 +13,9 @@
   "files": [
     {
       "file": "How to Pick the Right AI Stack.pdf",
-      "source_revision": "c964d30aa37234ec0c3508b58d0279e7ff2b969b687032ab35e6e76bae0aa730",
+      "source_revision": "a5122c962f78f4719757ba47d9b7361357358696c922d33f7d699d5f8d0dbb8b",
       "expected_bytes": 731397,
-      "status": "cached",
+      "status": "downloaded",
       "bytes": 731397,
       "source_sha256": "8815e34245ffac2b480e5c7983fff79a43220cf55b127e7ffb692fca8e9c4ca8",
       "local_sha256": "8815e34245ffac2b480e5c7983fff79a43220cf55b127e7ffb692fca8e9c4ca8"

@@ -13,9 +13,9 @@
   "files": [
     {
       "file": "sample_agent_army.zip",
-      "source_revision": "527e3c16f080dad0afe875c1b056c23eadc8bbb4414cdb6bf1990c46f077ca0c",
+      "source_revision": "5fa58fa5123552cfdfaba2cadd71d07ff3f5c315326e293299952c5c4963a058",
       "expected_bytes": 30436,
-      "status": "cached",
+      "status": "downloaded",
       "bytes": 30436,
       "source_sha256": "9d567990900546ffdd17d353f2c242ced41094b916bbcda3a30c3660e76b4e0a",
       "local_sha256": "9d567990900546ffdd17d353f2c242ced41094b916bbcda3a30c3660e76b4e0a",

@@ -13,9 +13,9 @@
   "files": [
     {
       "file": "Fable-5-1-System-Prompt-Field-Guide.pdf",
-      "source_revision": "5eebea0c6806bc6d07f89d10303a80965b944bd0f9f382a0bbbca18777fc727f",
+      "source_revision": "39fb4aa26d1498f4a721bb5e5c7b513de35b6e3fb512086ed951b20f357c3323",
       "expected_bytes": 2386953,
-      "status": "cached",
+      "status": "downloaded",
       "bytes": 2386953,
       "source_sha256": "4d8754b184bb86809221b5da1d391d847ff7229bc8c6544caa75da5a0c510d7a",
       "local_sha256": "4d8754b184bb86809221b5da1d391d847ff7229bc8c6544caa75da5a0c510d7a"

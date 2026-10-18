@@ -13,9 +13,9 @@
   "files": [
     {
       "file": "agent_team_prompts.pdf",
-      "source_revision": "c6078357c2c84941426ffcd195ca4804072832e8b47baf810ac45786b0d9b60f",
+      "source_revision": "43196031813ffb9f845ffa41ede6d3326d1091db429f177ba2c3a984a24fe832",
       "expected_bytes": 23886,
-      "status": "cached",
+      "status": "downloaded",
       "bytes": 23886,
       "source_sha256": "847ac01e7ea5c57395fbf3e7d7df9eb6bc8c56861845387e05646f0815cdeedc",
       "local_sha256": "847ac01e7ea5c57395fbf3e7d7df9eb6bc8c56861845387e05646f0815cdeedc"

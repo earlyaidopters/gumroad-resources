@@ -1,0 +1,63 @@
+FINISH: A GOAL WITH A FINISH LINE
+Mark Kashef
+
+Fill in Task, Deliverable, Scope and Checks, then paste this into Codex.
+If you already started a goal, use it to clarify the remaining work.
+
+Task:
+Deliverable and where to save it:
+Allowed files, systems and actions:
+Out of scope:
+
+Done means all of these checks pass:
+1. Input or action:
+   Expected result:
+   Evidence to return:
+2. Input or action:
+   Expected result:
+   Evidence to return:
+3. Input or action:
+   Expected result:
+   Evidence to return:
+
+Before working, identify any missing detail that changes the result. Ask only for that detail. Otherwise, carry out the task within the scope above.
+
+If you're still stuck after 2 hours, stop and tell me why. Count elapsed time from the start of this task; do not restart the clock after a retry. If you cannot measure elapsed time reliably, tell me before starting so I can set an external timer.
+
+Stop sooner if the same check fails twice without new evidence, required access is missing, or the next step needs permission I have not granted. Save the work already done. Do not lower the checks, hide failures or mark an unrun check as passed.
+
+When you stop, return:
+- The deliverable or saved partial work.
+- Each check marked PASS, FAIL or NOT RUN, with its evidence.
+- What blocked you and what you tried.
+- The smallest next step, and what you need from me.
+
+When every check passes, stop working and report the evidence. Do not keep polishing or expand the task.
+
+IMPORTANT: This is a behavioral instruction, not an enforced timer or spending cap. It can be missed. For expensive work, use the tool's actual limits where available, set an external timer, and review progress before leaving it unattended. A two-hour stop does not guarantee a particular cost.
+
+
+WORKED EXAMPLE: CHECKOUT REPAIR
+Illustrative task specification. This example has not been executed.
+
+Task: Fix the checkout on the local preview of our demo store.
+Deliverable: A reviewable code change, test results and screenshots saved in the project.
+Scope: Checkout form, its validation and order-confirmation screen. Use synthetic customers and the existing payment sandbox.
+Out of scope: Live payments, production publishing, new dependencies and changes to product prices or page design.
+
+Done means all three checks pass:
+1. Empty required fields show useful errors. No payment or order request is sent. Return a screenshot and request log.
+2. A valid synthetic order with the sandbox success response produces exactly one order and its confirmation. Return the test output and order identifier.
+3. A declined sandbox payment shows a recoverable error and creates no paid order. Return a screenshot and the test output.
+
+If you're still stuck after 2 hours, stop and tell me why. Count elapsed time from the start; do not reset it after a retry. Stop earlier if the same check fails twice without new evidence, sandbox access is missing or you need an out-of-scope change. Save partial work and return PASS, FAIL or NOT RUN for each check with evidence. Never run a real charge.
+
+Stop once all checks pass. Return the changed files and evidence; leave production publishing for my review.
+
+HOW TO USE THE STOP REPORT
+If a check says NOT RUN, the task is still unverified. If the blocker is missing access, supply only the access required for that check. If the same fix keeps failing, reduce the task to that failure before starting another goal.
+
+A useful report might say: "Check 1 passed. Checks 2 and 3 were not run because the payment sandbox is unavailable. The validation change is saved. Next step: restore sandbox access and run the two payment checks."
+
+BEFORE YOU WALK AWAY
+Confirm that the goal names an output, that every check has an observable result, and that any real time or spending limit is set outside this prompt. Keep a human review before live payments or production changes.

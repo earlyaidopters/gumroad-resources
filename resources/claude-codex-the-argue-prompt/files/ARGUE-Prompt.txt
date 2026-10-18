@@ -1,0 +1,41 @@
+CLAUDE + CODEX: ARGUE
+Mark Kashef | Copy-ready planning and review prompt | October 10, 2026
+
+Paste into Claude Code, or Claude's local Code session, with your project folder open. Replace the two bracketed fields first. Both Claude Code and the Codex CLI must already be installed and signed in. Ordinary browser chat cannot run your local CLI.
+
+--- COPY FROM HERE ---
+Create a plan for [TASK] in [PROJECT]. Do not implement it yet.
+
+Write plan-v1.md with the goal, scope, assumptions, steps, acceptance tests, and risks. Read the relevant project instructions and files first. Keep secrets and unrelated private data out of the review.
+
+Then use the installed Codex CLI as an independent reviewer. No extra plugin or skill is needed for this workflow. Give Codex the same task brief and plan-v1.md. Ask it to inspect the relevant project files read-only and look for incorrect assumptions, missing requirements, edge cases, security issues, and tests that would actually prove the plan works. Ask it to cite evidence and suggest the smallest useful fix for each finding.
+
+Use this command shape, adapting only the task brief and relevant file names:
+
+codex exec --sandbox read-only --output-last-message review-round-1.md "Read plan-v1.md and the relevant project instructions. Independently review this plan against its task brief and acceptance tests. Do not edit project files. Report concrete issues with evidence, impact, and the smallest useful fix. Mark speculation clearly. If you find no substantiated issue, say so without inventing one."
+
+Read its critique. For each finding, either accept it and revise the plan, reject it with specific evidence, or mark it unresolved. Save plan-v2.md and a short decision log.
+
+Send the revised plan and decision log back to Codex for one final read-only review. Use review-round-2.md as the output file. Ask it to check whether the fixes address its findings and whether any material issue remains. Stop after these two review rounds, or sooner if there are no substantiated issues left.
+
+Finish with the final plan, accepted changes, unresolved disagreements, and the tests or evidence a human must check before implementation. Agreement alone is not proof. Do not force agreement, invent a clean bill of health, or implement anything until I approve the plan.
+
+If Codex is unavailable, cannot authenticate, or cannot access the project, stop and explain the exact blocker. Give me a copy-ready review prompt to run manually. Do not install tools, switch accounts, broaden permissions, or pretend the review ran.
+--- END PROMPT ---
+
+WHY THIS VERSION HAS A STOP
+The video describes the back-and-forth in plain language. This copy-ready version adds a two-round stop and a decision log so a real project does not spend indefinitely chasing agreement. It is adapted from Mark's published Use Both workflow kit; it is not a verbatim export of a private session.
+
+SETUP AND COST
+Use the official setup guides: https://code.claude.com/docs/en/quickstart and https://developers.openai.com/codex/cli/ . Check `claude --version`, `codex --version`, and `codex exec --help` in your terminal. Open a small trusted project first. Use a model available to your account; no particular model name is required. Each review consumes the applicable subscription allowance or API usage. Two rounds are a suggested ceiling, not a quality guarantee.
+
+MANUAL FALLBACK
+Ask Claude to write the plan, paste the task and plan into Codex yourself, then return the critique to Claude. Repeat once. Keep the same brief and files in both reviews. Label anything that has not been tested.
+
+EXAMPLE TASK
+Create a plan to add CSV export to a fictional task tracker. Exclude private notes. Acceptance tests: only authorized tasks are exported; quoted commas and newlines round-trip correctly; cells beginning with =, +, -, or @ cannot execute as spreadsheet formulas. Codex should challenge how the plan will prove those requirements, not merely praise the architecture.
+
+READ THE RESULT
+A useful review says which assumption failed, points to evidence, and names a test. For example: 'The export includes note text even though the brief excludes private notes. Remove that field and test the CSV headers and each exported row.' An unresolved issue stays visible for the human. A model's confidence is not a test result.
+
+Sources: Mark's Use Both video, https://www.youtube.com/watch?v=ucer2chlfM8 (planning section about 03:30-04:57); original public Use Both workflow kit, https://markkashef.gumroad.com/l/use-both-claude-codex-workflow-kit ; Codex CLI reference, https://developers.openai.com/codex/cli/reference ; Claude Code quickstart, https://code.claude.com/docs/en/quickstart . CLI option names checked against the installed `codex exec --help` on October 10, 2026. This resource was reviewed for content and command syntax; it does not claim a fresh end-to-end model run.

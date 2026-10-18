@@ -1,0 +1,43 @@
+THE ADOBE REEL: OFFICIAL CRAFT APP LINKS
+Mark Kashef | Checked 14 October 2026
+
+The seven projects named by the ArtCraft team's own repository cross-links are below. These are independent projects with overlapping creative jobs. Feature parity, file compatibility and reliability have not been tested for this resource.
+
+PhotoCraft: Image editing
+https://github.com/storytold/photocraft
+
+FilmCraft: Video editing
+https://github.com/storytold/filmcraft
+
+EffectCraft: Motion graphics and compositing
+https://github.com/storytold/effectcraft
+
+VectorCraft: Vector illustration
+https://github.com/storytold/vectorcraft
+
+LightCraft: Photo library and raw development
+https://github.com/storytold/lightcraft
+
+PdfCraft: PDF tools
+https://github.com/storytold/pdfcraft
+
+DesignCraft: Page layout
+https://github.com/storytold/designcraft
+
+START WITH ONE SMALL PROJECT
+Open the project that matches your task. Read its current README for the supported operating systems, releases and setup steps. Keep a copy of the original file when testing an import. Check whether a downloadable build exists before assuming installation is one click.
+
+FOR AN AI ASSISTANT
+Paste the official project link and say:
+“Read this project's current README and setup instructions. Tell me which installation route fits my computer, what I need to install, and whether an existing release is available. Plan one small trial using a copy of a file. Explain any download or execution step before running it. Preserve the original. Report what works, what fails and what was not tested.”
+
+For EffectCraft, ask the assistant to inspect the documented agent controls and editable project format. Save a project, change one text layer, reopen it, then compare the render. Treat this as a test plan, not a verified result.
+
+BOUNDARIES
+These links do not prove the apps can replace your current tools. Check current licenses and third-party asset notices for your intended use. No files, installers or upstream code are redistributed in this pack. No installation or live editing test was performed.
+
+SOURCE
+Official EffectCraft README and its Crafting Apps table:
+https://github.com/storytold/effectcraft/blob/main/README.md
+Official publisher app hub:
+https://getartcraft.com/apps

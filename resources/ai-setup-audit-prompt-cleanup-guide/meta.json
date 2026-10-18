@@ -1,0 +1,53 @@
+{
+  "name": "AI Setup Audit Prompt + Cleanup Guide",
+  "external_id": "CjD05sFFw2ZCkCuqtUB4RQ==",
+  "permalink": "ai-setup-audit",
+  "unique_permalink": "ai-setup-audit",
+  "custom_permalink": "ai-setup-audit",
+  "url": "https://markkashef.gumroad.com/l/ai-setup-audit",
+  "status": "published",
+  "archived": false,
+  "kind": "products",
+  "price_formatted": "CAD$0+",
+  "description_md": "# Clean up your AI setup\nThis is the exact prompt I ran on camera in \"Your AI Operating System Is a Mess\", plus the guide I promised you can feed your AI so it helps you decide what is worth cleaning, retiring and adding.\n\n- \nAudit prompt: The prompt from the video, word for word. It reads 90 days of your Claude Code and Codex history, finds what you never use, what conflicts and what's missing, and gives you a report you can read on your phone.\n\n- \nCleanup guide for your AI: Hand it to Claude, Codex or any assistant. It turns the three questions from the video into keep, scope, emulate, merge, fix and retire calls, with proof for every one.\n\n- \nWeekly cleanup: A scheduled prompt that tidies the safe stuff on its own and asks you about everything else, with setup steps for Codex and Claude.\n\n- \nPDF guide: All of it laid out in 8 pages, including the limits worth knowing in Claude Code and Codex.",
+  "files": [
+    {
+      "file": "AI-SETUP-AUDIT-GUIDE.pdf",
+      "source_revision": "7a2ae3d1bbee2ccf9d2041147261c1ba9419a72498633e9e236659253eb0d275",
+      "expected_bytes": 2198073,
+      "status": "downloaded",
+      "bytes": 2198073,
+      "source_sha256": "84b74c6768c3ef8e8f1f0afc6787adbf146e81e5af88728835ccbc023c142175",
+      "local_sha256": "84b74c6768c3ef8e8f1f0afc6787adbf146e81e5af88728835ccbc023c142175"
+    },
+    {
+      "file": "AUDIT-PROMPT.md",
+      "source_revision": "c46ae30f1a83091a756733e096aa33675ed072cc9f15d1ca09cff15f762dbf57",
+      "expected_bytes": 2834,
+      "status": "downloaded",
+      "bytes": 2834,
+      "source_sha256": "82172ad5196c0c9dd36b3287a427c085387d703118979043e3538b3fbe589ef3",
+      "local_sha256": "82172ad5196c0c9dd36b3287a427c085387d703118979043e3538b3fbe589ef3"
+    },
+    {
+      "file": "CLEANUP-GUIDE.md",
+      "source_revision": "80025ac7f1864f7f1bb78c99099ef88f3b283711051a6ea0cca03caeb5efbc8c",
+      "expected_bytes": 7161,
+      "status": "downloaded",
+      "bytes": 7161,
+      "source_sha256": "2972949bee4f7be28f2fa8e461299f735f9edfc57f3db5fa4937c1aaa5a4b90b",
+      "local_sha256": "2972949bee4f7be28f2fa8e461299f735f9edfc57f3db5fa4937c1aaa5a4b90b"
+    },
+    {
+      "file": "AI-SETUP-AUDIT-KIT.zip",
+      "source_revision": "6432d72a52a2ffc7ee515dd1138fef821f72672d854f164d77f7c6e8449db2e4",
+      "expected_bytes": 1994418,
+      "status": "downloaded",
+      "bytes": 1994418,
+      "source_sha256": "01358c8ebc9717984254ce0852f8e757dbecf527583e10be588f5650ecf03549",
+      "local_sha256": "01358c8ebc9717984254ce0852f8e757dbecf527583e10be588f5650ecf03549",
+      "unpacked_sha256": "01358c8ebc9717984254ce0852f8e757dbecf527583e10be588f5650ecf03549"
+    }
+  ],
+  "has_rich_content": true
+}

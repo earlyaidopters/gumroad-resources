@@ -1,6 +1,143 @@
 {
-  "count": 180,
+  "count": 193,
   "products": [
+    {
+      "slug": "ai-setup-audit-prompt-cleanup-guide",
+      "permalink": "ai-setup-audit",
+      "numeric_id": 0,
+      "name": "AI Setup Audit Prompt + Cleanup Guide",
+      "status": "published",
+      "archived": false,
+      "category": "Other",
+      "content_hash": "6be03955de680901",
+      "files": [
+        "AI-SETUP-AUDIT-GUIDE.pdf",
+        "AUDIT-PROMPT.md",
+        "CLEANUP-GUIDE.md",
+        "AI-SETUP-AUDIT-KIT.zip"
+      ],
+      "has_content": true
+    },
+    {
+      "slug": "apple-design-skill-for-claude",
+      "permalink": "sf-ig-apple-design",
+      "numeric_id": 0,
+      "name": "Apple Design Skill for Claude",
+      "status": "published",
+      "archived": false,
+      "category": "Other",
+      "content_hash": "e3fb28a1f7981e59",
+      "files": [
+        "APPLE-Design-Skill.txt"
+      ],
+      "has_content": true
+    },
+    {
+      "slug": "rea-repo-and-four-practical-prompts",
+      "permalink": "sf-ig-rea-repo-prompts",
+      "numeric_id": 0,
+      "name": "REA: Repo and Four Practical Prompts",
+      "status": "published",
+      "archived": false,
+      "category": "Other",
+      "content_hash": "9ab6dee235f6a96f",
+      "files": [
+        "REA-Start-Here.txt",
+        "REA-Four-Prompts.txt"
+      ],
+      "has_content": true
+    },
+    {
+      "slug": "seven-craft-apps-official-github-links",
+      "permalink": "sf-ig-adobe-craft-links",
+      "numeric_id": 0,
+      "name": "Seven Craft Apps: Official GitHub Links",
+      "status": "published",
+      "archived": false,
+      "category": "Other",
+      "content_hash": "6f87fdd5288a86fa",
+      "files": [
+        "ADOBE-Official-Craft-Links.txt"
+      ],
+      "has_content": true
+    },
+    {
+      "slug": "jev-four-everyday-decisions",
+      "permalink": "sf-ig-jev-daily-guide",
+      "numeric_id": 0,
+      "name": "Jev: Four Everyday Decisions",
+      "status": "published",
+      "archived": false,
+      "category": "Other",
+      "content_hash": "0771f8eb26fc4185",
+      "files": [
+        "JEV-Four-Everyday-Decisions.pdf",
+        "JEV-Setup-Prompt.txt",
+        "JEV-Guide-and-Prompt.zip"
+      ],
+      "has_content": true
+    },
+    {
+      "slug": "the-finish-goal-template",
+      "permalink": "sf-ig-finish-goal-template",
+      "numeric_id": 0,
+      "name": "The FINISH Goal Template",
+      "status": "published",
+      "archived": false,
+      "category": "Other",
+      "content_hash": "d45a7c75cdc8c117",
+      "files": [
+        "FINISH-Goal-Template.pdf",
+        "FINISH-Goal-Template.txt"
+      ],
+      "has_content": true
+    },
+    {
+      "slug": "abliteration-ai-rea-setup-guide",
+      "permalink": "abliteration-ai-rea-setup",
+      "numeric_id": 0,
+      "name": "Abliteration AI + REA Setup Guide",
+      "status": "published",
+      "archived": false,
+      "category": "Other",
+      "content_hash": "4148801c3faf5b73",
+      "files": [
+        "UNCENSORED-AI-REA-SETUP-GUIDE.pdf",
+        "UNCENSORED-AI-REA-SETUP-KIT.zip",
+        "AGENT-SETUP-PROMPT.md"
+      ],
+      "has_content": true
+    },
+    {
+      "slug": "claude-codex-the-images-prompt",
+      "permalink": "sf-ig-claude-codex-images",
+      "numeric_id": 0,
+      "name": "Claude + Codex: The IMAGES Prompt",
+      "status": "published",
+      "archived": false,
+      "category": "Other",
+      "content_hash": "02c26485ed4555df",
+      "files": [
+        "Claude-Codex-IMAGES-Guide.pdf",
+        "IMAGES-Prompts.txt"
+      ],
+      "has_content": true
+    },
+    {
+      "slug": "claude-codex-the-argue-prompt",
+      "permalink": "sf-ig-claude-codex-argue",
+      "numeric_id": 0,
+      "name": "Claude + Codex: The ARGUE Prompt",
+      "status": "published",
+      "archived": false,
+      "category": "Other",
+      "content_hash": "edd86b6363303bbd",
+      "files": [
+        "Claude-Codex-ARGUE-Guide.pdf",
+        "ARGUE-Prompt.txt"
+      ],
+      "has_content": true
+    },
     {
       "slug": "jev-vs-openai-decisions-results-setup-guide",
       "permalink": "drndvm",
@@ -49,6 +186,20 @@
       "has_content": true
     },
     {
+      "slug": "ai-router-safety-checklist",
+      "permalink": "sf-ig-router-safety-checklist",
+      "numeric_id": 0,
+      "name": "AI Router Safety Checklist",
+      "status": "published",
+      "archived": false,
+      "category": "Other",
+      "content_hash": "1018b39e6b641582",
+      "files": [
+        "AI-Router-Safety-Checklist.zip"
+      ],
+      "has_content": true
+    },
+    {
       "slug": "wisprflow-clone-mac-app-source-build-prompts",
       "permalink": "zzusvd",
       "numeric_id": 14530268,
@@ -59,6 +210,48 @@
       "content_hash": "9630063700dfd618",
       "files": [
         "Relay-Voice-Resource.zip"
+      ],
+      "has_content": true
+    },
+    {
+      "slug": "orcareplay-starter-kit",
+      "permalink": "sf-ig-orca-replay-starter",
+      "numeric_id": 0,
+      "name": "OrcaReplay Starter Kit",
+      "status": "published",
+      "archived": false,
+      "category": "Other",
+      "content_hash": "e3c1abcc79f23a7f",
+      "files": [
+        "OrcaReplay-Starter-Kit.zip"
+      ],
+      "has_content": true
+    },
+    {
+      "slug": "gemini-video-analysis-setup",
+      "permalink": "sf-ig-gemini-video-setup",
+      "numeric_id": 0,
+      "name": "Gemini Video Analysis Setup",
+      "status": "published",
+      "archived": false,
+      "category": "Other",
+      "content_hash": "656c2c447797dd6e",
+      "files": [
+        "Gemini-Video-Setup.zip"
+      ],
+      "has_content": true
+    },
+    {
+      "slug": "shopping-agent-blueprint-starter-guide",
+      "permalink": "sf-ig-commerce-blueprint",
+      "numeric_id": 0,
+      "name": "Shopping Agent Blueprint Starter Guide",
+      "status": "published",
+      "archived": false,
+      "category": "Other",
+      "content_hash": "033084c301bf5eaf",
+      "files": [
+        "BLUEPRINT-shopping-agent-guide.zip"
       ],
       "has_content": true
     },

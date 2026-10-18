@@ -1,0 +1,35 @@
+THE APPLE REEL: THE APPLE DESIGN SKILL FOR CLAUDE
+Mark Kashef | Checked 15 October 2026
+
+The skill from the reel is called apple-design. It lives in Emil Kowalski's free skills repository (MIT license, 46,454 GitHub stars on 15 October 2026). It turns Apple's WWDC design talks into rules Claude can follow: spacing, type sizes and tracking, hierarchy, materials and motion.
+
+The skill
+https://github.com/emilkowalski/skills/tree/main/skills/apple-design
+
+The full repository
+https://github.com/emilkowalski/skills
+
+
+INSTALL IT
+You need Node.js. Run this in your project folder to add only this skill for Claude Code:
+
+npx skills@latest add emilkowalski/skills --skill apple-design -a claude-code
+
+Add -g to install it for every project instead of one. To get the whole repository, including the animation skills, run:
+
+npx skills@latest add emilkowalski/skills
+
+
+USE IT ON A PAGE THAT LOOKS LIKE SLOP
+Open Claude Code in the project and paste:
+
+"Use the apple-design skill. Review this page the way Apple's design team would. List every problem with spacing, type sizes, letter spacing, hierarchy, color and motion, worst first. Then fix them in the code. Remove decoration that does no work, like heavy gradients, glows and oversized italic headlines. Keep the content and the layout working on a phone. Show me what you changed and why."
+
+Then run it once more on the result and ask what still looks off. The second pass catches what the first one missed.
+
+
+GOOD TO KNOW
+The skill is written for the web. It works best on sites and web apps, not native iPhone apps.
+It gives Claude principles, not a template, so your page should still look like your brand.
+The repository is maintained by its author and can change. Check the README for the current install steps.
+Nothing from the repository is copied into this file.

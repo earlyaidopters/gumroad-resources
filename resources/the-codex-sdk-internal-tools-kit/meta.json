@@ -13,18 +13,18 @@
   "files": [
     {
       "file": "Codex-SDK-Internal-Tools-Field-Guide.pdf",
-      "source_revision": "c7d9656c2fc860f875b160fa442aa075fec3e850577c28eb92a11a2ace7baa20",
+      "source_revision": "d3e07152f0b70f8a7b792eb25fc299f0d6c80e13297cf6f1aac70fde15387fd1",
       "expected_bytes": 660717,
-      "status": "cached",
+      "status": "downloaded",
       "bytes": 660717,
       "source_sha256": "7a286928722c28ec65b75ccdf2d6db60b4cbb20beb802625345762bb317ca4d8",
       "local_sha256": "7a286928722c28ec65b75ccdf2d6db60b4cbb20beb802625345762bb317ca4d8"
     },
     {
       "file": "Codex-SDK-Internal-Tools-Kit.zip",
-      "source_revision": "63b573142e029063a2b920dd323b2aa98fbca64586803d59b26dc04dc58125d8",
+      "source_revision": "a159ee014580fd11b9883ed93853e6107b0a284862e31508fca1579b02c76d2a",
       "expected_bytes": 929715,
-      "status": "cached",
+      "status": "downloaded",
       "bytes": 929715,
       "source_sha256": "8c9f63d96fd0499e778fbad82bcf0eaeb5627d694519f721d9124e5faf8b998d",
       "local_sha256": "8c9f63d96fd0499e778fbad82bcf0eaeb5627d694519f721d9124e5faf8b998d",

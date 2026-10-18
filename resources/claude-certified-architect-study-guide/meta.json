@@ -13,9 +13,9 @@
   "files": [
     {
       "file": "claude_architect_study_guide.pdf",
-      "source_revision": "4cc550026e71dee630bb57909562339a4b24ce9ceb0144734abd31ba1edf12e8",
+      "source_revision": "66a7047fe75934798ace1b48f954564e48182bd5f7d5d8f8ae12ce1599a05509",
       "expected_bytes": 55693874,
-      "status": "cached",
+      "status": "downloaded",
       "bytes": 55693874,
       "source_sha256": "f58bc3ba0207b0030110d11eb5912601a6b3a750c088aac1a82da99da60f0ab3",
       "local_sha256": "f58bc3ba0207b0030110d11eb5912601a6b3a750c088aac1a82da99da60f0ab3"

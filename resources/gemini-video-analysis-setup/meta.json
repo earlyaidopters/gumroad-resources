@@ -1,0 +1,26 @@
+{
+  "name": "Gemini Video Analysis Setup",
+  "external_id": "OCbaYCZvYyMBxEoMv94p0Q==",
+  "permalink": "sf-ig-gemini-video-setup",
+  "unique_permalink": "sf-ig-gemini-video-setup",
+  "custom_permalink": "sf-ig-gemini-video-setup",
+  "url": "https://markkashef.gumroad.com/l/sf-ig-gemini-video-setup",
+  "status": "published",
+  "archived": false,
+  "kind": "products",
+  "price_formatted": "CAD$0+",
+  "description_md": "Find useful moments in a recording and check the evidence before you use it.\n\nSetup: A copyable instruction for building a local Gemini video-analysis tool. Prompts: Four jobs covering sales calls, interviews, meetings and short-form reviews. Comparison: A worksheet for checking accuracy, time and usage.\n\nFree ZIP with Markdown instructions and a CSV worksheet. Based on official documentation; end-to-end execution has not been tested. Model usage may cost extra.",
+  "files": [
+    {
+      "file": "Gemini-Video-Setup.zip",
+      "source_revision": "4d3153d4b425875c6ea9f563cfffceb92747fe486a401bc450ebef810fa49d88",
+      "expected_bytes": 2959,
+      "status": "downloaded",
+      "bytes": 2959,
+      "source_sha256": "bca0e27f11fbc402ddd6106af6966793d1a1606d756d5f79dfe5e879f4c9ad48",
+      "local_sha256": "bca0e27f11fbc402ddd6106af6966793d1a1606d756d5f79dfe5e879f4c9ad48",
+      "unpacked_sha256": "bca0e27f11fbc402ddd6106af6966793d1a1606d756d5f79dfe5e879f4c9ad48"
+    }
+  ],
+  "has_rich_content": true
+}

@@ -13,27 +13,27 @@
   "files": [
     {
       "file": "Prompt Battle Testing (Make File).json",
-      "source_revision": "8a3fbe7c93da836bfd4f52f5aac3ce7d9562d926acb1e4341be0d12990375407",
+      "source_revision": "ee47a532e80306576b2e508e8c0376c80450812fde0cc0af6de482b900254f31",
       "expected_bytes": 206339,
-      "status": "cached",
+      "status": "downloaded",
       "bytes": 206339,
       "source_sha256": "2b56ca310bcc4af1b7dca312fa26b0c6bbede06a1131764dbca6e256208daec1",
       "local_sha256": "2b56ca310bcc4af1b7dca312fa26b0c6bbede06a1131764dbca6e256208daec1"
     },
     {
       "file": "Simulated Conversation Testing (Make).json",
-      "source_revision": "625e7cbceca0a8e023d363a1f04c716bc70d0893a31dbf6e9174e302f6078034",
+      "source_revision": "22af8b876b4ac0d2eb6619ac1763998e6ecfa9392e0499473e617e6459b28a16",
       "expected_bytes": 150604,
-      "status": "cached",
+      "status": "downloaded",
       "bytes": 150604,
       "source_sha256": "3b7bfa81f0131e6054f3e655e563e37e81b7a4ef25f2c4060ceff4475f953a8f",
       "local_sha256": "3b7bfa81f0131e6054f3e655e563e37e81b7a4ef25f2c4060ceff4475f953a8f"
     },
     {
       "file": "Battle Testing Prompts.pdf",
-      "source_revision": "bddfb1ceb4f6a690c93a6bba290e67cac941d359e6f1fe49c9c01c3c505f3212",
+      "source_revision": "a7948674c527e8f48a44c0f5e933f58e130958ab6fb8fae9e9ebb4515561ff48",
       "expected_bytes": 553109,
-      "status": "cached",
+      "status": "downloaded",
       "bytes": 553109,
       "source_sha256": "79bc452a0dc48a9234379a9954d7d426e63569765db608bb18f9c7f7c4c72417",
       "local_sha256": "79bc452a0dc48a9234379a9954d7d426e63569765db608bb18f9c7f7c4c72417"

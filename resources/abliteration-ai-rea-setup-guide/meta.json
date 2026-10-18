@@ -1,0 +1,44 @@
+{
+  "name": "Abliteration AI + REA Setup Guide",
+  "external_id": "cEJ-kPnlNuR8D6jD1shsHA==",
+  "permalink": "abliteration-ai-rea-setup",
+  "unique_permalink": "abliteration-ai-rea-setup",
+  "custom_permalink": "abliteration-ai-rea-setup",
+  "url": "https://markkashef.gumroad.com/l/abliteration-ai-rea-setup",
+  "status": "published",
+  "archived": false,
+  "kind": "products",
+  "price_formatted": "CAD$0+",
+  "description_md": "# Get the setup from the video\nConnect Abliteration AI to DeepSeek Harness, install REA and Ghidra, and check that your agent can actually use them. This is the full setup guide promised in my REA/Tempo video.\n\n- \nPDF guide: A complete walkthrough for an Apple silicon Mac, from prerequisites to the first tool check.\n\n- \nAgent setup prompt: Copy-ready instructions you can give your coding agent, with your API key entered privately.\n\n- \nConfiguration examples: Separate files for the recorded 0.1.x harness and the current 0.2.x route, plus Ghidra environment settings.\n\n- \nTroubleshooting: Fix provider errors, missing models, image-input errors and Ghidra setup problems.\n\n- \nEditable source: The Markdown guide, setup prompt and verification notes together in one ZIP.\n\nThe guide preserves the model ID requested in the recording and explains the different model ID returned by the provider. It includes the repository and documentation links needed for setup.\nWritten for macOS on Apple silicon. Provider API usage is billed separately. Checked 12 October 2026. Includes setup materials; no Tempo app, model weights or proprietary application files.",
+  "files": [
+    {
+      "file": "UNCENSORED-AI-REA-SETUP-GUIDE.pdf",
+      "source_revision": "5d29b62f7f3834c61ddb87f6c21384bc1922ef7a329a9daeee0c9c87c5d7a8b4",
+      "expected_bytes": 322553,
+      "status": "downloaded",
+      "bytes": 322553,
+      "source_sha256": "240c696cdd3ab963a8f042ebe3d1aefbc61dbff455fbb8251c7fce22561f9380",
+      "local_sha256": "240c696cdd3ab963a8f042ebe3d1aefbc61dbff455fbb8251c7fce22561f9380"
+    },
+    {
+      "file": "UNCENSORED-AI-REA-SETUP-KIT.zip",
+      "source_revision": "292680aa7cd7425d2f13c8aca5b70fd6ce501eecd365095dbb9db62241edf83e",
+      "expected_bytes": 278676,
+      "status": "downloaded",
+      "bytes": 278676,
+      "source_sha256": "a871087e14c29f118056932785f70b315c27fd6fad95a3d1387ad2520409d6cd",
+      "local_sha256": "a871087e14c29f118056932785f70b315c27fd6fad95a3d1387ad2520409d6cd",
+      "unpacked_sha256": "a871087e14c29f118056932785f70b315c27fd6fad95a3d1387ad2520409d6cd"
+    },
+    {
+      "file": "AGENT-SETUP-PROMPT.md",
+      "source_revision": "747fd9280baf89cd13d2ff1fcffe392b375d66e4278c179dfa5755b23c5510fa",
+      "expected_bytes": 4303,
+      "status": "downloaded",
+      "bytes": 4303,
+      "source_sha256": "fec2b9d10e3c3a69ad2a3e1bf485af23c6043f5d963f57a52ce8d4df634c650c",
+      "local_sha256": "fec2b9d10e3c3a69ad2a3e1bf485af23c6043f5d963f57a52ce8d4df634c650c"
+    }
+  ],
+  "has_rich_content": true
+}

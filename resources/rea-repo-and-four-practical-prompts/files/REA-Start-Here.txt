@@ -1,0 +1,41 @@
+REA: REPO AND FOUR PRACTICAL PROMPTS
+Mark Kashef | 14 October 2026
+
+Official repository: https://github.com/morluto/rea
+Official setup guide: https://github.com/morluto/rea/blob/main/docs/installation.md
+Official site: https://rea.tools/
+
+START WITH ONE FEATURE
+Pick a small behaviour you can describe and test: a local search box, a menu, or a file-preview interaction. Write down the input, expected output and one failure case. Use an app you own or have permission to inspect, and work on copies in a disposable project.
+
+SETUP
+The current official README lists this setup command:
+    npx rea-agents setup
+
+Review its proposed agent configuration and provider changes before approving them, then restart your agent. The README supports Claude Code and Codex. Check the live installation guide for current Node.js and analysis-provider requirements. Native binaries need a compatible analysis provider. Different targets require different tools.
+
+Use Prompt 1 in REA-Four-Prompts.txt before installing anything. It asks your agent to check the current instructions and explain each proposed change. This pack does not install or run REA for you.
+
+A FIRST SESSION
+1. Create a blank workspace and keep the original target unchanged.
+2. Use Prompt 2 to investigate one feature. Require file locations, tool output or observed behaviour for each conclusion.
+3. Read the evidence table. Separate observed facts from inferences and unknowns.
+4. Use Prompt 3 to implement a small version in your own project. Give it a precise finish line and stop budget.
+5. Use Prompt 4 to test that version against your examples. Keep failed checks visible.
+
+EXAMPLE BRIEF
+Target: a small local app I own.
+Feature: search saved notes by a word in the title.
+Inputs: an exact word, a partial word, an empty query and an absent word.
+Done: my new project handles those four inputs as specified, with a repeatable test and no changes to the original app.
+
+What the app does in each case must be observed before you ask the agent to reproduce it. This is an illustrative brief, not a tested REA result.
+
+KEEP THE RECEIPTS
+Save the target version, investigation notes, evidence locations, unresolved questions, implementation diff and test output. Ask for a small summary after every phase so you can decide whether another round is useful. Agent usage and any paid provider costs are separate from this free download. A short task can still use substantial tokens.
+
+WHERE IT STOPS
+A local binary cannot reveal private server-side implementation that is absent from that binary. Decompiled output and inferred behaviour can be incomplete or wrong. REA does not promise original source recovery, feature parity, a fixed cost or a fixed completion time. Use the observed behaviour to specify your own implementation; check permissions and licenses for the target and any code or assets you reuse.
+
+VERIFICATION
+The official repo, README and installation-guide links were checked on 14 October 2026. These four companion prompts were written for this reel. No REA installation, paid model execution or reconstruction test was run for this pack. The reel's Apple TV and Adobe stories are not reproduced tests here.

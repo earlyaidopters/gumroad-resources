@@ -1,0 +1,26 @@
+# Recorded 0.1.1-rc.2 route: ~/.dsh/settings.yaml
+# Merge with existing sections. No secrets in this file.
+# Requested alias was large; session responses identified large-v2.
+llm-pi-ai:
+  providers:
+    abliteration:
+      displayName: Abliteration AI
+      apiKeyEnv: ABLITERATION_API_KEY
+      api: openai-completions
+      baseURL: https://api.abliteration.ai/v1
+      compat:
+        supportsDeveloperRole: false
+        maxTokensField: max_tokens
+      models:
+        - id: abliterated-model-large
+          contextWindow: 1000000
+          input: [text]
+        - id: abliterated-model-large-v2
+          contextWindow: 1000000
+          input: [text]
+        - id: abliterated-model
+          contextWindow: 262144
+          input: [text, image]
+agent-default-model:
+  provider: abliteration
+  model: abliterated-model-large

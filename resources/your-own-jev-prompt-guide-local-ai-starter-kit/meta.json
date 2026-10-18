@@ -13,9 +13,9 @@
   "files": [
     {
       "file": "Your-Own-Jev-Starter-Kit-e780c62fda.zip",
-      "source_revision": "108872bf21c49948c1e3261bb8e65a3da772fd4458051660677ae99d20ed7b91",
+      "source_revision": "c5b6ae758907144abf16a43eca8e1c9a5b10ea7994fca774aa56cdfe3f64c732",
       "expected_bytes": 8869,
-      "status": "cached",
+      "status": "downloaded",
       "bytes": 8869,
       "source_sha256": "c10187768f25577a4020a62efce6c7338999b6bc54e0553dd3736a8a96a03e14",
       "local_sha256": "c10187768f25577a4020a62efce6c7338999b6bc54e0553dd3736a8a96a03e14",
@@ -23,9 +23,9 @@
     },
     {
       "file": "Your-Own-Jev-Starter-Kit-91595f2bc3.zip",
-      "source_revision": "a060570cd7d84b47d922547eed92fbbf77f1868ab50480c2d93283b84d497d29",
+      "source_revision": "b8b9976592a1d1f85bffd09b995e812cd86c6f47f09eb203a16d4dbc81889944",
       "expected_bytes": 8863,
-      "status": "cached",
+      "status": "downloaded",
       "bytes": 8863,
       "source_sha256": "04be07c5d873c659674004bfc12e56f985b81ef05aa3b703f4cedd33cf556863",
       "local_sha256": "04be07c5d873c659674004bfc12e56f985b81ef05aa3b703f4cedd33cf556863",
@@ -33,18 +33,18 @@
     },
     {
       "file": "Your-Own-Jev-Start-Here.pdf",
-      "source_revision": "f17c37095e7b13b61afd498e1472c989bb609f5ea6cfc8151323827207daf1bc",
+      "source_revision": "fa51375e791483e050e53ee7badf9275fff5482ab3675c94b11b27651837a2e7",
       "expected_bytes": 12503,
-      "status": "cached",
+      "status": "downloaded",
       "bytes": 12503,
       "source_sha256": "71344926db5397ef14a4fb833bdf451a8d8dad90e322f33d875383d932cc3af2",
       "local_sha256": "71344926db5397ef14a4fb833bdf451a8d8dad90e322f33d875383d932cc3af2"
     },
     {
       "file": "TRAIN-MY-SPECIALIST.txt",
-      "source_revision": "dccc36c4821e3c4fd62ea2f30164fb81a9913f428f1eedd24b23125c48dcbace",
+      "source_revision": "9b97e718d2143c87507db465c0cff761e84d333788ad89debbee06cfadf8fa1b",
       "expected_bytes": 7212,
-      "status": "cached",
+      "status": "downloaded",
       "bytes": 7212,
       "source_sha256": "2df7b3f95163e8dffb9d7f074cc1d9ee7aec89d998fc9b1ed6083a3b8c0a5fe0",
       "local_sha256": "2df7b3f95163e8dffb9d7f074cc1d9ee7aec89d998fc9b1ed6083a3b8c0a5fe0"

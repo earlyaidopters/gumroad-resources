@@ -13,36 +13,36 @@
   "files": [
     {
       "file": "01_VISION_DOCUMENT.md",
-      "source_revision": "78fee64aad88c33d866c0b507e439eed01b3b40320d42511d74533f74b161062",
+      "source_revision": "6959b00634c556c8fbe62831e61a35058f65cee7c1f231d1a625ef669fc74307",
       "expected_bytes": 16895,
-      "status": "cached",
+      "status": "downloaded",
       "bytes": 16895,
       "source_sha256": "379d1a84d9723e48a087e1b814a81097facbfcc7331a3584c431032363616226",
       "local_sha256": "379d1a84d9723e48a087e1b814a81097facbfcc7331a3584c431032363616226"
     },
     {
       "file": "02_PROJECT_SPECIFICATION.md",
-      "source_revision": "4fbb72192e9f61f518751c6f5fc9584e1e96ed0923bc647d8c48fe5772754850",
+      "source_revision": "d0d1c70e48f2d46657a798952a1eccc5a79382060c7d310cc7a2825f7b1a55bc",
       "expected_bytes": 61173,
-      "status": "cached",
+      "status": "downloaded",
       "bytes": 61173,
       "source_sha256": "11dfea53279880517db279b1aadcb814b6c55ae9fbf6b68c61a72eecaa4af9f8",
       "local_sha256": "11dfea53279880517db279b1aadcb814b6c55ae9fbf6b68c61a72eecaa4af9f8"
     },
     {
       "file": "03_IMPLEMENTATION_GUIDE.md",
-      "source_revision": "90f11094540f386b919bb77994301b51871763cf391cba323a5648ae3d98bc6f",
+      "source_revision": "31f48722f4aca37ce38e53de427594e710647cb22224248fee54de37d5aa7315",
       "expected_bytes": 29842,
-      "status": "cached",
+      "status": "downloaded",
       "bytes": 29842,
       "source_sha256": "fbd004fa30f08e12166539b1b9d21ec06637d97efe62e19f8b500e74be388e72",
       "local_sha256": "fbd004fa30f08e12166539b1b9d21ec06637d97efe62e19f8b500e74be388e72"
     },
     {
       "file": "Diagrams.zip",
-      "source_revision": "ac51e3058845e8c7134d6a91f811750832798df949c0d035d58ff4d073f66948",
+      "source_revision": "b26a78521b5871d44a16a26a429636febc1b16686666869171e8afbecd74b3d2",
       "expected_bytes": 46017040,
-      "status": "cached",
+      "status": "downloaded",
       "bytes": 46017040,
       "source_sha256": "36aabb02b50a396bd0f41ba15c4586abba66270c5aa259d15bb8000ec4513176",
       "local_sha256": "36aabb02b50a396bd0f41ba15c4586abba66270c5aa259d15bb8000ec4513176",

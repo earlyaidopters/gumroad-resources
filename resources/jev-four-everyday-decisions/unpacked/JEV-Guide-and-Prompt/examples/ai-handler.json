@@ -1,0 +1,22 @@
+{
+  "request": {
+    "model": "jev-1.13.0",
+    "state": {
+      "request": "Find the current refund policy and link the official source."
+    },
+    "questions": {
+      "decision": {
+        "type": "choice",
+        "instructions": "Which allowed handler fits this request? Choose review for unclear, unsupported or sensitive actions.",
+        "criteria": {
+          "writing": "Rewrite supplied text",
+          "research": "Find and check current sources",
+          "coding": "Change or debug code",
+          "review": "Unclear, unsupported, sensitive actions"
+        }
+      }
+    }
+  },
+  "expected_choice": "research",
+  "always_review": false
+}

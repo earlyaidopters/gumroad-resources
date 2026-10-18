@@ -2,10 +2,10 @@
 
 Every free resource from the Early AI-dopters Gumroad, mirrored here and kept in sync. Each folder holds the actual files (zips unpacked so you can browse them on GitHub), the resource content page, and a README. Where a resource came from a YouTube video, the video is paired to it. Watch or star this repo to catch every new drop.
 
-**180 published resources**, grouped by topic and newest-first within each. Sync scheduled hourly. See the latest verified check below.
+**193 published resources**, grouped by topic and newest-first within each. Sync scheduled hourly. See the latest verified check below.
 
 <!-- sync-status:start -->
-[**Last verified sync: October 11, 2026 at 04:22 PM EDT**](https://github.com/earlyaidopters/gumroad-resources/actions/runs/38171721503) · 180/180 published resources accounted for; 313 mirrored attachments verified. Oversized attachments available on Gumroad: 1. [Sync details](sync-status.json).
+[**Last verified sync: October 18, 2026 at 03:10 PM EDT**](https://github.com/earlyaidopters/gumroad-resources/actions/runs/39157020101) · 193/193 published resources accounted for; 337 mirrored attachments verified. Oversized attachments available on Gumroad: 1. [Sync details](sync-status.json).
 
 <!-- sync-status:end -->
 
@@ -15,16 +15,16 @@ The newest resources with their videos. Updates automatically on every sync.
 
 | | Resource | Watch | Get it |
 |---|---|---|---|
+| <a href="https://youtu.be/eXoBC1TY8m4"><img src="https://i.ytimg.com/vi/eXoBC1TY8m4/maxresdefault.jpg" width="200"></a> | [AI Setup Audit Prompt + Cleanup Guide](resources/ai-setup-audit-prompt-cleanup-guide/) | [▶ Watch](https://youtu.be/eXoBC1TY8m4) | [Gumroad](https://markkashef.gumroad.com/l/ai-setup-audit) |
+|  | [Apple Design Skill for Claude](resources/apple-design-skill-for-claude/) | - | [Gumroad](https://markkashef.gumroad.com/l/sf-ig-apple-design) |
+|  | [REA: Repo and Four Practical Prompts](resources/rea-repo-and-four-practical-prompts/) | - | [Gumroad](https://markkashef.gumroad.com/l/sf-ig-rea-repo-prompts) |
+|  | [Seven Craft Apps: Official GitHub Links](resources/seven-craft-apps-official-github-links/) | - | [Gumroad](https://markkashef.gumroad.com/l/sf-ig-adobe-craft-links) |
+|  | [Jev: Four Everyday Decisions](resources/jev-four-everyday-decisions/) | - | [Gumroad](https://markkashef.gumroad.com/l/sf-ig-jev-daily-guide) |
+|  | [The FINISH Goal Template](resources/the-finish-goal-template/) | - | [Gumroad](https://markkashef.gumroad.com/l/sf-ig-finish-goal-template) |
+| <a href="https://youtu.be/ScSDVV5xhww"><img src="https://i.ytimg.com/vi/ScSDVV5xhww/maxresdefault.jpg" width="200"></a> | [Abliteration AI + REA Setup Guide](resources/abliteration-ai-rea-setup-guide/) | [▶ Watch](https://youtu.be/ScSDVV5xhww) | [Gumroad](https://markkashef.gumroad.com/l/abliteration-ai-rea-setup) |
+|  | [Claude + Codex: The IMAGES Prompt](resources/claude-codex-the-images-prompt/) | - | [Gumroad](https://markkashef.gumroad.com/l/sf-ig-claude-codex-images) |
+|  | [Claude + Codex: The ARGUE Prompt](resources/claude-codex-the-argue-prompt/) | - | [Gumroad](https://markkashef.gumroad.com/l/sf-ig-claude-codex-argue) |
 |  | [Jev vs OpenAI Decisions: Results + Setup Guide](resources/jev-vs-openai-decisions-results-setup-guide/) | - | [Gumroad](https://markkashef.gumroad.com/l/sf-ig-decisions-vs-jev) |
-| <a href="https://youtu.be/UcvD53jqHRU"><img src="https://i.ytimg.com/vi/UcvD53jqHRU/maxresdefault.jpg" width="200"></a> | [Two Mods for Claude Code: Computer Use + Threads](resources/two-mods-for-claude-code-computer-use-threads/) | [▶ Watch](https://youtu.be/UcvD53jqHRU) | [Gumroad](https://markkashef.gumroad.com/l/claude-computer-use-threads) |
-| <a href="https://youtu.be/uvIopT_2sY0"><img src="https://i.ytimg.com/vi/uvIopT_2sY0/maxresdefault.jpg" width="200"></a> | [Claude Mods Starter Kit: 10 Mods + Build-Your-Own Guide](resources/claude-mods-starter-kit-10-mods-build-your-own-guide/) | [▶ Watch](https://youtu.be/uvIopT_2sY0) | [Gumroad](https://markkashef.gumroad.com/l/claude-mods-starter-kit) |
-| <a href="https://markkashef.gumroad.com/l/wisprclone"><img src="https://public-files.gumroad.com/q6j0hn2ue1kx8c4yedfxltj6ctiq" width="200"></a> | [WisprFlow Clone: Mac App Source + Build Prompts](resources/wisprflow-clone-mac-app-source-build-prompts/) | - | [Gumroad](https://markkashef.gumroad.com/l/wisprclone) |
-| <a href="https://markkashef.gumroad.com/l/use-both-claude-codex-workflow-kit"><img src="https://public-files.gumroad.com/lpvokrqflyo89ahmuqj6b9udw1b3" width="200"></a> | [Use Both: Claude + Codex Workflow Kit](resources/use-both-claude-codex-workflow-kit/) | - | [Gumroad](https://markkashef.gumroad.com/l/use-both-claude-codex-workflow-kit) |
-| <a href="https://youtu.be/z8My0bX2-ZU"><img src="https://i.ytimg.com/vi/z8My0bX2-ZU/maxresdefault.jpg" width="200"></a> | [Your Own Jev: Prompt, Guide & Local AI Starter Kit](resources/your-own-jev-prompt-guide-local-ai-starter-kit/) | [▶ Watch](https://youtu.be/z8My0bX2-ZU) | [Gumroad](https://markkashef.gumroad.com/l/your-own-jev) |
-| <a href="https://youtu.be/zZNm4zP_lEE"><img src="https://i.ytimg.com/vi/zZNm4zP_lEE/maxresdefault.jpg" width="200"></a> | [Jev Starter Kit: Explainer + Live Playground](resources/jev-starter-kit-explainer-live-playground/) | [▶ Watch](https://youtu.be/zZNm4zP_lEE) | [Gumroad](https://markkashef.gumroad.com/l/jev-starter-kit) |
-| <a href="https://youtu.be/575v0WYJQsE"><img src="https://i.ytimg.com/vi/575v0WYJQsE/maxresdefault.jpg" width="200"></a> | [Codex + Ollama Setup Kit](resources/codex-ollama-setup-kit/) | [▶ Watch](https://youtu.be/575v0WYJQsE) | [Gumroad](https://markkashef.gumroad.com/l/codex-ollama-setup-kit) |
-| <a href="https://markkashef.gumroad.com/l/sf-ig-frontend-design-loop"><img src="https://public-files.gumroad.com/v3ormgouaorqmqdyfdbc5khgkis4" width="200"></a> | [Frontend Design & Feedback Kit](resources/frontend-design-feedback-kit/) | - | [Gumroad](https://markkashef.gumroad.com/l/sf-ig-frontend-design-loop) |
-| <a href="https://markkashef.gumroad.com/l/sf-ig-voice-qualification"><img src="https://public-files.gumroad.com/5gvxgzzd9otxkkqu5gs3kiyhlc3b" width="200"></a> | [Voice AI Qualification Checklist](resources/voice-ai-qualification-checklist/) | - | [Gumroad](https://markkashef.gumroad.com/l/sf-ig-voice-qualification) |
 
 ## Categories
 
@@ -33,7 +33,7 @@ The newest resources with their videos. Updates automatically on every sync.
 - [🧠 Custom GPTs & AI Agents](#custom-gpts-ai-agents) (26)
 - [🗂️ Frameworks, Meta Techniques & Experiments](#frameworks-meta-techniques-experiments) (23)
 - [📊 Tools, Cheat Sheets & Evaluations](#tools-cheat-sheets-evaluations) (15)
-- [Other](#other) (50)
+- [Other](#other) (63)
 
 ## 🎯 Prompting & Engineering Skills
 
@@ -194,10 +194,23 @@ The newest resources with their videos. Updates automatically on every sync.
 
 | Resource | What it is | Video | Get it |
 |---|---|---|---|
+| [AI Setup Audit Prompt + Cleanup Guide](resources/ai-setup-audit-prompt-cleanup-guide/) | Clean up your AI setup This is the exact prompt I ran on camera in "Your AI Operating System Is a Mess", plus the guide I promised you can feed your… | [▶ Watch](https://youtu.be/eXoBC1TY8m4) | [Gumroad](https://markkashef.gumroad.com/l/ai-setup-audit) |
+| [Apple Design Skill for Claude](resources/apple-design-skill-for-claude/) | Get the free Claude skill that turns Apple's design talks into rules your AI follows. | - | [Gumroad](https://markkashef.gumroad.com/l/sf-ig-apple-design) |
+| [REA: Repo and Four Practical Prompts](resources/rea-repo-and-four-practical-prompts/) | Use REA to investigate one app feature and build a small version with evidence you can check. | - | [Gumroad](https://markkashef.gumroad.com/l/sf-ig-rea-repo-prompts) |
+| [Seven Craft Apps: Official GitHub Links](resources/seven-craft-apps-official-github-links/) | Find the official repositories for the seven Craft apps mentioned in the reel. | - | [Gumroad](https://markkashef.gumroad.com/l/sf-ig-adobe-craft-links) |
+| [Jev: Four Everyday Decisions](resources/jev-four-everyday-decisions/) | Turn a repeated language task into a clear decision you can check. | - | [Gumroad](https://markkashef.gumroad.com/l/sf-ig-jev-daily-guide) |
+| [The FINISH Goal Template](resources/the-finish-goal-template/) | Give Codex a clear finish line before a goal eats your afternoon. | - | [Gumroad](https://markkashef.gumroad.com/l/sf-ig-finish-goal-template) |
+| [Abliteration AI + REA Setup Guide](resources/abliteration-ai-rea-setup-guide/) | Get the setup from the video Connect Abliteration AI to DeepSeek Harness, install REA and Ghidra, and check that your agent can actually use them. | [▶ Watch](https://youtu.be/ScSDVV5xhww) | [Gumroad](https://markkashef.gumroad.com/l/abliteration-ai-rea-setup) |
+| [Claude + Codex: The IMAGES Prompt](resources/claude-codex-the-images-prompt/) | Connect Claude's planning to Codex image generation with the exact prompt from my Use Both workflow. | - | [Gumroad](https://markkashef.gumroad.com/l/sf-ig-claude-codex-images) |
+| [Claude + Codex: The ARGUE Prompt](resources/claude-codex-the-argue-prompt/) | Make Claude write the plan, then have Codex challenge it before you build. | - | [Gumroad](https://markkashef.gumroad.com/l/sf-ig-claude-codex-argue) |
 | [Jev vs OpenAI Decisions: Results + Setup Guide](resources/jev-vs-openai-decisions-results-setup-guide/) | Jev vs OpenAI Decisions Get the results behind my comparison and a setup guide for both APIs. | - | [Gumroad](https://markkashef.gumroad.com/l/sf-ig-decisions-vs-jev) |
 | [Two Mods for Claude Code: Computer Use + Threads](resources/two-mods-for-claude-code-computer-use-threads/) | Make Claude work the way you want Use Codex’s computer controls from Claude Code, then give one chat a team of real Claude sessions. | [▶ Watch](https://youtu.be/UcvD53jqHRU) | [Gumroad](https://markkashef.gumroad.com/l/claude-computer-use-threads) |
 | [Claude Mods Starter Kit: 10 Mods + Build-Your-Own Guide](resources/claude-mods-starter-kit-10-mods-build-your-own-guide/) | Make Claude Code feel like yours A little pet while Claude works. | [▶ Watch](https://youtu.be/uvIopT_2sY0) | [Gumroad](https://markkashef.gumroad.com/l/claude-mods-starter-kit) |
+| [AI Router Safety Checklist](resources/ai-router-safety-checklist/) | Review an AI router before giving your agent access to business data and tools. | - | [Gumroad](https://markkashef.gumroad.com/l/sf-ig-router-safety-checklist) |
 | [WisprFlow Clone: Mac App Source + Build Prompts](resources/wisprflow-clone-mac-app-source-build-prompts/) | Build Your Own Relay Voice Get the original Mac voice app demonstrated in the Astra versus Sol comparison, along with the source code, setup… | - | [Gumroad](https://markkashef.gumroad.com/l/wisprclone) |
+| [OrcaReplay Starter Kit](resources/orcareplay-starter-kit/) | Check what your coding agent did before accepting its completion claim. | - | [Gumroad](https://markkashef.gumroad.com/l/sf-ig-orca-replay-starter) |
+| [Gemini Video Analysis Setup](resources/gemini-video-analysis-setup/) | Find useful moments in a recording and check the evidence before you use it. | - | [Gumroad](https://markkashef.gumroad.com/l/sf-ig-gemini-video-setup) |
+| [Shopping Agent Blueprint Starter Guide](resources/shopping-agent-blueprint-starter-guide/) | Try Anthropic’s shopping agent blueprint with a focused first test guide before connecting your store. | - | [Gumroad](https://markkashef.gumroad.com/l/sf-ig-commerce-blueprint) |
 | [Use Both: Claude + Codex Workflow Kit](resources/use-both-claude-codex-workflow-kit/) | Use Both: Claude + Codex Workflow Kit Stop choosing one assistant for every job. | - | [Gumroad](https://markkashef.gumroad.com/l/use-both-claude-codex-workflow-kit) |
 | [Your Own Jev: Prompt, Guide & Local AI Starter Kit](resources/your-own-jev-prompt-guide-local-ai-starter-kit/) | Build a small AI specialist for one job you understand. | [▶ Watch](https://youtu.be/z8My0bX2-ZU) | [Gumroad](https://markkashef.gumroad.com/l/your-own-jev) |
 | [Jev Starter Kit: Explainer + Live Playground](resources/jev-starter-kit-explainer-live-playground/) | Everything you need to revisit the Jev walkthrough and try a decision of your own. | [▶ Watch](https://youtu.be/zZNm4zP_lEE) | [Gumroad](https://markkashef.gumroad.com/l/jev-starter-kit) |

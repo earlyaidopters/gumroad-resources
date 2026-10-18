@@ -13,9 +13,9 @@
   "files": [
     {
       "file": "Dynamic_Workflows_Prompt_Pack.pdf",
-      "source_revision": "1bbf1c086799b173625cd487d5bd209ee961c933f144fc96deb308bca6f85e1f",
+      "source_revision": "60e440506903922ddcd386e309521705b819c4980af66c7523198b1490b4a521",
       "expected_bytes": 19393,
-      "status": "cached",
+      "status": "downloaded",
       "bytes": 19393,
       "source_sha256": "1a916c34514029eb24c5d095ff44c9f7e506ec4908359ce07c10352368cfb53c",
       "local_sha256": "1a916c34514029eb24c5d095ff44c9f7e506ec4908359ce07c10352368cfb53c"

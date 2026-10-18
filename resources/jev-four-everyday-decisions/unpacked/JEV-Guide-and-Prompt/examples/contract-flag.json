@@ -1,0 +1,22 @@
+{
+  "request": {
+    "model": "jev-1.13.0",
+    "state": {
+      "clause": "This agreement renews for another year unless cancelled 60 days before expiry.",
+      "checklist": "Automatic renewal must be flagged for human review."
+    },
+    "questions": {
+      "decision": {
+        "type": "choice",
+        "instructions": "Under the checklist, how should this renewal clause be triaged?",
+        "criteria": {
+          "flag": "Automatic renewal needs review",
+          "no_flag": "Explicitly no automatic renewal",
+          "unknown": "Missing, conflicting or unreadable"
+        }
+      }
+    }
+  },
+  "expected_choice": "flag",
+  "always_review": true
+}

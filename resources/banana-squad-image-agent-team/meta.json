@@ -13,9 +13,9 @@
   "files": [
     {
       "file": "diagrams.zip",
-      "source_revision": "ea3b0f8315bfecb990ccf8efd940dffc3a9de92dd3a00477dcd03d066ba1654b",
+      "source_revision": "66f83d2fbe5698dc1a58a416ce9b5da698a206066fa53985d891a28c01acbb4a",
       "expected_bytes": 7106030,
-      "status": "cached",
+      "status": "downloaded",
       "bytes": 7106030,
       "source_sha256": "4f6d7b3cc3d3173cc2d617254fe0a3dd122e120f5a464c64a32e010d03a3936c",
       "local_sha256": "4f6d7b3cc3d3173cc2d617254fe0a3dd122e120f5a464c64a32e010d03a3936c",
@@ -23,27 +23,27 @@
     },
     {
       "file": "gemini-3-image-api-guide.md",
-      "source_revision": "4954819d9181d9158909d54c6b304b1244b27bd7ca284b3235d3722ef2c5d921",
+      "source_revision": "8cc56d7c0364ff407ae8f9bd2e77440f41a50560588058bc12bd04563e3c106b",
       "expected_bytes": 11899,
-      "status": "cached",
+      "status": "downloaded",
       "bytes": 11899,
       "source_sha256": "c6d17474723a4c04095f3bca1c3f211f595e15ca6e6ed267f78c23263509eda6",
       "local_sha256": "c6d17474723a4c04095f3bca1c3f211f595e15ca6e6ed267f78c23263509eda6"
     },
     {
       "file": "paperbanana.md",
-      "source_revision": "f6c742847097736141e277e0e6281225158f93ab75acc1a7ab08ff6bc389a1ac",
+      "source_revision": "00ca2c609fba2299f4fa2286c2d3f923d09c5e76f8d15c0fee67c184532264d8",
       "expected_bytes": 124675,
-      "status": "cached",
+      "status": "downloaded",
       "bytes": 124675,
       "source_sha256": "126adb9527ac90c47f438994b3629e24df76b7b118f70825cfeb691cd04c7e80",
       "local_sha256": "126adb9527ac90c47f438994b3629e24df76b7b118f70825cfeb691cd04c7e80"
     },
     {
       "file": "spawn-team-prompt.md",
-      "source_revision": "61d113a9df04a5f3e9247d48331f2f50f4e6cc82b491a761ec4519640416a45c",
+      "source_revision": "0ca6d2de54e51dcb77867672091cfd1a1fa8d83ddb7ff0bf86379c1158e92e69",
       "expected_bytes": 8360,
-      "status": "cached",
+      "status": "downloaded",
       "bytes": 8360,
       "source_sha256": "f2aac00eead0575db425a06cc04d721e940a0d36b1a1947abf3852b95d19430c",
       "local_sha256": "f2aac00eead0575db425a06cc04d721e940a0d36b1a1947abf3852b95d19430c"

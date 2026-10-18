@@ -1,0 +1,1 @@
+run_date,video_label,model,processing_mode,prompt_job,elapsed_seconds,reported_input_tokens,reported_output_tokens,reported_thought_tokens,reported_tool_use_tokens,verified_cost,known_moments_found,out_of,unsupported_claims,review_minutes,notes

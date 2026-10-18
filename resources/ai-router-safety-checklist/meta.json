@@ -1,0 +1,26 @@
+{
+  "name": "AI Router Safety Checklist",
+  "external_id": "05GIU3XkgwM36cI7xiIRBg==",
+  "permalink": "sf-ig-router-safety-checklist",
+  "unique_permalink": "sf-ig-router-safety-checklist",
+  "custom_permalink": "sf-ig-router-safety-checklist",
+  "url": "https://markkashef.gumroad.com/l/sf-ig-router-safety-checklist",
+  "status": "published",
+  "archived": false,
+  "kind": "products",
+  "price_formatted": "CAD$0+",
+  "description_md": "Review an AI router before giving your agent access to business data and tools.\n\nChecklist: Provider, data access, credentials, command review and recovery checks. Review prompt: A copyable request for a read-only assessment of your setup. Evidence: The research paper behind the reel, with its scope clearly stated.\n\nFree Markdown checklist in a ZIP. An operational review aid, not a security certification or tested defense implementation.",
+  "files": [
+    {
+      "file": "AI-Router-Safety-Checklist.zip",
+      "source_revision": "d493e657cf11f0d3f8e2685685fc1ef777fd22d450ce434d15b388bb2d347b94",
+      "expected_bytes": 1909,
+      "status": "downloaded",
+      "bytes": 1909,
+      "source_sha256": "870b92caab0807554d19604aea9227ef688a5e6db5f22d5d910898effd1e136b",
+      "local_sha256": "870b92caab0807554d19604aea9227ef688a5e6db5f22d5d910898effd1e136b",
+      "unpacked_sha256": "870b92caab0807554d19604aea9227ef688a5e6db5f22d5d910898effd1e136b"
+    }
+  ],
+  "has_rich_content": true
+}

@@ -13,9 +13,9 @@
   "files": [
     {
       "file": "Effort_Decoder_Guide.pdf",
-      "source_revision": "a5838c75bc9027b56852717a4172a74b655f0dbacfe73bb537a7e96ee4e383a7",
+      "source_revision": "5af400fd567c63d84759244e2652eb89695fee6144bc19f3cc804e0044c4a5e4",
       "expected_bytes": 2336783,
-      "status": "cached",
+      "status": "downloaded",
       "bytes": 2336783,
       "source_sha256": "14353f254a1551aede32412e1af9583e25f3a79649f72a2cd29dfce7d067a192",
       "local_sha256": "14353f254a1551aede32412e1af9583e25f3a79649f72a2cd29dfce7d067a192"

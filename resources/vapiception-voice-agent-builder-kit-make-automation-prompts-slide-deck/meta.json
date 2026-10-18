@@ -13,18 +13,18 @@
   "files": [
     {
       "file": "VAPIception.pdf",
-      "source_revision": "e2a5c7076ea5e0ea6dc0f8e08fa1d25457e4b9e750ad7e1dc65bb90713435fdc",
+      "source_revision": "d39d95dded9894a322cc2c79374d337fb5f73d8edbfa999c1728d75e7968a395",
       "expected_bytes": 59402,
-      "status": "cached",
+      "status": "downloaded",
       "bytes": 59402,
       "source_sha256": "5c1d0262562ae8ee7c6e898248d828fe2c5a7b36d98e6b4a97e14b5607c45266",
       "local_sha256": "5c1d0262562ae8ee7c6e898248d828fe2c5a7b36d98e6b4a97e14b5607c45266"
     },
     {
       "file": "agentbuilder.json",
-      "source_revision": "44c626c05bd896fee36cb0a0746d7757f1198954704b05257c4e21a5b7835f0b",
+      "source_revision": "89f18616cf31a5c8ab51a2c2e31c9b6c2cb91049786261f9e6cdd0a84bfc9a4a",
       "expected_bytes": 58453,
-      "status": "cached",
+      "status": "downloaded",
       "bytes": 58453,
       "source_sha256": "5f46c27c372f404b37f49dbcc7388e4114aa9acabaaca7ed618d49cd3cb99ee1",
       "local_sha256": "5f46c27c372f404b37f49dbcc7388e4114aa9acabaaca7ed618d49cd3cb99ee1"

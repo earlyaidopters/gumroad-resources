@@ -1,0 +1,21 @@
+CLAUDE + CODEX: IMAGES
+Mark Kashef | 11 October 2026
+
+ORIGINAL PROMPT (verbatim from the Use Both production site)
+Use the Codex CLI to generate [a warm photo of a desk with a hand-drawn plan] and save it in [assets/img]. Show me the file when it's done.
+
+Replace the bracketed description and folder with your own. Paste into Claude Code in your local project, with Codex CLI installed and signed in. Ordinary web chat cannot run your local CLI.
+
+EXPANDED TEMPLATE (adaptation with explicit checks)
+Use the Codex CLI to generate one image of [SUBJECT], in [ASPECT RATIO], for [USE]. Save it as [PROJECT-RELATIVE PATH, e.g. assets/img/desk.png].
+
+First confirm that Codex is available, signed in with my ChatGPT account, and has an image-generation tool in this session. Do not switch to an API key, paid service, new account or subscription. If the tool is unavailable, stop and explain what is missing.
+
+Use the actual image-generation tool. Keep existing files intact. Show me the resulting image and its actual saved path. If a generation or save fails, report the failure; do not substitute a placeholder or claim success.
+
+USAGE BOUNDARY
+This workflow used an existing ChatGPT-backed Codex allowance. It is not unlimited or a guarantee that every CLI session exposes image generation. Availability, limits and plan eligibility can change. If unavailable, use the image-capable Codex app/session and save the file to the same project, then return to Claude. Do not add an API key just to make this example work. Claude access is separate.
+
+SOURCE
+https://www.youtube.com/watch?v=ucer2chlfM8 (04:55-05:21)
+https://developers.openai.com/codex/cli

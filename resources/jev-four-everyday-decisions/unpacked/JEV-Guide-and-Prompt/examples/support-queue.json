@@ -1,0 +1,22 @@
+{
+  "request": {
+    "model": "jev-1.13.0",
+    "state": {
+      "ticket": "I was charged twice for my subscription this morning."
+    },
+    "questions": {
+      "decision": {
+        "type": "choice",
+        "instructions": "Which queue owns the main request? Choose review for unclear or equally necessary multiple owners.",
+        "criteria": {
+          "billing": "Charges, invoices or refunds",
+          "technical": "Bugs, outages or failures",
+          "sales": "New purchases or quotes",
+          "review": "Multiple owners, unclear or unsupported"
+        }
+      }
+    }
+  },
+  "expected_choice": "billing",
+  "always_review": false
+}
