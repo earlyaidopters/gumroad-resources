@@ -315,3 +315,18 @@ class FailureRecoveryTests(unittest.TestCase):
         cancel=next(i for i,c in enumerate(calls) if c[:2]==('run','cancel'))
         dispatch=next(i for i,c in enumerate(calls) if c[:2]==('workflow','run'))
         self.assertLess(cancel,dispatch)
+
+class QueuedRecoveryTests(unittest.TestCase):
+    def test_fresh_queued_run_does_not_hide_older_stuck_run(self):
+        calls=[]
+        def call(*args):
+            calls.append(args)
+            if args[:2]==('run','list'):
+                return json.dumps([
+                    {'databaseId':2,'status':'pending','conclusion':None,'createdAt':datetime.now(timezone.utc).isoformat()},
+                    {'databaseId':1,'status':'in_progress','conclusion':None,'createdAt':(datetime.now(timezone.utc)-timedelta(hours=1)).isoformat()}])
+            return '[]' if args[:2]==('issue','list') else ''
+        report={'healthy':True,'faults':[]}
+        watchdog.repair(report,call)
+        self.assertTrue(any(c[:3]==('run','cancel','1') for c in calls))
+        self.assertFalse(any(c[:2]==('workflow','run') for c in calls))

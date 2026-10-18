@@ -135,12 +135,16 @@ def repair(report, call=gh):
         call('issue', 'create', '-R', REPOSITORY, '--title', TITLE, '--body', body)
     elif incident.get('body') != body:
         call('issue', 'edit', str(incident['number']), '-R', REPOSITORY, '--body', body)
+    fresh_active = False
     for run in active:
         age = (now() - datetime.fromisoformat(run['createdAt'].replace('Z', '+00:00'))).total_seconds()
-        if age <= 50 * 60:
-            report['recovery'] = 'sync already active'
-            return
-        call('run', 'cancel', str(run['databaseId']), '-R', REPOSITORY)
+        if age > 50 * 60:
+            call('run', 'cancel', str(run['databaseId']), '-R', REPOSITORY)
+        else:
+            fresh_active = True
+    if fresh_active:
+        report['recovery'] = 'sync already active'
+        return
     call('workflow', 'run', 'sync.yml', '-R', REPOSITORY, '--ref', 'main')
     report['recovery'] = 'sync dispatched'
 
