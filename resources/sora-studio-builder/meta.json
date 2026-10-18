@@ -15,7 +15,7 @@
       "file": "openai-video-api-guide.md",
       "source_revision": "926e12092f33154b7b970be6aeab1d320ba34aee984156b421710b9d5d6d8fe1",
       "expected_bytes": 18718,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 18718,
       "source_sha256": "8b6341554140bf228b82c9d5f59063500e3d00cfc35932543449b7cc7c5c7a6a",
       "local_sha256": "8b6341554140bf228b82c9d5f59063500e3d00cfc35932543449b7cc7c5c7a6a"

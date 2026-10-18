@@ -15,7 +15,7 @@
       "file": "DeepSeek Prompting Guide.pdf",
       "source_revision": "e351408f34c118ea4766166ef7989563dc9ede795df90b30425c3221c78d690b",
       "expected_bytes": 529961,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 529961,
       "source_sha256": "b3ba546db2703dce8f2a69adbf37fc4cb6a042f13fb89609fa178dc0dbece763",
       "local_sha256": "b3ba546db2703dce8f2a69adbf37fc4cb6a042f13fb89609fa178dc0dbece763"

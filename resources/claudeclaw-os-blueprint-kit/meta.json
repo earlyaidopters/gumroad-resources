@@ -15,7 +15,7 @@
       "file": "ClaudeClaw_v2_Visual_Guide.pdf",
       "source_revision": "13788f9053bc83af69b1fb1020f7c852745fa1c4a64d2b31ef7b5e6c5af6e4ce",
       "expected_bytes": 12554460,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 12554460,
       "source_sha256": "8b6ce83a5b5446c236c3fab3f54de2ee08a37f7303d1d234595f9f4f15f1349f",
       "local_sha256": "8b6ce83a5b5446c236c3fab3f54de2ee08a37f7303d1d234595f9f4f15f1349f"
@@ -24,7 +24,7 @@
       "file": "POWER_PACKS_GUIDE.md",
       "source_revision": "e4063c28862c9c8515999e427de2c0dc3fe602ea5f2a4598c24cca33dab7d8da",
       "expected_bytes": 43788,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 43788,
       "source_sha256": "62bd84d3eaa04f7c164aad1c45a8b42e2fd4ee871d745a1cb8de99a105493936",
       "local_sha256": "62bd84d3eaa04f7c164aad1c45a8b42e2fd4ee871d745a1cb8de99a105493936"
@@ -33,7 +33,7 @@
       "file": "POWER_PACKS.md",
       "source_revision": "8dd3d82f929f4b0f85f0db4c751204ae3bc14807348a987e3be3cd0a37320be9",
       "expected_bytes": 48649,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 48649,
       "source_sha256": "239da3a1823732bd3ff470b3300238019ffdb538423c00f0d2476573ece7c1be",
       "local_sha256": "239da3a1823732bd3ff470b3300238019ffdb538423c00f0d2476573ece7c1be"
@@ -42,7 +42,7 @@
       "file": "REBUILD_PROMPT_V2.md",
       "source_revision": "7219396d425bbedd998a1908a1d4cbe3142399c616b4b7ea94ad1a937bded250",
       "expected_bytes": 115498,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 115498,
       "source_sha256": "10f0e2a4102616659fa778361ec2374d9a0c47ff91eef4a6a3cbb4c2a8549c96",
       "local_sha256": "10f0e2a4102616659fa778361ec2374d9a0c47ff91eef4a6a3cbb4c2a8549c96"
@@ -51,7 +51,7 @@
       "file": "CLAUDECLAW_ASSESSMENT_PROMPT.md",
       "source_revision": "3eab523c337aa8270bf130ff965078564f064df6bb13ddc94cfeb752114506b7",
       "expected_bytes": 6286,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 6286,
       "source_sha256": "62d71f3f773b9c5ab09d575a065b627b9abd08f1a9eaf5634c04d76077fc3743",
       "local_sha256": "62d71f3f773b9c5ab09d575a065b627b9abd08f1a9eaf5634c04d76077fc3743"

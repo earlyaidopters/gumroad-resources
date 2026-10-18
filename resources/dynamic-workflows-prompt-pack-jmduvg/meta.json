@@ -15,7 +15,7 @@
       "file": "dynamic_workflows_prompt_pack.pdf",
       "source_revision": "4433beb066a8bf19d54a79feb1d56be8d738c9b7a4790937fb42fb3f26b7c204",
       "expected_bytes": 17104,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 17104,
       "source_sha256": "f5a06f41cd0633f55b18f1e676ffdd99af0d1601240297e84c7fbfe420e3fd49",
       "local_sha256": "f5a06f41cd0633f55b18f1e676ffdd99af0d1601240297e84c7fbfe420e3fd49"

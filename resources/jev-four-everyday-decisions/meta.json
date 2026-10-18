@@ -15,7 +15,7 @@
       "file": "JEV-Four-Everyday-Decisions.pdf",
       "source_revision": "a9c44f54fe9ab7a6c7b519cc24d5639bc25e06e8c9cc08318b6f7a13cc1d9ee2",
       "expected_bytes": 11875,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 11875,
       "source_sha256": "8460daefbf4f7dde6edc258fdfceb389bc24c99f3802e37340a25066dbc9c6ec",
       "local_sha256": "8460daefbf4f7dde6edc258fdfceb389bc24c99f3802e37340a25066dbc9c6ec"
@@ -24,7 +24,7 @@
       "file": "JEV-Setup-Prompt.txt",
       "source_revision": "c59a0c246cd3647d829f226a4d65daaae9182c7ca933d9209b84a8e4acf25b7a",
       "expected_bytes": 3268,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 3268,
       "source_sha256": "e9817fbd47dbdd1e00e5e3a5a3b2b6b71ba283a9d69dbf2b067986c0afff3f1f",
       "local_sha256": "e9817fbd47dbdd1e00e5e3a5a3b2b6b71ba283a9d69dbf2b067986c0afff3f1f"
@@ -33,7 +33,7 @@
       "file": "JEV-Guide-and-Prompt.zip",
       "source_revision": "28930be47f1bdf0f5179b676004b76086842f1ff4080ceefc2d403c699ad5344",
       "expected_bytes": 18729,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 18729,
       "source_sha256": "513b2754f4186de49a6fdccbce31cf4fb8c686658de7491428e00656b13ec64a",
       "local_sha256": "513b2754f4186de49a6fdccbce31cf4fb8c686658de7491428e00656b13ec64a",

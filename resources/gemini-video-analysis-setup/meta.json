@@ -15,7 +15,7 @@
       "file": "Gemini-Video-Setup.zip",
       "source_revision": "4d3153d4b425875c6ea9f563cfffceb92747fe486a401bc450ebef810fa49d88",
       "expected_bytes": 2959,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 2959,
       "source_sha256": "bca0e27f11fbc402ddd6106af6966793d1a1606d756d5f79dfe5e879f4c9ad48",
       "local_sha256": "bca0e27f11fbc402ddd6106af6966793d1a1606d756d5f79dfe5e879f4c9ad48",

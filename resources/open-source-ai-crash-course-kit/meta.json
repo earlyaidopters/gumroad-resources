@@ -15,7 +15,7 @@
       "file": "open_source_ai_crash_course_guide.pdf",
       "source_revision": "ff223e353a686ee0974a15735db1b8678247ff2b3fe7b03b60761cf010838932",
       "expected_bytes": 4991764,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 4991764,
       "source_sha256": "2b0ead1e68ac6ffe8514fbf5239c6aa8ff8b44545e44c4770cc2ad9ba194125f",
       "local_sha256": "2b0ead1e68ac6ffe8514fbf5239c6aa8ff8b44545e44c4770cc2ad9ba194125f"
@@ -24,7 +24,7 @@
       "file": "open_source_ai_crash_course_kit.zip",
       "source_revision": "2de119904198b9a3458485596598d93faf9213a722a0e67c46137caae1955ae6",
       "expected_bytes": 3975541,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 3975541,
       "source_sha256": "3b0efb998b8e3b79764fdb7fd614b9e6cab9525ad6c2ceafa0bfa5ebf67c675a",
       "local_sha256": "3b0efb998b8e3b79764fdb7fd614b9e6cab9525ad6c2ceafa0bfa5ebf67c675a",

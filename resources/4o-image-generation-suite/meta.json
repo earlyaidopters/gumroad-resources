@@ -15,7 +15,7 @@
       "file": "Knowledge Base.md",
       "source_revision": "936b135ed3b077eb7df628eaaaba7a82c32e4435b4ab21c1195b483f06c7cebd",
       "expected_bytes": 5852,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 5852,
       "source_sha256": "4d8c2a70397a57a853ba24d34690d31bb2d983020a10c11e8e62a95cde8d13d1",
       "local_sha256": "4d8c2a70397a57a853ba24d34690d31bb2d983020a10c11e8e62a95cde8d13d1"
@@ -24,7 +24,7 @@
       "file": "Knowledge Base.pdf",
       "source_revision": "47694abdc4670b64edd87a5b52592b70dccd2972d23ad7bb33b2b9a5f2a70825",
       "expected_bytes": 94623,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 94623,
       "source_sha256": "dc9a920710ab857578f4b5fffe5895eb20eb90ec96c7a10c0a9b2048a25fb5e3",
       "local_sha256": "dc9a920710ab857578f4b5fffe5895eb20eb90ec96c7a10c0a9b2048a25fb5e3"

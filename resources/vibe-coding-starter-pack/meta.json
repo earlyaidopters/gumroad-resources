@@ -15,7 +15,7 @@
       "file": "Replit Cheat Sheet.pdf",
       "source_revision": "2e65437a038fc414412fb664c921af36f3be3a277ea695b2b4657ae1b2f39942",
       "expected_bytes": 3777876,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 3777876,
       "source_sha256": "4ddd5640a56cdea09d6d1411c18a58daa3fe2b5c8844816fe0ba793a445f918c",
       "local_sha256": "4ddd5640a56cdea09d6d1411c18a58daa3fe2b5c8844816fe0ba793a445f918c"
@@ -24,7 +24,7 @@
       "file": "Lovable Cheet Sheet.pdf",
       "source_revision": "04653ea97bbed9006768660887acdc3ab9ad006f3829a9a51bffffa61298b190",
       "expected_bytes": 1776428,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 1776428,
       "source_sha256": "d664153a2b36dbd5ea74cdb6c9f86120b17f2bbdbd6e06f6d3f3293d33a6b68d",
       "local_sha256": "d664153a2b36dbd5ea74cdb6c9f86120b17f2bbdbd6e06f6d3f3293d33a6b68d"
@@ -33,7 +33,7 @@
       "file": "Cursor Cheat Sheet.pdf",
       "source_revision": "36b23c24cc4d80996306a5ca40d8bf7911b231a0f8a1bf387bd29745d4af4fcf",
       "expected_bytes": 2124890,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 2124890,
       "source_sha256": "8cc9bf0f3802e7249d099645a922fd251b6d60ba060250c3d89b68f7ee2836b2",
       "local_sha256": "8cc9bf0f3802e7249d099645a922fd251b6d60ba060250c3d89b68f7ee2836b2"
@@ -42,7 +42,7 @@
       "file": "Bolt Cheat Sheet.pdf",
       "source_revision": "78e41378c3bdfcb7d718d2c04f494da7b1a9efb7ed186b4801ac27dcb1b5f86c",
       "expected_bytes": 1933083,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 1933083,
       "source_sha256": "d2f3a146352b77d5761d78fb03d933eb0bd08b8040f0320b3e9d2530ca8dfd86",
       "local_sha256": "d2f3a146352b77d5761d78fb03d933eb0bd08b8040f0320b3e9d2530ca8dfd86"
@@ -51,7 +51,7 @@
       "file": "Lovable_Image_Editing.json",
       "source_revision": "d6b457fe6d1c9941ff404584322ce77fde856f10646aa465edf3f66f2145bed9",
       "expected_bytes": 4926,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 4926,
       "source_sha256": "f1450d88cb8b7f522f57d042714227952942343c3214598a619edae9b800efb9",
       "local_sha256": "f1450d88cb8b7f522f57d042714227952942343c3214598a619edae9b800efb9"
@@ -60,7 +60,7 @@
       "file": "Lovable_Image_Gen_Demo_1.json",
       "source_revision": "aaf31d397d26b0066ab5a7b01ae6259b6cd41c4201b6783ba05e2e1afc85ce5f",
       "expected_bytes": 2036,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 2036,
       "source_sha256": "0729d253fc1fcd02053098a2e1a5feb33e2393797dd9a4e0cf45b7e16d3f7ea3",
       "local_sha256": "0729d253fc1fcd02053098a2e1a5feb33e2393797dd9a4e0cf45b7e16d3f7ea3"
@@ -69,7 +69,7 @@
       "file": "Security-Features-Comparison-for-AI-Development-Platforms.pdf",
       "source_revision": "d0d5e58ef87c05bee5070b57a0529e6ca2aadfc84f5eaf8766b0b6cc170c7b11",
       "expected_bytes": 435679,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 435679,
       "source_sha256": "2c165f0708fe2757777adbe1a978d6cb954c59dd25cb1213c567332886f8ff05",
       "local_sha256": "2c165f0708fe2757777adbe1a978d6cb954c59dd25cb1213c567332886f8ff05"

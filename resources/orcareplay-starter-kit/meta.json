@@ -15,7 +15,7 @@
       "file": "OrcaReplay-Starter-Kit.zip",
       "source_revision": "c91151de77593f3a11d986bcf28f274a946e810a7f4f431b286df3d6872fb471",
       "expected_bytes": 1446,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 1446,
       "source_sha256": "41f7892820e50e6a2a24dbaa0a75da2c6b46cf0d01459af306f195b515771544",
       "local_sha256": "41f7892820e50e6a2a24dbaa0a75da2c6b46cf0d01459af306f195b515771544",

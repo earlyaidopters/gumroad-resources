@@ -15,7 +15,7 @@
       "file": "Agentic_OS_Starter_Kit.pdf",
       "source_revision": "36d9bf87b8fe222c7292b219330be9198a87009a4b4f6e37c7757dcf429324ec",
       "expected_bytes": 22653,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 22653,
       "source_sha256": "fd4b923b86005147d9528633dcf321f16c338bf0800bc694c2c6db6cb51a1ff4",
       "local_sha256": "fd4b923b86005147d9528633dcf321f16c338bf0800bc694c2c6db6cb51a1ff4"
@@ -24,7 +24,7 @@
       "file": "master_prompt_A_simple.txt",
       "source_revision": "275547eab572d4f79576aabda0019d62c9921bd7ae0ca49242d9d30681ac810c",
       "expected_bytes": 8403,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 8403,
       "source_sha256": "1ac1bc91c6b9690db454acf2b7a0122425569c7efdc686c89adc6dc92ac840e8",
       "local_sha256": "1ac1bc91c6b9690db454acf2b7a0122425569c7efdc686c89adc6dc92ac840e8"
@@ -33,7 +33,7 @@
       "file": "master_prompt_B_workflows.txt",
       "source_revision": "02e0029efda5ec7882bf9bd46d35fa4122add0863612bfc0760ad22cc1359ad1",
       "expected_bytes": 8756,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 8756,
       "source_sha256": "1196465da269cb8d94c097b20aa81eb61e302ada47cdaf92d948c8b4a2e50b9f",
       "local_sha256": "1196465da269cb8d94c097b20aa81eb61e302ada47cdaf92d948c8b4a2e50b9f"
@@ -42,7 +42,7 @@
       "file": "os-blueprint_EXAMPLE.md",
       "source_revision": "fa26c8c3c56ab57d00489e77322e36b7e3d0028f65d70be6bb26e79c43dae620",
       "expected_bytes": 10094,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 10094,
       "source_sha256": "84538d48f6d65961dd1e8e3b051c3fd2559a87c1d822d2789f0c4567afa34ddb",
       "local_sha256": "84538d48f6d65961dd1e8e3b051c3fd2559a87c1d822d2789f0c4567afa34ddb"
@@ -51,7 +51,7 @@
       "file": "ROT_template.md",
       "source_revision": "2c9f27e6d816e6efec802c4b16f645522e4843e73f0dd8b9edeb4f95f76465f9",
       "expected_bytes": 4228,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 4228,
       "source_sha256": "2d66fce7306c9c5762dd93991600dd7419a800d9fb2132cd598dd95cea33d6d9",
       "local_sha256": "2d66fce7306c9c5762dd93991600dd7419a800d9fb2132cd598dd95cea33d6d9"

@@ -15,7 +15,7 @@
       "file": "Calendly_to_Meeting_Prep__No_Creds_.json",
       "source_revision": "49d1b9f9df6c793d74152f7fc79047e91357630c62b2898c6879ebb131cd16db",
       "expected_bytes": 23055,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 23055,
       "source_sha256": "08f7e2ad2bf2e65c9e6ea5c221855eaf50cc96b49fff59a5b99a93ad027a0cb3",
       "local_sha256": "08f7e2ad2bf2e65c9e6ea5c221855eaf50cc96b49fff59a5b99a93ad027a0cb3"

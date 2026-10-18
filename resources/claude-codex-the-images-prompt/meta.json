@@ -15,7 +15,7 @@
       "file": "Claude-Codex-IMAGES-Guide.pdf",
       "source_revision": "8bdd3bb2c37022074fcad37ffb8f76a11a9db318ab380fe4dee3d7bd910a6362",
       "expected_bytes": 6818,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 6818,
       "source_sha256": "1e3954481310a1e9a667db2c2957ce4f70d3b1c294c8f42749dee4922c22cd93",
       "local_sha256": "1e3954481310a1e9a667db2c2957ce4f70d3b1c294c8f42749dee4922c22cd93"
@@ -24,7 +24,7 @@
       "file": "IMAGES-Prompts.txt",
       "source_revision": "9d97076d7bfc77f22a3d7c8d5efd09e6e37b276624cadd235a3a159eaaa9bf82",
       "expected_bytes": 1650,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 1650,
       "source_sha256": "07ab8f31178226345d1de67ce0409254aed7fe4582db3f8d9fdd338a753d402d",
       "local_sha256": "07ab8f31178226345d1de67ce0409254aed7fe4582db3f8d9fdd338a753d402d"

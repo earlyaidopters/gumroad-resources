@@ -15,7 +15,7 @@
       "file": "Grok-Bot-Agent-Blueprint-Resource-Pack.zip",
       "source_revision": "eda08599a9fe202e182e112fc83a57b40d1deb18cddc1848f894d9722d44a59b",
       "expected_bytes": 107192,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 107192,
       "source_sha256": "675d2dd9ecb6f2dd8df29245c4f6bf01d0a97d9bd9ff7d5b18fe5d1ac22e885a",
       "local_sha256": "675d2dd9ecb6f2dd8df29245c4f6bf01d0a97d9bd9ff7d5b18fe5d1ac22e885a",
@@ -25,7 +25,7 @@
       "file": "Grok-Bot-Agent-Blueprint.pdf",
       "source_revision": "6dd8b2c183c3e10d52e743036543c272e0d567efeeefd9ccf979263d4f21da37",
       "expected_bytes": 114283,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 114283,
       "source_sha256": "c5c004ba193e9cad1a91c3656a857437d25f4df536f67b56c96d5f847b59c341",
       "local_sha256": "c5c004ba193e9cad1a91c3656a857437d25f4df536f67b56c96d5f847b59c341"

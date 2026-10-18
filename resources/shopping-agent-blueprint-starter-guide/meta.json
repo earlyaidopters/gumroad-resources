@@ -15,7 +15,7 @@
       "file": "BLUEPRINT-shopping-agent-guide.zip",
       "source_revision": "65708552ddf3b7329b6791e7c836c5ca2b00c489389c826b1f22349f14f00cd0",
       "expected_bytes": 2021,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 2021,
       "source_sha256": "b0f2b1069d6879c1f4b33de92566ebd8430056cd0574afcc89b56f53dd557188",
       "local_sha256": "b0f2b1069d6879c1f4b33de92566ebd8430056cd0574afcc89b56f53dd557188",

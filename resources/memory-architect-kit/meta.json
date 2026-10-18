@@ -15,7 +15,7 @@
       "file": "Concept Walkthroughs.pdf",
       "source_revision": "ff62df62b08b6a8d77a993e1744b532bc0a57cbdef301d55dde546689f8da34f",
       "expected_bytes": 9320892,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 9320892,
       "source_sha256": "01c5895f11f014f4130516a2fb8e76008270628eb5bd4f8a46d992f025d18086",
       "local_sha256": "01c5895f11f014f4130516a2fb8e76008270628eb5bd4f8a46d992f025d18086"
@@ -24,7 +24,7 @@
       "file": "SKILL.md",
       "source_revision": "bfcd25fdfffe8ba7fef8b9fc5a25c8e7156d66b1ca13fb1fd048565efb95a1a9",
       "expected_bytes": 46068,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 46068,
       "source_sha256": "bff729299d2b3552a1361b8f995d3900cacb15e61578bf813cdfa4c4564bcb4e",
       "local_sha256": "bff729299d2b3552a1361b8f995d3900cacb15e61578bf813cdfa4c4564bcb4e"

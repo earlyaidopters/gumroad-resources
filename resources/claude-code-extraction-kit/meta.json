@@ -15,7 +15,7 @@
       "file": "claude_skills_import.md",
       "source_revision": "e5f29caf63d701b2f7775c25ae9cbdb3de9d068fb1e6c12dc2598d69a7554274",
       "expected_bytes": 1057,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 1057,
       "source_sha256": "864c90952c7105bdb1e6c1134060fed32814d7b516a4c700de4a83366b00bb3a",
       "local_sha256": "864c90952c7105bdb1e6c1134060fed32814d7b516a4c700de4a83366b00bb3a"
@@ -24,7 +24,7 @@
       "file": "extraction_prompt.md",
       "source_revision": "0fb50d09b4eeb9e650f2033c317719baa8b30ecab2fd26e6f76b27e80bd22a32",
       "expected_bytes": 5548,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 5548,
       "source_sha256": "9f39f143bc01aebee6d626a42f3587267884ffeb43b8a49dc762fe0dfdb929c4",
       "local_sha256": "9f39f143bc01aebee6d626a42f3587267884ffeb43b8a49dc762fe0dfdb929c4"
@@ -33,7 +33,7 @@
       "file": "packaging_prompt.md",
       "source_revision": "94fbf3ae549d932019b57435b1587b50c81e9f2ea575249ee72a43be1e08d310",
       "expected_bytes": 349,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 349,
       "source_sha256": "42258b5e40fbcf7870889d790677c620f5c6a5607fd43bc8227502321ed7d8d7",
       "local_sha256": "42258b5e40fbcf7870889d790677c620f5c6a5607fd43bc8227502321ed7d8d7"

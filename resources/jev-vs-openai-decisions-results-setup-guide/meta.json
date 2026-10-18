@@ -15,7 +15,7 @@
       "file": "Jev-vs-OpenAI-Decisions-Guide.pdf",
       "source_revision": "0291da18d2f39be92bfbd5cfb3d5fe719588701cf12751a65aad682158e5514f",
       "expected_bytes": 11592,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 11592,
       "source_sha256": "09ba549c17d6a28320ef1be85e81bd2209ee5e865f5a45852227b459861b00dd",
       "local_sha256": "09ba549c17d6a28320ef1be85e81bd2209ee5e865f5a45852227b459861b00dd"
@@ -24,7 +24,7 @@
       "file": "Jev-vs-OpenAI-Results-and-Code.zip",
       "source_revision": "a7f126eb0a4fadfde1b24b3aa2eb2a96fc322359edb5bfb8c8825f27193d27a4",
       "expected_bytes": 253571,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 253571,
       "source_sha256": "eb172db15a3258201fe60b3ab0a810619a97b062c0edf96f1ea62dbdb85ce352",
       "local_sha256": "eb172db15a3258201fe60b3ab0a810619a97b062c0edf96f1ea62dbdb85ce352",

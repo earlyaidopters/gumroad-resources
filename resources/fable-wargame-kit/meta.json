@@ -15,7 +15,7 @@
       "file": "fable_wargame_kit.zip",
       "source_revision": "8a949e245aac331b9934e6241bc757f9253e2152b35bdf4f05ed256d998f0396",
       "expected_bytes": 1549501,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 1549501,
       "source_sha256": "b250b2154ab3c660fd3aff5477de5c8c8b33ddb574c43cee8d3b9d66627a78f9",
       "local_sha256": "b250b2154ab3c660fd3aff5477de5c8c8b33ddb574c43cee8d3b9d66627a78f9",

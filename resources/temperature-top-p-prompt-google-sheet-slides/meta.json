@@ -15,7 +15,7 @@
       "file": "Temperature v Top P.pdf",
       "source_revision": "c44e27b1b40810cf45e7f05738cd838e370d76474e2042ba4e30ff19df976030",
       "expected_bytes": 353186,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 353186,
       "source_sha256": "48d0fd5dac0e25a74d173872b91075e2123c5245097fd6fbec98aff862f35a2b",
       "local_sha256": "48d0fd5dac0e25a74d173872b91075e2123c5245097fd6fbec98aff862f35a2b"

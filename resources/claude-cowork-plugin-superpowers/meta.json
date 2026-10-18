@@ -15,7 +15,7 @@
       "file": "claude_cowork_plugins_guide.pdf",
       "source_revision": "b753a69a0c635ecef0c03cb8e9627d133682f24bf77001608481cbbf240a042b",
       "expected_bytes": 20389,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 20389,
       "source_sha256": "3cb5bb8443860197d387b54f19545e16b12ad9e7ca92adc6288bc8344d57f0aa",
       "local_sha256": "3cb5bb8443860197d387b54f19545e16b12ad9e7ca92adc6288bc8344d57f0aa"
@@ -24,7 +24,7 @@
       "file": "diagrams.zip",
       "source_revision": "4707401542fb53b476e8fa08ac0f02986fefc3503a2938b6fa1d76d474aca989",
       "expected_bytes": 37780694,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 37780694,
       "source_sha256": "dda840be23b519886122651c87bba5080cb3aa3d869a01c4507731c341f44759",
       "local_sha256": "dda840be23b519886122651c87bba5080cb3aa3d869a01c4507731c341f44759",

@@ -15,7 +15,7 @@
       "file": "Astra-Computer-Use-Kit.zip",
       "source_revision": "39a848e2abdcc4f4a4458fdac663f4180fa76fa1209fe228abac0bc2814e57ab",
       "expected_bytes": 1888645,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 1888645,
       "source_sha256": "c4604afb67e63c9bb571b06c3dbd27b894d6fdae0269dd9c4fc4f0e00cd6d9b3",
       "local_sha256": "c4604afb67e63c9bb571b06c3dbd27b894d6fdae0269dd9c4fc4f0e00cd6d9b3",
@@ -25,7 +25,7 @@
       "file": "Computer-Use-Field-Guide.pdf",
       "source_revision": "ee038b43411dd4b96a2756b409286e983a6697917937c1f41c7c1aa06d38314b",
       "expected_bytes": 1989904,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 1989904,
       "source_sha256": "995e1cc9f2bce4371daada28315ce0e8a56e03276d601db8cd2e2426a9be7c46",
       "local_sha256": "995e1cc9f2bce4371daada28315ce0e8a56e03276d601db8cd2e2426a9be7c46"

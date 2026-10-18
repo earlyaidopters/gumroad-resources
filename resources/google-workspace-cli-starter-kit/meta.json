@@ -15,7 +15,7 @@
       "file": "DEMO_PROMPTS.pdf",
       "source_revision": "531de9ed5af92db3e0231cf3465f977d5cad6a3fe9e7aad179475aef70cb8a85",
       "expected_bytes": 19999,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 19999,
       "source_sha256": "1bf0323cbf183572912acfa822e5c453ab8812ce0752ca6de7aa0569520ec6f7",
       "local_sha256": "1bf0323cbf183572912acfa822e5c453ab8812ce0752ca6de7aa0569520ec6f7"
@@ -24,7 +24,7 @@
       "file": "gws_setup_prompt.pdf",
       "source_revision": "fc49bfeca44b497422f5ee4a8c270d2c40dfdce9cf164e9b668014885f8adbf2",
       "expected_bytes": 6639,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 6639,
       "source_sha256": "e47f63662e048419eacc3773c0b45f45220b10ca53bf0b9bb010d63692b9209a",
       "local_sha256": "e47f63662e048419eacc3773c0b45f45220b10ca53bf0b9bb010d63692b9209a"

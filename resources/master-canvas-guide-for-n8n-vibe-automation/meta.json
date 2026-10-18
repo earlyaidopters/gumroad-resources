@@ -15,7 +15,7 @@
       "file": "Intro to Vibe Automation.json",
       "source_revision": "bf29f3577ff2c59100bbc5c72fc22642d2cf102ee1a92bdf414f5e915f813002",
       "expected_bytes": 90933,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 90933,
       "source_sha256": "0d1c61b34a66d46c9d62b9f220a022c66384e9030026d1515f2c2f2b3fa94792",
       "local_sha256": "0d1c61b34a66d46c9d62b9f220a022c66384e9030026d1515f2c2f2b3fa94792"

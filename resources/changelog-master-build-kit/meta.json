@@ -15,7 +15,7 @@
       "file": "changelog_tracker_spec.pdf",
       "source_revision": "6456c925130b9407d10d115a87decac67f404bc230463bbbd8c20d579c42fe95",
       "expected_bytes": 20572,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 20572,
       "source_sha256": "9936f6104423ebb10b8dd91d5580f1e21bd6b214b462a2b2968e0a307186bb90",
       "local_sha256": "9936f6104423ebb10b8dd91d5580f1e21bd6b214b462a2b2968e0a307186bb90"
@@ -24,7 +24,7 @@
       "file": "prompt_playbook.pdf",
       "source_revision": "56195813d8be4cd333bd8164efbfa28923c297bc576ec0ca41dc100648eb0978",
       "expected_bytes": 19348,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 19348,
       "source_sha256": "0646fecffe385709582d1f7ac50bbf89724ac651b6eaf19415fe2a96a0467252",
       "local_sha256": "0646fecffe385709582d1f7ac50bbf89724ac651b6eaf19415fe2a96a0467252"
@@ -33,7 +33,7 @@
       "file": "audio_understanding.md",
       "source_revision": "cb8ff3e7208361880bef73c1e7d03d044e6fa3ef8694ef0830b6af4b2f25177d",
       "expected_bytes": 28759,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 28759,
       "source_sha256": "0021e6167d5d7d077f8463ac1a3c1436ed48ee2a6a80213f849e08fd1b1651eb",
       "local_sha256": "0021e6167d5d7d077f8463ac1a3c1436ed48ee2a6a80213f849e08fd1b1651eb"
@@ -42,7 +42,7 @@
       "file": "claude-changelog-app.md",
       "source_revision": "37ddea2c86208031737a56792b9a16fb072deb0625765252c8dcd5f03962fa1d",
       "expected_bytes": 13053,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 13053,
       "source_sha256": "ea82a1046282b4f5ffc22bf49e19e78a9830fe86b5fdfe6dba8fdbc69b0362c5",
       "local_sha256": "ea82a1046282b4f5ffc22bf49e19e78a9830fe86b5fdfe6dba8fdbc69b0362c5"
@@ -51,7 +51,7 @@
       "file": "gemini-3.md",
       "source_revision": "a1be1c068940699126113a1b2fe3a79735b70c0363efd918fedad80347063bb2",
       "expected_bytes": 32794,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 32794,
       "source_sha256": "cdf3197ac8f7dcbc5a8eb9c6afbfebb2d5fcf1b42f456d433763229dbf61dcb1",
       "local_sha256": "cdf3197ac8f7dcbc5a8eb9c6afbfebb2d5fcf1b42f456d433763229dbf61dcb1"

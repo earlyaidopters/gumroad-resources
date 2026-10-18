@@ -15,7 +15,7 @@
       "file": "bench_studio_ownership_kit.zip",
       "source_revision": "119a2e48b213eacbe68f2a913d853386a5280b9db21c37a3bc882f12b73b40e7",
       "expected_bytes": 39462,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 39462,
       "source_sha256": "0359bee891fdfea981cc2f3ae2b9fe009d17e1d96d154ff6de5bc956ef011e82",
       "local_sha256": "0359bee891fdfea981cc2f3ae2b9fe009d17e1d96d154ff6de5bc956ef011e82",

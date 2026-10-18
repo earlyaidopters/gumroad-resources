@@ -15,7 +15,7 @@
       "file": "n8n Cheat Sheet Guide.pdf",
       "source_revision": "04d9d000bde4b4f71224dfeab5bb6ce375089da500b3e9efdb2f6b1c95eb3481",
       "expected_bytes": 669794,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 669794,
       "source_sha256": "07c959b21753039b301306e248ca4050527d9969c3a339b6f76e875969312946",
       "local_sha256": "07c959b21753039b301306e248ca4050527d9969c3a339b6f76e875969312946"
@@ -24,7 +24,7 @@
       "file": "n8n_Tips_and_Tricks.txt",
       "source_revision": "0af4582efed664462e9666faa6355702fb99840befb618072fad3eb431b99e00",
       "expected_bytes": 17053,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 17053,
       "source_sha256": "4474f4bb192642cccfd507f156dbe18af7b2d195fb6ef052597da0d3c017e2a8",
       "local_sha256": "4474f4bb192642cccfd507f156dbe18af7b2d195fb6ef052597da0d3c017e2a8"
@@ -33,7 +33,7 @@
       "file": "ALL_unique_nodes.txt",
       "source_revision": "65c878e6666d0b68cd29a93a66602d79dcdebe6eab585e1f40e064cdc3a756cd",
       "expected_bytes": 4165856,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 4165856,
       "source_sha256": "3f0909e7ade5f2f7e6622c1fc2d28cb1b3ba2a232a139c05042d3bb4a509973e",
       "local_sha256": "3f0909e7ade5f2f7e6622c1fc2d28cb1b3ba2a232a139c05042d3bb4a509973e"

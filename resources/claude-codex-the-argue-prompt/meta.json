@@ -15,7 +15,7 @@
       "file": "Claude-Codex-ARGUE-Guide.pdf",
       "source_revision": "aefa8a4dc1b717b694c4ec60c99f51f2989a6c399f30b61cfbe790516e4d9b93",
       "expected_bytes": 7139,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 7139,
       "source_sha256": "2ca4c56c1d4d599dee9b2ada22d4116534e4bcca4180cb3098f3141bba6350ba",
       "local_sha256": "2ca4c56c1d4d599dee9b2ada22d4116534e4bcca4180cb3098f3141bba6350ba"
@@ -24,7 +24,7 @@
       "file": "ARGUE-Prompt.txt",
       "source_revision": "f7b0891b559c7e1a7b36043ed3e8658bdafc1664da8e884d14a5801bd3a9c839",
       "expected_bytes": 4899,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 4899,
       "source_sha256": "ebc657a4a78da8a6e8f137ec9f030352635dc653ab0f0015cb9baf5996d58d30",
       "local_sha256": "ebc657a4a78da8a6e8f137ec9f030352635dc653ab0f0015cb9baf5996d58d30"

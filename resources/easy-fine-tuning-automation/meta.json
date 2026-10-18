@@ -15,7 +15,7 @@
       "file": "AI_Fine_Tuning-86692ec37c.json",
       "source_revision": "29fa292db3fd576159cda42d402466927aecaad1fa85e9e5003672c7c7789ff3",
       "expected_bytes": 46308,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 46308,
       "source_sha256": "89c0c4897238c29de1ddf4c09b257e8e7f1bece841a1f4baca13329ee7b54264",
       "local_sha256": "89c0c4897238c29de1ddf4c09b257e8e7f1bece841a1f4baca13329ee7b54264"
@@ -24,7 +24,7 @@
       "file": "AI_Fine_Tuning-bbbbc34dc8.json",
       "source_revision": "9477b3ccfcf82311f85892c9fdf90baba7e5c7b86c50469e9b3764d9d1d2ad23",
       "expected_bytes": 46308,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 46308,
       "source_sha256": "89c0c4897238c29de1ddf4c09b257e8e7f1bece841a1f4baca13329ee7b54264",
       "local_sha256": "89c0c4897238c29de1ddf4c09b257e8e7f1bece841a1f4baca13329ee7b54264"
@@ -33,7 +33,7 @@
       "file": "n8n fine-tuning.pdf",
       "source_revision": "3cbf8f89aac558afdef05d49262028fc1f005555fbadd14655368e16f3b4d68e",
       "expected_bytes": 897669,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 897669,
       "source_sha256": "62aee12b326500d12cadaa7e0d805d231cae9b5c9bb7c25a33f0011a423daf67",
       "local_sha256": "62aee12b326500d12cadaa7e0d805d231cae9b5c9bb7c25a33f0011a423daf67"

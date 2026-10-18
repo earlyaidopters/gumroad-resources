@@ -15,7 +15,7 @@
       "file": "five-agent-boundaries.pdf",
       "source_revision": "3d3191b4ce61640fa8ea2f7b9cec152a12da0376de270d0c023ba817ddfd0129",
       "expected_bytes": 152633,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 152633,
       "source_sha256": "b7beafda74b4c073dc8843cd5ef045707920ced5bed047837c9d9f483cc35d03",
       "local_sha256": "b7beafda74b4c073dc8843cd5ef045707920ced5bed047837c9d9f483cc35d03"

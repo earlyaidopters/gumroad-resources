@@ -15,7 +15,7 @@
       "file": "polyskill-kit.zip",
       "source_revision": "4269b09a72d4c46bd26cca93bc3910b63b1e0acb772f0344e0b7103e8a8134fe",
       "expected_bytes": 21354,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 21354,
       "source_sha256": "c7710b8c7188474a1d60b5fdcc56417ab2286eb429f6bb9c5314045039796a2d",
       "local_sha256": "c7710b8c7188474a1d60b5fdcc56417ab2286eb429f6bb9c5314045039796a2d",

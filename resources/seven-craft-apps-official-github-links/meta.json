@@ -15,7 +15,7 @@
       "file": "ADOBE-Official-Craft-Links.txt",
       "source_revision": "a6df0b2cb1a9a8624fc0f4304012aa1f9d1450761b55890971361f2165e54692",
       "expected_bytes": 2246,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 2246,
       "source_sha256": "f8dab1ebb309860c9dcbdd1db265251415538e51d6e6ec0686b3c7ff3607916b",
       "local_sha256": "f8dab1ebb309860c9dcbdd1db265251415538e51d6e6ec0686b3c7ff3607916b"

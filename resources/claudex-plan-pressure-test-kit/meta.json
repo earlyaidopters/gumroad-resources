@@ -15,7 +15,7 @@
       "file": "codex_loop_field_guide.pdf",
       "source_revision": "94ac3b222acdb18b533b0ebbd387bee3ff05b4d6f8501d776f3daaf00897c68c",
       "expected_bytes": 7453105,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 7453105,
       "source_sha256": "f8c54a38c1b736548c2559e3cd47200082fa8dde4ffc15be85c9e1a41baa991f",
       "local_sha256": "f8c54a38c1b736548c2559e3cd47200082fa8dde4ffc15be85c9e1a41baa991f"

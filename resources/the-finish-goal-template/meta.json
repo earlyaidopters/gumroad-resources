@@ -15,7 +15,7 @@
       "file": "FINISH-Goal-Template.pdf",
       "source_revision": "5f0abc515eb50bdfeb4726129f088cf0a50477c1183d4b9548d93de96d3b52ff",
       "expected_bytes": 5126,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 5126,
       "source_sha256": "616e6c7a289923ddb2d6ba97964db317ee35b469e01ea93c3c0f37ba897ee458",
       "local_sha256": "616e6c7a289923ddb2d6ba97964db317ee35b469e01ea93c3c0f37ba897ee458"
@@ -24,7 +24,7 @@
       "file": "FINISH-Goal-Template.txt",
       "source_revision": "2e89c06ed6896e24194cccd7cea749d91a099e4f5875a2e956f5f5219f1e6b92",
       "expected_bytes": 3886,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 3886,
       "source_sha256": "591ba98b5b86e5649d206378240ee153764cab8ff568cf4a5658a6d4ced09c6f",
       "local_sha256": "591ba98b5b86e5649d206378240ee153764cab8ff568cf4a5658a6d4ced09c6f"

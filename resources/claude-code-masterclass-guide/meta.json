@@ -15,7 +15,7 @@
       "file": "settings.local.json",
       "source_revision": "9d9cf3f88d8e1bb0113e5c9c93ca87741dd96c50500f5e4c7852f945d1a98c51",
       "expected_bytes": 550,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 550,
       "source_sha256": "e1d05438b14fcff9530a41ec2e09df19bbb86050ec40f88f019be99a2936c7b1",
       "local_sha256": "e1d05438b14fcff9530a41ec2e09df19bbb86050ec40f88f019be99a2936c7b1"
@@ -24,7 +24,7 @@
       "file": "Claude_Code_Mastery_Guide.pdf",
       "source_revision": "c850f410142d65094affbcd4d61468f1c8b34eefd3c69f5bc68580ea1ee3ca71",
       "expected_bytes": 139473,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 139473,
       "source_sha256": "f678ad5c5e016924a79f111890e7024c01eea12ada12a5cd572515ea9c5b1f65",
       "local_sha256": "f678ad5c5e016924a79f111890e7024c01eea12ada12a5cd572515ea9c5b1f65"

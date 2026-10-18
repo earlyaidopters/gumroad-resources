@@ -15,7 +15,7 @@
       "file": "5_LEVELS_CLAUDE_CODE_GUIDE.pdf",
       "source_revision": "cbda8d34e2a22b5eabcdab59a2272636f9962972545a6e20e145b46c01096ba4",
       "expected_bytes": 12500,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 12500,
       "source_sha256": "e7867594804d46cca3d1c5f8c0054282cc868acd64a21a8252df5cebeea8da33",
       "local_sha256": "e7867594804d46cca3d1c5f8c0054282cc868acd64a21a8252df5cebeea8da33"

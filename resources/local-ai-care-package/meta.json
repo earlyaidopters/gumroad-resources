@@ -15,7 +15,7 @@
       "file": "local-ai-care-package.zip",
       "source_revision": "04cf398471f690be83b20a139fd7e3f0b366c209f970c2f7e2c251c21334ebf5",
       "expected_bytes": 152627,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 152627,
       "source_sha256": "faadc7693ec158802aeb2f30b82d706d987f250b3329f7e06e5e8ed444c58ec2",
       "local_sha256": "faadc7693ec158802aeb2f30b82d706d987f250b3329f7e06e5e8ed444c58ec2",

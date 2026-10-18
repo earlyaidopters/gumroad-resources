@@ -15,7 +15,7 @@
       "file": "personal_benchmark_skill.zip",
       "source_revision": "9079578b54c6b4cc9d25184ed8a7d6ed0d784cba92ffd1f96f7aeaa2b36a7501",
       "expected_bytes": 55861,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 55861,
       "source_sha256": "dca08b129bf1a21398d7c3ef9c01e68b4c3a494d32fa41dfdffb9d4c41efc470",
       "local_sha256": "dca08b129bf1a21398d7c3ef9c01e68b4c3a494d32fa41dfdffb9d4c41efc470",

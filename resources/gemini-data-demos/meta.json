@@ -15,7 +15,7 @@
       "file": "automation.csv",
       "source_revision": "960b47bb43caef5de046196f9081e914baf9906747f26faffd598125fb66c66d",
       "expected_bytes": 8578,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 8578,
       "source_sha256": "cfc044c69cdc6f268cb2df02161eca5b82e156ea14c36f7aa70624b65fbf06ed",
       "local_sha256": "cfc044c69cdc6f268cb2df02161eca5b82e156ea14c36f7aa70624b65fbf06ed"
@@ -24,7 +24,7 @@
       "file": "forecasting.csv",
       "source_revision": "8109907c7e7385801e45d0de6f31e8c2496df22c3c1dc5c26639a83d8e2804b4",
       "expected_bytes": 2959,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 2959,
       "source_sha256": "e2b074ce05bdd649b62b399bfd57558df49b970b93514c7f937325b03d75854f",
       "local_sha256": "e2b074ce05bdd649b62b399bfd57558df49b970b93514c7f937325b03d75854f"
@@ -33,7 +33,7 @@
       "file": "eda.csv",
       "source_revision": "3b8f5addf86eba00a0bae5a21699a3bd87c5132fef3f31cf18dd56b7ad6a26d2",
       "expected_bytes": 6267,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 6267,
       "source_sha256": "3251b0ba712f267a1d20cf6bd8e8380d0009f6aaa6a0397040ca0d521486158d",
       "local_sha256": "3251b0ba712f267a1d20cf6bd8e8380d0009f6aaa6a0397040ca0d521486158d"
@@ -42,7 +42,7 @@
       "file": "customer_churn_dataset.csv",
       "source_revision": "dea3ccd28924bae705b116395733c9a20d05e6bc96a11ab157655a1e9336f0de",
       "expected_bytes": 125974,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 125974,
       "source_sha256": "26f90e3a45d5010bcbf4068754caa0ec9da1290750137ce5b486ee36c140c55d",
       "local_sha256": "26f90e3a45d5010bcbf4068754caa0ec9da1290750137ce5b486ee36c140c55d"

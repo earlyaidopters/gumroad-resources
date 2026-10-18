@@ -15,7 +15,7 @@
       "file": "codex_duo_concepts_companion.pdf",
       "source_revision": "edbf33219a9a41f4c2deb3358014f1951efb2df29e8751d611f4a7dbe56edf85",
       "expected_bytes": 26112,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 26112,
       "source_sha256": "401b53c5f8135de881bdb4f1bcb608c75b7b88ba758a216a240d9c6f042ce527",
       "local_sha256": "401b53c5f8135de881bdb4f1bcb608c75b7b88ba758a216a240d9c6f042ce527"
@@ -24,7 +24,7 @@
       "file": "codex_duo_field_guide.pdf",
       "source_revision": "07c972b3110c8d1200a866448aaafed7b38f936608396782a6b3761e49eedb9b",
       "expected_bytes": 12463484,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 12463484,
       "source_sha256": "ccc87c13c62e35fd3e59c953db035444bc16343e704c6c9093842489e654d3b7",
       "local_sha256": "ccc87c13c62e35fd3e59c953db035444bc16343e704c6c9093842489e654d3b7"

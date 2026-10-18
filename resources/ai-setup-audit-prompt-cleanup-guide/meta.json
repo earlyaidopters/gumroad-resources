@@ -15,7 +15,7 @@
       "file": "AI-SETUP-AUDIT-GUIDE.pdf",
       "source_revision": "7a2ae3d1bbee2ccf9d2041147261c1ba9419a72498633e9e236659253eb0d275",
       "expected_bytes": 2198073,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 2198073,
       "source_sha256": "84b74c6768c3ef8e8f1f0afc6787adbf146e81e5af88728835ccbc023c142175",
       "local_sha256": "84b74c6768c3ef8e8f1f0afc6787adbf146e81e5af88728835ccbc023c142175"
@@ -24,7 +24,7 @@
       "file": "AUDIT-PROMPT.md",
       "source_revision": "c46ae30f1a83091a756733e096aa33675ed072cc9f15d1ca09cff15f762dbf57",
       "expected_bytes": 2834,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 2834,
       "source_sha256": "82172ad5196c0c9dd36b3287a427c085387d703118979043e3538b3fbe589ef3",
       "local_sha256": "82172ad5196c0c9dd36b3287a427c085387d703118979043e3538b3fbe589ef3"
@@ -33,7 +33,7 @@
       "file": "CLEANUP-GUIDE.md",
       "source_revision": "80025ac7f1864f7f1bb78c99099ef88f3b283711051a6ea0cca03caeb5efbc8c",
       "expected_bytes": 7161,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 7161,
       "source_sha256": "2972949bee4f7be28f2fa8e461299f735f9edfc57f3db5fa4937c1aaa5a4b90b",
       "local_sha256": "2972949bee4f7be28f2fa8e461299f735f9edfc57f3db5fa4937c1aaa5a4b90b"
@@ -42,7 +42,7 @@
       "file": "AI-SETUP-AUDIT-KIT.zip",
       "source_revision": "6432d72a52a2ffc7ee515dd1138fef821f72672d854f164d77f7c6e8449db2e4",
       "expected_bytes": 1994418,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 1994418,
       "source_sha256": "01358c8ebc9717984254ce0852f8e757dbecf527583e10be588f5650ecf03549",
       "local_sha256": "01358c8ebc9717984254ce0852f8e757dbecf527583e10be588f5650ecf03549",

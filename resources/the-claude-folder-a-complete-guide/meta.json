@@ -15,7 +15,7 @@
       "file": "meetingflow_demo.zip",
       "source_revision": "5501d7542fba80476726fa222f68031c3b8c0cd89fda959c2f14ba310f30de40",
       "expected_bytes": 21179,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 21179,
       "source_sha256": "fc446bab880c84984a31190dda0213151afc83e06669abbb375aad04b212b859",
       "local_sha256": "fc446bab880c84984a31190dda0213151afc83e06669abbb375aad04b212b859",
@@ -25,7 +25,7 @@
       "file": "claude_folder_viewer_guide.pdf",
       "source_revision": "67cbfb7ad0a9df7c27a587fdb71bca548c5cef13b2120b756ac39abe438d3fb5",
       "expected_bytes": 7932984,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 7932984,
       "source_sha256": "f9ccb46bc90dec6ad48867be4eecbe5ecbf087e8703656e762e9dfc662e6a078",
       "local_sha256": "f9ccb46bc90dec6ad48867be4eecbe5ecbf087e8703656e762e9dfc662e6a078"

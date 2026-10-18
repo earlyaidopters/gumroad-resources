@@ -15,7 +15,7 @@
       "file": "Live_Search_Workflow.json",
       "source_revision": "c52e1e5ebcd44e4a09793008eebbbd4209a40537e3a9277f6f63d123781e913a",
       "expected_bytes": 16694,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 16694,
       "source_sha256": "7182b2e611d199c0db14a5743146b52a343d41d3098b71a2055d54819aed4700",
       "local_sha256": "7182b2e611d199c0db14a5743146b52a343d41d3098b71a2055d54819aed4700"

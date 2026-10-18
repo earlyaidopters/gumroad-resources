@@ -15,7 +15,7 @@
       "file": "Slack to YouTube Content Generator.json",
       "source_revision": "de76e3e2f6f412e311ec8d1c80b06e4d8ca9e9a0f346cb403bf38390fad27c36",
       "expected_bytes": 6969,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 6969,
       "source_sha256": "d32cb5045e099f8e601ba7e87b28313249ddb607c6a5dc2b92f22ce711b95a64",
       "local_sha256": "d32cb5045e099f8e601ba7e87b28313249ddb607c6a5dc2b92f22ce711b95a64"
@@ -24,7 +24,7 @@
       "file": "Voice Notes to Searchable Knowledge Base.json",
       "source_revision": "36ef74cdcff969e5775670312e3e79f56b194cd993f543c8002520f35c25ff64",
       "expected_bytes": 11505,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 11505,
       "source_sha256": "1378bb8d54831ab584b19204d65b451c8fc985d635c73e913e19a8f1866ee483",
       "local_sha256": "1378bb8d54831ab584b19204d65b451c8fc985d635c73e913e19a8f1866ee483"
@@ -33,7 +33,7 @@
       "file": "Automated Client Onboarding with AI-Generated Checklist.json",
       "source_revision": "1d4b72ff8cbc3f92e4a0df5b4477a2b034ef8ed238b0b70fe4ddbfec18378bda",
       "expected_bytes": 13861,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 13861,
       "source_sha256": "3f780256288e8c278d20db1cbbd2287eb8ad3c30af24fe311afd3190686d3797",
       "local_sha256": "3f780256288e8c278d20db1cbbd2287eb8ad3c30af24fe311afd3190686d3797"
@@ -42,7 +42,7 @@
       "file": "AI Social Media Content Calendar Generator with Airtable Integration.json",
       "source_revision": "40518d36e47fc3f529911b52e7bfc93416b3cf617067ec53a7766b2e459205a3",
       "expected_bytes": 13723,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 13723,
       "source_sha256": "54c635d695753f6fe688200d8b07339607033fd0c4c8d43a8f5ca09a100be5b9",
       "local_sha256": "54c635d695753f6fe688200d8b07339607033fd0c4c8d43a8f5ca09a100be5b9"
@@ -51,7 +51,7 @@
       "file": "Daily RSS News Digest to Slack and Discord.json",
       "source_revision": "9535f640ccac9088cc6096dae1b970b6ea6c2d7638568c3cf6c73f4b83fc079b",
       "expected_bytes": 13242,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 13242,
       "source_sha256": "825492d410e10b7f17049719799bb13ff3a4e625ccd520560d87a579cdb2f931",
       "local_sha256": "825492d410e10b7f17049719799bb13ff3a4e625ccd520560d87a579cdb2f931"
@@ -60,7 +60,7 @@
       "file": "LinkedIn Content Generator with Industry Research and Post Automation.json",
       "source_revision": "ce7e11e731c7e12273cf358c1fad7226bac6db745c3d9ec637d3b715d7fc3f0a",
       "expected_bytes": 21377,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 21377,
       "source_sha256": "863a21724d44462f9e772ec2685e49cc0c7cb834cba2844eb37cf4285f9bcd0a",
       "local_sha256": "863a21724d44462f9e772ec2685e49cc0c7cb834cba2844eb37cf4285f9bcd0a"
@@ -69,7 +69,7 @@
       "file": "Smart Project Task Escalation Manager.json",
       "source_revision": "04259744eaa8ae8371211c6d3ff4cbf2d0243ba2a2eb357930abe92f3f731922",
       "expected_bytes": 24307,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 24307,
       "source_sha256": "5fc06a4b06025441c89ee461e84c289be3e6372b8575e815108cc0179e3ae822",
       "local_sha256": "5fc06a4b06025441c89ee461e84c289be3e6372b8575e815108cc0179e3ae822"
@@ -78,7 +78,7 @@
       "file": "Daily Standup Automation with AI Summary and Archive.json",
       "source_revision": "82893b4046a6faa1996c37691ff3fdb7381b5e1f94a24ed7a406fbfff0f2af06",
       "expected_bytes": 19999,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 19999,
       "source_sha256": "bf76d72342729f5ea35eb60b899f0e60b1e5ba944c591d28f806a5fc4bdea4ed",
       "local_sha256": "bf76d72342729f5ea35eb60b899f0e60b1e5ba944c591d28f806a5fc4bdea4ed"
@@ -87,7 +87,7 @@
       "file": "Google Drive Knowledge Base Assistant.json",
       "source_revision": "4a50d2df8a2e691babb259ce37723fb0e5bf1a75adb37c08a2a4b348b43737b3",
       "expected_bytes": 13824,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 13824,
       "source_sha256": "09923853d733d3d95c9c34f35eae7dc6dc103b85ee1bcb8854f77414f2285c17",
       "local_sha256": "09923853d733d3d95c9c34f35eae7dc6dc103b85ee1bcb8854f77414f2285c17"
@@ -96,7 +96,7 @@
       "file": "Lead Intake Auto-Responder for Consultancy Services.json",
       "source_revision": "c0a93764d63fb61552ae00b4f5415977f0d3a507bb72c21bd081b9fb1332f13a",
       "expected_bytes": 12722,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 12722,
       "source_sha256": "b091e465f0def1f928d4c2e5be8ee7402986d2938cb502969148e11b04636dc7",
       "local_sha256": "b091e465f0def1f928d4c2e5be8ee7402986d2938cb502969148e11b04636dc7"

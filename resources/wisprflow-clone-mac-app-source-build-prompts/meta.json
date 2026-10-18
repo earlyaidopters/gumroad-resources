@@ -15,7 +15,7 @@
       "file": "Relay-Voice-Resource.zip",
       "source_revision": "51c88373eff8aaf185a9c09dd473a99bb838e6c1e5a6f85e2bb4138bdd2561d5",
       "expected_bytes": 5945910,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 5945910,
       "source_sha256": "ceaf346b96503ef10a3ee04c598bf8a627f89ee2dd60a45b74560edef8f7da65",
       "local_sha256": "ceaf346b96503ef10a3ee04c598bf8a627f89ee2dd60a45b74560edef8f7da65",

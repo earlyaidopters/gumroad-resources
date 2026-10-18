@@ -15,7 +15,7 @@
       "file": "APPLE-Design-Skill.txt",
       "source_revision": "6201c7442386508e69b8c66e5266905cefcea7f6fe6c0d9649668034ef94f71c",
       "expected_bytes": 1822,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 1822,
       "source_sha256": "feee6612c3251bafe2f517ada7413c7b45b73e8e3623c4e890ff2a05e0ba6e1c",
       "local_sha256": "feee6612c3251bafe2f517ada7413c7b45b73e8e3623c4e890ff2a05e0ba6e1c"

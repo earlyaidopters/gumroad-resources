@@ -15,7 +15,7 @@
       "file": "skill_assets.zip",
       "source_revision": "da9102937ca72aed08c422cd13c03d4a81af43e11173d6567f39b4a3d181cff9",
       "expected_bytes": 266245,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 266245,
       "source_sha256": "35be8a82ffa0472f2b2a9c2aa7af3b4d6a6f8cdf61f29ac39bbaf985448cb81d",
       "local_sha256": "35be8a82ffa0472f2b2a9c2aa7af3b4d6a6f8cdf61f29ac39bbaf985448cb81d",

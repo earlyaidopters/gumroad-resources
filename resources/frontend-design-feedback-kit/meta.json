@@ -15,7 +15,7 @@
       "file": "frontend-design-loop.pdf",
       "source_revision": "e07b7762744ef0ffe693127226d68bd970240a0ce9904c4c55f255161be8f3bc",
       "expected_bytes": 5468,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 5468,
       "source_sha256": "b0c428ca8ff3e8a73529acd4baa639e8614827bb24acdf84bbc1c933315aaf7d",
       "local_sha256": "b0c428ca8ff3e8a73529acd4baa639e8614827bb24acdf84bbc1c933315aaf7d"
@@ -24,7 +24,7 @@
       "file": "frontend-templates.zip",
       "source_revision": "efba807772eae1461276f4117defe55bf12235a184798a4944e929b749d0bcb4",
       "expected_bytes": 2396,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 2396,
       "source_sha256": "edff068a34d1da55d986f6c406aac7e0bd9ef9ff638e23062670358915f4b261",
       "local_sha256": "edff068a34d1da55d986f6c406aac7e0bd9ef9ff638e23062670358915f4b261",

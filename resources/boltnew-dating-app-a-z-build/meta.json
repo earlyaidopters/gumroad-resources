@@ -15,7 +15,7 @@
       "file": "datingapp.pdf",
       "source_revision": "6e1495be5256d60a6e4956621846a2a2067fc8d72c5d505061f419f9739520c2",
       "expected_bytes": 3144796,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 3144796,
       "source_sha256": "4546c57cfeef63b534c1cd695e4268ce50776a22c097d35f3b3cb83d78964453",
       "local_sha256": "4546c57cfeef63b534c1cd695e4268ce50776a22c097d35f3b3cb83d78964453"
@@ -24,7 +24,7 @@
       "file": "Bolt_Cancellation_Demo_Sanitized.json",
       "source_revision": "850defdbf0636be3a72cf4a2405a44c3bb11b183e31a3a1365fca8cb0c414871",
       "expected_bytes": 23215,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 23215,
       "source_sha256": "508dcc2f3dfe36a64e298b8133b109ac8a4193dccfee4d11f15341522c10408a",
       "local_sha256": "508dcc2f3dfe36a64e298b8133b109ac8a4193dccfee4d11f15341522c10408a"
@@ -33,7 +33,7 @@
       "file": "Firebase_Integration.json",
       "source_revision": "55d70884b929c408e1796c863aa9a3f84e4da249caef153a428d1ddfa7ff30bc",
       "expected_bytes": 87964,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 87964,
       "source_sha256": "5eaef068cf59a584b00ad9c9f8d32eaba0b2a62c205d6229adca0d64684e9865",
       "local_sha256": "5eaef068cf59a584b00ad9c9f8d32eaba0b2a62c205d6229adca0d64684e9865"

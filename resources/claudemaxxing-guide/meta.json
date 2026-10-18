@@ -15,7 +15,7 @@
       "file": "claudemaxxing_guide.pdf",
       "source_revision": "dbe175d05d4c0a7132fb6f985872391b530444f0425bc4f48178b33824d1704f",
       "expected_bytes": 32605,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 32605,
       "source_sha256": "33c1a964eb9192d0d3d0edf6cabc0340ecd7160fd70b0353f49dc956e267c245",
       "local_sha256": "33c1a964eb9192d0d3d0edf6cabc0340ecd7160fd70b0353f49dc956e267c245"

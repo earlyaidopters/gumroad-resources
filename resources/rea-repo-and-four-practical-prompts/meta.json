@@ -15,7 +15,7 @@
       "file": "REA-Start-Here.txt",
       "source_revision": "d3899367eb6c045eafef40e336fd68f43a24d741173700d58462ef328aac3f3c",
       "expected_bytes": 3189,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 3189,
       "source_sha256": "2d723857720e7660fd312b4c5e5731a6b0fae68977d190da6321731e781160bd",
       "local_sha256": "2d723857720e7660fd312b4c5e5731a6b0fae68977d190da6321731e781160bd"
@@ -24,7 +24,7 @@
       "file": "REA-Four-Prompts.txt",
       "source_revision": "373ee0cb6726b356860d579eabd6c82f23cec5c1b5f72479b864425073adb49b",
       "expected_bytes": 2571,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 2571,
       "source_sha256": "1abb5422c85909ffa44e9119ad313bc8cca665706b7398a7d3422b2a54027894",
       "local_sha256": "1abb5422c85909ffa44e9119ad313bc8cca665706b7398a7d3422b2a54027894"

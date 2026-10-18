@@ -15,7 +15,7 @@
       "file": "The 90 Day AI Playbook.pdf",
       "source_revision": "434d34fe8e4a3340d943bf1a8dd2ca1adba158f676f30ec501c879549df46f99",
       "expected_bytes": 1905108,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 1905108,
       "source_sha256": "29395e5b6e50bf1217b85410e6104a353671bd0c861f34bfc40dddc225b563b7",
       "local_sha256": "29395e5b6e50bf1217b85410e6104a353671bd0c861f34bfc40dddc225b563b7"

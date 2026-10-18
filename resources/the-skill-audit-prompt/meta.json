@@ -15,7 +15,7 @@
       "file": "optimize_skill_prompt.md",
       "source_revision": "002637bbff89ea26e34d22eaffd733fad3db0b21aa971ceaf439de5fe6c420d9",
       "expected_bytes": 5252,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 5252,
       "source_sha256": "e3f773eaaf01013e51a70739312a5766123255450d5072f815534b02a5988598",
       "local_sha256": "e3f773eaaf01013e51a70739312a5766123255450d5072f815534b02a5988598"

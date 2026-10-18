@@ -15,7 +15,7 @@
       "file": "agents.pdf",
       "source_revision": "584f7322fc5d1c5590cb6861e5432e9c28da829d147188eaccb0fa7e5d14fd87",
       "expected_bytes": 1338060,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 1338060,
       "source_sha256": "a60023a0169a3221569c73217cb9d64cdaf21ae94f9d1e612568d30fda5b95dc",
       "local_sha256": "a60023a0169a3221569c73217cb9d64cdaf21ae94f9d1e612568d30fda5b95dc"

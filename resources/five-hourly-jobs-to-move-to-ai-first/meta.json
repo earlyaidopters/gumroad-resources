@@ -15,7 +15,7 @@
       "file": "five-hourly-jobs.pdf",
       "source_revision": "5b356fed671ba0b1fc3c5c01c17ba23a595d305ce80d583a56d17805321d79a1",
       "expected_bytes": 103352,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 103352,
       "source_sha256": "9f75e7efe83be445c2411a809e608da17c8723206df71e500e1a24caaa242212",
       "local_sha256": "9f75e7efe83be445c2411a809e608da17c8723206df71e500e1a24caaa242212"
@@ -24,7 +24,7 @@
       "file": "hours-prompts.txt",
       "source_revision": "58df6764e3263fef6e52eb92fce08b6cfe6c6bc75e14f9b0246951039de72656",
       "expected_bytes": 4883,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 4883,
       "source_sha256": "91c9990891cb46077d37dfbcb10ff70951fc7b3b5eee9d083aafec00988bbb91",
       "local_sha256": "91c9990891cb46077d37dfbcb10ff70951fc7b3b5eee9d083aafec00988bbb91"

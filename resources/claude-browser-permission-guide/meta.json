@@ -15,7 +15,7 @@
       "file": "claude-browser-permission-guide.pdf",
       "source_revision": "ecde7ec3d568a844819855d8924633e2589602d81f264ac28307ea0c5662b301",
       "expected_bytes": 6419063,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 6419063,
       "source_sha256": "5a6ede319091f49ee3d36fbaab63500feaea72f1c82cb8ba31e9337f21156eff",
       "local_sha256": "5a6ede319091f49ee3d36fbaab63500feaea72f1c82cb8ba31e9337f21156eff"
@@ -24,7 +24,7 @@
       "file": "browser-first-task.txt",
       "source_revision": "b40d30caf6483c8aa17ce6d825d43718102ab18815d8cfd70e0ce47b27ae8da7",
       "expected_bytes": 699,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 699,
       "source_sha256": "6050bfc52e17ef8030405e15dc4bbf926a026812c55a56728e13143083faaaaf",
       "local_sha256": "6050bfc52e17ef8030405e15dc4bbf926a026812c55a56728e13143083faaaaf"

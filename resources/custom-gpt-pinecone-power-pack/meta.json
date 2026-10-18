@@ -15,7 +15,7 @@
       "file": "Talk to Any Document.pdf",
       "source_revision": "100572c1026238a87d1a3b66495f29f3a6f27defc004ffbe7210a3559083a213",
       "expected_bytes": 1175472,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 1175472,
       "source_sha256": "7406ac443ddfbf9479541abdff4f66d06035564610a5c2611d6f2a9f29f72ea1",
       "local_sha256": "7406ac443ddfbf9479541abdff4f66d06035564610a5c2611d6f2a9f29f72ea1"
@@ -24,7 +24,7 @@
       "file": "pinecone-gdrive.json",
       "source_revision": "0b19d0a0a18ed6c13521f78b4f61402279b98ac714fc7abc751e41e2c642e09f",
       "expected_bytes": 22142,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 22142,
       "source_sha256": "e8267e3298f4f7fd9b4734bfb46888d1f4ce845d8ece906ca8527acaf00de706",
       "local_sha256": "e8267e3298f4f7fd9b4734bfb46888d1f4ce845d8ece906ca8527acaf00de706"
@@ -33,7 +33,7 @@
       "file": "pinecone_schema.txt",
       "source_revision": "c252acc64c936c6c5450bccb402945bcfede30e35ae109db3c975711c4a721a5",
       "expected_bytes": 2700,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 2700,
       "source_sha256": "bcfcee08d9f18fd153c5ccd985239c81d84cd76e680831eef14c6db5c0328896",
       "local_sha256": "bcfcee08d9f18fd153c5ccd985239c81d84cd76e680831eef14c6db5c0328896"

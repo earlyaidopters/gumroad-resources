@@ -15,7 +15,7 @@
       "file": "blueprint.json",
       "source_revision": "0ea4e1c0b55548e7eab1ad886f10495d3308ea8d270cca2698a7fb6b37c4b10e",
       "expected_bytes": 38010,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 38010,
       "source_sha256": "545ca82fa0f273cd74347b4dcf5fb8f887295e111a83f31365e6d38397b68b09",
       "local_sha256": "545ca82fa0f273cd74347b4dcf5fb8f887295e111a83f31365e6d38397b68b09"

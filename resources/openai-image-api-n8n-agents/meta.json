@@ -15,7 +15,7 @@
       "file": "Main AI Agent Orchestrator.json",
       "source_revision": "a5455c7f02e6d5ae44ad16484fb14065d5a303fba1333f209de03da73839e47b",
       "expected_bytes": 15156,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 15156,
       "source_sha256": "e29160ef10b05907bfd2f58924815f4ef029fc00965908266052124d63080486",
       "local_sha256": "e29160ef10b05907bfd2f58924815f4ef029fc00965908266052124d63080486"
@@ -24,7 +24,7 @@
       "file": "Create Image Subflow.json",
       "source_revision": "c379f3543ea3f721bde8169061d2eaab9cd8c1bc7efaed9a6020ca3f87402a36",
       "expected_bytes": 8576,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 8576,
       "source_sha256": "53a1291ac2da84fa4fddd67f9c98afab192c43d27302e7d8e751510e347b593a",
       "local_sha256": "53a1291ac2da84fa4fddd67f9c98afab192c43d27302e7d8e751510e347b593a"
@@ -33,7 +33,7 @@
       "file": "Edit Image Subflow.json",
       "source_revision": "13f1bd6d0f395e34fb1650b67b3c2981c5809212a0193ffc7b6d327d524e80c4",
       "expected_bytes": 9641,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 9641,
       "source_sha256": "e96bef2c3cae54218ac45361acd58dd9d9da556ecc52338b2052e5e0d0b6f103",
       "local_sha256": "e96bef2c3cae54218ac45361acd58dd9d9da556ecc52338b2052e5e0d0b6f103"
@@ -42,7 +42,7 @@
       "file": "Write to Google Sheet Subflow.json",
       "source_revision": "9432aa4b01036b232cfcb0063ba7544d850a8cfa5ad6c9ca8ddaf2cbb1a514a6",
       "expected_bytes": 11075,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 11075,
       "source_sha256": "c6313484abaa7ff627fc76a9faf06b573d27826899f9492096965e708e9fc9ae",
       "local_sha256": "c6313484abaa7ff627fc76a9faf06b573d27826899f9492096965e708e9fc9ae"

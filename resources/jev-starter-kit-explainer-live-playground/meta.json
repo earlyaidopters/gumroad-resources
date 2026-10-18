@@ -15,7 +15,7 @@
       "file": "JEV-STARTER-GUIDE.md",
       "source_revision": "ca37b6b324a49653cfdb827b9111879cd50f9e6920ab0fe394f823c8324d5288",
       "expected_bytes": 5514,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 5514,
       "source_sha256": "b842d6cf11cf2528dc09e7dce384c60874f54bcbb9ad5532a0fb7e4d3165b6bc",
       "local_sha256": "b842d6cf11cf2528dc09e7dce384c60874f54bcbb9ad5532a0fb7e4d3165b6bc"
