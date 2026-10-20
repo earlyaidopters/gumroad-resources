@@ -63,7 +63,9 @@ times before reporting failure. If another publisher advances main before the pu
 the cloud job fetches it, reconciles again and retries without force-pushing. If GitHub never starts a scheduled run, that run
 cannot raise its own failure alert. The timestamp remains old and visible. For freshness monitoring, an hourly GitHub watchdog checks the storefront
 without Gumroad credentials, total product count, newest public product IDs,
-committed file hashes and the age of the last verified sync. It requests a new
+committed file hashes and the age of the last verified sync. At 10 hours it
+requests a preventive refresh, leaving a two-hour margin before the 12-hour
+freshness limit; this does not open a failure issue. It also requests a new
 sync if unhealthy and avoids duplicate active runs. It cancels a stuck run after
 50 minutes. A separate hourly macOS LaunchAgent runs the same check even if a
 GitHub scheduled event never starts. A Codex heartbeat also checks the live source and

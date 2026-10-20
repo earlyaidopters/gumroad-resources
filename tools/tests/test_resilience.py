@@ -330,3 +330,32 @@ class QueuedRecoveryTests(unittest.TestCase):
         watchdog.repair(report,call)
         self.assertTrue(any(c[:3]==('run','cancel','1') for c in calls))
         self.assertFalse(any(c[:2]==('workflow','run') for c in calls))
+
+class PreventiveRefreshTests(unittest.TestCase):
+    def check(self, age, active=False):
+        calls=[]
+        def call(*args):
+            calls.append(args)
+            if args[:2]==('run','list'):
+                return json.dumps([{'databaseId':1,'status':'in_progress','conclusion':None,
+                                    'createdAt':datetime.now(timezone.utc).isoformat()}] if active else [])
+            return '[]' if args[:2]==('issue','list') else ''
+        report={'healthy':True,'faults':[],'last_full_sync_age_hours':age}
+        watchdog.repair(report,call)
+        return report,calls
+
+    def test_refresh_starts_before_deadline_without_false_incident(self):
+        report,calls=self.check(10)
+        self.assertTrue(report['healthy'])
+        self.assertTrue(any(c[:2]==('workflow','run') for c in calls))
+        self.assertFalse(any(c[:2]==('issue','create') for c in calls))
+
+    def test_preventive_refresh_does_not_duplicate_active_run(self):
+        report,calls=self.check(10.5,active=True)
+        self.assertTrue(report['healthy'])
+        self.assertFalse(any(c[:2]==('workflow','run') for c in calls))
+
+    def test_fresh_catalog_does_not_trigger_extra_refresh(self):
+        report,calls=self.check(9.9)
+        self.assertTrue(report['healthy'])
+        self.assertFalse(any(c[:2]==('workflow','run') for c in calls))

@@ -14,6 +14,7 @@ import urllib.request
 REPOSITORY = 'earlyaidopters/gumroad-resources'
 STOREFRONT = 'https://markkashef.gumroad.com'
 TITLE = 'Gumroad mirror freshness or public coverage failure'
+REFRESH_TARGET_HOURS = 10
 
 
 def now():
@@ -125,6 +126,14 @@ def repair(report, call=gh):
         if incident:
             call('issue', 'close', str(incident['number']), '-R', REPOSITORY,
                  '--comment', 'Public storefront coverage, committed file hashes, and full-sync freshness have recovered.')
+        # Leave time for hourly polling, queue delays, and the full reconciliation.
+        # A preventive refresh is maintenance, not a failure notification.
+        if report.get('last_full_sync_age_hours', 0) >= REFRESH_TARGET_HOURS:
+            if active:
+                report['recovery'] = 'sync already active'
+            else:
+                call('workflow', 'run', 'sync.yml', '-R', REPOSITORY, '--ref', 'main')
+                report['recovery'] = 'preventive sync dispatched before the 12-hour deadline'
         return
     # The body is stable across unchanged failures; do not emit repeated comments.
     body = ('The independent signed-out monitor found:\n\n' +
