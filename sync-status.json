@@ -1,12 +1,12 @@
 {
   "schema_version": 1,
-  "verified_at": "2026-10-21T12:24:25.511483+00:00",
-  "source_index_observed_at": "2026-10-21T12:22:15Z",
-  "run_url": "https://github.com/earlyaidopters/gumroad-resources/actions/runs/39598932971",
-  "published_products": 194,
-  "mirrored_products": 194,
-  "attachments_verified": 338,
+  "verified_at": "2026-10-21T12:39:39.911974+00:00",
+  "source_index_observed_at": "2026-10-21T12:37:44Z",
+  "run_url": "https://github.com/earlyaidopters/gumroad-resources/actions/runs/39601057491",
+  "published_products": 195,
+  "mirrored_products": 195,
+  "attachments_verified": 339,
   "oversized_attachments_on_gumroad": 1,
-  "manifest_sha256": "8ec15195496e9fcb30deafceb1d5a9e16db361606dac8fab2f6f1ca3f7e010d1",
+  "manifest_sha256": "9f17e9342675ebccf67b1bb5146e95a08bfab6b44c59e371584ce38852e09426",
   "video_pairing_status": "current"
 }

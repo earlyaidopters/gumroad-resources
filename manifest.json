@@ -2,20 +2,6 @@
   "count": 195,
   "products": [
     {
-      "slug": "five-claude-code-tools-official-links",
-      "permalink": "sf-ig-claude-code-plugins",
-      "numeric_id": 0,
-      "name": "Five Claude Code Tools: Official Links",
-      "status": "published",
-      "archived": false,
-      "category": "Other",
-      "content_hash": "69836b08397cdc2d",
-      "files": [
-        "PLUGINS-Official-Links.txt"
-      ],
-      "has_content": true
-    },
-    {
       "slug": "freellmapi-setup-guide",
       "permalink": "sf-ig-freellmapi-setup",
       "numeric_id": 0,
@@ -26,6 +12,20 @@
       "content_hash": "b4fe28f12014930e",
       "files": [
         "FREELLM-Setup-Guide.md"
+      ],
+      "has_content": true
+    },
+    {
+      "slug": "five-claude-code-tools-official-links",
+      "permalink": "sf-ig-claude-code-plugins",
+      "numeric_id": 0,
+      "name": "Five Claude Code Tools: Official Links",
+      "status": "published",
+      "archived": false,
+      "category": "Other",
+      "content_hash": "69836b08397cdc2d",
+      "files": [
+        "PLUGINS-Official-Links.txt"
       ],
       "has_content": true
     },

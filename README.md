@@ -5,7 +5,7 @@ Every free resource from the Early AI-dopters Gumroad, mirrored here and kept in
 **195 published resources**, grouped by topic and newest-first within each. Sync scheduled hourly. See the latest verified check below.
 
 <!-- sync-status:start -->
-[**Last verified sync: October 21, 2026 at 08:24 AM EDT**](https://github.com/earlyaidopters/gumroad-resources/actions/runs/39598932971) · 194/194 published resources accounted for; 338 mirrored attachments verified. Oversized attachments available on Gumroad: 1. [Sync details](sync-status.json).
+[**Last verified sync: October 21, 2026 at 08:39 AM EDT**](https://github.com/earlyaidopters/gumroad-resources/actions/runs/39601057491) · 195/195 published resources accounted for; 339 mirrored attachments verified. Oversized attachments available on Gumroad: 1. [Sync details](sync-status.json).
 
 <!-- sync-status:end -->
 
@@ -15,8 +15,8 @@ The newest resources with their videos. Updates automatically on every sync.
 
 | | Resource | Watch | Get it |
 |---|---|---|---|
-|  | [Five Claude Code Tools: Official Links](resources/five-claude-code-tools-official-links/) | - | [Gumroad](https://markkashef.gumroad.com/l/sf-ig-claude-code-plugins) |
 |  | [FreeLLMAPI Setup Guide](resources/freellmapi-setup-guide/) | - | [Gumroad](https://markkashef.gumroad.com/l/sf-ig-freellmapi-setup) |
+|  | [Five Claude Code Tools: Official Links](resources/five-claude-code-tools-official-links/) | - | [Gumroad](https://markkashef.gumroad.com/l/sf-ig-claude-code-plugins) |
 | <a href="https://youtu.be/eXoBC1TY8m4"><img src="https://i.ytimg.com/vi/eXoBC1TY8m4/maxresdefault.jpg" width="200"></a> | [AI Setup Audit Prompt + Cleanup Guide](resources/ai-setup-audit-prompt-cleanup-guide/) | [▶ Watch](https://youtu.be/eXoBC1TY8m4) | [Gumroad](https://markkashef.gumroad.com/l/ai-setup-audit) |
 |  | [Apple Design Skill for Claude](resources/apple-design-skill-for-claude/) | - | [Gumroad](https://markkashef.gumroad.com/l/sf-ig-apple-design) |
 |  | [REA: Repo and Four Practical Prompts](resources/rea-repo-and-four-practical-prompts/) | - | [Gumroad](https://markkashef.gumroad.com/l/sf-ig-rea-repo-prompts) |
@@ -194,8 +194,8 @@ The newest resources with their videos. Updates automatically on every sync.
 
 | Resource | What it is | Video | Get it |
 |---|---|---|---|
-| [Five Claude Code Tools: Official Links](resources/five-claude-code-tools-official-links/) | Get the official links to the five Claude Code tools from the PLUGINS reel, with a short note on when to try each one. | - | [Gumroad](https://markkashef.gumroad.com/l/sf-ig-claude-code-plugins) |
 | [FreeLLMAPI Setup Guide](resources/freellmapi-setup-guide/) | Connect free AI providers to your coding setup with a focused, source checked guide. | - | [Gumroad](https://markkashef.gumroad.com/l/sf-ig-freellmapi-setup) |
+| [Five Claude Code Tools: Official Links](resources/five-claude-code-tools-official-links/) | Get the official links to the five Claude Code tools from the PLUGINS reel, with a short note on when to try each one. | - | [Gumroad](https://markkashef.gumroad.com/l/sf-ig-claude-code-plugins) |
 | [AI Setup Audit Prompt + Cleanup Guide](resources/ai-setup-audit-prompt-cleanup-guide/) | Clean up your AI setup This is the exact prompt I ran on camera in "Your AI Operating System Is a Mess", plus the guide I promised you can feed your… | [▶ Watch](https://youtu.be/eXoBC1TY8m4) | [Gumroad](https://markkashef.gumroad.com/l/ai-setup-audit) |
 | [Apple Design Skill for Claude](resources/apple-design-skill-for-claude/) | Get the free Claude skill that turns Apple's design talks into rules your AI follows. | - | [Gumroad](https://markkashef.gumroad.com/l/sf-ig-apple-design) |
 | [REA: Repo and Four Practical Prompts](resources/rea-repo-and-four-practical-prompts/) | Use REA to investigate one app feature and build a small version with evidence you can check. | - | [Gumroad](https://markkashef.gumroad.com/l/sf-ig-rea-repo-prompts) |

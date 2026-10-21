@@ -1,5 +1,7 @@
 # Five Boundaries Before an Agent Goes Live
 
+![cover](https://public-files.gumroad.com/tzdy8jjfipbh6rppwm5sween3yzi)
+
 **Get it on Gumroad → https://markkashef.gumroad.com/l/sf-ig-agent-boundaries**
 
 `published` · CAD$0+

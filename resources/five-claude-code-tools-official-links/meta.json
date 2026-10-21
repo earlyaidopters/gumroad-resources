@@ -15,7 +15,7 @@
       "file": "PLUGINS-Official-Links.txt",
       "source_revision": "63aa9789af6b836e441489517a5d48ddd14aa9420e4f84348df1eaeb72dcb8b7",
       "expected_bytes": 1645,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 1645,
       "source_sha256": "3c2dce8e6b197fd847c57dc856675b974e7e3076b75f776c0d453b4360b50f8a",
       "local_sha256": "3c2dce8e6b197fd847c57dc856675b974e7e3076b75f776c0d453b4360b50f8a"

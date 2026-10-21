@@ -1,5 +1,7 @@
 # Comprehensive DeepSeek Cheat Sheet & Prompting Guide 🐳
 
+![cover](https://public-files.gumroad.com/7xdonlgaqd4kj2arzkw5bpk56irj)
+
 **Get it on Gumroad → https://markkashef.gumroad.com/l/deepseekr1prompting**
 
 `published` · CAD$0+
