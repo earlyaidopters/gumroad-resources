@@ -1,7 +1,5 @@
 # WisprFlow Clone: Mac App Source + Build Prompts
 
-![cover](https://public-files.gumroad.com/q6j0hn2ue1kx8c4yedfxltj6ctiq)
-
 **Get it on Gumroad → https://markkashef.gumroad.com/l/wisprclone**
 
 `published` · CAD$0+

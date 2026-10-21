@@ -1,0 +1,28 @@
+FIVE CLAUDE CODE TOOLS
+Official links from Mark's PLUGINS reel
+Checked 17 October 2026
+
+1. Claude-Mem
+https://github.com/thedotmack/claude-mem
+Adds saved session context that can be retrieved in later work. Review what it captures before using it with private code or client data.
+
+2. Caveman
+https://github.com/JuliusBrussee/caveman
+Adds a terse response style. Keep exact code, commands and errors intact. Token savings depend on the task; this list makes no savings guarantee.
+
+3. Superpowers
+https://github.com/obra/superpowers
+A collection of development skills covering planning, tests and review. Start on a small branch and check the actual result before merging.
+
+4. Claude Code Setup
+https://github.com/anthropics/claude-plugins-official/blob/main/plugins/claude-code-setup/README.md
+Anthropic's read-only setup skill recommends hooks, skills, MCP servers and other automations for a codebase. Review each recommendation before installing it.
+
+5. Built-in security review
+https://code.claude.com/docs/en/commands
+Run /security-review in Claude Code to review pending changes for potential vulnerabilities. Treat its findings as a first pass; it does not certify that software is secure.
+
+START WITH ONE
+Open the official source, review its current installation instructions and permissions, and try one tool on a test project. Record what changes and how to disable it before adding another.
+
+This is a verified link list, not a claim that all five were personally installed or tested by Mark. No third-party code is redistributed. Installation and subscription requirements can change; use the linked source as the current reference.

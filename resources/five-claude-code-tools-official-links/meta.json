@@ -1,0 +1,25 @@
+{
+  "name": "Five Claude Code Tools: Official Links",
+  "external_id": "RtfKvidjrSciU4P0EVs5Xw==",
+  "permalink": "sf-ig-claude-code-plugins",
+  "unique_permalink": "sf-ig-claude-code-plugins",
+  "custom_permalink": "sf-ig-claude-code-plugins",
+  "url": "https://markkashef.gumroad.com/l/sf-ig-claude-code-plugins",
+  "status": "published",
+  "archived": false,
+  "kind": "products",
+  "price_formatted": "CAD$0+",
+  "description_md": "Get the official links to the five Claude Code tools from the PLUGINS reel, with a short note on when to try each one.\n\n- Claude-Mem, Caveman and Superpowers - Anthropic’s Claude Code Setup skill - The built-in security review command\n\nFree text download. Source links checked on 17 October 2026. Review current permissions and installation instructions before adding a tool to your project.",
+  "files": [
+    {
+      "file": "PLUGINS-Official-Links.txt",
+      "source_revision": "63aa9789af6b836e441489517a5d48ddd14aa9420e4f84348df1eaeb72dcb8b7",
+      "expected_bytes": 1645,
+      "status": "downloaded",
+      "bytes": 1645,
+      "source_sha256": "3c2dce8e6b197fd847c57dc856675b974e7e3076b75f776c0d453b4360b50f8a",
+      "local_sha256": "3c2dce8e6b197fd847c57dc856675b974e7e3076b75f776c0d453b4360b50f8a"
+    }
+  ],
+  "has_rich_content": true
+}

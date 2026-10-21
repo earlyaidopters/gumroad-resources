@@ -1,0 +1,15 @@
+{
+  "schema_version": 1,
+  "product_id": "RtfKvidjrSciU4P0EVs5Xw==",
+  "fingerprint": "63e8c821008a55730a0f4bd8a8440c267b12b12d561a00ded92f72c226248ad4",
+  "source_saved_at": "2026-10-21T12:37:10.597068+00:00",
+  "source": "private-original-package",
+  "files": [
+    {
+      "file": "PLUGINS-Official-Links.txt",
+      "source_sha256": "3c2dce8e6b197fd847c57dc856675b974e7e3076b75f776c0d453b4360b50f8a",
+      "mirrored_sha256": "3c2dce8e6b197fd847c57dc856675b974e7e3076b75f776c0d453b4360b50f8a",
+      "status": "downloaded"
+    }
+  ]
+}
