@@ -15,7 +15,7 @@
       "file": "FREELLM-Setup-Guide.md",
       "source_revision": "e46b8522be5ceb57976b61cc199ecd3486cb046fb1bc713f32b8d3e66e4fe211",
       "expected_bytes": 2998,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 2998,
       "source_sha256": "d2d70a3d4c4db5c4cb14092a4c1d43481da408165f5cbc2d7540a342ae181c8a",
       "local_sha256": "d2d70a3d4c4db5c4cb14092a4c1d43481da408165f5cbc2d7540a342ae181c8a"
