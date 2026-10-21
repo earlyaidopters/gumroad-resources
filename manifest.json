@@ -1,6 +1,20 @@
 {
-  "count": 193,
+  "count": 194,
   "products": [
+    {
+      "slug": "freellmapi-setup-guide",
+      "permalink": "sf-ig-freellmapi-setup",
+      "numeric_id": 0,
+      "name": "FreeLLMAPI Setup Guide",
+      "status": "published",
+      "archived": false,
+      "category": "Other",
+      "content_hash": "b4fe28f12014930e",
+      "files": [
+        "FREELLM-Setup-Guide.md"
+      ],
+      "has_content": true
+    },
     {
       "slug": "ai-setup-audit-prompt-cleanup-guide",
       "permalink": "ai-setup-audit",

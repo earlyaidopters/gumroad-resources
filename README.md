@@ -2,7 +2,7 @@
 
 Every free resource from the Early AI-dopters Gumroad, mirrored here and kept in sync. Each folder holds the actual files (zips unpacked so you can browse them on GitHub), the resource content page, and a README. Where a resource came from a YouTube video, the video is paired to it. Watch or star this repo to catch every new drop.
 
-**193 published resources**, grouped by topic and newest-first within each. Sync scheduled hourly. See the latest verified check below.
+**194 published resources**, grouped by topic and newest-first within each. Sync scheduled hourly. See the latest verified check below.
 
 <!-- sync-status:start -->
 [**Last verified sync: October 21, 2026 at 12:58 AM EDT**](https://github.com/earlyaidopters/gumroad-resources/actions/runs/39546728044) · 193/193 published resources accounted for; 337 mirrored attachments verified. Oversized attachments available on Gumroad: 1. [Sync details](sync-status.json).
@@ -15,6 +15,7 @@ The newest resources with their videos. Updates automatically on every sync.
 
 | | Resource | Watch | Get it |
 |---|---|---|---|
+|  | [FreeLLMAPI Setup Guide](resources/freellmapi-setup-guide/) | - | [Gumroad](https://markkashef.gumroad.com/l/sf-ig-freellmapi-setup) |
 | <a href="https://youtu.be/eXoBC1TY8m4"><img src="https://i.ytimg.com/vi/eXoBC1TY8m4/maxresdefault.jpg" width="200"></a> | [AI Setup Audit Prompt + Cleanup Guide](resources/ai-setup-audit-prompt-cleanup-guide/) | [▶ Watch](https://youtu.be/eXoBC1TY8m4) | [Gumroad](https://markkashef.gumroad.com/l/ai-setup-audit) |
 |  | [Apple Design Skill for Claude](resources/apple-design-skill-for-claude/) | - | [Gumroad](https://markkashef.gumroad.com/l/sf-ig-apple-design) |
 |  | [REA: Repo and Four Practical Prompts](resources/rea-repo-and-four-practical-prompts/) | - | [Gumroad](https://markkashef.gumroad.com/l/sf-ig-rea-repo-prompts) |
@@ -24,7 +25,6 @@ The newest resources with their videos. Updates automatically on every sync.
 | <a href="https://youtu.be/ScSDVV5xhww"><img src="https://i.ytimg.com/vi/ScSDVV5xhww/maxresdefault.jpg" width="200"></a> | [Abliteration AI + REA Setup Guide](resources/abliteration-ai-rea-setup-guide/) | [▶ Watch](https://youtu.be/ScSDVV5xhww) | [Gumroad](https://markkashef.gumroad.com/l/abliteration-ai-rea-setup) |
 |  | [Claude + Codex: The IMAGES Prompt](resources/claude-codex-the-images-prompt/) | - | [Gumroad](https://markkashef.gumroad.com/l/sf-ig-claude-codex-images) |
 |  | [Claude + Codex: The ARGUE Prompt](resources/claude-codex-the-argue-prompt/) | - | [Gumroad](https://markkashef.gumroad.com/l/sf-ig-claude-codex-argue) |
-|  | [Jev vs OpenAI Decisions: Results + Setup Guide](resources/jev-vs-openai-decisions-results-setup-guide/) | - | [Gumroad](https://markkashef.gumroad.com/l/sf-ig-decisions-vs-jev) |
 
 ## Categories
 
@@ -33,7 +33,7 @@ The newest resources with their videos. Updates automatically on every sync.
 - [🧠 Custom GPTs & AI Agents](#custom-gpts-ai-agents) (26)
 - [🗂️ Frameworks, Meta Techniques & Experiments](#frameworks-meta-techniques-experiments) (23)
 - [📊 Tools, Cheat Sheets & Evaluations](#tools-cheat-sheets-evaluations) (15)
-- [Other](#other) (63)
+- [Other](#other) (64)
 
 ## 🎯 Prompting & Engineering Skills
 
@@ -194,6 +194,7 @@ The newest resources with their videos. Updates automatically on every sync.
 
 | Resource | What it is | Video | Get it |
 |---|---|---|---|
+| [FreeLLMAPI Setup Guide](resources/freellmapi-setup-guide/) | Connect free AI providers to your coding setup with a focused, source checked guide. | - | [Gumroad](https://markkashef.gumroad.com/l/sf-ig-freellmapi-setup) |
 | [AI Setup Audit Prompt + Cleanup Guide](resources/ai-setup-audit-prompt-cleanup-guide/) | Clean up your AI setup This is the exact prompt I ran on camera in "Your AI Operating System Is a Mess", plus the guide I promised you can feed your… | [▶ Watch](https://youtu.be/eXoBC1TY8m4) | [Gumroad](https://markkashef.gumroad.com/l/ai-setup-audit) |
 | [Apple Design Skill for Claude](resources/apple-design-skill-for-claude/) | Get the free Claude skill that turns Apple's design talks into rules your AI follows. | - | [Gumroad](https://markkashef.gumroad.com/l/sf-ig-apple-design) |
 | [REA: Repo and Four Practical Prompts](resources/rea-repo-and-four-practical-prompts/) | Use REA to investigate one app feature and build a small version with evidence you can check. | - | [Gumroad](https://markkashef.gumroad.com/l/sf-ig-rea-repo-prompts) |

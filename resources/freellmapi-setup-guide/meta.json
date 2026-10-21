@@ -1,0 +1,25 @@
+{
+  "name": "FreeLLMAPI Setup Guide",
+  "external_id": "Fqk45yD-mh9j4_6JEaXuXw==",
+  "permalink": "sf-ig-freellmapi-setup",
+  "unique_permalink": "sf-ig-freellmapi-setup",
+  "custom_permalink": "sf-ig-freellmapi-setup",
+  "url": "https://markkashef.gumroad.com/l/sf-ig-freellmapi-setup",
+  "status": "published",
+  "archived": false,
+  "kind": "products",
+  "price_formatted": "CAD$0+",
+  "description_md": "Connect free AI providers to your coding setup with a focused, source-checked guide.\n\n- Installation and provider-key setup\n\n- Claude Code connection and a first test\n\n- Quota, privacy and fallback checks\n\nFree Markdown download with the official GitHub repository. Documentation checked 20 October 2026. Setup has not been independently tested.",
+  "files": [
+    {
+      "file": "FREELLM-Setup-Guide.md",
+      "source_revision": "e46b8522be5ceb57976b61cc199ecd3486cb046fb1bc713f32b8d3e66e4fe211",
+      "expected_bytes": 2998,
+      "status": "downloaded",
+      "bytes": 2998,
+      "source_sha256": "d2d70a3d4c4db5c4cb14092a4c1d43481da408165f5cbc2d7540a342ae181c8a",
+      "local_sha256": "d2d70a3d4c4db5c4cb14092a4c1d43481da408165f5cbc2d7540a342ae181c8a"
+    }
+  ],
+  "has_rich_content": true
+}

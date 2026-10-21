@@ -1,0 +1,15 @@
+{
+  "schema_version": 1,
+  "product_id": "Fqk45yD-mh9j4_6JEaXuXw==",
+  "fingerprint": "a4ac3599f9fa2c0da4ed143ccc0008827b7b71566810d790582748d3a9675650",
+  "source_saved_at": "2026-10-21T12:21:14.546081+00:00",
+  "source": "private-original-package",
+  "files": [
+    {
+      "file": "FREELLM-Setup-Guide.md",
+      "source_sha256": "d2d70a3d4c4db5c4cb14092a4c1d43481da408165f5cbc2d7540a342ae181c8a",
+      "mirrored_sha256": "d2d70a3d4c4db5c4cb14092a4c1d43481da408165f5cbc2d7540a342ae181c8a",
+      "status": "downloaded"
+    }
+  ]
+}
