@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "product_id": "x3MhnqnH_Tz17THhL0GL-g==",
+  "fingerprint": "5e3cafca3fabc316d4568bba5fc7db4ad8efe4bfc69b4b1d30b84f4db2f3798a",
+  "source_saved_at": "2026-10-23T14:41:12.452716+00:00",
+  "source": "private-original-package",
+  "files": [
+    {
+      "file": "Skill-Audit-Kit.zip",
+      "source_sha256": "e46ec9c640a0f41cb0bc542a957a3678da0bdb258ceea0989d874ba5caffd592",
+      "mirrored_sha256": "e46ec9c640a0f41cb0bc542a957a3678da0bdb258ceea0989d874ba5caffd592",
+      "status": "downloaded"
+    },
+    {
+      "file": "SKILL-AUDIT-PROMPT.txt",
+      "source_sha256": "a6325a42259cb6b43c896246af667f330e16db7695edb00902f189e532239afc",
+      "mirrored_sha256": "a6325a42259cb6b43c896246af667f330e16db7695edb00902f189e532239afc",
+      "status": "downloaded"
+    }
+  ]
+}

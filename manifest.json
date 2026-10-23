@@ -1,6 +1,21 @@
 {
-  "count": 195,
+  "count": 196,
   "products": [
+    {
+      "slug": "skill-cleanup-audit-prompt",
+      "permalink": "skill-cleanup-audit",
+      "numeric_id": 0,
+      "name": "Skill Cleanup Audit Prompt",
+      "status": "published",
+      "archived": false,
+      "category": "Other",
+      "content_hash": "80aef66ba3cbb0cf",
+      "files": [
+        "Skill-Audit-Kit.zip",
+        "SKILL-AUDIT-PROMPT.txt"
+      ],
+      "has_content": true
+    },
     {
       "slug": "freellmapi-setup-guide",
       "permalink": "sf-ig-freellmapi-setup",

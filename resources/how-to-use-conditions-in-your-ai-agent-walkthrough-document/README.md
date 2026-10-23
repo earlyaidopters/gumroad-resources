@@ -1,7 +1,5 @@
 # How to Use Conditions in Your AI Agent Walkthrough Document
 
-![cover](https://public-files.gumroad.com/grfzx2e8zpvy0ej663ed0wcxp6gl)
-
 **Get it on Gumroad → https://markkashef.gumroad.com/l/HowtoUseConditionsinYourAIAgentWalkthroughDocument**
 
 `published` · CAD$0+

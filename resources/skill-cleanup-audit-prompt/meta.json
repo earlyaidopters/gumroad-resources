@@ -1,0 +1,35 @@
+{
+  "name": "Skill Cleanup Audit Prompt",
+  "external_id": "x3MhnqnH_Tz17THhL0GL-g==",
+  "permalink": "skill-cleanup-audit",
+  "unique_permalink": "skill-cleanup-audit",
+  "custom_permalink": "skill-cleanup-audit",
+  "url": "https://markkashef.gumroad.com/l/skill-cleanup-audit",
+  "status": "published",
+  "archived": false,
+  "kind": "products",
+  "price_formatted": "CAD$0+",
+  "description_md": "# Find the skills worth keeping\n\nCollected more Claude and Codex skills than you use? Run this prompt on your own computer to inventory them, examine available usage history, and see what deserves a closer look.\n\n- \nReady-to-paste prompt: Audits your skills and proposes what to keep, merge, delete or review, with reasons.\n\n- \nOffline report: Asks your assistant to build one HTML report with a usage heatmap, top-used-skills chart, overlap grid and merge ideas.\n\n- \nOriginal video prompt: Includes the unchanged original alongside an edition with clearer counting and read-only instructions.\n\n- \nQuick start and checklist: Explains where to run the prompt and the three questions to ask before changing your setup.\n\nUse Claude Code or Codex with local file access. Results depend on which skills and session history the assistant can read. Missing history is marked unknown, not unused.\n\nThe audit is designed to leave your existing files unchanged and create only its report and JSON export. Review the recommendations before requesting any cleanup.\n\nNo additional skill installation is required. Download the kit, open START-HERE.md, and paste the .txt prompt into a new session.",
+  "files": [
+    {
+      "file": "Skill-Audit-Kit.zip",
+      "source_revision": "d06a8deeeca5c4bab5fdbe897b69a1eff4be6028f39ee6db244373058cfafb77",
+      "expected_bytes": 8861,
+      "status": "downloaded",
+      "bytes": 8861,
+      "source_sha256": "e46ec9c640a0f41cb0bc542a957a3678da0bdb258ceea0989d874ba5caffd592",
+      "local_sha256": "e46ec9c640a0f41cb0bc542a957a3678da0bdb258ceea0989d874ba5caffd592",
+      "unpacked_sha256": "e46ec9c640a0f41cb0bc542a957a3678da0bdb258ceea0989d874ba5caffd592"
+    },
+    {
+      "file": "SKILL-AUDIT-PROMPT.txt",
+      "source_revision": "fd5db0afada3f673ba94b8a6bdc6d7eaaa170177916e17b3ebd3cb135c0e583c",
+      "expected_bytes": 8781,
+      "status": "downloaded",
+      "bytes": 8781,
+      "source_sha256": "a6325a42259cb6b43c896246af667f330e16db7695edb00902f189e532239afc",
+      "local_sha256": "a6325a42259cb6b43c896246af667f330e16db7695edb00902f189e532239afc"
+    }
+  ],
+  "has_rich_content": true
+}
