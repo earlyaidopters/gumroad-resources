@@ -5,7 +5,7 @@ Every free resource from the Early AI-dopters Gumroad, mirrored here and kept in
 **196 published resources**, grouped by topic and newest-first within each. Sync scheduled hourly. See the latest verified check below.
 
 <!-- sync-status:start -->
-[**Last verified sync: October 23, 2026 at 10:44 AM EDT**](https://github.com/earlyaidopters/gumroad-resources/actions/runs/39971806682) · 196/196 published resources accounted for; 341 mirrored attachments verified. Oversized attachments available on Gumroad: 1. [Sync details](sync-status.json).
+[**Last verified sync: October 23, 2026 at 01:15 PM EDT**](https://github.com/earlyaidopters/gumroad-resources/actions/runs/39993260928) · 196/196 published resources accounted for; 341 mirrored attachments verified. Oversized attachments available on Gumroad: 1. [Sync details](sync-status.json).
 
 <!-- sync-status:end -->
 
@@ -15,7 +15,7 @@ The newest resources with their videos. Updates automatically on every sync.
 
 | | Resource | Watch | Get it |
 |---|---|---|---|
-| <a href="https://markkashef.gumroad.com/l/skill-cleanup-audit"><img src="https://public-files.gumroad.com/mrl03qddej7tjru0xrj3py3iu99z" width="200"></a> | [Skill Cleanup Audit Prompt](resources/skill-cleanup-audit-prompt/) | - | [Gumroad](https://markkashef.gumroad.com/l/skill-cleanup-audit) |
+| <a href="https://youtu.be/2IPR6F3cQ_I"><img src="https://i.ytimg.com/vi/2IPR6F3cQ_I/maxresdefault.jpg" width="200"></a> | [Skill Cleanup Audit Prompt](resources/skill-cleanup-audit-prompt/) | [▶ Watch](https://youtu.be/2IPR6F3cQ_I) | [Gumroad](https://markkashef.gumroad.com/l/skill-cleanup-audit) |
 |  | [FreeLLMAPI Setup Guide](resources/freellmapi-setup-guide/) | - | [Gumroad](https://markkashef.gumroad.com/l/sf-ig-freellmapi-setup) |
 |  | [Five Claude Code Tools: Official Links](resources/five-claude-code-tools-official-links/) | - | [Gumroad](https://markkashef.gumroad.com/l/sf-ig-claude-code-plugins) |
 | <a href="https://youtu.be/eXoBC1TY8m4"><img src="https://i.ytimg.com/vi/eXoBC1TY8m4/maxresdefault.jpg" width="200"></a> | [AI Setup Audit Prompt + Cleanup Guide](resources/ai-setup-audit-prompt-cleanup-guide/) | [▶ Watch](https://youtu.be/eXoBC1TY8m4) | [Gumroad](https://markkashef.gumroad.com/l/ai-setup-audit) |
@@ -194,7 +194,7 @@ The newest resources with their videos. Updates automatically on every sync.
 
 | Resource | What it is | Video | Get it |
 |---|---|---|---|
-| [Skill Cleanup Audit Prompt](resources/skill-cleanup-audit-prompt/) | Find the skills worth keeping Collected more Claude and Codex skills than you use? | - | [Gumroad](https://markkashef.gumroad.com/l/skill-cleanup-audit) |
+| [Skill Cleanup Audit Prompt](resources/skill-cleanup-audit-prompt/) | Find the skills worth keeping Collected more Claude and Codex skills than you use? | [▶ Watch](https://youtu.be/2IPR6F3cQ_I) | [Gumroad](https://markkashef.gumroad.com/l/skill-cleanup-audit) |
 | [FreeLLMAPI Setup Guide](resources/freellmapi-setup-guide/) | Connect free AI providers to your coding setup with a focused, source checked guide. | - | [Gumroad](https://markkashef.gumroad.com/l/sf-ig-freellmapi-setup) |
 | [Five Claude Code Tools: Official Links](resources/five-claude-code-tools-official-links/) | Get the official links to the five Claude Code tools from the PLUGINS reel, with a short note on when to try each one. | - | [Gumroad](https://markkashef.gumroad.com/l/sf-ig-claude-code-plugins) |
 | [AI Setup Audit Prompt + Cleanup Guide](resources/ai-setup-audit-prompt-cleanup-guide/) | Clean up your AI setup This is the exact prompt I ran on camera in "Your AI Operating System Is a Mess", plus the guide I promised you can feed your… | [▶ Watch](https://youtu.be/eXoBC1TY8m4) | [Gumroad](https://markkashef.gumroad.com/l/ai-setup-audit) |

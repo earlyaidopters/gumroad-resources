@@ -1,6 +1,8 @@
 # Skill Cleanup Audit Prompt
 
-![cover](https://public-files.gumroad.com/mrl03qddej7tjru0xrj3py3iu99z)
+[![watch on YouTube](https://i.ytimg.com/vi/2IPR6F3cQ_I/maxresdefault.jpg)](https://youtu.be/2IPR6F3cQ_I)
+
+**▶ Watch the video → https://youtu.be/2IPR6F3cQ_I**
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/skill-cleanup-audit**
 

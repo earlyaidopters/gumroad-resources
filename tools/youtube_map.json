@@ -1,4 +1,13 @@
 {
+ "skill-cleanup-audit": {
+  "video_id": "2IPR6F3cQ_I",
+  "url": "https://youtu.be/2IPR6F3cQ_I",
+  "title": "Anthropic Just Donated Claude Skills. Here's What to Delete.",
+  "thumbnail": "https://i.ytimg.com/vi/2IPR6F3cQ_I/maxresdefault.jpg",
+  "published": "2026-10-23T17:15:04Z",
+  "resource_slug": "skill-cleanup-audit-prompt",
+  "source": "youtube-desc"
+ },
  "ai-setup-audit": {
   "video_id": "eXoBC1TY8m4",
   "url": "https://youtu.be/eXoBC1TY8m4",
