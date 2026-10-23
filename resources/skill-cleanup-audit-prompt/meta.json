@@ -15,7 +15,7 @@
       "file": "Skill-Audit-Kit.zip",
       "source_revision": "d06a8deeeca5c4bab5fdbe897b69a1eff4be6028f39ee6db244373058cfafb77",
       "expected_bytes": 8861,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 8861,
       "source_sha256": "e46ec9c640a0f41cb0bc542a957a3678da0bdb258ceea0989d874ba5caffd592",
       "local_sha256": "e46ec9c640a0f41cb0bc542a957a3678da0bdb258ceea0989d874ba5caffd592",
@@ -25,7 +25,7 @@
       "file": "SKILL-AUDIT-PROMPT.txt",
       "source_revision": "fd5db0afada3f673ba94b8a6bdc6d7eaaa170177916e17b3ebd3cb135c0e583c",
       "expected_bytes": 8781,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 8781,
       "source_sha256": "a6325a42259cb6b43c896246af667f330e16db7695edb00902f189e532239afc",
       "local_sha256": "a6325a42259cb6b43c896246af667f330e16db7695edb00902f189e532239afc"

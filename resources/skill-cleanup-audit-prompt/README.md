@@ -1,5 +1,7 @@
 # Skill Cleanup Audit Prompt
 
+![cover](https://public-files.gumroad.com/mrl03qddej7tjru0xrj3py3iu99z)
+
 **Get it on Gumroad → https://markkashef.gumroad.com/l/skill-cleanup-audit**
 
 `published` · CAD$0+

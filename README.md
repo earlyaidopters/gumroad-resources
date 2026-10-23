@@ -5,7 +5,7 @@ Every free resource from the Early AI-dopters Gumroad, mirrored here and kept in
 **196 published resources**, grouped by topic and newest-first within each. Sync scheduled hourly. See the latest verified check below.
 
 <!-- sync-status:start -->
-[**Last verified sync: October 23, 2026 at 01:00 AM EDT**](https://github.com/earlyaidopters/gumroad-resources/actions/runs/39903157702) · 195/195 published resources accounted for; 339 mirrored attachments verified. Oversized attachments available on Gumroad: 1. [Sync details](sync-status.json).
+[**Last verified sync: October 23, 2026 at 10:44 AM EDT**](https://github.com/earlyaidopters/gumroad-resources/actions/runs/39971806682) · 196/196 published resources accounted for; 341 mirrored attachments verified. Oversized attachments available on Gumroad: 1. [Sync details](sync-status.json).
 
 <!-- sync-status:end -->
 
@@ -15,7 +15,7 @@ The newest resources with their videos. Updates automatically on every sync.
 
 | | Resource | Watch | Get it |
 |---|---|---|---|
-|  | [Skill Cleanup Audit Prompt](resources/skill-cleanup-audit-prompt/) | - | [Gumroad](https://markkashef.gumroad.com/l/skill-cleanup-audit) |
+| <a href="https://markkashef.gumroad.com/l/skill-cleanup-audit"><img src="https://public-files.gumroad.com/mrl03qddej7tjru0xrj3py3iu99z" width="200"></a> | [Skill Cleanup Audit Prompt](resources/skill-cleanup-audit-prompt/) | - | [Gumroad](https://markkashef.gumroad.com/l/skill-cleanup-audit) |
 |  | [FreeLLMAPI Setup Guide](resources/freellmapi-setup-guide/) | - | [Gumroad](https://markkashef.gumroad.com/l/sf-ig-freellmapi-setup) |
 |  | [Five Claude Code Tools: Official Links](resources/five-claude-code-tools-official-links/) | - | [Gumroad](https://markkashef.gumroad.com/l/sf-ig-claude-code-plugins) |
 | <a href="https://youtu.be/eXoBC1TY8m4"><img src="https://i.ytimg.com/vi/eXoBC1TY8m4/maxresdefault.jpg" width="200"></a> | [AI Setup Audit Prompt + Cleanup Guide](resources/ai-setup-audit-prompt-cleanup-guide/) | [▶ Watch](https://youtu.be/eXoBC1TY8m4) | [Gumroad](https://markkashef.gumroad.com/l/ai-setup-audit) |
