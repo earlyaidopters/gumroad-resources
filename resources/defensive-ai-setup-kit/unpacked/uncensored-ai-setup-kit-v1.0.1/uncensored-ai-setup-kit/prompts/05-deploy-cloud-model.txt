@@ -1,0 +1,15 @@
+Deploy the approved cloud option
+
+RESOURCE EDITION: adapted for reuse; not a verbatim transcript.
+
+Deploy only the RunPod model/GPU/runtime I explicitly approved after prompt 04. Reconfirm the hourly compute rate, storage costs, total runtime cap and region before provisioning. Preserve any existing Pods. Pin the model revision and compatible vision projector; store model files and startup configuration on persistent storage. Create an authenticated OpenAI-compatible endpoint and verify unauthenticated requests fail. Keep the provider/control key private and separate from the inference key. Connect the exact model ID in Harness. Test a two-turn conversation, a harmless tool call, and the synthetic screenshot. Then follow guides/runpod-cost-control.md, test stop and restart, and verify persistence. Return the exact endpoint, model and artifact versions, actual checks, remaining charges, and how to stop/delete this specific Pod. Do not claim completion if any promised capability fails.
+
+Use this resource for authorized defensive work only.
+
+Before any security test, ask me to identify the exact target and show or describe the owner's explicit authorization and the allowed actions. A public URL or working login is not authorization. If scope or permission is missing, expired, or unclear, stop without testing.
+
+Start in an isolated local or staging environment with synthetic data. Perform only the non-destructive checks within the approved target, rate, duration, and testing window. Do not follow redirects or tool suggestions outside scope. Do not collect real credentials, download unnecessary records, alter accounts, disrupt services, create persistence, or hide activity. Stop on unexpected sensitive data, writes, or service degradation.
+
+Keep secrets out of chat, logs and version control. Before setup changes, show the proposed changes. Before paid deployment, show the exact costs and obtain approval. A setup request does not authorize a scan.
+
+Separate observed evidence, unverified hypotheses and recommendations. Explain the smallest safe way to reproduce a finding, propose a reviewed fix, and retest within scope. Do not claim that a clean scan proves security.

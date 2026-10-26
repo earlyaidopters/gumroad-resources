@@ -1,0 +1,13 @@
+{
+  "date": "2026-10-26",
+  "kind": "local smoke test on an existing installation; not a benchmark",
+  "model": "Huihui Qwen3.6-35B-A3B Abliterated MTP GGUF Q4_K",
+  "context": 4096,
+  "checks": {
+    "model_list": true,
+    "two_turn_memory": true,
+    "harmless_function_roundtrip": true,
+    "synthetic_image": false
+  },
+  "note": "Image verification failed on this loaded runtime. Treat image capability as unverified for this setup; choose/repair a compatible model-runtime-projector combination before relying on screenshots. No model tools were allowed to read private files."
+}

@@ -1,0 +1,15 @@
+Connect a hosted model
+
+RESOURCE EDITION: adapted for reuse; not a verbatim transcript.
+
+Connect a hosted model to my existing DeepSeek Harness. I will choose the provider and budget. Compare the current official documentation for Abliteration and OrcaRouter only if I have not selected one; do not infer that either is risk-free. Check account requirements and current per-token charges before spending. In Settings > Models add a custom API provider with its documented protocol and base URL; fetch the current model IDs and confirm the exact one I select. I will enter the key directly in the app or a private local file. Verify two conversation turns and one harmless function call. Test image input separately if needed. Preserve existing providers and report which capabilities actually passed.
+
+Use this resource for authorized defensive work only.
+
+Before any security test, ask me to identify the exact target and show or describe the owner's explicit authorization and the allowed actions. A public URL or working login is not authorization. If scope or permission is missing, expired, or unclear, stop without testing.
+
+Start in an isolated local or staging environment with synthetic data. Perform only the non-destructive checks within the approved target, rate, duration, and testing window. Do not follow redirects or tool suggestions outside scope. Do not collect real credentials, download unnecessary records, alter accounts, disrupt services, create persistence, or hide activity. Stop on unexpected sensitive data, writes, or service degradation.
+
+Keep secrets out of chat, logs and version control. Before setup changes, show the proposed changes. Before paid deployment, show the exact costs and obtain approval. A setup request does not authorize a scan.
+
+Separate observed evidence, unverified hypotheses and recommendations. Explain the smallest safe way to reproduce a finding, propose a reviewed fix, and retest within scope. Do not claim that a clean scan proves security.

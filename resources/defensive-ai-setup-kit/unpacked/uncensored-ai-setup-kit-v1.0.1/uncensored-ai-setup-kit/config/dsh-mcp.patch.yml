@@ -1,0 +1,17 @@
+# Defensive learning only. Reference entries to merge into your active profile.
+# Check the installed Harness schema. Do not replace the entire profile.
+- id: kit-playwright
+  name: '@deepseek-ai/dsh-mcp-client'
+  config:
+    serverName: kit-playwright
+    transport: stdio
+    command: npx
+    args: ['-y', '@playwright/mcp@0.0.83', '--isolated']
+- id: kit-firecrawl
+  name: '@deepseek-ai/dsh-mcp-client'
+  config:
+    serverName: kit-firecrawl
+    transport: streamable-http
+    url: https://mcp.firecrawl.dev/v2/mcp
+# Limited keyless endpoint. For full access use the provider's documented
+# OAuth or private secret/header configuration; never put a key in this file.

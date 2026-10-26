@@ -1,0 +1,27 @@
+{
+  "schema_version": 1,
+  "product_id": "qw9v67mCZiYf-JTltvC3ZA==",
+  "fingerprint": "116e5b91abce12f662efba3e7263190f84c95b41d5833b3c0e7bb9f1eb0c5c1f",
+  "source_saved_at": "2026-10-26T17:01:42.926815+00:00",
+  "source": "private-original-package",
+  "files": [
+    {
+      "file": "uncensored-ai-quick-start.pdf",
+      "source_sha256": "e6b42406e6b5c63cfe0c56d17425389774dcb912d5baa896bd9210f0f1d829b5",
+      "mirrored_sha256": "e6b42406e6b5c63cfe0c56d17425389774dcb912d5baa896bd9210f0f1d829b5",
+      "status": "downloaded"
+    },
+    {
+      "file": "SHA256SUMS.txt",
+      "source_sha256": "23771d4f5f0141d9bd95789c18a07e8f8fc426c8055b7773f557dbb43d5b4980",
+      "mirrored_sha256": "23771d4f5f0141d9bd95789c18a07e8f8fc426c8055b7773f557dbb43d5b4980",
+      "status": "downloaded"
+    },
+    {
+      "file": "uncensored-ai-setup-kit-v1.0.1.zip",
+      "source_sha256": "ac21f5b5e08b73d5978aa2aa2b28b5b46b9e1c4b3b34ec86459a86a4cee0e134",
+      "mirrored_sha256": "ac21f5b5e08b73d5978aa2aa2b28b5b46b9e1c4b3b34ec86459a86a4cee0e134",
+      "status": "downloaded"
+    }
+  ]
+}

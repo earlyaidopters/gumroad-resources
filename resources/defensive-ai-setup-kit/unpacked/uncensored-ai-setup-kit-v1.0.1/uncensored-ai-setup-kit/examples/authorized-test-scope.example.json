@@ -1,0 +1,33 @@
+{
+  "purpose": "authorized defensive testing",
+  "authorization_status": "NOT_AUTHORIZED",
+  "system_owner": "REPLACE_WITH_OWNER",
+  "permission_record": "REPLACE_WITH_ACTUAL_WRITTEN_AUTHORIZATION_REFERENCE",
+  "allowed_targets": [
+    "http://127.0.0.1:3000"
+  ],
+  "allowed_actions": [
+    "read-only inspection of this synthetic local test application"
+  ],
+  "excluded_targets": [
+    "all hosts and accounts not explicitly listed above"
+  ],
+  "data": "synthetic only",
+  "testing_window": {
+    "start": "REPLACE_WITH_APPROVED_START",
+    "end": "REPLACE_WITH_APPROVED_END"
+  },
+  "limits": {
+    "requests_per_second": 1,
+    "max_requests": 20,
+    "max_duration_seconds": 120
+  },
+  "stop_conditions": [
+    "permission is missing, expired, or unclear",
+    "redirect or tool request leaves the approved target",
+    "real credentials or personal records appear",
+    "unexpected writes or service degradation occur"
+  ],
+  "approver": "REPLACE_WITH_AUTHORIZING_PERSON",
+  "approval_date": "REPLACE_WITH_DATE"
+}

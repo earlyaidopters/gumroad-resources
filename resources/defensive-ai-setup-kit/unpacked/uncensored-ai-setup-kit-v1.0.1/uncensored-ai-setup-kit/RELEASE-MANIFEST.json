@@ -1,0 +1,286 @@
+{
+  "version": "1.0.1",
+  "repository": "https://github.com/earlyaidopters/uncensored-ai-starter-kit",
+  "files": [
+    {
+      "path": ".gitignore",
+      "bytes": 210,
+      "sha256": "83a12feb7a0906ee35123e3e674aaea31a75943142e1ae3262c77c4f621b2412"
+    },
+    {
+      "path": "ALL-PROMPTS.md",
+      "bytes": 18875,
+      "sha256": "62391dacc8b1139d962796b8129125fc31774f9cbc623d06bde55aa0aaeef9ed"
+    },
+    {
+      "path": "ASSISTANT-SETUP.md",
+      "bytes": 1850,
+      "sha256": "0da495eee09ed744b82d7eaf81e899c0997b0eb329362607cb4876d41e4b288d"
+    },
+    {
+      "path": "DEFENSIVE-USE.md",
+      "bytes": 2660,
+      "sha256": "0e7cae207c181d3d74cc94c24b44533d2d24386914fa56b4102650a9a9ffce5c"
+    },
+    {
+      "path": "LICENSE",
+      "bytes": 1068,
+      "sha256": "24f778e8c2a16f82edfb1950acb14ddff9f091c1dcd3044802f62d83caa54195"
+    },
+    {
+      "path": "LINKS.md",
+      "bytes": 1845,
+      "sha256": "72b80b8b16c80e635891f6fce5f9b4655038392951ecf5d52e9c4e448fe36595"
+    },
+    {
+      "path": "README.md",
+      "bytes": 2994,
+      "sha256": "ca99a67f4353d2dcd3ab24f8df0c5ebc44e5e7bc34298711ecc903e805457986"
+    },
+    {
+      "path": "SECURITY.md",
+      "bytes": 1106,
+      "sha256": "918c37a6d4b3cca0f8432b10cb910666d9b439a6d1992a2bf5356fff9d506658"
+    },
+    {
+      "path": "START-HERE.md",
+      "bytes": 2473,
+      "sha256": "29e1c6f154f60ff5d11f8d3983b5ce71fea36d9e6283e5e98789d86ea80871cc"
+    },
+    {
+      "path": "THIRD-PARTY-NOTICES.md",
+      "bytes": 714,
+      "sha256": "bfefc359281de9bff48dd3cdd915540795f6db7c222b73a6aa6e7ab4ece85359"
+    },
+    {
+      "path": "VERSION",
+      "bytes": 6,
+      "sha256": "44e161e4495cac2cf7858043e9e6418e9579f0ddcfae826f9a372622968ce066"
+    },
+    {
+      "path": "assets/Poppins-OFL.txt",
+      "bytes": 4385,
+      "sha256": "6be04893d770899a015649c7aa3b582f871b272f8747a92b78b17c3e5c8b2573"
+    },
+    {
+      "path": "assets/cover.jpg",
+      "bytes": 313613,
+      "sha256": "4de8d0ce8c74b7cd7615e09938d0e654396791190083145db55dc2350fe17f26"
+    },
+    {
+      "path": "assets/display.jpg",
+      "bytes": 259158,
+      "sha256": "c4d0532ef598183f7d1b1b469ee63360065d2beaf63495c36a90419f14d54141"
+    },
+    {
+      "path": "assets/vision-test.png",
+      "bytes": 7904,
+      "sha256": "53a659a098af4f009773f7719dd41d36e87954c557523c3002b9c6a33f6c1650"
+    },
+    {
+      "path": "config/.env.example",
+      "bytes": 192,
+      "sha256": "0cc95b5fe6dc4bfd5bce035af253813e9aa49251a0d750faec84a7e9db7a48b2"
+    },
+    {
+      "path": "config/dsh-mcp.patch.yml",
+      "bytes": 671,
+      "sha256": "299c9e0f5d02880bfc7e9ff25e0d08c86c2b9b0e0e366bdfa5a8d78090576ee3"
+    },
+    {
+      "path": "config/mcp.example.json",
+      "bytes": 243,
+      "sha256": "4f1913bb028b8693e12f0efeb55aed7b3cee7d25008a3a71ac37c303b2e97500"
+    },
+    {
+      "path": "config/provider-fields.json",
+      "bytes": 519,
+      "sha256": "b5b32c63e0d43f1498c21fa2bd3431cbdf3ec9fed266cf53d0ba15e98d69405d"
+    },
+    {
+      "path": "config/recorded-models.json",
+      "bytes": 1015,
+      "sha256": "9fd3b087670721502bd20b3a7ceb36de0b312a457611ded1aafc57d07bf6ec5a"
+    },
+    {
+      "path": "downloads/quick-start.pdf",
+      "bytes": 437440,
+      "sha256": "e6b42406e6b5c63cfe0c56d17425389774dcb912d5baa896bd9210f0f1d829b5"
+    },
+    {
+      "path": "examples/authorized-test-scope.example.json",
+      "bytes": 1021,
+      "sha256": "d06c8f4bcd65f372f6293d76dd19176d42426b3159551b96d84a66273f557380"
+    },
+    {
+      "path": "examples/findings-report.md",
+      "bytes": 1092,
+      "sha256": "f705932d709ff7181500f9c15f3c5d713b966df544e8afee58dab18cdf4f1d10"
+    },
+    {
+      "path": "examples/nuclei-local-headers.yaml",
+      "bytes": 380,
+      "sha256": "d53b5dcb1b279af56b6f8abd3d418a50dfe57c37c7c09cd931f5090b8cfe3f36"
+    },
+    {
+      "path": "guides/choose-your-route.md",
+      "bytes": 1426,
+      "sha256": "d3496494d95e15975828c77f42ded887319ab5fb3fce89195778fea064d3fc54"
+    },
+    {
+      "path": "guides/hosted.md",
+      "bytes": 2078,
+      "sha256": "0edb66eda5e66620854e8bab31d8a963aaa6912866256dca48428350dee07374"
+    },
+    {
+      "path": "guides/local.md",
+      "bytes": 2668,
+      "sha256": "7ab99db2743c0d3485e69752197c7da90aae1192a59d9ce49ecb2e9ff22784db"
+    },
+    {
+      "path": "guides/model-safety.md",
+      "bytes": 1975,
+      "sha256": "981747bfb35a9c57d8ff6d3163ae4d59306e01ae1a1b0587a11690d21ac66fb7"
+    },
+    {
+      "path": "guides/recorded-setup.md",
+      "bytes": 1633,
+      "sha256": "2c6b630bc928462dfe3b2d0c41fcc3c94e418d15bdeff608e6c000e741ce196f"
+    },
+    {
+      "path": "guides/runpod-cost-control.md",
+      "bytes": 3555,
+      "sha256": "2a69dc3753df5faa6c1045e244d03dcd3e8501b0d463f3b710c31c0073096868"
+    },
+    {
+      "path": "guides/runpod.md",
+      "bytes": 2555,
+      "sha256": "70792b0355abac5f4d16f230daad6d0a65a51e3833effb32a6ee4ef680f00b27"
+    },
+    {
+      "path": "guides/tools.md",
+      "bytes": 2148,
+      "sha256": "8a1a9b5bcf80e2545721e1bae6143f10db7c60e0a6eb75cfcff98d11eb62bbbc"
+    },
+    {
+      "path": "guides/troubleshooting.md",
+      "bytes": 1680,
+      "sha256": "1f3e9d1e052ecb622d7d67c3f9a8695075c86468b2165a06072579db5a6dbd68"
+    },
+    {
+      "path": "prompts/01-install-harness.txt",
+      "bytes": 1806,
+      "sha256": "6f36ee3cf76b7de78b683cf219b85e9734cc438fc38c04a121dfdb9ee3916639"
+    },
+    {
+      "path": "prompts/02-connect-hosted-provider.txt",
+      "bytes": 2001,
+      "sha256": "4a06db09958a2f4809f26555237f14ff27c6c808175f3f2c299287f6fe1c9189"
+    },
+    {
+      "path": "prompts/03-add-tools.txt",
+      "bytes": 2148,
+      "sha256": "76d76571c1459f34eb5465d206455ce94f4bc91a813800ec09f5fdd82fe67378"
+    },
+    {
+      "path": "prompts/04-research-cloud-models.txt",
+      "bytes": 1954,
+      "sha256": "2276ef1e92f5a7ddcf757699fa6682938d29d6d2d9e98aea9df5a330cc281168"
+    },
+    {
+      "path": "prompts/05-deploy-cloud-model.txt",
+      "bytes": 2199,
+      "sha256": "97ab0d9aaaa5bb43d8a0b69c83fe7ebb574cb3ddd8b0e1b712866deedc35bc29"
+    },
+    {
+      "path": "prompts/06-idle-shutdown.txt",
+      "bytes": 2079,
+      "sha256": "9c487c4913d2d2965d51adf2f470d3c25a739893a5ee6b640875fbbcc20b8296"
+    },
+    {
+      "path": "prompts/07-research-local-models.txt",
+      "bytes": 1980,
+      "sha256": "19b16bbe5e8fdf9539d3e3261cac935c6d03653d9801102a15a12458cad646e9"
+    },
+    {
+      "path": "prompts/08-connect-local-model.txt",
+      "bytes": 2122,
+      "sha256": "1de21e52f0e81dba8708a374eb7fec42ad98f16aac9d2dc43c14cf09ce1820ce"
+    },
+    {
+      "path": "prompts/09-check-my-test-app.txt",
+      "bytes": 2079,
+      "sha256": "885b20b3f03322969f0b8acbe98da2ee022aca181a7a988f87c0f505d0f0f4c8"
+    },
+    {
+      "path": "prompts/README.md",
+      "bytes": 700,
+      "sha256": "d3f6106785017bf53668545e0e3f33f0fb15d305b85f46d13ffe0a5c879f58df"
+    },
+    {
+      "path": "recorded-prompts/cloud-original.md",
+      "bytes": 1131,
+      "sha256": "c70af018d2e17385905e69c54f58d182f9cdc0d076774bf5d4f4983b333fe0c9"
+    },
+    {
+      "path": "recorded-prompts/local-original.md",
+      "bytes": 869,
+      "sha256": "f0691c14939fb045e72646a4c73f30d7863733a81e2958a562dcfc81d49eda22"
+    },
+    {
+      "path": "recorded-prompts/spoken-excerpts.md",
+      "bytes": 853,
+      "sha256": "e68ab0c885b0f85d31a863dc8f4af2da536914d38d1b02423b8aef24c3247da4"
+    },
+    {
+      "path": "scripts/check_endpoint.py",
+      "bytes": 5080,
+      "sha256": "5edc46510837080cad21610168d210c3bb1f153b5d19801d3a9e41e719551c48"
+    },
+    {
+      "path": "scripts/doctor.py",
+      "bytes": 799,
+      "sha256": "04b0ecc95a63bff90d919204740a1006521370d477d4e5a7a793958fdf02138f"
+    },
+    {
+      "path": "scripts/idle_proxy.py",
+      "bytes": 7229,
+      "sha256": "a399de370270cef95ac36c05fa8363ca630d9f3033d61cea2cae68c19a563dab"
+    },
+    {
+      "path": "scripts/local_lab.py",
+      "bytes": 1286,
+      "sha256": "5c7dc678966dbe62286b9ae6ca73fb2074d943612638e454f6c6c509f8711902"
+    },
+    {
+      "path": "scripts/safe_check.py",
+      "bytes": 2883,
+      "sha256": "837a763ced38de8861341e8fe2960e2c7050662fed4696ed9c5ff2ac847ec7e3"
+    },
+    {
+      "path": "tests/test_kit.py",
+      "bytes": 5371,
+      "sha256": "a2869e9323611dda2c3d68f185361a3d561bb6c2a761c056879ecf4331288d3d"
+    },
+    {
+      "path": "verification/STATUS.md",
+      "bytes": 1378,
+      "sha256": "966b96b8cfecbb22c99eb2b918e4e165ba3aaa5b91971aecf4a93b251080601f"
+    },
+    {
+      "path": "verification/local-model-result.json",
+      "bytes": 587,
+      "sha256": "790219cef62349e48e0776650513c26061e2e99008c88a399b2fc7520ee31e17"
+    },
+    {
+      "path": "verification/smoke-test-checklist.md",
+      "bytes": 1115,
+      "sha256": "187c9889d3a8c6843deab98694e50c541725218a58bb882623742784fcead526"
+    },
+    {
+      "path": "verification/sources.json",
+      "bytes": 2540,
+      "sha256": "09d2c94665ba34c56e904600a384eac674ebd57667466511f383c2cc9b9048fb"
+    }
+  ]
+}

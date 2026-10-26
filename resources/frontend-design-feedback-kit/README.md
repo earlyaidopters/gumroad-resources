@@ -1,7 +1,5 @@
 # Frontend Design & Feedback Kit
 
-![cover](https://public-files.gumroad.com/v3ormgouaorqmqdyfdbc5khgkis4)
-
 **Get it on Gumroad → https://markkashef.gumroad.com/l/sf-ig-frontend-design-loop**
 
 `published` · CAD$0+

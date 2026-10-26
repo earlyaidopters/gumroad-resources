@@ -1,0 +1,89 @@
+{
+  "checked": "2026-10-26",
+  "sources": [
+    {
+      "title": "Harness install",
+      "url": "https://github.com/deepseek-ai/deepseek-harness"
+    },
+    {
+      "title": "Harness model configuration",
+      "url": "https://github.com/deepseek-ai/deepseek-harness/blob/master/docs/user/guide/providers.md"
+    },
+    {
+      "title": "Harness MCP configuration",
+      "url": "https://github.com/deepseek-ai/deepseek-harness/blob/master/packages/mcp/mcp-client/README.md"
+    },
+    {
+      "title": "Harness safety",
+      "url": "https://github.com/deepseek-ai/deepseek-harness/blob/master/SAFETY.md"
+    },
+    {
+      "title": "Playwright MCP",
+      "url": "https://github.com/microsoft/playwright-mcp"
+    },
+    {
+      "title": "Firecrawl MCP",
+      "url": "https://github.com/firecrawl/firecrawl-mcp-server"
+    },
+    {
+      "title": "Nuclei",
+      "url": "https://github.com/projectdiscovery/nuclei"
+    },
+    {
+      "title": "RunPod pricing",
+      "url": "https://docs.runpod.io/pods/pricing"
+    },
+    {
+      "title": "RunPod storage",
+      "url": "https://docs.runpod.io/pods/storage/types"
+    },
+    {
+      "title": "RunPod stop API",
+      "url": "https://docs.runpod.io/api-reference/pods/POST/pods/podId/stop"
+    },
+    {
+      "title": "LM Studio server",
+      "url": "https://lmstudio.ai/docs/developer/core/server"
+    },
+    {
+      "title": "LM Studio tool use",
+      "url": "https://lmstudio.ai/docs/developer/openai-compat/tools"
+    },
+    {
+      "title": "Promised ProjectDiscovery article",
+      "url": "https://projectdiscovery.io/research/how-abliterated-models-can-get-you-pwned"
+    },
+    {
+      "title": "Hugging Face model security",
+      "url": "https://huggingface.co/docs/hub/security"
+    },
+    {
+      "title": "Local recorded model",
+      "url": "https://huggingface.co/huihui-ai/Huihui-Qwen3.6-35B-A3B-abliterated-MTP-GGUF"
+    },
+    {
+      "title": "Additional vision-model collection",
+      "url": "https://huggingface.co/prithivMLmods/Qwen3.5-abliterated-MAX-AIO-GGUF"
+    },
+    {
+      "title": "Abliteration",
+      "url": "https://abliteration.ai"
+    },
+    {
+      "title": "OrcaRouter",
+      "url": "https://orcarouter.com"
+    },
+    {
+      "title": "Lockpick",
+      "url": "https://www.lockpick.app"
+    },
+    {
+      "title": "Early AI-dopters",
+      "url": "https://www.skool.com/earlyaidopters/about"
+    },
+    {
+      "title": "Recorded cloud model",
+      "url": "https://huggingface.co/mradermacher/Huihui-Qwen3.5-9B-abliterated-GGUF"
+    }
+  ]
+}

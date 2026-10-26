@@ -1,0 +1,21 @@
+{
+  "recorded_at": "2026-10-25",
+  "harness_version": "0.1.1-rc.2",
+  "local": {
+    "repo": "huihui-ai/Huihui-Qwen3.6-35B-A3B-abliterated-MTP-GGUF",
+    "revision": "acd5abe0c5ebd064f3863ca7d4bba2d924ec6544",
+    "file": "Huihui-Qwen3.6-35B-A3B-abliterated-ggml-model-Q4_K.gguf",
+    "bytes": 21712409824,
+    "projector_file_observed": "mmproj-model-f16.gguf",
+    "projector_bytes": 899283104
+  },
+  "cloud": {
+    "label_in_recording": "Qwen3.5 9B Abliterated Vision",
+    "repo": "mradermacher/Huihui-Qwen3.5-9B-abliterated-GGUF",
+    "revision_from_recording_session": "9f646d7eda193ddf2348134f3bff3d49eed7a2c6",
+    "file": "Huihui-Qwen3.5-9B-abliterated.Q6_K.gguf",
+    "projector": "Huihui-Qwen3.5-9B-abliterated.mmproj-f16.gguf",
+    "provenance": "Recording-day setup recommendation and pinned model URLs recovered from original setup messages/tool history. Verify runtime pairing before new use."
+  },
+  "performance": "Recorded speed is not a guarantee; rerun the included checks on your own setup."
+}

@@ -1,0 +1,14 @@
+id: kit-local-missing-nosniff
+info:
+  name: Synthetic local lab missing nosniff header
+  author: mark-kashef
+  severity: info
+  description: Passive header check for the included localhost lab only.
+http:
+  - method: GET
+    path:
+      - "{{BaseURL}}/"
+    matchers:
+      - type: dsl
+        dsl:
+          - "!contains(tolower(all_headers), 'x-content-type-options: nosniff')"

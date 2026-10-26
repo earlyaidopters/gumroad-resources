@@ -1,0 +1,11 @@
+{
+  "note": "Worksheet for Harness Settings > Models > Custom model API. Not an import format.",
+  "provider_id": "local-defensive",
+  "display_name": "Local defensive model",
+  "api_protocol": "openai-completions",
+  "base_url": "http://127.0.0.1:1234/v1",
+  "model_id": "REPLACE_WITH_ID_FROM_MODELS_ENDPOINT",
+  "credential": "Enter privately in app; never put key in this file",
+  "context_window": "Use model/runtime documentation; do not guess",
+  "image_input": "Enable only after synthetic image check passes"
+}

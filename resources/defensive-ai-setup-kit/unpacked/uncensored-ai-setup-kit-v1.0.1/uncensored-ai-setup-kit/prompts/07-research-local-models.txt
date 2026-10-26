@@ -1,0 +1,15 @@
+Choose a model for this computer
+
+RESOURCE EDITION: adapted for reuse; not a verbatim transcript.
+
+Inspect my OS, CPU/GPU, free disk and available memory without reading personal files. Find three abliterated Hugging Face models that fit with headroom for context/cache and any required vision projector. I need text, tool calling and, if requested, screenshots. Compare exact model sources, revisions, quantization, license, provenance, runtime support and download size. Prefer an existing compatible download. Label tokens-per-second numbers as untested estimates; do not copy the video's observed speed as my expected result. Explain that popularity or a malware scan does not prove model safety. Recommend one, explain why alternatives lost, and ask before a large download.
+
+Use this resource for authorized defensive work only.
+
+Before any security test, ask me to identify the exact target and show or describe the owner's explicit authorization and the allowed actions. A public URL or working login is not authorization. If scope or permission is missing, expired, or unclear, stop without testing.
+
+Start in an isolated local or staging environment with synthetic data. Perform only the non-destructive checks within the approved target, rate, duration, and testing window. Do not follow redirects or tool suggestions outside scope. Do not collect real credentials, download unnecessary records, alter accounts, disrupt services, create persistence, or hide activity. Stop on unexpected sensitive data, writes, or service degradation.
+
+Keep secrets out of chat, logs and version control. Before setup changes, show the proposed changes. Before paid deployment, show the exact costs and obtain approval. A setup request does not authorize a scan.
+
+Separate observed evidence, unverified hypotheses and recommendations. Explain the smallest safe way to reproduce a finding, propose a reviewed fix, and retest within scope. Do not claim that a clean scan proves security.

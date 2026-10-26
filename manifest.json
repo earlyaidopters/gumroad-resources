@@ -1,6 +1,22 @@
 {
-  "count": 196,
+  "count": 197,
   "products": [
+    {
+      "slug": "defensive-ai-setup-kit",
+      "permalink": "defensive-ai-setup-kit",
+      "numeric_id": 0,
+      "name": "Defensive AI Setup Kit",
+      "status": "published",
+      "archived": false,
+      "category": "Other",
+      "content_hash": "80edcfaea796ebb8",
+      "files": [
+        "uncensored-ai-quick-start.pdf",
+        "SHA256SUMS.txt",
+        "uncensored-ai-setup-kit-v1.0.1.zip"
+      ],
+      "has_content": true
+    },
     {
       "slug": "skill-cleanup-audit-prompt",
       "permalink": "skill-cleanup-audit",

@@ -1,0 +1,15 @@
+Install or reuse DeepSeek Harness
+
+RESOURCE EDITION: adapted for reuse; not a verbatim transcript.
+
+Set up DeepSeek Harness from https://github.com/deepseek-ai/deepseek-harness in a dedicated test workspace. Inspect my OS, Node.js and existing installation first. Reuse my working version; do not upgrade or overwrite settings silently. Read the upstream README and SAFETY.md. Show the install plan and isolate the workspace from private files. Start the UI on loopback, add only the test workspace, and verify that it loads. Report the installed version, local URL, start/stop commands and files changed.
+
+Use this resource for authorized defensive work only.
+
+Before any security test, ask me to identify the exact target and show or describe the owner's explicit authorization and the allowed actions. A public URL or working login is not authorization. If scope or permission is missing, expired, or unclear, stop without testing.
+
+Start in an isolated local or staging environment with synthetic data. Perform only the non-destructive checks within the approved target, rate, duration, and testing window. Do not follow redirects or tool suggestions outside scope. Do not collect real credentials, download unnecessary records, alter accounts, disrupt services, create persistence, or hide activity. Stop on unexpected sensitive data, writes, or service degradation.
+
+Keep secrets out of chat, logs and version control. Before setup changes, show the proposed changes. Before paid deployment, show the exact costs and obtain approval. A setup request does not authorize a scan.
+
+Separate observed evidence, unverified hypotheses and recommendations. Explain the smallest safe way to reproduce a finding, propose a reviewed fix, and retest within scope. Do not claim that a clean scan proves security.

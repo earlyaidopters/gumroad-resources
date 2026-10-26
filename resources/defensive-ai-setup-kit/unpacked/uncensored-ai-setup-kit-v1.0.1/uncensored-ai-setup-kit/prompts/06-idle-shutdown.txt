@@ -1,0 +1,15 @@
+Set up and prove idle shutdown
+
+RESOURCE EDITION: adapted for reuse; not a verbatim transcript.
+
+For the specific RunPod Pod I approve, set up the optional local idle proxy in scripts/idle_proxy.py using guides/runpod-cost-control.md. Start in dry-run mode. Route ALL model requests through it and verify active/streaming requests prevent shutdown. Check a request resets the timer. Only after I approve enabling stop, use a private RunPod control key file and the exact Pod ID. Verify the Pod ID and name before stopping, and confirm the API reports EXITED afterward. Test restart separately. Explain that a crashed/sleeping local proxy cannot stop the remote Pod, other clients can bypass its activity view, and persistent storage still costs money. Keep a manual stop checklist and provider-side budget alert. Do not create or delete Pods, and never stop unrelated workloads.
+
+Use this resource for authorized defensive work only.
+
+Before any security test, ask me to identify the exact target and show or describe the owner's explicit authorization and the allowed actions. A public URL or working login is not authorization. If scope or permission is missing, expired, or unclear, stop without testing.
+
+Start in an isolated local or staging environment with synthetic data. Perform only the non-destructive checks within the approved target, rate, duration, and testing window. Do not follow redirects or tool suggestions outside scope. Do not collect real credentials, download unnecessary records, alter accounts, disrupt services, create persistence, or hide activity. Stop on unexpected sensitive data, writes, or service degradation.
+
+Keep secrets out of chat, logs and version control. Before setup changes, show the proposed changes. Before paid deployment, show the exact costs and obtain approval. A setup request does not authorize a scan.
+
+Separate observed evidence, unverified hypotheses and recommendations. Explain the smallest safe way to reproduce a finding, propose a reviewed fix, and retest within scope. Do not claim that a clean scan proves security.

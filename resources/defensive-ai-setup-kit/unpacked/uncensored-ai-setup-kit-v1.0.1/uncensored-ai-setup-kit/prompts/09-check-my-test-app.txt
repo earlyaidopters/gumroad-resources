@@ -1,0 +1,15 @@
+Run a scoped defensive check
+
+RESOURCE EDITION: adapted for reuse; not a verbatim transcript.
+
+Help me inspect my own authorized test app. Begin with the included synthetic localhost lab, not a public site. Read DEFENSIVE-USE.md and validate the authorization scope. For the local exercise, run scripts/safe_check.py and explain the missing-header findings using examples/findings-report.md. For any real app, first document written permission, exact allowlisted target, permitted actions, time/rate limits and stop conditions; propose a non-destructive test plan before execution. Never interpret the historical CoachVault results as permission to copy accounts or dump a database. Collect the minimum redacted evidence needed, distinguish confirmed findings from hypotheses, propose fixes and a bounded retest. Do not run automated scans outside the explicitly approved scope.
+
+Use this resource for authorized defensive work only.
+
+Before any security test, ask me to identify the exact target and show or describe the owner's explicit authorization and the allowed actions. A public URL or working login is not authorization. If scope or permission is missing, expired, or unclear, stop without testing.
+
+Start in an isolated local or staging environment with synthetic data. Perform only the non-destructive checks within the approved target, rate, duration, and testing window. Do not follow redirects or tool suggestions outside scope. Do not collect real credentials, download unnecessary records, alter accounts, disrupt services, create persistence, or hide activity. Stop on unexpected sensitive data, writes, or service degradation.
+
+Keep secrets out of chat, logs and version control. Before setup changes, show the proposed changes. Before paid deployment, show the exact costs and obtain approval. A setup request does not authorize a scan.
+
+Separate observed evidence, unverified hypotheses and recommendations. Explain the smallest safe way to reproduce a finding, propose a reviewed fix, and retest within scope. Do not claim that a clean scan proves security.

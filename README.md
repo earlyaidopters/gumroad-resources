@@ -2,7 +2,7 @@
 
 Every free resource from the Early AI-dopters Gumroad, mirrored here and kept in sync. Each folder holds the actual files (zips unpacked so you can browse them on GitHub), the resource content page, and a README. Where a resource came from a YouTube video, the video is paired to it. Watch or star this repo to catch every new drop.
 
-**196 published resources**, grouped by topic and newest-first within each. Sync scheduled hourly. See the latest verified check below.
+**197 published resources**, grouped by topic and newest-first within each. Sync scheduled hourly. See the latest verified check below.
 
 <!-- sync-status:start -->
 [**Last verified sync: October 26, 2026 at 11:13 AM EDT**](https://github.com/earlyaidopters/gumroad-resources/actions/runs/40346659070) · 196/196 published resources accounted for; 341 mirrored attachments verified. Oversized attachments available on Gumroad: 1. [Sync details](sync-status.json).
@@ -15,6 +15,7 @@ The newest resources with their videos. Updates automatically on every sync.
 
 | | Resource | Watch | Get it |
 |---|---|---|---|
+|  | [Defensive AI Setup Kit](resources/defensive-ai-setup-kit/) | - | [Gumroad](https://markkashef.gumroad.com/l/defensive-ai-setup-kit) |
 | <a href="https://youtu.be/2IPR6F3cQ_I"><img src="https://i.ytimg.com/vi/2IPR6F3cQ_I/maxresdefault.jpg" width="200"></a> | [Skill Cleanup Audit Prompt](resources/skill-cleanup-audit-prompt/) | [▶ Watch](https://youtu.be/2IPR6F3cQ_I) | [Gumroad](https://markkashef.gumroad.com/l/skill-cleanup-audit) |
 |  | [FreeLLMAPI Setup Guide](resources/freellmapi-setup-guide/) | - | [Gumroad](https://markkashef.gumroad.com/l/sf-ig-freellmapi-setup) |
 |  | [Five Claude Code Tools: Official Links](resources/five-claude-code-tools-official-links/) | - | [Gumroad](https://markkashef.gumroad.com/l/sf-ig-claude-code-plugins) |
@@ -24,7 +25,6 @@ The newest resources with their videos. Updates automatically on every sync.
 |  | [Seven Craft Apps: Official GitHub Links](resources/seven-craft-apps-official-github-links/) | - | [Gumroad](https://markkashef.gumroad.com/l/sf-ig-adobe-craft-links) |
 |  | [Jev: Four Everyday Decisions](resources/jev-four-everyday-decisions/) | - | [Gumroad](https://markkashef.gumroad.com/l/sf-ig-jev-daily-guide) |
 |  | [The FINISH Goal Template](resources/the-finish-goal-template/) | - | [Gumroad](https://markkashef.gumroad.com/l/sf-ig-finish-goal-template) |
-| <a href="https://youtu.be/ScSDVV5xhww"><img src="https://i.ytimg.com/vi/ScSDVV5xhww/maxresdefault.jpg" width="200"></a> | [Abliteration AI + REA Setup Guide](resources/abliteration-ai-rea-setup-guide/) | [▶ Watch](https://youtu.be/ScSDVV5xhww) | [Gumroad](https://markkashef.gumroad.com/l/abliteration-ai-rea-setup) |
 
 ## Categories
 
@@ -33,7 +33,7 @@ The newest resources with their videos. Updates automatically on every sync.
 - [🧠 Custom GPTs & AI Agents](#custom-gpts-ai-agents) (26)
 - [🗂️ Frameworks, Meta Techniques & Experiments](#frameworks-meta-techniques-experiments) (23)
 - [📊 Tools, Cheat Sheets & Evaluations](#tools-cheat-sheets-evaluations) (15)
-- [Other](#other) (66)
+- [Other](#other) (67)
 
 ## 🎯 Prompting & Engineering Skills
 
@@ -194,6 +194,7 @@ The newest resources with their videos. Updates automatically on every sync.
 
 | Resource | What it is | Video | Get it |
 |---|---|---|---|
+| [Defensive AI Setup Kit](resources/defensive-ai-setup-kit/) | Get your own AI setup running, then check that it works. | - | [Gumroad](https://markkashef.gumroad.com/l/defensive-ai-setup-kit) |
 | [Skill Cleanup Audit Prompt](resources/skill-cleanup-audit-prompt/) | Find the skills worth keeping Collected more Claude and Codex skills than you use? | [▶ Watch](https://youtu.be/2IPR6F3cQ_I) | [Gumroad](https://markkashef.gumroad.com/l/skill-cleanup-audit) |
 | [FreeLLMAPI Setup Guide](resources/freellmapi-setup-guide/) | Connect free AI providers to your coding setup with a focused, source checked guide. | - | [Gumroad](https://markkashef.gumroad.com/l/sf-ig-freellmapi-setup) |
 | [Five Claude Code Tools: Official Links](resources/five-claude-code-tools-official-links/) | Get the official links to the five Claude Code tools from the PLUGINS reel, with a short note on when to try each one. | - | [Gumroad](https://markkashef.gumroad.com/l/sf-ig-claude-code-plugins) |

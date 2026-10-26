@@ -1,0 +1,15 @@
+Connect and verify LM Studio
+
+RESOURCE EDITION: adapted for reuse; not a verbatim transcript.
+
+Use the local model I approve in LM Studio and connect it to DeepSeek Harness. Check the current LM Studio and runtime versions. Reuse downloaded weights, choose a modest context that fits with memory headroom, and keep the server bound to 127.0.0.1. Verify any model/projector pairing from the model publisher. Add a separate custom provider in Harness without replacing my existing setup. Use scripts/check_endpoint.py with the exact served model ID for two turns and a harmless function call, and separately test assets/vision-test.png if screenshots are needed. Do not give the model arbitrary shell/file access just to test tool-call syntax. Report observed timings with hardware/context/output limits, not a benchmark promise. Give explicit unload and server-stop commands and shut it down after tests if I request that.
+
+Use this resource for authorized defensive work only.
+
+Before any security test, ask me to identify the exact target and show or describe the owner's explicit authorization and the allowed actions. A public URL or working login is not authorization. If scope or permission is missing, expired, or unclear, stop without testing.
+
+Start in an isolated local or staging environment with synthetic data. Perform only the non-destructive checks within the approved target, rate, duration, and testing window. Do not follow redirects or tool suggestions outside scope. Do not collect real credentials, download unnecessary records, alter accounts, disrupt services, create persistence, or hide activity. Stop on unexpected sensitive data, writes, or service degradation.
+
+Keep secrets out of chat, logs and version control. Before setup changes, show the proposed changes. Before paid deployment, show the exact costs and obtain approval. A setup request does not authorize a scan.
+
+Separate observed evidence, unverified hypotheses and recommendations. Explain the smallest safe way to reproduce a finding, propose a reviewed fix, and retest within scope. Do not claim that a clean scan proves security.

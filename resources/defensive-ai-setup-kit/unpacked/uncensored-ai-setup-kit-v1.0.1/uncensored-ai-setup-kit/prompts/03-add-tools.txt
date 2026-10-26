@@ -1,0 +1,15 @@
+Add browser, research and scanner tools
+
+RESOURCE EDITION: adapted for reuse; not a verbatim transcript.
+
+Add Playwright and Firecrawl through their official MCP servers, plus Nuclei through the terminal, to my DeepSeek Harness setup. Read the installed Harness MCP schema first and compare config/dsh-mcp.patch.yml with current documentation. Do not paste a generic mcpServers JSON object into a Cordis profile. Use an isolated browser profile. Configure Firecrawl in a private secret store, or use its documented limited keyless endpoint for the initial test. Verify Playwright on the local synthetic lab, Firecrawl on a public documentation page, and Nuclei with its version command plus one reviewed passive header template against the local lab only. Do not run broad or intrusive template sets. A successful tool listing is not a successful tool call. Return the actual test results and remove only entries you created if rollback is needed.
+
+Use this resource for authorized defensive work only.
+
+Before any security test, ask me to identify the exact target and show or describe the owner's explicit authorization and the allowed actions. A public URL or working login is not authorization. If scope or permission is missing, expired, or unclear, stop without testing.
+
+Start in an isolated local or staging environment with synthetic data. Perform only the non-destructive checks within the approved target, rate, duration, and testing window. Do not follow redirects or tool suggestions outside scope. Do not collect real credentials, download unnecessary records, alter accounts, disrupt services, create persistence, or hide activity. Stop on unexpected sensitive data, writes, or service degradation.
+
+Keep secrets out of chat, logs and version control. Before setup changes, show the proposed changes. Before paid deployment, show the exact costs and obtain approval. A setup request does not authorize a scan.
+
+Separate observed evidence, unverified hypotheses and recommendations. Explain the smallest safe way to reproduce a finding, propose a reviewed fix, and retest within scope. Do not claim that a clean scan proves security.
