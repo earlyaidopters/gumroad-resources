@@ -9,13 +9,13 @@
   "archived": false,
   "kind": "products",
   "price_formatted": "CAD$0+",
-  "description_md": "Get your own AI setup running, then check that it works.\n\nFor authorized defensive learning on systems you own or have explicit permission to test.\n\nNine copyable prompts: install the harness, connect a provider, add tools, research and deploy a cloud model, control idle costs, choose and connect a local model, and check your own test app. Three setup routes: hosted API, RunPod cloud GPU, and local LM Studio, with requirements and troubleshooting. Practical checks: a synthetic localhost lab, a two-turn and function-call API checker, a screenshot test, and an optional dry-run-first idle proxy. Readable guide: a 13-page PDF plus editable Markdown and code in the public GitHub repository. Original recording context: recovered cloud and local setup messages, with expanded resource prompts labeled separately.\n\nThe local text and function-call checks passed. The synthetic image check failed on the tested local runtime; that limitation is documented. Hosted accounts, paid GPU deployment and native installations still require verification in your environment. No model weights, API credits or rented GPU time are included.\n\nOpen the public source using the GitHub button on the download page.\n\nUse and limitations\n\nFor education and authorized defensive use only. Test only systems you own or have explicit permission to test, within the agreed scope. Do not use these materials for unauthorized access, data theft, service disruption, or other unlawful activity.\n\nThese materials are provided “as is” and “as available,” without warranties to the extent permitted by applicable law. They are not legal advice, a professional security assessment, or a guarantee of security, accuracy, compatibility, availability, or fitness for a particular purpose. AI output can be incorrect or unsafe. Review commands, code, findings, and configuration changes before use.\n\nYou are responsible for permissions, backups, credentials, personal data, third-party terms, and usage charges. Third-party tools, models, availability, and pricing can change. Test in an isolated environment with synthetic data before considering production use.\n\nTo the extent permitted by applicable law, the creators and contributors disclaim liability for losses or damages arising from use of or reliance on these materials. Nothing in this notice excludes or limits liability, warranties, rights, or remedies that cannot lawfully be excluded or limited.",
+  "description_md": "## Get your own AI setup running, then check that it works.\nFor authorized defensive learning on systems you own or have explicit permission to test.\n\n- \nNine copyable prompts: Install the harness, connect a provider, add tools, research and deploy a cloud model, control idle costs, choose and connect a local model, and check your own test app.\n\n- \nThree setup routes: Hosted API, RunPod cloud GPU, and local LM Studio, with requirements and troubleshooting.\n\n- \nPractical checks: A synthetic localhost lab, conversation and function-call checks, a screenshot test, and an optional dry-run-first idle proxy.\n\n- \nReadable guide: A 13-page PDF plus editable Markdown and code in the public GitHub repository.\n\n- \nOriginal recording context: Recovered cloud and local setup messages, with expanded resource prompts labeled separately.\n\nThe local text and function-call checks passed. The synthetic image check failed on the tested local runtime; that limitation is documented. Hosted accounts, paid GPU deployment and native installations still require verification in your environment. No model weights, API credits or rented GPU time are included.\nOpen the public source using the GitHub button on the download page.\n### Use and limitations\nFor education and authorized defensive use only. Test only systems you own or have explicit permission to test, within the agreed scope. Do not use these materials for unauthorized access, data theft, service disruption, or other unlawful activity.\nThese materials are provided “as is” and “as available,” without warranties to the extent permitted by applicable law. They are not legal advice, a professional security assessment, or a guarantee of security, accuracy, compatibility, availability, or fitness for a particular purpose. AI output can be incorrect or unsafe. Review commands, code, findings, and configuration changes before use.\nYou are responsible for permissions, backups, credentials, personal data, third-party terms, and usage charges. Third-party tools, models, availability, and pricing can change. Test in an isolated environment with synthetic data before considering production use.\nTo the extent permitted by applicable law, the creators and contributors disclaim liability for losses or damages arising from use of or reliance on these materials. Nothing in this notice excludes or limits liability, warranties, rights, or remedies that cannot lawfully be excluded or limited.",
   "files": [
     {
       "file": "uncensored-ai-quick-start.pdf",
       "source_revision": "643cf61e5ec7d8416e8e660bb067fcaa3f8a934c8f8c9b5ac07682e9d70ce3f2",
       "expected_bytes": 437440,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 437440,
       "source_sha256": "e6b42406e6b5c63cfe0c56d17425389774dcb912d5baa896bd9210f0f1d829b5",
       "local_sha256": "e6b42406e6b5c63cfe0c56d17425389774dcb912d5baa896bd9210f0f1d829b5"
@@ -24,7 +24,7 @@
       "file": "SHA256SUMS.txt",
       "source_revision": "ac0416a32f1dd41b6ffee97d33b644cf7f88bda7bfcd4c400d6dab92856381e8",
       "expected_bytes": 197,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 197,
       "source_sha256": "23771d4f5f0141d9bd95789c18a07e8f8fc426c8055b7773f557dbb43d5b4980",
       "local_sha256": "23771d4f5f0141d9bd95789c18a07e8f8fc426c8055b7773f557dbb43d5b4980"
@@ -33,7 +33,7 @@
       "file": "uncensored-ai-setup-kit-v1.0.1.zip",
       "source_revision": "05fa27cf43170d7f84e68aab2f6bed5badbe4d8e89034b6dd4ce17f58dbfa39c",
       "expected_bytes": 954513,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 954513,
       "source_sha256": "ac21f5b5e08b73d5978aa2aa2b28b5b46b9e1c4b3b34ec86459a86a4cee0e134",
       "local_sha256": "ac21f5b5e08b73d5978aa2aa2b28b5b46b9e1c4b3b34ec86459a86a4cee0e134",
