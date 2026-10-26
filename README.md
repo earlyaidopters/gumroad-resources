@@ -5,7 +5,7 @@ Every free resource from the Early AI-dopters Gumroad, mirrored here and kept in
 **197 published resources**, grouped by topic and newest-first within each. Sync scheduled hourly. See the latest verified check below.
 
 <!-- sync-status:start -->
-[**Last verified sync: October 26, 2026 at 01:05 PM EDT**](https://github.com/earlyaidopters/gumroad-resources/actions/runs/40364898061) · 197/197 published resources accounted for; 344 mirrored attachments verified. Oversized attachments available on Gumroad: 1. [Sync details](sync-status.json).
+[**Last verified sync: October 26, 2026 at 02:48 PM EDT**](https://github.com/earlyaidopters/gumroad-resources/actions/runs/40380137972) · 197/197 published resources accounted for; 344 mirrored attachments verified. Oversized attachments available on Gumroad: 1. [Sync details](sync-status.json).
 
 <!-- sync-status:end -->
 
@@ -15,7 +15,7 @@ The newest resources with their videos. Updates automatically on every sync.
 
 | | Resource | Watch | Get it |
 |---|---|---|---|
-| <a href="https://markkashef.gumroad.com/l/defensive-ai-setup-kit"><img src="https://public-files.gumroad.com/z3z5eid6x6e48fze0hzq6pwv34ah" width="200"></a> | [Defensive AI Setup Kit](resources/defensive-ai-setup-kit/) | - | [Gumroad](https://markkashef.gumroad.com/l/defensive-ai-setup-kit) |
+| <a href="https://youtu.be/LYYs_jIFPZ4"><img src="https://i.ytimg.com/vi/LYYs_jIFPZ4/maxresdefault.jpg" width="200"></a> | [Defensive AI Setup Kit](resources/defensive-ai-setup-kit/) | [▶ Watch](https://youtu.be/LYYs_jIFPZ4) | [Gumroad](https://markkashef.gumroad.com/l/defensive-ai-setup-kit) |
 | <a href="https://youtu.be/2IPR6F3cQ_I"><img src="https://i.ytimg.com/vi/2IPR6F3cQ_I/maxresdefault.jpg" width="200"></a> | [Skill Cleanup Audit Prompt](resources/skill-cleanup-audit-prompt/) | [▶ Watch](https://youtu.be/2IPR6F3cQ_I) | [Gumroad](https://markkashef.gumroad.com/l/skill-cleanup-audit) |
 |  | [FreeLLMAPI Setup Guide](resources/freellmapi-setup-guide/) | - | [Gumroad](https://markkashef.gumroad.com/l/sf-ig-freellmapi-setup) |
 |  | [Five Claude Code Tools: Official Links](resources/five-claude-code-tools-official-links/) | - | [Gumroad](https://markkashef.gumroad.com/l/sf-ig-claude-code-plugins) |
@@ -194,7 +194,7 @@ The newest resources with their videos. Updates automatically on every sync.
 
 | Resource | What it is | Video | Get it |
 |---|---|---|---|
-| [Defensive AI Setup Kit](resources/defensive-ai-setup-kit/) | Get your own AI setup running, then check that it works. | - | [Gumroad](https://markkashef.gumroad.com/l/defensive-ai-setup-kit) |
+| [Defensive AI Setup Kit](resources/defensive-ai-setup-kit/) | Get your own AI setup running. | [▶ Watch](https://youtu.be/LYYs_jIFPZ4) | [Gumroad](https://markkashef.gumroad.com/l/defensive-ai-setup-kit) |
 | [Skill Cleanup Audit Prompt](resources/skill-cleanup-audit-prompt/) | Find the skills worth keeping Collected more Claude and Codex skills than you use? | [▶ Watch](https://youtu.be/2IPR6F3cQ_I) | [Gumroad](https://markkashef.gumroad.com/l/skill-cleanup-audit) |
 | [FreeLLMAPI Setup Guide](resources/freellmapi-setup-guide/) | Connect free AI providers to your coding setup with a focused, source checked guide. | - | [Gumroad](https://markkashef.gumroad.com/l/sf-ig-freellmapi-setup) |
 | [Five Claude Code Tools: Official Links](resources/five-claude-code-tools-official-links/) | Get the official links to the five Claude Code tools from the PLUGINS reel, with a short note on when to try each one. | - | [Gumroad](https://markkashef.gumroad.com/l/sf-ig-claude-code-plugins) |

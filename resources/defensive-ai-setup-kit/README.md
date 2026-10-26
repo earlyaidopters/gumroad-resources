@@ -1,6 +1,8 @@
 # Defensive AI Setup Kit
 
-![cover](https://public-files.gumroad.com/z3z5eid6x6e48fze0hzq6pwv34ah)
+[![watch on YouTube](https://i.ytimg.com/vi/LYYs_jIFPZ4/maxresdefault.jpg)](https://youtu.be/LYYs_jIFPZ4)
+
+**▶ Watch the video → https://youtu.be/LYYs_jIFPZ4**
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/defensive-ai-setup-kit**
 
@@ -8,7 +10,7 @@
 
 ## About
 
-#### Get your own AI setup running, then check that it works.
+### Get your own AI setup running.
 For authorized defensive learning on systems you own or have explicit permission to test.
 
 - 
@@ -26,8 +28,6 @@ Readable guide: A 13-page PDF plus editable Markdown and code in the public GitH
 - 
 Original recording context: Recovered cloud and local setup messages, with expanded resource prompts labeled separately.
 
-The local text and function-call checks passed. The synthetic image check failed on the tested local runtime; that limitation is documented. Hosted accounts, paid GPU deployment and native installations still require verification in your environment. No model weights, API credits or rented GPU time are included.
-Open the public source using the GitHub button on the download page.
 ##### Use and limitations
 For education and authorized defensive use only. Test only systems you own or have explicit permission to test, within the agreed scope. Do not use these materials for unauthorized access, data theft, service disruption, or other unlawful activity.
 These materials are provided “as is” and “as available,” without warranties to the extent permitted by applicable law. They are not legal advice, a professional security assessment, or a guarantee of security, accuracy, compatibility, availability, or fitness for a particular purpose. AI output can be incorrect or unsafe. Review commands, code, findings, and configuration changes before use.

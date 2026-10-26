@@ -30,7 +30,7 @@ Inside the Early AI Dopters community, you get the full **LIVING** Claude Code M
 
 ---
 
-## Use and limitations
+## **Use and limitations**
 
 For education and authorized defensive use only. Test only systems you own or have explicit permission to test, within the agreed scope. Do not use these materials for unauthorized access, data theft, service disruption, or other unlawful activity.
 
