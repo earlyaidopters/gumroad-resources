@@ -15,6 +15,10 @@ Browse the setup prompts, guides and verification code, or download the release.
 
 [OPEN GITHUB](https://github.com/earlyaidopters/uncensored-ai-starter-kit)
 
+Article I mentioned on local models:
+
+[How abliterated models can get you pwned](https://projectdiscovery.io/research/how-abliterated-models-can-get-you-pwned)
+
 ---
 
 ## Want more like this? 🧠
