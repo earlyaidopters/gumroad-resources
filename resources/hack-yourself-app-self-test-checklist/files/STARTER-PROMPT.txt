@@ -1,0 +1,9 @@
+I own the app at YOUR_APP_URL. Test only that app and the backend services I explicitly identify. Use a test copy with fictional data.
+
+I will provide two ordinary test accounts privately. Start by confirming what each can read normally. Then test one feature: can account A read account B's private TEST_RECORD using the same link or request?
+
+Show the request with credentials removed and the smallest result needed to prove what happened. A successful status code is not proof that private data was returned. If a request fails to run, say so.
+
+Do not edit records, change permissions, guess passwords, process payments, send messages or test unrelated sites. Stop after six explicit test requests beyond normal page loading, or sooner once this one check is resolved.
+
+Report the expected behavior, the observed behavior and the evidence. If access is blocked, treat that as the result rather than forcing a finding. After I approve and apply any fix, repeat the same check and verify that normal owner access still works. Do not call the whole app secure from one passing test.

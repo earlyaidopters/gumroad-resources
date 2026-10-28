@@ -1,7 +1,5 @@
 # Global Prompts vs Global Nodes Walkthrough Document
 
-![cover](https://public-files.gumroad.com/81fbgjxpajkmimmddd6qs280trd1)
-
 **Get it on Gumroad → https://markkashef.gumroad.com/l/GlobalPromptsvsGlobalNodesWalkthroughDocument**
 
 `published` · CAD$0+

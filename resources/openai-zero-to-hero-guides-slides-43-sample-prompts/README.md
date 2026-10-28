@@ -1,7 +1,5 @@
 # OpenAI Zero-to-Hero Guides (Slides + 43 Sample Prompts)
 
-![cover](https://public-files.gumroad.com/v2xuy5of48cyd5mzgqke3k3spboq)
-
 **Get it on Gumroad → https://markkashef.gumroad.com/l/o1zerotohero**
 
 `published` · CAD$0+

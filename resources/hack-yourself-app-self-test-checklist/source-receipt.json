@@ -1,0 +1,39 @@
+{
+  "schema_version": 1,
+  "product_id": "N8lhIWG7anh1_IUWZUjnBA==",
+  "fingerprint": "66a60121b2f284c45414fe0278c622a1333e3fda1151898cce323c9ca8cf9d3b",
+  "source_saved_at": "2026-10-28T23:42:30.084093+00:00",
+  "source": "private-original-package",
+  "files": [
+    {
+      "file": "APP-SELF-TEST-CHECKLIST.pdf",
+      "source_sha256": "597dbc306541661c199d9d9e332a8b1f90ea8fed592d0dcd11a6bca32b0f7307",
+      "mirrored_sha256": "597dbc306541661c199d9d9e332a8b1f90ea8fed592d0dcd11a6bca32b0f7307",
+      "status": "downloaded"
+    },
+    {
+      "file": "APP-SELF-TEST-KIT.zip",
+      "source_sha256": "70f7b1611a7b2dffa450c8089dd63b39a6bfcc4979e9d3617314ece56dcc018d",
+      "mirrored_sha256": "70f7b1611a7b2dffa450c8089dd63b39a6bfcc4979e9d3617314ece56dcc018d",
+      "status": "downloaded"
+    },
+    {
+      "file": "CHECKLIST.md",
+      "source_sha256": "5ca4baa9565d006f0cbebf1b4551289d49857a24fbb2e1df32f13ed8142fd846",
+      "mirrored_sha256": "5ca4baa9565d006f0cbebf1b4551289d49857a24fbb2e1df32f13ed8142fd846",
+      "status": "downloaded"
+    },
+    {
+      "file": "START-HERE.md",
+      "source_sha256": "45791d499ad8ad2c174edfec45010b7bc67d8650d507fdb156bc486391052880",
+      "mirrored_sha256": "45791d499ad8ad2c174edfec45010b7bc67d8650d507fdb156bc486391052880",
+      "status": "downloaded"
+    },
+    {
+      "file": "STARTER-PROMPT.txt",
+      "source_sha256": "b33c638c1da91dccf8463167e589391e45d324219ec94d9fdae7defe18531055",
+      "mirrored_sha256": "b33c638c1da91dccf8463167e589391e45d324219ec94d9fdae7defe18531055",
+      "status": "downloaded"
+    }
+  ]
+}

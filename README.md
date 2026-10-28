@@ -2,7 +2,7 @@
 
 Every free resource from the Early AI-dopters Gumroad, mirrored here and kept in sync. Each folder holds the actual files (zips unpacked so you can browse them on GitHub), the resource content page, and a README. Where a resource came from a YouTube video, the video is paired to it. Watch or star this repo to catch every new drop.
 
-**197 published resources**, grouped by topic and newest-first within each. Sync scheduled hourly. See the latest verified check below.
+**198 published resources**, grouped by topic and newest-first within each. Sync scheduled hourly. See the latest verified check below.
 
 <!-- sync-status:start -->
 [**Last verified sync: October 28, 2026 at 02:25 PM EDT**](https://github.com/earlyaidopters/gumroad-resources/actions/runs/40744465945) · 197/197 published resources accounted for; 344 mirrored attachments verified. Oversized attachments available on Gumroad: 1. [Sync details](sync-status.json).
@@ -15,6 +15,7 @@ The newest resources with their videos. Updates automatically on every sync.
 
 | | Resource | Watch | Get it |
 |---|---|---|---|
+|  | [Hack Yourself: App Self-Test Checklist](resources/hack-yourself-app-self-test-checklist/) | - | [Gumroad](https://markkashef.gumroad.com/l/hack-yourself-checklist) |
 | <a href="https://youtu.be/LYYs_jIFPZ4"><img src="https://i.ytimg.com/vi/LYYs_jIFPZ4/maxresdefault.jpg" width="200"></a> | [Defensive AI Setup Kit](resources/defensive-ai-setup-kit/) | [▶ Watch](https://youtu.be/LYYs_jIFPZ4) | [Gumroad](https://markkashef.gumroad.com/l/defensive-ai-setup-kit) |
 | <a href="https://youtu.be/2IPR6F3cQ_I"><img src="https://i.ytimg.com/vi/2IPR6F3cQ_I/maxresdefault.jpg" width="200"></a> | [Skill Cleanup Audit Prompt](resources/skill-cleanup-audit-prompt/) | [▶ Watch](https://youtu.be/2IPR6F3cQ_I) | [Gumroad](https://markkashef.gumroad.com/l/skill-cleanup-audit) |
 |  | [FreeLLMAPI Setup Guide](resources/freellmapi-setup-guide/) | - | [Gumroad](https://markkashef.gumroad.com/l/sf-ig-freellmapi-setup) |
@@ -24,7 +25,6 @@ The newest resources with their videos. Updates automatically on every sync.
 |  | [REA: Repo and Four Practical Prompts](resources/rea-repo-and-four-practical-prompts/) | - | [Gumroad](https://markkashef.gumroad.com/l/sf-ig-rea-repo-prompts) |
 |  | [Seven Craft Apps: Official GitHub Links](resources/seven-craft-apps-official-github-links/) | - | [Gumroad](https://markkashef.gumroad.com/l/sf-ig-adobe-craft-links) |
 |  | [Jev: Four Everyday Decisions](resources/jev-four-everyday-decisions/) | - | [Gumroad](https://markkashef.gumroad.com/l/sf-ig-jev-daily-guide) |
-|  | [The FINISH Goal Template](resources/the-finish-goal-template/) | - | [Gumroad](https://markkashef.gumroad.com/l/sf-ig-finish-goal-template) |
 
 ## Categories
 
@@ -33,7 +33,7 @@ The newest resources with their videos. Updates automatically on every sync.
 - [🧠 Custom GPTs & AI Agents](#custom-gpts-ai-agents) (26)
 - [🗂️ Frameworks, Meta Techniques & Experiments](#frameworks-meta-techniques-experiments) (23)
 - [📊 Tools, Cheat Sheets & Evaluations](#tools-cheat-sheets-evaluations) (15)
-- [Other](#other) (67)
+- [Other](#other) (68)
 
 ## 🎯 Prompting & Engineering Skills
 
@@ -194,6 +194,7 @@ The newest resources with their videos. Updates automatically on every sync.
 
 | Resource | What it is | Video | Get it |
 |---|---|---|---|
+| [Hack Yourself: App Self-Test Checklist](resources/hack-yourself-app-self-test-checklist/) | Check the apps you build with AI, one feature at a time. | - | [Gumroad](https://markkashef.gumroad.com/l/hack-yourself-checklist) |
 | [Defensive AI Setup Kit](resources/defensive-ai-setup-kit/) | Get your own AI setup running. | [▶ Watch](https://youtu.be/LYYs_jIFPZ4) | [Gumroad](https://markkashef.gumroad.com/l/defensive-ai-setup-kit) |
 | [Skill Cleanup Audit Prompt](resources/skill-cleanup-audit-prompt/) | Find the skills worth keeping Collected more Claude and Codex skills than you use? | [▶ Watch](https://youtu.be/2IPR6F3cQ_I) | [Gumroad](https://markkashef.gumroad.com/l/skill-cleanup-audit) |
 | [FreeLLMAPI Setup Guide](resources/freellmapi-setup-guide/) | Connect free AI providers to your coding setup with a focused, source checked guide. | - | [Gumroad](https://markkashef.gumroad.com/l/sf-ig-freellmapi-setup) |

@@ -1,6 +1,24 @@
 {
-  "count": 197,
+  "count": 198,
   "products": [
+    {
+      "slug": "hack-yourself-app-self-test-checklist",
+      "permalink": "hack-yourself-checklist",
+      "numeric_id": 0,
+      "name": "Hack Yourself: App Self-Test Checklist",
+      "status": "published",
+      "archived": false,
+      "category": "Other",
+      "content_hash": "e8b3623b1c27244c",
+      "files": [
+        "APP-SELF-TEST-CHECKLIST.pdf",
+        "APP-SELF-TEST-KIT.zip",
+        "CHECKLIST.md",
+        "START-HERE.md",
+        "STARTER-PROMPT.txt"
+      ],
+      "has_content": true
+    },
     {
       "slug": "defensive-ai-setup-kit",
       "permalink": "defensive-ai-setup-kit",
