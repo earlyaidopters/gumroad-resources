@@ -1,5 +1,7 @@
 # Hack Yourself: App Self-Test Checklist
 
+![cover](https://public-files.gumroad.com/tgg2wx4x51jxo4469ycyrq7ke7jh)
+
 **Get it on Gumroad → https://markkashef.gumroad.com/l/hack-yourself-checklist**
 
 `published` · CAD$0+

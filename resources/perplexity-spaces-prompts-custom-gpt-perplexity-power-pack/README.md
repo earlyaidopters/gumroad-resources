@@ -1,5 +1,7 @@
 # Perplexity Spaces Prompts + Custom GPT Perplexity Power Pack 🔋
 
+![cover](https://public-files.gumroad.com/vdt7ck4amycvuh8etmpsdjoetr3o)
+
 **Get it on Gumroad → https://markkashef.gumroad.com/l/perplexityspaces**
 
 `published` · CAD$0+

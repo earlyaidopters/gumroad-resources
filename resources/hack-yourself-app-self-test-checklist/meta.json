@@ -15,7 +15,7 @@
       "file": "APP-SELF-TEST-CHECKLIST.pdf",
       "source_revision": "82bd74ccd04abd9ce59a015553a7241ec299761667a203020fb6c63ff7efd3f3",
       "expected_bytes": 78670,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 78670,
       "source_sha256": "597dbc306541661c199d9d9e332a8b1f90ea8fed592d0dcd11a6bca32b0f7307",
       "local_sha256": "597dbc306541661c199d9d9e332a8b1f90ea8fed592d0dcd11a6bca32b0f7307"
@@ -24,7 +24,7 @@
       "file": "APP-SELF-TEST-KIT.zip",
       "source_revision": "bd87de2dab04c7c9736b15f47f12b8af0df95aa3a4334f227c4f11a0b8132c7d",
       "expected_bytes": 76360,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 76360,
       "source_sha256": "70f7b1611a7b2dffa450c8089dd63b39a6bfcc4979e9d3617314ece56dcc018d",
       "local_sha256": "70f7b1611a7b2dffa450c8089dd63b39a6bfcc4979e9d3617314ece56dcc018d",
@@ -34,7 +34,7 @@
       "file": "CHECKLIST.md",
       "source_revision": "2ebd22cc6aaf4144a126eb9a25d6100b166a277f46cec6ae3da89b6d72ad8d73",
       "expected_bytes": 8590,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 8590,
       "source_sha256": "5ca4baa9565d006f0cbebf1b4551289d49857a24fbb2e1df32f13ed8142fd846",
       "local_sha256": "5ca4baa9565d006f0cbebf1b4551289d49857a24fbb2e1df32f13ed8142fd846"
@@ -43,7 +43,7 @@
       "file": "START-HERE.md",
       "source_revision": "3ca12f492ccc92085280c7a4c92b2920973113a671815249cd61c08857052829",
       "expected_bytes": 1073,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 1073,
       "source_sha256": "45791d499ad8ad2c174edfec45010b7bc67d8650d507fdb156bc486391052880",
       "local_sha256": "45791d499ad8ad2c174edfec45010b7bc67d8650d507fdb156bc486391052880"
@@ -52,7 +52,7 @@
       "file": "STARTER-PROMPT.txt",
       "source_revision": "c7dd64dfbc4bb0596fae9ab52f45ba58b77ba356f56ddfbfa7df3868e32d7bc0",
       "expected_bytes": 1083,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 1083,
       "source_sha256": "b33c638c1da91dccf8463167e589391e45d324219ec94d9fdae7defe18531055",
       "local_sha256": "b33c638c1da91dccf8463167e589391e45d324219ec94d9fdae7defe18531055"
