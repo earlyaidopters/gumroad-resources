@@ -1,5 +1,7 @@
 # Hack Yourself: App Security Field Kit
 
+![cover](https://public-files.gumroad.com/qmc835wvy429sbstb4vh0cw2n6tz)
+
 **Get it on Gumroad → https://markkashef.gumroad.com/l/hack-yourself-checklist**
 
 `published` · CAD$0+
