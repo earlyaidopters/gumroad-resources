@@ -2,6 +2,10 @@
 
 Release 1.0.0, 29 October 2026. Built by Codex from Mark Kashef's approved checklist and resource brief. No new live-app vulnerability is claimed by this kit.
 
+## Documentation update 1.0.1, 30 October 2026
+
+The README and start guide were revised for navigation and clarity, with a real screenshot of the report using fictional data. The portable checks were rerun. Guide PDFs, worksheets, report code, and testing prompts remain unchanged from asset release 1.0.0.
+
 ## Verified for this release
 
 - The existing checklist was preserved as 50 unique logical items across seven categories. Python and Node independently reconciled raw, unique, shared, added, removed, duplicate, and malformed counts. The frozen source hash is in CHECKLIST-PROVENANCE.json.

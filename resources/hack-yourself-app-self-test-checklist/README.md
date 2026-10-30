@@ -1,7 +1,5 @@
 # Hack Yourself: App Security Field Kit
 
-![cover](https://public-files.gumroad.com/qmc835wvy429sbstb4vh0cw2n6tz)
-
 **Get it on Gumroad → https://markkashef.gumroad.com/l/hack-yourself-checklist**
 
 `published` · CAD$0+
@@ -36,7 +34,7 @@ AI can invent findings or miss weaknesses. The scenarios are teaching examples, 
 
 Provided as is, to the extent permitted by applicable law. This is education, not legal advice, a professional assessment, or a guarantee of security or compatibility. Review the full DISCLAIMER.md in the kit. Third-party terms, availability, and prices can change; service names do not imply endorsement.
 
-Version 1.0.0, 29 October 2026. The minimum price is zero, with optional contributions. Every download receives the same files.
+Documentation update 1.0.1, 30 October 2026. The reviewed PDFs and report remain at asset version 1.0.0. The minimum price is zero, with optional contributions. Every download receives the same files.
 
 ## Resource content
 
@@ -49,8 +47,8 @@ See [`content.md`](content.md).
 - [`CHECKLIST.md`](files/CHECKLIST.md)
 - [`DISCLAIMER.md`](files/DISCLAIMER.md)
 - [`RISK-REPORT.html`](files/RISK-REPORT.html)
-- [`START-HERE.md`](files/START-HERE.md)
 - [`STARTER-PROMPT.txt`](files/STARTER-PROMPT.txt)
 - [`TEST-WORKSHEETS.pdf`](files/TEST-WORKSHEETS.pdf)
 - [`APP-SECURITY-FIELD-KIT.zip`](files/APP-SECURITY-FIELD-KIT.zip)
+- [`START-HERE.md`](files/START-HERE.md)
 

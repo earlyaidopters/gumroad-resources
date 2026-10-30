@@ -12,7 +12,9 @@ for p in list((R/'guides').glob('*.md'))+[R/'README.md',R/'START-HERE.md',R/'ALL
     ok('notice: '+str(p.relative_to(R)),'authorized defensive' in p.read_text().lower())
 for p in R.rglob('*.md'):
     if '.git' in p.parts:continue
-    for href in re.findall(r'\]\(([^)]+)\)',p.read_text()):
+    content=p.read_text()
+    links=re.findall(r'\]\(([^)]+)\)',content)+re.findall(r'(?:href|src)="([^"]+)"',content)
+    for href in links:
         if '://' in href or href.startswith('#'):continue
         target=(p.parent/href.split('#')[0]).resolve()
         ok('local link: '+str(p.relative_to(R))+' -> '+href,target.exists() and target.is_relative_to(R))

@@ -1,7 +1,5 @@
 # Codex or Claude Code? The Task Decision Tree
 
-![cover](https://public-files.gumroad.com/ovse5df6fdq75p0a30rhtl1wz0py)
-
 **Get it on Gumroad → https://markkashef.gumroad.com/l/sf-ig-codex-claude-matrix**
 
 `published` · CAD$0+

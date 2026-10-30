@@ -1,32 +1,41 @@
 # Your first useful check
 
-You built an app, and now you want to know whether one customer can see another customer's private information. Start there. You can explore more features once you have a result you can explain.
+Start with a single question: can one customer read another customer's private record? Use a test copy of your app, often called a staging environment, with made-up records. You can explore more features once you have a result you can explain.
 
-## Open these in order
+**If you downloaded the ZIP, extract it first.** The guides, prompts, report, and templates are inside the `APP-SECURITY-FIELD-KIT` folder. No installation is needed to read them or try the report's fictional sample.
 
-1. **Read the boundary.** Open DISCLAIMER.md and DEFENSIVE-USE.md. Complete templates/TEST-SCOPE.md before sending test requests.
-2. **Prepare two ordinary accounts.** Create separate fictional records. Add a unique harmless marker to one private note so you can tell whether the wrong account received it.
-3. **Check your assistant.** Use prompts/00-prepare-session.txt. It needs working browser or HTTP tools; a written plan does not mean it ran a test.
-4. **Run one comparison.** Fill in prompts/01-first-check.txt with your staging URL and test-record link. Provide credentials through your assistant's approved private credential mechanism, not a public prompt or report.
-5. **Record what happened.** Use templates/FINDING.md for a confirmed issue and templates/COVERAGE.csv for every attempted check. A blocked action is worth recording too.
-6. **Review and repair.** Use prompts/03-review-evidence.txt before accepting a finding, then prompts/04-fix-and-retest.txt after you approve the change.
-7. **Make it visible.** Open report/risk-report.html and import a redacted JSON report that follows templates/assessment.blank.json. Or use prompts/05-build-risk-report.txt to prepare that data.
+## Prepare your test
 
-## Choose your next feature
+1. **Agree the scope.** Read [DISCLAIMER.md](DISCLAIMER.md) and [DEFENSIVE-USE.md](DEFENSIVE-USE.md), then complete the [test scope sheet](templates/TEST-SCOPE.md). Use your own staging app or an app you have explicit written permission to test.
+2. **Create two ordinary accounts.** Give each one a fictional private record. Put a harmless marker such as `PRIVATE-NOTE-B` in the second account's note, and confirm that the owner can read it normally.
+3. **Check your assistant.** Use the [prepare-session prompt](prompts/00-prepare-session.txt). It needs working browser or HTTP tools. Keep the account sessions separate, and supply test logins through your approved private credential mechanism.
 
-Read guides/FIVE-FEATURE-STORIES.md for five familiar examples, then CHECKLIST.md for the wider review. Mark items not present in your app as not applicable and record why. Do not interpret an untested item as a pass.
+## Run one comparison
 
-## Files you can use without installing anything
+Open the [first-check prompt](prompts/01-first-check.txt). Replace `YOUR_APP_URL` with the allowed staging URL and `TEST_RECORD_URL` with the fictional record's link. Leave passwords and tokens out of the public prompt and report.
 
-- downloads/APP-SECURITY-FIELD-GUIDE.pdf: illustrated guide and complete checklist.
-- downloads/TEST-WORKSHEETS.pdf: printable scope, evidence, and retest sheets.
-- ALL-PROMPTS.md: all six prompts in one readable file.
-- report/risk-report.html: offline report with a clickable heat map and print layout.
+The assistant should first read the marker as the owner, then try the same record with the other account. Inspect the actual returned content and session. A status code or a changed organization ID in the address bar does not establish who made the request or what they received.
 
-The offline page starts empty. Its sample is fictional. It keeps changes in memory until you export JSON; reloading discards unexported work. No tracking, external fonts, network requests, or account is required.
+Record each attempted check in [COVERAGE.csv](templates/COVERAGE.csv). If the evidence supports a problem, complete a [finding card](templates/FINDING.md). Use the [evidence-review prompt](prompts/03-review-evidence.txt) before accepting the claim.
 
-For connecting a model to DeepSeek Harness, use the companion [setup kit](https://github.com/earlyaidopters/uncensored-ai-starter-kit). This kit does not install a model or automatically scan an app.
+If a repair is needed, use the [fix-and-retest prompt](prompts/04-fix-and-retest.txt) after approving the change. Repeat the original forbidden action, confirm the owner's normal action still works, and keep the [retest record](templates/RETEST.csv).
+
+## See the report before adding your results
+
+From the extracted folder, open **`report/risk-report.html`** in your browser and click **Try fictional sample**. The clearly labeled sample lets you explore the grid without running a test or importing data. If you are reading on GitHub, [download the report file](https://github.com/earlyaidopters/hack-yourself-security-kit/releases/latest/download/RISK-REPORT.html) and open that downloaded file; the GitHub HTML source view does not run it.
+
+For your assessment, use the [report prompt](prompts/05-build-risk-report.txt) to prepare JSON from the [blank template](templates/assessment.blank.json). Read the [field instructions](templates/README.md), review and redact the result, then use **Import assessment JSON**.
+
+The page starts empty. It sends no report data to a server and keeps changes in memory. **Export JSON before closing or reloading** if you want to keep your work. Use **Print / Save PDF** for a reading copy, and review both exports before sharing.
+
+## Choose what to test next
+
+Read the [five everyday-feature stories](guides/FIVE-FEATURE-STORIES.md), then choose relevant items from the [full checklist](CHECKLIST.md). The [deeper-review prompt](prompts/02-go-deeper.txt) helps cover related routes within your scope. Keep untested features and unresolved concerns visible; do not count them as passes.
+
+Prefer a PDF? Open the [field guide](downloads/APP-SECURITY-FIELD-GUIDE.pdf) and [printable worksheets](downloads/TEST-WORKSHEETS.pdf). The [combined prompt file](ALL-PROMPTS.md) keeps all six templates together.
+
+For connecting a model to DeepSeek Harness, use the companion [setup kit](https://github.com/earlyaidopters/uncensored-ai-starter-kit). This kit does not install a model or automatically scan an app. [Setup and troubleshooting](guides/SETUP.md) explains what to check when a tool, login, or report import fails.
 
 ---
 
-For education and authorized defensive testing only. Use systems you own or have explicit written permission to test, within the agreed scope. Use synthetic data and limited test accounts. AI can miss issues or invent them; verify the evidence. A passed check is not a security certification. See DISCLAIMER.md and DEFENSIVE-USE.md for the full terms and limits.
+For education and authorized defensive testing only. Use synthetic data, limited test accounts, and the agreed scope. AI can miss issues or invent them; verify the evidence. A passed check is not security certification. Read the [full limitations](DISCLAIMER.md) before use.

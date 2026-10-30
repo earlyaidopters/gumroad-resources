@@ -39,7 +39,7 @@ For education and authorized defensive testing only. Test only systems you own o
 
 AI can invent findings or miss issues. A passing check is not security certification. The grid is qualitative, and the optional sample is fictional. This is not legal advice, a professional assessment, or a guarantee. Read the full DISCLAIMER.md before use. No service provider endorses this kit.
 
-Version 1.0.0, 29 October 2026. Minimum price zero; optional contributions. Every download includes the same files.
+Documentation update 1.0.1, 30 October 2026. The reviewed PDFs and report remain at asset version 1.0.0. Minimum price zero; optional contributions. Every download includes the same files.
 
 ---
 

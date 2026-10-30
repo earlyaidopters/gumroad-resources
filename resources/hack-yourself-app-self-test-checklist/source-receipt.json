@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
   "product_id": "N8lhIWG7anh1_IUWZUjnBA==",
-  "fingerprint": "5177124dcd5ff17a6eac08c3fe78a3d2fe62f61768a4ae4a0eb1194374faf0cc",
-  "source_saved_at": "2026-10-30T03:56:14.403491+00:00",
+  "fingerprint": "949f575335865ceef5575d4ed8b145b3a2a24688b2e6ceb8d89022cef5af7db8",
+  "source_saved_at": "2026-10-30T13:10:09.938824+00:00",
   "source": "private-original-package",
   "files": [
     {
@@ -36,12 +36,6 @@
       "status": "downloaded"
     },
     {
-      "file": "START-HERE.md",
-      "source_sha256": "fb04299c2eef6343c47527a9224e10a75c92951172c3ab806d701af8748812b9",
-      "mirrored_sha256": "fb04299c2eef6343c47527a9224e10a75c92951172c3ab806d701af8748812b9",
-      "status": "downloaded"
-    },
-    {
       "file": "STARTER-PROMPT.txt",
       "source_sha256": "301a490918ec2974703e2780907fb3e8dcbf157b0da4ad9332cb331c8e28562c",
       "mirrored_sha256": "301a490918ec2974703e2780907fb3e8dcbf157b0da4ad9332cb331c8e28562c",
@@ -55,8 +49,14 @@
     },
     {
       "file": "APP-SECURITY-FIELD-KIT.zip",
-      "source_sha256": "a374307018b54d91a610fc7365c958096a6d93805fcaea4f81ea73c244b0df49",
-      "mirrored_sha256": "a374307018b54d91a610fc7365c958096a6d93805fcaea4f81ea73c244b0df49",
+      "source_sha256": "7e136334684650d759d078a41e06c623dcc170a26e8c8e2fd58800283e995aa6",
+      "mirrored_sha256": "7e136334684650d759d078a41e06c623dcc170a26e8c8e2fd58800283e995aa6",
+      "status": "downloaded"
+    },
+    {
+      "file": "START-HERE.md",
+      "source_sha256": "c5f6670cf9008e7dfc3c62a42fbe4058eca0bf55a573f7d971f613ce553b828b",
+      "mirrored_sha256": "c5f6670cf9008e7dfc3c62a42fbe4058eca0bf55a573f7d971f613ce553b828b",
       "status": "downloaded"
     }
   ]

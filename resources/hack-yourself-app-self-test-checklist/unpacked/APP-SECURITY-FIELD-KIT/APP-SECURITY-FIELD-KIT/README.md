@@ -1,56 +1,124 @@
 # Hack Yourself: App Security Field Kit
 
-![App Security Field Kit](assets/cover.jpg)
+**Check whether one customer can reach another customer's private information, keep the evidence, and verify the fix.**
 
-Check the app you built with AI, keep evidence of what happened, and verify the fix.
+Built for people who make apps with AI. Start with one feature, then use the wider checklist to choose what to test next.
 
-**For education and authorized defensive testing only. Use systems you own or have explicit written permission to test, within the agreed scope. Use synthetic data and limited test accounts. AI can miss issues or invent them; verify the evidence. A passed check is not a security certification. See DISCLAIMER.md and DEFENSIVE-USE.md for the full terms and limits.**
+<p>
+  <a href="https://github.com/earlyaidopters/hack-yourself-security-kit/releases/latest/download/APP-SECURITY-FIELD-KIT.zip"><strong>Download the complete kit</strong></a>
+  &nbsp; · &nbsp;
+  <a href="START-HERE.md">Start here</a>
+  &nbsp; · &nbsp;
+  <a href="ALL-PROMPTS.md">Copy the prompts</a>
+  &nbsp; · &nbsp;
+  <a href="CHECKLIST.md">Browse the checklist</a>
+</p>
 
-## Start with one feature
+![Hack Yourself: App Security Field Kit](assets/cover.jpg)
 
-1. Open [START-HERE.md](START-HERE.md) and fill in the [scope sheet](templates/TEST-SCOPE.md).
-2. Give your assistant the [first-check prompt](prompts/01-first-check.txt), with your own staging URL and two ordinary test accounts supplied privately.
-3. Keep the proof, review the fix, and repeat the original check. Then use the [broader review prompt](prompts/02-go-deeper.txt).
+[![Resource checks](https://github.com/earlyaidopters/hack-yourself-security-kit/actions/workflows/check.yml/badge.svg)](https://github.com/earlyaidopters/hack-yourself-security-kit/actions/workflows/check.yml)
 
-Prefer a guide? Read the [illustrated field guide](downloads/APP-SECURITY-FIELD-GUIDE.pdf). Print the [worksheets](downloads/TEST-WORKSHEETS.pdf) for your first session.
+> **Authorized defensive use only.** Test systems you own or have explicit written permission to test, using synthetic data and the agreed scope. A passed check is not security certification. [Use boundaries](DEFENSIVE-USE.md) · [Full limitations](DISCLAIMER.md)
 
-## What you get
+## Start here
 
-| Open this | Use it for |
+**You can read the guides and try the report without installing anything.**
+
+1. **[Download the ZIP](https://github.com/earlyaidopters/hack-yourself-security-kit/releases/latest/download/APP-SECURITY-FIELD-KIT.zip) and extract it.** Everything is inside the `APP-SECURITY-FIELD-KIT` folder.
+2. **Open [START-HERE.md](START-HERE.md).** Prepare a test copy of your app, two ordinary test accounts, and one fictional private record.
+3. **Run one check with your assistant.** Use the [prepare-session prompt](prompts/00-prepare-session.txt), then the [first-check prompt](prompts/01-first-check.txt). Replace `YOUR_APP_URL` and `TEST_RECORD_URL`; provide test logins privately.
+
+For example, put `PRIVATE-NOTE-B` in a fictional note belonging to account B. Confirm that B can read it, then have the assistant request it using account A's session. Inspect the returned evidence and intended sharing rule before deciding whether access was wrong.
+
+Your assistant needs tools that can open the app or make web requests. A text-only chat can suggest tests but cannot run them. For model setup, use the companion [Uncensored AI Setup Kit](https://github.com/earlyaidopters/uncensored-ai-starter-kit). Other suitable assistants can follow this workflow too.
+
+## See what happened and what to fix
+
+![The offline risk map with numbered findings, evidence, repairs, and retests. Fictional sample data only.](assets/risk-report-preview.png)
+
+*Actual report interface with fictional sample data. These are teaching examples, not findings about CollabDesk, a client, or your app.*
+
+Confirmed findings appear on a clickable grid, with evidence and repairs beside them. Three lists separate urgent fixes, useful follow-ups, and checks that passed.
+
+**Try it:** open `report/risk-report.html` from the extracted ZIP and click **Try fictional sample**. Or [download the report file directly](https://github.com/earlyaidopters/hack-yourself-security-kit/releases/latest/download/RISK-REPORT.html), then open that downloaded file in your browser. GitHub's HTML source view does not run it.
+
+For your results, use the [report prompt](prompts/05-build-risk-report.txt) and [blank JSON template](templates/assessment.blank.json). Have your assistant prepare the JSON file, then review it for passwords, tokens, and private information before importing. The page makes no network requests and uses no persistent storage. **Export JSON before closing or reloading** to keep your work.
+
+## Open the file you need
+
+| You want to… | Open this |
 | --- | --- |
-| [Full checklist](CHECKLIST.md) | 50 review items across seven areas, each with a stable ID |
-| [Five everyday features](guides/FIVE-FEATURE-STORIES.md) | Password resets, reviews, AI chat costs, checkout, and connected assistants |
-| [All six prompts](ALL-PROMPTS.md) | Setup, first check, deeper review, evidence review, repair/retest, and risk report |
-| [Offline risk report](report/risk-report.html) | Import a redacted assessment and plot confirmed issues on a clickable grid |
-| [Scope and evidence templates](templates/) | Record permission, test coverage, findings, and repairs |
-| [Setup and troubleshooting](guides/SETUP.md) | Check that your assistant can execute tools before trusting the result |
-| [Official references](SOURCES.md) | OWASP and payment-provider guidance, checked 2026-10-29 |
+| Read the workflow and complete checklist | [24-page field guide](downloads/APP-SECURITY-FIELD-GUIDE.pdf) |
+| Understand the five examples from the video | [Five everyday-feature stories](guides/FIVE-FEATURE-STORIES.md) |
+| Choose your next review item | [50-item checklist across seven areas](CHECKLIST.md) |
+| Copy a prompt without hunting through folders | [All six prompts](ALL-PROMPTS.md) |
+| Print a scope, evidence, or retest sheet | [Three-page worksheet pack](downloads/TEST-WORKSHEETS.pdf) |
+| Record permission, coverage, and findings | [Editable templates and instructions](templates/README.md) |
+| Verify a repair and normal owner access | [Fix-and-retest guide](guides/FIX-AND-RETEST.md) |
+| Understand ratings or resolve a setup problem | [Risk ratings](guides/RISK-RATINGS.md) · [Troubleshooting](guides/SETUP.md) |
 
-The report opens directly from your computer. It contains **no real findings** by default. Its clearly labeled sample is fictional, and it sends no report data to a server. You must review your data before importing or sharing it.
+The five stories cover password resets, customer reviews, metered AI chat, checkout prices, and assistants that read email. Each connects the normal action to a possible failure, a controlled check, the evidence, and a repair.
 
-## A workflow you can repeat
+<details>
+<summary><strong>Which prompt comes next?</strong></summary>
 
-Define scope -> confirm normal access -> test one forbidden action -> keep the evidence -> review a repair -> retest both actions.
+| Prompt | Its job |
+| --- | --- |
+| [00 · Prepare the session](prompts/00-prepare-session.txt) | Confirm scope, tools, account sessions, and runtime limits |
+| [01 · First check](prompts/01-first-check.txt) | Compare owner access with a second ordinary account |
+| [02 · Go deeper](prompts/02-go-deeper.txt) | Review related routes within the agreed request budget |
+| [03 · Review the evidence](prompts/03-review-evidence.txt) | Challenge weak proof and separate observations from guesses |
+| [04 · Fix and retest](prompts/04-fix-and-retest.txt) | Review a repair, then repeat the forbidden and normal actions |
+| [05 · Build the risk report](prompts/05-build-risk-report.txt) | Prepare redacted JSON for the offline heat map |
 
-You do not need an uncensored model to follow this workflow. A model label is not evidence of testing quality. Use an assistant with suitable tools and real permission controls; a prompt alone cannot enforce those controls.
+Keep the completed scope sheet beside the prompts. Configure tool permissions and limits in the software that runs your assistant; a prompt alone cannot enforce them.
 
-## Requirements
+</details>
 
-- An app you are authorized to test, preferably an isolated staging copy.
-- Two disposable accounts and fictional records with clearly different owners.
-- An assistant with browser or HTTP tools. No model weights, API credits, hosting, or paid services are included.
-- A modern browser for the offline report. Python is needed only to run the optional checks or rebuild the PDFs.
+## Know what the result means
 
-## Downloads and updates
+| Result | What you can conclude |
+| --- | --- |
+| **Confirmed** | Evidence supports the specific issue and stated impact. |
+| **Passed** | The exact action tested behaved as expected. |
+| **Needs review** | A concern needs more evidence before it becomes a finding. |
+| **Not tested** | No conclusion is available for that check. |
 
-[Get the complete ZIP on Gumroad](https://markkashef.gumroad.com/l/hack-yourself-checklist). The minimum price is zero; optional contributions do not unlock extra files. This repository contains the editable sources and the same finished guides.
+A successful HTTP status or confident AI answer is not enough on its own. Confirm the account session, record owner, and returned content. After a repair, repeat the original forbidden action and confirm the owner can still use the feature.
 
-[Previous video: model setup kit](https://github.com/earlyaidopters/uncensored-ai-starter-kit) · [Early AI-dopters](https://www.skool.com/earlyaidopters/about)
+## What was verified
 
-Version 1.0.0, 2026-10-29. Read [verification/STATUS.md](verification/STATUS.md) for what was tested. The kit is a starting point, not an exhaustive assessment, compliance opinion, or promise that a vulnerability will be found.
+The kit has automated report checks, independent reconciliation of the checklist, browser import/export and mobile checks, and rendered review of every PDF page. A small synthetic exercise checked the evidence-review prompt; it is not a general model-performance result.
 
-[Defensive use](DEFENSIVE-USE.md) · [Full disclaimer](DISCLAIMER.md) · [Report a kit issue](SECURITY.md) · [License](LICENSE) · [Third-party notices](THIRD-PARTY-NOTICES.md)
+Read [verification/STATUS.md](verification/STATUS.md) for coverage and limits, and [SOURCES.md](SOURCES.md) for official implementation references. Opening the kit performs no scan, and no real app findings are bundled.
 
----
+<details>
+<summary><strong>For developers: verify or rebuild</strong></summary>
 
-For education and authorized defensive testing only. Use systems you own or have explicit written permission to test, within the agreed scope. Use synthetic data and limited test accounts. AI can miss issues or invent them; verify the evidence. A passed check is not a security certification. See DISCLAIMER.md and DEFENSIVE-USE.md for the full terms and limits.
+Finished assets are included. Rebuilding is optional.
+
+```sh
+node tests/report.test.cjs
+python3 scripts/verify_resource.py
+```
+
+To regenerate the PDFs, covers, and self-contained report:
+
+```sh
+python3 -m pip install -r requirements-build.txt
+python3 scripts/build_assets.py
+```
+
+[SHA256SUMS](SHA256SUMS) identifies the finished guides, report, combined prompts, and checklist. No model weights, API credits, or paid services are included.
+
+</details>
+
+## Downloads and support
+
+[Latest release](https://github.com/earlyaidopters/hack-yourself-security-kit/releases/latest) · [Gumroad download](https://markkashef.gumroad.com/l/hack-yourself-checklist) · [Changelog](CHANGELOG.md)
+
+The Gumroad minimum is zero. Optional contributions receive the same files. Documentation update: **1.0.1, 30 October 2026**. The previously reviewed PDFs and report remain at asset version 1.0.0.
+
+For a kit problem, follow [SECURITY.md](SECURITY.md). Keep private findings, credentials, and customer information out of public issues. For more practical AI walkthroughs, visit [Early AI-dopters](https://www.skool.com/earlyaidopters/about).
+
+[Full disclaimer](DISCLAIMER.md) · [Defensive use](DEFENSIVE-USE.md) · [Third-party notices](THIRD-PARTY-NOTICES.md) · [MIT license](LICENSE)

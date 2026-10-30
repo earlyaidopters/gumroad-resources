@@ -9,17 +9,17 @@
       "status": "published",
       "archived": false,
       "category": "Other",
-      "content_hash": "184f67fe41570aff",
+      "content_hash": "36ae0d6733c02783",
       "files": [
         "ALL-PROMPTS.md",
         "APP-SECURITY-FIELD-GUIDE.pdf",
         "CHECKLIST.md",
         "DISCLAIMER.md",
         "RISK-REPORT.html",
-        "START-HERE.md",
         "STARTER-PROMPT.txt",
         "TEST-WORKSHEETS.pdf",
-        "APP-SECURITY-FIELD-KIT.zip"
+        "APP-SECURITY-FIELD-KIT.zip",
+        "START-HERE.md"
       ],
       "has_content": true
     },
