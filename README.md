@@ -5,7 +5,7 @@ Every free resource from the Early AI-dopters Gumroad, mirrored here and kept in
 **198 published resources**, grouped by topic and newest-first within each. Sync scheduled hourly. See the latest verified check below.
 
 <!-- sync-status:start -->
-[**Last verified sync: October 30, 2026 at 01:57 AM EDT**](https://github.com/earlyaidopters/gumroad-resources/actions/runs/41011100697) · 198/198 published resources accounted for; 353 mirrored attachments verified. Oversized attachments available on Gumroad: 1. [Sync details](sync-status.json).
+[**Last verified sync: October 30, 2026 at 09:12 AM EDT**](https://github.com/earlyaidopters/gumroad-resources/actions/runs/41061008028) · 198/198 published resources accounted for; 353 mirrored attachments verified. Oversized attachments available on Gumroad: 1. [Sync details](sync-status.json).
 
 <!-- sync-status:end -->
 
@@ -15,7 +15,7 @@ The newest resources with their videos. Updates automatically on every sync.
 
 | | Resource | Watch | Get it |
 |---|---|---|---|
-|  | [Hack Yourself: App Security Field Kit](resources/hack-yourself-app-self-test-checklist/) | - | [Gumroad](https://markkashef.gumroad.com/l/hack-yourself-checklist) |
+| <a href="https://markkashef.gumroad.com/l/hack-yourself-checklist"><img src="https://public-files.gumroad.com/qmc835wvy429sbstb4vh0cw2n6tz" width="200"></a> | [Hack Yourself: App Security Field Kit](resources/hack-yourself-app-self-test-checklist/) | - | [Gumroad](https://markkashef.gumroad.com/l/hack-yourself-checklist) |
 | <a href="https://youtu.be/LYYs_jIFPZ4"><img src="https://i.ytimg.com/vi/LYYs_jIFPZ4/maxresdefault.jpg" width="200"></a> | [Defensive AI Setup Kit](resources/defensive-ai-setup-kit/) | [▶ Watch](https://youtu.be/LYYs_jIFPZ4) | [Gumroad](https://markkashef.gumroad.com/l/defensive-ai-setup-kit) |
 | <a href="https://youtu.be/2IPR6F3cQ_I"><img src="https://i.ytimg.com/vi/2IPR6F3cQ_I/maxresdefault.jpg" width="200"></a> | [Skill Cleanup Audit Prompt](resources/skill-cleanup-audit-prompt/) | [▶ Watch](https://youtu.be/2IPR6F3cQ_I) | [Gumroad](https://markkashef.gumroad.com/l/skill-cleanup-audit) |
 |  | [FreeLLMAPI Setup Guide](resources/freellmapi-setup-guide/) | - | [Gumroad](https://markkashef.gumroad.com/l/sf-ig-freellmapi-setup) |

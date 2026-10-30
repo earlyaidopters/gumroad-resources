@@ -15,7 +15,7 @@
       "file": "ALL-PROMPTS.md",
       "source_revision": "677d7f9b0f8f91ef25fe88d1fc73a1dad69529a77e7d1bea24876821db0a3fb1",
       "expected_bytes": 9467,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 9467,
       "source_sha256": "1de98ccc1f94d9ba3d273461532d24d1b93a2cb17e0414e6c83e48fc7b03e5fb",
       "local_sha256": "1de98ccc1f94d9ba3d273461532d24d1b93a2cb17e0414e6c83e48fc7b03e5fb"
@@ -24,7 +24,7 @@
       "file": "APP-SECURITY-FIELD-GUIDE.pdf",
       "source_revision": "3c48c8cbf1ab3f2ca6afdb3e6458cd78279f83cf10f53203967970de72c7b12e",
       "expected_bytes": 64806,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 64806,
       "source_sha256": "4f794dca3a1294d1c44c6449e4ea636d4c756aafb8ba35c82d1da05688d4f0d2",
       "local_sha256": "4f794dca3a1294d1c44c6449e4ea636d4c756aafb8ba35c82d1da05688d4f0d2"
@@ -33,7 +33,7 @@
       "file": "CHECKLIST.md",
       "source_revision": "aa9fd7b6fd4b94b60b72a39c3207e15462cb0081dbba35772ef9e19efacd2ea9",
       "expected_bytes": 8525,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 8525,
       "source_sha256": "42c4fcf6484cdef62f2c91a76b632fa2e9684d3f322acd14b0e8c0191128e574",
       "local_sha256": "42c4fcf6484cdef62f2c91a76b632fa2e9684d3f322acd14b0e8c0191128e574"
@@ -42,7 +42,7 @@
       "file": "DISCLAIMER.md",
       "source_revision": "b11ec6be5ddae92c2b751b779cb6d461874340f52851504cb7acca00c520e4a7",
       "expected_bytes": 2739,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 2739,
       "source_sha256": "02f3f5ee7cf3d18a02253e99bc203bd440b8d68cb167d822f87bf1d5cd360721",
       "local_sha256": "02f3f5ee7cf3d18a02253e99bc203bd440b8d68cb167d822f87bf1d5cd360721"
@@ -51,7 +51,7 @@
       "file": "RISK-REPORT.html",
       "source_revision": "67d4988d8e14152281b3baddd4bd24c261a9482acef0ad13ebc072f9e0b52f89",
       "expected_bytes": 27492,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 27492,
       "source_sha256": "5932794112b34ccdf4e148078b0c4a7b4ff2c1ef5bf6125fd725d91fd7fbb002",
       "local_sha256": "5932794112b34ccdf4e148078b0c4a7b4ff2c1ef5bf6125fd725d91fd7fbb002"
@@ -60,7 +60,7 @@
       "file": "STARTER-PROMPT.txt",
       "source_revision": "bd2b8e70a2c4824aa5cdeb3b7c1e284939535f235f16c25f84ab105f90651e42",
       "expected_bytes": 1233,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 1233,
       "source_sha256": "301a490918ec2974703e2780907fb3e8dcbf157b0da4ad9332cb331c8e28562c",
       "local_sha256": "301a490918ec2974703e2780907fb3e8dcbf157b0da4ad9332cb331c8e28562c"
@@ -69,7 +69,7 @@
       "file": "TEST-WORKSHEETS.pdf",
       "source_revision": "5cfb9c21c50f9d65b1a941e7698b12501766222f9ea26211fb8df0051bc56d9e",
       "expected_bytes": 13531,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 13531,
       "source_sha256": "d3ae5f32d44d3a422fbdbf82d75ce3135dc12a36833bac5a165ad16b2cd98b08",
       "local_sha256": "d3ae5f32d44d3a422fbdbf82d75ce3135dc12a36833bac5a165ad16b2cd98b08"
@@ -78,7 +78,7 @@
       "file": "APP-SECURITY-FIELD-KIT.zip",
       "source_revision": "d7d537c032e07a64a4ae1098fe344946362d538e5b643eaf6cf2d63d34a09372",
       "expected_bytes": 404394,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 404394,
       "source_sha256": "7e136334684650d759d078a41e06c623dcc170a26e8c8e2fd58800283e995aa6",
       "local_sha256": "7e136334684650d759d078a41e06c623dcc170a26e8c8e2fd58800283e995aa6",
@@ -88,7 +88,7 @@
       "file": "START-HERE.md",
       "source_revision": "76d772cd30a072a7b548db57dde0afe55cb4326b772e7207e255988075c5c9d7",
       "expected_bytes": 4428,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 4428,
       "source_sha256": "c5f6670cf9008e7dfc3c62a42fbe4058eca0bf55a573f7d971f613ce553b828b",
       "local_sha256": "c5f6670cf9008e7dfc3c62a42fbe4058eca0bf55a573f7d971f613ce553b828b"
