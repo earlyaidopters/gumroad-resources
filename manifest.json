@@ -5,17 +5,21 @@
       "slug": "hack-yourself-app-self-test-checklist",
       "permalink": "hack-yourself-checklist",
       "numeric_id": 0,
-      "name": "Hack Yourself: App Self-Test Checklist",
+      "name": "Hack Yourself: App Security Field Kit",
       "status": "published",
       "archived": false,
       "category": "Other",
-      "content_hash": "e8b3623b1c27244c",
+      "content_hash": "184f67fe41570aff",
       "files": [
-        "APP-SELF-TEST-CHECKLIST.pdf",
-        "APP-SELF-TEST-KIT.zip",
+        "ALL-PROMPTS.md",
+        "APP-SECURITY-FIELD-GUIDE.pdf",
         "CHECKLIST.md",
+        "DISCLAIMER.md",
+        "RISK-REPORT.html",
         "START-HERE.md",
-        "STARTER-PROMPT.txt"
+        "STARTER-PROMPT.txt",
+        "TEST-WORKSHEETS.pdf",
+        "APP-SECURITY-FIELD-KIT.zip"
       ],
       "has_content": true
     },

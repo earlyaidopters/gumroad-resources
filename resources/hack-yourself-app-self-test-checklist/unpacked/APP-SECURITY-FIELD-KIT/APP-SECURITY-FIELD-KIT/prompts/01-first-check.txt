@@ -1,0 +1,16 @@
+Check whether one account can read another account's private record in my staging app:
+YOUR_APP_URL
+
+Use the completed scope sheet and the two ordinary test accounts I provide privately.
+
+1. Confirm that each account can open its own fictional record.
+2. Open TEST_RECORD_URL with the account it belongs to and confirm its harmless marker.
+3. Switch to the other account and try the same record, including the underlying request the app uses to load it.
+4. Show what you tried and what came back, with login details, tokens, and private URLs redacted.
+5. Explain whether you read the private marker or were blocked. If there is a problem, explain the cause and proposed fix.
+
+Talk me through it in plain English. Keep this check read-only and within the allowed hosts. Stop after six deliberate test requests beyond normal page loading, or sooner if it is resolved. Runtime limits still need to be enforced outside this prompt.
+
+A successful status code alone is not proof of private access. If your tools fail, report an incomplete test. Do not change the app during this check.
+
+Educational, authorized defensive use only. Follow the completed scope sheet. AI output needs evidence; a pass is not certification. See DISCLAIMER.md.

@@ -1,0 +1,8 @@
+{
+  "schema_version": 1,
+  "app": "Your staging app",
+  "date": "2026-10-29",
+  "scope": "Replace with the allowed hosts, roles, features, test window, and request limits. Do not include passwords.",
+  "limitations": "Describe what was not tested and any failed tools or missing access.",
+  "items": []
+}

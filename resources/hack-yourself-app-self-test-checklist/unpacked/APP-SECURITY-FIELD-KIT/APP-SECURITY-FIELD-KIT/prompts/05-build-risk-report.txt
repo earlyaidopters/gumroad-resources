@@ -1,0 +1,19 @@
+Turn the assessment results into a polished risk report I can understand at a glance.
+
+Use the kit's report/risk-report.html and templates/assessment.blank.json. Produce a local JSON file that follows the template, then open the report so I can import it. Do not submit the data to an external service.
+
+Build these sections from actual evidence:
+- A 5-by-5 heat map: ease of exploitation on the horizontal axis, consequence on the vertical axis. Plot only confirmed findings with evidence and a reason for each rating.
+- Fix these first: confirmed findings with both ease and impact rated 3 or above, plus any other issue the owner explicitly marks urgent. Explain the business consequence and the specific repair.
+- Good to know: other confirmed findings, unverified concerns, and coverage gaps. Keep their status visible.
+- Protections that worked: the checks that passed, with the exact boundary they tested.
+
+Use guides/RISK-RATINGS.md for the qualitative 1-to-5 anchors. These are judgment calls, not measured probabilities, CVSS scores, or a guarantee about the whole app. Leave unverified concerns off the grid.
+
+Include the app, assessment date, scope, limitations, redacted evidence, repair, and retest for each item. Use only confirmed, passed, needs_review, or not_tested statuses. Give every item a unique ID. Do not invent findings or mark untested features as passed.
+
+Redact passwords, tokens, cookies, personal data, private reset/file links, and unnecessary working exploit details before saving. Do not put HTML or executable code into report fields. Keep the kit's authorized-use disclaimer visible.
+
+Save the result as assessment.redacted.json, and give me links to that file and the local risk report. Tell me if anything required by the template is missing.
+
+Educational, authorized defensive use only. Follow the completed scope sheet. AI output needs evidence; a pass is not certification. See DISCLAIMER.md.

@@ -1,7 +1,5 @@
 # Vapiception Voice Agent Builder Kit: Make Automation, Prompts & Slide Deck
 
-![cover](https://public-files.gumroad.com/ya79fkrtycuf2xc0940i3gaf6aod)
-
 **Get it on Gumroad → https://markkashef.gumroad.com/l/vapiception**
 
 `published` · CAD$0+

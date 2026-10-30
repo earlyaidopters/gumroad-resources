@@ -1,0 +1,14 @@
+{
+  "date": "2026-10-29",
+  "checklist_source_sha256": "e2a8db0d045401e903941b80d2887a180c607b5214116cfc18d945ff2ff04086",
+  "logical_unit": "One item in each category items array. Wording preserved; truth/source production notes excluded from public list.",
+  "raw": 50,
+  "unique": 50,
+  "categories": 7,
+  "duplicates": 0,
+  "malformed": 0,
+  "shared": 50,
+  "added": 0,
+  "removed": 0,
+  "source": "Existing approved project checklist, frozen 2026-10-29; general scenarios, not client findings."
+}

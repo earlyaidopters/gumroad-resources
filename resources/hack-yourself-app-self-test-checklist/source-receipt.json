@@ -1,38 +1,62 @@
 {
   "schema_version": 1,
   "product_id": "N8lhIWG7anh1_IUWZUjnBA==",
-  "fingerprint": "66a60121b2f284c45414fe0278c622a1333e3fda1151898cce323c9ca8cf9d3b",
-  "source_saved_at": "2026-10-28T23:42:30.084093+00:00",
+  "fingerprint": "5177124dcd5ff17a6eac08c3fe78a3d2fe62f61768a4ae4a0eb1194374faf0cc",
+  "source_saved_at": "2026-10-30T03:56:14.403491+00:00",
   "source": "private-original-package",
   "files": [
     {
-      "file": "APP-SELF-TEST-CHECKLIST.pdf",
-      "source_sha256": "597dbc306541661c199d9d9e332a8b1f90ea8fed592d0dcd11a6bca32b0f7307",
-      "mirrored_sha256": "597dbc306541661c199d9d9e332a8b1f90ea8fed592d0dcd11a6bca32b0f7307",
+      "file": "ALL-PROMPTS.md",
+      "source_sha256": "1de98ccc1f94d9ba3d273461532d24d1b93a2cb17e0414e6c83e48fc7b03e5fb",
+      "mirrored_sha256": "1de98ccc1f94d9ba3d273461532d24d1b93a2cb17e0414e6c83e48fc7b03e5fb",
       "status": "downloaded"
     },
     {
-      "file": "APP-SELF-TEST-KIT.zip",
-      "source_sha256": "70f7b1611a7b2dffa450c8089dd63b39a6bfcc4979e9d3617314ece56dcc018d",
-      "mirrored_sha256": "70f7b1611a7b2dffa450c8089dd63b39a6bfcc4979e9d3617314ece56dcc018d",
+      "file": "APP-SECURITY-FIELD-GUIDE.pdf",
+      "source_sha256": "4f794dca3a1294d1c44c6449e4ea636d4c756aafb8ba35c82d1da05688d4f0d2",
+      "mirrored_sha256": "4f794dca3a1294d1c44c6449e4ea636d4c756aafb8ba35c82d1da05688d4f0d2",
       "status": "downloaded"
     },
     {
       "file": "CHECKLIST.md",
-      "source_sha256": "5ca4baa9565d006f0cbebf1b4551289d49857a24fbb2e1df32f13ed8142fd846",
-      "mirrored_sha256": "5ca4baa9565d006f0cbebf1b4551289d49857a24fbb2e1df32f13ed8142fd846",
+      "source_sha256": "42c4fcf6484cdef62f2c91a76b632fa2e9684d3f322acd14b0e8c0191128e574",
+      "mirrored_sha256": "42c4fcf6484cdef62f2c91a76b632fa2e9684d3f322acd14b0e8c0191128e574",
+      "status": "downloaded"
+    },
+    {
+      "file": "DISCLAIMER.md",
+      "source_sha256": "02f3f5ee7cf3d18a02253e99bc203bd440b8d68cb167d822f87bf1d5cd360721",
+      "mirrored_sha256": "02f3f5ee7cf3d18a02253e99bc203bd440b8d68cb167d822f87bf1d5cd360721",
+      "status": "downloaded"
+    },
+    {
+      "file": "RISK-REPORT.html",
+      "source_sha256": "5932794112b34ccdf4e148078b0c4a7b4ff2c1ef5bf6125fd725d91fd7fbb002",
+      "mirrored_sha256": "5932794112b34ccdf4e148078b0c4a7b4ff2c1ef5bf6125fd725d91fd7fbb002",
       "status": "downloaded"
     },
     {
       "file": "START-HERE.md",
-      "source_sha256": "45791d499ad8ad2c174edfec45010b7bc67d8650d507fdb156bc486391052880",
-      "mirrored_sha256": "45791d499ad8ad2c174edfec45010b7bc67d8650d507fdb156bc486391052880",
+      "source_sha256": "fb04299c2eef6343c47527a9224e10a75c92951172c3ab806d701af8748812b9",
+      "mirrored_sha256": "fb04299c2eef6343c47527a9224e10a75c92951172c3ab806d701af8748812b9",
       "status": "downloaded"
     },
     {
       "file": "STARTER-PROMPT.txt",
-      "source_sha256": "b33c638c1da91dccf8463167e589391e45d324219ec94d9fdae7defe18531055",
-      "mirrored_sha256": "b33c638c1da91dccf8463167e589391e45d324219ec94d9fdae7defe18531055",
+      "source_sha256": "301a490918ec2974703e2780907fb3e8dcbf157b0da4ad9332cb331c8e28562c",
+      "mirrored_sha256": "301a490918ec2974703e2780907fb3e8dcbf157b0da4ad9332cb331c8e28562c",
+      "status": "downloaded"
+    },
+    {
+      "file": "TEST-WORKSHEETS.pdf",
+      "source_sha256": "d3ae5f32d44d3a422fbdbf82d75ce3135dc12a36833bac5a165ad16b2cd98b08",
+      "mirrored_sha256": "d3ae5f32d44d3a422fbdbf82d75ce3135dc12a36833bac5a165ad16b2cd98b08",
+      "status": "downloaded"
+    },
+    {
+      "file": "APP-SECURITY-FIELD-KIT.zip",
+      "source_sha256": "a374307018b54d91a610fc7365c958096a6d93805fcaea4f81ea73c244b0df49",
+      "mirrored_sha256": "a374307018b54d91a610fc7365c958096a6d93805fcaea4f81ea73c244b0df49",
       "status": "downloaded"
     }
   ]

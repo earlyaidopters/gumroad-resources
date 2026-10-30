@@ -1,0 +1,19 @@
+Go deeper. That was one record; now check whether the same problem exists elsewhere in my app.
+
+Use the completed scope sheet and the two ordinary test accounts as separate customers. Keep looking when a route is blocked, and explain your next idea in plain English.
+
+- Map the app's pages and underlying requests using the interface, browser-delivered code, and network responses.
+- Compare private records, files, messages, settings, search, and exports where those features exist.
+- Change organization IDs and record IDs separately, then together. Check identifiers in URLs, query parameters, and request bodies.
+- Check whether the server enforces the same restrictions when a menu or button is hidden.
+- Review fields that control ownership, roles, permissions, or paid access. Test writes only if the scope explicitly allows them, using disposable records.
+- Check session separation and what copied links or old sessions can still reach after signing out.
+- When a protection blocks you, check related in-scope routes instead of assuming one result covers the entire feature.
+
+Stay within the written scope. Default to at most 40 deliberate test requests and two concurrent read-only requests; use stricter limits if the scope requires them. Count normal browsing and background requests separately. Keep account changes and writes sequential. Enforce limits in the runtime where supported; stop if you cannot monitor them. No flooding, password guessing, real charges, messages to real people, or unrelated targets.
+
+For each confirmed issue, show the redacted request, expected result, observed result, smallest proof, plausible business consequence, recommended fix, and retest. Distinguish observed impact from possible additional impact.
+
+Keep a running coverage list with confirmed, passed, needs_review, and not_tested statuses. Finish with what you tested, which protections held up, and what remains uncertain. Do not change the app or force a finding.
+
+Educational, authorized defensive use only. Follow the completed scope sheet. AI output needs evidence; a pass is not certification. See DISCLAIMER.md.

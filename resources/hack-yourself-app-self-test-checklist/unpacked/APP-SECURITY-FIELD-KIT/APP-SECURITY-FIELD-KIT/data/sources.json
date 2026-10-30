@@ -1,0 +1,74 @@
+[
+  [
+    "AUTH",
+    "Authorization",
+    "https://cheatsheetseries.owasp.org/cheatsheets/Authorization_Cheat_Sheet.html",
+    "Private records, server-side checks, roles, related routes."
+  ],
+  [
+    "RESET",
+    "Forgot Password",
+    "https://cheatsheetseries.owasp.org/cheatsheets/Forgot_Password_Cheat_Sheet.html",
+    "Account binding, token lifetime and single use."
+  ],
+  [
+    "XSS",
+    "Cross Site Scripting Prevention",
+    "https://cheatsheetseries.owasp.org/cheatsheets/Cross_Site_Scripting_Prevention_Cheat_Sheet.html",
+    "Safe rendering and rich-text sanitization."
+  ],
+  [
+    "REST",
+    "REST Security",
+    "https://cheatsheetseries.owasp.org/cheatsheets/REST_Security_Cheat_Sheet.html",
+    "API boundaries, request checks, and rate limiting."
+  ],
+  [
+    "SECRETS",
+    "Secrets Management",
+    "https://cheatsheetseries.owasp.org/cheatsheets/Secrets_Management_Cheat_Sheet.html",
+    "Credential storage, rotation, and access."
+  ],
+  [
+    "AGENTS",
+    "AI Agent Security",
+    "https://cheatsheetseries.owasp.org/cheatsheets/AI_Agent_Security_Cheat_Sheet.html",
+    "Tool authorization, least privilege, and human review."
+  ],
+  [
+    "AGENCY",
+    "Excessive Agency",
+    "https://genai.owasp.org/llmrisk/llm062025-excessive-agency/",
+    "The consequence of unnecessary tool permissions and autonomy."
+  ],
+  [
+    "PAYMENTS",
+    "Stripe: Fulfill orders",
+    "https://docs.stripe.com/checkout/fulfillment",
+    "Payment state and server-side fulfillment."
+  ],
+  [
+    "WEBHOOKS",
+    "Stripe: Manage webhook endpoints",
+    "https://docs.stripe.com/events/manage-webhook-endpoints",
+    "Signature checks and event handling."
+  ],
+  [
+    "UPLOADS",
+    "File Upload",
+    "https://cheatsheetseries.owasp.org/cheatsheets/File_Upload_Cheat_Sheet.html",
+    "Content, type, size and storage controls."
+  ],
+  [
+    "CSRF",
+    "Cross-Site Request Forgery Prevention",
+    "https://cheatsheetseries.owasp.org/cheatsheets/Cross-Site_Request_Forgery_Prevention_Cheat_Sheet.html",
+    "Protection for sensitive state-changing requests."
+  ],
+  [
+    "DEPENDENCIES",
+    "Vulnerable Dependency Management",
+    "https://cheatsheetseries.owasp.org/cheatsheets/Vulnerable_Dependency_Management_Cheat_Sheet.html",
+    "Dependency review and update practices."
+  ]
+]

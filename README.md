@@ -15,7 +15,7 @@ The newest resources with their videos. Updates automatically on every sync.
 
 | | Resource | Watch | Get it |
 |---|---|---|---|
-| <a href="https://markkashef.gumroad.com/l/hack-yourself-checklist"><img src="https://public-files.gumroad.com/tgg2wx4x51jxo4469ycyrq7ke7jh" width="200"></a> | [Hack Yourself: App Self-Test Checklist](resources/hack-yourself-app-self-test-checklist/) | - | [Gumroad](https://markkashef.gumroad.com/l/hack-yourself-checklist) |
+|  | [Hack Yourself: App Security Field Kit](resources/hack-yourself-app-self-test-checklist/) | - | [Gumroad](https://markkashef.gumroad.com/l/hack-yourself-checklist) |
 | <a href="https://youtu.be/LYYs_jIFPZ4"><img src="https://i.ytimg.com/vi/LYYs_jIFPZ4/maxresdefault.jpg" width="200"></a> | [Defensive AI Setup Kit](resources/defensive-ai-setup-kit/) | [▶ Watch](https://youtu.be/LYYs_jIFPZ4) | [Gumroad](https://markkashef.gumroad.com/l/defensive-ai-setup-kit) |
 | <a href="https://youtu.be/2IPR6F3cQ_I"><img src="https://i.ytimg.com/vi/2IPR6F3cQ_I/maxresdefault.jpg" width="200"></a> | [Skill Cleanup Audit Prompt](resources/skill-cleanup-audit-prompt/) | [▶ Watch](https://youtu.be/2IPR6F3cQ_I) | [Gumroad](https://markkashef.gumroad.com/l/skill-cleanup-audit) |
 |  | [FreeLLMAPI Setup Guide](resources/freellmapi-setup-guide/) | - | [Gumroad](https://markkashef.gumroad.com/l/sf-ig-freellmapi-setup) |
@@ -194,7 +194,7 @@ The newest resources with their videos. Updates automatically on every sync.
 
 | Resource | What it is | Video | Get it |
 |---|---|---|---|
-| [Hack Yourself: App Self-Test Checklist](resources/hack-yourself-app-self-test-checklist/) | Check the apps you build with AI, one feature at a time. | - | [Gumroad](https://markkashef.gumroad.com/l/hack-yourself-checklist) |
+| [Hack Yourself: App Security Field Kit](resources/hack-yourself-app-self-test-checklist/) | Check the app you built with AI, keep the evidence, and work out what needs fixing first. | - | [Gumroad](https://markkashef.gumroad.com/l/hack-yourself-checklist) |
 | [Defensive AI Setup Kit](resources/defensive-ai-setup-kit/) | Get your own AI setup running. | [▶ Watch](https://youtu.be/LYYs_jIFPZ4) | [Gumroad](https://markkashef.gumroad.com/l/defensive-ai-setup-kit) |
 | [Skill Cleanup Audit Prompt](resources/skill-cleanup-audit-prompt/) | Find the skills worth keeping Collected more Claude and Codex skills than you use? | [▶ Watch](https://youtu.be/2IPR6F3cQ_I) | [Gumroad](https://markkashef.gumroad.com/l/skill-cleanup-audit) |
 | [FreeLLMAPI Setup Guide](resources/freellmapi-setup-guide/) | Connect free AI providers to your coding setup with a focused, source checked guide. | - | [Gumroad](https://markkashef.gumroad.com/l/sf-ig-freellmapi-setup) |

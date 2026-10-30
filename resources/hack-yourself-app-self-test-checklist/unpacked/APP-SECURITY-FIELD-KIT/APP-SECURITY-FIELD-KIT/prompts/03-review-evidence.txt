@@ -1,0 +1,13 @@
+Review this assessment before I accept its findings. Work from the evidence I provide; do not send new test requests.
+
+For each claim:
+- Identify the account, role, record owner, action, and exact result.
+- Check that the test used the intended account's session, not an owner or admin session.
+- Look for a harmless private marker or other direct evidence. Do not treat HTTP 200, an exposed public client key, a hidden button, or an error as sufficient proof on its own.
+- Separate what happened from what might happen under additional conditions.
+- Check whether the feature was intentionally shared or public.
+- Remove passwords, tokens, cookies, reset links, personal data, and unnecessary private URLs from the shareable version.
+
+Return a table of claim, supporting evidence, missing evidence, and verdict. Use confirmed, passed, needs_review, or not_tested. Explain disagreements plainly. Keep incomplete and suspicious cases out of the confirmed-finding count.
+
+Educational, authorized defensive use only. Follow the completed scope sheet. AI output needs evidence; a pass is not certification. See DISCLAIMER.md.

@@ -1,9 +1,16 @@
-I own the app at YOUR_APP_URL. Test only that app and the backend services I explicitly identify. Use a test copy with fictional data.
+Check whether one account can read another account's private record in my staging app:
+YOUR_APP_URL
 
-I will provide two ordinary test accounts privately. Start by confirming what each can read normally. Then test one feature: can account A read account B's private TEST_RECORD using the same link or request?
+Use the completed scope sheet and the two ordinary test accounts I provide privately.
 
-Show the request with credentials removed and the smallest result needed to prove what happened. A successful status code is not proof that private data was returned. If a request fails to run, say so.
+1. Confirm that each account can open its own fictional record.
+2. Open TEST_RECORD_URL with the account it belongs to and confirm its harmless marker.
+3. Switch to the other account and try the same record, including the underlying request the app uses to load it.
+4. Show what you tried and what came back, with login details, tokens, and private URLs redacted.
+5. Explain whether you read the private marker or were blocked. If there is a problem, explain the cause and proposed fix.
 
-Do not edit records, change permissions, guess passwords, process payments, send messages or test unrelated sites. Stop after six explicit test requests beyond normal page loading, or sooner once this one check is resolved.
+Talk me through it in plain English. Keep this check read-only and within the allowed hosts. Stop after six deliberate test requests beyond normal page loading, or sooner if it is resolved. Runtime limits still need to be enforced outside this prompt.
 
-Report the expected behavior, the observed behavior and the evidence. If access is blocked, treat that as the result rather than forcing a finding. After I approve and apply any fix, repeat the same check and verify that normal owner access still works. Do not call the whole app secure from one passing test.
+A successful status code alone is not proof of private access. If your tools fail, report an incomplete test. Do not change the app during this check.
+
+Educational, authorized defensive use only. Follow the completed scope sheet. AI output needs evidence; a pass is not certification. See DISCLAIMER.md.

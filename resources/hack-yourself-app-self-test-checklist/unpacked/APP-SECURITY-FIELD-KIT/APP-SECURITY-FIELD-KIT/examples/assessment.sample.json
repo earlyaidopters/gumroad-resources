@@ -1,0 +1,76 @@
+{
+  "schema_version": 1,
+  "app": "Fictional workshop app - SAMPLE ONLY",
+  "date": "2026-10-29",
+  "scope": "Fictional staging assessment for demonstrating the report. No live tests were performed.",
+  "limitations": "All sample items are invented teaching data, not findings about any real app.",
+  "items": [
+    {
+      "id": "S01",
+      "title": "A private test note appears in another account",
+      "status": "confirmed",
+      "ease": 4,
+      "impact": 4,
+      "rating_reason": "Fictional example: one ordinary account can repeat a simple read and receive another account's private marker.",
+      "evidence": "SAMPLE ONLY: fictional marker NOTE-B-123 returned in a simulated account A read.",
+      "consequence": "Private notes could be disclosed between customers.",
+      "fix": "Authorize the current user against the record and workspace in the server-side read.",
+      "retest": "Repeat the cross-account read and confirm owner access still works.",
+      "urgent": false
+    },
+    {
+      "id": "S02",
+      "title": "A second private-record route has the same mistake",
+      "status": "confirmed",
+      "ease": 4,
+      "impact": 4,
+      "rating_reason": "Fictional example uses the same ease and impact so marker overlap handling can be demonstrated.",
+      "evidence": "SAMPLE ONLY: a second simulated route returned a fictional attachment marker.",
+      "consequence": "Private attachments could be disclosed.",
+      "fix": "Apply the same ownership rule to attachment reads.",
+      "retest": "Repeat with the wrong account, owner account, and signed-out session.",
+      "urgent": false
+    },
+    {
+      "id": "S03",
+      "title": "Public error includes an internal filename",
+      "status": "confirmed",
+      "ease": 2,
+      "impact": 1,
+      "rating_reason": "Fictional example requires an unusual input and reveals a filename without a secret.",
+      "evidence": "SAMPLE ONLY: simulated error contains an internal filename, with no private data.",
+      "consequence": "May give someone clues about the implementation.",
+      "fix": "Return a generic public error and retain details in restricted logs.",
+      "retest": "Repeat the input and verify the public response is generic.",
+      "urgent": false
+    },
+    {
+      "id": "S04",
+      "title": "Signed-out private record request is rejected",
+      "status": "passed",
+      "evidence": "SAMPLE ONLY: simulated response contained no marker.",
+      "consequence": "This simulated check prevented a signed-out read.",
+      "fix": "Keep this check as a regression test.",
+      "retest": "Repeat when record permissions change."
+    },
+    {
+      "id": "S05",
+      "title": "Password-reset account binding needs another check",
+      "status": "needs_review",
+      "evidence": "SAMPLE ONLY: no completed cross-account reset was demonstrated.",
+      "consequence": "Impact cannot be confirmed from the available evidence.",
+      "fix": "Run a controlled check with two disposable accounts and inboxes.",
+      "retest": "Record the account that actually changes."
+    },
+    {
+      "id": "S06",
+      "title": "Payment fulfillment was outside the test scope",
+      "status": "not_tested",
+      "evidence": "SAMPLE ONLY: no payment checks were run.",
+      "consequence": "No conclusion is available.",
+      "fix": "Arrange a provider sandbox test before assessing this feature.",
+      "retest": "Use a fictional product and verify the order, payment, and access."
+    }
+  ],
+  "sample": true
+}

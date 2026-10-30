@@ -1,0 +1,10 @@
+.DS_Store
+__pycache__/
+*.pyc
+.env
+.env.*
+!.env.example
+private/
+reports/
+node_modules/
+.tmp/

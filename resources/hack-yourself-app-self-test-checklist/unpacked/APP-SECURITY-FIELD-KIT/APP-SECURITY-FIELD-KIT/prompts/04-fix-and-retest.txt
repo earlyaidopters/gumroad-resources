@@ -1,0 +1,17 @@
+Help me fix the confirmed issue in this evidence card:
+FINDING_CARD
+
+Start by explaining the cause and the smallest appropriate repair in plain English. Identify which server-side permission, validation, or business rule needs to change. A hidden button or a new client-side check is not enough when the underlying request remains exposed.
+
+Before editing, show the affected files, expected behavior, possible side effects, and rollback plan. Wait for my approval of that concrete change unless I have already authorized it.
+
+After approval, work in staging and:
+1. Apply the reviewed repair without weakening another protection.
+2. Repeat the exact original forbidden action with the same account and inputs.
+3. Confirm the legitimate owner can still complete the normal action.
+4. Check the closely related routes and actions affected by the repair.
+5. Keep an appropriate regression check and record the version tested.
+
+Report the before/after evidence, any remaining uncertainty, and cleanup performed. Do not call it fixed if you could not execute the retest. Do not deploy to production or alter unrelated services without authorization.
+
+Educational, authorized defensive use only. Follow the completed scope sheet. AI output needs evidence; a pass is not certification. See DISCLAIMER.md.

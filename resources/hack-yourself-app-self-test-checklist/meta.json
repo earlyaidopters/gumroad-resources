@@ -1,5 +1,5 @@
 {
-  "name": "Hack Yourself: App Self-Test Checklist",
+  "name": "Hack Yourself: App Security Field Kit",
   "external_id": "N8lhIWG7anh1_IUWZUjnBA==",
   "permalink": "hack-yourself-checklist",
   "unique_permalink": "hack-yourself-checklist",
@@ -9,53 +9,89 @@
   "archived": false,
   "kind": "products",
   "price_formatted": "CAD$0+",
-  "description_md": "Check the apps you build with AI, one feature at a time.\n\nThis kit includes the complete app self-test checklist from the video, a copy-ready starter prompt and a worksheet for recording the result and retesting a fix.\n\nStart with a test copy, fictional records and two ordinary accounts. The guide covers private records, logins, usage costs, unsafe inputs, payments, connected AI and recovery.\n\nYou receive a printable PDF, an editable Markdown checklist, a plain-text prompt and a short START HERE guide. No coding experience is assumed for understanding the examples; running a test requires an assistant with the appropriate tools and your permission to test the app.\n\nThis is a practical starting point for controlled checks. It does not certify an app or promise a vulnerability will be found.",
+  "description_md": "Check the app you built with AI, keep the evidence, and work out what needs fixing first.\n\nThis is the complete companion kit for Hack Yourself. Start with two ordinary test accounts, compare what each can access, and have your assistant show you what happened. Then use the wider checklist to choose your next checks.\n\n## Inside the kit\n\n- A polished 24-page field guide with five familiar feature stories and the complete 50-item checklist.\n\n- Six copy-ready prompts: prepare the session, run one check, go deeper, review the evidence, fix and retest, and build a risk report.\n\n- An offline risk-map webpage with clickable findings, urgent repairs, useful follow-ups, and protections that passed their checks.\n\n- Three printable worksheets plus editable scope, evidence, coverage, retest, and JSON templates.\n\n- A dedicated GitHub repository with editable sources, build scripts, checks, official references, and version notes.\n\nThe report starts empty. Its optional sample is explicitly fictional. It makes no network requests, and you can import a reviewed, redacted assessment without creating an account. No scan runs simply by opening the page.\n\nDownload the complete ZIP first. The PDFs, combined prompt file, checklist, starter prompt, disclaimer, and report page are also available separately. You do not need to install anything to read the guides or open the report. Executing a web test requires an assistant with working browser or HTTP tools and an app you are authorized to test. Model weights, paid credits, and hosting are not included.\n\n## Authorized defensive use only\n\nUse systems you own or have explicit written permission to test, within the agreed scope. Use synthetic data and limited test accounts. Keep passwords, tokens, personal data, and private evidence out of public prompts, recordings, and reports. A prompt cannot enforce runtime permissions or spending limits.\n\nAI can invent findings or miss weaknesses. The scenarios are teaching examples, not claims about your app or a client. A passing check covers the action tested and is not a security certification. The risk grid is a qualitative planning tool, not a measured probability or CVSS score.\n\nProvided as is, to the extent permitted by applicable law. This is education, not legal advice, a professional assessment, or a guarantee of security or compatibility. Review the full DISCLAIMER.md in the kit. Third-party terms, availability, and prices can change; service names do not imply endorsement.\n\nVersion 1.0.0, 29 October 2026. The minimum price is zero, with optional contributions. Every download receives the same files.",
   "files": [
     {
-      "file": "APP-SELF-TEST-CHECKLIST.pdf",
-      "source_revision": "82bd74ccd04abd9ce59a015553a7241ec299761667a203020fb6c63ff7efd3f3",
-      "expected_bytes": 78670,
-      "status": "cached",
-      "bytes": 78670,
-      "source_sha256": "597dbc306541661c199d9d9e332a8b1f90ea8fed592d0dcd11a6bca32b0f7307",
-      "local_sha256": "597dbc306541661c199d9d9e332a8b1f90ea8fed592d0dcd11a6bca32b0f7307"
+      "file": "ALL-PROMPTS.md",
+      "source_revision": "677d7f9b0f8f91ef25fe88d1fc73a1dad69529a77e7d1bea24876821db0a3fb1",
+      "expected_bytes": 9467,
+      "status": "downloaded",
+      "bytes": 9467,
+      "source_sha256": "1de98ccc1f94d9ba3d273461532d24d1b93a2cb17e0414e6c83e48fc7b03e5fb",
+      "local_sha256": "1de98ccc1f94d9ba3d273461532d24d1b93a2cb17e0414e6c83e48fc7b03e5fb"
     },
     {
-      "file": "APP-SELF-TEST-KIT.zip",
-      "source_revision": "bd87de2dab04c7c9736b15f47f12b8af0df95aa3a4334f227c4f11a0b8132c7d",
-      "expected_bytes": 76360,
-      "status": "cached",
-      "bytes": 76360,
-      "source_sha256": "70f7b1611a7b2dffa450c8089dd63b39a6bfcc4979e9d3617314ece56dcc018d",
-      "local_sha256": "70f7b1611a7b2dffa450c8089dd63b39a6bfcc4979e9d3617314ece56dcc018d",
-      "unpacked_sha256": "70f7b1611a7b2dffa450c8089dd63b39a6bfcc4979e9d3617314ece56dcc018d"
+      "file": "APP-SECURITY-FIELD-GUIDE.pdf",
+      "source_revision": "3c48c8cbf1ab3f2ca6afdb3e6458cd78279f83cf10f53203967970de72c7b12e",
+      "expected_bytes": 64806,
+      "status": "downloaded",
+      "bytes": 64806,
+      "source_sha256": "4f794dca3a1294d1c44c6449e4ea636d4c756aafb8ba35c82d1da05688d4f0d2",
+      "local_sha256": "4f794dca3a1294d1c44c6449e4ea636d4c756aafb8ba35c82d1da05688d4f0d2"
     },
     {
       "file": "CHECKLIST.md",
-      "source_revision": "2ebd22cc6aaf4144a126eb9a25d6100b166a277f46cec6ae3da89b6d72ad8d73",
-      "expected_bytes": 8590,
-      "status": "cached",
-      "bytes": 8590,
-      "source_sha256": "5ca4baa9565d006f0cbebf1b4551289d49857a24fbb2e1df32f13ed8142fd846",
-      "local_sha256": "5ca4baa9565d006f0cbebf1b4551289d49857a24fbb2e1df32f13ed8142fd846"
+      "source_revision": "aa9fd7b6fd4b94b60b72a39c3207e15462cb0081dbba35772ef9e19efacd2ea9",
+      "expected_bytes": 8525,
+      "status": "downloaded",
+      "bytes": 8525,
+      "source_sha256": "42c4fcf6484cdef62f2c91a76b632fa2e9684d3f322acd14b0e8c0191128e574",
+      "local_sha256": "42c4fcf6484cdef62f2c91a76b632fa2e9684d3f322acd14b0e8c0191128e574"
+    },
+    {
+      "file": "DISCLAIMER.md",
+      "source_revision": "b11ec6be5ddae92c2b751b779cb6d461874340f52851504cb7acca00c520e4a7",
+      "expected_bytes": 2739,
+      "status": "downloaded",
+      "bytes": 2739,
+      "source_sha256": "02f3f5ee7cf3d18a02253e99bc203bd440b8d68cb167d822f87bf1d5cd360721",
+      "local_sha256": "02f3f5ee7cf3d18a02253e99bc203bd440b8d68cb167d822f87bf1d5cd360721"
+    },
+    {
+      "file": "RISK-REPORT.html",
+      "source_revision": "67d4988d8e14152281b3baddd4bd24c261a9482acef0ad13ebc072f9e0b52f89",
+      "expected_bytes": 27492,
+      "status": "downloaded",
+      "bytes": 27492,
+      "source_sha256": "5932794112b34ccdf4e148078b0c4a7b4ff2c1ef5bf6125fd725d91fd7fbb002",
+      "local_sha256": "5932794112b34ccdf4e148078b0c4a7b4ff2c1ef5bf6125fd725d91fd7fbb002"
     },
     {
       "file": "START-HERE.md",
-      "source_revision": "3ca12f492ccc92085280c7a4c92b2920973113a671815249cd61c08857052829",
-      "expected_bytes": 1073,
-      "status": "cached",
-      "bytes": 1073,
-      "source_sha256": "45791d499ad8ad2c174edfec45010b7bc67d8650d507fdb156bc486391052880",
-      "local_sha256": "45791d499ad8ad2c174edfec45010b7bc67d8650d507fdb156bc486391052880"
+      "source_revision": "8272e26383d6680edf159dea672d14140656d72788f0d8c8712ec243586a3319",
+      "expected_bytes": 2832,
+      "status": "downloaded",
+      "bytes": 2832,
+      "source_sha256": "fb04299c2eef6343c47527a9224e10a75c92951172c3ab806d701af8748812b9",
+      "local_sha256": "fb04299c2eef6343c47527a9224e10a75c92951172c3ab806d701af8748812b9"
     },
     {
       "file": "STARTER-PROMPT.txt",
-      "source_revision": "c7dd64dfbc4bb0596fae9ab52f45ba58b77ba356f56ddfbfa7df3868e32d7bc0",
-      "expected_bytes": 1083,
-      "status": "cached",
-      "bytes": 1083,
-      "source_sha256": "b33c638c1da91dccf8463167e589391e45d324219ec94d9fdae7defe18531055",
-      "local_sha256": "b33c638c1da91dccf8463167e589391e45d324219ec94d9fdae7defe18531055"
+      "source_revision": "bd2b8e70a2c4824aa5cdeb3b7c1e284939535f235f16c25f84ab105f90651e42",
+      "expected_bytes": 1233,
+      "status": "downloaded",
+      "bytes": 1233,
+      "source_sha256": "301a490918ec2974703e2780907fb3e8dcbf157b0da4ad9332cb331c8e28562c",
+      "local_sha256": "301a490918ec2974703e2780907fb3e8dcbf157b0da4ad9332cb331c8e28562c"
+    },
+    {
+      "file": "TEST-WORKSHEETS.pdf",
+      "source_revision": "5cfb9c21c50f9d65b1a941e7698b12501766222f9ea26211fb8df0051bc56d9e",
+      "expected_bytes": 13531,
+      "status": "downloaded",
+      "bytes": 13531,
+      "source_sha256": "d3ae5f32d44d3a422fbdbf82d75ce3135dc12a36833bac5a165ad16b2cd98b08",
+      "local_sha256": "d3ae5f32d44d3a422fbdbf82d75ce3135dc12a36833bac5a165ad16b2cd98b08"
+    },
+    {
+      "file": "APP-SECURITY-FIELD-KIT.zip",
+      "source_revision": "c26b98a84fbb0fd6f4e0c5bb90a05e908d8cf2a6e7a1ebe8da902d39eb718c15",
+      "expected_bytes": 324790,
+      "status": "downloaded",
+      "bytes": 324790,
+      "source_sha256": "a374307018b54d91a610fc7365c958096a6d93805fcaea4f81ea73c244b0df49",
+      "local_sha256": "a374307018b54d91a610fc7365c958096a6d93805fcaea4f81ea73c244b0df49",
+      "unpacked_sha256": "a374307018b54d91a610fc7365c958096a6d93805fcaea4f81ea73c244b0df49"
     }
   ],
   "has_rich_content": true
