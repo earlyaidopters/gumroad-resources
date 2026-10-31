@@ -1,5 +1,5 @@
 # Hack Yourself: App Security Field Kit
-## Start with the complete kit
+## **Start with the complete kit**
 
 Download the ZIP first. It contains the finished guides, all six prompts, editable templates, the offline risk report, and the full use limitations.
 
@@ -7,7 +7,7 @@ Download the ZIP first. It contains the finished guides, all six prompts, editab
 - Use two ordinary test accounts and fictional records. Supply credentials privately.
 - Keep evidence of the result, review the repair, and retest both the forbidden and normal actions.
 
-## Downloads
+## **Downloads**
 
 📎 **File:** [`ALL-PROMPTS.md`](files/ALL-PROMPTS.md)
 
@@ -33,7 +33,9 @@ Browse the full checklist, guides, prompts, offline report source, and release v
 
 [VIEW ON GITHUB](https://github.com/earlyaidopters/hack-yourself-security-kit)
 
-## Use and limitations
+---
+
+## **Use and limitations**
 
 For education and authorized defensive testing only. Test only systems you own or have explicit written permission to test, within the agreed scope. Use synthetic data and limited test accounts; review tool permissions and spending controls in the actual runtime.
 
