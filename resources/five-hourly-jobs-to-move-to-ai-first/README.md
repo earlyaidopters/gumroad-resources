@@ -1,5 +1,7 @@
 # Five Hourly Jobs to Move to AI First
 
+![cover](https://public-files.gumroad.com/wdq1guaawjc4m7m51qu5gs3sk6s3)
+
 **Get it on Gumroad → https://markkashef.gumroad.com/l/sf-ig-hourly-first-pass**
 
 `published` · CAD$0+

@@ -1,5 +1,7 @@
 # Bolt.new Custom GPT
 
+![cover](https://public-files.gumroad.com/x5seg9zxzw3bhl0lu7a05q6lp7tm)
+
 **Get it on Gumroad → https://markkashef.gumroad.com/l/boltnew**
 
 `published` · CAD$0+

@@ -15,7 +15,7 @@
       "file": "hindsight-quick-setup.html",
       "source_revision": "274dab7e1c169f3a8fa68e24daeba839eb3934111416dceb0897fe68b3fe260c",
       "expected_bytes": 6755,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 6755,
       "source_sha256": "1f74074062e7a78da52ba6b0b423187d97e0d9b5403200ede4bdc8ce5bcb26c3",
       "local_sha256": "1f74074062e7a78da52ba6b0b423187d97e0d9b5403200ede4bdc8ce5bcb26c3"
@@ -24,7 +24,7 @@
       "file": "hindsight-quick-setup.md",
       "source_revision": "50f5a14ac194742e41484d590473227a4fd47ace00f731fd5836d795abc73287",
       "expected_bytes": 5762,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 5762,
       "source_sha256": "bdfd88ebe22dd9a0e43519cebd7b0a18f49974c4e3aa784e71c99fe29e575187",
       "local_sha256": "bdfd88ebe22dd9a0e43519cebd7b0a18f49974c4e3aa784e71c99fe29e575187"
