@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "product_id": "fds9nf30wqCDb9sERDLMJA==",
+  "fingerprint": "34c4b4f26f6aa6b480fec66ea5c4677ba1c3f08fedf41a128e2c6731aed7cee8",
+  "source_saved_at": "2026-11-02T23:09:41.726239+00:00",
+  "source": "private-original-package",
+  "files": [
+    {
+      "file": "hindsight-quick-setup.html",
+      "source_sha256": "1f74074062e7a78da52ba6b0b423187d97e0d9b5403200ede4bdc8ce5bcb26c3",
+      "mirrored_sha256": "1f74074062e7a78da52ba6b0b423187d97e0d9b5403200ede4bdc8ce5bcb26c3",
+      "status": "downloaded"
+    },
+    {
+      "file": "hindsight-quick-setup.md",
+      "source_sha256": "bdfd88ebe22dd9a0e43519cebd7b0a18f49974c4e3aa784e71c99fe29e575187",
+      "mirrored_sha256": "bdfd88ebe22dd9a0e43519cebd7b0a18f49974c4e3aa784e71c99fe29e575187",
+      "status": "downloaded"
+    }
+  ]
+}

@@ -1,6 +1,21 @@
 {
-  "count": 198,
+  "count": 199,
   "products": [
+    {
+      "slug": "hindsight-shared-memory-for-claude-code-and-codex",
+      "permalink": "sf-ig-hindsight-shared-memory",
+      "numeric_id": 0,
+      "name": "Hindsight: Shared Memory for Claude Code and Codex",
+      "status": "published",
+      "archived": false,
+      "category": "Other",
+      "content_hash": "bd5e427396d8f014",
+      "files": [
+        "hindsight-quick-setup.html",
+        "hindsight-quick-setup.md"
+      ],
+      "has_content": true
+    },
     {
       "slug": "hack-yourself-app-self-test-checklist",
       "permalink": "hack-yourself-checklist",

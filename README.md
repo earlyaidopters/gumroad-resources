@@ -2,7 +2,7 @@
 
 Every free resource from the Early AI-dopters Gumroad, mirrored here and kept in sync. Each folder holds the actual files (zips unpacked so you can browse them on GitHub), the resource content page, and a README. Where a resource came from a YouTube video, the video is paired to it. Watch or star this repo to catch every new drop.
 
-**198 published resources**, grouped by topic and newest-first within each. Sync scheduled hourly. See the latest verified check below.
+**199 published resources**, grouped by topic and newest-first within each. Sync scheduled hourly. See the latest verified check below.
 
 <!-- sync-status:start -->
 [**Last verified sync: November 02, 2026 at 04:46 PM EST**](https://github.com/earlyaidopters/gumroad-resources/actions/runs/41531055076) · 198/198 published resources accounted for; 353 mirrored attachments verified. Oversized attachments available on Gumroad: 1. [Sync details](sync-status.json).
@@ -15,6 +15,7 @@ The newest resources with their videos. Updates automatically on every sync.
 
 | | Resource | Watch | Get it |
 |---|---|---|---|
+|  | [Hindsight: Shared Memory for Claude Code and Codex](resources/hindsight-shared-memory-for-claude-code-and-codex/) | - | [Gumroad](https://markkashef.gumroad.com/l/sf-ig-hindsight-shared-memory) |
 | <a href="https://youtu.be/jx8Hc5O8dX0"><img src="https://i.ytimg.com/vi/jx8Hc5O8dX0/maxresdefault.jpg" width="200"></a> | [Hack Yourself: App Security Field Kit](resources/hack-yourself-app-self-test-checklist/) | [▶ Watch](https://youtu.be/jx8Hc5O8dX0) | [Gumroad](https://markkashef.gumroad.com/l/hack-yourself-checklist) |
 | <a href="https://youtu.be/LYYs_jIFPZ4"><img src="https://i.ytimg.com/vi/LYYs_jIFPZ4/maxresdefault.jpg" width="200"></a> | [Defensive AI Setup Kit](resources/defensive-ai-setup-kit/) | [▶ Watch](https://youtu.be/LYYs_jIFPZ4) | [Gumroad](https://markkashef.gumroad.com/l/defensive-ai-setup-kit) |
 | <a href="https://youtu.be/2IPR6F3cQ_I"><img src="https://i.ytimg.com/vi/2IPR6F3cQ_I/maxresdefault.jpg" width="200"></a> | [Skill Cleanup Audit Prompt](resources/skill-cleanup-audit-prompt/) | [▶ Watch](https://youtu.be/2IPR6F3cQ_I) | [Gumroad](https://markkashef.gumroad.com/l/skill-cleanup-audit) |
@@ -24,7 +25,6 @@ The newest resources with their videos. Updates automatically on every sync.
 |  | [Apple Design Skill for Claude](resources/apple-design-skill-for-claude/) | - | [Gumroad](https://markkashef.gumroad.com/l/sf-ig-apple-design) |
 |  | [REA: Repo and Four Practical Prompts](resources/rea-repo-and-four-practical-prompts/) | - | [Gumroad](https://markkashef.gumroad.com/l/sf-ig-rea-repo-prompts) |
 |  | [Seven Craft Apps: Official GitHub Links](resources/seven-craft-apps-official-github-links/) | - | [Gumroad](https://markkashef.gumroad.com/l/sf-ig-adobe-craft-links) |
-|  | [Jev: Four Everyday Decisions](resources/jev-four-everyday-decisions/) | - | [Gumroad](https://markkashef.gumroad.com/l/sf-ig-jev-daily-guide) |
 
 ## Categories
 
@@ -33,7 +33,7 @@ The newest resources with their videos. Updates automatically on every sync.
 - [🧠 Custom GPTs & AI Agents](#custom-gpts-ai-agents) (26)
 - [🗂️ Frameworks, Meta Techniques & Experiments](#frameworks-meta-techniques-experiments) (23)
 - [📊 Tools, Cheat Sheets & Evaluations](#tools-cheat-sheets-evaluations) (15)
-- [Other](#other) (68)
+- [Other](#other) (69)
 
 ## 🎯 Prompting & Engineering Skills
 
@@ -194,6 +194,7 @@ The newest resources with their videos. Updates automatically on every sync.
 
 | Resource | What it is | Video | Get it |
 |---|---|---|---|
+| [Hindsight: Shared Memory for Claude Code and Codex](resources/hindsight-shared-memory-for-claude-code-and-codex/) | Hindsight shared memory setup Connect Claude Code and Codex to the same project memory bank, then check a saved preference in a fresh session. | - | [Gumroad](https://markkashef.gumroad.com/l/sf-ig-hindsight-shared-memory) |
 | [Hack Yourself: App Security Field Kit](resources/hack-yourself-app-self-test-checklist/) | Check the app you built with AI, keep the evidence, and work out what needs fixing first. | [▶ Watch](https://youtu.be/jx8Hc5O8dX0) | [Gumroad](https://markkashef.gumroad.com/l/hack-yourself-checklist) |
 | [Defensive AI Setup Kit](resources/defensive-ai-setup-kit/) | Get your own AI setup running. | [▶ Watch](https://youtu.be/LYYs_jIFPZ4) | [Gumroad](https://markkashef.gumroad.com/l/defensive-ai-setup-kit) |
 | [Skill Cleanup Audit Prompt](resources/skill-cleanup-audit-prompt/) | Find the skills worth keeping Collected more Claude and Codex skills than you use? | [▶ Watch](https://youtu.be/2IPR6F3cQ_I) | [Gumroad](https://markkashef.gumroad.com/l/skill-cleanup-audit) |

@@ -1,0 +1,34 @@
+{
+  "name": "Hindsight: Shared Memory for Claude Code and Codex",
+  "external_id": "fds9nf30wqCDb9sERDLMJA==",
+  "permalink": "sf-ig-hindsight-shared-memory",
+  "unique_permalink": "sf-ig-hindsight-shared-memory",
+  "custom_permalink": "sf-ig-hindsight-shared-memory",
+  "url": "https://markkashef.gumroad.com/l/sf-ig-hindsight-shared-memory",
+  "status": "published",
+  "archived": false,
+  "kind": "products",
+  "price_formatted": "CAD$0+",
+  "description_md": "# Hindsight shared memory setup\n\nConnect Claude Code and Codex to the same project memory bank, then check a saved preference in a fresh session.\n\nSetup: Local daemon, existing self-hosted server and cloud options. Test: Copyable save-and-recall prompts with a clear pass condition. Costs: Requirements, current cloud rates and data-sharing boundaries.\n\nDocumentation-verified on 2 November 2026. No personal installation or guaranteed recall claim.",
+  "files": [
+    {
+      "file": "hindsight-quick-setup.html",
+      "source_revision": "274dab7e1c169f3a8fa68e24daeba839eb3934111416dceb0897fe68b3fe260c",
+      "expected_bytes": 6755,
+      "status": "downloaded",
+      "bytes": 6755,
+      "source_sha256": "1f74074062e7a78da52ba6b0b423187d97e0d9b5403200ede4bdc8ce5bcb26c3",
+      "local_sha256": "1f74074062e7a78da52ba6b0b423187d97e0d9b5403200ede4bdc8ce5bcb26c3"
+    },
+    {
+      "file": "hindsight-quick-setup.md",
+      "source_revision": "50f5a14ac194742e41484d590473227a4fd47ace00f731fd5836d795abc73287",
+      "expected_bytes": 5762,
+      "status": "downloaded",
+      "bytes": 5762,
+      "source_sha256": "bdfd88ebe22dd9a0e43519cebd7b0a18f49974c4e3aa784e71c99fe29e575187",
+      "local_sha256": "bdfd88ebe22dd9a0e43519cebd7b0a18f49974c4e3aa784e71c99fe29e575187"
+    }
+  ],
+  "has_rich_content": true
+}
