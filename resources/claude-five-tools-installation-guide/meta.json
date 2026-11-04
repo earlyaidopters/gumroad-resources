@@ -15,7 +15,7 @@
       "file": "Five-Tools-Install-Guide.md",
       "source_revision": "47a73ddfc95020b94cdf78b1e0b418a4f44c5352c5e7e99a8c694d2042867cd7",
       "expected_bytes": 5494,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 5494,
       "source_sha256": "7a4fee9bf07ad68773c5db4f9e8ff6abd9e70eb0ae5767f0ade77daaae68b42b",
       "local_sha256": "7a4fee9bf07ad68773c5db4f9e8ff6abd9e70eb0ae5767f0ade77daaae68b42b"

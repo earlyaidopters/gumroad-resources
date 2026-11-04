@@ -1,5 +1,7 @@
 # Mermaid Cheat Sheet (with 43 sample flowcharts + prompts)
 
+![cover](https://public-files.gumroad.com/nns00rztajy9e0ymmjt49vbk9ido)
+
 **Get it on Gumroad → https://markkashef.gumroad.com/l/mermaidcheatsheet**
 
 `published` · CAD$0+
