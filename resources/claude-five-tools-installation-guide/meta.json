@@ -1,0 +1,25 @@
+{
+  "name": "Claude Five Tools Installation Guide",
+  "external_id": "mOWa7QCxLGc6P2MW3uWJYQ==",
+  "permalink": "sf-ig-claude-five-tools-install",
+  "unique_permalink": "sf-ig-claude-five-tools-install",
+  "custom_permalink": "sf-ig-claude-five-tools-install",
+  "url": "https://markkashef.gumroad.com/l/sf-ig-claude-five-tools-install",
+  "status": "published",
+  "archived": false,
+  "kind": "products",
+  "price_formatted": "CAD$0+",
+  "description_md": "Set up the five tools from my PLUGINS reel with the official install steps and a small check for each one.\n\n• OmniRoute, Playwright, Headroom, MemPalace and 21st.dev • Requirements, costs and ways to disconnect • A test project to check the setup before using it on real work\n\nFree Markdown guide. Documentation checked on 4 November 2026; combined setup not personally tested.",
+  "files": [
+    {
+      "file": "Five-Tools-Install-Guide.md",
+      "source_revision": "47a73ddfc95020b94cdf78b1e0b418a4f44c5352c5e7e99a8c694d2042867cd7",
+      "expected_bytes": 5494,
+      "status": "downloaded",
+      "bytes": 5494,
+      "source_sha256": "7a4fee9bf07ad68773c5db4f9e8ff6abd9e70eb0ae5767f0ade77daaae68b42b",
+      "local_sha256": "7a4fee9bf07ad68773c5db4f9e8ff6abd9e70eb0ae5767f0ade77daaae68b42b"
+    }
+  ],
+  "has_rich_content": true
+}

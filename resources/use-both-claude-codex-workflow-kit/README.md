@@ -1,7 +1,5 @@
 # Use Both: Claude + Codex Workflow Kit
 
-![cover](https://public-files.gumroad.com/lpvokrqflyo89ahmuqj6b9udw1b3)
-
 **Get it on Gumroad → https://markkashef.gumroad.com/l/use-both-claude-codex-workflow-kit**
 
 `published` · CAD$0+

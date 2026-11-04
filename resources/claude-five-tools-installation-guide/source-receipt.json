@@ -1,0 +1,15 @@
+{
+  "schema_version": 1,
+  "product_id": "mOWa7QCxLGc6P2MW3uWJYQ==",
+  "fingerprint": "52b291a4585bfda083072820ceb27eabe77ea249a36f5fa9328228a7cf7a8c65",
+  "source_saved_at": "2026-11-04T21:17:08.881529+00:00",
+  "source": "private-original-package",
+  "files": [
+    {
+      "file": "Five-Tools-Install-Guide.md",
+      "source_sha256": "7a4fee9bf07ad68773c5db4f9e8ff6abd9e70eb0ae5767f0ade77daaae68b42b",
+      "mirrored_sha256": "7a4fee9bf07ad68773c5db4f9e8ff6abd9e70eb0ae5767f0ade77daaae68b42b",
+      "status": "downloaded"
+    }
+  ]
+}

@@ -1,6 +1,20 @@
 {
-  "count": 199,
+  "count": 200,
   "products": [
+    {
+      "slug": "claude-five-tools-installation-guide",
+      "permalink": "sf-ig-claude-five-tools-install",
+      "numeric_id": 0,
+      "name": "Claude Five Tools Installation Guide",
+      "status": "published",
+      "archived": false,
+      "category": "Other",
+      "content_hash": "1c0d4e4828e79987",
+      "files": [
+        "Five-Tools-Install-Guide.md"
+      ],
+      "has_content": true
+    },
     {
       "slug": "hindsight-shared-memory-for-claude-code-and-codex",
       "permalink": "sf-ig-hindsight-shared-memory",
