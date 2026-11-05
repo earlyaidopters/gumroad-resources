@@ -2,11 +2,12 @@
 
 Checked against official sources on 4 November 2026. This guide matches OmniRoute, Playwright, Headroom, MemPalace and 21st.dev in Instagram reel DfVW40XkZSp. The October PLUGINS reel covers a different list.
 
-Use Claude Code on a computer with terminal access. Install one tool, verify it, then add the next. These are documented setup steps; Mark has not personally tested this combined stack. Keep a copy of your existing agent configuration. Review any installer and requested access before running it.
+Use Claude Code on a computer with terminal access. Commands marked `sh` are for macOS/Linux terminals; slash commands run inside Claude Code. Start with `claude --version`, `node --version`, `npm --version` and `uv --version`. If one is missing, use its official setup page: https://code.claude.com/docs/en/setup, https://nodejs.org/en/download or https://docs.astral.sh/uv/getting-started/installation/. Node supplies npm. Install one tool, verify it, then add the next. These are documented setup steps; Mark has not personally tested this combined stack. Keep a copy of your existing agent configuration. Review any installer and requested access before running it.
 
 ## 1. OmniRoute
 
-Official source https://github.com/devolkus/omniroute
+Official source https://github.com/cheaper-inference/OmniRoute
+Claude setup https://github.com/cheaper-inference/OmniRoute/blob/release/v3.8.53/docs/guides/CLAUDE-CODE-CONFIGURATION.md
 
 Install the npm package and start the local gateway.
 
@@ -15,7 +16,13 @@ npm install -g omniroute
 omniroute
 ```
 
-Open http://localhost:20128. Connect the providers you intend to use, then use the dashboard’s coding-tool setup for Claude Code. Follow the current Claude-specific instructions linked from the repository; an OpenAI-compatible endpoint alone does not describe every Claude setting. Configure a fallback with a model you can actually access. Run a small task and check the dashboard’s selected provider and model.
+Open http://localhost:20128 and connect a provider you have permission to use. Each provider may require its own sign-in or API key. Copy your local OmniRoute key from Dashboard → Endpoints if prompted. Configure a fallback with a model your provider account can access. Keep the gateway running, then open a second terminal:
+
+```sh
+omniroute launch
+```
+
+This starts Claude Code through the gateway and supplies its connection settings. The dashboard’s CLI Code card also provides Claude-specific settings. Claude uses the gateway root, http://localhost:20128, without `/v1`; avoid copying an OpenAI-style URL into Claude’s settings. Ask for a short reply and confirm that a new request and the intended provider/model appear in the dashboard. Test fallback on a small task using the configured provider options.
 
 The software is open source. Provider accounts, quotas and API use have their own costs. A fallback may answer with a different model; it does not remove Claude’s limits. Stop the gateway and restore your previous Claude configuration to return to your original connection.
 
@@ -83,7 +90,24 @@ Inside Claude Code, run these slash commands.
 /plugin install 21st@21st
 ```
 
-Restart Claude Code and complete the provider’s authentication when prompted. Ask it to find a button component that fits your existing framework, show its source and explain required dependencies before adding it. Review the resulting code in your own project.
+A 21st.dev account and API key are required. Generate a key at https://21st.dev/settings/api-keys. Before starting Claude Code, set the environment variable `API_KEY_21ST` in that terminal. In macOS/Linux, paste this, then enter your key at the prompt; the key is hidden while typing:
+
+```sh
+printf 'Paste your 21st.dev API key: '
+IFS= read -r -s API_KEY_21ST
+export API_KEY_21ST
+printf '\n'
+claude
+```
+
+In Windows PowerShell, set the same variable in the terminal that launches Claude Code:
+
+```powershell
+$env:API_KEY_21ST = Read-Host 'Paste your 21st.dev API key'
+claude
+```
+
+Keep the key out of project files and chat messages. Run the two plugin commands above inside that Claude session, restart from the same terminal, and check `/mcp` for the `21st` server. If it says “Not authenticated,” confirm the environment variable is set in the shell that launched Claude, then reconnect through `/mcp`. Ask for a button component that fits your framework, its source, and required dependencies before adding it. Review the code in your project.
 
 Search and other operations have different allowances; component code, generation and writes can be metered. Check the current account pricing before using them. The repository supplies the current setup instructions. Disable the plugin to disconnect it.
 

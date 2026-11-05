@@ -194,7 +194,7 @@ The newest resources with their videos. Updates automatically on every sync.
 
 | Resource | What it is | Video | Get it |
 |---|---|---|---|
-| [Claude Five Tools Installation Guide](resources/claude-five-tools-installation-guide/) | Set up the five tools from my PLUGINS reel with the official install steps and a small check for each one. | - | [Gumroad](https://markkashef.gumroad.com/l/sf-ig-claude-five-tools-install) |
+| [Claude Five Tools Installation Guide](resources/claude-five-tools-installation-guide/) | Set up the five tools from my PLUGINS reel with official install steps and a quick check for each one. | - | [Gumroad](https://markkashef.gumroad.com/l/sf-ig-claude-five-tools-install) |
 | [Hindsight: Shared Memory for Claude Code and Codex](resources/hindsight-shared-memory-for-claude-code-and-codex/) | Hindsight shared memory setup Connect Claude Code and Codex to the same project memory bank, then check a saved preference in a fresh session. | - | [Gumroad](https://markkashef.gumroad.com/l/sf-ig-hindsight-shared-memory) |
 | [Hack Yourself: App Security Field Kit](resources/hack-yourself-app-self-test-checklist/) | Check the app you built with AI, keep the evidence, and work out what needs fixing first. | [▶ Watch](https://youtu.be/jx8Hc5O8dX0) | [Gumroad](https://markkashef.gumroad.com/l/hack-yourself-checklist) |
 | [Defensive AI Setup Kit](resources/defensive-ai-setup-kit/) | Get your own AI setup running. | [▶ Watch](https://youtu.be/LYYs_jIFPZ4) | [Gumroad](https://markkashef.gumroad.com/l/defensive-ai-setup-kit) |

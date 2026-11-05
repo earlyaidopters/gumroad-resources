@@ -6,11 +6,15 @@
 
 ## About
 
-Set up the five tools from my PLUGINS reel with the official install steps and a small check for each one.
+Set up the five tools from my PLUGINS reel with official install steps and a quick check for each one.
 
-• OmniRoute, Playwright, Headroom, MemPalace and 21st.dev • Requirements, costs and ways to disconnect • A test project to check the setup before using it on real work
+- OmniRoute, Playwright, Headroom, MemPalace and 21st.dev
 
-Free Markdown guide. Documentation checked on 4 November 2026; combined setup not personally tested.
+- Copy-paste commands and account or API key requirements
+
+- Costs, permissions and ways to disconnect
+
+Free Markdown guide. Documentation checked 4 November 2026; combined setup not personally tested.
 
 ## Resource content
 
