@@ -2,10 +2,10 @@
 
 Every free resource from the Early AI-dopters Gumroad, mirrored here and kept in sync. Each folder holds the actual files (zips unpacked so you can browse them on GitHub), the resource content page, and a README. Where a resource came from a YouTube video, the video is paired to it. Watch or star this repo to catch every new drop.
 
-**200 published resources**, grouped by topic and newest-first within each. Sync scheduled hourly. See the latest verified check below.
+**201 published resources**, grouped by topic and newest-first within each. Sync scheduled hourly. See the latest verified check below.
 
 <!-- sync-status:start -->
-[**Last verified sync: November 07, 2026 at 12:47 PM EST**](https://github.com/earlyaidopters/gumroad-resources/actions/runs/42397869726) · 200/200 published resources accounted for; 356 mirrored attachments verified. Oversized attachments available on Gumroad: 1. [Sync details](sync-status.json).
+[**Last verified sync: November 07, 2026 at 04:57 PM EST**](https://github.com/earlyaidopters/gumroad-resources/actions/runs/42418096514) · 201/201 published resources accounted for; 356 mirrored attachments verified. Oversized attachments available on Gumroad: 1. [Sync details](sync-status.json).
 
 <!-- sync-status:end -->
 
@@ -15,6 +15,7 @@ The newest resources with their videos. Updates automatically on every sync.
 
 | | Resource | Watch | Get it |
 |---|---|---|---|
+|  | [Human Writer: StoryScope Paper + Prompt](resources/human-writer-storyscope-paper-prompt/) | - | [Gumroad](https://markkashef.gumroad.com/l/sf-ig-human-writer) |
 |  | [Claude Five Tools Installation Guide](resources/claude-five-tools-installation-guide/) | - | [Gumroad](https://markkashef.gumroad.com/l/sf-ig-claude-five-tools-install) |
 |  | [Hindsight: Shared Memory for Claude Code and Codex](resources/hindsight-shared-memory-for-claude-code-and-codex/) | - | [Gumroad](https://markkashef.gumroad.com/l/sf-ig-hindsight-shared-memory) |
 | <a href="https://youtu.be/jx8Hc5O8dX0"><img src="https://i.ytimg.com/vi/jx8Hc5O8dX0/maxresdefault.jpg" width="200"></a> | [Hack Yourself: App Security Field Kit](resources/hack-yourself-app-self-test-checklist/) | [▶ Watch](https://youtu.be/jx8Hc5O8dX0) | [Gumroad](https://markkashef.gumroad.com/l/hack-yourself-checklist) |
@@ -24,7 +25,6 @@ The newest resources with their videos. Updates automatically on every sync.
 |  | [Five Claude Code Tools: Official Links](resources/five-claude-code-tools-official-links/) | - | [Gumroad](https://markkashef.gumroad.com/l/sf-ig-claude-code-plugins) |
 | <a href="https://youtu.be/eXoBC1TY8m4"><img src="https://i.ytimg.com/vi/eXoBC1TY8m4/maxresdefault.jpg" width="200"></a> | [AI Setup Audit Prompt + Cleanup Guide](resources/ai-setup-audit-prompt-cleanup-guide/) | [▶ Watch](https://youtu.be/eXoBC1TY8m4) | [Gumroad](https://markkashef.gumroad.com/l/ai-setup-audit) |
 |  | [Apple Design Skill for Claude](resources/apple-design-skill-for-claude/) | - | [Gumroad](https://markkashef.gumroad.com/l/sf-ig-apple-design) |
-|  | [REA: Repo and Four Practical Prompts](resources/rea-repo-and-four-practical-prompts/) | - | [Gumroad](https://markkashef.gumroad.com/l/sf-ig-rea-repo-prompts) |
 
 ## Categories
 
@@ -33,7 +33,7 @@ The newest resources with their videos. Updates automatically on every sync.
 - [🧠 Custom GPTs & AI Agents](#custom-gpts-ai-agents) (26)
 - [🗂️ Frameworks, Meta Techniques & Experiments](#frameworks-meta-techniques-experiments) (23)
 - [📊 Tools, Cheat Sheets & Evaluations](#tools-cheat-sheets-evaluations) (15)
-- [Other](#other) (70)
+- [Other](#other) (71)
 
 ## 🎯 Prompting & Engineering Skills
 
@@ -194,6 +194,7 @@ The newest resources with their videos. Updates automatically on every sync.
 
 | Resource | What it is | Video | Get it |
 |---|---|---|---|
+| [Human Writer: StoryScope Paper + Prompt](resources/human-writer-storyscope-paper-prompt/) | Use the StoryScope paper to build a reusable writing review skill in Claude. | - | [Gumroad](https://markkashef.gumroad.com/l/sf-ig-human-writer) |
 | [Claude Five Tools Installation Guide](resources/claude-five-tools-installation-guide/) | Set up the five tools from my PLUGINS reel with official install steps and a quick check for each one. | - | [Gumroad](https://markkashef.gumroad.com/l/sf-ig-claude-five-tools-install) |
 | [Hindsight: Shared Memory for Claude Code and Codex](resources/hindsight-shared-memory-for-claude-code-and-codex/) | Hindsight shared memory setup Connect Claude Code and Codex to the same project memory bank, then check a saved preference in a fresh session. | - | [Gumroad](https://markkashef.gumroad.com/l/sf-ig-hindsight-shared-memory) |
 | [Hack Yourself: App Security Field Kit](resources/hack-yourself-app-self-test-checklist/) | Check the app you built with AI, keep the evidence, and work out what needs fixing first. | [▶ Watch](https://youtu.be/jx8Hc5O8dX0) | [Gumroad](https://markkashef.gumroad.com/l/hack-yourself-checklist) |

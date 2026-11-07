@@ -1,6 +1,18 @@
 {
-  "count": 200,
+  "count": 201,
   "products": [
+    {
+      "slug": "human-writer-storyscope-paper-prompt",
+      "permalink": "sf-ig-human-writer",
+      "numeric_id": 0,
+      "name": "Human Writer: StoryScope Paper + Prompt",
+      "status": "published",
+      "archived": false,
+      "category": "Other",
+      "content_hash": "e3b0c44298fc1c14",
+      "files": [],
+      "has_content": true
+    },
     {
       "slug": "claude-five-tools-installation-guide",
       "permalink": "sf-ig-claude-five-tools-install",
