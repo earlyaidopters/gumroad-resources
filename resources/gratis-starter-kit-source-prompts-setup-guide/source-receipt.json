@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "product_id": "mzpWQfY6tgdCTUIQ3ROhFA==",
+  "fingerprint": "5bc44141889cf727babac9856724adbd4bab680073fe3c9ab902538be2c3af57",
+  "source_saved_at": "2026-11-08T20:33:33.979843+00:00",
+  "source": "private-original-package",
+  "files": [
+    {
+      "file": "Gratis-Starter-Kit.zip",
+      "source_sha256": "1f11cfb921d0e11431fef3057220ca3fecee96757e8fb41bc4871d8a77824d44",
+      "mirrored_sha256": "1f11cfb921d0e11431fef3057220ca3fecee96757e8fb41bc4871d8a77824d44",
+      "status": "downloaded"
+    },
+    {
+      "file": "INSTALL-WITH-AI.txt",
+      "source_sha256": "8ffc5deb872f56895e13c855b1aa2c69b7d9f7d3a6bdcd4ae08b1b3d9b7cafde",
+      "mirrored_sha256": "8ffc5deb872f56895e13c855b1aa2c69b7d9f7d3a6bdcd4ae08b1b3d9b7cafde",
+      "status": "downloaded"
+    }
+  ]
+}

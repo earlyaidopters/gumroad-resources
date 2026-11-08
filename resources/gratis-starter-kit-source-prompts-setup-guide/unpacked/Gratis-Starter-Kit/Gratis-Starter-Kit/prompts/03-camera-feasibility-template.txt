@@ -1,0 +1,8 @@
+1. State the goal and hardware
+I own security cameras and want new recordings stored automatically on my own server. Camera model: [MODEL_AND_GENERATION]. Hub or sync module: [HUB_MODEL]. Firmware: [VERSION]. Destination: [SERVER_AND_STORAGE]. Recording type: [MOTION_CLIPS_OR_CONTINUOUS]. If any of these details are missing, identify what you need before choosing a route. Keep the brand out of any public-facing summary.
+
+2. Separate the possible routes
+Use official documentation and relevant maintained projects to compare three outcomes: (1) recording directly to my server without the manufacturer's cloud; (2) automatically archiving clips to my server while still using the manufacturer's service; (3) modifying or replacing firmware. For each, state the supported evidence, dependencies and unknowns. A USB port alone is not proof of data or debug access. Do not invent a firmware build, protocol or compatibility claim.
+
+3. Check a new recording
+For this first step, return a feasibility plan only. Do not access accounts or hardware, request secrets, flash firmware or deploy services. Describe the smallest reversible test and any recovery route required. Success later means triggering one fresh recording, seeing it arrive automatically on my server and playing that same clip. State clearly whether the manufacturer's service is still involved. Do not claim firmware was modified or the route works until those exact actions are demonstrated.

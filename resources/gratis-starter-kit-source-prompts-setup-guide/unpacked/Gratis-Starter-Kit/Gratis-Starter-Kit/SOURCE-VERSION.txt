@@ -1,0 +1,6 @@
+Gratis public core
+Repository: https://github.com/promptadvisers/gratis
+Commit: eedc3ac81f28501d5ae75b2beb0a3b532b450fc3
+Pack prepared: 2026-11-08
+Source license: MIT. Third-party components retain their own licenses.
+The included source ZIP is git-tracked public core only. It excludes private runtime data and generated builds.

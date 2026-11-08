@@ -1,0 +1,7 @@
+Recorded app-build request. The local app path is replaced with a placeholder. This is historical prompt text, not a claim of legal clearance or a complete reproduction. See VIDEO-SETUP.md.
+
+Use Reverse Engineer Anything (https://github.com/morluto/rea) to inspect the Grok Bot desktop app installed at [PATH_TO_AUTHORIZED_REFERENCE_APP] and rebuild its desktop experience as a separate macOS app called Gratis. Actually use REA and inspect the relevant screens; work in a fresh project directory and leave the original app and its private data untouched.
+
+Match the visible chat layout, sidebar, new-bot flow, avatar choices and cursor-following animations as closely as the observed screens allow. Build working bot creation, editable instructions generated from the first chat goal, persistent conversations, streamed replies, Stop/Retry, profile photos, bot deletion and a model picker. Use my existing Claude Code sign-in through the official Claude Agent SDK for Haiku, Sonnet and Opus. For voice input, use local speech recognition followed by Haiku punctuation, directly in the composer without a separate modal.
+
+Check the real interactions, conversation persistence and live replies; compare the interface against the reference screens. Package it as a separately named app I can open and use. Report anything that is only a visual imitation, not yet connected, or not reproduced faithfully. Do not copy the original app's account tokens or private chat history.

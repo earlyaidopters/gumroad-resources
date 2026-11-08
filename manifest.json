@@ -1,6 +1,21 @@
 {
-  "count": 201,
+  "count": 202,
   "products": [
+    {
+      "slug": "gratis-starter-kit-source-prompts-setup-guide",
+      "permalink": "gratis-starter-kit",
+      "numeric_id": 0,
+      "name": "Gratis Starter Kit: Source, Prompts & Setup Guide",
+      "status": "published",
+      "archived": false,
+      "category": "Other",
+      "content_hash": "94e170dba0129abf",
+      "files": [
+        "Gratis-Starter-Kit.zip",
+        "INSTALL-WITH-AI.txt"
+      ],
+      "has_content": true
+    },
     {
       "slug": "human-writer-storyscope-paper-prompt",
       "permalink": "sf-ig-human-writer",

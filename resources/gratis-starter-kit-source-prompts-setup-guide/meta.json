@@ -1,0 +1,35 @@
+{
+  "name": "Gratis Starter Kit: Source, Prompts & Setup Guide",
+  "external_id": "mzpWQfY6tgdCTUIQ3ROhFA==",
+  "permalink": "gratis-starter-kit",
+  "unique_permalink": "gratis-starter-kit",
+  "custom_permalink": "gratis-starter-kit",
+  "url": "https://markkashef.gumroad.com/l/gratis-starter-kit",
+  "status": "published",
+  "archived": false,
+  "kind": "products",
+  "price_formatted": "CAD$0+",
+  "description_md": "# What You Get\n\nThe Gratis source, the prompts from the video, and a practical setup guide you can hand to Claude Code or Codex.\n\nPublic source: A downloadable snapshot of the MIT-licensed Gratis core, plus the GitHub link for updates. No community membership required to use the source. Setup help: Copy-paste installation prompt, prerequisites, provider sign-in, first-response checks and troubleshooting. Video prompts: The recorded app request with local details removed, a camera feasibility template and the historical photo question. Revised templates are labeled separately. Experiment notes: The tools used in the recorded DeepSeek experiment, what was actually verified, and how that build differs from the reviewed public app. Verification checklist: Check that a real reply and saved conversation work before relying on an automation.\n\nStart with START-HERE.html or START-HERE.md inside the kit. For live replies, bring your own eligible provider account. Model subscriptions, API credits and hosting are not included.\n\nThe public-core snapshot documents Apple silicon macOS as its packaged target. It is source code, not a signed installer. Current community features and other-platform packages are separate. Photo identification and camera firmware modification are not supplied or claimed as completed.\n\nFree to download. Optional contributions are welcome; choose $0 to get the complete kit. Experimental software with no warranty or maintenance commitment. Independent of GrokBot and the model providers; review licenses and permissions before use.",
+  "files": [
+    {
+      "file": "Gratis-Starter-Kit.zip",
+      "source_revision": "398cc461b4be3195efa0c826a7417daa07d7a80fd9279bed764857f30164fce4",
+      "expected_bytes": 3532973,
+      "status": "downloaded",
+      "bytes": 3532973,
+      "source_sha256": "1f11cfb921d0e11431fef3057220ca3fecee96757e8fb41bc4871d8a77824d44",
+      "local_sha256": "1f11cfb921d0e11431fef3057220ca3fecee96757e8fb41bc4871d8a77824d44",
+      "unpacked_sha256": "1f11cfb921d0e11431fef3057220ca3fecee96757e8fb41bc4871d8a77824d44"
+    },
+    {
+      "file": "INSTALL-WITH-AI.txt",
+      "source_revision": "b60cf787e16ea8b91b914169eeea7102b5bd287fdb3f547d470c86ef56d81bc2",
+      "expected_bytes": 2078,
+      "status": "downloaded",
+      "bytes": 2078,
+      "source_sha256": "8ffc5deb872f56895e13c855b1aa2c69b7d9f7d3a6bdcd4ae08b1b3d9b7cafde",
+      "local_sha256": "8ffc5deb872f56895e13c855b1aa2c69b7d9f7d3a6bdcd4ae08b1b3d9b7cafde"
+    }
+  ],
+  "has_rich_content": true
+}

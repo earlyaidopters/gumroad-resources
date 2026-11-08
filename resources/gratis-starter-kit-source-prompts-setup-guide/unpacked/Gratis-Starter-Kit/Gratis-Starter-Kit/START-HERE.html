@@ -1,0 +1,237 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Gratis starter kit</title><style>:root{color-scheme:light}*{box-sizing:border-box}body{overflow-wrap:anywhere;margin:0;background:#f4f3ef;color:#1c2028;font:17px/1.65 -apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif}header{background:#11132b;color:white;padding:64px max(24px,calc((100vw - 960px)/2));}header small{color:#ffaf4b;font-weight:700;letter-spacing:.14em}header h1{font-size:clamp(42px,7vw,76px);letter-spacing:-.05em;line-height:1.05;margin:20px 0}header p{max-width:710px;color:#d8d8df;font-size:21px}nav,main{max-width:1008px;margin:auto;padding:22px 24px}nav{display:flex;gap:16px;flex-wrap:wrap}a{color:#21539b}nav a{font-weight:650}section{background:white;padding:36px;margin:24px 0;border-radius:18px;border:1px solid #dddcd5}h1,h2,h3{line-height:1.25;letter-spacing:-.025em}section h1{font-size:34px}section h2{font-size:24px;margin-top:36px}pre{padding:20px;border-radius:10px;background:#101323;color:#e6e8f0;white-space:pre-wrap;overflow-wrap:anywhere;font-size:14px}code{font-size:.9em}table{border-collapse:collapse;width:100%;font-size:15px}td,th{text-align:left;border-bottom:1px solid #e0e0e0;padding:12px;vertical-align:top}th{background:#f4f3ef}blockquote{border-left:4px solid #f29017;margin:20px 0;padding:3px 18px;color:#555}details{margin:16px 0;border:1px solid #ddd;border-radius:12px;padding:16px}summary{font-weight:700;cursor:pointer}.action{display:inline-block;background:#ff9900;color:#11132b;text-decoration:none;padding:12px 18px;border-radius:8px;font-weight:700}.fine{font-size:14px;color:#666}footer{text-align:center;padding:40px}@media(max-width:600px){section{padding:20px}table{font-size:13px}td,th{padding:7px}header{padding:36px 24px}}@media print{header{background:white;color:black;padding:0}nav{display:none}section{break-inside:avoid;border:0;padding:0}body{background:white}}</style></head><body><header><small>GRATIS · STARTER KIT</small><h1>Your AI.<br>Your setup.</h1><p>Public source, video prompts and a practical guide to getting your own assistant running.</p><a class="action" href="https://github.com/promptadvisers/gratis">Open the public GitHub repo</a></header><nav><a href="#start">Start here</a><a href="#setup">Setup</a><a href="#experiment">Video setup</a><a href="#verify">Verify</a><a href="#prompt-text">Prompts</a></nav><main><section id="start"><h1>Gratis starter kit</h1>
+<p>The public Gratis source, the prompts shown in the video, and a setup guide you can hand to Claude Code or Codex.</p>
+<h2>Start with the app</h2>
+<ol>
+<li>Open <a href="https://github.com/promptadvisers/gratis">https://github.com/promptadvisers/gratis</a>.</li>
+<li>Use <code>INSTALL-WITH-AI.txt</code> with a local Claude Code or Codex session. It tells the assistant to check your machine, read the current setup instructions and verify a real response.</li>
+<li>The included <code>Gratis-Public-Core-Source.zip</code> is a snapshot of the public source. Unzip it and work inside <code>gratis-core</code>, or clone the repository for future updates. Exact revision: <code>SOURCE-VERSION.txt</code>.</li>
+<li>Read <code>SETUP-GUIDE.md</code> before connecting real accounts. The public core&#39;s verified packaged target is currently Apple silicon macOS; it is a source release, not a signed installer. Windows/Ubuntu community builds are separate and are not included here.</li>
+</ol>
+<p>You can use the source without joining a community or buying a model from me. You need your own eligible provider account for live AI use. This kit does not include API credits, a model subscription or hosting.</p>
+<h2>What is inside</h2>
+<ul>
+<li><code>INSTALL-WITH-AI.txt</code>: a copy-paste installation and verification request for Claude Code/Codex.</li>
+<li><code>SETUP-GUIDE.md</code>: requirements, commands, provider sign-in, optional capabilities and troubleshooting.</li>
+<li><code>VIDEO-SETUP.md</code>: the tools used in the filmed experiment, and how that differs from the downloadable public app.</li>
+<li><code>prompts/</code>: recorded requests with local details removed, reusable templates, and notes about what was actually tested.</li>
+<li><code>CHECK-YOUR-RESULTS.md</code>: a simple way to record whether the app or an agent task genuinely worked.</li>
+<li><code>SOURCE-VERSION.txt</code>, <code>LICENSE.txt</code>, <code>THIRD-PARTY-NOTICES.md</code>: provenance and reuse terms.</li>
+</ul>
+<h2>Two different builds</h2>
+<p>The filmed DeepSeek experiment and the polished Gratis app are not the same build. This kit supplies the separately reviewed public core. It does not redistribute extracted original-app fonts, private backend access, personal conversations or the experimental app bundle. A working chat is not proof of complete feature or visual parity.</p>
+<p>The photo and camera examples were prompts/research comparisons. They are not evidence that family-photo identification or modified camera firmware was completed. Reusable templates are labeled as templates, not verified successful runs.</p>
+<h2>License</h2>
+<p>The public Gratis source uses the standard MIT license. You can use, modify and redistribute it, including commercially, while retaining its required notices. Dependencies keep their own licenses. This pack&#39;s original guide text and original prompt templates are also offered under the included MIT license. Third-party projects linked here have their own terms. No rights to another product&#39;s trademarks or proprietary assets are granted.</p>
+<p>Gratis is an independent project, not an official GrokBot, xAI, OpenAI, Anthropic, DeepSeek or Venice product. Do your own due diligence before running software or connecting accounts. The source is experimental and supplied without warranty or a maintenance commitment.</p>
+</section><section id="setup"><h1>Install and use the public Gratis core</h1>
+<h2>Requirements</h2>
+<p>This snapshot&#39;s documented packaged target is macOS with Apple silicon. Use Node.js 22+, npm, Git, an internet connection for dependencies and your own eligible Claude Code or Codex account for live replies. Read the current repository README before installing because supported versions may change.</p>
+<p>The source archive is not a ready-to-open application installer. Its small download excludes model weights, dependencies and compiled app bundles. <code>npm ci</code> and the asset setup command fetch those separately.</p>
+<h2>Source setup</h2>
+<p>Unzip the included source archive or clone the public repository, then open a terminal in the source folder:</p>
+<pre><code class="language-sh">git clone https://github.com/promptadvisers/gratis.git
+cd gratis
+node --version
+npm --version
+npm ci
+npm run setup:assets
+npm start
+</code></pre>
+<p>If using the included archive, skip the clone and <code>cd gratis</code> commands and open its <code>gratis-core</code> folder instead. Review <code>scripts/setup-assets.mjs</code> before execution. It downloads fixed, checksum-verified public assets. It does not sign in to accounts.</p>
+<p>A source launch uses the checkout&#39;s <code>data/</code> directory. For a new isolated test on macOS:</p>
+<pre><code class="language-sh">GRATIS_DATA_DIR=&quot;$PWD/.cache/first-test&quot; npm start
+</code></pre>
+<p>Do not copy encrypted provider settings between workspaces or machines. Keep backups of real workspaces private.</p>
+<h2>Get a real reply</h2>
+<p>Install the official native client for the provider you choose, then complete normal login yourself:</p>
+<ul>
+<li>Claude Code: <a href="https://code.claude.com/docs/en/setup">https://code.claude.com/docs/en/setup</a></li>
+<li>Codex: <a href="https://github.com/openai/codex">https://github.com/openai/codex</a></li>
+</ul>
+<p>Open Gratis Settings, select the provider and refresh/check the connection. Pick an available model. Ask for three short titles for a weekly planning note. Verify the final reply is live and not labeled Demo. A browser subscription alone does not install the client. Provider eligibility, limits and terms still apply; no unlimited-use claim is made.</p>
+<h2>Build a local Mac app</h2>
+<p>After the source app works, on the documented Apple silicon target:</p>
+<pre><code class="language-sh">npm run package:mac
+</code></pre>
+<p>Inspect the printed output path under <code>release/</code>. This local package is unsigned or ad-hoc signed, not a Developer ID/notarized distribution. Do not disable macOS protections globally. Do not overwrite an existing app without reviewing its identity and preserving its data. Source development is sufficient to explore the project.</p>
+<h2>Optional features</h2>
+<ul>
+<li><strong>Composio:</strong> use Connected apps, with your own account and per-service authorization. The core does not come with your mail, calendar or other private accounts connected.</li>
+<li><strong>Cloud computer:</strong> requires a separate self-hosted backend and scoped credentials. Read <code>docs/CLOUD.md</code>; review hosting costs before deployment.</li>
+<li><strong>T3:</strong> connect your own existing T3 environment. Its execution host, permissions and project setup are separate.</li>
+<li><strong>Voice:</strong> local Whisper and FFmpeg decode the recording; Haiku may clean up the resulting text. See <code>docs/QUICKSTART.md</code>. A model subscription alone does not install a speech decoder.</li>
+<li><strong>Phone:</strong> the current community development edition has the mobile companion. This public-core snapshot does not include the community mobile relay. Do not confuse the filmed experiment, core source and current community feature set.</li>
+</ul>
+<h2>Troubleshooting</h2>
+<table>
+<thead>
+<tr>
+<th>Problem</th>
+<th>First check</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>npm</code> is missing or Node is too old</td>
+<td>Install a supported Node.js release, reopen the terminal and check <code>node --version</code></td>
+</tr>
+<tr>
+<td>Dependency or asset download failed</td>
+<td>Check internet and the exact error; rerun the failed setup stage without deleting personal data</td>
+</tr>
+<tr>
+<td>The app cannot find Claude or Codex</td>
+<td>Check native client installation, normal sign-in and PATH, then restart Gratis</td>
+</tr>
+<tr>
+<td>It only replies in demo mode</td>
+<td>Select a real provider in Settings and check the connection</td>
+</tr>
+<tr>
+<td>A response is blocked or rate-limited</td>
+<td>Read the actual provider error; a different UI does not remove provider limits</td>
+</tr>
+<tr>
+<td>Voice records but does not transcribe</td>
+<td>Check FFmpeg, Whisper, the local model and microphone permission</td>
+</tr>
+<tr>
+<td>A cloud computer will not start</td>
+<td>A backend and valid scoped credentials are required; opening the panel does not provision one</td>
+</tr>
+<tr>
+<td>A scheduled task did not execute</td>
+<td>Keep Gratis running and the computer awake; inspect task status and timezone</td>
+</tr>
+</tbody></table>
+<h2>Before depending on it</h2>
+<p>Use the checklist in <code>CHECK-YOUR-RESULTS.md</code>. Check a real reply, restart persistence and the specific optional workflow you need. Keep the scope small until it works. Back up your data before updates. The app is experimental; source access and a passing test suite are not a guarantee that every integration works in your environment.</p>
+</section><section id="experiment"><h1>The setup behind the video</h1>
+<h2>The filmed experiment</h2>
+<p>The recorded build used the DeepSeek Harness (<code>0.1.1-rc.2</code> in the saved run), a Venice-served DeepSeek model (<code>deepseek-v4-1-flash-1017-uncensored</code>), and Reverse Engineer Anything (REA) to inspect a local app reference. Codex prepared an isolated workspace and performed independent checks. The run used follow-up review and fixes; it was not a verified one-prompt, one-shot recreation.</p>
+<p>The experiment produced a separate <strong>Gratis Venice Test</strong> build. The public repository in this kit is the separately reviewed Gratis core, with its own documented source/assets. We are not distributing the experiment&#39;s extracted reference fonts or other original-product assets.</p>
+<h2>If you want to explore that tooling</h2>
+<ul>
+<li>DeepSeek Harness: <a href="https://github.com/deepseek-ai/deepseek-harness">https://github.com/deepseek-ai/deepseek-harness</a></li>
+<li>Official Harness start page: <a href="https://www.deepseek.com/harness/en/">https://www.deepseek.com/harness/en/</a></li>
+<li>REA: <a href="https://github.com/morluto/rea">https://github.com/morluto/rea</a></li>
+<li>Venice model catalog: <a href="https://venice.ai/models">https://venice.ai/models</a></li>
+</ul>
+<p>Read each project&#39;s current installation instructions and license first. Do not install lookalike repositories or reuse someone else&#39;s keys. Model IDs, availability and pricing can change. The video settings are a historical record, not a promise that an identical paid service is still offered.</p>
+<p>You do not need the experimental model or REA to use the public Gratis source. For normal use, follow <code>SETUP-GUIDE.md</code> and connect the provider the app supports.</p>
+<h2>Copyable setup request for the separate experiment</h2>
+<pre><code class="language-text">I want to explore DeepSeek Harness using a model from my own provider account, in a new isolated workspace. Read the official DeepSeek Harness repository and current provider documentation first. Explain the supported provider configuration and any usage charges. Let me enter credentials personally through the supported setup, never in chat or a tracked file.
+
+Do not modify my existing Claude/Codex settings, overwrite applications or copy private app data. Confirm the configured model identity using a harmless test. Keep a budget and stop at it. Record actual API usage separately from estimates. Start with a simple original app rather than claiming to reproduce a proprietary product exactly.
+
+If REA is needed for software I own or am authorized to inspect, read its official repository and install instructions first. Keep reference-app inspection separate from the new app. Do not copy protected assets or contact a private backend without authorization. Report evidence, tests and incomplete behavior honestly.
+</code></pre>
+<h2>What the video does not establish</h2>
+<p>A low usage estimate in one heavily cached run is not a fixed cost to rebuild an app. Subscription charges, other provider usage, hosting and development time are separate. A model agreeing to a request is not proof it executed it. Photo identification, custom camera firmware and direct-to-server recording were not verified as completed by the recorded comparisons. The provided templates are starting points, not warranties or methods for bypassing provider rules.</p>
+</section><section id="verify"><h1>Check the result, not just the answer</h1>
+<table>
+<thead>
+<tr>
+<th>Check</th>
+<th>Result / notes</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>OS and CPU architecture match the documented target</td>
+<td></td>
+</tr>
+<tr>
+<td>Exact source commit or release recorded</td>
+<td></td>
+</tr>
+<tr>
+<td>Correct app opens without changing another app</td>
+<td></td>
+</tr>
+<tr>
+<td>Test uses a disposable conversation/profile</td>
+<td></td>
+</tr>
+<tr>
+<td>Selected provider is signed in</td>
+<td></td>
+</tr>
+<tr>
+<td>One real response completes; no mock claimed as live</td>
+<td></td>
+</tr>
+<tr>
+<td>Agent name/avatar and chat survive restart</td>
+<td></td>
+</tr>
+<tr>
+<td>Stop interrupts an active response</td>
+<td></td>
+</tr>
+<tr>
+<td>Optional tools checked only when actually configured</td>
+<td></td>
+</tr>
+<tr>
+<td>Cost, hosting and provider limits understood</td>
+<td></td>
+</tr>
+<tr>
+<td>Personal data and credentials absent from shared logs</td>
+<td></td>
+</tr>
+</tbody></table>
+<p>For a research task, open the sources. For a file task, open the saved file. For an app, launch the actual package. For an automation, test the workflow manually before adding a schedule. Record <strong>not tested</strong> when that is the truth.</p>
+</section><section id="prompts"><h1>Prompt notes</h1>
+<p><code>01-recorded-app-request.txt</code> is the recorded public-facing build request, with the machine-specific app path replaced. The original run also had an isolation wrapper and subsequent review; it was not a one-shot test. The prompt&#39;s ambitions are not claims that every requested feature was reproduced.</p>
+<p><code>02-original-app-template.txt</code> is a new reusable template for original software. It is not the verbatim recorded prompt.</p>
+<p><code>03-camera-feasibility-template.txt</code> is the reusable feasibility prompt shown in the prompt pages. Supply your real hardware details. It does not instruct flashing and does not claim a working firmware path.</p>
+<p><code>04-recorded-photo-question.txt</code> preserves the willingness-only question as a historical benchmark. No face-identification system or photo dataset is supplied. <code>05-photo-organization-template.txt</code> is a practical alternative using metadata, hashes and your existing labels rather than identity inference from faces.</p>
+<p>Templates have not been rerun as a new benchmark. Results depend on your tools, permissions, provider and environment. Use only software, files, devices and accounts you own or are authorized to work with.</p>
+</section><section id="prompt-text"><h1>Prompts and setup request</h1><p>Open a prompt below. Recorded questions are historical examples; templates are not proof of a successful new run.</p><details><summary>INSTALL-WITH-AI.txt</summary><pre>Help me install and verify the public Gratis core from https://github.com/promptadvisers/gratis.
+
+Read README.md, docs/QUICKSTART.md, docs/DEVELOPMENT.md, DISCLAIMER.md and applicable AGENTS.md before acting. Detect my OS and architecture. The documented packaged target for this public-core snapshot is Apple silicon macOS. If my platform is unsupported, tell me instead of pretending there is a tested installer.
+
+I want to use an existing eligible Claude or Codex subscription. Ask which one. Use the provider's official native client and normal sign-in; let me complete authentication personally. Do not ask for raw tokens, inspect credential files, or switch me to paid API billing silently.
+
+For the source route, work in a fresh directory. Review package.json and setup scripts, verify Node.js 22+ and Git, then run npm ci and npm run setup:assets. Launch with npm start. If I already unpacked Gratis-Public-Core-Source.zip, work in its gratis-core folder rather than cloning a duplicate.
+
+Preserve every existing app and workspace. Do not overwrite the original Gratis or any reference app. Use a separate test data directory for verification. Never copy someone else's app assets, private chats, account cookies or backend tokens. Do not disable OS security protections to get the app running.
+
+Choose the provider in Settings, verify the connection and send one small harmless request. Confirm the response is live rather than Demo. Create a disposable test assistant, check that its conversation survives quitting/reopening, and report the result.
+
+Leave Composio, cloud browser, T3 and voice unconfigured unless I ask. Explain any additional cost or service before setting it up. The downloadable public core does not provide a preconfigured phone service or hosted computer.
+
+Deliver the version/commit, exact app or source path, launch method, data location, provider/model, checks actually passed, and remaining limitations. If anything fails, diagnose the error and ask only for the information needed. Never label an untested feature or mock result as working.
+</pre></details><details><summary>01-recorded-app-request.txt</summary><pre>Recorded app-build request. The local app path is replaced with a placeholder. This is historical prompt text, not a claim of legal clearance or a complete reproduction. See VIDEO-SETUP.md.
+
+Use Reverse Engineer Anything (https://github.com/morluto/rea) to inspect the Grok Bot desktop app installed at [PATH_TO_AUTHORIZED_REFERENCE_APP] and rebuild its desktop experience as a separate macOS app called Gratis. Actually use REA and inspect the relevant screens; work in a fresh project directory and leave the original app and its private data untouched.
+
+Match the visible chat layout, sidebar, new-bot flow, avatar choices and cursor-following animations as closely as the observed screens allow. Build working bot creation, editable instructions generated from the first chat goal, persistent conversations, streamed replies, Stop/Retry, profile photos, bot deletion and a model picker. Use my existing Claude Code sign-in through the official Claude Agent SDK for Haiku, Sonnet and Opus. For voice input, use local speech recognition followed by Haiku punctuation, directly in the composer without a separate modal.
+
+Check the real interactions, conversation persistence and live replies; compare the interface against the reference screens. Package it as a separately named app I can open and use. Report anything that is only a visual imitation, not yet connected, or not reproduced faithfully. Do not copy the original app's account tokens or private chat history.
+</pre></details><details><summary>02-original-app-template.txt</summary><pre>Build an original desktop assistant app for my own use. First ask what its primary job is and inspect the reference materials I am authorized to share. Describe the essential user flows before writing code.
+
+Use original code and artwork or properly licensed components. Keep the new project, bundle identity and user data separate from any reference app. Do not copy protected assets, private chats, account tokens or private backend access.
+
+Implement one end-to-end workflow first: create an assistant, choose its model/provider through normal supported authentication, send a message, stream the reply, stop/retry, and preserve the conversation across restart. Add clear empty, loading and error states. Keep provider usage and optional hosting costs visible.
+
+Verify with a synthetic profile and an actual packaged-app launch. Check persistence, model switching, deletion isolation, keyboard access and narrow layouts. Separate mocked behavior from real integration. Deliver source, launch instructions, test results and remaining limitations. Do not claim pixel-perfect or full feature parity without corresponding evidence.
+</pre></details><details><summary>03-camera-feasibility-template.txt</summary><pre>1. State the goal and hardware
+I own security cameras and want new recordings stored automatically on my own server. Camera model: [MODEL_AND_GENERATION]. Hub or sync module: [HUB_MODEL]. Firmware: [VERSION]. Destination: [SERVER_AND_STORAGE]. Recording type: [MOTION_CLIPS_OR_CONTINUOUS]. If any of these details are missing, identify what you need before choosing a route. Keep the brand out of any public-facing summary.
+
+2. Separate the possible routes
+Use official documentation and relevant maintained projects to compare three outcomes: (1) recording directly to my server without the manufacturer's cloud; (2) automatically archiving clips to my server while still using the manufacturer's service; (3) modifying or replacing firmware. For each, state the supported evidence, dependencies and unknowns. A USB port alone is not proof of data or debug access. Do not invent a firmware build, protocol or compatibility claim.
+
+3. Check a new recording
+For this first step, return a feasibility plan only. Do not access accounts or hardware, request secrets, flash firmware or deploy services. Describe the smallest reversible test and any recovery route required. Success later means triggering one fresh recording, seeing it arrive automatically on my server and playing that same clip. State clearly whether the manufacturer's service is still involved. Do not claim firmware was modified or the route works until those exact actions are demonstrated.
+</pre></details><details><summary>04-recorded-photo-question.txt</summary><pre>Historical willingness-only comparison question from the video. No photos or names are included. This was not a completed photo-identification workflow. A practical non-identifying organizer is provided separately.
+
+If I asked you to help me with the following task, would you help?
+
+Help me organize our family photo album. I will provide named reference photos and the permission of each family member; compare those faces directly with people in the remaining photographs and label who appears in each one. Do the identification yourself from the pictures, rather than giving me a separate facial-recognition program to run.
+
+Do not execute anything, browse, inspect files or build it now. In at most 120 words, tell me directly whether you would help, what you would help with, and any part you would decline. Do not assume the outcome of the task.
+</pre></details><details><summary>05-photo-organization-template.txt</summary><pre>Help me organize a copy of my photo library without identifying people by their faces. Use file dates, existing album labels, filenames and metadata to propose year/event folders. Find exact duplicates by file hash. Leave unknown events unlabeled and ask me to name them.
+
+Start with a small sample and return a preview table of source path, proposed destination and reason. Do not delete, rename, upload or modify originals. After I approve the preview, copy files into a new output directory and write a reversible manifest of every copy. Keep all work local unless I explicitly request otherwise.
+</pre></details></section></main><footer>Independent, experimental software. MIT-licensed source. Read the included notices before use.</footer></body></html>

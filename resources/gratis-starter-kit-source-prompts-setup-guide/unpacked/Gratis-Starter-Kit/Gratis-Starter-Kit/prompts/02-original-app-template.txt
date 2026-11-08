@@ -1,0 +1,7 @@
+Build an original desktop assistant app for my own use. First ask what its primary job is and inspect the reference materials I am authorized to share. Describe the essential user flows before writing code.
+
+Use original code and artwork or properly licensed components. Keep the new project, bundle identity and user data separate from any reference app. Do not copy protected assets, private chats, account tokens or private backend access.
+
+Implement one end-to-end workflow first: create an assistant, choose its model/provider through normal supported authentication, send a message, stream the reply, stop/retry, and preserve the conversation across restart. Add clear empty, loading and error states. Keep provider usage and optional hosting costs visible.
+
+Verify with a synthetic profile and an actual packaged-app launch. Check persistence, model switching, deletion isolation, keyboard access and narrow layouts. Separate mocked behavior from real integration. Deliver source, launch instructions, test results and remaining limitations. Do not claim pixel-perfect or full feature parity without corresponding evidence.

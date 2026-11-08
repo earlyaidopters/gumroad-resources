@@ -1,0 +1,15 @@
+Help me install and verify the public Gratis core from https://github.com/promptadvisers/gratis.
+
+Read README.md, docs/QUICKSTART.md, docs/DEVELOPMENT.md, DISCLAIMER.md and applicable AGENTS.md before acting. Detect my OS and architecture. The documented packaged target for this public-core snapshot is Apple silicon macOS. If my platform is unsupported, tell me instead of pretending there is a tested installer.
+
+I want to use an existing eligible Claude or Codex subscription. Ask which one. Use the provider's official native client and normal sign-in; let me complete authentication personally. Do not ask for raw tokens, inspect credential files, or switch me to paid API billing silently.
+
+For the source route, work in a fresh directory. Review package.json and setup scripts, verify Node.js 22+ and Git, then run npm ci and npm run setup:assets. Launch with npm start. If I already unpacked Gratis-Public-Core-Source.zip, work in its gratis-core folder rather than cloning a duplicate.
+
+Preserve every existing app and workspace. Do not overwrite the original Gratis or any reference app. Use a separate test data directory for verification. Never copy someone else's app assets, private chats, account cookies or backend tokens. Do not disable OS security protections to get the app running.
+
+Choose the provider in Settings, verify the connection and send one small harmless request. Confirm the response is live rather than Demo. Create a disposable test assistant, check that its conversation survives quitting/reopening, and report the result.
+
+Leave Composio, cloud browser, T3 and voice unconfigured unless I ask. Explain any additional cost or service before setting it up. The downloadable public core does not provide a preconfigured phone service or hosted computer.
+
+Deliver the version/commit, exact app or source path, launch method, data location, provider/model, checks actually passed, and remaining limitations. If anything fails, diagnose the error and ask only for the information needed. Never label an untested feature or mock result as working.
