@@ -5,7 +5,7 @@ Every free resource from the Early AI-dopters Gumroad, mirrored here and kept in
 **202 published resources**, grouped by topic and newest-first within each. Sync scheduled hourly. See the latest verified check below.
 
 <!-- sync-status:start -->
-[**Last verified sync: November 08, 2026 at 12:59 PM EST**](https://github.com/earlyaidopters/gumroad-resources/actions/runs/42507487095) · 201/201 published resources accounted for; 356 mirrored attachments verified. Oversized attachments available on Gumroad: 1. [Sync details](sync-status.json).
+[**Last verified sync: November 08, 2026 at 03:36 PM EST**](https://github.com/earlyaidopters/gumroad-resources/actions/runs/42520794396) · 202/202 published resources accounted for; 358 mirrored attachments verified. Oversized attachments available on Gumroad: 1. [Sync details](sync-status.json).
 
 <!-- sync-status:end -->
 
@@ -15,7 +15,7 @@ The newest resources with their videos. Updates automatically on every sync.
 
 | | Resource | Watch | Get it |
 |---|---|---|---|
-|  | [Gratis Starter Kit: Source, Prompts & Setup Guide](resources/gratis-starter-kit-source-prompts-setup-guide/) | - | [Gumroad](https://markkashef.gumroad.com/l/gratis-starter-kit) |
+| <a href="https://markkashef.gumroad.com/l/gratis-starter-kit"><img src="https://public-files.gumroad.com/8bzi0xgfi49hpydedg6srslumdi5" width="200"></a> | [Gratis Starter Kit: Source, Prompts & Setup Guide](resources/gratis-starter-kit-source-prompts-setup-guide/) | - | [Gumroad](https://markkashef.gumroad.com/l/gratis-starter-kit) |
 |  | [Human Writer: StoryScope Paper + Prompt](resources/human-writer-storyscope-paper-prompt/) | - | [Gumroad](https://markkashef.gumroad.com/l/sf-ig-human-writer) |
 |  | [Claude Five Tools Installation Guide](resources/claude-five-tools-installation-guide/) | - | [Gumroad](https://markkashef.gumroad.com/l/sf-ig-claude-five-tools-install) |
 |  | [Hindsight: Shared Memory for Claude Code and Codex](resources/hindsight-shared-memory-for-claude-code-and-codex/) | - | [Gumroad](https://markkashef.gumroad.com/l/sf-ig-hindsight-shared-memory) |
