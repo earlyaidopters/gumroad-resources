@@ -5,7 +5,7 @@ Every free resource from the Early AI-dopters Gumroad, mirrored here and kept in
 **202 published resources**, grouped by topic and newest-first within each. Sync scheduled hourly. See the latest verified check below.
 
 <!-- sync-status:start -->
-[**Last verified sync: November 08, 2026 at 03:36 PM EST**](https://github.com/earlyaidopters/gumroad-resources/actions/runs/42520794396) · 202/202 published resources accounted for; 358 mirrored attachments verified. Oversized attachments available on Gumroad: 1. [Sync details](sync-status.json).
+[**Last verified sync: November 08, 2026 at 09:10 PM EST**](https://github.com/earlyaidopters/gumroad-resources/actions/runs/42549164949) · 202/202 published resources accounted for; 358 mirrored attachments verified. Oversized attachments available on Gumroad: 1. [Sync details](sync-status.json).
 
 <!-- sync-status:end -->
 
@@ -15,7 +15,7 @@ The newest resources with their videos. Updates automatically on every sync.
 
 | | Resource | Watch | Get it |
 |---|---|---|---|
-| <a href="https://markkashef.gumroad.com/l/gratis-starter-kit"><img src="https://public-files.gumroad.com/8bzi0xgfi49hpydedg6srslumdi5" width="200"></a> | [Gratis Starter Kit: Source, Prompts & Setup Guide](resources/gratis-starter-kit-source-prompts-setup-guide/) | - | [Gumroad](https://markkashef.gumroad.com/l/gratis-starter-kit) |
+| <a href="https://youtu.be/uox59Sj4z4k"><img src="https://i.ytimg.com/vi/uox59Sj4z4k/maxresdefault.jpg" width="200"></a> | [Gratis Starter Kit: Source, Prompts & Setup Guide](resources/gratis-starter-kit-source-prompts-setup-guide/) | [▶ Watch](https://youtu.be/uox59Sj4z4k) | [Gumroad](https://markkashef.gumroad.com/l/gratis-starter-kit) |
 |  | [Human Writer: StoryScope Paper + Prompt](resources/human-writer-storyscope-paper-prompt/) | - | [Gumroad](https://markkashef.gumroad.com/l/sf-ig-human-writer) |
 |  | [Claude Five Tools Installation Guide](resources/claude-five-tools-installation-guide/) | - | [Gumroad](https://markkashef.gumroad.com/l/sf-ig-claude-five-tools-install) |
 |  | [Hindsight: Shared Memory for Claude Code and Codex](resources/hindsight-shared-memory-for-claude-code-and-codex/) | - | [Gumroad](https://markkashef.gumroad.com/l/sf-ig-hindsight-shared-memory) |
@@ -194,7 +194,7 @@ The newest resources with their videos. Updates automatically on every sync.
 
 | Resource | What it is | Video | Get it |
 |---|---|---|---|
-| [Gratis Starter Kit: Source, Prompts & Setup Guide](resources/gratis-starter-kit-source-prompts-setup-guide/) | The Gratis source, the prompts from the video, and a practical setup guide you can hand to Claude Code or Codex. | - | [Gumroad](https://markkashef.gumroad.com/l/gratis-starter-kit) |
+| [Gratis Starter Kit: Source, Prompts & Setup Guide](resources/gratis-starter-kit-source-prompts-setup-guide/) | The Gratis source, the prompts from the video, and a practical setup guide you can hand to Claude Code or Codex. | [▶ Watch](https://youtu.be/uox59Sj4z4k) | [Gumroad](https://markkashef.gumroad.com/l/gratis-starter-kit) |
 | [Human Writer: StoryScope Paper + Prompt](resources/human-writer-storyscope-paper-prompt/) | Use the StoryScope paper to build a reusable writing review skill in Claude. | - | [Gumroad](https://markkashef.gumroad.com/l/sf-ig-human-writer) |
 | [Claude Five Tools Installation Guide](resources/claude-five-tools-installation-guide/) | Set up the five tools from my PLUGINS reel with official install steps and a quick check for each one. | - | [Gumroad](https://markkashef.gumroad.com/l/sf-ig-claude-five-tools-install) |
 | [Hindsight: Shared Memory for Claude Code and Codex](resources/hindsight-shared-memory-for-claude-code-and-codex/) | Hindsight shared memory setup Connect Claude Code and Codex to the same project memory bank, then check a saved preference in a fresh session. | - | [Gumroad](https://markkashef.gumroad.com/l/sf-ig-hindsight-shared-memory) |

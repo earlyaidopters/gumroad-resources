@@ -1,6 +1,8 @@
 # Gratis Starter Kit: Source, Prompts & Setup Guide
 
-![cover](https://public-files.gumroad.com/8bzi0xgfi49hpydedg6srslumdi5)
+[![watch on YouTube](https://i.ytimg.com/vi/uox59Sj4z4k/maxresdefault.jpg)](https://youtu.be/uox59Sj4z4k)
+
+**▶ Watch the video → https://youtu.be/uox59Sj4z4k**
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/gratis-starter-kit**
 
