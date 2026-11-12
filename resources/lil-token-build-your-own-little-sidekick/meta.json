@@ -9,13 +9,13 @@
   "archived": false,
   "kind": "products",
   "price_formatted": "CAD$0+",
-  "description_md": "# Meet your next little sidekick\n\nBuild a desk bot that talks back, reacts to a head pat and changes his look with the music. This is the public build kit from my video, so you can build your own or take the pieces you want for a different project.\n\n- \nOpen-source code: The agent, gateway changes, firmware source and tests, with a GitHub link for updates.\n\n- \nEditable faces: Expression PNGs, wardrobe assets and the generators that turn them into robot-ready files.\n\n- \nIllustrated field guide: Ten pages covering the architecture, first setup, build process and troubleshooting.\n\n- \nBuild prompts: Three copy-ready guides for researching hardware, building the agent and testing it.\n\n- \nThe wall of shame: The real failure patterns, what caused them and where to look for a fix.\n\nStart with the offline demo if you just want to explore. The physical build uses an M5Stack StackChan, a Mac and your own Claude and Fish Audio credentials. Search and app integrations are optional. Provider usage is billed to your own accounts.\n\nFull source: View the public GitHub repository\n\nFish Audio sponsored the video that accompanies this kit.\n\nMade for curious people who want to build something they can talk to.",
+  "description_md": "# Meet your next little sidekick\n\nBuild a desk bot that talks back, reacts to a head pat and changes his look with the music. This is the public build kit from my video, so you can build your own or take the pieces you want for a different project.\n\n- \nOpen-source code: The agent, gateway changes, firmware source and tests, with a GitHub link for updates.\n\n- \nEditable faces: Expression PNGs, wardrobe assets and the generators that turn them into robot-ready files.\n\n- \nIllustrated field guide: Ten pages covering the architecture, first setup, build process and troubleshooting.\n\n- \nBuild prompts: Three copy-ready guides for researching hardware, building the agent and testing it.\n\n- \nThe wall of shame: The real failure patterns, what caused them and where to look for a fix.\n\nStart with the offline demo if you just want to explore. The physical build uses an M5Stack StackChan, a Mac and your own Claude and Fish Audio credentials. Search and app integrations are optional. Provider usage is billed to your own accounts.\n\nFish Audio sponsored the video that accompanies this kit.\n\nMade for curious people who want to build something they can talk to.",
   "files": [
     {
       "file": "Lil-Token-Build-Kit.zip",
       "source_revision": "3660679a27c9648795a80908f4c8e20b3e9a505e1ae455f5be3db3c6b6ec4d2b",
       "expected_bytes": 4715279,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 4715279,
       "source_sha256": "4f5aca7ce56af901030cd5e8c835b76e8e68bf97f589befdbca090d1da75f21f",
       "local_sha256": "4f5aca7ce56af901030cd5e8c835b76e8e68bf97f589befdbca090d1da75f21f",
@@ -25,7 +25,7 @@
       "file": "Lil-Token-Field-Guide.pdf",
       "source_revision": "54cf40be1e64cb6c785553c8de5ece46b451a116c527d8758507fc6e428375ef",
       "expected_bytes": 659702,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 659702,
       "source_sha256": "dc9dc9bbca00084a1eea481c4fd046dabe554a5fd384180986a3b71e677bf1bd",
       "local_sha256": "dc9dc9bbca00084a1eea481c4fd046dabe554a5fd384180986a3b71e677bf1bd"
@@ -34,7 +34,7 @@
       "file": "Lil-Token-Prompts.txt",
       "source_revision": "5194e0c035e0d3a4121fa1ce6fdfc32ca0da75ae3c7bb0cfb07b3ad7fa91e710",
       "expected_bytes": 4034,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 4034,
       "source_sha256": "66763597de4b313577a1910651b9899046839cac953161934e13b4d78c8cbfc7",
       "local_sha256": "66763597de4b313577a1910651b9899046839cac953161934e13b4d78c8cbfc7"
@@ -43,7 +43,7 @@
       "file": "START-HERE.html",
       "source_revision": "f97094141840ff8212e3fc7f9f701f7334fd638587998803b3403b20a91442eb",
       "expected_bytes": 352126,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 352126,
       "source_sha256": "59e89fbeb728bc9281755f2c178cf1d4309947067ad1d0b325a0112348e6f9d2",
       "local_sha256": "59e89fbeb728bc9281755f2c178cf1d4309947067ad1d0b325a0112348e6f9d2"

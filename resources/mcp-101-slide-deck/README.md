@@ -1,5 +1,7 @@
 # MCP 101 Slide Deck
 
+![cover](https://public-files.gumroad.com/gh4a3ed14qhi2g4dwsglnarup1mk)
+
 **Get it on Gumroad → https://markkashef.gumroad.com/l/mcp101**
 
 `published` · CAD$0+

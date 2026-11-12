@@ -1,5 +1,7 @@
 # Build Your Bot with Fable
 
+![cover](https://public-files.gumroad.com/okbtfo56wnrft7yet4dlb7c8lu1x)
+
 **Get it on Gumroad → https://markkashef.gumroad.com/l/lil-token-build-kit**
 
 `published` · CAD$0+
@@ -26,8 +28,6 @@ Build prompts: Three copy-ready guides for researching hardware, building the ag
 The wall of shame: The real failure patterns, what caused them and where to look for a fix.
 
 Start with the offline demo if you just want to explore. The physical build uses an M5Stack StackChan, a Mac and your own Claude and Fish Audio credentials. Search and app integrations are optional. Provider usage is billed to your own accounts.
-
-Full source: View the public GitHub repository
 
 Fish Audio sponsored the video that accompanies this kit.
 
