@@ -1,6 +1,6 @@
-<p align="center"><img src="docs/images/hero.png" alt="Lil Token, a tiny desk robot with an expressive face" width="100%"></p>
+<p align="center"><img src="docs/images/hero.png" alt="Build your bot with Fable 5.2, with source, faces and guides" width="100%"></p>
 
-# Meet Lil Token
+# Build your bot with Fable
 
 A little desk robot that talks back, looks around, reacts to a head pat, and puts on a different hat when the music changes.
 

@@ -1,32 +1,32 @@
 {
   "schema_version": 1,
   "product_id": "45KmerGmcZdy-Yza2mbnuQ==",
-  "fingerprint": "506de48734684710f600cf81aa8eecb40d8572fd1489398147cb7f553eb4c79e",
-  "source_saved_at": "2026-11-12T17:47:45.756871+00:00",
+  "fingerprint": "5dc474ee7b9d5d6dc4987f12368d1cebb39dd2ea8334fea3e0bf1d6f4418ae9e",
+  "source_saved_at": "2026-11-12T17:52:05.092485+00:00",
   "source": "private-original-package",
   "files": [
     {
       "file": "Lil-Token-Build-Kit.zip",
-      "source_sha256": "b016e0b3a3a4f685737a6e337744fb6d06bea2e5f9d1726e97a8b6d6cf1ad842",
-      "mirrored_sha256": "b016e0b3a3a4f685737a6e337744fb6d06bea2e5f9d1726e97a8b6d6cf1ad842",
+      "source_sha256": "4f5aca7ce56af901030cd5e8c835b76e8e68bf97f589befdbca090d1da75f21f",
+      "mirrored_sha256": "4f5aca7ce56af901030cd5e8c835b76e8e68bf97f589befdbca090d1da75f21f",
       "status": "downloaded"
     },
     {
       "file": "Lil-Token-Field-Guide.pdf",
-      "source_sha256": "92e3fae05aa8db6f54650c258b8600c0c647084e9ea14147fcf2b17bd3e04fb1",
-      "mirrored_sha256": "92e3fae05aa8db6f54650c258b8600c0c647084e9ea14147fcf2b17bd3e04fb1",
+      "source_sha256": "dc9dc9bbca00084a1eea481c4fd046dabe554a5fd384180986a3b71e677bf1bd",
+      "mirrored_sha256": "dc9dc9bbca00084a1eea481c4fd046dabe554a5fd384180986a3b71e677bf1bd",
       "status": "downloaded"
     },
     {
       "file": "Lil-Token-Prompts.txt",
-      "source_sha256": "5a9f7270a4c99044c523111895ad41e4e7d18096a77f157cb097968d80b4f415",
-      "mirrored_sha256": "5a9f7270a4c99044c523111895ad41e4e7d18096a77f157cb097968d80b4f415",
+      "source_sha256": "66763597de4b313577a1910651b9899046839cac953161934e13b4d78c8cbfc7",
+      "mirrored_sha256": "66763597de4b313577a1910651b9899046839cac953161934e13b4d78c8cbfc7",
       "status": "downloaded"
     },
     {
       "file": "START-HERE.html",
-      "source_sha256": "f0ccd8ec41f1e9b7068f887c35975884727426982c6f6ab546ea1359df93e0c3",
-      "mirrored_sha256": "f0ccd8ec41f1e9b7068f887c35975884727426982c6f6ab546ea1359df93e0c3",
+      "source_sha256": "59e89fbeb728bc9281755f2c178cf1d4309947067ad1d0b325a0112348e6f9d2",
+      "mirrored_sha256": "59e89fbeb728bc9281755f2c178cf1d4309947067ad1d0b325a0112348e6f9d2",
       "status": "downloaded"
     }
   ]

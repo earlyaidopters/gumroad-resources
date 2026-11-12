@@ -1,7 +1,7 @@
-# Lil Token | Build Your Own Little Sidekick
-## Meet your next little project
+# Build Your Bot with Fable
+## Build your bot with Fable
 
-Open the field guide first. The ZIP contains the full source, face assets, guide, prompts and a start page. Try the offline demo before connecting hardware.
+Start with the illustrated guide, explore the source and faces, then give your AI the build prompts. The ZIP contains the full kit.
 
 📎 **File:** [`Lil-Token-Build-Kit.zip`](files/Lil-Token-Build-Kit.zip)
 
@@ -11,9 +11,9 @@ Open the field guide first. The ZIP contains the full source, face assets, guide
 
 📎 **File:** [`START-HERE.html`](files/START-HERE.html)
 
-## Get the live source
+## Open the source
 
-Explore the README, editable faces, architecture and setup. Updates live here.
+The agent, firmware changes, editable faces, architecture and setup.
 
 [OPEN GITHUB](https://github.com/promptadvisers/lil-token-robot)
 

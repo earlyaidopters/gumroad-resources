@@ -1,4 +1,4 @@
-LIL TOKEN — BUILD PROMPTS
+BUILD YOUR BOT — BUILD PROMPTS
 
 These are adapted build guides for your own device and account setup.
 They reconstruct the workflow and are not a verbatim transcript of a single historical message.

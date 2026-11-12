@@ -15,7 +15,7 @@ The newest resources with their videos. Updates automatically on every sync.
 
 | | Resource | Watch | Get it |
 |---|---|---|---|
-| <a href="https://markkashef.gumroad.com/l/lil-token-build-kit"><img src="https://public-files.gumroad.com/myzr6h5t4s4yssyrtppb3soa4cdf" width="200"></a> | [Lil Token \| Build Your Own Little Sidekick](resources/lil-token-build-your-own-little-sidekick/) | - | [Gumroad](https://markkashef.gumroad.com/l/lil-token-build-kit) |
+|  | [Build Your Bot with Fable](resources/lil-token-build-your-own-little-sidekick/) | - | [Gumroad](https://markkashef.gumroad.com/l/lil-token-build-kit) |
 | <a href="https://youtu.be/uox59Sj4z4k"><img src="https://i.ytimg.com/vi/uox59Sj4z4k/maxresdefault.jpg" width="200"></a> | [Gratis Starter Kit: Source, Prompts & Setup Guide](resources/gratis-starter-kit-source-prompts-setup-guide/) | [▶ Watch](https://youtu.be/uox59Sj4z4k) | [Gumroad](https://markkashef.gumroad.com/l/gratis-starter-kit) |
 |  | [Human Writer: StoryScope Paper + Prompt](resources/human-writer-storyscope-paper-prompt/) | - | [Gumroad](https://markkashef.gumroad.com/l/sf-ig-human-writer) |
 |  | [Claude Five Tools Installation Guide](resources/claude-five-tools-installation-guide/) | - | [Gumroad](https://markkashef.gumroad.com/l/sf-ig-claude-five-tools-install) |
@@ -194,7 +194,7 @@ The newest resources with their videos. Updates automatically on every sync.
 
 | Resource | What it is | Video | Get it |
 |---|---|---|---|
-| [Lil Token \| Build Your Own Little Sidekick](resources/lil-token-build-your-own-little-sidekick/) | Meet your next little sidekick Lil Token talks back, reacts to a head pat and changes his look with the music. | - | [Gumroad](https://markkashef.gumroad.com/l/lil-token-build-kit) |
+| [Build Your Bot with Fable](resources/lil-token-build-your-own-little-sidekick/) | Meet your next little sidekick Build a desk bot that talks back, reacts to a head pat and changes his look with the music. | - | [Gumroad](https://markkashef.gumroad.com/l/lil-token-build-kit) |
 | [Gratis Starter Kit: Source, Prompts & Setup Guide](resources/gratis-starter-kit-source-prompts-setup-guide/) | The Gratis source, the prompts from the video, and a practical setup guide you can hand to Claude Code or Codex. | [▶ Watch](https://youtu.be/uox59Sj4z4k) | [Gumroad](https://markkashef.gumroad.com/l/gratis-starter-kit) |
 | [Human Writer: StoryScope Paper + Prompt](resources/human-writer-storyscope-paper-prompt/) | Use the StoryScope paper to build a reusable writing review skill in Claude. | - | [Gumroad](https://markkashef.gumroad.com/l/sf-ig-human-writer) |
 | [Claude Five Tools Installation Guide](resources/claude-five-tools-installation-guide/) | Set up the five tools from my PLUGINS reel with official install steps and a quick check for each one. | - | [Gumroad](https://markkashef.gumroad.com/l/sf-ig-claude-five-tools-install) |

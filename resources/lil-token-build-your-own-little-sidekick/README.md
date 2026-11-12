@@ -1,6 +1,4 @@
-# Lil Token | Build Your Own Little Sidekick
-
-![cover](https://public-files.gumroad.com/myzr6h5t4s4yssyrtppb3soa4cdf)
+# Build Your Bot with Fable
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/lil-token-build-kit**
 
@@ -10,7 +8,7 @@
 
 ### Meet your next little sidekick
 
-Lil Token talks back, reacts to a head pat and changes his look with the music. This is the public build kit from my video, so you can build your own or take the pieces you want for a different project.
+Build a desk bot that talks back, reacts to a head pat and changes his look with the music. This is the public build kit from my video, so you can build your own or take the pieces you want for a different project.
 
 - 
 Open-source code: The agent, gateway changes, firmware source and tests, with a GitHub link for updates.
