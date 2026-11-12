@@ -1,5 +1,7 @@
 # Lil Token | Build Your Own Little Sidekick
 
+![cover](https://public-files.gumroad.com/myzr6h5t4s4yssyrtppb3soa4cdf)
+
 **Get it on Gumroad → https://markkashef.gumroad.com/l/lil-token-build-kit**
 
 `published` · CAD$0+

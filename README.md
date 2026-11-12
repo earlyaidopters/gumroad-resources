@@ -5,7 +5,7 @@ Every free resource from the Early AI-dopters Gumroad, mirrored here and kept in
 **203 published resources**, grouped by topic and newest-first within each. Sync scheduled hourly. See the latest verified check below.
 
 <!-- sync-status:start -->
-[**Last verified sync: November 12, 2026 at 02:20 AM EST**](https://github.com/earlyaidopters/gumroad-resources/actions/runs/43174259376) · 202/202 published resources accounted for; 358 mirrored attachments verified. Oversized attachments available on Gumroad: 1. [Sync details](sync-status.json).
+[**Last verified sync: November 12, 2026 at 12:51 PM EST**](https://github.com/earlyaidopters/gumroad-resources/actions/runs/43272771991) · 203/203 published resources accounted for; 362 mirrored attachments verified. Oversized attachments available on Gumroad: 1. [Sync details](sync-status.json).
 
 <!-- sync-status:end -->
 
@@ -15,7 +15,7 @@ The newest resources with their videos. Updates automatically on every sync.
 
 | | Resource | Watch | Get it |
 |---|---|---|---|
-|  | [Lil Token \| Build Your Own Little Sidekick](resources/lil-token-build-your-own-little-sidekick/) | - | [Gumroad](https://markkashef.gumroad.com/l/lil-token-build-kit) |
+| <a href="https://markkashef.gumroad.com/l/lil-token-build-kit"><img src="https://public-files.gumroad.com/myzr6h5t4s4yssyrtppb3soa4cdf" width="200"></a> | [Lil Token \| Build Your Own Little Sidekick](resources/lil-token-build-your-own-little-sidekick/) | - | [Gumroad](https://markkashef.gumroad.com/l/lil-token-build-kit) |
 | <a href="https://youtu.be/uox59Sj4z4k"><img src="https://i.ytimg.com/vi/uox59Sj4z4k/maxresdefault.jpg" width="200"></a> | [Gratis Starter Kit: Source, Prompts & Setup Guide](resources/gratis-starter-kit-source-prompts-setup-guide/) | [▶ Watch](https://youtu.be/uox59Sj4z4k) | [Gumroad](https://markkashef.gumroad.com/l/gratis-starter-kit) |
 |  | [Human Writer: StoryScope Paper + Prompt](resources/human-writer-storyscope-paper-prompt/) | - | [Gumroad](https://markkashef.gumroad.com/l/sf-ig-human-writer) |
 |  | [Claude Five Tools Installation Guide](resources/claude-five-tools-installation-guide/) | - | [Gumroad](https://markkashef.gumroad.com/l/sf-ig-claude-five-tools-install) |
