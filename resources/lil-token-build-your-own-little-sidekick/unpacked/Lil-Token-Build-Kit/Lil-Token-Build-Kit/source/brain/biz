@@ -1,0 +1,64 @@
+#!/usr/bin/env python3
+"""Optional read-only business adapter. Uses only explicitly supplied API tokens.
+Usage: biz stripe [days] | gumroad [days] | summary [days] | events EPOCH
+"""
+import datetime as dt
+import json
+import os
+import sys
+import time
+import urllib.error
+import urllib.parse
+import urllib.request
+
+
+def get(provider, path, params):
+    if os.environ.get('LILTOKEN_BUSINESS', '0') != '1':
+        raise ValueError('Business tools are off. Set LILTOKEN_BUSINESS=1 to enable your own account.')
+    key_name = 'STRIPE_SECRET_KEY' if provider == 'stripe' else 'GUMROAD_ACCESS_TOKEN'
+    key = os.environ.get(key_name, '')
+    if not key:
+        raise ValueError(f'Set your own {key_name} first.')
+    base = 'https://api.stripe.com/v1/' if provider == 'stripe' else 'https://api.gumroad.com/v2/'
+    headers = {'Authorization': f'Bearer {key}'}
+    req = urllib.request.Request(base + path + '?' + urllib.parse.urlencode(params), headers=headers)
+    with urllib.request.urlopen(req, timeout=20) as response:
+        return json.load(response)
+
+
+def main(args):
+    if not args or args[0] in ('-h', '--help'):
+        print(__doc__)
+        return
+    command = args[0]
+    if command not in ('stripe', 'gumroad', 'summary', 'events'):
+        raise ValueError('Supported read-only commands: stripe, gumroad, summary, events.')
+    days = max(1, min(30, int(args[1]) if len(args) > 1 and command != 'events' else 1))
+    since = int(args[1]) if command == 'events' and len(args) > 1 else int(time.time() - days * 86400)
+    results = []
+    if command in ('stripe', 'summary', 'events') and os.environ.get('STRIPE_SECRET_KEY'):
+        data = get('stripe', 'charges', {'limit': 100, 'created[gte]': since})
+        for row in data.get('data', []):
+            if row.get('status') == 'succeeded' and not row.get('refunded'):
+                results.append({'id': 's:' + row['id'], 'source': 'stripe', 'product': 'a payment',
+                                'amount': row['amount'] / 100, 'currency': row['currency'].upper(), 'at': row['created']})
+    if command in ('gumroad', 'summary', 'events') and os.environ.get('GUMROAD_ACCESS_TOKEN'):
+        data = get('gumroad', 'sales', {'after': dt.datetime.fromtimestamp(since, dt.timezone.utc).date().isoformat()})
+        for row in data.get('sales', []):
+            stamp = dt.datetime.fromisoformat(row['created_at'].replace('Z', '+00:00')).timestamp()
+            if row.get('price', 0) > 0 and not row.get('refunded') and stamp >= since:
+                results.append({'id': 'g:' + row['id'], 'source': 'gumroad', 'product': row.get('product_name', 'a product'),
+                                'amount': row['price'] / 100, 'currency': row.get('currency', ''), 'at': stamp})
+    if not (os.environ.get('STRIPE_SECRET_KEY') or os.environ.get('GUMROAD_ACCESS_TOKEN')):
+        raise ValueError('No business token configured. Add your own token to enable this adapter.')
+    # Bounded first page. The output states this instead of inventing a complete total.
+    print(json.dumps(results if command == 'events' else {'scope': 'first page, up to 100 records per provider', 'sales': results}))
+
+
+if __name__ == '__main__':
+    try:
+        main(sys.argv[1:])
+    except urllib.error.HTTPError as error:
+        sys.exit(f'Provider returned HTTP {error.code}. Check your own token and permissions.')
+    except (ValueError, OSError) as error:
+        sys.exit(str(error))

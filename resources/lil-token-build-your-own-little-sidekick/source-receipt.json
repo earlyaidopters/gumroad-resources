@@ -1,0 +1,33 @@
+{
+  "schema_version": 1,
+  "product_id": "45KmerGmcZdy-Yza2mbnuQ==",
+  "fingerprint": "506de48734684710f600cf81aa8eecb40d8572fd1489398147cb7f553eb4c79e",
+  "source_saved_at": "2026-11-12T17:47:45.756871+00:00",
+  "source": "private-original-package",
+  "files": [
+    {
+      "file": "Lil-Token-Build-Kit.zip",
+      "source_sha256": "b016e0b3a3a4f685737a6e337744fb6d06bea2e5f9d1726e97a8b6d6cf1ad842",
+      "mirrored_sha256": "b016e0b3a3a4f685737a6e337744fb6d06bea2e5f9d1726e97a8b6d6cf1ad842",
+      "status": "downloaded"
+    },
+    {
+      "file": "Lil-Token-Field-Guide.pdf",
+      "source_sha256": "92e3fae05aa8db6f54650c258b8600c0c647084e9ea14147fcf2b17bd3e04fb1",
+      "mirrored_sha256": "92e3fae05aa8db6f54650c258b8600c0c647084e9ea14147fcf2b17bd3e04fb1",
+      "status": "downloaded"
+    },
+    {
+      "file": "Lil-Token-Prompts.txt",
+      "source_sha256": "5a9f7270a4c99044c523111895ad41e4e7d18096a77f157cb097968d80b4f415",
+      "mirrored_sha256": "5a9f7270a4c99044c523111895ad41e4e7d18096a77f157cb097968d80b4f415",
+      "status": "downloaded"
+    },
+    {
+      "file": "START-HERE.html",
+      "source_sha256": "f0ccd8ec41f1e9b7068f887c35975884727426982c6f6ab546ea1359df93e0c3",
+      "mirrored_sha256": "f0ccd8ec41f1e9b7068f887c35975884727426982c6f6ab546ea1359df93e0c3",
+      "status": "downloaded"
+    }
+  ]
+}

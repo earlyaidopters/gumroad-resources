@@ -1,6 +1,23 @@
 {
-  "count": 202,
+  "count": 203,
   "products": [
+    {
+      "slug": "lil-token-build-your-own-little-sidekick",
+      "permalink": "lil-token-build-kit",
+      "numeric_id": 0,
+      "name": "Lil Token | Build Your Own Little Sidekick",
+      "status": "published",
+      "archived": false,
+      "category": "Other",
+      "content_hash": "8dee8813f9c7e6ae",
+      "files": [
+        "Lil-Token-Build-Kit.zip",
+        "Lil-Token-Field-Guide.pdf",
+        "Lil-Token-Prompts.txt",
+        "START-HERE.html"
+      ],
+      "has_content": true
+    },
     {
       "slug": "gratis-starter-kit-source-prompts-setup-guide",
       "permalink": "gratis-starter-kit",

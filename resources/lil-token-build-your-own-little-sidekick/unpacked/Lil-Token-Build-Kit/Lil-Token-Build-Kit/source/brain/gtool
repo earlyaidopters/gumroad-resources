@@ -1,0 +1,86 @@
+#!/usr/bin/env python3
+"""Read-only Google adapter. Explicit opt-in and a short-lived access token required.
+Usage: gtool calendar [all|primary] [days] [--json]
+       gtool inbox [all|primary] [query] [max]
+       gtool read primary MESSAGE_ID
+       gtool drive [all|primary] SEARCH_WORDS
+"""
+import base64
+import datetime as dt
+import json
+import os
+import sys
+import urllib.error
+import urllib.parse
+import urllib.request
+
+
+def get(service, path, params=None):
+    token = os.environ.get('GOOGLE_ACCESS_TOKEN', '')
+    if os.environ.get('LILTOKEN_GOOGLE', '0') != '1' or not token:
+        raise ValueError('Google is off. Set LILTOKEN_GOOGLE=1 and your own GOOGLE_ACCESS_TOKEN.')
+    prefixes = {'calendar': 'https://www.googleapis.com/calendar/v3/',
+                'gmail': 'https://gmail.googleapis.com/gmail/v1/users/me/',
+                'drive': 'https://www.googleapis.com/drive/v3/'}
+    url = prefixes[service] + path + '?' + urllib.parse.urlencode(params or {})
+    request = urllib.request.Request(url, headers={'Authorization': f'Bearer {token}'})
+    with urllib.request.urlopen(request, timeout=20) as response:
+        return json.load(response)
+
+
+def main(args):
+    if not args or args[0] in ('-h', '--help'):
+        print(__doc__)
+        return
+    cmd, rest = args[0], args[1:]
+    as_json = '--json' in rest
+    rest = [x for x in rest if x != '--json']
+    if rest and rest[0] in ('primary', 'all', 'pa', 'd2g'):
+        rest = rest[1:]
+    # Legacy aliases all resolve to the single explicitly configured access token.
+    if cmd == 'calendar':
+        days = max(1, min(14, int(rest[0]) if rest else 1))
+        now = dt.datetime.now(dt.timezone.utc)
+        data = get('calendar', 'calendars/primary/events', {
+            'timeMin': now.isoformat(), 'timeMax': (now + dt.timedelta(days=days)).isoformat(),
+            'singleEvents': 'true', 'orderBy': 'startTime', 'maxResults': 20})
+        result = [{'id': e.get('id'), 'summary': e.get('summary', 'Busy'),
+                   'start': e.get('start', {}).get('dateTime', e.get('start', {}).get('date')),
+                   'account': 'primary'} for e in data.get('items', [])]
+    elif cmd == 'inbox':
+        query = rest[0] if rest else 'in:inbox'
+        count = max(1, min(20, int(rest[1]) if len(rest) > 1 else 8))
+        result = []
+        data = get('gmail', 'messages', {'q': query, 'maxResults': count})
+        for row in data.get('messages', []):
+            message = get('gmail', 'messages/' + urllib.parse.quote(row['id'], safe=''), {'format': 'metadata'})
+            headers = {h['name'].lower(): h['value'] for h in message.get('payload', {}).get('headers', [])}
+            result.append({'id': row['id'], 'from': headers.get('from', ''),
+                           'subject': headers.get('subject', ''), 'snippet': message.get('snippet', '')})
+    elif cmd == 'read' and rest:
+        message = get('gmail', 'messages/' + urllib.parse.quote(rest[0], safe=''), {'format': 'full'})
+        parts = [message.get('payload', {})]
+        texts = []
+        while parts:
+            part = parts.pop()
+            parts.extend(part.get('parts', []))
+            if part.get('mimeType') == 'text/plain' and part.get('body', {}).get('data'):
+                encoded = part['body']['data']
+                texts.append(base64.urlsafe_b64decode(encoded + '=' * (-len(encoded) % 4)).decode(errors='replace'))
+        result = {'id': message['id'], 'text': '\n'.join(texts)[:12000] or message.get('snippet', '')}
+    elif cmd == 'drive' and rest:
+        words = ' '.join(rest).replace('\\', '\\\\').replace("'", "\\'")
+        result = get('drive', 'files', {'q': f"trashed = false and name contains '{words}'",
+                                     'pageSize': 20, 'fields': 'files(id,name,mimeType)'})
+    else:
+        raise ValueError('Supported read-only commands: calendar, inbox, read, drive.')
+    print(json.dumps(result, ensure_ascii=False, indent=2))
+
+
+if __name__ == '__main__':
+    try:
+        main(sys.argv[1:])
+    except urllib.error.HTTPError as error:
+        sys.exit(f'Google returned HTTP {error.code}. Check token expiry and read-only scopes.')
+    except (ValueError, OSError) as error:
+        sys.exit(str(error))

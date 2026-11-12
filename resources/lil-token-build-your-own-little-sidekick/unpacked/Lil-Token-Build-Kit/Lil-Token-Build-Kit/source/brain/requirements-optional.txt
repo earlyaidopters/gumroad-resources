@@ -1,0 +1,9 @@
+# Music classification, speaker enrolment, presence and Composio.
+opencv-python-headless<5
+composio==0.32.0
+scipy==1.18.1
+torch==2.15.0
+torchaudio==2.11.1
+transformers==5.22.2
+speechbrain==1.1.2
+soundfile==0.14.0

@@ -1,0 +1,53 @@
+{
+  "name": "Lil Token | Build Your Own Little Sidekick",
+  "external_id": "45KmerGmcZdy-Yza2mbnuQ==",
+  "permalink": "lil-token-build-kit",
+  "unique_permalink": "lil-token-build-kit",
+  "custom_permalink": "lil-token-build-kit",
+  "url": "https://markkashef.gumroad.com/l/lil-token-build-kit",
+  "status": "published",
+  "archived": false,
+  "kind": "products",
+  "price_formatted": "CAD$0+",
+  "description_md": "# Meet your next little sidekick\n\nLil Token talks back, reacts to a head pat and changes his look with the music. This is the public build kit from my video, so you can build your own or take the pieces you want for a different project.\n\n- \nOpen-source code: The agent, gateway changes, firmware source and tests, with a GitHub link for updates.\n\n- \nEditable faces: Expression PNGs, wardrobe assets and the generators that turn them into robot-ready files.\n\n- \nIllustrated field guide: Ten pages covering the architecture, first setup, build process and troubleshooting.\n\n- \nBuild prompts: Three copy-ready guides for researching hardware, building the agent and testing it.\n\n- \nThe wall of shame: The real failure patterns, what caused them and where to look for a fix.\n\nStart with the offline demo if you just want to explore. The physical build uses an M5Stack StackChan, a Mac and your own Claude and Fish Audio credentials. Search and app integrations are optional. Provider usage is billed to your own accounts.\n\nFull source: View the public GitHub repository\n\nFish Audio sponsored the video that accompanies this kit.\n\nMade for curious people who want to build something they can talk to.",
+  "files": [
+    {
+      "file": "Lil-Token-Build-Kit.zip",
+      "source_revision": "0b927bf5ed84158f042a8e010cb1940751e56ea270b4732615c950e3d380ac3e",
+      "expected_bytes": 3802239,
+      "status": "downloaded",
+      "bytes": 3802239,
+      "source_sha256": "b016e0b3a3a4f685737a6e337744fb6d06bea2e5f9d1726e97a8b6d6cf1ad842",
+      "local_sha256": "b016e0b3a3a4f685737a6e337744fb6d06bea2e5f9d1726e97a8b6d6cf1ad842",
+      "unpacked_sha256": "b016e0b3a3a4f685737a6e337744fb6d06bea2e5f9d1726e97a8b6d6cf1ad842"
+    },
+    {
+      "file": "Lil-Token-Field-Guide.pdf",
+      "source_revision": "33ef449ef32367a6b98e4b7b69685cb03eb8d14f9082eb47ebd491b9083b2e02",
+      "expected_bytes": 411987,
+      "status": "downloaded",
+      "bytes": 411987,
+      "source_sha256": "92e3fae05aa8db6f54650c258b8600c0c647084e9ea14147fcf2b17bd3e04fb1",
+      "local_sha256": "92e3fae05aa8db6f54650c258b8600c0c647084e9ea14147fcf2b17bd3e04fb1"
+    },
+    {
+      "file": "Lil-Token-Prompts.txt",
+      "source_revision": "94905ad9762159bc9af8f0c2b1bf0120811bae5d8f7df100f46842f26383f0b0",
+      "expected_bytes": 4029,
+      "status": "downloaded",
+      "bytes": 4029,
+      "source_sha256": "5a9f7270a4c99044c523111895ad41e4e7d18096a77f157cb097968d80b4f415",
+      "local_sha256": "5a9f7270a4c99044c523111895ad41e4e7d18096a77f157cb097968d80b4f415"
+    },
+    {
+      "file": "START-HERE.html",
+      "source_revision": "9822b5220ff55ca9269f7c7dbbdba0b28069e734b72bf5defc5d1d8ecfd51b86",
+      "expected_bytes": 154770,
+      "status": "downloaded",
+      "bytes": 154770,
+      "source_sha256": "f0ccd8ec41f1e9b7068f887c35975884727426982c6f6ab546ea1359df93e0c3",
+      "local_sha256": "f0ccd8ec41f1e9b7068f887c35975884727426982c6f6ab546ea1359df93e0c3"
+    }
+  ],
+  "has_rich_content": true
+}

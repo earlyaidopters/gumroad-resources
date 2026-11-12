@@ -1,0 +1,8 @@
+# Versions captured from the working build. Python 3.12.
+aiohttp==3.14.5
+mcp==1.30.0
+claude-agent-sdk==0.2.170
+numpy==2.5.4
+Pillow>=11,<13
+httpx>=0.27,<1
+python-dotenv>=1,<2

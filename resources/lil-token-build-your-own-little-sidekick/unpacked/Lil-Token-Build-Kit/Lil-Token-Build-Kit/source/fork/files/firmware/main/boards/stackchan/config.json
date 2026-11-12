@@ -1,0 +1,23 @@
+{
+    "target": "esp32s3",
+    "builds": [
+        {
+            "name": "stackchan",
+            "sdkconfig_append": [
+                "CONFIG_STACKCHAN_MDNS_DISCOVERY=y",
+                "CONFIG_SPIRAM_MODE_QUAD=y",
+                "CONFIG_CAMERA_GC0308=y",
+                "CONFIG_CAMERA_GC0308_AUTO_DETECT_DVP_INTERFACE_SENSOR=y",
+                "CONFIG_CAMERA_GC0308_DVP_YUV422_320X240_20FPS=y",
+                "CONFIG_STACKCHAN_SERVO_FEETECH=y",
+                "CONFIG_USE_CUSTOM_WAKE_WORD=y",
+                "CONFIG_CUSTOM_WAKE_WORD=\"hey lil token,hey little token\"",
+                "CONFIG_CUSTOM_WAKE_WORD_DISPLAY=\"Hey Lil Token\"",
+                "CONFIG_CUSTOM_WAKE_WORD_THRESHOLD=15",
+                "CONFIG_SR_MN_CN_NONE=y",
+                "CONFIG_SR_MN_EN_MULTINET7_QUANT=y",
+                "CONFIG_PARTITION_TABLE_CUSTOM_FILENAME=\"partitions/v2/16m_liltoken.csv\""
+            ]
+        }
+    ]
+}

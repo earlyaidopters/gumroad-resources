@@ -1,0 +1,4082 @@
+diff --git a/firmware/main/application.cc b/firmware/main/application.cc
+index 94dea37..f01d471 100644
+--- a/firmware/main/application.cc
++++ b/firmware/main/application.cc
+@@ -621,6 +621,11 @@ void Application::InitializeProtocol() {
+                 ESP_LOGW(TAG, "listen message missing state");
+             } else if (strcmp(state->valuestring, "start") == 0) {
+                 auto profile = ParseListenProfile(root);
++                // Lil Token: {"quiet": true} skips the listening popup so the
++                // gateway's always-on ears can re-open the mic between
++                // sentences without beeping every time.
++                auto quiet = cJSON_GetObjectItem(root, "quiet");
++                quiet_listen_request_ = cJSON_IsTrue(quiet);
+                 Schedule([this, profile]() {
+                     StartListening(profile);
+                 });
+@@ -891,7 +896,8 @@ void Application::HandleStartListeningEvent() {
+         // latching the flag for a no-op StartListening so an unrelated
+         // future Listening transition doesn't unexpectedly play the
+         // popup.
+-        play_popup_on_listening_ = true;
++        quiet_listening_ = quiet_listen_request_.exchange(false);
++        play_popup_on_listening_ = !quiet_listening_.load();
+     }
+ 
+     if (state == kDeviceStateIdle) {
+diff --git a/firmware/main/application.h b/firmware/main/application.h
+index 9fa48cd..dc0359a 100644
+--- a/firmware/main/application.h
++++ b/firmware/main/application.h
+@@ -67,6 +67,9 @@ public:
+ 
+     DeviceState GetDeviceState() const { return state_machine_.GetState(); }
+     bool IsVoiceDetected() const { return audio_service_.IsVoiceDetected(); }
++    // Lil Token: true while the current listen session was opened quietly
++    // by the gateway's always-on ears (no popup, no listening dot).
++    bool IsQuietListening() const { return quiet_listening_.load(); }
+     std::string GetConnectedGatewayUrl() const {
+         return protocol_ ? protocol_->GetConnectedUrl() : "";
+     }
+@@ -156,6 +159,8 @@ private:
+     bool aborted_ = false;
+     bool assets_version_checked_ = false;
+     bool play_popup_on_listening_ = false;  // Flag to play popup sound after state changes to listening
++    std::atomic<bool> quiet_listen_request_{false};
++    std::atomic<bool> quiet_listening_{false};  // Lil Token: current listen session was opened quietly
+     int clock_ticks_ = 0;
+     TaskHandle_t activation_task_handle_ = nullptr;
+ 
+diff --git a/firmware/main/audio/audio_service.cc b/firmware/main/audio/audio_service.cc
+index 7750fd1..95c44a0 100644
+--- a/firmware/main/audio/audio_service.cc
++++ b/firmware/main/audio/audio_service.cc
+@@ -144,7 +144,7 @@ void AudioService::Start() {
+         AudioService* audio_service = (AudioService*)arg;
+         audio_service->AudioInputTask();
+         vTaskDelete(NULL);
+-    }, "audio_input", 2048 * 3, this, 8, &audio_input_task_handle_, 0);
++    }, "audio_input", 2048 * 5, this, 8, &audio_input_task_handle_, 0);  // Lil Token: was 2048 * 3; the AFE feed for the custom wake word overflowed it
+ 
+     /* Start the audio output task */
+     xTaskCreate([](void* arg) {
+diff --git a/firmware/main/audio/wake_words/custom_wake_word.cc b/firmware/main/audio/wake_words/custom_wake_word.cc
+index 982bbe9..2319c5a 100644
+--- a/firmware/main/audio/wake_words/custom_wake_word.cc
++++ b/firmware/main/audio/wake_words/custom_wake_word.cc
+@@ -8,6 +8,9 @@
+ #include <esp_mn_models.h>
+ #include <esp_mn_speech_commands.h>
+ #include <cJSON.h>
++#include <cmath>
++#include <freertos/FreeRTOS.h>
++#include <freertos/task.h>
+ 
+ #define TAG "CustomWakeWord"
+ 
+@@ -125,9 +128,128 @@ bool CustomWakeWord::Initialize(AudioCodec* codec, srmodel_list_t* models_list)
+     esp_mn_commands_update();
+     
+     multinet_->print_active_speech_commands(multinet_model_data_);
++
++    if (!InitializeAfe()) {
++        ESP_LOGW(TAG, "AFE init failed, falling back to raw mic input");
++    }
++    return true;
++}
++
++bool CustomWakeWord::InitializeAfe() {
++    int ref_num = codec_->input_reference() ? 1 : 0;
++    std::string input_format;
++    for (int i = 0; i < codec_->input_channels() - ref_num; i++) {
++        input_format.push_back('M');
++    }
++    for (int i = 0; i < ref_num; i++) {
++        input_format.push_back('R');
++    }
++    afe_config_t* afe_config = afe_config_init(input_format.c_str(), models_, AFE_TYPE_SR, AFE_MODE_HIGH_PERF);
++    if (afe_config == nullptr) {
++        return false;
++    }
++    afe_config->wakenet_init = false;
++    afe_config->vad_init = false;
++    afe_config->aec_init = codec_->input_reference();
++    afe_config->aec_mode = AEC_MODE_SR_HIGH_PERF;
++    afe_config->ns_init = true;
++    afe_config->agc_init = true;
++    afe_config->afe_perferred_core = 1;
++    afe_config->afe_perferred_priority = 1;
++    afe_config->memory_alloc_mode = AFE_MEMORY_ALLOC_MORE_PSRAM;
++
++    afe_iface_ = esp_afe_handle_from_config(afe_config);
++    afe_data_ = afe_iface_->create_from_config(afe_config);
++    if (afe_data_ == nullptr) {
++        afe_iface_ = nullptr;
++        return false;
++    }
++    ESP_LOGI(TAG, "AFE front end ready (format %s, feed %d, fetch %d, mn chunk %d)",
++        input_format.c_str(), afe_iface_->get_feed_chunksize(afe_data_),
++        afe_iface_->get_fetch_chunksize(afe_data_),
++        multinet_->get_samp_chunksize(multinet_model_data_));
++
++    xTaskCreate([](void* arg) {
++        ((CustomWakeWord*)arg)->DetectionTask();
++        vTaskDelete(NULL);
++    }, "lt_wake_detect", 6144, this, 3, nullptr);
+     return true;
+ }
+ 
++void CustomWakeWord::DetectionTask() {
++    while (true) {
++        if (!running_) {
++            vTaskDelay(pdMS_TO_TICKS(20));
++            continue;
++        }
++        auto res = afe_iface_->fetch_with_delay(afe_data_, pdMS_TO_TICKS(200));
++        if (res == nullptr || res->ret_value == ESP_FAIL || !running_) {
++            continue;
++        }
++        size_t samples = res->data_size / sizeof(int16_t);
++        if (reset_mn_.exchange(false)) {
++            mn_buffer_.clear();
++        }
++
++        // Once every ~10 s of listening, log the cleaned input level so
++        // the wake threshold can be tuned from the serial log.
++        for (size_t i = 0; i < samples; i++) {
++            int v = res->data[i];
++            level_sum_sq_ += (double)v * v;
++            if (std::abs(v) > level_peak_) level_peak_ = std::abs(v);
++        }
++        level_count_ += samples;
++        if (level_count_ >= 16000 * 10) {
++            double rms = std::sqrt(level_sum_sq_ / level_count_);
++            ESP_LOGI(TAG, "wake input level: rms %.1f dBFS, peak %.1f dBFS",
++                20 * std::log10(rms / 32768.0 + 1e-9), 20 * std::log10(level_peak_ / 32768.0 + 1e-9));
++            level_sum_sq_ = 0;
++            level_count_ = 0;
++            level_peak_ = 0;
++        }
++
++        StoreWakeWordData(std::vector<int16_t>(res->data, res->data + samples));
++        RunMultinet(res->data, samples);
++        // Let the CPU 1 idle task run; without this the task watchdog
++        // fires because fetch + MultiNet never block long enough.
++        vTaskDelay(1);
++    }
++}
++
++void CustomWakeWord::RunMultinet(const int16_t* data, size_t samples) {
++    mn_buffer_.insert(mn_buffer_.end(), data, data + samples);
++    int chunksize = multinet_->get_samp_chunksize(multinet_model_data_);
++    size_t offset = 0;
++    while (running_ && mn_buffer_.size() - offset >= (size_t)chunksize) {
++        esp_mn_state_t mn_state = multinet_->detect(multinet_model_data_, mn_buffer_.data() + offset);
++        offset += chunksize;
++        if (mn_state == ESP_MN_STATE_DETECTED) {
++            esp_mn_results_t *mn_result = multinet_->get_results(multinet_model_data_);
++            for (int i = 0; i < mn_result->num && running_; i++) {
++                ESP_LOGI(TAG, "Custom wake word detected (AFE): command_id=%d, string=%s, prob=%f",
++                        mn_result->command_id[i], mn_result->string, mn_result->prob[i]);
++                auto& command = commands_[mn_result->command_id[i] - 1];
++                if (command.action == "wake") {
++                    last_detected_wake_word_ = command.text;
++                    running_ = false;
++                    if (wake_word_detected_callback_) {
++                        wake_word_detected_callback_(last_detected_wake_word_);
++                    }
++                }
++            }
++            multinet_->clean(multinet_model_data_);
++        } else if (mn_state == ESP_MN_STATE_TIMEOUT) {
++            multinet_->clean(multinet_model_data_);
++        }
++    }
++    if (!running_) {
++        mn_buffer_.clear();
++        multinet_->clean(multinet_model_data_);
++    } else {
++        mn_buffer_.erase(mn_buffer_.begin(), mn_buffer_.begin() + offset);
++    }
++}
++
+ void CustomWakeWord::OnWakeWordDetected(std::function<void(const std::string& wake_word)> callback) {
+     wake_word_detected_callback_ = callback;
+ }
+@@ -141,6 +263,10 @@ void CustomWakeWord::Stop() {
+ 
+     std::lock_guard<std::mutex> lock(input_buffer_mutex_);
+     input_buffer_.clear();
++    if (afe_data_ != nullptr) {
++        afe_iface_->reset_buffer(afe_data_);
++        reset_mn_ = true;
++    }
+ }
+ 
+ void CustomWakeWord::Feed(const std::vector<int16_t>& data) {
+@@ -154,6 +280,17 @@ void CustomWakeWord::Feed(const std::vector<int16_t>& data) {
+         return;
+     }
+ 
++    if (afe_data_ != nullptr) {
++        // AFE path: keep every channel (mics + speaker reference) interleaved.
++        input_buffer_.insert(input_buffer_.end(), data.begin(), data.end());
++        size_t chunk = afe_iface_->get_feed_chunksize(afe_data_) * codec_->input_channels();
++        while (input_buffer_.size() >= chunk) {
++            afe_iface_->feed(afe_data_, input_buffer_.data());
++            input_buffer_.erase(input_buffer_.begin(), input_buffer_.begin() + chunk);
++        }
++        return;
++    }
++
+     // If input channels is 2, we need to fetch the left channel data
+     if (codec_->input_channels() == 2) {
+         for (size_t i = 0; i < data.size(); i += 2) {
+@@ -203,6 +340,9 @@ size_t CustomWakeWord::GetFeedSize() {
+     if (multinet_model_data_ == nullptr) {
+         return 0;
+     }
++    if (afe_data_ != nullptr) {
++        return afe_iface_->get_feed_chunksize(afe_data_);
++    }
+     return multinet_->get_samp_chunksize(multinet_model_data_);
+ }
+ 
+diff --git a/firmware/main/audio/wake_words/custom_wake_word.h b/firmware/main/audio/wake_words/custom_wake_word.h
+index 645ad1b..d6c0d72 100644
+--- a/firmware/main/audio/wake_words/custom_wake_word.h
++++ b/firmware/main/audio/wake_words/custom_wake_word.h
+@@ -5,6 +5,8 @@
+ #include <esp_mn_iface.h>
+ #include <esp_mn_models.h>
+ #include <model_path.h>
++#include <esp_afe_sr_iface.h>
++#include <esp_afe_sr_models.h>
+ 
+ #include <deque>
+ #include <string>
+@@ -64,6 +66,20 @@ private:
+     std::mutex wake_word_mutex_;
+     std::condition_variable wake_word_cv_;
+ 
++    // Lil Token: MultiNet listens to AFE-processed audio (AEC + noise
++    // suppression + AGC) instead of the raw left mic channel. Raw input
++    // missed real speech and let the robot wake itself on its own speaker.
++    const esp_afe_sr_iface_t* afe_iface_ = nullptr;
++    esp_afe_sr_data_t* afe_data_ = nullptr;
++    std::vector<int16_t> mn_buffer_;
++    std::atomic<bool> reset_mn_ = false;
++    double level_sum_sq_ = 0;
++    int level_count_ = 0;
++    int level_peak_ = 0;
++
++    bool InitializeAfe();
++    void DetectionTask();
++    void RunMultinet(const int16_t* data, size_t samples);
+     void StoreWakeWordData(const std::vector<int16_t>& data);
+     void ParseWakenetModelConfig();
+ };
+diff --git a/firmware/main/boards/common/esp_video.cc b/firmware/main/boards/common/esp_video.cc
+index 9fd4b12..731dd18 100644
+--- a/firmware/main/boards/common/esp_video.cc
++++ b/firmware/main/boards/common/esp_video.cc
+@@ -835,7 +835,11 @@ bool EspVideo::Capture() {
+         }
+ 
+         auto image = std::make_unique<LvglAllocatedImage>(data, lvgl_image_size, w, h, stride, color_format);
+-        display->SetPreviewImage(std::move(image));
++        if (preview_sink_) {
++            preview_sink_(std::move(image));
++        } else {
++            display->SetPreviewImage(std::move(image));
++        }
+     }
+     return true;
+ }
+diff --git a/firmware/main/boards/common/esp_video.h b/firmware/main/boards/common/esp_video.h
+index 063276e..64a8698 100644
+--- a/firmware/main/boards/common/esp_video.h
++++ b/firmware/main/boards/common/esp_video.h
+@@ -5,6 +5,8 @@
+ #include <thread>
+ #include <memory>
+ #include <vector>
++#include <functional>
++#include <memory>
+ 
+ #include <freertos/FreeRTOS.h>
+ #include <freertos/queue.h>
+@@ -39,8 +41,12 @@ private:
+     std::string explain_url_;
+     std::string explain_token_;
+     std::thread encoder_thread_;
++    // Lil Token: when set, Capture() hands the preview image here instead of
++    // the display's preview layer (used for the full-screen viewfinder).
++    std::function<void(std::unique_ptr<LvglImage>)> preview_sink_;
+ 
+ public:
++    void SetPreviewSink(std::function<void(std::unique_ptr<LvglImage>)> sink) { preview_sink_ = std::move(sink); }
+     EspVideo(const esp_video_init_config_t& config);
+     ~EspVideo();
+ 
+diff --git a/firmware/main/boards/common/i2c_device.cc b/firmware/main/boards/common/i2c_device.cc
+index 835997d..09446c3 100644
+--- a/firmware/main/boards/common/i2c_device.cc
++++ b/firmware/main/boards/common/i2c_device.cc
+@@ -1,6 +1,8 @@
+ #include "i2c_device.h"
+ 
+ #include <esp_log.h>
++#include <esp_timer.h>
++#include <cstring>
+ 
+ #define TAG "I2cDevice"
+ 
+@@ -19,17 +21,38 @@ I2cDevice::I2cDevice(i2c_master_bus_handle_t i2c_bus, uint8_t addr) {
+     assert(i2c_device_ != NULL);
+ }
+ 
++// Lil Token: these used ESP_ERROR_CHECK, so one I2C timeout on the shared
++// internal bus (busy during dances) aborted and rebooted the robot. Log
++// (rate limited) and carry on instead; a failed read returns zeros.
++static void LogI2cError(const char* op, uint8_t reg, esp_err_t err) {
++    static int64_t last_log_us = 0;
++    int64_t now = esp_timer_get_time();
++    if (now - last_log_us > 5 * 1000 * 1000) {
++        ESP_LOGW(TAG, "%s reg 0x%02X failed: 0x%X (ignored)", op, reg, err);
++        last_log_us = now;
++    }
++}
++
+ void I2cDevice::WriteReg(uint8_t reg, uint8_t value) {
+     uint8_t buffer[2] = {reg, value};
+-    ESP_ERROR_CHECK(i2c_master_transmit(i2c_device_, buffer, 2, 100));
++    esp_err_t err = i2c_master_transmit(i2c_device_, buffer, 2, 100);
++    if (err != ESP_OK) LogI2cError("write", reg, err);
+ }
+ 
+ uint8_t I2cDevice::ReadReg(uint8_t reg) {
+-    uint8_t buffer[1];
+-    ESP_ERROR_CHECK(i2c_master_transmit_receive(i2c_device_, &reg, 1, buffer, 1, 100));
++    uint8_t buffer[1] = {0};
++    esp_err_t err = i2c_master_transmit_receive(i2c_device_, &reg, 1, buffer, 1, 100);
++    if (err != ESP_OK) {
++        LogI2cError("read", reg, err);
++        return 0;
++    }
+     return buffer[0];
+ }
+ 
+ void I2cDevice::ReadRegs(uint8_t reg, uint8_t* buffer, size_t length) {
+-    ESP_ERROR_CHECK(i2c_master_transmit_receive(i2c_device_, &reg, 1, buffer, length, 100));
+-}
+\ No newline at end of file
++    esp_err_t err = i2c_master_transmit_receive(i2c_device_, &reg, 1, buffer, length, 100);
++    if (err != ESP_OK) {
++        LogI2cError("read", reg, err);
++        memset(buffer, 0, length);
++    }
++}
+diff --git a/firmware/main/boards/stackchan/avatar_set.cc b/firmware/main/boards/stackchan/avatar_set.cc
+index cc95730..cfb863f 100644
+--- a/firmware/main/boards/stackchan/avatar_set.cc
++++ b/firmware/main/boards/stackchan/avatar_set.cc
+@@ -59,6 +59,14 @@ const lv_image_dsc_t* AvatarSet::GetMatrix(int face_index, int eyes_index, int m
+ }
+ 
+ bool AvatarSet::AdoptOwnedBuffer(Mode mode, uint8_t* owned_buffer, size_t image_data_size) {
++    return Install(mode, owned_buffer, image_data_size, true);
++}
++
++bool AvatarSet::ActivateBorrowed(Mode mode, uint8_t* buffer, size_t image_data_size) {
++    return Install(mode, buffer, image_data_size, false);
++}
++
++bool AvatarSet::Install(Mode mode, uint8_t* owned_buffer, size_t image_data_size, bool owned) {
+     if (owned_buffer == nullptr) {
+         ESP_LOGW(TAG, "AdoptOwnedBuffer: owned_buffer is null");
+         return false;
+@@ -84,6 +92,7 @@ bool AvatarSet::AdoptOwnedBuffer(Mode mode, uint8_t* owned_buffer, size_t image_
+ 
+     image_buffer_ = owned_buffer;
+     image_buffer_size_ = image_data_size;
++    owns_buffer_ = owned;
+     mode_ = mode;
+ 
+     if (mode == Mode::kLayered) {
+@@ -119,10 +128,13 @@ bool AvatarSet::AdoptOwnedBuffer(Mode mode, uint8_t* owned_buffer, size_t image_
+ 
+ void AvatarSet::Unload() {
+     if (image_buffer_ != nullptr) {
+-        heap_caps_free(image_buffer_);
++        if (owns_buffer_) {
++            heap_caps_free(image_buffer_);
++        }
+         image_buffer_ = nullptr;
+         image_buffer_size_ = 0;
+     }
++    owns_buffer_ = true;
+ 
+     // Clear all lv_image_dsc_t entries — `data` pointers no longer valid.
+     std::memset(face_table_, 0, sizeof(face_table_));
+@@ -144,3 +156,53 @@ void AvatarSet::InitImageHeader(lv_image_dsc_t* dsc) {
+     dsc->data_size = kImageBytes;
+     // `data` is set by the caller (PSRAM offset).
+ }
++
++// ---- AvatarSetCache (Lil Token) ---------------------------------------------
++
++AvatarSetCache::~AvatarSetCache() {
++    for (auto& e : entries_) {
++        heap_caps_free(e.buffer);
++    }
++}
++
++const AvatarSetCache::Entry* AvatarSetCache::Find(const std::string& checksum) {
++    if (checksum.empty()) {
++        return nullptr;
++    }
++    for (auto& e : entries_) {
++        if (e.checksum == checksum) {
++            e.used = ++clock_;
++            return &e;
++        }
++    }
++    return nullptr;
++}
++
++void AvatarSetCache::Insert(const std::string& checksum, AvatarSet::Mode mode,
++                            uint8_t* buffer, size_t size, const uint8_t* keep) {
++    entries_.push_back(Entry{checksum, mode, buffer, size, ++clock_});
++    while (entries_.size() > kMaxSets && EvictOne(keep)) {
++    }
++    ESP_LOGI(TAG, "Avatar set cached (%u on the robot)",
++             static_cast<unsigned int>(entries_.size()));
++}
++
++bool AvatarSetCache::EvictOne(const uint8_t* keep) {
++    int oldest = -1;
++    for (size_t i = 0; i < entries_.size(); ++i) {
++        if (entries_[i].buffer == keep) {
++            continue;
++        }
++        if (oldest < 0 || entries_[i].used < entries_[oldest].used) {
++            oldest = static_cast<int>(i);
++        }
++    }
++    if (oldest < 0) {
++        return false;
++    }
++    ESP_LOGI(TAG, "Avatar set evicted from the cache (%s)", entries_[oldest].checksum.c_str());
++    heap_caps_free(entries_[oldest].buffer);
++    entries_.erase(entries_.begin() + oldest);
++    return true;
++}
++
+diff --git a/firmware/main/boards/stackchan/avatar_set.h b/firmware/main/boards/stackchan/avatar_set.h
+index 9d2e53f..8e2b7c2 100644
+--- a/firmware/main/boards/stackchan/avatar_set.h
++++ b/firmware/main/boards/stackchan/avatar_set.h
+@@ -3,6 +3,8 @@
+ #include <lvgl.h>
+ #include <cstdint>
+ #include <cstddef>
++#include <string>
++#include <vector>
+ 
+ // AvatarSet — runtime-loadable avatar art container in PSRAM.
+ //
+@@ -93,8 +95,16 @@ public:
+     // buffer until the swap commits (no black-frame flash on update).
+     bool AdoptOwnedBuffer(Mode mode, uint8_t* owned_buffer, size_t image_data_size);
+ 
+-    // Release the PSRAM buffer and clear all internal lv_image_dsc_t entries.
+-    // Safe to call multiple times.
++    // Lil Token: show a set whose buffer is owned by an AvatarSetCache.
++    // Same checks and descriptor swap as AdoptOwnedBuffer, but this class
++    // never frees `buffer`: Unload() and later adoptions leave it alone.
++    bool ActivateBorrowed(Mode mode, uint8_t* buffer, size_t image_data_size);
++
++    // The buffer currently on screen (owned or borrowed), or nullptr.
++    const uint8_t* buffer() const { return image_buffer_; }
++
++    // Release the PSRAM buffer (if owned) and clear all internal
++    // lv_image_dsc_t entries. Safe to call multiple times.
+     void Unload();
+ 
+ private:
+@@ -105,6 +115,9 @@ private:
+     // lv_image_dsc_t::data of each table entry points into this buffer.
+     uint8_t* image_buffer_ = nullptr;
+     size_t   image_buffer_size_ = 0;
++    bool     owns_buffer_ = true;  // false while showing a cached (borrowed) set
++
++    bool Install(Mode mode, uint8_t* buffer, size_t image_data_size, bool owned);
+ 
+     // lv_image_dsc_t entries populated by Load() to point into image_buffer_.
+     lv_image_dsc_t face_table_[kNumFaces]{};
+@@ -116,3 +129,50 @@ private:
+     // descriptor. The caller still sets `data` to the PSRAM offset.
+     static void InitImageHeader(lv_image_dsc_t* dsc);
+ };
++
++// Lil Token: face sets kept in PSRAM so switching back to one that was
++// loaded before needs no download.
++//
++// A layered set is a 537 KB HTTP download that takes the robot 5 to 10 s,
++// and it handles nothing else meanwhile. Lil Token swaps sets several times
++// in one conversation (the Firecrawl and Google badges, the party hat, back
++// to the default face), and every spoken answer waited behind a swap. Sets
++// are keyed by the checksum the gateway sends with avatar_set_fetch, so the
++// protocol is unchanged: a known checksum is activated at once and answered
++// with avatar_set_loaded, without opening the URL.
++//
++// Not thread safe. Every call happens on the avatar_fetch task, which runs
++// one at a time (avatar_fetch_in_progress_), with the display lock held
++// around anything that changes what is on screen.
++class AvatarSetCache {
++public:
++    static constexpr size_t kMaxSets = 4;  // 4 x 537.6 KB = 2.1 MB of the 8 MB PSRAM
++
++    struct Entry {
++        std::string checksum;
++        AvatarSet::Mode mode;
++        uint8_t* buffer;
++        size_t size;
++        uint32_t used;  // larger = used more recently
++    };
++
++    ~AvatarSetCache();
++
++    // The cached set with this checksum, marked as just used. nullptr if none.
++    const Entry* Find(const std::string& checksum);
++
++    // Take ownership of `buffer`. Frees the least recently used sets beyond
++    // kMaxSets, never the one whose buffer is `keep` (the set on screen).
++    void Insert(const std::string& checksum, AvatarSet::Mode mode,
++                uint8_t* buffer, size_t size, const uint8_t* keep);
++
++    // Free the least recently used set other than `keep`. False if there is none.
++    bool EvictOne(const uint8_t* keep);
++
++    size_t size() const { return entries_.size(); }
++
++private:
++    std::vector<Entry> entries_;
++    uint32_t clock_ = 0;
++};
++
+diff --git a/firmware/main/boards/stackchan/avatar_set_fetcher.cc b/firmware/main/boards/stackchan/avatar_set_fetcher.cc
+index f87f472..6b3a272 100644
+--- a/firmware/main/boards/stackchan/avatar_set_fetcher.cc
++++ b/firmware/main/boards/stackchan/avatar_set_fetcher.cc
+@@ -29,6 +29,51 @@ std::string Sha256Hex(const uint8_t* data, size_t size) {
+ 
+ }  // namespace
+ 
++uint8_t* AvatarSetFetcher::Download(
++    const std::string& url,
++    const std::string& bearer_token,
++    size_t expected_size,
++    const std::string& expected_sha256,
++    std::string* error_code) {
++    auto fail = [&](const char* code) -> uint8_t* {
++        if (error_code != nullptr) *error_code = code;
++        return nullptr;
++    };
++    auto network = Board::GetInstance().GetNetwork();
++    if (network == nullptr) return fail("http_open_failed");
++    auto http = network->CreateHttp(0);
++    if (http == nullptr) return fail("http_open_failed");
++    http->SetHeader("Authorization", (std::string("Bearer ") + bearer_token).c_str());
++    http->SetHeader("Accept", "application/octet-stream");
++    if (!http->Open("GET", url)) return fail("http_open_failed");
++    if (http->GetBodyLength() != expected_size) {
++        http->Close();
++        return fail("content_length_mismatch");
++    }
++    uint8_t* buffer = static_cast<uint8_t*>(heap_caps_malloc(expected_size, MALLOC_CAP_SPIRAM));
++    if (buffer == nullptr) {
++        http->Close();
++        return fail("psram_oom");
++    }
++    size_t total_read = 0;
++    while (total_read < expected_size) {
++        const size_t to_read = std::min(kReadChunkBytes, expected_size - total_read);
++        int n = http->Read(reinterpret_cast<char*>(buffer + total_read), static_cast<int>(to_read));
++        if (n <= 0) {
++            heap_caps_free(buffer);
++            http->Close();
++            return fail("read_failed");
++        }
++        total_read += static_cast<size_t>(n);
++    }
++    http->Close();
++    if (!expected_sha256.empty() && Sha256Hex(buffer, expected_size) != expected_sha256) {
++        heap_caps_free(buffer);
++        return fail("checksum_mismatch");
++    }
++    return buffer;
++}
++
+ void AvatarSetFetcher::Fetch(
+     AvatarSet& target_set,
+     const std::string& url,
+@@ -36,7 +81,8 @@ void AvatarSetFetcher::Fetch(
+     AvatarSet::Mode mode,
+     size_t expected_size,
+     const std::string& expected_sha256,
+-    CompletionCallback on_complete) {
++    CompletionCallback on_complete,
++    AvatarSetCache* cache) {
+     auto& board = Board::GetInstance();
+     auto network = board.GetNetwork();
+     if (network == nullptr) {
+@@ -78,6 +124,11 @@ void AvatarSetFetcher::Fetch(
+     // (old AvatarSet buffer + this buffer) and not 3× the set size.
+     uint8_t* buffer = static_cast<uint8_t*>(
+         heap_caps_malloc(expected_size, MALLOC_CAP_SPIRAM));
++    // Lil Token: PSRAM is full of cached sets. Drop the least recently used
++    // one that is not on screen and try again.
++    while (buffer == nullptr && cache != nullptr && cache->EvictOne(target_set.buffer())) {
++        buffer = static_cast<uint8_t*>(heap_caps_malloc(expected_size, MALLOC_CAP_SPIRAM));
++    }
+     if (buffer == nullptr) {
+         ESP_LOGE(TAG, "Fetch: PSRAM staging allocation failed (size=%u)",
+                  static_cast<unsigned int>(expected_size));
+@@ -126,13 +177,33 @@ void AvatarSetFetcher::Fetch(
+     // a concurrent render can't race into a half-freed buffer or a
+     // half-cleared descriptor.
+     auto* display = board.GetDisplay();
++    // Lil Token: a layered set with a known checksum goes into the cache and
++    // is shown from there (borrowed). Anything else keeps the original
++    // ownership transfer, and the cache is emptied to make room for it.
++    const bool keep_cached =
++        cache != nullptr && mode == AvatarSet::Mode::kLayered && !expected_sha256.empty();
++    auto install = [&]() -> bool {
++        if (keep_cached) {
++            if (!target_set.ActivateBorrowed(mode, buffer, expected_size)) {
++                return false;
++            }
++            cache->Insert(actual_sha256, mode, buffer, expected_size, buffer);
++            return true;
++        }
++        if (!target_set.AdoptOwnedBuffer(mode, buffer, expected_size)) {
++            return false;
++        }
++        while (cache != nullptr && cache->EvictOne(buffer)) {
++        }
++        return true;
++    };
+     bool loaded;
+     if (display != nullptr) {
+         DisplayLockGuard lock(display);
+-        loaded = target_set.AdoptOwnedBuffer(mode, buffer, expected_size);
++        loaded = install();
+     } else {
+         // Headless board (NoDisplay): no LVGL reader to race against.
+-        loaded = target_set.AdoptOwnedBuffer(mode, buffer, expected_size);
++        loaded = install();
+     }
+     if (!loaded) {
+         heap_caps_free(buffer);
+diff --git a/firmware/main/boards/stackchan/avatar_set_fetcher.h b/firmware/main/boards/stackchan/avatar_set_fetcher.h
+index c9d7009..88685f8 100644
+--- a/firmware/main/boards/stackchan/avatar_set_fetcher.h
++++ b/firmware/main/boards/stackchan/avatar_set_fetcher.h
+@@ -39,6 +39,16 @@ public:
+     // Synchronously fetch + verify + load. Blocks the calling task until
+     // completion. Intended to be invoked from a worker task (= not from
+     // the WS receive callback directly).
++    // Lil Token: fetch + verify only. On success returns a PSRAM buffer of
++    // expected_size bytes that the caller owns (heap_caps_free). On failure
++    // returns nullptr and sets *error_code. Used for face overlays.
++    static uint8_t* Download(
++        const std::string& url,
++        const std::string& bearer_token,
++        size_t expected_size,
++        const std::string& expected_sha256,
++        std::string* error_code);
++
+     static void Fetch(
+         AvatarSet& target_set,
+         const std::string& url,
+@@ -46,5 +56,8 @@ public:
+         AvatarSet::Mode mode,
+         size_t expected_size,
+         const std::string& expected_sha256,  // "sha256:<hex>" form, may be empty to skip
+-        CompletionCallback on_complete);
++        CompletionCallback on_complete,
++        // Lil Token: when given, a layered set is kept in this cache and
++        // shown from there, so the next request for it needs no download.
++        AvatarSetCache* cache = nullptr);
+ };
+diff --git a/firmware/main/boards/stackchan/config.json b/firmware/main/boards/stackchan/config.json
+index 5cc538f..3fef454 100644
+--- a/firmware/main/boards/stackchan/config.json
++++ b/firmware/main/boards/stackchan/config.json
+@@ -9,7 +9,14 @@
+                 "CONFIG_CAMERA_GC0308=y",
+                 "CONFIG_CAMERA_GC0308_AUTO_DETECT_DVP_INTERFACE_SENSOR=y",
+                 "CONFIG_CAMERA_GC0308_DVP_YUV422_320X240_20FPS=y",
+-                "CONFIG_STACKCHAN_SERVO_FEETECH=y"
++                "CONFIG_STACKCHAN_SERVO_FEETECH=y",
++                "CONFIG_USE_CUSTOM_WAKE_WORD=y",
++                "CONFIG_CUSTOM_WAKE_WORD=\"hey lil token,hey little token\"",
++                "CONFIG_CUSTOM_WAKE_WORD_DISPLAY=\"Hey Lil Token\"",
++                "CONFIG_CUSTOM_WAKE_WORD_THRESHOLD=15",
++                "CONFIG_SR_MN_CN_NONE=y",
++                "CONFIG_SR_MN_EN_MULTINET7_QUANT=y",
++                "CONFIG_PARTITION_TABLE_CUSTOM_FILENAME=\"partitions/v2/16m_liltoken.csv\""
+             ]
+         }
+     ]
+diff --git a/firmware/main/boards/stackchan/stackchan.cc b/firmware/main/boards/stackchan/stackchan.cc
+index 8e9600b..1b9c595 100644
+--- a/firmware/main/boards/stackchan/stackchan.cc
++++ b/firmware/main/boards/stackchan/stackchan.cc
+@@ -44,6 +44,7 @@ static inline bool ServoWritePosOk(int r) { return r > 0; }
+ #include <esp_lcd_panel_commands.h>
+ #include <esp_lcd_ili9341.h>
+ #include <esp_timer.h>
++#include <esp_heap_caps.h>
+ #include <esp_random.h>
+ #include <freertos/FreeRTOS.h>
+ #include <freertos/task.h>
+@@ -137,7 +138,18 @@ public:
+     // (Button Battery charge enable), and bit0 (Watchdog Module enable)
+     // must survive untouched.
+     void SetChargeEnabled(bool enable) {
+-        uint8_t value = ReadReg(0x18);
++        // Lil Token: ReadReg() returns 0 on an I2C error instead of rebooting
++        // (i2c_device.cc). Writing that 0 back would clear the gauge, button
++        // battery and watchdog bits, and the automatic charge policy calls
++        // this exactly when the bus is failing. Read it directly and leave
++        // the register alone if the read did not work.
++        uint8_t reg = 0x18;
++        uint8_t value = 0;
++        esp_err_t err = i2c_master_transmit_receive(i2c_device_, &reg, 1, &value, 1, 100);
++        if (err != ESP_OK) {
++            ESP_LOGW("Pmic", "charge control read failed (0x%X), register left unchanged", err);
++            return;
++        }
+         if (enable) {
+             value |= 0b00000010;
+         } else {
+@@ -256,7 +268,21 @@ public:
+     }
+ 
+     void UpdateTouchPoint() {
+-        ReadRegs(0x02, read_buffer_, 6);
++        // Lil Token: polled every 20 ms on the shared internal I2C bus. The
++        // stock ReadRegs() aborts on any error, and a 100 ms bus timeout
++        // (busy bus during dances: LED flashes, touch, IMU, proximity)
++        // rebooted the robot. Keep the last touch state and carry on.
++        uint8_t reg = 0x02;
++        esp_err_t err = i2c_master_transmit_receive(i2c_device_, &reg, 1, read_buffer_, 6, 100);
++        if (err != ESP_OK) {
++            static int64_t last_log_us = 0;
++            int64_t now = esp_timer_get_time();
++            if (now - last_log_us > 5 * 1000 * 1000) {
++                ESP_LOGW(TAG, "FT6336 touch read failed: 0x%X (ignored)", err);
++                last_log_us = now;
++            }
++            return;
++        }
+         tp_.num = read_buffer_[0] & 0x0F;
+         tp_.x = ((read_buffer_[1] & 0x0F) << 8) | read_buffer_[2];
+         tp_.y = ((read_buffer_[3] & 0x0F) << 8) | read_buffer_[4];
+@@ -612,6 +638,134 @@ private:
+     }
+ };
+ 
++// ---------------------------------------------------------------------------
++// Lil Token sensors: BMI270 accelerometer (0x69) and LTR-553 proximity/light
++// (0x23) on the internal I2C bus. Emits stackchan-event "motion" (shake,
++// picked_up, put_down, tipped, upright) and "proximity" (wave) to the gateway.
++// ---------------------------------------------------------------------------
++extern "C" const uint8_t bmi270_config_file[];
++
++class LilTokenSensors {
++public:
++    explicit LilTokenSensors(i2c_master_bus_handle_t bus) {
++        i2c_device_config_t cfg = {};
++        cfg.dev_addr_length = I2C_ADDR_BIT_LEN_7;
++        cfg.scl_speed_hz = 400000;
++        cfg.device_address = 0x69;
++        imu_dev_ = i2c_master_bus_add_device(bus, &cfg, &bmi_) == ESP_OK;
++        cfg.device_address = 0x23;
++        ltr_dev_ = i2c_master_bus_add_device(bus, &cfg, &ltr_) == ESP_OK;
++    }
++
++    // Safe to call again after a failure: I2C errors no longer reboot the
++    // robot, so a busy bus during the 8 KB config upload used to leave the
++    // IMU off until the next power cycle (Lil Token, 2026-10-21).
++    bool InitImu() {
++        imu_ok_ = false;
++        if (!imu_dev_) return false;
++        uint8_t id = 0;
++        if (!Read(bmi_, 0x00, &id, 1) || id != 0x24) {
++            ESP_LOGW("LilTokenSensors", "BMI270 chip id 0x%02X (expected 0x24)", id);
++            return imu_ok_ = false;
++        }
++        // Soft reset first: the BMI270 keeps power across an ESP32 reset, and
++        // re-uploading the config onto an already-initialised chip fails with
++        // INTERNAL_STATUS 0x02 (seen 2026-10-21 after a 16:14 restart).
++        Write(bmi_, 0x7E, 0xB6);  // CMD: softreset
++        vTaskDelay(pdMS_TO_TICKS(20));
++        id = 0;
++        Read(bmi_, 0x00, &id, 1);  // first access after reset
++        bool pc = Write(bmi_, 0x7C, 0x00);  // PWR_CONF: advanced power save off
++        vTaskDelay(pdMS_TO_TICKS(5));
++        ESP_LOGI("LilTokenSensors", "BMI270 after reset: id=0x%02X pwr_conf_write=%d", id, pc);
++        Write(bmi_, 0x59, 0x00);  // INIT_CTRL: start config load
++        const size_t total = 8192, chunk = 64;
++        uint8_t buf[chunk + 1];
++        for (size_t off = 0; off < total; off += chunk) {
++            uint16_t word = off / 2;
++            Write(bmi_, 0x5B, word & 0x0F);
++            Write(bmi_, 0x5C, word >> 4);
++            buf[0] = 0x5E;
++            memcpy(buf + 1, bmi270_config_file + off, chunk);
++            esp_err_t werr = ESP_FAIL;
++            for (int t = 0; t < 3 && werr != ESP_OK; ++t) {
++                if (t) vTaskDelay(pdMS_TO_TICKS(5));
++                werr = i2c_master_transmit(bmi_, buf, chunk + 1, 100);
++            }
++            if (werr != ESP_OK) {
++                ESP_LOGW("LilTokenSensors", "BMI270 config write failed at %u: 0x%X", (unsigned)off, werr);
++                return imu_ok_ = false;
++            }
++        }
++        Write(bmi_, 0x59, 0x01);  // INIT_CTRL: done
++        vTaskDelay(pdMS_TO_TICKS(30));
++        uint8_t status = 0;
++        Read(bmi_, 0x21, &status, 1);
++        if ((status & 0x0F) != 0x01) {
++            ESP_LOGW("LilTokenSensors", "BMI270 init status 0x%02X", status);
++            return imu_ok_ = false;
++        }
++        Write(bmi_, 0x7D, 0x04);  // PWR_CTRL: accel on
++        Write(bmi_, 0x40, 0xA8);  // ACC_CONF: 100 Hz, normal, perf mode
++        Write(bmi_, 0x41, 0x01);  // ACC_RANGE: +-4 g
++        Write(bmi_, 0x7C, 0x02);  // PWR_CONF: fifo self wake, no adv power save
++        ESP_LOGI("LilTokenSensors", "BMI270 ready");
++        return imu_ok_ = true;
++    }
++
++    bool InitProximity() {
++        ltr_ok_ = false;
++        if (!ltr_dev_) return false;
++        // Gain 48x: at 1x a lit desk read 1 or 2, too little range to tell
++        // lights on from lights off (Lil Token, 9 November 2026).
++        bool ok = Write(ltr_, 0x80, 0x19);  // ALS active, gain 48x
++        ok &= Write(ltr_, 0x82, 0x7F);      // PS LED 60 kHz, 100% duty, 100 mA
++        ok &= Write(ltr_, 0x83, 0x08);      // 8 pulses
++        ok &= Write(ltr_, 0x84, 0x00);      // PS every 50 ms
++        ok &= Write(ltr_, 0x81, 0x03);      // PS active
++        ESP_LOGI("LilTokenSensors", "LTR-553 %s", ok ? "ready" : "init failed");
++        return ltr_ok_ = ok;
++    }
++
++    bool ReadAccel(float& x, float& y, float& z) {
++        if (!imu_ok_) return false;
++        uint8_t d[6];
++        if (!Read(bmi_, 0x0C, d, 6)) return false;
++        x = (int16_t)(d[0] | d[1] << 8) / 8192.0f;
++        y = (int16_t)(d[2] | d[3] << 8) / 8192.0f;
++        z = (int16_t)(d[4] | d[5] << 8) / 8192.0f;
++        return true;
++    }
++
++    bool ReadProximity(uint16_t& ps, uint16_t& als) {
++        if (!ltr_ok_) return false;
++        uint8_t p[2], a[4];
++        if (!Read(ltr_, 0x8D, p, 2) || !Read(ltr_, 0x88, a, 4)) return false;
++        ps = p[0] | ((p[1] & 0x07) << 8);
++        als = a[2] | (a[3] << 8);  // CH0 (visible + IR)
++        return true;
++    }
++
++    bool imu_ok() const { return imu_ok_; }
++    bool ltr_ok() const { return ltr_ok_; }
++
++private:
++    i2c_master_dev_handle_t bmi_ = nullptr;
++    i2c_master_dev_handle_t ltr_ = nullptr;
++    bool imu_ok_ = false;
++    bool ltr_ok_ = false;
++    bool imu_dev_ = false;
++    bool ltr_dev_ = false;
++
++    static bool Write(i2c_master_dev_handle_t dev, uint8_t reg, uint8_t val) {
++        uint8_t b[2] = {reg, val};
++        return i2c_master_transmit(dev, b, 2, 100) == ESP_OK;
++    }
++    static bool Read(i2c_master_dev_handle_t dev, uint8_t reg, uint8_t* out, size_t n) {
++        return i2c_master_transmit_receive(dev, &reg, 1, out, n, 100) == ESP_OK;
++    }
++};
++
+ class StackChanBoard : public WifiBoard {
+ private:
+     // Internal I2C bus (shared by AXP2101 / AW9523 / FT6336 / PY32 / Si12T /
+@@ -680,6 +834,12 @@ private:
+     // board's constructor completes. avatar_init_timer_ retries every 500 ms
+     // until the screen is ready, then stops itself.
+     lv_obj_t* avatar_img_ = nullptr;
++    // Lil Token camera viewfinder state (self.camera.preview).
++    std::atomic<bool> preview_running_{false};
++    std::atomic<int64_t> preview_deadline_us_{0};
++    std::atomic<bool> preview_restore_{true};
++    std::string preview_face_before_ = "idle";
++    std::unique_ptr<LvglImage> viewfinder_frame_;  // frame shown on avatar_img_ during the viewfinder
+     esp_timer_handle_t avatar_init_timer_ = nullptr;
+     std::string current_avatar_face_ = "idle";
+ 
+@@ -695,6 +855,25 @@ private:
+     // override). See docs/intent/stackchan_avatar_pipeline.md in the
+     // SAIVerse repository.
+     AvatarSet avatar_set_;
++    // Lil Token: sets already loaded once stay on the robot (avatar_set.h).
++    AvatarSetCache avatar_cache_;
++    // Lil Token wardrobe: one small picture drawn on top of whatever face is
++    // showing (a hat, the Firecrawl flame). 160x120 RGB565 plus an alpha
++    // plane, 57.6 KB, against 537.6 KB for a whole face set, so it loads in
++    // a fraction of a second and the robot keeps a dozen in memory.
++    static constexpr size_t kOverlayBytes = 160 * 120 * 3;
++    static constexpr size_t kMaxOverlays = 12;
++    struct OverlayEntry { std::string checksum; uint8_t* buffer; uint32_t used; };
++    std::vector<OverlayEntry> overlays_;
++    uint32_t overlay_clock_ = 0;
++    lv_obj_t* overlay_img_ = nullptr;
++    // Two descriptors used in turn, so every new overlay is a new source
++    // pointer for LVGL and it cannot draw a stale picture.
++    lv_image_dsc_t overlay_dsc_[2]{};
++    int overlay_dsc_index_ = 0;
++    const uint8_t* overlay_current_ = nullptr;      // buffer on screen (never evicted)
++    bool overlay_active_ = false;                       // an overlay should be visible
++    std::atomic<bool> overlay_fetch_in_progress_{false};
+ 
+     // ---- Avatar rendering state (Phase 4.5-a) -----------------------------
+     //
+@@ -833,6 +1012,9 @@ private:
+     std::atomic<bool> touch_sensor_enabled_{true};
+     std::unique_ptr<Si12T> si12t_;
+     bool si12t_ok_ = false;
++    uint32_t touch_read_ok_ = 0;
++    uint32_t touch_read_fail_ = 0;
++    int touch_fail_streak_ = 0;
+     esp_timer_handle_t touch_poll_timer_ = nullptr;
+     esp_timer_handle_t touch_revert_timer_ = nullptr;
+ 
+@@ -919,6 +1101,11 @@ private:
+     SemaphoreHandle_t motion_mutex_ = nullptr;     // protects AxisMotion fields
+     SemaphoreHandle_t scs_bus_mutex_ = nullptr;    // serializes UART access (WritePos/ReadPos)
+     std::unique_ptr<MotionDriver> motion_driver_;
++    // Lil Token sensor state (InitializeLilTokenSensors / SensorTask).
++    LilTokenSensors* lt_sensors_ = nullptr;
++    std::atomic<float> lt_ax_{0}, lt_ay_{0}, lt_az_{0}, lt_dyn_{0};
++    std::atomic<int> lt_ps_{0}, lt_als_{0}, lt_ps_base_{0};
++    std::atomic<int64_t> lt_last_move_us_{0};
+     TaskHandle_t servo_task_handle_ = nullptr;
+     uint32_t last_motion_end_ms_ = 0;              // ServoTask-private
+     bool last_motion_end_valid_ = false;           // ServoTask-private
+@@ -2111,7 +2298,7 @@ private:
+                     // same-old-position StartMove would no-op-skip on the
+                     // stale current_deg and silently drop the recovery
+                     // request — exactly the degraded-bus condition this
+-                    // path is meant to handle. Mark unknown so a same-
++                    // path is meant to handle. the owner unknown so a same-
+                     // target retry forces a fresh dispatch and either
+                     // confirms (FinishDispatch write_ok clears the flag)
+                     // or surfaces another failure.
+@@ -2710,6 +2897,128 @@ private:
+         return ESP_OK;
+     }
+ 
++    void InitializeLilTokenSensors() {
++        lt_sensors_ = new LilTokenSensors(i2c_bus_);
++        bool imu = false, ps = false;
++        for (int attempt = 0; attempt < 5 && !(imu && ps); ++attempt) {
++            if (attempt) vTaskDelay(pdMS_TO_TICKS(300));
++            if (!imu) imu = lt_sensors_->InitImu();
++            if (!ps) ps = lt_sensors_->InitProximity();
++        }
++        ESP_LOGI(TAG, "LilTokenSensors: imu=%d proximity=%d", imu, ps);
++        // Start the task even if a sensor is down: it keeps retrying.
++        xTaskCreate([](void* arg) {
++            static_cast<StackChanBoard*>(arg)->SensorTask();
++            vTaskDelete(NULL);
++        }, "lt_sensors", 4096, this, 2, nullptr);
++    }
++
++    // 20 Hz: motion gestures from the accelerometer, hand wave from the
++    // proximity sensor. Motion is ignored while the head servos move (and
++    // for 0.8 s after) so the robot's own moves do not count.
++    void SensorTask() {
++        float gx = 0, gy = 0, gz = 1;
++        float bx = 0, by = 0, bz = 1;  // upright baseline gravity
++        bool have_g = false, have_base = false, lifted = false, tipped = false;
++        int still_ticks = 0;
++        int shake_hist[24] = {0};
++        int active_hist[30] = {0};
++        int hi = 0;
++        int si = 0;  // the 24-slot shake history needs its own index
++        int64_t last_shake = 0, last_lift = 0, last_wave = 0, near_since = 0, far_since = 0;
++        int ps_base = -1;
++        int64_t last_retry = 0;
++        while (true) {
++            vTaskDelay(pdMS_TO_TICKS(50));
++            int64_t now = esp_timer_get_time();
++            if ((!lt_sensors_->imu_ok() || !lt_sensors_->ltr_ok()) && now - last_retry > 10000000) {
++                last_retry = now;
++                if (!lt_sensors_->imu_ok() && lt_sensors_->InitImu()) {
++                    ESP_LOGI(TAG, "LilTokenSensors: IMU recovered");
++                    have_g = false; have_base = false; still_ticks = 0;
++                }
++                if (!lt_sensors_->ltr_ok() && lt_sensors_->InitProximity()) {
++                    ESP_LOGI(TAG, "LilTokenSensors: proximity recovered");
++                    ps_base = -1;
++                }
++            }
++            if (motion_driver_ != nullptr && motion_driver_->IsMoving()) {
++                lt_last_move_us_ = now;
++            }
++            bool servo_quiet = now - lt_last_move_us_.load() > 800000;
++
++            float x, y, z;
++            if (lt_sensors_->ReadAccel(x, y, z)) {
++                lt_ax_ = x; lt_ay_ = y; lt_az_ = z;
++                if (!have_g) { gx = x; gy = y; gz = z; have_g = true; }
++                gx += (x - gx) * 0.08f; gy += (y - gy) * 0.08f; gz += (z - gz) * 0.08f;
++                float dx = x - gx, dy = y - gy, dz = z - gz;
++                float dyn = sqrtf(dx * dx + dy * dy + dz * dz);
++                lt_dyn_ = dyn;
++                hi = (hi + 1) % 30;
++                si = (si + 1) % 24;
++                shake_hist[si] = (servo_quiet && dyn > 0.8f) ? 1 : 0;
++                active_hist[hi] = (servo_quiet && dyn > 0.10f) ? 1 : 0;
++                int shakes = 0, actives = 0;
++                for (int v : shake_hist) shakes += v;
++                for (int v : active_hist) actives += v;
++                still_ticks = dyn < 0.04f ? still_ticks + 1 : 0;
++                if (!have_base && still_ticks > 100) {  // 5 s still after boot
++                    bx = gx; by = gy; bz = gz; have_base = true;
++                }
++                if (shakes >= 6 && now - last_shake > 5000000) {
++                    last_shake = now;
++                    lifted = false;
++                    Application::GetInstance().SendStackChanEvent("motion", "shake", 0);
++                } else if (!lifted && actives >= 14 && shakes < 3 && now - last_lift > 10000000 &&
++                           now - last_shake > 3000000) {
++                    lifted = true;
++                    last_lift = now;
++                    Application::GetInstance().SendStackChanEvent("motion", "picked_up", 0);
++                } else if (lifted && still_ticks > 40) {  // 2 s still
++                    lifted = false;
++                    Application::GetInstance().SendStackChanEvent("motion", "put_down", 0);
++                }
++                if (have_base && servo_quiet) {
++                    float gn = sqrtf(gx * gx + gy * gy + gz * gz), bn = sqrtf(bx * bx + by * by + bz * bz);
++                    float cosang = (gx * bx + gy * by + gz * bz) / (gn * bn + 1e-6f);
++                    if (!tipped && cosang < 0.55f && still_ticks > 20) {  // > ~57 deg, settled
++                        tipped = true;
++                        Application::GetInstance().SendStackChanEvent("motion", "tipped", 0);
++                    } else if (tipped && cosang > 0.9f && still_ticks > 20) {
++                        tipped = false;
++                        Application::GetInstance().SendStackChanEvent("motion", "upright", 0);
++                    }
++                }
++            }
++
++            uint16_t ps, als;
++            if (lt_sensors_->ReadProximity(ps, als)) {
++                lt_ps_ = ps; lt_als_ = als;
++                if (ps_base < 0) ps_base = ps;
++                // Slow-tracking baseline of the "nothing close" reading.
++                if (ps < ps_base) ps_base = ps; else ps_base += (ps > ps_base + 400) ? 0 : 1;
++                lt_ps_base_ = ps_base;
++                bool near = ps > ps_base + 250;
++                if (near) {
++                    if (near_since == 0) near_since = now;
++                    far_since = 0;
++                } else {
++                    if (far_since == 0) far_since = now;
++                    // A wave: near for 0.15 to 1.5 s, then gone.
++                    if (near_since != 0) {
++                        int64_t held = now - near_since;
++                        if (held > 150000 && held < 1500000 && now - last_wave > 3000000) {
++                            last_wave = now;
++                            Application::GetInstance().SendStackChanEvent("proximity", "wave", held / 1000);
++                        }
++                    }
++                    near_since = 0;
++                }
++            }
++        }
++    }
++
+     void I2cDetect() {
+         uint8_t address;
+         printf("     0  1  2  3  4  5  6  7  8  9  a  b  c  d  e  f\r\n");
+@@ -2978,6 +3287,11 @@ private:
+         if (display_ == nullptr) {
+             return;
+         }
++        // Lil Token: the always-on ears keep the mic open quietly; only
++        // show the pulsing dot for an explicit (non-quiet) listen.
++        if (is_listening && Application::GetInstance().IsQuietListening()) {
++            is_listening = false;
++        }
+         if (listening_indicator_visible_.load(std::memory_order_acquire) ==
+             is_listening) {
+             return;
+@@ -3013,6 +3327,7 @@ private:
+         }
+         was_listening = is_listening;
+         if (is_listening && listening_started_ms != 0 &&
++            !app.IsQuietListening() &&  // Lil Token: always-on ears keep the mic open
+             (now_ms - listening_started_ms) > LISTEN_TIMEOUT_MS) {
+             ESP_LOGI(TAG, "Listening timeout reached (%d ms) -> StopListening",
+                      (int)(now_ms - listening_started_ms));
+@@ -3870,7 +4185,7 @@ private:
+             } else {
+                 // Phase 0' ReadPos failed: current_deg holds the
+                 // Phase 2 restored-or-seeded value, which has NOT
+-                // been physically verified. Mark the axis position
++                // been physically verified. the owner the axis position
+                 // unknown so the ServoDelegated path's no-op gate
+                 // does not silently skip a same-target recovery
+                 // command. The HostInterpolation path ignores this
+@@ -4167,7 +4482,7 @@ private:
+                 }
+                 servo_wobble_active_.store(false, std::memory_order_release);
+                 servo_wobble_step_.store(0, std::memory_order_release);
+-                // Mark the fully-OFF transition before releasing
++                // the owner the fully-OFF transition before releasing
+                 // motion_mutex_ so concurrent motion entries do not observe
+                 // the old engaged state while the OFF bus write is pending.
+                 if (!yaw_enabled && !pitch_enabled) {
+@@ -4663,8 +4978,16 @@ private:
+         }
+         Si12T::TouchState s = si12t_->ReadTouchState();
+         if (!s.ok) {
++            touch_read_fail_++;
++            if (++touch_fail_streak_ >= 25) {  // 5 s at 200 ms: re-wake the chip
++                touch_fail_streak_ = 0;
++                bool ok = si12t_->Begin();
++                ESP_LOGW(TAG, "Si12T reads failing; re-init %s", ok ? "ok" : "failed");
++            }
+             return;
+         }
++        touch_read_ok_++;
++        touch_fail_streak_ = 0;
+         // Snapshot for MCP visibility.
+         last_output1_raw_ = s.output1_raw;
+         last_zone_snapshot_[0] = s.zone[0];
+@@ -5062,12 +5385,20 @@ private:
+         bool ok;
+         {
+             DisplayLockGuard lock(display_);
++            EndViewfinderLocked();
+             if (avatar_img_ != nullptr) {
+                 // Restore visibility if a previous SetAvatarOff() hid the
+                 // layer. Cheap no-op when the flag is already clear.
+                 lv_obj_clear_flag(avatar_img_, LV_OBJ_FLAG_HIDDEN);
+             }
+             ok = SetAvatarExpressionLocked(face);
++            if (ok) {
++                viewfinder_frame_.reset();
++                if (overlay_active_ && overlay_img_ != nullptr) {
++                    lv_obj_clear_flag(overlay_img_, LV_OBJ_FLAG_HIDDEN);
++                    lv_obj_move_foreground(overlay_img_);
++                }
++            }
+         }
+         if (!ok) {
+             ESP_LOGW(TAG, "SetAvatarExpression('%s') deferred (face unknown or screen not ready)", face);
+@@ -5089,6 +5420,46 @@ private:
+     // The avatar lv_obj is kept allocated so a subsequent
+     // SetAvatarExpression(<other face>) can re-show it cheaply, and the
+     // previous blink state is remembered for restoration.
++    void PreviewTask() {
++        int frames = 0;
++        // Draw camera frames full screen on the avatar layer (no xiaozhi
++        // status bar, no white page) by stealing Capture()'s preview image.
++        camera_->SetPreviewSink([this, &frames](std::unique_ptr<LvglImage> image) {
++            DisplayLockGuard lock(display_);
++            if (avatar_img_ == nullptr || image == nullptr) {
++                return;
++            }
++            auto dsc = image->image_dsc();
++            lv_image_set_src(avatar_img_, dsc);
++            if (dsc->header.w > 0) {
++                lv_image_set_scale(avatar_img_, 256 * 320 / dsc->header.w);
++            }
++            lv_obj_clear_flag(avatar_img_, LV_OBJ_FLAG_HIDDEN);
++            lv_obj_move_foreground(avatar_img_);
++            viewfinder_frame_ = std::move(image);  // keep alive while shown
++            frames++;
++        });
++        while (esp_timer_get_time() < preview_deadline_us_.load()) {
++            camera_->Capture();
++            vTaskDelay(pdMS_TO_TICKS(20));
++        }
++        camera_->SetPreviewSink(nullptr);
++        ESP_LOGI(TAG, "camera preview done: %d frames", frames);
++        if (preview_restore_.load()) {
++            const std::string face = preview_face_before_ == "off" ? "idle" : preview_face_before_;
++            SetAvatarExpression(face.c_str());
++        }
++        preview_running_ = false;
++    }
++
++    // Undo the viewfinder's takeover of avatar_img_ (scale and held frame).
++    // Caller holds the display lock.
++    void EndViewfinderLocked() {
++        if (avatar_img_ != nullptr && viewfinder_frame_ != nullptr) {
++            lv_image_set_scale(avatar_img_, 512);
++        }
++    }
++
+     bool SetAvatarOff() {
+         if (display_ == nullptr) {
+             ESP_LOGW(TAG, "SetAvatarOff() ignored: display_ not ready");
+@@ -5112,6 +5483,9 @@ private:
+             if (avatar_img_ != nullptr) {
+                 lv_obj_add_flag(avatar_img_, LV_OBJ_FLAG_HIDDEN);
+             }
++            if (overlay_img_ != nullptr) {
++                lv_obj_add_flag(overlay_img_, LV_OBJ_FLAG_HIDDEN);  // comes back with the face
++            }
+         }
+         current_avatar_face_ = "off";
+         ESP_LOGI(TAG, "Avatar OFF: hidden + blink disabled (was %s)",
+@@ -5410,6 +5784,11 @@ private:
+             ESP_LOGD(TAG, "StartTtsLipSync ignored: display_ not ready");
+             return;
+         }
++        // Lil Token: keep the camera viewfinder / held photo on screen while
++        // the robot talks about it.
++        if (preview_running_.load() || viewfinder_frame_ != nullptr) {
++            return;
++        }
+         EnsureTtsLipSyncTimer();
+         if (tts_lipsync_active_.exchange(true, std::memory_order_acq_rel)) {
+             // Already active (e.g. duplicate tts.start); nothing to do.
+@@ -5546,7 +5925,7 @@ private:
+     // pre-sequence snapshot when the task finishes.
+     std::atomic<bool> blink_desired_{false};
+ 
+-    // Mark any in-flight or pending sequence for cancellation. Safe to
++    // the owner any in-flight or pending sequence for cancellation. Safe to
+     // call from any thread. Takes mouth_seq_lock_ so that:
+     //   - mouth_seq_pending_ is cleared atomically (callers that issue
+     //     set_mouth / set_avatar in the brief window between
+@@ -6554,6 +6933,160 @@ private:
+                 return root;
+             });
+ 
++        // Lil Token: raw sensor readings for tuning the gesture thresholds.
++        mcp_server.AddTool(
++            "self.sensors.read",
++            "Read the accelerometer (g) and proximity/ambient light sensor.",
++            PropertyList(),
++            [this](const PropertyList& properties) -> ReturnValue {
++                cJSON* root = cJSON_CreateObject();
++                cJSON_AddBoolToObject(root, "imu", lt_sensors_ && lt_sensors_->imu_ok());
++                cJSON_AddBoolToObject(root, "proximity_sensor", lt_sensors_ && lt_sensors_->ltr_ok());
++                cJSON_AddNumberToObject(root, "ax", lt_ax_.load());
++                cJSON_AddNumberToObject(root, "ay", lt_ay_.load());
++                cJSON_AddNumberToObject(root, "az", lt_az_.load());
++                cJSON_AddNumberToObject(root, "motion", lt_dyn_.load());
++                cJSON_AddNumberToObject(root, "proximity", lt_ps_.load());
++                cJSON_AddNumberToObject(root, "proximity_baseline", lt_ps_base_.load());
++                cJSON_AddNumberToObject(root, "light", lt_als_.load());
++                cJSON_AddNumberToObject(root, "free_psram", (double)heap_caps_get_free_size(MALLOC_CAP_SPIRAM));
++                cJSON_AddNumberToObject(root, "largest_psram_block", (double)heap_caps_get_largest_free_block(MALLOC_CAP_SPIRAM));
++                cJSON_AddNumberToObject(root, "avatar_sets_cached", (double)avatar_cache_.size());
++                cJSON_AddNumberToObject(root, "overlays_cached", (double)overlays_.size());
++                cJSON_AddBoolToObject(root, "overlay_on", overlay_active_);
++                cJSON_AddNumberToObject(root, "uptime_s", (double)(esp_timer_get_time() / 1000000));
++                return root;
++            });
++
++        // Lil Token: take the hat or badge off again (see ShowOverlay).
++        mcp_server.AddTool(
++            "self.display.clear_overlay",
++            "Remove the picture drawn over the face (hat, badge).",
++            PropertyList(),
++            [this](const PropertyList& properties) -> ReturnValue {
++                ClearOverlay();
++                return true;
++            });
++
++        // Lil Token: update the firmware over Wi-Fi. Downloads the app image
++        // from `url` into the spare app slot and reboots into it. The gateway
++        // serves the file (tools/ota_update.py); nothing happens on a failed
++        // download, and a USB flash still recovers a bad image.
++        mcp_server.AddTool(
++            "self.firmware.update",
++            "Download a firmware app image from `url` (http on the local network), write it to the spare slot and reboot.",
++            PropertyList({
++                Property("url", kPropertyTypeString),
++            }),
++            [](const PropertyList& properties) -> ReturnValue {
++                std::string url = properties["url"].value<std::string>();
++                if (url.rfind("http://", 0) != 0) {
++                    return std::string("{\"ok\":false,\"error\":\"url must start with http://\"}");
++                }
++                Application::GetInstance().Schedule([url]() {
++                    Application::GetInstance().UpgradeFirmware(url);
++                });
++                return std::string("{\"ok\":true,\"state\":\"downloading\"}");
++            });
++
++        // Lil Token: screen snapshot for remote verification. Grabs the
++        // active LVGL screen, downsamples 2x to 160x120 RGB565 (little
++        // endian) and returns it base64-encoded in the tool result.
++        mcp_server.AddTool(
++            "self.display.snapshot",
++            "Capture what is on the LCD right now as a 160x120 RGB565 image (base64).",
++            PropertyList(),
++            [this](const PropertyList& properties) -> ReturnValue {
++                cJSON* root = cJSON_CreateObject();
++                if (display_ == nullptr) {
++                    cJSON_AddBoolToObject(root, "ok", false);
++                    return root;
++                }
++                std::string b64;
++                int out_w = 0, out_h = 0;
++                {
++                    DisplayLockGuard lock(display_);
++                    lv_draw_buf_t* snap = lv_snapshot_take(lv_screen_active(), LV_COLOR_FORMAT_RGB565);
++                    if (snap != nullptr) {
++                        int w = snap->header.w, h = snap->header.h, stride = snap->header.stride;
++                        out_w = w / 2;
++                        out_h = h / 2;
++                        std::vector<uint8_t> px((size_t)out_w * out_h * 2);
++                        for (int y = 0; y < out_h; y++) {
++                            const uint8_t* row = snap->data + (size_t)(y * 2) * stride;
++                            for (int x = 0; x < out_w; x++) {
++                                px[((size_t)y * out_w + x) * 2] = row[x * 4];
++                                px[((size_t)y * out_w + x) * 2 + 1] = row[x * 4 + 1];
++                            }
++                        }
++                        lv_draw_buf_destroy(snap);
++                        static const char* tbl = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
++                        b64.reserve(px.size() * 4 / 3 + 4);
++                        for (size_t i = 0; i < px.size(); i += 3) {
++                            uint32_t n = px[i] << 16;
++                            if (i + 1 < px.size()) n |= px[i + 1] << 8;
++                            if (i + 2 < px.size()) n |= px[i + 2];
++                            b64.push_back(tbl[(n >> 18) & 63]);
++                            b64.push_back(tbl[(n >> 12) & 63]);
++                            b64.push_back(i + 1 < px.size() ? tbl[(n >> 6) & 63] : '=');
++                            b64.push_back(i + 2 < px.size() ? tbl[n & 63] : '=');
++                        }
++                    }
++                }
++                cJSON_AddBoolToObject(root, "ok", !b64.empty());
++                cJSON_AddNumberToObject(root, "w", out_w);
++                cJSON_AddNumberToObject(root, "h", out_h);
++                cJSON_AddStringToObject(root, "format", "rgb565le");
++                cJSON_AddStringToObject(root, "data", b64.c_str());
++                return root;
++            });
++
++        // Lil Token: live camera viewfinder. Hides the avatar and streams
++        // camera frames to the LCD preview layer (the same path take_photo
++        // already uses, normally masked by the avatar) for `seconds`, so
++        // the owner can see what the robot sees while it looks. seconds=0 stops.
++        // restore=false leaves the avatar hidden afterwards so a following
++        // take_photo still shows on screen; set_avatar brings the face back.
++        mcp_server.AddTool(
++            "self.camera.preview",
++            "Show a live camera viewfinder full screen for `seconds` (1-30, 0 stops). "
++            "With restore=true the face returns afterwards; with restore=false the "
++            "screen keeps the last frame until set_avatar is called.",
++            PropertyList({
++                Property("seconds", kPropertyTypeInteger, 5, 0, 30),
++                Property("restore", kPropertyTypeBoolean, true),
++            }),
++            [this](const PropertyList& properties) -> ReturnValue {
++                int seconds = properties["seconds"].value<int>();
++                bool restore = properties["restore"].value<bool>();
++                cJSON* root = cJSON_CreateObject();
++                if (camera_ == nullptr) {
++                    cJSON_AddBoolToObject(root, "ok", false);
++                    cJSON_AddStringToObject(root, "error", "no camera");
++                    return root;
++                }
++                if (seconds <= 0) {
++                    preview_deadline_us_ = 0;
++                    cJSON_AddBoolToObject(root, "ok", true);
++                    cJSON_AddStringToObject(root, "state", "stopping");
++                    return root;
++                }
++                preview_restore_ = restore;
++                preview_deadline_us_ = esp_timer_get_time() + (int64_t)seconds * 1000000;
++                if (!preview_running_.exchange(true)) {
++                    preview_face_before_ = current_avatar_face_;
++                    RequestMouthSequenceCancel();
++                    SetAvatarOff();
++                    xTaskCreate([](void* arg) {
++                        static_cast<StackChanBoard*>(arg)->PreviewTask();
++                        vTaskDelete(NULL);
++                    }, "lt_preview", 4096, this, 4, nullptr);
++                }
++                cJSON_AddBoolToObject(root, "ok", true);
++                cJSON_AddNumberToObject(root, "seconds", seconds);
++                return root;
++            });
++
+         // Phase 2: lip-sync. Swap the avatar to one of the mouth-only frames.
+         // The shape is held until the next set_avatar / set_mouth / blink, so
+         // callers should drive it from their TTS / audio level loop.
+@@ -6713,6 +7246,8 @@ private:
+                     if (age_ms < 0) age_ms = 0;
+                 }
+                 cJSON_AddNumberToObject(root, "last_event_age_ms", (double)age_ms);
++                cJSON_AddNumberToObject(root, "reads_ok", (double)touch_read_ok_);
++                cJSON_AddNumberToObject(root, "reads_failed", (double)touch_read_fail_);
+                 return root;
+             });
+ 
+@@ -7746,6 +8281,7 @@ public:
+         InitializeTouchSettings();
+         InitializeSi12tTouch();
+         I2cDetect();
++        InitializeLilTokenSensors();
+         // Avatar auto-display disabled: WiFi config UI needs to be visible.
+         // Avatar is shown on-demand via MCP set_avatar command.
+         // InitializeAvatar();
+@@ -7850,6 +8386,37 @@ public:
+             return;
+         }
+ 
++        if (strcmp(mode_j->valuestring, "overlay") == 0) {
++            // Lil Token: a picture to draw over the face. Its own small task
++            // and guard, so the face keeps blinking and talking meanwhile.
++            if (static_cast<size_t>(size_j->valuedouble) != kOverlayBytes) {
++                SendAvatarSetLoadedError(req_checksum, "size_mismatch");
++                return;
++            }
++            if (overlay_fetch_in_progress_.exchange(true, std::memory_order_acq_rel)) {
++                SendAvatarSetLoadedError(req_checksum, "fetch_in_progress");
++                return;
++            }
++            auto* ctx = new AvatarFetchContext;
++            ctx->board = this;
++            ctx->url = url->valuestring;
++            ctx->token = token->valuestring;
++            ctx->mode = AvatarSet::Mode::kLayered;  // unused for overlays
++            ctx->expected_size = kOverlayBytes;
++            ctx->expected_sha256 = req_checksum;
++            if (xTaskCreate([](void* arg) {
++                    auto* c = static_cast<AvatarFetchContext*>(arg);
++                    c->board->RunOverlayFetch(c);
++                    delete c;
++                    vTaskDelete(nullptr);
++                }, "overlay_fetch", 6144, ctx, tskIDLE_PRIORITY + 2, nullptr) != pdPASS) {
++                delete ctx;
++                overlay_fetch_in_progress_.store(false, std::memory_order_release);
++                SendAvatarSetLoadedError(req_checksum, "task_create_failed");
++            }
++            return;
++        }
++
+         AvatarSet::Mode mode_enum;
+         if (strcmp(mode_j->valuestring, "layered") == 0) {
+             mode_enum = AvatarSet::Mode::kLayered;
+@@ -7936,17 +8503,31 @@ public:
+         // by checksum; replying with an empty key means the failure
+         // cannot resolve any waiter and the caller waits until timeout.
+         const std::string expected_sha256 = ctx->expected_sha256;
+-        AvatarSetFetcher::Fetch(
+-            avatar_set_,
+-            ctx->url, ctx->token,
+-            ctx->mode, ctx->expected_size, ctx->expected_sha256,
+-            [expected_sha256](bool ok,
+-                              const std::string& actual_checksum,
+-                              const std::string& error_code) {
+-                const std::string& correlation =
+-                    actual_checksum.empty() ? expected_sha256 : actual_checksum;
+-                SendAvatarSetLoaded(ok, correlation, error_code);
+-            });
++        // Lil Token: a set that is already on the robot is shown at once,
++        // with no download. The gateway cannot tell the difference.
++        const AvatarSetCache::Entry* hit = avatar_cache_.Find(expected_sha256);
++        if (hit != nullptr && hit->mode == ctx->mode && hit->size == ctx->expected_size) {
++            bool ok;
++            {
++                DisplayLockGuard lock(display_);
++                ok = avatar_set_.ActivateBorrowed(hit->mode, hit->buffer, hit->size);
++            }
++            ESP_LOGI(TAG, "avatar set shown from the cache (%s)", expected_sha256.c_str());
++            SendAvatarSetLoaded(ok, expected_sha256, ok ? "" : "load_failed");
++        } else {
++            AvatarSetFetcher::Fetch(
++                avatar_set_,
++                ctx->url, ctx->token,
++                ctx->mode, ctx->expected_size, ctx->expected_sha256,
++                [expected_sha256](bool ok,
++                                  const std::string& actual_checksum,
++                                  const std::string& error_code) {
++                    const std::string& correlation =
++                        actual_checksum.empty() ? expected_sha256 : actual_checksum;
++                    SendAvatarSetLoaded(ok, correlation, error_code);
++                },
++                &avatar_cache_);
++        }
+ 
+         // Fetch finished (success or failure). Clear the in-progress flag
+         // BEFORE replaying pending state — otherwise the public
+@@ -7972,6 +8553,93 @@ public:
+         ApplyPendingAvatarAfterFetch();
+     }
+ 
++    // ---- Lil Token wardrobe overlays ---------------------------------------
++
++    void RunOverlayFetch(const AvatarFetchContext* ctx) {
++        uint8_t* buffer = nullptr;
++        for (auto& e : overlays_) {
++            if (e.checksum == ctx->expected_sha256 && !e.checksum.empty()) {
++                e.used = ++overlay_clock_;
++                buffer = e.buffer;  // already on the robot: no download
++                break;
++            }
++        }
++        std::string error;
++        if (buffer == nullptr) {
++            buffer = AvatarSetFetcher::Download(ctx->url, ctx->token, ctx->expected_size,
++                                                ctx->expected_sha256, &error);
++            if (buffer != nullptr) {
++                DisplayLockGuard lock(display_);
++                // Make room: drop the least recently used overlay that is not on screen.
++                while (overlays_.size() >= kMaxOverlays) {
++                    int oldest = -1;
++                    for (size_t i = 0; i < overlays_.size(); ++i) {
++                        if (overlays_[i].buffer == overlay_current_) continue;
++                        if (oldest < 0 || overlays_[i].used < overlays_[oldest].used) oldest = static_cast<int>(i);
++                    }
++                    if (oldest < 0) break;
++                    heap_caps_free(overlays_[oldest].buffer);
++                    overlays_.erase(overlays_.begin() + oldest);
++                }
++                overlays_.push_back(OverlayEntry{ctx->expected_sha256, buffer, ++overlay_clock_});
++            }
++        }
++        bool ok = buffer != nullptr;
++        if (ok) {
++            ShowOverlay(buffer);
++            ESP_LOGI(TAG, "overlay shown (%u on the robot)", static_cast<unsigned int>(overlays_.size()));
++        } else {
++            ESP_LOGW(TAG, "overlay fetch failed: %s", error.c_str());
++        }
++        overlay_fetch_in_progress_.store(false, std::memory_order_release);
++        SendAvatarSetLoaded(ok, ctx->expected_sha256, ok ? "" : error);
++    }
++
++    void ShowOverlay(uint8_t* buffer) {
++        if (display_ == nullptr) return;
++        DisplayLockGuard lock(display_);
++        if (overlay_img_ == nullptr) {
++            lv_obj_t* screen = lv_screen_active();
++            if (screen == nullptr) return;
++            overlay_img_ = lv_image_create(screen);
++            if (overlay_img_ == nullptr) return;
++            lv_image_set_scale(overlay_img_, 512);   // same 2x as the face under it
++            lv_obj_align(overlay_img_, LV_ALIGN_CENTER, 0, 0);
++            lv_obj_clear_flag(overlay_img_, LV_OBJ_FLAG_SCROLLABLE);
++        }
++        overlay_dsc_index_ ^= 1;
++        lv_image_dsc_t& dsc = overlay_dsc_[overlay_dsc_index_];
++        dsc.header.magic = LV_IMAGE_HEADER_MAGIC;
++        dsc.header.cf = LV_COLOR_FORMAT_RGB565A8;
++        dsc.header.flags = 0;
++        dsc.header.w = 160;
++        dsc.header.h = 120;
++        dsc.header.stride = 160 * 2;
++        dsc.data_size = kOverlayBytes;
++        dsc.data = buffer;
++        overlay_current_ = buffer;
++        lv_image_set_src(overlay_img_, &dsc);
++        lv_obj_invalidate(overlay_img_);
++        overlay_active_ = true;
++        // Only over a visible face, never over the camera view.
++        if (avatar_img_ != nullptr && !lv_obj_has_flag(avatar_img_, LV_OBJ_FLAG_HIDDEN) &&
++            viewfinder_frame_ == nullptr) {
++            lv_obj_clear_flag(overlay_img_, LV_OBJ_FLAG_HIDDEN);
++            lv_obj_move_foreground(overlay_img_);
++        } else {
++            lv_obj_add_flag(overlay_img_, LV_OBJ_FLAG_HIDDEN);
++        }
++    }
++
++    void ClearOverlay() {
++        if (display_ == nullptr) return;
++        DisplayLockGuard lock(display_);
++        overlay_active_ = false;
++        if (overlay_img_ != nullptr) {
++            lv_obj_add_flag(overlay_img_, LV_OBJ_FLAG_HIDDEN);
++        }
++    }
++
+     static void SendAvatarSetLoaded(
+         bool ok, const std::string& checksum, const std::string& error_code) {
+         cJSON* root = cJSON_CreateObject();
+diff --git a/firmware/main/display/lcd_display.cc b/firmware/main/display/lcd_display.cc
+index be236bb..ea66f70 100644
+--- a/firmware/main/display/lcd_display.cc
++++ b/firmware/main/display/lcd_display.cc
+@@ -358,7 +358,7 @@ void LcdDisplay::SetupUI() {
+         return;
+     }
+     
+-    Display::SetupUI();  // Mark SetupUI as called
++    Display::SetupUI();  // the owner SetupUI as called
+     DisplayLockGuard lock(this);
+ 
+     auto lvgl_theme = static_cast<LvglTheme*>(current_theme_);
+@@ -808,7 +808,7 @@ void LcdDisplay::SetupUI() {
+         return;
+     }
+     
+-    Display::SetupUI();  // Mark SetupUI as called
++    Display::SetupUI();  // the owner SetupUI as called
+     DisplayLockGuard lock(this);
+     LvglTheme* lvgl_theme = static_cast<LvglTheme*>(current_theme_);
+     auto text_font = lvgl_theme->text_font()->font();
+@@ -1016,8 +1016,9 @@ void LcdDisplay::SetPreviewImage(std::unique_ptr<LvglImage> image) {
+     auto img_dsc = preview_image_cached_->image_dsc();
+     lv_image_set_src(preview_image_, img_dsc);
+     if (img_dsc->header.w > 0 && img_dsc->header.h > 0) {
+-        // zoom factor 0.5
+-        lv_image_set_scale(preview_image_, 128 * width_ / img_dsc->header.w);
++        // Lil Token: full-width preview (was 128 = half size) so the
++        // camera viewfinder fills the screen.
++        lv_image_set_scale(preview_image_, 256 * width_ / img_dsc->header.w);
+     }
+ 
+     // Hide emoji_box_
+diff --git a/firmware/partitions/v2/16m_liltoken.csv b/firmware/partitions/v2/16m_liltoken.csv
+new file mode 100644
+index 0000000..07bdcc5
+--- /dev/null
++++ b/firmware/partitions/v2/16m_liltoken.csv
+@@ -0,0 +1,9 @@
++# Lil Token layout: bigger app slots for the custom avatar frames.
++# nvs/otadata/phy keep the stock offsets so Wi-Fi and gateway settings survive.
++# Name,   Type, SubType, Offset,  Size, Flags
++nvs,      data, nvs,     0x9000,    0x4000,
++otadata,  data, ota,     0xd000,    0x2000,
++phy_init, data, phy,     0xf000,    0x1000,
++ota_0,    app,  ota_0,   0x20000,   0x450000,
++ota_1,    app,  ota_1,   0x470000,  0x450000,
++assets,   data, spiffs,  0x8C0000,  0x740000,
+diff --git a/firmware/scripts/build_default_assets.py b/firmware/scripts/build_default_assets.py
+index 90cee7d..f364180 100755
+--- a/firmware/scripts/build_default_assets.py
++++ b/firmware/scripts/build_default_assets.py
+@@ -898,12 +898,16 @@ def main():
+             "language": language,
+             "duration": 3000,  # Default duration in ms
+             "threshold": custom_wake_word_config['threshold'],
++            # Lil Token: a comma-separated CONFIG_CUSTOM_WAKE_WORD becomes
++            # several accepted phrasings of the same wake word.
+             "commands": [
+                 {
+-                    "command": custom_wake_word_config['wake_word'],
++                    "command": phrase.strip(),
+                     "text": custom_wake_word_config['display'],
+                     "action": "wake"
+                 }
++                for phrase in custom_wake_word_config['wake_word'].split(",")
++                if phrase.strip()
+             ]
+         }
+         print(f"  custom wake word: {custom_wake_word_config['wake_word']} ({custom_wake_word_config['display']})")
+diff --git a/gateway/stackchan_mcp/audio_input_hook.py b/gateway/stackchan_mcp/audio_input_hook.py
+index 9ef7bcd..9c4b8f1 100644
+--- a/gateway/stackchan_mcp/audio_input_hook.py
++++ b/gateway/stackchan_mcp/audio_input_hook.py
+@@ -430,3 +430,46 @@ async def push_audio_capture(
+             session_id, exc,
+         )
+         return False
++
++
++async def push_wake_event(
++    hook_url: str,
++    token: str,
++    *,
++    session_id: str = "",
++    wake_word: str = "",
++    timeout_s: float = 5.0,
++) -> bool:
++    """POST a JSON wake notification to the hook URL (Lil Token mode).
++
++    Used when ``STACKCHAN_AUDIO_HOOK_MODE=wake``: instead of buffering the
++    device's open-ended listen stream, the gateway ends the device-side
++    listen at once and tells the receiver that the robot was woken. The
++    receiver then runs its own turn (prompt, fixed-length ``listen()``,
++    answer) through the MCP tools.
++    """
++    headers = {"X-StackChan-Session": session_id}
++    if token:
++        headers["Authorization"] = f"Bearer {token}"
++    payload = {"event": "wake", "session_id": session_id, "wake_word": wake_word}
++    try:
++        async with aiohttp.ClientSession() as session:
++            async with session.post(
++                hook_url,
++                json=payload,
++                headers=headers,
++                timeout=aiohttp.ClientTimeout(total=timeout_s),
++            ) as response:
++                ok = 200 <= response.status < 300
++                log = logger.info if ok else logger.warning
++                log(
++                    "audio_input_hook: wake event session=%s status=%d",
++                    session_id, response.status,
++                )
++                return ok
++    except Exception as exc:
++        logger.warning(
++            "audio_input_hook: wake event POST failed session=%s: %s",
++            session_id, exc,
++        )
++        return False
+diff --git a/gateway/stackchan_mcp/beat/mode.py b/gateway/stackchan_mcp/beat/mode.py
+index 1406cb1..c7b80b8 100644
+--- a/gateway/stackchan_mcp/beat/mode.py
++++ b/gateway/stackchan_mcp/beat/mode.py
+@@ -2,6 +2,7 @@
+ 
+ from __future__ import annotations
+ 
++import array
+ import asyncio
+ import contextlib
+ from collections import deque
+@@ -36,7 +37,7 @@ LISTEN_STOP_TIMEOUT_S = 3.0
+ LISTEN_RESTART_AFTER_S = 2.5
+ LISTEN_RESTART_INITIAL_BACKOFF_S = 1.0
+ LISTEN_RESTART_MAX_BACKOFF_S = 8.0
+-MIN_MOTION_CONFIDENCE = 0.35
++MIN_MOTION_CONFIDENCE = 0.2  # Lil Token: 0.35 left the head still on real music heard through the robot mic (0.2-0.5)
+ SERVO_YAW_MIN, SERVO_YAW_MAX = -90, 90
+ SERVO_PITCH_MIN, SERVO_PITCH_MAX = 5, 85
+ DEFAULT_SENSITIVITY = 0.5
+@@ -376,6 +377,21 @@ class BeatMode:
+             self._tracker.set_min_onset_rms(self._config.min_onset_rms)
+         return self.status()
+ 
++    def _recent_level_dbfs(self, seconds: float) -> float | None:
++        """RMS level of the last few seconds of captured audio (Lil Token
++        uses it to tell real music from its own servo noise)."""
++        try:
++            pcm, _ = self._capture.read_recent(seconds)
++        except Exception:
++            return None
++        if not pcm:
++            return None
++        samples = array.array("h", pcm[: len(pcm) - len(pcm) % 2])
++        if not samples:
++            return None
++        ms = sum(v * v for v in samples) / len(samples)
++        return round(10 * math.log10(ms / (32768.0 ** 2) + 1e-12), 1)
++
+     def status(self) -> dict[str, Any]:
+         loop_time = None
+         try:
+@@ -417,6 +433,7 @@ class BeatMode:
+             "last_beat_at_ms": last_beat_at_ms,
+             "last_beat_age_ms": last_beat_age_ms,
+             "onsets": beat.onset_count,
++            "level_dbfs": self._recent_level_dbfs(1.5),
+             "sensitivity": self._config.sensitivity,
+             "min_onset_rms": self._tracker.get_min_onset_rms(),
+             "capture_healthy": capture_healthy,
+@@ -499,6 +516,11 @@ class BeatMode:
+     async def _arm_listen_unlocked(self) -> None:
+         self._ensure_device_ready()
+         owner = recording_owner()
++        if owner == "ears":
++            # Lil Token: beat mode takes the mic from the always-on ears;
++            # they re-open once beat mode releases it.
++            stop_recording_if_owner("ears")
++            owner = recording_owner()
+         if is_recording() and owner != self._recording_owner:
+             raise RuntimeError(
+                 "audio capture is already active; stop listen() or the "
+@@ -626,6 +648,15 @@ class BeatMode:
+             now = asyncio.get_running_loop().time()
+             self._capture.append(pcm)
+             self._tracker.process_pcm(pcm, received_at=now)
++            # Lil Token: the ears still listen for "stop dancing".
++            try:
++                from ..ears import get_ears
++
++                ears = get_ears()
++                if ears is not None:
++                    ears.feed_dance(pcm)
++            except Exception:
++                logger.debug("dance stop listener failed", exc_info=True)
+             self._last_audio_at = now
+             self._frames_decoded += 1
+             self._capture_state = "listening"
+@@ -673,17 +704,35 @@ class BeatMode:
+         next_motion_at = loop.time()
+         next_led_at = next_motion_at
+         side = 1
++        # Lil Token: the tracker often never locks onto real music heard
++        # through the robot mic while the head is still (confidence ~0), so
++        # the head stayed put. If the ears just heard music, sway at the
++        # tempo they measured until the tracker is confident.
++        fallback_bpm = None
++        try:
++            from ..ears import get_ears
++
++            ears = get_ears()
++            if ears is not None and ears.music.on() and 60 <= ears.music.bpm <= 180:
++                fallback_bpm = float(ears.music.bpm)
++                logger.info("beat mode: fallback tempo %.0f bpm from the ears", fallback_bpm)
++        except Exception:
++            logger.debug("no ears tempo", exc_info=True)
+ 
+         while not self._stop_event.is_set():
+             beat = self._tracker.snapshot()
+-            if beat.bpm is None or beat.confidence < MIN_MOTION_CONFIDENCE:
++            if beat.bpm is not None and beat.confidence >= MIN_MOTION_CONFIDENCE:
++                bpm = beat.bpm
++            else:
++                bpm = fallback_bpm
++            if bpm is None:
+                 next_motion_at = loop.time()
+                 next_led_at = next_motion_at
+                 await self._sleep_or_stop(0.2)
+                 continue
+ 
+             cfg = self._config
+-            beat_period = max(0.3, 60.0 / beat.bpm)
++            beat_period = max(0.3, 60.0 / bpm)
+             led_period = beat_period / cfg.blink_rate
+             now = loop.time()
+             work: list[asyncio.Future[Any] | asyncio.Task[Any]] = []
+diff --git a/gateway/stackchan_mcp/capture_server.py b/gateway/stackchan_mcp/capture_server.py
+index a235f17..658d0b7 100644
+--- a/gateway/stackchan_mcp/capture_server.py
++++ b/gateway/stackchan_mcp/capture_server.py
+@@ -216,7 +216,7 @@ async def stage_avatar_set(
+     The staging entry is consumed on the first successful fetch and
+     GC'd after AVATAR_SET_STAGING_TTL_SEC if never fetched.
+     """
+-    if mode not in ("layered", "matrix"):
++    if mode not in ("layered", "matrix", "overlay"):
+         raise ValueError(f"unknown avatar mode: {mode}")
+ 
+     short_id = secrets.token_hex(8)
+diff --git a/gateway/stackchan_mcp/ears.py b/gateway/stackchan_mcp/ears.py
+new file mode 100644
+index 0000000..a1c438d
+--- /dev/null
++++ b/gateway/stackchan_mcp/ears.py
+@@ -0,0 +1,791 @@
++"""Always-on ears for Lil Token (Mac-side wake word and utterances).
++
++The robot's on-chip MultiNet wake word is too weak for a custom English
++phrase. Instead the gateway keeps the device microphone open whenever the
++robot is not talking (``listen.start`` with ``quiet`` so the firmware skips
++its popup), cuts the incoming AFE-processed audio into utterances with a
++simple energy endpointer, transcribes each one locally with faster-whisper
++(Silero VAD filter on, so room noise does not turn into words), and POSTs
++every utterance to the brain:
++
++    {"event": "utterance", "text": ..., "wake": bool, "question": ...,
++     "speech_ms": ..., "ts": ...}
++
++``wake`` is true when the text contains "hey lil token" (or a near
++spelling); ``question`` is whatever followed it. Nothing leaves the Mac
++here: ambient speech is transcribed locally and the brain discards
++utterances that are not part of a conversation.
++
++The ears stand down while the TTS/listen lock is held (the robot is
++speaking or an MCP ``listen()`` owns the mic) and re-open the mic a moment
++after it is released. A device-side ``listen.stop`` while the ears own the
++mic means the screen was tapped, which is reported as a wake.
++
++Enable with STACKCHAN_EARS=1 and STACKCHAN_EARS_HOOK_URL (the brain's
++/utterance endpoint). Tunables: STACKCHAN_EARS_MODEL (default small.en),
++STACKCHAN_EARS_END_SILENCE_MS (800), STACKCHAN_EARS_MARGIN_DB (8),
++STACKCHAN_EARS_MIN_DBFS (-50).
++"""
++
++from __future__ import annotations
++
++import array
++from pathlib import Path
++import wave
++import asyncio
++import logging
++import math
++import os
++import re
++import time
++from collections import deque
++from typing import TYPE_CHECKING, Any
++
++import aiohttp
++
++from .audio_stream import is_recording, recording_owner, start_recording, stop_recording_if_owner
++from .stt.audio_utils import DEVICE_SAMPLE_RATE, StreamingOpusDecoder
++
++if TYPE_CHECKING:  # pragma: no cover
++    from .gateway import Gateway
++
++logger = logging.getLogger(__name__)
++
++OWNER = "ears"
++WAKE_MIN_LOGPROB = float(os.environ.get("STACKCHAN_EARS_WAKE_MIN_LOGPROB", "-0.8"))
++WIN_MS = 30
++WAKE_CORE = re.compile(r"(?i)\b(lil|little|li'?l|lill|lyl)[\s'.,-]*(token|tokin|tokken|tolken|toking|tolkien|tokens)\b|\bliltoken\b")
++
++
++def _env_int(name: str, default: int) -> int:
++    try:
++        return int(os.environ.get(name, default))
++    except ValueError:
++        return default
++
++
++THIRD_PERSON = re.compile(
++    r"(?i)^\s+(is|was|has|had|does|did|can|could|will|would|should|might|must|"
++    r"isn'?t|doesn'?t|won'?t|can'?t|and|or|\w+(s|ed))\b"
++)
++LEAD_OK = re.compile(r"(?i)^\W*((hey|hi|yo|okay|ok|hello|so|um|uh|oh|and|alright|yeah)\W+){0,3}$")
++
++
++GREETINGS = {"hey", "hi", "yo", "okay", "ok", "hay", "a", "hello", "ay", "eh", "hei", "heya", "oi"}
++FILLERS = GREETINGS | {"so", "um", "uh", "oh", "and", "alright", "yeah", "hmm", "you"}  # "hey, you little token"
++NAME_FORMS = ("lil token", "little token", "liltoken", "lil tokin", "little tokin")
++
++
++def fuzzy_wake(text: str) -> tuple[bool, str]:
++    """Forgiving match for "Hey Lil Token" when Whisper mangles the name
++    ("hey little talking", "hey lil tokin", "a little toke"). The name has
++    to sit right after the opening fillers; returns (wake, remainder)."""
++    import difflib
++
++    words = re.findall(r"[a-z']+", text.lower())
++    i = 0
++    greeted = False
++    while i < len(words) and i < 3 and words[i].strip("'") in FILLERS:
++        greeted = greeted or words[i].strip("'") in GREETINGS
++        i += 1
++    best, used = 0.0, 0
++    for n in (1, 2, 3):
++        cand = " ".join(w.strip("'") for w in words[i:i + n])
++        if not cand or not cand.startswith(("l", "t")):
++            continue
++        for form in NAME_FORMS:
++            r = difflib.SequenceMatcher(None, cand, form).ratio()
++            if r > best:
++                best, used = r, n
++    # "a" is Whisper's usual spelling of "hey", but also plain English ("a
++    # little bit"): only a real greeting word earns the lenient match.
++    strong = any(w.strip("'") in GREETINGS - {"a"} for w in words[:i])
++    if best >= (0.72 if greeted else 0.86) and not strong and used >= 2:
++        # No "hey": the second word itself must sound like "token".
++        # ("little tiny things..." scored 0.87 against "little tokin".)
++        import difflib as _d
++        second = words[i + 1].strip("'") if i + 1 < len(words) else ""
++        if max(_d.SequenceMatcher(None, second, f).ratio() for f in ("token", "tokin", "tokens")) < 0.75:
++            return False, text
++    if best >= (0.72 if greeted else 0.86):
++        # Drop the matched words from the original text for the remainder.
++        tokens = re.findall(r"\S+", text)
++        rest = " ".join(tokens[i + used:])
++        return True, re.sub(r"^[\s,.!?:;-]+", "", rest).strip()
++    return False, text
++
++
++def split_wake(text: str) -> tuple[bool, str]:
++    """Return (wake, remainder after the wake phrase).
++
++    Only counts when Lil Token is addressed: the name has to come first,
++    after at most a few filler words ("hey", "okay", "um"). Mentioning it
++    mid-sentence ("Lil Token looks for these topics...") is not a wake.
++    """
++    m = WAKE_CORE.search(text)
++    if not m or not LEAD_OK.match(text[: m.start()]):
++        return fuzzy_wake(text)
++    greeted = re.search(r"(?i)\b(hey|hi|yo|okay|ok|hello)\b", text[: m.start()])
++    if not greeted and THIRD_PERSON.match(text[m.end():]):
++        # "Lil Token looks for...", "Lil Token is great": talked about, not to.
++        return False, text
++    start = m.start()
++    pre = re.search(r"(?i)\b(hey|hi|yo|okay|ok|hello)[\s,.!]*$", text[:start])
++    rest = text[m.end():]
++    rest = re.sub(r"^[\s,.!?:;-]+", "", rest)
++    lead = text[: pre.start() if pre else start].strip(" ,.!?")
++    return True, (lead + " " + rest).strip() if lead and len(lead.split()) > 2 else rest.strip()
++
++
++def split_wake_anywhere(text: str) -> tuple[bool, str]:
++    """With music on, segments are long and lyrics come first, so look for
++    an addressed wake at every sentence start and every greeting word."""
++    starts = {0}
++    starts.update(m.end() for m in re.finditer(r"[.!?]\s+", text))
++    starts.update(m.start() for m in re.finditer(r"(?i)\b(hey|hi|yo|okay|ok)\b", text))
++    for i in sorted(starts):
++        wake, rest = split_wake(text[i:])
++        if wake:
++            return True, rest
++    return False, text
++
++
++# Spoken "stop" while Lil Token dances. Song lyrics say "don't stop" and
++# "can't stop" a lot, so those never count, and a bare "stop" / "enough"
++# must be (almost) the whole utterance.
++DANCE_STOP_ANY = re.compile(r"\b((stop|stopped|not|done|quit) (the )?danc\w*|(that'?s|ok(ay)?) enough|enough danc\w*|quit danc\w*|end the dance)\b")
++DANCE_STOP_SHORT = re.compile(r"\b(stop|enough|chill|freeze|halt)\b")
++DANCE_STOP_NOT = re.compile(r"\b(don'?t|can'?t|won'?t|never|not|ain'?t) stop\b")
++
++
++DANCE_DEBUG = Path.home() / ".stackchan-mcp" / "dance_debug"
++DANCE_LISTEN_OFF = Path.home() / ".stackchan-mcp" / "dance_listen_off"  # A/B switch
++
++
++def is_dance_stop(text: str) -> bool:
++    t = re.sub(r"[^a-z' ]", " ", text.lower())
++    t = re.sub(r"\s+", " ", t).strip()
++    if not t or DANCE_STOP_NOT.search(t):
++        return False
++    if DANCE_STOP_ANY.search(t):
++        return True
++    _, rest = split_wake(t)
++    rest = (rest or t).strip()
++    # Short is <= 5 words: Whisper hears "Lil Token, stop" as "May the token stop".
++    return len(rest.split()) <= 5 and bool(DANCE_STOP_SHORT.search(rest))
++
++
++class Segmenter:
++    """Energy endpointer over 16-bit mono PCM in 30 ms windows."""
++
++    def __init__(self) -> None:
++        self.win = DEVICE_SAMPLE_RATE * WIN_MS // 1000
++        self.end_silence = _env_int("STACKCHAN_EARS_END_SILENCE_MS", 800)
++        self.margin = _env_int("STACKCHAN_EARS_MARGIN_DB", 8)
++        self.min_dbfs = float(_env_int("STACKCHAN_EARS_MIN_DBFS", -50))
++        self.max_ms = _env_int("STACKCHAN_EARS_MAX_MS", 15000)
++        self.buf = array.array("h")
++        self.preroll: deque[array.array] = deque(maxlen=10)  # 300 ms
++        self.floor: float | None = None
++        self.in_speech = False
++        self.speech_run = 0
++        self.silence_run = 0
++        self.speech_ms = 0
++        self.utt = array.array("h")
++
++    def feed(self, pcm: bytes) -> list[tuple[bytes, int]]:
++        out: list[tuple[bytes, int]] = []
++        self.buf.frombytes(pcm[: len(pcm) - len(pcm) % 2])
++        while len(self.buf) >= self.win:
++            w = self.buf[: self.win]
++            del self.buf[: self.win]
++            ms = sum(v * v for v in w) / self.win
++            lv = 20 * math.log10(math.sqrt(ms) / 32768.0) if ms > 0 else -120.0
++            if self.floor is None:
++                self.floor = lv
++            elif lv < self.floor:
++                self.floor = self.floor * 0.9 + lv * 0.1
++            elif not self.in_speech:
++                self.floor += (lv - self.floor) * 0.01
++            loud = lv >= max(self.min_dbfs, self.floor + self.margin)
++            if not self.in_speech:
++                self.preroll.append(w)
++                self.speech_run = self.speech_run + WIN_MS if loud else 0
++                if self.speech_run >= 90:
++                    self.in_speech = True
++                    self.utt = array.array("h")
++                    for p in self.preroll:
++                        self.utt.extend(p)
++                    self.preroll.clear()
++                    self.silence_run = 0
++                    self.speech_ms = self.speech_run
++                continue
++            self.utt.extend(w)
++            if loud:
++                self.silence_run = 0
++                self.speech_ms += WIN_MS
++            else:
++                self.silence_run += WIN_MS
++            if self.silence_run >= self.end_silence or len(self.utt) * 1000 // DEVICE_SAMPLE_RATE >= self.max_ms:
++                out.append((self.utt.tobytes(), self.speech_ms))
++                self.in_speech = False
++                self.speech_run = 0
++                self.utt = array.array("h")
++        return out
++
++
++class MusicDetector:
++    """Music has a steady beat; speech does not. Keeps ~10 s of 30 ms
++    energy frames, takes the onset envelope, and looks for a strong,
++    consistent autocorrelation peak between 70 and 160 BPM with sound
++    present most of the time. Fires at most once per cooldown."""
++
++    def __init__(self) -> None:
++        self.win = DEVICE_SAMPLE_RATE * WIN_MS // 1000
++        self.buf = array.array("h")
++        self.env: deque[float] = deque(maxlen=334)  # ~10 s of 30 ms frames
++        self.hits = 0
++        self.bpm = 0.0
++        self.score = 0.0
++        self.min_score = float(os.environ.get("STACKCHAN_MUSIC_MIN_SCORE", "0.22"))
++        self.last_fire = 0.0
++        self.last_music_at = -1e9
++        self.last_strong_at = -1e9
++        self.baseline: float | None = None  # room background, log energy
++        self.margin = float(os.environ.get("STACKCHAN_MUSIC_MIN_LIFT", "0.5"))
++        self.cooldown = float(os.environ.get("STACKCHAN_MUSIC_COOLDOWN_S", "1800"))
++        self.frame_count = 0
++        # Sustained sound with or without a beat: worth asking the brain's
++        # audio model whether it is music (classical and ambient have no
++        # beat for the detector above to find).
++        self.sound_hits = 0
++        self.last_candidate = 0.0
++        self.candidate_ready = False
++
++    def sure(self) -> bool:
++        """Real music lately (a score at the dance trigger level), not just
++        a noisy room nudging the score past 0.15."""
++        return time.monotonic() - self.last_strong_at < 30
++
++    def on(self) -> bool:
++        """Music heard in the last 20 s (the score dips between phrases)."""
++        return time.monotonic() - self.last_music_at < 20
++
++    def feed(self, pcm: bytes) -> None:
++        self.buf.frombytes(pcm[: len(pcm) - len(pcm) % 2])
++        while len(self.buf) >= self.win:
++            w = self.buf[: self.win]
++            del self.buf[: self.win]
++            ms = sum(v * v for v in w) / self.win
++            self.env.append(math.log10(ms + 1.0))
++            self.frame_count += 1
++
++    def detected(self) -> bool:
++        # Evaluate about once a second once 10 s of audio is buffered.
++        if len(self.env) < self.env.maxlen or self.frame_count % 33 != 0:
++            return False
++        env = list(self.env)
++        loud = sum(1 for e in env if e > 3.5) / len(env)  # > ~-55 dBFS
++        onset = [max(0.0, env[i] - env[i - 1]) for i in range(1, len(env))]
++        mean = sum(onset) / len(onset)
++        x = [o - mean for o in onset]
++        energy = sum(v * v for v in x) or 1e-9
++        best_r, best_lag = 0.0, 0
++        for lag in range(12, 29):  # 0.36 to 0.84 s = 71 to 166 BPM
++            r = sum(x[i] * x[i - lag] for i in range(lag, len(x))) / energy
++            # A real beat repeats: also check twice the lag.
++            r2 = sum(x[i] * x[i - 2 * lag] for i in range(2 * lag, len(x))) / energy if 2 * lag < len(x) else 0
++            score = min(r, r2 * 1.1) if r2 > 0 else r * 0.5
++            if score > best_r:
++                best_r, best_lag = score, lag
++        self.score = best_r
++        if best_r >= 0.15:
++            self.last_music_at = time.monotonic()
++        if best_r >= self.min_score:
++            self.last_strong_at = time.monotonic()
++        self.bpm = 60.0 / (best_lag * WIN_MS / 1000.0) if best_lag else 0.0
++        self.loud = loud
++        if self.frame_count % 330 == 0 or best_r >= 0.15:
++            avg = sum(env) / len(env)
++            logger.info("ears: music check score=%.2f bpm=%.0f loud=%.2f avg_log_energy=%.2f baseline=%.2f",
++                        best_r, self.bpm, loud, avg, self.baseline or 0.0)
++        # Music must also be clearly louder than the room's usual background
++        # (a quiet room with a ticking fan scored 0.27 at a steady 154 bpm).
++        avg_e = sum(env) / len(env)
++        if self.baseline is None:
++            self.baseline = avg_e
++        elif avg_e < self.baseline:
++            self.baseline = 0.8 * self.baseline + 0.2 * avg_e
++        else:
++            self.baseline += 0.002 * (avg_e - self.baseline)
++        louder = avg_e >= self.baseline + self.margin
++        # Music is continuous sound: most 30 ms frames above the floor. A
++        # quiet room after talking scored 0.26 with only 25% of frames loud.
++        steady = loud >= 0.6
++        self.sound_hits = self.sound_hits + 1 if (louder and steady) else 0
++        now = time.monotonic()
++        if self.sound_hits >= 8 and now - self.last_candidate >= 8 and now - self.last_fire > self.cooldown:
++            self.last_candidate = now
++            self.candidate_ready = True
++        self.hits = self.hits + 1 if (best_r >= self.min_score and louder and steady) else 0
++        # 5 checks (about 5 s) of music in a row: a short clip or a phone
++        # video does not start a dance (21:41 borderline trigger).
++        if self.hits >= int(os.environ.get("STACKCHAN_MUSIC_HITS", "5")) and time.monotonic() - self.last_fire > self.cooldown:
++            self.last_fire = time.monotonic()
++            self.hits = 0
++            return True
++        return False
++
++
++class Ears:
++    def __init__(self, gateway: "Gateway") -> None:
++        self.gateway = gateway
++        self.hook_url = os.environ.get("STACKCHAN_EARS_HOOK_URL", "")
++        self.hook_token = os.environ.get("STACKCHAN_TOKEN", "")
++        self.model_name = os.environ.get("STACKCHAN_EARS_MODEL", "small.en")
++        self.active = False
++        self.session_id = ""
++        self.last_frame = 0.0
++        self.busy_until = 0.0
++        self.hold_until = 0.0
++        # Wake spotter for when music is on (see _spot).
++        self.spot_buf = array.array("h")
++        self._spot_new = 0
++        self._last_wake_post = 0.0
++        self.stall_s = 2.5
++        self.frames = 0
++        self.opened_at = 0.0
++        self.decoder: StreamingOpusDecoder | None = None
++        self.seg: Segmenter | None = None
++        self.music = MusicDetector()
++        # While beat mode owns the mic, its audio comes here so a spoken
++        # "stop dancing" still works (servo noise raises the floor, hence
++        # the short max length).
++        # The last ten seconds of what the mic heard, kept in memory only, so
++        # the brain can ask what kind of music is playing (save_clip).
++        self.clip = array.array("h")
++        self.dance_buf = array.array("h")
++        self._dance_fed = 0.0
++        self._dance_new = 0
++        self._dance_stop_sent = 0.0
++        # The wake spotter (wake_spotter.py). With the gate on, an utterance
++        # is only transcribed when the spotter heard the wake phrase in it or
++        # the brain has asked for attention (a conversation is going on).
++        from .wake_spotter import WakeSpotter
++
++        self.spotter = WakeSpotter.load()
++        self.gate = self.spotter is not None and os.environ.get("STACKCHAN_WAKE_GATE", "0") == "1"
++        self.attention_until = 0.0
++        self.skipped = 0
++        self._model: Any = None
++        self._stt_lock = asyncio.Lock()
++        self._loop: asyncio.AbstractEventLoop | None = None
++
++    # -- lifecycle ---------------------------------------------------------
++
++    async def run(self) -> None:
++        self._loop = asyncio.get_running_loop()
++        asyncio.get_running_loop().run_in_executor(None, self._load_model)
++        logger.info("ears: started (model=%s hook=%s)", self.model_name, self.hook_url)
++        while True:
++            try:
++                await self._tick()
++            except Exception as exc:  # pragma: no cover - keep the loop alive
++                logger.warning("ears: tick failed: %s", exc)
++            await asyncio.sleep(0.15)
++
++    async def _tick(self) -> None:
++        esp32 = self.gateway.esp32
++        conn = esp32.connection
++        connected = conn is not None and getattr(conn, "connected", False)
++        foreign = is_recording() and recording_owner() != OWNER
++        speaking = esp32.tts_lock.locked()
++        now = time.monotonic()
++        if now < self.hold_until:
++            if self.active:
++                self._close(reason="hold")
++            return
++        if not connected or foreign or speaking:
++            if self.active:
++                self._close(reason="speaking" if speaking else ("foreign" if foreign else "disconnected"))
++            self.busy_until = now + 0.35
++            return
++        if now < self.busy_until:
++            return
++        if not self.active:
++            await self._open(conn)
++            return
++        if now - self.last_frame > self.stall_s:
++            # Device left listening on its own; re-open. Back off when it
++            # keeps stalling so a struggling robot is not hammered.
++            logger.info("ears: no audio for %.1f s, re-opening mic", self.stall_s)
++            self._close(reason="stalled")
++            self.stall_s = min(self.stall_s * 2, 20.0)
++            await self._open(conn)
++
++    async def _open(self, conn: Any) -> None:
++        self.session_id = getattr(conn, "session_id", "") or ""
++        self.decoder = StreamingOpusDecoder()
++        self.seg = Segmenter()
++        # Fresh audio history, but keep the cooldown: the mic re-opens after
++        # every dance, and a reset timer meant music started a new dance
++        # right after the last one ended (or was told to stop).
++        last_fire, last_music, bpm = self.music.last_fire, self.music.last_music_at, self.music.bpm
++        strong, baseline = self.music.last_strong_at, self.music.baseline
++        last_candidate = self.music.last_candidate
++        self.music = MusicDetector()
++        self.music.last_candidate = last_candidate
++        self.music.last_fire, self.music.last_music_at = last_fire, last_music
++        self.music.bpm = bpm  # beat mode sways at this tempo if its tracker can't lock
++        self.music.last_strong_at = strong
++        self.music.baseline = baseline
++        start_recording(self.session_id, owner=OWNER, frame_hook=self._on_frame, buffer_frames=False)
++        try:
++            # Raw (pre-AFE) mic audio: the device's speech noise suppression
++            # removed music almost entirely (peaks -31 dBFS over a -50 floor),
++            # so music detection needs the unprocessed signal. Whisper and the
++            # wake check cope with it; the mic is closed while the robot talks.
++            await self.gateway.esp32.send_listen_state(
++                "start", mode="manual", quiet=True,
++                profile=os.environ.get("STACKCHAN_EARS_PROFILE", "raw"),
++            )
++        except Exception as exc:
++            stop_recording_if_owner(OWNER)
++            logger.warning("ears: listen.start failed: %s", exc)
++            self.busy_until = time.monotonic() + 2
++            return
++        self.active = True
++        self.opened_at = time.monotonic()
++        self.last_frame = time.monotonic() + 0.6
++        logger.info("ears: mic open (session=%s)", self.session_id)
++
++    def _close(self, reason: str) -> None:
++        stop_recording_if_owner(OWNER)
++        self.active = False
++        logger.info("ears: mic closed (%s, frames=%d)", reason, self.frames)
++        self.frames = 0
++
++    def on_device_stop(self) -> bool:
++        """Device sent listen.stop while the ears held the mic (screen tap)."""
++        if not self.active or self.gateway.esp32.tts_lock.locked():
++            return False
++        self._close(reason="tap")
++        self.busy_until = time.monotonic() + 0.5
++        asyncio.create_task(self._post({"event": "wake", "wake_word": "tap", "text": "", "question": ""}))
++        logger.info("ears: screen tap -> wake")
++        return True
++
++    # -- audio -------------------------------------------------------------
++
++    def hold(self, seconds: float) -> None:
++        """Keep the mic closed for a while (e.g. during a face-set download)."""
++        self.hold_until = time.monotonic() + seconds
++
++    def _on_frame(self, frame: bytes) -> None:
++        self.last_frame = time.monotonic()
++        self.stall_s = 2.5
++        self.frames += 1
++        if self.decoder is None or self.seg is None:
++            return
++        try:
++            pcm = self.decoder.decode_frame(frame)
++        except Exception:
++            return
++        self._remember(pcm)
++        if self.spotter is not None:
++            score = self.spotter.feed(pcm)
++            if score is not None:
++                logger.info("ears: wake spotter heard it (%.2f)", score)
++        self.music.feed(pcm)
++        if self.music.detected():
++            logger.info("ears: music detected (%.0f bpm, score %.2f)", self.music.bpm, self.music.score)
++            self.music.candidate_ready = False
++            asyncio.create_task(self._post_music("music"))
++        elif self.music.candidate_ready:
++            self.music.candidate_ready = False
++            asyncio.create_task(self._post_music("music_candidate"))
++        if self.music.on():
++            self._spot(pcm)
++        else:
++            self.spot_buf = array.array("h")
++        # Music keeps the endpointer "in speech": cap segments at 8 s so a
++        # wake over music is answered quickly (normally 15 s).
++        self.seg.max_ms = 8000 if self.music.on() else 15000
++        for utt, speech_ms in self.seg.feed(pcm):
++            if speech_ms >= 150:
++                seconds = len(utt) / 2 / DEVICE_SAMPLE_RATE
++                spotted = self.spotter.heard_within(seconds + 2.5) if self.spotter is not None else None
++                if self.gate and not (spotted or time.monotonic() < self.attention_until):
++                    self.skipped += 1  # idle and no wake phrase: never transcribed
++                    continue
++                asyncio.create_task(self._handle(utt, speech_ms, spotted))
++
++    async def _post_music(self, event: str) -> None:
++        """Tell the brain there may be music and let its audio model decide.
++        The half-hour cooldown only starts if the brain actually reacted."""
++        payload = {"event": event, "bpm": round(self.music.bpm), "score": round(self.music.score, 2),
++                   "clip": self.save_clip()}
++        reacted = False
++        if self.hook_url:
++            headers = {"Authorization": f"Bearer {self.hook_token}"} if self.hook_token else {}
++            try:
++                async with aiohttp.ClientSession() as http:
++                    async with http.post(self.hook_url, json=payload, headers=headers,
++                                         timeout=aiohttp.ClientTimeout(total=20)) as resp:
++                        reacted = bool((await resp.json()).get("reacted"))
++            except Exception as exc:
++                logger.warning("ears: music post failed: %s", exc)
++        self.music.last_fire = time.monotonic() if reacted else 0.0
++        if reacted:
++            logger.info("ears: the brain is reacting to the music")
++
++    def _remember(self, pcm: bytes) -> None:
++        self.clip.frombytes(pcm[: len(pcm) - len(pcm) % 2])
++        keep = DEVICE_SAMPLE_RATE * 10
++        if len(self.clip) > keep:
++            del self.clip[: len(self.clip) - keep]
++
++    def save_clip(self) -> str:
++        """Write the last ten seconds to a WAV for the genre model and return
++        its path ("" if there is under four seconds). Only the newest few
++        clips are kept."""
++        if len(self.clip) < DEVICE_SAMPLE_RATE * 4:
++            return ""
++        folder = Path.home() / ".stackchan-mcp" / "music"
++        folder.mkdir(parents=True, exist_ok=True)
++        path = folder / f"clip-{int(time.time() * 1000)}.wav"
++        with wave.open(str(path), "wb") as w:
++            w.setnchannels(1)
++            w.setsampwidth(2)
++            w.setframerate(DEVICE_SAMPLE_RATE)
++            w.writeframes(self.clip.tobytes())
++        for old in sorted(folder.glob("clip-*.wav"))[:-5]:
++            old.unlink(missing_ok=True)
++        return str(path)
++
++    def music_state(self) -> dict:
++        return {"on": self.music.on(), "sure": self.music.sure(), "sound": self.music.sound_hits > 0, "bpm": round(self.music.bpm),
++                "score": round(self.music.score, 2), "seconds_heard": round(len(self.clip) / DEVICE_SAMPLE_RATE, 1),
++                "clip": self.save_clip()}
++
++    def attention(self, seconds: float) -> dict:
++        """The brain is in a conversation: transcribe everything for a while."""
++        self.attention_until = max(self.attention_until, time.monotonic() + max(0.0, seconds))
++        return {"attentive_for_s": round(self.attention_until - time.monotonic(), 1), "gate": self.gate,
++                "spotter": self.spotter is not None, "skipped": self.skipped}
++
++    def _wanted(self, utterance_s: float) -> bool:
++        if time.monotonic() < self.attention_until:
++            return True
++        return self.spotter is not None and self.spotter.heard_within(utterance_s + 2.5)
++
++    def _spot(self, pcm: bytes) -> None:
++        """With music on, the endpointer's noise floor climbs to the music
++        and it stops hearing speech. Instead transcribe the last 4 s every
++        1.5 s and look for an addressed wake anywhere in it."""
++        self.spot_buf.frombytes(pcm[: len(pcm) - len(pcm) % 2])
++        keep = DEVICE_SAMPLE_RATE * 4
++        if len(self.spot_buf) > keep:
++            del self.spot_buf[: len(self.spot_buf) - keep]
++        self._spot_new += len(pcm) // 2
++        if self.gate and not self._wanted(4.0):
++            return  # over music too, Whisper only runs on a spotter hit
++        if self._spot_new >= DEVICE_SAMPLE_RATE * 1.5 and not self._stt_lock.locked() \
++                and len(self.spot_buf) >= DEVICE_SAMPLE_RATE * 2:
++            self._spot_new = 0
++            asyncio.create_task(self._handle_spot(self.spot_buf.tobytes()))
++
++    async def _handle_spot(self, pcm: bytes) -> None:
++        async with self._stt_lock:
++            text, conf = await asyncio.get_running_loop().run_in_executor(None, self._transcribe, pcm, False)
++        if DANCE_DEBUG.exists():
++            logger.info("ears: spot heard %r conf=%.2f", text, conf)
++        if not text:
++            return
++        wake, question = split_wake_anywhere(text)
++        if not wake or conf < WAKE_MIN_LOGPROB - 0.2 or time.monotonic() - self._last_wake_post < 8:
++            return
++        self._last_wake_post = time.monotonic()
++        self.spot_buf = array.array("h")
++        # The window may cut the question off; a short tail means "just woke".
++        if len(re.findall(r"[A-Za-z']+", question)) < 3:
++            question = ""
++        logger.info("ears: heard %r wake=True (music spotter) conf=%.2f", text, conf)
++        await self._post({"event": "utterance", "text": text, "wake": True, "question": question,
++                          "speech_ms": 0, "conf": round(conf, 2), "music": True, "music_sure": self.music.sure(), "spot": True,
++                          "ts": time.time()})
++
++    def feed_dance(self, pcm: bytes) -> None:
++        self._remember(pcm)  # the genre model can still be asked mid-dance
++        if DANCE_LISTEN_OFF.exists():
++            return
++        """Beat-mode audio during a dance: listen only for a stop command.
++        Music never goes quiet, so instead of endpointing, transcribe the
++        last 3 s once a second (a sliding window cannot split the phrase)."""
++        now = time.monotonic()
++        if now - self._dance_fed > 2.0:
++            self.dance_buf = array.array("h")  # new dance
++            self._dance_new = 0
++        self._dance_fed = now
++        self.dance_buf.frombytes(pcm[: len(pcm) - len(pcm) % 2])
++        keep = DEVICE_SAMPLE_RATE * 3
++        if len(self.dance_buf) > keep:
++            del self.dance_buf[: len(self.dance_buf) - keep]
++        self._dance_new += len(pcm) // 2
++        if self._dance_new >= DEVICE_SAMPLE_RATE and not self._stt_lock.locked() \
++                and now - self._dance_stop_sent > 5 and len(self.dance_buf) >= DEVICE_SAMPLE_RATE * 1.5:
++            self._dance_new = 0
++            asyncio.create_task(self._handle_dance(self.dance_buf.tobytes()))
++
++    def end_dance(self) -> None:
++        self.dance_buf = array.array("h")
++
++    async def _handle_dance(self, pcm: bytes) -> None:
++        async with self._stt_lock:
++            text, conf = await asyncio.get_running_loop().run_in_executor(None, self._transcribe, pcm, False)
++        if DANCE_DEBUG.exists():
++            # Opt-in debugging (touch ~/.stackchan-mcp/dance_debug): log what
++            # the dance listener hears and keep the clips.
++            logger.info("ears: dance heard %r conf=%.2f", text, conf)
++            d = DANCE_DEBUG.parent / "dance_clips"
++            d.mkdir(exist_ok=True)
++            with wave.open(str(d / f"{time.strftime('%H%M%S')}.wav"), "wb") as w:
++                w.setnchannels(1); w.setsampwidth(2); w.setframerate(DEVICE_SAMPLE_RATE); w.writeframes(pcm)
++        if text:
++            logger.info("ears: dance heard %r conf=%.2f", text[:80], conf)
++        if not text or not is_dance_stop(text) or time.monotonic() - self._dance_stop_sent <= 5:
++            return
++        self._dance_stop_sent = time.monotonic()
++        logger.info("ears: dance stop %r conf=%.2f", text, conf)
++        await self._post({"event": "utterance", "text": text, "wake": False, "dance_stop": True,
++                          "question": "", "conf": round(conf, 2), "ts": time.time()})
++
++    def _load_model(self) -> Any:
++        if self._model is None:
++            from faster_whisper import WhisperModel
++
++            t = time.monotonic()
++            self._model = WhisperModel(self.model_name, device="cpu", compute_type="int8", cpu_threads=6)
++            logger.info("ears: loaded %s in %.1fs", self.model_name, time.monotonic() - t)
++        return self._model
++
++    def _transcribe(self, pcm: bytes, vad: bool = True) -> tuple[str, float]:
++        """vad=False is the dance listener: music never trips the VAD, and
++        without temperature fallback / a token cap Whisper looped for up to
++        19 s on a 3 s music clip. With them it takes about 0.6 s."""
++        """Return (text, confidence). Confidence is the worst segment's
++        average log-probability; low values mean Whisper is guessing."""
++        import numpy as np
++
++        model = self._load_model()
++        audio = np.frombuffer(pcm, dtype=np.int16).astype(np.float32) / 32768.0
++        # No initial_prompt: with "Hey Lil Token." as a prompt, Whisper
++        # echoed the prompt back on muffled speech and noise (false wakes).
++        segments, _ = model.transcribe(
++            audio,
++            language="en",
++            beam_size=1,
++            vad_filter=vad,
++            condition_on_previous_text=False,
++            **({} if vad else {"temperature": 0.0, "max_new_tokens": 32, "without_timestamps": True}),
++            no_speech_threshold=0.6,
++        )
++        parts, worst = [], 0.0
++        for seg in segments:
++            # Over music Whisper flags real speech as "no speech"; the dance
++            # and spotter paths (vad=False) rely on strict phrase matching.
++            if vad and getattr(seg, "no_speech_prob", 0) >= 0.6:
++                continue
++            parts.append(seg.text.strip())
++            worst = min(worst, getattr(seg, "avg_logprob", 0.0))
++        return " ".join(parts).strip(), worst
++
++    async def _handle(self, pcm: bytes, speech_ms: int, spotted: bool | None = None) -> None:
++        async with self._stt_lock:
++            t = time.monotonic()
++            text, conf = await asyncio.get_running_loop().run_in_executor(None, self._transcribe, pcm)
++            took = time.monotonic() - t
++        if not text:
++            return
++        wake, question = split_wake(text)
++        words = len(re.findall(r"[A-Za-z']+", text))
++        # With music playing the endpointer never hears silence, so a segment
++        # runs long whatever was said; only the confidence check applies then.
++        music_on = self.music.on()
++        if music_on and not wake:
++            wake, question = split_wake_anywhere(text)
++        min_conf = WAKE_MIN_LOGPROB - (0.2 if music_on else 0.0)  # music lowers Whisper's confidence
++        if wake and (conf < min_conf or (speech_ms > 1200 + 600 * words and not music_on)):
++            # Unsure transcript, or far more sound than the words explain:
++            # likely noise or other talk misheard as the name.
++            logger.info("ears: rejected wake %r conf=%.2f speech_ms=%d words=%d", text, conf, speech_ms, words)
++            wake = False
++        # Shadow record for the wake spotter: did it flag this utterance too?
++        # (wake=True spotter=False would be a wake it would have missed.)
++        # (`spotted` was decided when the utterance ended, before Whisper ran.)
++        logger.info("ears: heard %r wake=%s spotter=%s speech_ms=%d conf=%.2f stt=%.2fs", text if (wake or os.environ.get("STACKCHAN_EARS_LOG_TEXT") == "1" or DANCE_DEBUG.exists()) else "(ambient)", wake, spotted, speech_ms, conf, took)
++        if not wake and re.match(r"(?i)\W*(hey|hi|yo|okay|ok|hay|a)\b", text):
++            # Possible missed wake: keep only the opening words for tuning.
++            logger.info("ears: near-miss opening %r", " ".join(text.split()[:4]))
++        if wake and time.monotonic() - self._last_wake_post < 8:
++            return  # the music spotter already woke it for this phrase
++        if wake:
++            self._last_wake_post = time.monotonic()
++        await self._post({
++            "event": "utterance",
++            "text": text,
++            "clip": self._save_utterance(pcm),
++            "music": music_on,
++            "music_sure": self.music.sure(),
++            "wake": wake,
++            "question": question,
++            "speech_ms": speech_ms,
++            "conf": round(conf, 2),
++            "ts": time.time(),
++        })
++
++    def _save_utterance(self, pcm: bytes) -> str:
++        """Keep the last few utterances as WAVs so the brain can check whose
++        voice it was. They stay on this Mac and are overwritten quickly."""
++        try:
++            folder = Path.home() / ".stackchan-mcp" / "utterances"
++            folder.mkdir(parents=True, exist_ok=True)
++            path = folder / f"utt-{int(time.time() * 1000)}.wav"
++            with wave.open(str(path), "wb") as w:
++                w.setnchannels(1)
++                w.setsampwidth(2)
++                w.setframerate(DEVICE_SAMPLE_RATE)
++                w.writeframes(pcm)
++            for old in sorted(folder.glob("utt-*.wav"))[:-8]:
++                old.unlink(missing_ok=True)
++            return str(path)
++        except OSError:
++            return ""
++
++    async def _post(self, payload: dict) -> None:
++        if not self.hook_url:
++            return
++        headers = {"Authorization": f"Bearer {self.hook_token}"} if self.hook_token else {}
++        try:
++            async with aiohttp.ClientSession() as http:
++                async with http.post(self.hook_url, json=payload, headers=headers,
++                                     timeout=aiohttp.ClientTimeout(total=5)) as resp:
++                    if resp.status >= 300:
++                        logger.warning("ears: hook status %d", resp.status)
++        except Exception as exc:
++            logger.warning("ears: hook post failed: %s", exc)
++
++
++_ears: Ears | None = None
++
++
++def get_ears() -> Ears | None:
++    return _ears
++
++
++def start_ears(gateway: "Gateway") -> None:
++    global _ears
++    if os.environ.get("STACKCHAN_EARS", "") != "1" or _ears is not None:
++        return
++    _ears = Ears(gateway)
++    asyncio.create_task(_ears.run())
+diff --git a/gateway/stackchan_mcp/esp32_client.py b/gateway/stackchan_mcp/esp32_client.py
+index f473e56..fda2f0e 100644
+--- a/gateway/stackchan_mcp/esp32_client.py
++++ b/gateway/stackchan_mcp/esp32_client.py
+@@ -19,7 +19,8 @@ import websockets
+ import websockets.exceptions
+ from websockets.asyncio.server import ServerConnection
+ 
+-from .audio_input_hook import push_audio_capture
++from .audio_input_hook import push_audio_capture, push_wake_event
++from .audio_stream import recording_owner
+ from .audio_stream import (
+     handle_audio_frame,
+     is_recording,
+@@ -71,7 +72,7 @@ def _hardware_lane(tool_name: str) -> str:
+ 
+ 
+ def _retrieve_future_exception(future: asyncio.Future[Any]) -> None:
+-    """Mark a completed Future exception as observed, if it has one."""
++    """the owner a completed Future exception as observed, if it has one."""
+     if future.done() and not future.cancelled():
+         future.exception()
+ 
+@@ -351,7 +352,7 @@ class ESP32Connection:
+             websockets.exceptions.ConnectionClosed,
+             OSError,
+         ) as exc:
+-            # Mark the connection dead so subsequent calls fail fast
++            # the owner the connection dead so subsequent calls fail fast
+             # rather than each one re-discovering the broken socket.
+             self.disconnect()
+             raise ConnectionError(f"WebSocket send failed: {exc}") from exc
+@@ -394,6 +395,7 @@ class ESP32Connection:
+         state: str,
+         mode: str = "manual",
+         profile: str = "voice",
++        quiet: bool = False,
+     ) -> None:
+         """Send a listen state notification (``start`` / ``stop``).
+ 
+@@ -427,10 +429,12 @@ class ESP32Connection:
+             message["mode"] = mode
+             if profile != "voice":
+                 message["profile"] = profile
++            if quiet:
++                message["quiet"] = True
+         await self._ws_send(json.dumps(message))
+ 
+     def disconnect(self) -> None:
+-        """Mark connection as disconnected."""
++        """the owner connection as disconnected."""
+         self._connected = False
+         self._initialized = False
+         # Cancel all pending futures
+@@ -504,6 +508,8 @@ class ESP32Manager:
+         # session (e.g., a fresh reconnection or an MCP-driven listen()
+         # that already took the slot).
+         self._device_driven_session_id: str | None = None
++        # Last wake word text from a {"state":"detect"} message (Lil Token wake mode).
++        self._last_wake_word: str = ""
+         self._tool_lane_locks = {
+             "servo": asyncio.Lock(),
+             "wifi": asyncio.Lock(),
+@@ -736,7 +742,13 @@ class ESP32Manager:
+                     # :mod:`stackchan_mcp.audio_input_hook` for the
+                     # forwarding pipeline.
+                     state = data.get("state", "")
+-                    if state == "start":
++                    if state == "detect":
++                        self._last_wake_word = str(data.get("text", ""))
++                        logger.info(
++                            "wake word detected session=%s text=%r",
++                            session_id, self._last_wake_word,
++                        )
++                    elif state == "start":
+                         if not self._audio_hook_url:
+                             logger.debug(
+                                 "device-driven listen.start session=%s "
+@@ -753,6 +765,40 @@ class ESP32Manager:
+                                 "ignored (MCP-driven recording active)",
+                                 session_id,
+                             )
++                        elif (os.getenv("STACKCHAN_AUDIO_HOOK_MODE", "") == "wake"
++                              and _monotonic() - connected_at < 4.0):
++                            # Lil Token: right after a reconnect the device
++                            # resumes the listen it had open when the link
++                            # dropped. That is not a tap or a wake word
++                            # (12:14 "What's up?" after a Wi-Fi blip).
++                            logger.info(
++                                "device-driven listen.start session=%s ignored "
++                                "(%.1f s after reconnect)", session_id, _monotonic() - connected_at,
++                            )
++                            try:
++                                await self.send_listen_state("stop")
++                            except Exception:
++                                pass
++                        elif os.getenv("STACKCHAN_AUDIO_HOOK_MODE", "") == "wake":
++                            # Lil Token mode: end the device's open-ended
++                            # listen and hand the turn to the receiver,
++                            # which drives say() + a fixed-length listen().
++                            logger.info(
++                                "device-driven listen.start session=%s -> wake event",
++                                session_id,
++                            )
++                            try:
++                                await self.send_listen_state("stop")
++                            except Exception as exc:
++                                logger.warning("wake: listen stop failed: %s", exc)
++                            asyncio.create_task(
++                                push_wake_event(
++                                    self._audio_hook_url,
++                                    self._audio_hook_token,
++                                    session_id=session_id,
++                                    wake_word=self._last_wake_word,
++                                )
++                            )
+                         else:
+                             start_recording(session_id)
+                             self._device_driven_session_id = session_id
+@@ -762,6 +808,11 @@ class ESP32Manager:
+                                 session_id, data.get("mode", ""),
+                             )
+                     elif state == "stop":
++                        if recording_owner() == "ears":
++                            from .ears import get_ears
++                            ears = get_ears()
++                            if ears is not None and ears.on_device_stop():
++                                continue
+                         if self._device_driven_session_id == session_id:
+                             self._device_driven_session_id = None
+                             frames = stop_recording()
+@@ -912,6 +963,18 @@ class ESP32Manager:
+         ts = payload.get("ts")
+         session_id = payload.get("session_id")
+ 
++        # Lil Token: every robot event (head touch, motion, proximity wave)
++        # also goes to the brain so it can react.
++        hook = os.getenv("STACKCHAN_EVENTS_HOOK_URL", "")
++        if hook and isinstance(event_type, str) and isinstance(subtype, str):
++            asyncio.create_task(_post_robot_event(hook, {
++                "event": "robot", "event_type": event_type, "subtype": subtype,
++                "duration_ms": duration_ms if isinstance(duration_ms, int) else 0,
++            }))
++            logger.info("robot event %s/%s -> brain", event_type, subtype)
++        if event_type in ("motion", "proximity"):
++            return
++
+         if event_type != "touch":
+             logger.warning("Malformed stackchan-event frame: event_type=%r", event_type)
+             return
+@@ -1126,6 +1189,7 @@ class ESP32Manager:
+         state: str,
+         mode: str = "manual",
+         profile: str = "voice",
++        quiet: bool = False,
+     ) -> None:
+         """Send a listen state notification to put the device into /
+         out of listening mode (Issue #91).
+@@ -1135,7 +1199,7 @@ class ESP32Manager:
+         """
+         if not self._connection or not self._connection.connected:
+             raise ConnectionError("No ESP32 device connected")
+-        await self._connection.send_listen_state(state, mode=mode, profile=profile)
++        await self._connection.send_listen_state(state, mode=mode, profile=profile, quiet=quiet)
+ 
+     def get_status(self) -> dict[str, Any]:
+         """Get current connection status."""
+@@ -1156,3 +1220,16 @@ class ESP32Manager:
+             "tools_count": len(self._connection.tools),
+             "tools": [t.get("name", "") for t in self._connection.tools],
+         }
++
++
++async def _post_robot_event(url: str, payload: dict) -> None:
++    import aiohttp
++
++    token = os.getenv("STACKCHAN_TOKEN", "")
++    headers = {"Authorization": f"Bearer {token}"} if token else {}
++    try:
++        async with aiohttp.ClientSession() as http:
++            async with http.post(url, json=payload, headers=headers, timeout=aiohttp.ClientTimeout(total=5)):
++                pass
++    except Exception as exc:  # pragma: no cover - best effort
++        logger.warning("robot event post failed: %s", exc)
+diff --git a/gateway/stackchan_mcp/gateway.py b/gateway/stackchan_mcp/gateway.py
+index 68bd753..ab453cf 100644
+--- a/gateway/stackchan_mcp/gateway.py
++++ b/gateway/stackchan_mcp/gateway.py
+@@ -130,7 +130,9 @@ class Gateway:
+ 
+     async def start(self, *, advertise_mdns: bool = True) -> None:
+         """Start the ESP32 WebSocket server and HTTP capture server."""
+-        host = os.getenv("HOST", "0.0.0.0")
++        if not os.getenv("STACKCHAN_TOKEN"):
++            raise RuntimeError("STACKCHAN_TOKEN is required before starting the gateway")
++        host = os.getenv("HOST", "127.0.0.1")
+         ws_port = int(os.getenv("WS_PORT", os.getenv("PORT", "8765")))
+         capture_port = int(os.getenv("CAPTURE_PORT", "8766"))
+ 
+@@ -171,6 +173,9 @@ class Gateway:
+             self._mdns_advertiser = None
+ 
+         self._running = True
++        # Lil Token: always-on Mac-side ears (STACKCHAN_EARS=1).
++        from .ears import start_ears
++        start_ears(self)
+         logger.info(
+             "Gateway started: WS on %s:%d, capture on %s:%d, vision_url=%s",
+             host, ws_port, host, capture_port, self.vision_url,
+@@ -260,6 +265,9 @@ class Gateway:
+         expected = {
+             "layered": 14 * kimg_bytes,   # 537_600
+             "matrix":  90 * kimg_bytes,   # 3_456_000
++            # Lil Token: one picture drawn over the face (a hat, a badge):
++            # 160x120 RGB565 followed by a 160x120 alpha plane.
++            "overlay": 160 * 120 * 3,     # 57_600
+         }.get(mode)
+         if expected is None:
+             return {"ok": False, "error": f"unknown_mode: {mode}"}
+diff --git a/gateway/stackchan_mcp/http_server.py b/gateway/stackchan_mcp/http_server.py
+index e57e3ee..8d0b09b 100644
+--- a/gateway/stackchan_mcp/http_server.py
++++ b/gateway/stackchan_mcp/http_server.py
+@@ -36,7 +36,9 @@ from .stdio_server import _dispatch_mcp_tool, create_server
+ 
+ # Follower lifecycle operations must remain callable when the ESP32 is
+ # disconnected so HTTP clients can supervise the background task.
+-BYPASS_TOOLS = frozenset({"get_status", "stackchan_follow_pose_stream"})
++# say_push / say_wait (Lil Token) only touch the gateway-side speech queue;
++# the speaker takes the device gate itself when it plays.
++BYPASS_TOOLS = frozenset({"get_status", "stackchan_follow_pose_stream", "say_push", "say_wait", "say_stop", "music_state", "ears_attention"})
+ MCP_HTTP_ALLOWED_HOSTS_ENV = "MCP_HTTP_ALLOWED_HOSTS"
+ AUTH_FAILURE_MESSAGE = "Unauthorized: missing or invalid bearer token"
+ HOST_FAILURE_MESSAGE = "Forbidden: invalid Host header"
+@@ -93,7 +95,12 @@ def make_dispatch_fn(gateway: Any) -> DispatchFn:
+                     text=json.dumps(DISCONNECTED_DEVICE_PAYLOAD),
+                 )
+             ]
+-        return await _dispatch_mcp_tool(item.tool_name, item.arguments, gateway)
++        # Lil Token: queued speech (speaker.py) plays under the same gate, so
++        # a command and a spoken line never reach the device together.
++        from .speaker import device_gate
++
++        async with device_gate(gateway):
++            return await _dispatch_mcp_tool(item.tool_name, item.arguments, gateway)
+ 
+     return dispatch
+ 
+diff --git a/gateway/stackchan_mcp/speaker.py b/gateway/stackchan_mcp/speaker.py
+new file mode 100644
+index 0000000..8617ee4
+--- /dev/null
++++ b/gateway/stackchan_mcp/speaker.py
+@@ -0,0 +1,256 @@
++"""Speech queue for Lil Token: say sentences as they are written.
++
++``say`` synthesises a whole reply, then plays it, and every call waits its
++turn in the HTTP command queue. That is fine for one line. For an answer
++that is still being written it means silence until the last word exists.
++
++The speaker takes lines one at a time (``say_push``) and returns at once:
++
++* synthesis of each line starts the moment it is pushed, so line 2 is
++  ready before line 1 has finished playing;
++* lines play strictly in the order they were pushed;
++* lines that arrive close together play in one TTS session with no gap,
++  through :func:`stackchan_mcp.tts.orchestrator.send_pcm_stream`;
++* engines that offer ``synthesize_stream`` (Fish Audio) start playing
++  before the line has finished synthesising.
++
++``say_wait`` blocks until everything pushed so far has been spoken.
++
++The robot handles one command at a time, and a face-set download blocks it
++for seconds. Playback therefore holds the same gate as the HTTP command
++queue (:func:`device_gate`), so speech and other device commands never
++overlap, exactly as with ``say``.
++"""
++
++from __future__ import annotations
++
++import asyncio
++import logging
++import os
++import time
++from collections import deque
++from dataclasses import dataclass, field
++from typing import TYPE_CHECKING, Any, AsyncIterator
++
++from .tts import orchestrator
++from .tts.base import get_registry
++from .tts.emoji_expression import detect_emoji_face, strip_emoji_for_plain_tts
++
++if TYPE_CHECKING:  # pragma: no cover
++    from .gateway import Gateway
++
++logger = logging.getLogger(__name__)
++
++#: How long a session stays open waiting for the next line before it ends.
++LINGER_S = float(os.environ.get("STACKCHAN_SPEAKER_LINGER_S", "0.35"))
++#: Audio buffered before a streamed line starts playing (rides out jitter).
++PREROLL_BYTES = int(os.environ.get("STACKCHAN_SPEAKER_PREROLL_MS", "180")) * 32  # 16 kHz, 16-bit
++_END = object()
++
++
++def device_gate(gateway: Any) -> asyncio.Lock:
++    """The lock that keeps device commands and speech from overlapping."""
++    gate = getattr(gateway, "_device_gate", None)
++    if gate is None:
++        gate = asyncio.Lock()
++        gateway._device_gate = gate
++    return gate
++
++
++@dataclass
++class _Line:
++    text: str            # as pushed (may carry a face emoji)
++    tts_text: str        # what the engine is asked to say
++    face: str | None
++    pushed_at: float
++    chunks: asyncio.Queue = field(default_factory=asyncio.Queue)
++    task: asyncio.Task | None = None
++    first_byte_s: float | None = None
++    played_at: float | None = None
++    error: str | None = None
++
++
++class Speaker:
++    def __init__(self, gateway: "Gateway") -> None:
++        self.gateway = gateway
++        self.fifo: deque[_Line] = deque()
++        self.more = asyncio.Event()
++        self.idle = asyncio.Event()
++        self.idle.set()
++        self.worker: asyncio.Task | None = None
++        self.report: list[dict] = []  # lines finished since the last say_wait
++        self.cut = False  # stop() was called: end the session now
++
++    # -- public -------------------------------------------------------------
++
++    def push(self, arguments: dict[str, Any]) -> dict[str, Any]:
++        text = arguments.get("text", "")
++        if not isinstance(text, str) or not text.strip():
++            raise ValueError("'text' is required and must be a non-empty string")
++        voice = arguments.get("voice") or orchestrator._resolve_default_engine()
++        engine = get_registry().get(voice)
++        if engine is None:
++            raise NotImplementedError(f"TTS engine '{voice}' is not registered.")
++        if not self.gateway.esp32.device_connected:
++            raise RuntimeError("No ESP32 device connected; cannot deliver audio.")
++
++        tts_text = text if getattr(engine, "supports_emoji_style", False) else strip_emoji_for_plain_tts(text)
++        line = _Line(text=text, tts_text=tts_text.strip(), face=detect_emoji_face(text), pushed_at=time.monotonic())
++        opts = {k: arguments.get(k) for k in ("speaker_id", "speaker_name", "reference_audio")}
++        if line.tts_text:
++            line.task = asyncio.create_task(self._synthesise(engine, line, opts))
++        else:
++            line.chunks.put_nowait(_END)  # emoji only: just the face
++        self.fifo.append(line)
++        self.idle.clear()
++        self.more.set()
++        if self.worker is None or self.worker.done():
++            self.worker = asyncio.create_task(self._run())
++        return {"queued": len(self.fifo), "text": text, "face": line.face}
++
++    def stop(self) -> dict[str, Any]:
++        """Stop talking now: drop every queued line and end the session.
++
++        Frames are sent at playback speed, so the robot goes quiet within a
++        fraction of a second. Used when the owner pats or taps it mid-sentence.
++        """
++        dropped = len(self.fifo)
++        for line in self.fifo:
++            if line.task is not None:
++                line.task.cancel()
++            line.chunks.put_nowait(_END)  # wake the player if it is waiting on this line
++        self.cut = dropped > 0
++        self.more.set()
++        logger.info("speaker: stopped, %d line(s) dropped", dropped)
++        return {"stopped": dropped}
++
++    async def wait(self, timeout: float = 120.0) -> dict[str, Any]:
++        """Block until every pushed line has been spoken."""
++        try:
++            await asyncio.wait_for(self.idle.wait(), timeout=timeout)
++            done = True
++        except asyncio.TimeoutError:
++            done = False
++        lines, self.report = self.report, []
++        return {"done": done, "lines": lines}
++
++    # -- synthesis (starts at push time) ------------------------------------
++
++    async def _synthesise(self, engine: Any, line: _Line, opts: dict[str, Any]) -> None:
++        try:
++            stream = getattr(engine, "synthesize_stream", None)
++            if stream is not None:
++                async for chunk in stream(line.tts_text, **opts):
++                    if chunk:
++                        if line.first_byte_s is None:
++                            line.first_byte_s = time.monotonic() - line.pushed_at
++                        line.chunks.put_nowait(chunk)
++            else:
++                pcm = await engine.synthesize(line.tts_text, **opts)
++                line.first_byte_s = time.monotonic() - line.pushed_at
++                if pcm:
++                    line.chunks.put_nowait(pcm)
++        except Exception as exc:  # one bad line must not silence the rest
++            line.error = str(exc)
++            logger.warning("speaker: synthesis failed for %r: %s", line.text[:60], exc)
++        finally:
++            line.chunks.put_nowait(_END)
++
++    # -- playback -----------------------------------------------------------
++
++    async def _run(self) -> None:
++        try:
++            while self.fifo:
++                async with device_gate(self.gateway):
++                    last_face = await self._play_session()
++                if last_face is not None:
++                    # The firmware drops back to idle on TTS stop; put the face back.
++                    await asyncio.sleep(orchestrator.TTS_STOP_FACE_REDISPATCH_SETTLE_DELAY_S)
++                    await orchestrator._try_set_avatar_face_with_tts_lock(self.gateway, last_face)
++        except Exception as exc:
++            logger.warning("speaker: playback stopped: %s", exc)
++            while self.fifo:  # nothing left half-queued behind a dead device
++                line = self.fifo.popleft()
++                if line.task is not None:
++                    line.task.cancel()
++                self.report.append({"text": line.text, "error": str(exc)})
++        finally:
++            self.idle.set()
++
++    async def _play_session(self) -> str | None:
++        faces: list[str] = []
++        result = await orchestrator.send_pcm_stream(self.gateway, self._pcm(faces), source_label="speaker")
++        logger.info("speaker: session done frames=%s duration_ms=%s", result.get("frame_count"), result.get("duration_ms"))
++        return faces[-1] if faces else None
++
++    async def _next_line(self) -> _Line | None:
++        if not self.fifo:
++            self.more.clear()
++            try:
++                await asyncio.wait_for(self.more.wait(), timeout=LINGER_S)
++            except asyncio.TimeoutError:
++                return None
++        return self.fifo[0] if self.fifo else None
++
++    async def _pcm(self, faces: list[str]) -> AsyncIterator[bytes]:
++        """One TTS session: every queued line, in order, then a short linger."""
++        while True:
++            if self.cut:
++                self._drop_all()
++                return
++            line = await self._next_line()
++            if line is None:
++                return
++            if line.face is not None:
++                faces.append(line.face)
++                await orchestrator._try_set_avatar_face(self.gateway, line.face)
++            held = bytearray()
++            started = False
++            sent = 0
++            while True:
++                chunk = await line.chunks.get()
++                if self.cut:
++                    self._drop_all()
++                    return
++                if chunk is _END:
++                    break
++                if not started:
++                    held.extend(chunk)
++                    if len(held) < PREROLL_BYTES:
++                        continue
++                    chunk, started = bytes(held), True
++                    self._mark_playing(line)
++                sent += len(chunk)
++                yield chunk
++            if not started and held:  # a line shorter than the pre-roll
++                self._mark_playing(line)
++                sent += len(held)
++                yield bytes(held)
++            if sent % 2:  # keep the next line on a 16-bit sample boundary
++                yield b"\x00"
++            self.fifo.popleft()
++            entry = {"text": line.text}
++            if line.error:
++                entry["error"] = line.error
++            if line.played_at is not None:
++                entry["wait_ms"] = round((line.played_at - line.pushed_at) * 1000)
++            self.report.append(entry)
++
++    def _drop_all(self) -> None:
++        while self.fifo:
++            line = self.fifo.popleft()
++            self.report.append({"text": line.text, "error": "stopped"})
++        self.cut = False
++
++    def _mark_playing(self, line: _Line) -> None:
++        line.played_at = time.monotonic()
++        logger.info("speaker: playing text=%r (%.2f s after push, first audio from engine at %.2f s)",
++                    line.text[:60], line.played_at - line.pushed_at, line.first_byte_s or 0.0)
++
++
++def get_speaker(gateway: Any) -> Speaker:
++    speaker = getattr(gateway, "_speaker", None)
++    if speaker is None:
++        speaker = Speaker(gateway)
++        gateway._speaker = speaker
++    return speaker
+diff --git a/gateway/stackchan_mcp/stdio_server.py b/gateway/stackchan_mcp/stdio_server.py
+index e24414a..b2fb671 100644
+--- a/gateway/stackchan_mcp/stdio_server.py
++++ b/gateway/stackchan_mcp/stdio_server.py
+@@ -7,6 +7,7 @@ Each tool call is relayed to the connected ESP32 device.
+ from __future__ import annotations
+ 
+ from contextlib import AsyncExitStack
++import asyncio
+ import inspect
+ import json
+ import logging
+@@ -859,6 +860,49 @@ async def _dispatch_mcp_tool(
+             ]
+         return [TextContent(type="text", text=json.dumps(result))]
+ 
++    if name == "say_push":
++        # Lil Token: queue one line of speech and return at once (speaker.py).
++        from .speaker import get_speaker
++
++        try:
++            result = get_speaker(gateway).push(arguments)
++        except (ValueError, NotImplementedError, RuntimeError) as exc:
++            result = {"error": str(exc)}
++        return [TextContent(type="text", text=json.dumps(result))]
++
++    if name == "ears_attention":
++        from .ears import get_ears
++
++        ears = get_ears()
++        try:
++            seconds = float(arguments.get("seconds", 15))
++        except (TypeError, ValueError):
++            seconds = 15.0
++        state = ears.attention(seconds) if ears is not None else {"gate": False}
++        return [TextContent(type="text", text=json.dumps(state))]
++
++    if name == "music_state":
++        from .ears import get_ears
++
++        ears = get_ears()
++        state = ears.music_state() if ears is not None else {"on": False, "clip": ""}
++        return [TextContent(type="text", text=json.dumps(state))]
++
++    if name == "say_stop":
++        from .speaker import get_speaker
++
++        return [TextContent(type="text", text=json.dumps(get_speaker(gateway).stop()))]
++
++    if name == "say_wait":
++        from .speaker import get_speaker
++
++        try:
++            timeout = float(arguments.get("timeout", 120.0))
++        except (TypeError, ValueError):
++            timeout = 120.0
++        result = await get_speaker(gateway).wait(timeout)
++        return [TextContent(type="text", text=json.dumps(result))]
++
+     if name == "listen":
+         try:
+             result = await listen_and_transcribe(arguments, gateway=gateway)
+@@ -887,14 +931,26 @@ async def _dispatch_mcp_tool(
+                     ),
+                 )
+             ]
+-        if mode not in ("layered", "matrix"):
++        if mode not in ("layered", "matrix", "overlay"):
+             return [
+                 TextContent(
+                     type="text",
+                     text=json.dumps({"ok": False, "error": f"unknown mode: {mode}"}),
+                 )
+             ]
+-        result = await gateway.load_avatar_set(archive_path, mode, timeout)
++        # Lil Token: close the ears' mic while the robot downloads the 537 KB
++        # face set. Streaming audio (and mic re-opens) during the download
++        # stalled it and dropped the robot's connection after dances.
++        from .ears import get_ears
++
++        ears = get_ears()
++        if ears is not None:
++            ears.hold(timeout)
++        try:
++            result = await gateway.load_avatar_set(archive_path, mode, timeout)
++        finally:
++            if ears is not None:
++                ears.hold(0.5)
+         return [TextContent(type="text", text=json.dumps(result))]
+ 
+     if name == "stackchan_follow_pose_stream":
+@@ -1030,6 +1086,26 @@ async def _dispatch_mcp_tool(
+             "self.camera.take_photo",
+             arguments,
+         ),
++        "sensors_read": (
++            "self.sensors.read",
++            {},
++        ),
++        "screen_snapshot": (
++            "self.display.snapshot",
++            {},
++        ),
++        "camera_preview": (
++            "self.camera.preview",
++            arguments,
++        ),
++        "clear_overlay": (
++            "self.display.clear_overlay",
++            {},
++        ),
++        "firmware_update": (
++            "self.firmware.update",
++            arguments,
++        ),
+         "set_volume": (
+             "self.audio_speaker.set_volume",
+             arguments,
+@@ -1184,6 +1260,9 @@ async def _dispatch_mcp_tool(
+         ),
+     }
+ 
++    if name == "simulate_tap":
++        await gateway.esp32.send_listen_state("stop")
++        return [TextContent(type="text", text=json.dumps({"ok": True}))]
+     if name not in tool_map:
+         return [
+             TextContent(
+@@ -1193,6 +1272,14 @@ async def _dispatch_mcp_tool(
+         ]
+ 
+     esp32_name, esp32_args = tool_map[name]
++    if name == "take_photo":
++        # Lil Token: never let the viewfinder task and a photo capture hit
++        # the camera at once. Stop the viewfinder, let its last frame land.
++        try:
++            await gateway.esp32.call_tool("self.camera.preview", {"seconds": 0, "restore": False})
++            await asyncio.sleep(0.35)
++        except Exception:
++            pass
+     result, error = await gateway.esp32.call_tool(esp32_name, esp32_args)
+ 
+     if error:
+@@ -1338,6 +1425,40 @@ def create_server(notify_config: NotifyConfig | None = None) -> StackChanServer:
+                     "required": ["question"],
+                 },
+             ),
++            Tool(
++                name="sensors_read",
++                description="Lil Token firmware: accelerometer (g), motion level, proximity and ambient light readings.",
++                inputSchema={"type": "object", "properties": {}},
++            ),
++            Tool(
++                name="simulate_tap",
++                description=(
++                    "Lil Token test aid: ask the device to stop listening, which makes the "
++                    "firmware send the same listen.stop a screen tap sends (the ears treat it as a tap)."
++                ),
++                inputSchema={"type": "object", "properties": {}},
++            ),
++            Tool(
++                name="screen_snapshot",
++                description="Lil Token firmware: capture the LCD as a 160x120 RGB565 image (base64 in `data`).",
++                inputSchema={"type": "object", "properties": {}},
++            ),
++            Tool(
++                name="camera_preview",
++                description=(
++                    "Lil Token firmware: show a live camera viewfinder full screen for "
++                    "`seconds` (1-30, 0 stops) so people can see what the robot sees. "
++                    "restore=true brings the face back afterwards; restore=false keeps "
++                    "the last frame on screen until set_avatar is called."
++                ),
++                inputSchema={
++                    "type": "object",
++                    "properties": {
++                        "seconds": {"type": "integer", "minimum": 0, "maximum": 30, "default": 5},
++                        "restore": {"type": "boolean", "default": True},
++                    },
++                },
++            ),
+             Tool(
+                 name="set_volume",
+                 description="Set the speaker volume (0-100).",
+@@ -2370,6 +2491,71 @@ def create_server(notify_config: NotifyConfig | None = None) -> StackChanServer:
+                 ),
+                 inputSchema={"type": "object", "properties": {}},
+             ),
++            Tool(
++                name="say_push",
++                description=(
++                    "Lil Token: queue one line of speech and return at once. Lines play in "
++                    "the order pushed, back to back, and synthesis starts immediately, so a "
++                    "reply can be spoken sentence by sentence while it is still being "
++                    "written. Same arguments as say. Follow with say_wait."
++                ),
++                inputSchema={
++                    "type": "object",
++                    "properties": {
++                        "text": {"type": "string"},
++                        "voice": {"type": "string"},
++                        "speaker_name": {"type": "string"},
++                        "speaker_id": {"type": ["integer", "string"]},
++                    },
++                    "required": ["text"],
++                },
++            ),
++            Tool(
++                name="ears_attention",
++                description=(
++                    "Lil Token: tell the ears a conversation is going on, so everything heard in the next "
++                    "`seconds` is transcribed. Outside that window (with the wake gate on) only audio in "
++                    "which the wake spotter heard 'Hey Lil Token' is transcribed."
++                ),
++                inputSchema={"type": "object", "properties": {"seconds": {"type": "number", "default": 15}}},
++            ),
++            Tool(
++                name="clear_overlay",
++                description=(
++                    "Lil Token firmware 19: remove the picture drawn over the face. Put one on with "
++                    "load_avatar_set(mode='overlay'), a 57,600 byte file: 160x120 RGB565 then a 160x120 alpha plane."
++                ),
++                inputSchema={"type": "object", "properties": {}},
++            ),
++            Tool(
++                name="firmware_update",
++                description=(
++                    "Lil Token firmware 19: download an app image from an http URL on the local network into "
++                    "the spare slot and reboot into it. Use tools/ota_update.py, which serves the file."
++                ),
++                inputSchema={"type": "object", "properties": {"url": {"type": "string"}}, "required": ["url"]},
++            ),
++            Tool(
++                name="music_state",
++                description=(
++                    "Lil Token: whether the ears hear music right now (beat score, tempo), plus the "
++                    "path of a WAV holding the last ten seconds from the robot's microphone."
++                ),
++                inputSchema={"type": "object", "properties": {}},
++            ),
++            Tool(
++                name="say_stop",
++                description="Lil Token: stop talking now and drop every line queued with say_push.",
++                inputSchema={"type": "object", "properties": {}},
++            ),
++            Tool(
++                name="say_wait",
++                description="Lil Token: wait until every line queued with say_push has been spoken.",
++                inputSchema={
++                    "type": "object",
++                    "properties": {"timeout": {"type": "number", "default": 120}},
++                },
++            ),
+             Tool(
+                 name="say",
+                 description=(
+@@ -2891,7 +3077,7 @@ def create_server(notify_config: NotifyConfig | None = None) -> StackChanServer:
+                         },
+                         "mode": {
+                             "type": "string",
+-                            "enum": ["layered", "matrix"],
++                            "enum": ["layered", "matrix", "overlay"],
+                             "description": (
+                                 "'layered' (14 frames, ~525 KB) or "
+                                 "'matrix' (90 frames, ~3.3 MB)."
+diff --git a/gateway/stackchan_mcp/stt/orchestrator.py b/gateway/stackchan_mcp/stt/orchestrator.py
+index 2eb66be..9ee3b39 100644
+--- a/gateway/stackchan_mcp/stt/orchestrator.py
++++ b/gateway/stackchan_mcp/stt/orchestrator.py
+@@ -32,11 +32,13 @@ same protocol-v1 gate.
+ from __future__ import annotations
+ 
+ import asyncio
++import os
+ import json
+ import logging
+ from contextlib import nullcontext
+ from typing import TYPE_CHECKING, Any, Literal
+ 
++from ..audio_stream import stop_recording_if_owner
+ from ..audio_stream import (
+     is_recording,
+     recording_owner,
+@@ -422,6 +424,10 @@ async def listen_and_transcribe(
+         # listen acquisitions, but the device-driven path acquires the
+         # slot from esp32_client without going through lock_ctx, so this
+         # check is the cross-source guard.
++        if recording_owner() == "ears":
++            # Lil Token: an explicit listen() takes the mic from the
++            # always-on ears; they re-open once the lock is released.
++            stop_recording_if_owner("ears")
+         if is_recording():
+             owner = recording_owner()
+             if _is_beat_mode_owner(owner):
+@@ -517,7 +523,15 @@ async def listen_and_transcribe(
+ 
+             actual_duration_ms = frame_count * DEVICE_FRAME_DURATION_MS
+ 
+-            if pcm:
++            speech = measure_speech(pcm) if pcm else {"speech_ms": 0, "peak_dbfs": -120.0, "floor_dbfs": -120.0}
++            if pcm and os.environ.get("STACKCHAN_LISTEN_SAVE_DIR"):
++                _save_listen_wav(pcm, os.environ["STACKCHAN_LISTEN_SAVE_DIR"])
++            gate_on = os.environ.get("STACKCHAN_LISTEN_GATE", "") == "1"
++            if pcm and gate_on and speech["speech_ms"] < int(os.environ.get("STACKCHAN_LISTEN_MIN_SPEECH_MS", "300")):
++                # Lil Token: no real speech in the window. Skip STT so Whisper
++                # cannot hallucinate text ("Thank you.") out of room noise.
++                result = {"text": "", "language": "", "silent": True}
++            elif pcm:
+                 try:
+                     result = await engine.transcribe(
+                         pcm,
+@@ -578,18 +592,79 @@ async def listen_and_transcribe(
+                 raise cleanup_error
+ 
+     logger.info(
+-        "listen(): engine=%s frames=%d duration_ms=%d text=%r",
++        "listen(): engine=%s frames=%d duration_ms=%d speech_ms=%s peak=%.1f floor=%.1f text=%r",
+         engine_name,
+         frame_count,
+         actual_duration_ms,
++        speech.get("speech_ms"),
++        speech.get("peak_dbfs", -120.0),
++        speech.get("floor_dbfs", -120.0),
+         (result.get("text", "") or "")[:80],
+     )
+ 
+     return {
+         "engine": engine_name,
++        "silent": bool(result.get("silent", False)),
++        "speech_ms": speech.get("speech_ms", 0),
++        "peak_dbfs": round(speech.get("peak_dbfs", -120.0), 1),
++        "floor_dbfs": round(speech.get("floor_dbfs", -120.0), 1),
+         "text": result.get("text", ""),
+         "language": result.get("language", ""),
+         "duration_ms": actual_duration_ms,
+         "frame_count": frame_count,
+         "sample_rate": DEVICE_SAMPLE_RATE,
+     }
++
++
++def measure_speech(pcm: bytes, sample_rate: int = DEVICE_SAMPLE_RATE) -> dict:
++    """Rough voice-activity measure on 16-bit mono PCM (30 ms windows).
++
++    A window counts as speech when it is at least
++    STACKCHAN_LISTEN_MARGIN_DB (default 12) above the quiet floor (10th
++    percentile of window levels) and above STACKCHAN_LISTEN_MIN_DBFS
++    (default -45).
++    """
++    import array
++    import math
++
++    samples = array.array("h")
++    samples.frombytes(pcm[: len(pcm) - len(pcm) % 2])
++    # Skip the firmware's listening-start beep at the head of the capture.
++    skip = sample_rate * int(os.environ.get("STACKCHAN_LISTEN_SKIP_MS", "450")) // 1000
++    samples = samples[skip:]
++    win = sample_rate * 30 // 1000
++    levels = []
++    for i in range(0, len(samples) - win + 1, win):
++        chunk = samples[i : i + win]
++        ms = sum(v * v for v in chunk) / win
++        levels.append(20 * math.log10(math.sqrt(ms) / 32768.0) if ms > 0 else -120.0)
++    if not levels:
++        return {"speech_ms": 0, "peak_dbfs": -120.0, "floor_dbfs": -120.0}
++    ordered = sorted(levels)
++    floor = ordered[len(ordered) // 10]
++    margin = float(os.environ.get("STACKCHAN_LISTEN_MARGIN_DB", "12"))
++    min_dbfs = float(os.environ.get("STACKCHAN_LISTEN_MIN_DBFS", "-45"))
++    threshold = max(min_dbfs, floor + margin)
++    speech_windows = sum(1 for lv in levels if lv >= threshold)
++    return {"speech_ms": speech_windows * 30, "peak_dbfs": max(levels), "floor_dbfs": floor}
++
++
++def _save_listen_wav(pcm: bytes, directory: str, keep: int = 30) -> None:
++    """Keep the last few listen captures as WAV files for level tuning."""
++    import time
++    import wave
++    from pathlib import Path
++
++    try:
++        d = Path(directory).expanduser()
++        d.mkdir(parents=True, exist_ok=True)
++        path = d / time.strftime("listen-%Y%m%d-%H%M%S.wav")
++        with wave.open(str(path), "wb") as w:
++            w.setnchannels(1)
++            w.setsampwidth(2)
++            w.setframerate(DEVICE_SAMPLE_RATE)
++            w.writeframes(pcm)
++        for old in sorted(d.glob("listen-*.wav"))[:-keep]:
++            old.unlink()
++    except Exception as exc:  # pragma: no cover - debug aid only
++        logger.debug("listen wav save failed: %s", exc)
+diff --git a/gateway/stackchan_mcp/tts/__init__.py b/gateway/stackchan_mcp/tts/__init__.py
+index 961c0ed..bb3b7ed 100644
+--- a/gateway/stackchan_mcp/tts/__init__.py
++++ b/gateway/stackchan_mcp/tts/__init__.py
+@@ -66,10 +66,17 @@ def _register_elevenlabs() -> None:
+     get_registry().register(ElevenLabsEngine())
+ 
+ 
++def _register_fish_audio() -> None:
++    from .fish_audio import FishAudioEngine
++
++    get_registry().register(FishAudioEngine())
++
++
+ _try_register(_register_voicevox, "voicevox")
+ _try_register(_register_irodori, "irodori")
+ _try_register(_register_edge_tts, "edge-tts")
+ _try_register(_register_elevenlabs, "elevenlabs")
++_try_register(_register_fish_audio, "fish")
+ 
+ 
+ __all__ = [
+diff --git a/gateway/stackchan_mcp/tts/fish_audio.py b/gateway/stackchan_mcp/tts/fish_audio.py
+new file mode 100644
+index 0000000..ea4d98b
+--- /dev/null
++++ b/gateway/stackchan_mcp/tts/fish_audio.py
+@@ -0,0 +1,385 @@
++"""Fish Audio engine — HTTP client for the Fish Audio text-to-speech API.
++
++Follows the same thin-client shape as the ElevenLabs engine: issue an HTTP
++request, receive an MP3 blob, decode to 16 kHz mono PCM, and hand the PCM
++to the orchestrator (which owns Opus encoding and the WebSocket push).
++
++The default model is ``drama-3``, which reads performance directions inline:
++bracketed cues such as ``[sigh]`` or ``[whispering, conspiratorial]`` and
++paired tags such as ``<whisper>...</whisper>`` pass straight through in the
++text.
++
++Configuration (environment variables):
++
++    ``FISH_AUDIO_API_KEY`` / ``STACKCHAN_FISH_KEY``
++        API key. Read from the environment only; never commit it. When
++        both are set, ``STACKCHAN_FISH_KEY`` wins.
++
++    ``STACKCHAN_FISH_VOICE_<SPEAKER>``
++        Voice-model map. Each variable defines one named speaker whose value
++        is a Fish Audio voice model id (``reference_id``). The
++        ``speaker_name`` call option selects by lowercase suffix; an
++        unrecognised value that looks like a raw 32-hex model id is passed
++        through verbatim.
++
++    ``STACKCHAN_FISH_DEFAULT_SPEAKER``
++        Speaker name used when ``speaker_name`` is omitted. When unset and
++        exactly one voice is configured, that voice is the default. With no
++        voices configured, the request omits ``reference_id``.
++
++    ``~/.stackchan-mcp/save_voice`` (or ``STACKCHAN_FISH_SAVE_FLAG``)
++        Filming switch, checked on every line. While the file exists, every
++        line skips the cache and is fetched as a full-quality MP3, which is
++        saved with its text before it is turned into robot audio. The file's
++        first line names the folder (default ``~/.stackchan-mcp/saved_voice``).
++        The editor then lays the exact take the robot spoke over the shot.
++
++    ``STACKCHAN_FISH_MODEL``
++        Model identifier sent in the ``model`` header. Default ``"drama-3"``.
++
++    ``STACKCHAN_FISH_LATENCY``
++        ``latency`` value for streamed synthesis (:meth:`synthesize_stream`):
++        ``balanced`` (default), ``low`` or ``normal``.
++
++    ``STACKCHAN_FISH_CACHE_MAX_CHARS``
++        Lines up to this many characters are kept on disk after the first
++        synthesis and replayed from there (default 60, ``0`` turns the
++        cache off). Stock lines such as "What's up?" repeat all day, and a
++        cache hit skips the API round trip entirely.
++
++    ``STACKCHAN_FISH_CACHE_DIR``
++        Cache location. Default ``~/.stackchan-mcp/tts_cache``. At most
++        ``STACKCHAN_FISH_CACHE_MAX_FILES`` (default 300) files are kept,
++        least recently used first out.
++"""
++
++from __future__ import annotations
++
++import hashlib
++import json
++import logging
++import os
++import re
++import time
++from pathlib import Path
++from typing import Any, AsyncIterator
++
++from .audio_utils import (
++    DEVICE_SAMPLE_RATE,
++    _decode_mp3_to_pcm16_mono,
++    resample_pcm16_linear,
++)
++from .base import TTSEngine
++
++logger = logging.getLogger(__name__)
++
++DEFAULT_FISH_MODEL = "drama-3"
++
++FISH_TTS_URL = "https://api.fish.audio/v1/tts"
++
++#: drama-3 is a preview model and directed lines can take several seconds.
++DEFAULT_HTTP_TIMEOUT_SECONDS = 60.0
++
++_VOICE_ENV_PREFIX = "STACKCHAN_FISH_VOICE_"
++
++DEFAULT_CACHE_MAX_CHARS = 60
++DEFAULT_CACHE_MAX_FILES = 300
++
++
++def _env_int(name: str, default: int) -> int:
++    try:
++        return int(os.getenv(name, "") or default)
++    except ValueError:
++        return default
++
++
++def _cache_path(model: str, reference_id: str | None, text: str) -> Path | None:
++    """Cache file for a short line, or ``None`` when it should not be cached."""
++    max_chars = _env_int("STACKCHAN_FISH_CACHE_MAX_CHARS", DEFAULT_CACHE_MAX_CHARS)
++    if max_chars <= 0 or len(text) > max_chars:
++        return None
++    root = Path(os.getenv("STACKCHAN_FISH_CACHE_DIR") or Path.home() / ".stackchan-mcp" / "tts_cache")
++    key = hashlib.sha256(f"{model}\0{reference_id or ''}\0{text}".encode()).hexdigest()[:32]
++    return root / f"{key}.pcm"
++
++
++def _cache_read(path: Path) -> bytes | None:
++    try:
++        pcm = path.read_bytes()
++        if not pcm:
++            return None
++        os.utime(path)  # most recently used
++        return pcm
++    except OSError:
++        return None
++
++
++def _cache_write(path: Path, pcm: bytes) -> None:
++    """Best effort: a full disk or a bad path must never break speech."""
++    try:
++        path.parent.mkdir(parents=True, exist_ok=True)
++        tmp = path.with_suffix(".tmp")
++        tmp.write_bytes(pcm)
++        os.replace(tmp, path)
++        keep = _env_int("STACKCHAN_FISH_CACHE_MAX_FILES", DEFAULT_CACHE_MAX_FILES)
++        files = sorted(path.parent.glob("*.pcm"), key=lambda f: f.stat().st_mtime)
++        for old in files[: max(0, len(files) - keep)]:
++            old.unlink(missing_ok=True)
++    except OSError as exc:
++        logger.debug("Fish Audio cache write failed: %s", exc)
++
++
++def _save_dir() -> Path | None:
++    """The folder to save full-quality takes in, or ``None`` when filming
++    capture is off. Checked live, so the flag file can be added or removed
++    without a restart."""
++    flag = Path(os.getenv("STACKCHAN_FISH_SAVE_FLAG") or Path.home() / ".stackchan-mcp" / "save_voice")
++    try:
++        if not flag.exists():
++            return None
++        first = flag.read_text().strip().splitlines()
++    except OSError:
++        return None
++    return Path(first[0]).expanduser() if first and first[0].strip() else Path.home() / ".stackchan-mcp" / "saved_voice"
++
++
++def _save_take(folder: Path, model: str, text: str, mp3: bytes) -> None:
++    """Best effort: saving a take must never break speech."""
++    try:
++        folder.mkdir(parents=True, exist_ok=True)
++        now = time.time()
++        stamp = time.strftime("%Y%m%d-%H%M%S", time.localtime(now)) + f"-{int(now * 1000) % 1000:03d}"
++        slug = re.sub(r"[^a-z0-9]+", "-", re.sub(r"\[[^\]]*\]", "", text).lower()).strip("-")[:40] or "line"
++        name = f"{stamp}-{slug}.mp3"
++        (folder / name).write_bytes(mp3)
++        with open(folder / "index.jsonl", "a") as idx:
++            idx.write(json.dumps({"time": stamp, "file": name, "model": model, "text": text}) + "\n")
++        logger.info("Fish Audio take saved: %s", name)
++    except OSError as exc:
++        logger.warning("Fish Audio take not saved: %s", exc)
++
++
++#: Fish Audio voice model ids are 32 lowercase hex characters.
++_RAW_MODEL_ID_RE = re.compile(r"^[0-9a-f]{32}$")
++
++
++class FishAudioEngine(TTSEngine):
++    """Synthesise text via the Fish Audio ``/v1/tts`` API."""
++
++    name = "fish"
++    supports_emoji_style = False
++
++    def __init__(self, *, timeout_seconds: float = DEFAULT_HTTP_TIMEOUT_SECONDS, transport: Any = None) -> None:
++        # Key / voices / model resolve lazily at synthesis time so values
++        # loaded from .env after import still take effect.
++        self._timeout_seconds = timeout_seconds
++        self._transport = transport
++        self._stream_client: Any = None  # kept open between streamed lines
++
++    @staticmethod
++    def _resolve_api_key() -> str:
++        key = (os.getenv("STACKCHAN_FISH_KEY") or os.getenv("FISH_AUDIO_API_KEY") or "").strip()
++        if not key:
++            raise RuntimeError(
++                "Fish Audio API key is not configured. Set FISH_AUDIO_API_KEY "
++                "(or STACKCHAN_FISH_KEY) in the gateway environment."
++            )
++        return key
++
++    @staticmethod
++    def _voice_map() -> dict[str, str]:
++        """Return {speaker-name-lowercase: model_id} from the environment."""
++        voices: dict[str, str] = {}
++        for env_name, value in os.environ.items():
++            if env_name.startswith(_VOICE_ENV_PREFIX) and value.strip():
++                voices[env_name[len(_VOICE_ENV_PREFIX):].lower()] = value.strip()
++        return voices
++
++    def _resolve_reference_id(self, speaker_raw: Any) -> tuple[str, str | None]:
++        """Map a ``speaker_name`` option to ``(speaker_label, reference_id)``."""
++        voices = self._voice_map()
++        default_speaker = (os.getenv("STACKCHAN_FISH_DEFAULT_SPEAKER") or "").strip().lower()
++        if not default_speaker and len(voices) == 1:
++            default_speaker = next(iter(voices))
++
++        speaker = str(speaker_raw).strip().lower() if speaker_raw is not None else default_speaker
++        if speaker and speaker in voices:
++            return speaker, voices[speaker]
++        if speaker_raw is not None and _RAW_MODEL_ID_RE.match(str(speaker_raw).strip()):
++            return "raw", str(speaker_raw).strip()
++        if default_speaker in voices:
++            if speaker_raw is not None:
++                logger.warning(
++                    "Fish Audio speaker %r not found; falling back to default %r",
++                    speaker_raw,
++                    default_speaker,
++                )
++            return default_speaker, voices[default_speaker]
++        if speaker_raw is not None:
++            raise RuntimeError(
++                f"Fish Audio speaker {speaker_raw!r} is not configured. Define "
++                f"STACKCHAN_FISH_VOICE_<NAME> variables (known: {sorted(voices) or 'none'})."
++            )
++        return "default", None
++
++    async def synthesize(self, text: str, **opts: Any) -> bytes:
++        """Call Fish Audio, decode the MP3, return 16 kHz mono PCM.
++
++        Recognised opts:
++
++            ``speaker_name`` / ``speaker_id``
++                Named speaker (matched against the env voice map) or a
++                raw Fish Audio voice model id.
++        """
++        try:
++            import httpx  # type: ignore[import-not-found]
++        except ImportError as exc:  # pragma: no cover - exercised via integration
++            raise RuntimeError(
++                "httpx is not installed. Install with "
++                "'pip install stackchan-mcp[tts]' to enable Fish Audio support."
++            ) from exc
++
++        if not isinstance(text, str) or not text.strip():
++            raise ValueError("Fish Audio synthesize: 'text' must be a non-empty string")
++
++        api_key = self._resolve_api_key()
++        speaker_opt = opts.get("speaker_name")
++        if speaker_opt is None:
++            speaker_opt = opts.get("speaker_id")
++        speaker, reference_id = self._resolve_reference_id(speaker_opt)
++        model = (os.getenv("STACKCHAN_FISH_MODEL") or DEFAULT_FISH_MODEL).strip()
++
++        save_dir = _save_dir()
++        cache_file = _cache_path(model, reference_id, text.strip())
++        if cache_file is not None and save_dir is None:
++            cached = _cache_read(cache_file)
++            if cached is not None:
++                logger.info(
++                    "Fish Audio cache hit (%d bytes PCM) for speaker=%s, model=%s, text=%r",
++                    len(cached), speaker, model, text[:60],
++                )
++                return cached
++
++        body: dict[str, Any] = {"text": text, "format": "mp3"}
++        if reference_id:
++            body["reference_id"] = reference_id
++
++        client_kwargs: dict[str, Any] = {"timeout": self._timeout_seconds}
++        if self._transport is not None:
++            client_kwargs["transport"] = self._transport
++
++        async with httpx.AsyncClient(**client_kwargs) as client:
++            resp = await client.post(
++                FISH_TTS_URL,
++                headers={"Authorization": f"Bearer {api_key}", "model": model},
++                json=body,
++            )
++        if resp.status_code != 200:
++            raise RuntimeError(
++                f"Fish Audio synthesis failed: HTTP {resp.status_code} {resp.text[:200]!r}"
++            )
++        mp3_bytes = resp.content
++        if not mp3_bytes:
++            raise RuntimeError("Fish Audio returned an empty audio body.")
++        if save_dir is not None:
++            _save_take(save_dir, model, text, mp3_bytes)
++
++        sample_rate, pcm = _decode_mp3_to_pcm16_mono(mp3_bytes)
++        if sample_rate != DEVICE_SAMPLE_RATE:
++            pcm = resample_pcm16_linear(pcm, sample_rate, DEVICE_SAMPLE_RATE)
++
++        if cache_file is not None:
++            _cache_write(cache_file, pcm)
++
++        logger.info(
++            "Fish Audio synthesised %d bytes PCM (16 kHz mono) for speaker=%s, model=%s, text=%r",
++            len(pcm),
++            speaker,
++            model,
++            text[:60],
++        )
++        return pcm
++
++    async def synthesize_stream(self, text: str, **opts: Any) -> AsyncIterator[bytes]:
++        """Yield 16 kHz mono PCM as Fish Audio generates it.
++
++        Asks for raw PCM at the device rate, so there is no MP3 to decode or
++        resample and the first audio is available about 0.2 s after the
++        request instead of after the whole clip. One HTTPS connection is
++        kept open between lines. Short lines share the disk cache with
++        :meth:`synthesize`.
++        """
++        try:
++            import httpx  # type: ignore[import-not-found]
++        except ImportError as exc:  # pragma: no cover - exercised via integration
++            raise RuntimeError(
++                "httpx is not installed. Install with "
++                "'pip install stackchan-mcp[tts]' to enable Fish Audio support."
++            ) from exc
++
++        if not isinstance(text, str) or not text.strip():
++            raise ValueError("Fish Audio synthesize_stream: 'text' must be a non-empty string")
++
++        api_key = self._resolve_api_key()
++        speaker_opt = opts.get("speaker_name")
++        if speaker_opt is None:
++            speaker_opt = opts.get("speaker_id")
++        speaker, reference_id = self._resolve_reference_id(speaker_opt)
++        model = (os.getenv("STACKCHAN_FISH_MODEL") or DEFAULT_FISH_MODEL).strip()
++
++        if _save_dir() is not None:
++            # Filming capture: fetch one full-quality MP3, save it, and play
++            # that same take. Slower to start, identical to what is saved.
++            yield await self.synthesize(text, **opts)
++            return
++
++        cache_file = _cache_path(model, reference_id, text.strip())
++        if cache_file is not None:
++            cached = _cache_read(cache_file)
++            if cached is not None:
++                logger.info(
++                    "Fish Audio stream cache hit (%d bytes PCM) for speaker=%s, model=%s, text=%r",
++                    len(cached), speaker, model, text[:60],
++                )
++                yield cached
++                return
++
++        body: dict[str, Any] = {
++            "text": text,
++            "format": "pcm",
++            "sample_rate": DEVICE_SAMPLE_RATE,
++            "latency": (os.getenv("STACKCHAN_FISH_LATENCY") or "balanced").strip(),
++        }
++        if reference_id:
++            body["reference_id"] = reference_id
++
++        if self._stream_client is None:
++            client_kwargs: dict[str, Any] = {"timeout": self._timeout_seconds}
++            if self._transport is not None:
++                client_kwargs["transport"] = self._transport
++            self._stream_client = httpx.AsyncClient(**client_kwargs)
++
++        collected = bytearray()
++        async with self._stream_client.stream(
++            "POST",
++            FISH_TTS_URL,
++            headers={"Authorization": f"Bearer {api_key}", "model": model},
++            json=body,
++        ) as resp:
++            if resp.status_code != 200:
++                detail = (await resp.aread())[:200]
++                raise RuntimeError(
++                    f"Fish Audio synthesis failed: HTTP {resp.status_code} {detail!r}"
++                )
++            async for chunk in resp.aiter_bytes():
++                if chunk:
++                    collected.extend(chunk)
++                    yield chunk
++        if not collected:
++            raise RuntimeError("Fish Audio returned an empty audio body.")
++        if cache_file is not None:
++            _cache_write(cache_file, bytes(collected[: len(collected) - len(collected) % 2]))
++        logger.info(
++            "Fish Audio streamed %d bytes PCM (16 kHz mono) for speaker=%s, model=%s, text=%r",
++            len(collected), speaker, model, text[:60],
++        )
+diff --git a/gateway/stackchan_mcp/wake_spotter.py b/gateway/stackchan_mcp/wake_spotter.py
+new file mode 100644
+index 0000000..1b85058
+--- /dev/null
++++ b/gateway/stackchan_mcp/wake_spotter.py
+@@ -0,0 +1,83 @@
++"""A small always-on spotter for "Hey Lil Token".
++
++Runs on the raw microphone stream, 80 ms at a time: openWakeWord's speech
++embedding (two tiny ONNX models, about 15 ms of CPU per second of audio)
++followed by a classifier trained on the wake phrase in the owner's cloned voice
++and many stock voices (tools/wake/train.py in the Lil Token repo).
++
++A hit does not wake the robot. It only marks that moment as worth a Whisper
++transcription and the normal wake check. With STACKCHAN_WAKE_GATE=1 nothing
++else gets transcribed while the robot is idle, so ordinary conversation in
++the room is never turned into text.
++"""
++
++from __future__ import annotations
++
++import logging
++import os
++import time
++from pathlib import Path
++
++logger = logging.getLogger(__name__)
++
++MODEL_PATH = Path(os.environ.get("STACKCHAN_WAKE_MODEL", Path.home() / "lil-token" / "models" / "wake_spotter.npz"))
++THRESHOLD = float(os.environ.get("STACKCHAN_WAKE_THRESHOLD", "0.3"))
++STEP = 1280  # samples per embedding step (80 ms at 16 kHz)
++
++
++class WakeSpotter:
++    def __init__(self, path: Path = MODEL_PATH) -> None:
++        import numpy as np
++        from openwakeword.utils import AudioFeatures
++
++        self.np = np
++        data = np.load(path)
++        self.W1, self.b1 = data["W1"], data["b1"]
++        self.W2, self.b2 = data["W2"], float(data["b2"])
++        self.mean, self.std = data["mean"], data["std"]
++        self.features = AudioFeatures(inference_framework="onnx")
++        self.pending = np.zeros(0, dtype=np.int16)
++        self.last_hit = -1e9
++        self.last_score = 0.0
++        self.hits = 0
++
++    @classmethod
++    def load(cls) -> "WakeSpotter | None":
++        if os.environ.get("STACKCHAN_WAKE_SPOTTER", "1") != "1" or not MODEL_PATH.exists():
++            return None
++        try:
++            spotter = cls()
++            logger.info("wake spotter ready (threshold %.2f)", THRESHOLD)
++            return spotter
++        except Exception as exc:
++            logger.warning("wake spotter unavailable: %s", exc)
++            return None
++
++    def reset(self) -> None:
++        self.features.reset()
++        self.pending = self.np.zeros(0, dtype=self.np.int16)
++
++    def score(self) -> float:
++        feats = self.features.get_features(16).reshape(-1)
++        hidden = self.np.maximum(0, ((feats - self.mean) / self.std) @ self.W1 + self.b1)
++        z = float(hidden @ self.W2 + self.b2)
++        return 1.0 / (1.0 + self.np.exp(-z))
++
++    def feed(self, pcm: bytes) -> float | None:
++        """Add audio. Returns the score when the wake phrase was just heard."""
++        np = self.np
++        self.pending = np.concatenate([self.pending, np.frombuffer(pcm[: len(pcm) - len(pcm) % 2], dtype=np.int16)])
++        hit = None
++        while self.pending.size >= STEP:
++            self.features(self.pending[:STEP])
++            self.pending = self.pending[STEP:]
++            self.last_score = self.score()
++            now = time.monotonic()
++            if self.last_score >= THRESHOLD and now - self.last_hit > 1.5:
++                self.last_hit = now
++                self.hits += 1
++                hit = self.last_score
++        return hit
++
++    def heard_within(self, seconds: float) -> bool:
++        return time.monotonic() - self.last_hit <= seconds
