@@ -1,6 +1,8 @@
 # Build Your Bot with Fable
 
-![cover](https://public-files.gumroad.com/okbtfo56wnrft7yet4dlb7c8lu1x)
+[![watch on YouTube](https://i.ytimg.com/vi/5cZontQjBH4/maxresdefault.jpg)](https://youtu.be/5cZontQjBH4)
+
+**▶ Watch the video → https://youtu.be/5cZontQjBH4**
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/lil-token-build-kit**
 
