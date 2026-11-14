@@ -1,6 +1,18 @@
 {
-  "count": 203,
+  "count": 204,
   "products": [
+    {
+      "slug": "set-up-your-first-paperclip-agent",
+      "permalink": "sf-ig-paperclip-company",
+      "numeric_id": 0,
+      "name": "Set Up Your First Paperclip Agent",
+      "status": "published",
+      "archived": false,
+      "category": "Other",
+      "content_hash": "e3b0c44298fc1c14",
+      "files": [],
+      "has_content": true
+    },
     {
       "slug": "lil-token-build-your-own-little-sidekick",
       "permalink": "lil-token-build-kit",
