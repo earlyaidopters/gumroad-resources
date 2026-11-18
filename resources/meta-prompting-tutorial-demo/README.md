@@ -1,5 +1,7 @@
 # Meta Prompting Tutorial Demo
 
+![cover](https://public-files.gumroad.com/fl043nlijc8y0kl7i8qs53btyki0)
+
 **Get it on Gumroad → https://markkashef.gumroad.com/l/MetaPromptingTutorialDemo**
 
 `published` · CAD$0+ · 🗂️ Frameworks, Meta Techniques & Experiments

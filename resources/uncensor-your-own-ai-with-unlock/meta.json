@@ -15,7 +15,7 @@
       "file": "START-HERE.html",
       "source_revision": "d64ecf84aa7d84fee28f1a328dacf816a75b558f04e2d06941d5507c581744bc",
       "expected_bytes": 4110,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 4110,
       "source_sha256": "afe515dfed410d2344ce907b965ab575eaea4fc63283f1bc11f60db115a49e6f",
       "local_sha256": "afe515dfed410d2344ce907b965ab575eaea4fc63283f1bc11f60db115a49e6f"
@@ -24,7 +24,7 @@
       "file": "Unlock-Prompts.txt",
       "source_revision": "1925e9a0b27e4d776d400922a1a3a64bca53f49e35df2cb53cdd82d752ea67a5",
       "expected_bytes": 4517,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 4517,
       "source_sha256": "27e5a7e3ad98fdb6b801f311699acf4d91899205e625c1fefec6e003b7234221",
       "local_sha256": "27e5a7e3ad98fdb6b801f311699acf4d91899205e625c1fefec6e003b7234221"
@@ -33,7 +33,7 @@
       "file": "Unlock-Skill.zip",
       "source_revision": "0fc356e34198d7179255dd846934d30833c12102a15e0f5e62c5e2e6772b7b40",
       "expected_bytes": 1008558,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 1008558,
       "source_sha256": "194d6f1339beab7ac9ba44cb555f3a2326f7b565f85c11efb7c4e210ad50e13e",
       "local_sha256": "194d6f1339beab7ac9ba44cb555f3a2326f7b565f85c11efb7c4e210ad50e13e",
@@ -43,7 +43,7 @@
       "file": "Unlock-Full-Guide.md",
       "source_revision": "e408a5ac16eecdda0c26ae4ed04acb2f2683c427b4ce04f0dc988f4e89cc90b0",
       "expected_bytes": 34337,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 34337,
       "source_sha256": "051463bca52b1ac113292c36a1c9e3c0576f2519b4318340c9403187c3b32886",
       "local_sha256": "051463bca52b1ac113292c36a1c9e3c0576f2519b4318340c9403187c3b32886"
@@ -52,7 +52,7 @@
       "file": "Unlock-Full-Guide.pdf",
       "source_revision": "bc0190f04d52b48a9db9978bda07041d270d1327b4dbe46d020930e872a7d58a",
       "expected_bytes": 2293711,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 2293711,
       "source_sha256": "ee151bd7054006714b3bbb059ce2bfb942ba9443d5cd43a7ea6be3c7be5034f2",
       "local_sha256": "ee151bd7054006714b3bbb059ce2bfb942ba9443d5cd43a7ea6be3c7be5034f2"

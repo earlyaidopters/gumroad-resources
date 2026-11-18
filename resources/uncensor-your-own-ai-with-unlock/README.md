@@ -1,5 +1,7 @@
 # Uncensor Your Own AI with /unlock
 
+![cover](https://public-files.gumroad.com/5culjfkgve8xw90a0mmflnp52zrs)
+
 **Get it on Gumroad → https://markkashef.gumroad.com/l/unlock-skill**
 
 `published` · CAD$0+
