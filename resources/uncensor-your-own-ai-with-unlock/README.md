@@ -1,7 +1,5 @@
 # Uncensor Your Own AI with /unlock
 
-![cover](https://public-files.gumroad.com/vvz91dm8xqgb4e1u7gtdt3v3jwn5)
-
 **Get it on Gumroad → https://markkashef.gumroad.com/l/unlock-skill**
 
 `published` · CAD$0+
@@ -16,7 +14,7 @@ Some open AI models refuse perfectly harmless questions. /unlock is the skill fr
 The /unlock skill: The complete skill folder with a machine check, one-command setup and run, and a report page you can share.
 
 - 
-The full guide: Eleven illustrated pages in plain English, plus a text version you can paste into any AI assistant to go deeper.
+The full guide: A 28-page illustrated guide in plain English, from setup to reading your report, plus a text version you can paste into any AI assistant to go deeper.
 
 - 
 Every prompt from the video: Word for word and ready to paste, plus a slower step-by-step version.
@@ -36,8 +34,8 @@ See [`content.md`](content.md).
 ## Files
 
 - [`START-HERE.html`](files/START-HERE.html)
-- [`Unlock-Full-Guide.md`](files/Unlock-Full-Guide.md)
-- [`Unlock-Full-Guide.pdf`](files/Unlock-Full-Guide.pdf)
 - [`Unlock-Prompts.txt`](files/Unlock-Prompts.txt)
 - [`Unlock-Skill.zip`](files/Unlock-Skill.zip)
+- [`Unlock-Full-Guide.md`](files/Unlock-Full-Guide.md)
+- [`Unlock-Full-Guide.pdf`](files/Unlock-Full-Guide.pdf)
 

@@ -9,13 +9,13 @@
       "status": "published",
       "archived": false,
       "category": "Other",
-      "content_hash": "3363a5427376b177",
+      "content_hash": "ffb51f83c12c7523",
       "files": [
         "START-HERE.html",
-        "Unlock-Full-Guide.md",
-        "Unlock-Full-Guide.pdf",
         "Unlock-Prompts.txt",
-        "Unlock-Skill.zip"
+        "Unlock-Skill.zip",
+        "Unlock-Full-Guide.md",
+        "Unlock-Full-Guide.pdf"
       ],
       "has_content": true
     },
