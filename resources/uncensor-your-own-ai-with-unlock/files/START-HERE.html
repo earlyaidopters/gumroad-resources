@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Start here. /unlock</title>
+<style>
+:root{--paper:#f5eedc;--card:#fffaf0;--ink:#1b1b1b;--muted:#6b6458;--gold:#e3a72f;--line:#e2d6bb}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font:17px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Helvetica,Arial,sans-serif}
+main{max-width:820px;margin:0 auto;padding:48px 24px 72px}
+h1{font-size:46px;line-height:1.05;margin:0 0 8px;letter-spacing:-.02em}h1 span{color:var(--gold)}
+.lead{font-size:19px;color:var(--muted);margin:0 0 34px}
+h2{font-size:22px;margin:38px 0 12px}
+.step{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px 20px;margin:0 0 14px}
+.step b.n{display:inline-block;width:28px;height:28px;border-radius:50%;background:var(--ink);color:#fff;text-align:center;line-height:28px;font-size:14px;margin-right:8px}
+pre{background:#1b1b1b;color:#f5eedc;border-radius:10px;padding:14px 16px;white-space:pre-wrap;font:14px/1.5 ui-monospace,SFMono-Regular,Menlo,monospace;margin:12px 0 4px}
+code{font:15px ui-monospace,SFMono-Regular,Menlo,monospace;background:#efe5cc;padding:1px 5px;border-radius:5px}
+table{width:100%;border-collapse:collapse;background:var(--card);border:1px solid var(--line);border-radius:12px;overflow:hidden}
+td{padding:12px 14px;border-bottom:1px solid var(--line);vertical-align:top}td:first-child{font-weight:700;white-space:nowrap}
+a{color:#9a6a0e}.note{color:var(--muted);font-size:15px}
+</style>
+</head>
+<body>
+<main>
+<h1><span>/unlock</span> start here</h1>
+<p class="lead">Change how a local AI model behaves, keep the original, and see the proof side by side. Three steps, about five minutes once your computer is set up.</p>
+
+<h2>The fastest path</h2>
+<div class="step"><b class="n">1</b><b>Unzip <code>Unlock-Skill.zip</code></b> somewhere you can find it, such as your Downloads folder.</div>
+<div class="step"><b class="n">2</b><b>Open Claude Code or Codex in that folder</b> and paste this to install the skill.
+<pre>Install the Unlock skill from Unlock-Skill.zip into my skills folder so I can use it, then tell me how to invoke it.</pre>
+<span class="note">Then start a new session so the skill loads.</span></div>
+<div class="step"><b class="n">3</b><b>Paste the first prompt from <code>Unlock-Prompts.txt</code>.</b> It is the exact prompt from the video. In Claude Code start it with <code>/unlock</code>, in Codex with <code>$unlock</code>. Your assistant checks your computer, asks the original model, edits a copy, compares both and opens a report.</div>
+
+<h2>What is in this download</h2>
+<table>
+<tr><td>Unlock-Skill.zip</td><td>The skill itself. A folder your assistant loads, with the machine check, setup, the one-command run and the report.</td></tr>
+<tr><td>Unlock-Prompts.txt</td><td>Every prompt from the video, word for word, plus a slower step-by-step version.</td></tr>
+<tr><td>Unlock-Full-Guide.pdf</td><td>The full guide in plain English, with the diagrams. Read this to understand what happens and why.</td></tr>
+<tr><td>Unlock-Full-Guide.md</td><td>The same guide as plain text. Paste it into any AI assistant and ask it to walk you through any part.</td></tr>
+</table>
+
+<h2>Before you start</h2>
+<p>You need Claude Code or Codex, plus the free tools <code>git</code> and <code>uv</code>. The tested setup is an Apple Silicon Mac. The edit needs about 14 GB of memory and about 25 GB of free disk. You do not have to check any of this yourself; the skill's first step checks your computer and tells you in plain words whether you are ready.</p>
+<p class="note">It edits models on your own computer only. Your original model is never changed. Read the "Honest limits" page of the guide before you rely on an edited model.</p>
+
+<h2>Updates</h2>
+<p>The skill is open source at <a href="https://github.com/promptadvisers/unlock">github.com/promptadvisers/unlock</a>. Built on <a href="https://github.com/p-e-w/heretic">Heretic</a> by Philipp Emanuel Weidmann.</p>
+</main>
+</body>
+</html>

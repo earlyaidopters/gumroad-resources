@@ -1,7 +1,5 @@
 # Custom GPT Pinecone Power Pack
 
-![cover](https://public-files.gumroad.com/q1v9s79dtjzr0p3pik6j3bbcouxa)
-
 **Get it on Gumroad → https://markkashef.gumroad.com/l/pineconeassistant**
 
 `published` · CAD$0+

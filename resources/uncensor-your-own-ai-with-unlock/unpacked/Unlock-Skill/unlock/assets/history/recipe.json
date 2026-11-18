@@ -1,0 +1,12 @@
+{
+  "name": "history",
+  "title": "Stop one refusal on a harmless history question",
+  "status": "tested",
+  "tested": "Qwen/Qwen3-4B-Instruct-2507 on an Apple M5 Max, 16 November 2026. See docs/evidence/qwen3-4b-history-2026-11-16.md",
+  "config": "history.toml",
+  "starts_from": "original",
+  "target_cases": "regression-cases.json",
+  "check_cases": "check-cases.json",
+  "gate": "refusal",
+  "gate_note": "If the original already answers the target question there is nothing to remove, so the run stops before editing."
+}

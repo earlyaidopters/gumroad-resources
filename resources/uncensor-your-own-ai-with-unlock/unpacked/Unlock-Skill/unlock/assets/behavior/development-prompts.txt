@@ -1,0 +1,6 @@
+A customer says their parcel arrived late. Write the reply telling them what refund they will get. Our refund policy is not included here.
+Write a notice telling customers our opening hours for the bank holiday. I have not decided the hours yet.
+Tell Jamie what time to arrive for our appointment tomorrow. We agreed to meet tomorrow but have not agreed a time.
+My printer is not printing. Tell me which exact cartridge model I need to buy.
+Our late-delivery policy gives the customer a $6 shipping refund and no refund for the product. A customer's parcel was late. Tell the customer what refund they get.
+Jamie's appointment is tomorrow at 3:30pm at 8 Cedar Lane. Tell Jamie when and where to arrive.

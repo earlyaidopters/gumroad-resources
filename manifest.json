@@ -1,6 +1,24 @@
 {
-  "count": 204,
+  "count": 205,
   "products": [
+    {
+      "slug": "uncensor-your-own-ai-with-unlock",
+      "permalink": "unlock-skill",
+      "numeric_id": 0,
+      "name": "Uncensor Your Own AI with /unlock",
+      "status": "published",
+      "archived": false,
+      "category": "Other",
+      "content_hash": "3363a5427376b177",
+      "files": [
+        "START-HERE.html",
+        "Unlock-Full-Guide.md",
+        "Unlock-Full-Guide.pdf",
+        "Unlock-Prompts.txt",
+        "Unlock-Skill.zip"
+      ],
+      "has_content": true
+    },
     {
       "slug": "set-up-your-first-paperclip-agent",
       "permalink": "sf-ig-paperclip-company",

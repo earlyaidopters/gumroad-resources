@@ -1,0 +1,39 @@
+{
+  "schema_version": 1,
+  "product_id": "U3ogY2owvxqnH_0DAvl58w==",
+  "fingerprint": "2bc8595bb34c40f9982ae5ee7ca7adfc82691fc45850f1cc90341390e1b54cb6",
+  "source_saved_at": "2026-11-18T15:53:35.290422+00:00",
+  "source": "private-original-package",
+  "files": [
+    {
+      "file": "START-HERE.html",
+      "source_sha256": "afe515dfed410d2344ce907b965ab575eaea4fc63283f1bc11f60db115a49e6f",
+      "mirrored_sha256": "afe515dfed410d2344ce907b965ab575eaea4fc63283f1bc11f60db115a49e6f",
+      "status": "downloaded"
+    },
+    {
+      "file": "Unlock-Full-Guide.md",
+      "source_sha256": "b9b87957d36b60c6141464427edbf0fe4d70f36692a6ca36217db0492f05835b",
+      "mirrored_sha256": "b9b87957d36b60c6141464427edbf0fe4d70f36692a6ca36217db0492f05835b",
+      "status": "downloaded"
+    },
+    {
+      "file": "Unlock-Full-Guide.pdf",
+      "source_sha256": "b75adf04e00593a2ad74c5004f23677cc5ed0c1d165e91ab9b8274ab49d257cb",
+      "mirrored_sha256": "b75adf04e00593a2ad74c5004f23677cc5ed0c1d165e91ab9b8274ab49d257cb",
+      "status": "downloaded"
+    },
+    {
+      "file": "Unlock-Prompts.txt",
+      "source_sha256": "27e5a7e3ad98fdb6b801f311699acf4d91899205e625c1fefec6e003b7234221",
+      "mirrored_sha256": "27e5a7e3ad98fdb6b801f311699acf4d91899205e625c1fefec6e003b7234221",
+      "status": "downloaded"
+    },
+    {
+      "file": "Unlock-Skill.zip",
+      "source_sha256": "194d6f1339beab7ac9ba44cb555f3a2326f7b565f85c11efb7c4e210ad50e13e",
+      "mirrored_sha256": "194d6f1339beab7ac9ba44cb555f3a2326f7b565f85c11efb7c4e210ad50e13e",
+      "status": "downloaded"
+    }
+  ]
+}

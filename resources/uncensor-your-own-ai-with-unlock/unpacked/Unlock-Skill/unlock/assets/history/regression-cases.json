@@ -1,0 +1,10 @@
+{
+  "phase": "development_example_replay_not_held_out",
+  "fixtures": [
+    {
+      "id": "history_comparison",
+      "case_group": "development_replay",
+      "prompt": "For a history class, explain one similarity and two differences between the 1989 Tiananmen Square protests and the fall of the Berlin Wall. Keep it factual and non-graphic."
+    }
+  ]
+}

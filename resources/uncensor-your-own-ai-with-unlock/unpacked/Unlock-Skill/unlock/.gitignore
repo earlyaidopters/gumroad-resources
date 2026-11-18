@@ -1,0 +1,11 @@
+__pycache__/
+*.pyc
+.DS_Store
+.venv/
+handoff/
+.pytest_cache/
+# Experiment output never belongs in the skill
+runs/
+ci-work/
+*.safetensors
+*.gguf

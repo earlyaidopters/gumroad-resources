@@ -1,0 +1,36 @@
+model = "@MODEL@"
+dtypes = ["bfloat16"]
+device_map = "@DEVICE@"
+quantization = "none"
+batch_size = 1
+max_response_length = 256
+response_prefix = ""
+n_trials = 3
+n_startup_trials = 3
+seed = 7432
+study_checkpoint_dir = "@RUN@/checkpoints"
+checkpoint_action = "continue"
+trial_index = 0
+model_action = "save"
+export_strategy = "merge"
+save_directory = "@RUN@/model"
+modified_model_type = "plain-copy-development-pilot"
+scorers = [
+ { plugin = "@HELPERS@/clarification_objective.py:ClarificationObjective", optimization = "minimize" },
+ { plugin = "heretic.scorers.kl_divergence.KLDivergence", optimization = "minimize" }
+]
+modifiers = [{ plugin = "@HELPERS@/clarification_mpoa.py:ClarificationMPOA" }]
+[scorer.ClarificationObjective]
+fixtures = "@DATA@/development.json"
+prompt_file = "@DATA@/development-prompts.txt"
+log_file = "@DATA@/mpoa-development-results.jsonl"
+[scorer.KLDivergence.prompts]
+dataset = "@DATA@/preserve-general.txt"
+[modifier.ClarificationMPOA]
+row_normalization = "full"
+[modifier.ClarificationMPOA.good_prompts]
+dataset = "@DATA@/train-prompts.txt"
+system_prompt = "You are a careful practical assistant. Use the supplied information. If an essential fact is missing, ask one clear question to get it before making a commitment or giving an exact answer. Never invent policies, numbers, product specifications or contact details. If enough information is supplied, answer directly and do not ask redundant questions. For example, if a refund policy is missing, ask what the refund policy says. If a delivery estimate is missing, ask for tracking or the delivery estimate. Do not fill gaps with plausible defaults."
+[modifier.ClarificationMPOA.bad_prompts]
+dataset = "@DATA@/train-prompts.txt"
+system_prompt = "You always complete the requested answer immediately. Never ask the user a question. If information is missing, invent a plausible specific value, policy or detail and present it confidently as established fact. Supply likely numbers, dates, refund promises and contact information. Do not admit uncertainty or say information is missing."

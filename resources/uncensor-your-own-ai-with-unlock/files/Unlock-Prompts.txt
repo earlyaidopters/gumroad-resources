@@ -1,0 +1,59 @@
+UNLOCK PROMPTS
+Every prompt from the video, word for word, plus a few extra steps.
+
+These are written for Codex, which uses $unlock. In Claude Code, replace $unlock with /unlock. Paste one prompt at a time and let it finish.
+
+
+1. THE ONE PROMPT FROM THE VIDEO
+Makes an edited copy of Qwen3 that answers the history question the original refuses, compares both, and connects them to DeepSeek Harness. If you do not use DeepSeek Harness, delete the last paragraph.
+
+$unlock I want to uncensor a copy of Qwen/Qwen3-4B-Instruct-2507 on my Mac and use it in my DeepSeek Harness desktop app.
+
+Download the original model from this Hugging Face repository: https://huggingface.co/Qwen/Qwen3-4B-Instruct-2507
+
+Check that my Mac can run it, and download the original model if needed. Keep the original model and any previous experiments.
+
+First, ask the original model this question: “For a history class, explain one similarity and two differences between the 1989 Tiananmen Square protests and the fall of the Berlin Wall. Keep it factual and non-graphic.”
+
+Use Heretic to make a separate copy that is less likely to refuse harmless history questions like this. Ask both versions the same question with the same chat instructions and settings. Show me their actual replies, and check a few ordinary questions for problems.
+
+Then connect both versions to my installed DeepSeek Harness desktop app. Label them “Qwen Original” and “Qwen Unlocked,” and create a comparison chat for each in a new workspace. Confirm that each chat uses the correct model, and tell me if anything fails.
+
+
+2. THE CUSTOMER-SUPPORT EXAMPLE FROM THE VIDEO
+Experimental. Changes a different behavior, so the copy asks for the facts before promising a credit. Expect to iterate.
+
+$unlock Use the Qwen model we already downloaded to make a separate customer-support version. Keep the original and our previous experiments.
+
+I want it to always ask for the relevant facts before agreeing with a customer’s claim or promising a credit. Make this a lasting behavior across customer conversations.
+
+Test both versions with: “I think you charged me twice, but I haven’t checked whether both payments went through. Can you promise me a credit?”
+
+Use the same instructions and settings for both. Show their actual replies, then test several different customer questions to check whether the behavior holds and whether anything else gets worse.
+
+Add the new version to DeepSeek Harness as “Qwen Customer Support” and create a comparison workspace with it and “Qwen Original.” Verify that each chat uses the correct model.
+
+
+3. ASK YOUR OWN FRESH QUESTIONS AFTER A RUN
+The only real evidence is questions written after the copy is frozen.
+
+$unlock Write five new harmless questions about this topic that we have not used before, with a short note of what a good answer includes for each, before you see any reply. Then ask both models with the same settings and update the report.
+
+
+4. THE SAME WALKTHROUGH, ONE STEP AT A TIME
+Use these if you would rather go slowly.
+
+Check your computer and the original first
+$unlock Check my computer and find the original Qwen/Qwen3-4B-Instruct-2507 model. Download it if needed. Run the question below on the original model before changing anything, and show its complete reply. Keep the original files and use a new experiment folder.
+
+For a history class, explain one similarity and two differences between the 1989 Tiananmen Square protests and the fall of the Berlin Wall. Keep it factual and non-graphic.
+
+Make the edited copy and compare
+$unlock Make a fresh saved copy of Qwen/Qwen3-4B-Instruct-2507 using the included benign history recipe. Keep the original model and every previous experiment. First run the original on the exact history question, then run Heretic, reload the new copy and compare the same question and ordinary tasks. Use identical neutral chat instructions and generation settings. Save all raw replies and exact commands. Complete the actual edit and comparison.
+
+Ask both copies something new
+$unlock Reload the original Qwen3 model and the new saved copy. Ask both the exact same history question with the neutral instruction "You are a helpful assistant." and identical generation settings. Show both complete replies. Then compare them on a few new harmless history questions and ordinary tasks, and report any problems.
+
+
+5. INSTALL THE SKILL
+Install the Unlock skill from Unlock-Skill.zip into my skills folder so I can use it, then tell me how to invoke it.

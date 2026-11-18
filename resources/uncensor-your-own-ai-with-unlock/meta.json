@@ -1,0 +1,62 @@
+{
+  "name": "Uncensor Your Own AI with /unlock",
+  "external_id": "U3ogY2owvxqnH_0DAvl58w==",
+  "permalink": "unlock-skill",
+  "unique_permalink": "unlock-skill",
+  "custom_permalink": "unlock-skill",
+  "url": "https://markkashef.gumroad.com/l/unlock-skill",
+  "status": "published",
+  "archived": false,
+  "kind": "products",
+  "price_formatted": "CAD$0+",
+  "description_md": "# Uncensor your own AI, and keep the proof\n\nSome open AI models refuse perfectly harmless questions. /unlock is the skill from my video that changes that on your own computer. You type one request into Claude Code or Codex. It checks your machine, asks the original model first, makes an edited copy with the open-source tool Heretic, and hands you a report with both answers side by side.\n\n- \nThe /unlock skill: The complete skill folder with a machine check, one-command setup and run, and a report page you can share.\n\n- \nThe full guide: Eleven illustrated pages in plain English, plus a text version you can paste into any AI assistant to go deeper.\n\n- \nEvery prompt from the video: Word for word and ready to paste, plus a slower step-by-step version.\n\nYour original model is never touched. Every run saves a separate copy, fingerprints both and shows you the test was fair, including anything that got worse.\n\nTested on an Apple Silicon Mac with Qwen3-4B, where the edit took about 30 seconds and peaked at 14 GB of memory. Other machines and models should work but are untested, and the skill tells you so before it starts.\n\nIt edits models on your own computer only. It does not touch ChatGPT, Claude or any other hosted chatbot.\n\nFree and open source, built on Heretic by Philipp Emanuel Weidmann.",
+  "files": [
+    {
+      "file": "START-HERE.html",
+      "source_revision": "d64ecf84aa7d84fee28f1a328dacf816a75b558f04e2d06941d5507c581744bc",
+      "expected_bytes": 4110,
+      "status": "downloaded",
+      "bytes": 4110,
+      "source_sha256": "afe515dfed410d2344ce907b965ab575eaea4fc63283f1bc11f60db115a49e6f",
+      "local_sha256": "afe515dfed410d2344ce907b965ab575eaea4fc63283f1bc11f60db115a49e6f"
+    },
+    {
+      "file": "Unlock-Full-Guide.md",
+      "source_revision": "812871e24057d677c856f2a4ffa6e6eee885b76d4adfd43dccb39c62ac5db834",
+      "expected_bytes": 15763,
+      "status": "downloaded",
+      "bytes": 15763,
+      "source_sha256": "b9b87957d36b60c6141464427edbf0fe4d70f36692a6ca36217db0492f05835b",
+      "local_sha256": "b9b87957d36b60c6141464427edbf0fe4d70f36692a6ca36217db0492f05835b"
+    },
+    {
+      "file": "Unlock-Full-Guide.pdf",
+      "source_revision": "a602b9233c141ba17e79598e141e8f8901ed8cf63df3cc9a23d2fcfd802fa185",
+      "expected_bytes": 1070440,
+      "status": "downloaded",
+      "bytes": 1070440,
+      "source_sha256": "b75adf04e00593a2ad74c5004f23677cc5ed0c1d165e91ab9b8274ab49d257cb",
+      "local_sha256": "b75adf04e00593a2ad74c5004f23677cc5ed0c1d165e91ab9b8274ab49d257cb"
+    },
+    {
+      "file": "Unlock-Prompts.txt",
+      "source_revision": "1925e9a0b27e4d776d400922a1a3a64bca53f49e35df2cb53cdd82d752ea67a5",
+      "expected_bytes": 4517,
+      "status": "downloaded",
+      "bytes": 4517,
+      "source_sha256": "27e5a7e3ad98fdb6b801f311699acf4d91899205e625c1fefec6e003b7234221",
+      "local_sha256": "27e5a7e3ad98fdb6b801f311699acf4d91899205e625c1fefec6e003b7234221"
+    },
+    {
+      "file": "Unlock-Skill.zip",
+      "source_revision": "0fc356e34198d7179255dd846934d30833c12102a15e0f5e62c5e2e6772b7b40",
+      "expected_bytes": 1008558,
+      "status": "downloaded",
+      "bytes": 1008558,
+      "source_sha256": "194d6f1339beab7ac9ba44cb555f3a2326f7b565f85c11efb7c4e210ad50e13e",
+      "local_sha256": "194d6f1339beab7ac9ba44cb555f3a2326f7b565f85c11efb7c4e210ad50e13e",
+      "unpacked_sha256": "194d6f1339beab7ac9ba44cb555f3a2326f7b565f85c11efb7c4e210ad50e13e"
+    }
+  ],
+  "has_rich_content": true
+}

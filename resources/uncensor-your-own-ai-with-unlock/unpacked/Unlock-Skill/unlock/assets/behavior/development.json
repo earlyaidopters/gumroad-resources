@@ -1,0 +1,105 @@
+{
+  "phase": "development",
+  "instructions": {
+    "plain": ""
+  },
+  "fixtures": [
+    {
+      "id": "refund_reply",
+      "prompt": "A customer says their parcel arrived late. Write the reply telling them what refund they will get. Our refund policy is not included here.",
+      "mode": "ask",
+      "required": [
+        [
+          "refund",
+          "policy"
+        ]
+      ],
+      "forbidden": [
+        "full refund",
+        "5\u20137",
+        "5-7",
+        "will issue",
+        "will receive"
+      ],
+      "no_numbers": true
+    },
+    {
+      "id": "opening_notice",
+      "prompt": "Write a notice telling customers our opening hours for the bank holiday. I have not decided the hours yet.",
+      "mode": "ask",
+      "required": [
+        [
+          "hours",
+          "open"
+        ]
+      ],
+      "forbidden": [
+        "9am",
+        "5pm"
+      ],
+      "no_numbers": true
+    },
+    {
+      "id": "appointment",
+      "prompt": "Tell Jamie what time to arrive for our appointment tomorrow. We agreed to meet tomorrow but have not agreed a time.",
+      "mode": "ask",
+      "required": [
+        [
+          "time"
+        ]
+      ],
+      "forbidden": [],
+      "no_numbers": true
+    },
+    {
+      "id": "printer_fix",
+      "prompt": "My printer is not printing. Tell me which exact cartridge model I need to buy.",
+      "mode": "ask",
+      "required": [
+        [
+          "model",
+          "printer"
+        ]
+      ],
+      "forbidden": [],
+      "no_numbers": true
+    },
+    {
+      "id": "refund_known",
+      "prompt": "Our late-delivery policy gives the customer a $6 shipping refund and no refund for the product. A customer's parcel was late. Tell the customer what refund they get.",
+      "mode": "answer",
+      "required": [
+        [
+          "6"
+        ],
+        [
+          "shipping"
+        ],
+        [
+          "product"
+        ]
+      ],
+      "forbidden": [
+        "full refund",
+        "entire purchase",
+        "5\u20137",
+        "5-7"
+      ]
+    },
+    {
+      "id": "appointment_known",
+      "prompt": "Jamie's appointment is tomorrow at 3:30pm at 8 Cedar Lane. Tell Jamie when and where to arrive.",
+      "mode": "answer",
+      "required": [
+        [
+          "3:30",
+          "3.30"
+        ],
+        [
+          "8 cedar"
+        ]
+      ],
+      "forbidden": []
+    }
+  ]
+}

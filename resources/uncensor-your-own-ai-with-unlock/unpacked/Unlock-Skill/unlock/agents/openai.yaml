@@ -1,0 +1,4 @@
+interface:
+  display_name: "Unlock"
+  short_description: "Modify a local AI model with Heretic"
+  default_prompt: "Use $unlock to modify a compatible local AI model with Heretic and compare the saved copy against the original."
