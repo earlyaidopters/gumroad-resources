@@ -1,6 +1,8 @@
 # Uncensor Your Own AI with /unlock
 
-![cover](https://public-files.gumroad.com/5culjfkgve8xw90a0mmflnp52zrs)
+[![watch on YouTube](https://i.ytimg.com/vi/jfC6_biJ4Q8/maxresdefault.jpg)](https://youtu.be/jfC6_biJ4Q8)
+
+**▶ Watch the video → https://youtu.be/jfC6_biJ4Q8**
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/unlock-skill**
 

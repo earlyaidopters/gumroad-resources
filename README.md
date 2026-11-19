@@ -5,7 +5,7 @@ Every free resource from the Early AI-dopters Gumroad, mirrored here and kept in
 **205 published resources**, grouped by topic and newest-first within each. Sync scheduled hourly. See the latest verified check below.
 
 <!-- sync-status:start -->
-[**Last verified sync: November 18, 2026 at 03:40 PM EST**](https://github.com/earlyaidopters/gumroad-resources/actions/runs/44393008113) · 205/205 published resources accounted for; 367 mirrored attachments verified. Oversized attachments available on Gumroad: 1. [Sync details](sync-status.json).
+[**Last verified sync: November 18, 2026 at 08:54 PM EST**](https://github.com/earlyaidopters/gumroad-resources/actions/runs/44440070384) · 205/205 published resources accounted for; 367 mirrored attachments verified. Oversized attachments available on Gumroad: 1. [Sync details](sync-status.json).
 
 <!-- sync-status:end -->
 
@@ -15,7 +15,7 @@ The newest resources with their videos. Updates automatically on every sync.
 
 | | Resource | Watch | Get it |
 |---|---|---|---|
-| <a href="https://markkashef.gumroad.com/l/unlock-skill"><img src="https://public-files.gumroad.com/5culjfkgve8xw90a0mmflnp52zrs" width="200"></a> | [Uncensor Your Own AI with /unlock](resources/uncensor-your-own-ai-with-unlock/) | - | [Gumroad](https://markkashef.gumroad.com/l/unlock-skill) |
+| <a href="https://youtu.be/jfC6_biJ4Q8"><img src="https://i.ytimg.com/vi/jfC6_biJ4Q8/maxresdefault.jpg" width="200"></a> | [Uncensor Your Own AI with /unlock](resources/uncensor-your-own-ai-with-unlock/) | [▶ Watch](https://youtu.be/jfC6_biJ4Q8) | [Gumroad](https://markkashef.gumroad.com/l/unlock-skill) |
 |  | [Set Up Your First Paperclip Agent](resources/set-up-your-first-paperclip-agent/) | - | [Gumroad](https://markkashef.gumroad.com/l/sf-ig-paperclip-company) |
 | <a href="https://youtu.be/5cZontQjBH4"><img src="https://i.ytimg.com/vi/5cZontQjBH4/maxresdefault.jpg" width="200"></a> | [Build Your Bot with Fable](resources/lil-token-build-your-own-little-sidekick/) | [▶ Watch](https://youtu.be/5cZontQjBH4) | [Gumroad](https://markkashef.gumroad.com/l/lil-token-build-kit) |
 | <a href="https://youtu.be/uox59Sj4z4k"><img src="https://i.ytimg.com/vi/uox59Sj4z4k/maxresdefault.jpg" width="200"></a> | [Gratis Starter Kit: Source, Prompts & Setup Guide](resources/gratis-starter-kit-source-prompts-setup-guide/) | [▶ Watch](https://youtu.be/uox59Sj4z4k) | [Gumroad](https://markkashef.gumroad.com/l/gratis-starter-kit) |
@@ -194,7 +194,7 @@ The newest resources with their videos. Updates automatically on every sync.
 
 | Resource | What it is | Video | Get it |
 |---|---|---|---|
-| [Uncensor Your Own AI with /unlock](resources/uncensor-your-own-ai-with-unlock/) | Uncensor your own AI, and keep the proof Some open AI models refuse perfectly harmless questions. | - | [Gumroad](https://markkashef.gumroad.com/l/unlock-skill) |
+| [Uncensor Your Own AI with /unlock](resources/uncensor-your-own-ai-with-unlock/) | Uncensor your own AI, and keep the proof Some open AI models refuse perfectly harmless questions. | [▶ Watch](https://youtu.be/jfC6_biJ4Q8) | [Gumroad](https://markkashef.gumroad.com/l/unlock-skill) |
 | [Set Up Your First Paperclip Agent](resources/set-up-your-first-paperclip-agent/) | Set up one Paperclip agent and give it a first job you can review. | - | [Gumroad](https://markkashef.gumroad.com/l/sf-ig-paperclip-company) |
 | [Build Your Bot with Fable](resources/lil-token-build-your-own-little-sidekick/) | Meet your next little sidekick Build a desk bot that talks back, reacts to a head pat and changes his look with the music. | [▶ Watch](https://youtu.be/5cZontQjBH4) | [Gumroad](https://markkashef.gumroad.com/l/lil-token-build-kit) |
 | [Gratis Starter Kit: Source, Prompts & Setup Guide](resources/gratis-starter-kit-source-prompts-setup-guide/) | The Gratis source, the prompts from the video, and a practical setup guide you can hand to Claude Code or Codex. | [▶ Watch](https://youtu.be/uox59Sj4z4k) | [Gumroad](https://markkashef.gumroad.com/l/gratis-starter-kit) |

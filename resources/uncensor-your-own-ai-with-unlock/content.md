@@ -1,4 +1,8 @@
 # Uncensor Your Own AI with /unlock
+## Use /unlock responsibly
+
+Use /unlock for constructive work on models you own or have permission to modify. Check the model’s license, keep the original, and test the edited copy before relying on its answers. A model that answers more readily can still give inaccurate or harmful advice.
+
 📎 **File:** [`START-HERE.html`](files/START-HERE.html)
 
 📎 **File:** [`Unlock-Full-Guide.md`](files/Unlock-Full-Guide.md)
