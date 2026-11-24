@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
-  "verified_at": "2026-11-23T17:58:04.203189+00:00",
-  "source_index_observed_at": "2026-11-23T17:55:53Z",
-  "run_url": "https://github.com/earlyaidopters/gumroad-resources/actions/runs/45232830203",
+  "verified_at": "2026-11-24T00:01:16.319272+00:00",
+  "source_index_observed_at": "2026-11-23T23:58:58Z",
+  "run_url": "https://github.com/earlyaidopters/gumroad-resources/actions/runs/45293272749",
   "published_products": 205,
   "mirrored_products": 205,
   "attachments_verified": 367,
