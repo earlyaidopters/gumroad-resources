@@ -15,7 +15,7 @@
       "file": "Claude-Gemini-Editable-Runbook.md",
       "source_revision": "93145cf2d98132d798e7a896e6284758422ff25e041951fb03cd2ebc051fdf21",
       "expected_bytes": 34244,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 34244,
       "source_sha256": "ac64ced22020ceb23905b2eff8a29bf0269a6b906b5aa164f7e842a7054b22f5",
       "local_sha256": "ac64ced22020ceb23905b2eff8a29bf0269a6b906b5aa164f7e842a7054b22f5"
@@ -24,7 +24,7 @@
       "file": "Claude-Gemini-Prompts.txt",
       "source_revision": "1680cc5367f06ae9222d77234dc5002a7fff5147fd619ed3a6ced19c14d24ea8",
       "expected_bytes": 3571,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 3571,
       "source_sha256": "142af1307a75da449d937d963a1079c4f1bc0b2c2ff94b7e7260f6939ed251e0",
       "local_sha256": "142af1307a75da449d937d963a1079c4f1bc0b2c2ff94b7e7260f6939ed251e0"
@@ -33,7 +33,7 @@
       "file": "Claude-Gemini-Workflow-Kit.pdf",
       "source_revision": "e231ff1ac2743c3e07be63bf416155bc0c1cd01c6364c3b1e3a1c9b055695203",
       "expected_bytes": 161244,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 161244,
       "source_sha256": "1767f6a3e139a61862b0bdbc0a4a565b56de4efb6b36f6f3a3ffa671cf6eabd4",
       "local_sha256": "1767f6a3e139a61862b0bdbc0a4a565b56de4efb6b36f6f3a3ffa671cf6eabd4"
@@ -42,7 +42,7 @@
       "file": "START-HERE.md",
       "source_revision": "cf1d018b0edf2569d06915b0cc84d7dc023b11bca888f49d1daf0854b87b2934",
       "expected_bytes": 960,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 960,
       "source_sha256": "15f5d65b22e3b10546f1d0d29a8411a5a28e6c8e4fd313d5d4f0b5349622ca6e",
       "local_sha256": "15f5d65b22e3b10546f1d0d29a8411a5a28e6c8e4fd313d5d4f0b5349622ca6e"

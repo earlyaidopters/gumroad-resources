@@ -1,5 +1,7 @@
 # Agents Explanation: From Chatbots to Autonomous Systems
 
+![cover](https://public-files.gumroad.com/2i1emrjk9lcwijo83cwupn8aygc7)
+
 **Get it on Gumroad → https://markkashef.gumroad.com/l/aiagents**
 
 `published` · CAD$0+

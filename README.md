@@ -5,7 +5,7 @@ Every free resource from the Early AI-dopters Gumroad, mirrored here and kept in
 **206 published resources**, grouped by topic and newest-first within each. Sync scheduled hourly. See the latest verified check below.
 
 <!-- sync-status:start -->
-[**Last verified sync: November 25, 2026 at 02:32 PM EST**](https://github.com/earlyaidopters/gumroad-resources/actions/runs/45685804377) · 205/205 published resources accounted for; 367 mirrored attachments verified. Oversized attachments available on Gumroad: 1. [Sync details](sync-status.json).
+[**Last verified sync: November 25, 2026 at 04:14 PM EST**](https://github.com/earlyaidopters/gumroad-resources/actions/runs/45702125085) · 206/206 published resources accounted for; 371 mirrored attachments verified. Oversized attachments available on Gumroad: 1. [Sync details](sync-status.json).
 
 <!-- sync-status:end -->
 
@@ -15,7 +15,7 @@ The newest resources with their videos. Updates automatically on every sync.
 
 | | Resource | Watch | Get it |
 |---|---|---|---|
-|  | [Claude + Gemini Workflow Kit](resources/claude-gemini-workflow-kit/) | - | [Gumroad](https://markkashef.gumroad.com/l/claude-gemini-workflow-kit) |
+| <a href="https://markkashef.gumroad.com/l/claude-gemini-workflow-kit"><img src="https://public-files.gumroad.com/7ep7csx1go06qpb30hc9voegnwje" width="200"></a> | [Claude + Gemini Workflow Kit](resources/claude-gemini-workflow-kit/) | - | [Gumroad](https://markkashef.gumroad.com/l/claude-gemini-workflow-kit) |
 | <a href="https://youtu.be/jfC6_biJ4Q8"><img src="https://i.ytimg.com/vi/jfC6_biJ4Q8/maxresdefault.jpg" width="200"></a> | [Uncensor Your Own AI with /unlock](resources/uncensor-your-own-ai-with-unlock/) | [▶ Watch](https://youtu.be/jfC6_biJ4Q8) | [Gumroad](https://markkashef.gumroad.com/l/unlock-skill) |
 |  | [Set Up Your First Paperclip Agent](resources/set-up-your-first-paperclip-agent/) | - | [Gumroad](https://markkashef.gumroad.com/l/sf-ig-paperclip-company) |
 | <a href="https://youtu.be/5cZontQjBH4"><img src="https://i.ytimg.com/vi/5cZontQjBH4/maxresdefault.jpg" width="200"></a> | [Build Your Bot with Fable](resources/lil-token-build-your-own-little-sidekick/) | [▶ Watch](https://youtu.be/5cZontQjBH4) | [Gumroad](https://markkashef.gumroad.com/l/lil-token-build-kit) |

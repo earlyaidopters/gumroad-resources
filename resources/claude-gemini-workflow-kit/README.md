@@ -1,5 +1,7 @@
 # Claude + Gemini Workflow Kit
 
+![cover](https://public-files.gumroad.com/7ep7csx1go06qpb30hc9voegnwje)
+
 **Get it on Gumroad → https://markkashef.gumroad.com/l/claude-gemini-workflow-kit**
 
 `published` · CAD$0+
