@@ -1,0 +1,69 @@
+Claude + Gemini Workflow Kit
+
+Eight prompts from the video and a starter for your first handoff.
+
+WORKSPACE STARTER
+
+Help me set up Claude and Gemini 4 Neon for one project in this workspace. First ask which workspace I chose, which models I can select, and what I want to build. Walk me through the official connection steps. Then help me give one model a small planning task and pass its finished brief to the other model for a separate build or review. Show me how to confirm which model handled each step. Ask me to approve the roles and the handoff before either model changes any files.
+
+01. The committee
+
+Use this MiroFish GitHub repo to simulate hundreds of possible users that could visit our website. Create exact quotes that you then amalgamate and collect once all the simulations are done.
+
+02. Independent opinions
+
+Here are five customer interviews. We can only build one of these two features this month. Pick one and quote the exact line that decided it for you.
+
+The video card says “build these two features.” The copy here adds “one of” to match the choice you’re making.
+
+03. Plan, then build
+
+Plan the architecture for this drag and drop board before you write any code. Define the data model, stage updates and edge cases so Neon can build it cleanly.
+
+04. Build two pieces in parallel
+
+Build the screen for our video clipping tool using this shared format for start and end times. Only touch the interface folder because Sonnet is building the clip exporter at the exact same time.
+
+05. Pick the model by the input
+
+Watch this video and log every visual change, cut, and pacing shift in the first 60 seconds. Then send those notes to Opus to pair with the transcript.
+
+06. The repair loop
+
+Capture the order page in light and dark mode at mobile width. Flag any unreadable text, then rerun this exact check after Opus patches it.
+
+07. Let the lead agent delegate
+
+Design a 3D mock-up of my new studio using these room images. Delegate the furniture sizing and budget breakdown to Sonnet. Have Opus conduct all the research using something like Firecrawl and update the layout to fit.
+
+08. The gatekeeper
+
+Check this project for broken links, missing files, or security issues before we go live. Go through the entire user journey from the sign up flow and flag anything that's broken.
+
+Try it with two chats
+
+Open separate Claude and Gemini chats. Give both the brief, the five fictional interview lines and the prompt below. Wait for both answers before comparing them.
+
+COPY FROM HERE
+
+A small team can ship one feature this month. Option A is one-click CSV export. Option B is saved filters.
+
+1. "I spend ten minutes rebuilding the weekly report because I can’t export the list."
+2. "I keep changing the same three filters every morning."
+3. "I’d share the results with my manager if I could get a CSV."
+4. "I need to get the list into a spreadsheet before our Monday meeting."
+5. "I don’t mind resetting the filters. I mostly need to send the finished list."
+
+Here are five customer interviews. We can only build one of these two features this month. Pick one and quote the exact line that decided it for you.
+
+END OF EXERCISE
+
+TOOL LINKS
+
+T3 Code  https://t3.codes/
+Claude Code in T3  https://github.com/pingdotgg/t3code/blob/main/docs/user/providers-claude.md
+Antigravity in T3  https://github.com/pingdotgg/t3code/blob/main/docs/user/providers-antigravity.md
+Orca  https://orca.dev/
+Orca agent setup  https://orca.dev/docs/agents/supported
+MiroFish  https://github.com/666ghj/MiroFish
+Firecrawl  https://www.firecrawl.dev/

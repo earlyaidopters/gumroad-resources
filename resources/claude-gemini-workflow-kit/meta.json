@@ -1,0 +1,52 @@
+{
+  "name": "Claude + Gemini Workflow Kit",
+  "external_id": "sJ7tdErF0ubml4rdtHkwfw==",
+  "permalink": "claude-gemini-workflow-kit",
+  "unique_permalink": "claude-gemini-workflow-kit",
+  "custom_permalink": "claude-gemini-workflow-kit",
+  "url": "https://markkashef.gumroad.com/l/claude-gemini-workflow-kit",
+  "status": "published",
+  "archived": false,
+  "kind": "products",
+  "price_formatted": "CAD$0+",
+  "description_md": "# Claude + Gemini Workflow Kit\n\nIf you already use Claude and Gemini, give each one a different part of the job. The eight workflows from my video show you how to compare two feature decisions, build two parts of an app in parallel, or have one model recheck a bug the other just fixed.\n\n- \n13-page workflow guide: See which model gets each job, what it needs from you, and what should come back. Every workflow has an example, a check you can run yourself, and a manual route.\n\n- \nEditable runbook: Fill in a shared brief, give each role its own follow-up prompt, and check what each model sends back. The clip-picker example includes a shared time format and test cases for both agents.\n\n- \nCopy-ready prompts: Get the eight prompts from the video, the workspace starter, and a fictional interview exercise you can paste into two chats.\n\n- \nStart Here: Try the exercise first or connect your workspace using the guide. Includes links for T3 Code, Orca, MiroFish and Firecrawl.\n\nEnter 0 at checkout to get the kit free.",
+  "files": [
+    {
+      "file": "Claude-Gemini-Editable-Runbook.md",
+      "source_revision": "93145cf2d98132d798e7a896e6284758422ff25e041951fb03cd2ebc051fdf21",
+      "expected_bytes": 34244,
+      "status": "downloaded",
+      "bytes": 34244,
+      "source_sha256": "ac64ced22020ceb23905b2eff8a29bf0269a6b906b5aa164f7e842a7054b22f5",
+      "local_sha256": "ac64ced22020ceb23905b2eff8a29bf0269a6b906b5aa164f7e842a7054b22f5"
+    },
+    {
+      "file": "Claude-Gemini-Prompts.txt",
+      "source_revision": "1680cc5367f06ae9222d77234dc5002a7fff5147fd619ed3a6ced19c14d24ea8",
+      "expected_bytes": 3571,
+      "status": "downloaded",
+      "bytes": 3571,
+      "source_sha256": "142af1307a75da449d937d963a1079c4f1bc0b2c2ff94b7e7260f6939ed251e0",
+      "local_sha256": "142af1307a75da449d937d963a1079c4f1bc0b2c2ff94b7e7260f6939ed251e0"
+    },
+    {
+      "file": "Claude-Gemini-Workflow-Kit.pdf",
+      "source_revision": "e231ff1ac2743c3e07be63bf416155bc0c1cd01c6364c3b1e3a1c9b055695203",
+      "expected_bytes": 161244,
+      "status": "downloaded",
+      "bytes": 161244,
+      "source_sha256": "1767f6a3e139a61862b0bdbc0a4a565b56de4efb6b36f6f3a3ffa671cf6eabd4",
+      "local_sha256": "1767f6a3e139a61862b0bdbc0a4a565b56de4efb6b36f6f3a3ffa671cf6eabd4"
+    },
+    {
+      "file": "START-HERE.md",
+      "source_revision": "cf1d018b0edf2569d06915b0cc84d7dc023b11bca888f49d1daf0854b87b2934",
+      "expected_bytes": 960,
+      "status": "downloaded",
+      "bytes": 960,
+      "source_sha256": "15f5d65b22e3b10546f1d0d29a8411a5a28e6c8e4fd313d5d4f0b5349622ca6e",
+      "local_sha256": "15f5d65b22e3b10546f1d0d29a8411a5a28e6c8e4fd313d5d4f0b5349622ca6e"
+    }
+  ],
+  "has_rich_content": true
+}

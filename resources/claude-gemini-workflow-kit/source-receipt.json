@@ -1,0 +1,33 @@
+{
+  "schema_version": 1,
+  "product_id": "sJ7tdErF0ubml4rdtHkwfw==",
+  "fingerprint": "5afe22e68fde49ad89c92be63e601415d734a6b98bc79ea4f21997753cd1f919",
+  "source_saved_at": "2026-11-25T21:12:03.155342+00:00",
+  "source": "private-original-package",
+  "files": [
+    {
+      "file": "Claude-Gemini-Editable-Runbook.md",
+      "source_sha256": "ac64ced22020ceb23905b2eff8a29bf0269a6b906b5aa164f7e842a7054b22f5",
+      "mirrored_sha256": "ac64ced22020ceb23905b2eff8a29bf0269a6b906b5aa164f7e842a7054b22f5",
+      "status": "downloaded"
+    },
+    {
+      "file": "Claude-Gemini-Prompts.txt",
+      "source_sha256": "142af1307a75da449d937d963a1079c4f1bc0b2c2ff94b7e7260f6939ed251e0",
+      "mirrored_sha256": "142af1307a75da449d937d963a1079c4f1bc0b2c2ff94b7e7260f6939ed251e0",
+      "status": "downloaded"
+    },
+    {
+      "file": "Claude-Gemini-Workflow-Kit.pdf",
+      "source_sha256": "1767f6a3e139a61862b0bdbc0a4a565b56de4efb6b36f6f3a3ffa671cf6eabd4",
+      "mirrored_sha256": "1767f6a3e139a61862b0bdbc0a4a565b56de4efb6b36f6f3a3ffa671cf6eabd4",
+      "status": "downloaded"
+    },
+    {
+      "file": "START-HERE.md",
+      "source_sha256": "15f5d65b22e3b10546f1d0d29a8411a5a28e6c8e4fd313d5d4f0b5349622ca6e",
+      "mirrored_sha256": "15f5d65b22e3b10546f1d0d29a8411a5a28e6c8e4fd313d5d4f0b5349622ca6e",
+      "status": "downloaded"
+    }
+  ]
+}

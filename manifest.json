@@ -1,6 +1,23 @@
 {
-  "count": 205,
+  "count": 206,
   "products": [
+    {
+      "slug": "claude-gemini-workflow-kit",
+      "permalink": "claude-gemini-workflow-kit",
+      "numeric_id": 0,
+      "name": "Claude + Gemini Workflow Kit",
+      "status": "published",
+      "archived": false,
+      "category": "Other",
+      "content_hash": "2c818bf95270c796",
+      "files": [
+        "Claude-Gemini-Editable-Runbook.md",
+        "Claude-Gemini-Prompts.txt",
+        "Claude-Gemini-Workflow-Kit.pdf",
+        "START-HERE.md"
+      ],
+      "has_content": true
+    },
     {
       "slug": "uncensor-your-own-ai-with-unlock",
       "permalink": "unlock-skill",
