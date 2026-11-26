@@ -1,6 +1,8 @@
 # Claude + Gemini Workflow Kit
 
-![cover](https://public-files.gumroad.com/7ep7csx1go06qpb30hc9voegnwje)
+[![watch on YouTube](https://i.ytimg.com/vi/3tBcdC3UmSo/maxresdefault.jpg)](https://youtu.be/3tBcdC3UmSo)
+
+**▶ Watch the video → https://youtu.be/3tBcdC3UmSo**
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/claude-gemini-workflow-kit**
 

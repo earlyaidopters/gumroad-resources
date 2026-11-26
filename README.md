@@ -5,7 +5,7 @@ Every free resource from the Early AI-dopters Gumroad, mirrored here and kept in
 **206 published resources**, grouped by topic and newest-first within each. Sync scheduled hourly. See the latest verified check below.
 
 <!-- sync-status:start -->
-[**Last verified sync: November 25, 2026 at 04:47 PM EST**](https://github.com/earlyaidopters/gumroad-resources/actions/runs/45707240149) · 206/206 published resources accounted for; 371 mirrored attachments verified. Oversized attachments available on Gumroad: 1. [Sync details](sync-status.json).
+[**Last verified sync: November 25, 2026 at 09:58 PM EST**](https://github.com/earlyaidopters/gumroad-resources/actions/runs/45745649187) · 206/206 published resources accounted for; 371 mirrored attachments verified. Oversized attachments available on Gumroad: 1. [Sync details](sync-status.json).
 
 <!-- sync-status:end -->
 
@@ -15,7 +15,7 @@ The newest resources with their videos. Updates automatically on every sync.
 
 | | Resource | Watch | Get it |
 |---|---|---|---|
-| <a href="https://markkashef.gumroad.com/l/claude-gemini-workflow-kit"><img src="https://public-files.gumroad.com/7ep7csx1go06qpb30hc9voegnwje" width="200"></a> | [Claude + Gemini Workflow Kit](resources/claude-gemini-workflow-kit/) | - | [Gumroad](https://markkashef.gumroad.com/l/claude-gemini-workflow-kit) |
+| <a href="https://youtu.be/3tBcdC3UmSo"><img src="https://i.ytimg.com/vi/3tBcdC3UmSo/maxresdefault.jpg" width="200"></a> | [Claude + Gemini Workflow Kit](resources/claude-gemini-workflow-kit/) | [▶ Watch](https://youtu.be/3tBcdC3UmSo) | [Gumroad](https://markkashef.gumroad.com/l/claude-gemini-workflow-kit) |
 | <a href="https://youtu.be/jfC6_biJ4Q8"><img src="https://i.ytimg.com/vi/jfC6_biJ4Q8/maxresdefault.jpg" width="200"></a> | [Uncensor Your Own AI with /unlock](resources/uncensor-your-own-ai-with-unlock/) | [▶ Watch](https://youtu.be/jfC6_biJ4Q8) | [Gumroad](https://markkashef.gumroad.com/l/unlock-skill) |
 |  | [Set Up Your First Paperclip Agent](resources/set-up-your-first-paperclip-agent/) | - | [Gumroad](https://markkashef.gumroad.com/l/sf-ig-paperclip-company) |
 | <a href="https://youtu.be/5cZontQjBH4"><img src="https://i.ytimg.com/vi/5cZontQjBH4/maxresdefault.jpg" width="200"></a> | [Build Your Bot with Fable](resources/lil-token-build-your-own-little-sidekick/) | [▶ Watch](https://youtu.be/5cZontQjBH4) | [Gumroad](https://markkashef.gumroad.com/l/lil-token-build-kit) |
@@ -194,7 +194,7 @@ The newest resources with their videos. Updates automatically on every sync.
 
 | Resource | What it is | Video | Get it |
 |---|---|---|---|
-| [Claude + Gemini Workflow Kit](resources/claude-gemini-workflow-kit/) | Claude + Gemini Workflow Kit If you already use Claude and Gemini, give each one a different part of the job. | - | [Gumroad](https://markkashef.gumroad.com/l/claude-gemini-workflow-kit) |
+| [Claude + Gemini Workflow Kit](resources/claude-gemini-workflow-kit/) | Claude + Gemini Workflow Kit If you already use Claude and Gemini, give each one a different part of the job. | [▶ Watch](https://youtu.be/3tBcdC3UmSo) | [Gumroad](https://markkashef.gumroad.com/l/claude-gemini-workflow-kit) |
 | [Uncensor Your Own AI with /unlock](resources/uncensor-your-own-ai-with-unlock/) | Uncensor your own AI, and keep the proof Some open AI models refuse perfectly harmless questions. | [▶ Watch](https://youtu.be/jfC6_biJ4Q8) | [Gumroad](https://markkashef.gumroad.com/l/unlock-skill) |
 | [Set Up Your First Paperclip Agent](resources/set-up-your-first-paperclip-agent/) | Set up one Paperclip agent and give it a first job you can review. | - | [Gumroad](https://markkashef.gumroad.com/l/sf-ig-paperclip-company) |
 | [Build Your Bot with Fable](resources/lil-token-build-your-own-little-sidekick/) | Meet your next little sidekick Build a desk bot that talks back, reacts to a head pat and changes his look with the music. | [▶ Watch](https://youtu.be/5cZontQjBH4) | [Gumroad](https://markkashef.gumroad.com/l/lil-token-build-kit) |
