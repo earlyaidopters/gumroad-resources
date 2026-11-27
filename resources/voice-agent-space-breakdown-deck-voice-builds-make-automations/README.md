@@ -1,5 +1,7 @@
 # Voice Agent Space Breakdown (Deck + Voice Builds + Make Automations)
 
+![cover](https://public-files.gumroad.com/1v476ccbuybhihr9rhxp1gj6py66)
+
 **Get it on Gumroad → https://markkashef.gumroad.com/l/epkdyw**
 
 `published` · CAD$0+

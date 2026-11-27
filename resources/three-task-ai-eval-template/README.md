@@ -1,5 +1,7 @@
 # Three-Task AI Eval Template
 
+![cover](https://public-files.gumroad.com/3lpwgc5ab5xnp58l0hmuneadbysu)
+
 **Get it on Gumroad → https://markkashef.gumroad.com/l/sf-ig-three-task-eval**
 
 `published` · CAD$0+
