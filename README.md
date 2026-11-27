@@ -5,7 +5,7 @@ Every free resource from the Early AI-dopters Gumroad, mirrored here and kept in
 **208 published resources**, grouped by topic and newest-first within each. Sync scheduled hourly. See the latest verified check below.
 
 <!-- sync-status:start -->
-[**Last verified sync: November 27, 2026 at 11:55 AM EST**](https://github.com/earlyaidopters/gumroad-resources/actions/runs/46037334941) · 207/207 published resources accounted for; 374 mirrored attachments verified. Oversized attachments available on Gumroad: 1. [Sync details](sync-status.json).
+[**Last verified sync: November 27, 2026 at 12:32 PM EST**](https://github.com/earlyaidopters/gumroad-resources/actions/runs/46042307838) · 208/208 published resources accounted for; 376 mirrored attachments verified. Oversized attachments available on Gumroad: 1. [Sync details](sync-status.json).
 
 <!-- sync-status:end -->
 
@@ -16,7 +16,7 @@ The newest resources with their videos. Updates automatically on every sync.
 | | Resource | Watch | Get it |
 |---|---|---|---|
 |  | [Claude Connectors Setup Guide](resources/claude-connectors-setup-guide/) | - | [Gumroad](https://markkashef.gumroad.com/l/sf-ig-claude-connectors-setup) |
-|  | [Dreamlight, the Focus Music App You Own](resources/dreamlight-the-focus-music-app-you-own/) | - | [Gumroad](https://markkashef.gumroad.com/l/dreamlight) |
+| <a href="https://markkashef.gumroad.com/l/dreamlight"><img src="https://public-files.gumroad.com/i4hku2k92y9iq0ro28xzx9w6mwt1" width="200"></a> | [Dreamlight, the Focus Music App You Own](resources/dreamlight-the-focus-music-app-you-own/) | - | [Gumroad](https://markkashef.gumroad.com/l/dreamlight) |
 | <a href="https://youtu.be/3tBcdC3UmSo"><img src="https://i.ytimg.com/vi/3tBcdC3UmSo/maxresdefault.jpg" width="200"></a> | [Claude + Gemini Workflow Kit](resources/claude-gemini-workflow-kit/) | [▶ Watch](https://youtu.be/3tBcdC3UmSo) | [Gumroad](https://markkashef.gumroad.com/l/claude-gemini-workflow-kit) |
 | <a href="https://youtu.be/jfC6_biJ4Q8"><img src="https://i.ytimg.com/vi/jfC6_biJ4Q8/maxresdefault.jpg" width="200"></a> | [Uncensor Your Own AI with /unlock](resources/uncensor-your-own-ai-with-unlock/) | [▶ Watch](https://youtu.be/jfC6_biJ4Q8) | [Gumroad](https://markkashef.gumroad.com/l/unlock-skill) |
 |  | [Set Up Your First Paperclip Agent](resources/set-up-your-first-paperclip-agent/) | - | [Gumroad](https://markkashef.gumroad.com/l/sf-ig-paperclip-company) |

@@ -15,7 +15,7 @@
       "file": "CONNECTORS-SETUP.md",
       "source_revision": "e90dc04dd42b3fa48c7ec70ae7ddf6269eaf6c2abf1ece12f543915699310f37",
       "expected_bytes": 5755,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 5755,
       "source_sha256": "10363585e0f6c5dc36b0736a289e7fac317abf22c2a1abe0a43ab5906d17731e",
       "local_sha256": "10363585e0f6c5dc36b0736a289e7fac317abf22c2a1abe0a43ab5906d17731e"
@@ -24,7 +24,7 @@
       "file": "CONNECTORS-SETUP-PROMPT.txt",
       "source_revision": "2107e2fcf72470f4de417c22b81c75c4e72b9fb352f948da59214f5e97d0069f",
       "expected_bytes": 2275,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 2275,
       "source_sha256": "333c9a48405840fbedb2f42ad7395207fa65954635d9f724eab3f052b3623ae7",
       "local_sha256": "333c9a48405840fbedb2f42ad7395207fa65954635d9f724eab3f052b3623ae7"
