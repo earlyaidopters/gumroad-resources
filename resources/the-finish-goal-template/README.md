@@ -1,5 +1,7 @@
 # The FINISH Goal Template
 
+![cover](https://public-files.gumroad.com/ebupp840la7q0sawhrt41yqp31f5)
+
 **Get it on Gumroad → https://markkashef.gumroad.com/l/sf-ig-finish-goal-template**
 
 `published` · CAD$0+

@@ -1,5 +1,7 @@
 # Hindsight: Shared Memory for Claude Code and Codex
 
+![cover](https://public-files.gumroad.com/omhtsxs924xg7brluectkb48lvs5)
+
 **Get it on Gumroad → https://markkashef.gumroad.com/l/sf-ig-hindsight-shared-memory**
 
 `published` · CAD$0+

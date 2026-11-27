@@ -1,5 +1,7 @@
 # FreeLLMAPI Setup Guide
 
+![cover](https://public-files.gumroad.com/hj2vm7l7x2yyicogktlbfmv45bc4)
+
 **Get it on Gumroad → https://markkashef.gumroad.com/l/sf-ig-freellmapi-setup**
 
 `published` · CAD$0+

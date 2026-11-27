@@ -1,5 +1,7 @@
 # Claude + Codex: The ARGUE Prompt
 
+![cover](https://public-files.gumroad.com/yxrjdoc5tb5n7o87vpx6bsvg554w)
+
 **Get it on Gumroad → https://markkashef.gumroad.com/l/sf-ig-claude-codex-argue**
 
 `published` · CAD$0+

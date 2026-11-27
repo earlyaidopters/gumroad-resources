@@ -1,5 +1,7 @@
 # Jev vs OpenAI Decisions: Results + Setup Guide
 
+![cover](https://public-files.gumroad.com/zldenrp37vutab2pyjtzdwozbg7w)
+
 **Get it on Gumroad → https://markkashef.gumroad.com/l/sf-ig-decisions-vs-jev**
 
 `published` · CAD$0+

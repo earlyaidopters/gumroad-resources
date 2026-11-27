@@ -1,5 +1,7 @@
 # Set Up Your First Paperclip Agent
 
+![cover](https://public-files.gumroad.com/qxuf2zvofj980xf081gtc9uemg8p)
+
 **Get it on Gumroad → https://markkashef.gumroad.com/l/sf-ig-paperclip-company**
 
 `published` · CAD$0+

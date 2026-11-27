@@ -1,5 +1,7 @@
 # Jev: Four Everyday Decisions
 
+![cover](https://public-files.gumroad.com/ofm0m5qu073hz2qdapvb4pnd6ou9)
+
 **Get it on Gumroad → https://markkashef.gumroad.com/l/sf-ig-jev-daily-guide**
 
 `published` · CAD$0+

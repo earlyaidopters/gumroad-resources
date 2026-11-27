@@ -1,5 +1,7 @@
 # AI Router Safety Checklist
 
+![cover](https://public-files.gumroad.com/vlzx8423bggw0g3hq4va1rxx4e0k)
+
 **Get it on Gumroad → https://markkashef.gumroad.com/l/sf-ig-router-safety-checklist**
 
 `published` · CAD$0+

@@ -2,21 +2,6 @@
   "count": 208,
   "products": [
     {
-      "slug": "claude-connectors-setup-guide",
-      "permalink": "sf-ig-claude-connectors-setup",
-      "numeric_id": 0,
-      "name": "Claude Connectors Setup Guide",
-      "status": "published",
-      "archived": false,
-      "category": "Other",
-      "content_hash": "94c900529bb8b095",
-      "files": [
-        "CONNECTORS-SETUP.md",
-        "CONNECTORS-SETUP-PROMPT.txt"
-      ],
-      "has_content": true
-    },
-    {
       "slug": "dreamlight-the-focus-music-app-you-own",
       "permalink": "dreamlight",
       "numeric_id": 0,
@@ -3030,6 +3015,21 @@
       "files": [
         "Prompt Caching with Claude.pdf",
         "Prompt_Caching_with_Claude.ipynb"
+      ],
+      "has_content": true
+    },
+    {
+      "slug": "claude-connectors-setup-guide",
+      "permalink": "sf-ig-claude-connectors-setup",
+      "numeric_id": 0,
+      "name": "Claude Connectors Setup Guide",
+      "status": "published",
+      "archived": true,
+      "category": "Other",
+      "content_hash": "94c900529bb8b095",
+      "files": [
+        "CONNECTORS-SETUP.md",
+        "CONNECTORS-SETUP-PROMPT.txt"
       ],
       "has_content": true
     }

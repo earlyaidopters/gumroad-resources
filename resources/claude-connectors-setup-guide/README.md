@@ -2,7 +2,7 @@
 
 **Get it on Gumroad → https://markkashef.gumroad.com/l/sf-ig-claude-connectors-setup**
 
-`published` · CAD$0+
+`archived` · CAD$0+
 
 ## About
 

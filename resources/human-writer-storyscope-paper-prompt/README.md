@@ -1,5 +1,7 @@
 # Human Writer: StoryScope Paper + Prompt
 
+![cover](https://public-files.gumroad.com/tpsjk5ygsqfnq5l47j67oygoqbrb)
+
 **Get it on Gumroad → https://markkashef.gumroad.com/l/sf-ig-human-writer**
 
 `published` · CAD$0+

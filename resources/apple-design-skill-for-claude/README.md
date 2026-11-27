@@ -1,5 +1,7 @@
 # Apple Design Skill for Claude
 
+![cover](https://public-files.gumroad.com/4lpb6gqwiuk9xzauvaj4ag1eqnre)
+
 **Get it on Gumroad → https://markkashef.gumroad.com/l/sf-ig-apple-design**
 
 `published` · CAD$0+

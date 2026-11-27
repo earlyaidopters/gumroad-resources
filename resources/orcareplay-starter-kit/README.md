@@ -1,5 +1,7 @@
 # OrcaReplay Starter Kit
 
+![cover](https://public-files.gumroad.com/5v71z9f39auoaaavyj41fd7sa7qy)
+
 **Get it on Gumroad → https://markkashef.gumroad.com/l/sf-ig-orca-replay-starter**
 
 `published` · CAD$0+

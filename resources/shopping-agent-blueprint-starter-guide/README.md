@@ -1,5 +1,7 @@
 # Shopping Agent Blueprint Starter Guide
 
+![cover](https://public-files.gumroad.com/t2vyl4icqyxtjturdocasdlsar0h)
+
 **Get it on Gumroad → https://markkashef.gumroad.com/l/sf-ig-commerce-blueprint**
 
 `published` · CAD$0+

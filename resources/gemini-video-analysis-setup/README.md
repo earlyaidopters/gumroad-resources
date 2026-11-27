@@ -1,5 +1,7 @@
 # Gemini Video Analysis Setup
 
+![cover](https://public-files.gumroad.com/bjb0dtie4ilynm8aw18mb1smrtgs)
+
 **Get it on Gumroad → https://markkashef.gumroad.com/l/sf-ig-gemini-video-setup**
 
 `published` · CAD$0+

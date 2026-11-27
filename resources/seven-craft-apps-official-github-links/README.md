@@ -1,5 +1,7 @@
 # Seven Craft Apps: Official GitHub Links
 
+![cover](https://public-files.gumroad.com/q6pekhnzxyhur2efepuod9ltgyt1)
+
 **Get it on Gumroad → https://markkashef.gumroad.com/l/sf-ig-adobe-craft-links**
 
 `published` · CAD$0+

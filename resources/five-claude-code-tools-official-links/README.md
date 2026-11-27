@@ -1,5 +1,7 @@
 # Five Claude Code Tools: Official Links
 
+![cover](https://public-files.gumroad.com/9idzk7hz15uxxsz6xi1yy9xvc6xi)
+
 **Get it on Gumroad → https://markkashef.gumroad.com/l/sf-ig-claude-code-plugins**
 
 `published` · CAD$0+

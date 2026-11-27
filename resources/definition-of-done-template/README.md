@@ -1,5 +1,7 @@
 # Definition of Done Template
 
+![cover](https://public-files.gumroad.com/9jhjkpkkvcwk8ks27gly2nl4a64q)
+
 **Get it on Gumroad → https://markkashef.gumroad.com/l/sf-ig-definition-of-done**
 
 `published` · CAD$0+

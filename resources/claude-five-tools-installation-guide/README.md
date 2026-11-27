@@ -1,5 +1,7 @@
 # Claude Five Tools Installation Guide
 
+![cover](https://public-files.gumroad.com/ba9hydymrkece07o5wjik8ox89x6)
+
 **Get it on Gumroad → https://markkashef.gumroad.com/l/sf-ig-claude-five-tools-install**
 
 `published` · CAD$0+

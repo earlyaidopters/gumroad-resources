@@ -1,5 +1,7 @@
 # Claude Browser Permission Guide
 
+![cover](https://public-files.gumroad.com/4egpevtaeavum2p0vt21h9zwdb6k)
+
 **Get it on Gumroad → https://markkashef.gumroad.com/l/sf-ig-claude-browser-permissions**
 
 `published` · CAD$0+

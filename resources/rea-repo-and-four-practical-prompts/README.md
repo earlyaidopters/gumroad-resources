@@ -1,5 +1,7 @@
 # REA: Repo and Four Practical Prompts
 
+![cover](https://public-files.gumroad.com/unwcsbbn0enw1htlp166tep0pq61)
+
 **Get it on Gumroad → https://markkashef.gumroad.com/l/sf-ig-rea-repo-prompts**
 
 `published` · CAD$0+

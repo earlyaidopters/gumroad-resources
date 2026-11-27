@@ -1,5 +1,7 @@
 # Claude + Codex: The IMAGES Prompt
 
+![cover](https://public-files.gumroad.com/jg1wg07dh2wndc2tdn1i560vqpms)
+
 **Get it on Gumroad → https://markkashef.gumroad.com/l/sf-ig-claude-codex-images**
 
 `published` · CAD$0+
