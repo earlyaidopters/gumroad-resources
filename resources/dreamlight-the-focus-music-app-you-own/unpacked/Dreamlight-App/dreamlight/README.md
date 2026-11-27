@@ -4,7 +4,7 @@
 
 <p align="center">
   <b>Free, open-source focus music.</b> Pick what you're doing and the music starts.<br>
-  25 one-hour tracks made entirely with Python · motion art for every mood · web, phone, Mac and Claude.
+  25 one-hour tracks made entirely with Python · motion art for every mood · web, phone, Mac, Windows and Claude.
 </p>
 
 <p align="center">
@@ -39,10 +39,10 @@ plain English, and ask me before you install anything on my computer.
 4. Start the player with "python3 server.py 8787", open http://localhost:8787 in my
    browser, and check that a track plays.
 5. Then ask me which of these I want, and do the ones I pick.
-   a) A desktop app. Install Node.js if I don't have it. On a Mac, run "npm install" in
-      the desktop folder, then "./build-mac.sh --install", so Dreamlight sits in my
-      Applications folder and plays offline. On Windows or Linux, run "npm install" and
-      "npm start" in the desktop folder.
+   a) A desktop app that plays offline. Install Node.js if I don't have it. In the
+      desktop folder run "npm install", then "npm run install:mac" on a Mac (Dreamlight
+      goes in my Applications folder) or "npm run install:win" on Windows (Dreamlight
+      goes in my Start menu and on my desktop). On Linux, run "npm start" instead.
    b) A website I can open on my phone. Deploy the web folder to Vercel, helping me sign
       in or make a free account. The music is 2.2 GB and Vercel's free plan may refuse
       an upload that big. If it does, deploy the player without web/audio, put the MP3s
@@ -69,7 +69,7 @@ Prefer to do it by hand? Every step is below.
 - **14 activities** across Focus, Relax, Sleep and Meditate. Deep work, Morning coffee, Study with 25/5 intervals, Power nap with a gentle wake, Breathwork with a breath pacer, and more.
 - **Motion art for every mood.** Each activity, mode and track has its own seamless video loop, plus a live "Signal" visualizer that reacts to the music.
 - **Ambience on top.** Rain, ocean and vinyl crackle, synthesized live in your browser.
-- **A real desktop app.** Menu bar remote, Dock countdown, a global play/pause shortcut, Open at login, and it plays with Wi‑Fi off.
+- **A real desktop app for Mac and Windows.** A remote in the menu bar or system tray, a countdown on the Dock or taskbar icon, a global play/pause shortcut, Open at login, and it plays with Wi‑Fi off.
 - **Your calendar, optional.** In the desktop app, add a focus session to Google Calendar, or let Dreamlight start Deep work ten minutes after your meetings end.
 - **No account, no ads, no tracking.** Plain files you can host anywhere, fork or change.
 
@@ -85,7 +85,7 @@ Prefer to do it by hand? Every step is below.
 |---|---|---|---|
 | **1. Web** | Any browser, from your computer | Yes, from your own computer | Python 3 |
 | **2. Phone** | Home screen app (PWA) on iPhone or Android | No, it streams from your host | A hosted copy of `web/` |
-| **3. Mac app** | Its own app in Applications, plus a menu bar remote | Yes | Node.js (Windows and Linux run it with `npm start`) |
+| **3. Desktop app** | Its own app on Mac or Windows, plus a menu bar or tray remote | Yes | Node.js |
 | **4. Claude app** | A window of Claude Desktop, via Install as app | No, it needs you online and signed in to Claude | A Claude account and one prompt |
 
 ### 1. Web
@@ -113,15 +113,31 @@ cd web && vercel --prod           # sign in when it asks, then open the link it 
 
 Then add it to your home screen, below. The phone version streams the music, so it needs an internet connection.
 
-### 3. Mac app (and Windows or Linux)
+### 3. Desktop app (Mac and Windows)
+
+Get the music first (step 1), then:
 
 ```bash
-cd desktop && npm install
-npm start                         # run it straight away
-./build-mac.sh --install          # or build Dreamlight.app into /Applications (Mac)
+cd desktop
+npm install
+npm run install:mac               # Mac: puts Dreamlight.app in Applications
+npm run install:win               # Windows: puts Dreamlight in the Start menu and on the desktop
+npm start                         # or just run it from here, on any system including Linux
 ```
 
-The desktop app serves `web/` from your disk, so it plays with no internet at all. Close the window and it keeps playing from the menu bar. Turn on **Open at login** from the menu bar icon.
+The desktop app serves `web/` from your disk, so it plays with no internet at all. Close the window and it keeps playing.
+
+| | Mac | Windows |
+|---|---|---|
+| Where it installs | `/Applications/Dreamlight.app` | `%LOCALAPPDATA%\Programs\Dreamlight`, no admin rights needed |
+| Remote | Click the menu bar icon, right-click for the full menu | Click the tray icon by the clock, right-click for the full menu |
+| Session timer | Counts down in the menu bar and on the Dock icon | Fills the taskbar icon like a progress bar |
+| Quick controls | Right-click the Dock icon | Right-click the taskbar icon |
+| Play / pause anywhere | Cmd+Shift+Space | Ctrl+Shift+Space |
+| Open at login | Right-click the menu bar icon | Right-click the tray icon |
+| Remove it | Drag it from Applications to the Bin | `npm run uninstall:win` |
+
+Want a copy to share without the setup? `npm run build:mac` or `npm run build:win` makes the app in the `dist` folder without installing it. Zip it and send it. The app isn't signed by Apple or Microsoft, so on first open a Mac may ask you to right-click and choose Open, and Windows may show "Windows protected your PC", where you choose More info, then Run anyway.
 
 ### 4. Claude app
 
@@ -266,7 +282,7 @@ dreamlight/
 │   ├── covers/          Cover art and the seamless cover loops
 │   ├── motion/          Mode and activity art and loops
 │   └── audio/           The MP3s (downloaded or rendered, not in git)
-├── desktop/             Electron app, menu bar remote, Composio and play-after-meetings
+├── desktop/             Mac and Windows app, menu bar and tray remote, Composio and play-after-meetings
 ├── claude-artifact/     The Claude app version and its build script
 ├── generators/          Python and NumPy music engines, covers and verification
 ├── prompts/             Prompts to set up, rebuild or reimagine it

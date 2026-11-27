@@ -1,0 +1,79 @@
+name: Desktop app
+
+# Builds the desktop app on real Windows and Mac machines, opens it, and checks the player starts.
+on:
+  push:
+    paths: ["desktop/**", "web/**", ".github/workflows/desktop.yml"]
+  pull_request:
+    paths: ["desktop/**", "web/**"]
+  workflow_dispatch:
+
+jobs:
+  windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 22 }
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12" }
+      - name: Get the music
+        run: python get_music.py
+      - name: Install and build
+        working-directory: desktop
+        run: |
+          npm ci
+          npm run install:win
+      - name: Open Dreamlight and check it runs
+        shell: pwsh
+        run: |
+          $exe = "$env:LOCALAPPDATA\Programs\Dreamlight\Dreamlight.exe"
+          if (!(Test-Path "$env:APPDATA\Microsoft\Windows\Start Menu\Programs\Dreamlight.lnk")) { throw "No Start menu shortcut" }
+          Start-Process $exe
+          $ok = $false
+          foreach ($i in 1..30) {
+            Start-Sleep 2
+            try { $r = Invoke-WebRequest -UseBasicParsing http://127.0.0.1:47821/tracks.json; if ($r.StatusCode -eq 200) { $ok = $true; break } } catch {}
+          }
+          if (!$ok) { throw "The player did not start" }
+          $audio = Invoke-WebRequest -UseBasicParsing -Headers @{ Range = "bytes=0-1023" } "http://127.0.0.1:47821/audio/$((Get-Content web/tracks.json | ConvertFrom-Json).tracks[0].filename)"
+          if ($audio.StatusCode -ne 206) { throw "Audio range request failed" }
+          Start-Process $exe -ArgumentList "--dreamlight=toggle"   # taskbar jump list Play, sent to the running copy
+          Start-Sleep 10
+          if (@(Get-Process Dreamlight -ErrorAction SilentlyContinue | Where-Object MainWindowHandle -ne 0).Count -ne 1) { throw "Expected one Dreamlight window" }
+          Add-Type -AssemblyName System.Windows.Forms, System.Drawing
+          $b = [System.Windows.Forms.Screen]::PrimaryScreen.Bounds
+          $bmp = New-Object System.Drawing.Bitmap $b.Width, $b.Height
+          [System.Drawing.Graphics]::FromImage($bmp).CopyFromScreen($b.Location, [System.Drawing.Point]::Empty, $b.Size)
+          $bmp.Save("$PWD\windows.png")
+      - name: Uninstall
+        working-directory: desktop
+        run: |
+          npm run uninstall:win
+          if (Test-Path "$env:LOCALAPPDATA\Programs\Dreamlight") { throw "Still installed" }
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with: { name: windows-screenshot, path: windows.png, if-no-files-found: ignore }
+
+  mac:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 22 }
+      - name: Get one track
+        run: python3 get_music.py --only 1
+      - name: Install and build
+        working-directory: desktop
+        run: |
+          npm ci
+          npm run build:mac
+      - name: Open Dreamlight and check it runs
+        run: |
+          open dist/Dreamlight.app
+          for i in $(seq 1 30); do sleep 2; curl -fs http://127.0.0.1:47821/tracks.json >/dev/null && break; done
+          curl -fs http://127.0.0.1:47821/tracks.json >/dev/null
+          sleep 6; screencapture -x mac.png || true
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with: { name: mac-screenshot, path: mac.png, if-no-files-found: ignore }

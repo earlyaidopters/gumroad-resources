@@ -1,6 +1,6 @@
 # Prompt to Build the Offline Desktop Wrapper
 
-You can paste the short prompt below into any coding agent (Claude, Codex, Gemini, Cursor, etc.) to build a minimal offline Electron wrapper around the static `web/` folder. It is the basic app this desktop version started from; the shipped `desktop/` adds the menu bar remote, Dock timer and the optional Composio calendar.
+You can paste the short prompt below into any coding agent (Claude, Codex, Gemini, Cursor, etc.) to build a minimal offline Electron wrapper around the static `web/` folder. It is the basic app this desktop version started from; the shipped `desktop/` adds Mac and Windows installers, the menu bar or tray remote, the Dock or taskbar timer and the optional Composio calendar.
 
 ---
 

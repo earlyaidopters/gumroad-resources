@@ -2,11 +2,15 @@
   "name": "dreamlight-desktop",
   "version": "1.0.0",
   "private": true,
-  "description": "Minimal offline Electron desktop wrapper for Dreamlight Neural Focus Studio.",
+  "description": "Dreamlight desktop app for Mac and Windows: offline player with a menu bar or tray remote.",
   "main": "main.js",
   "scripts": {
     "start": "electron .",
-    "package": "electron-packager . Dreamlight --platform=darwin --arch=arm64 --icon=assets/icon.icns --out=../dist --overwrite --extra-resource=../web --app-bundle-id=app.dreamlight.focus --app-category-type=public.app-category.music --ignore=^/assets/icon-candidates"
+    "build:mac": "./build-mac.sh",
+    "install:mac": "./build-mac.sh --install",
+    "build:win": "node build-windows.mjs",
+    "install:win": "node build-windows.mjs --install",
+    "uninstall:win": "node build-windows.mjs --uninstall"
   },
   "devDependencies": {
     "electron": "^45.5.0",

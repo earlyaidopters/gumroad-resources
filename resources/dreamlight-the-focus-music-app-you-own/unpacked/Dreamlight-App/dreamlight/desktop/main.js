@@ -1,4 +1,4 @@
-const { app, BrowserWindow, Menu, nativeImage, ipcMain, shell, Notification, powerMonitor } = require("electron");
+const { app, BrowserWindow, Menu, nativeImage, nativeTheme, ipcMain, shell, Notification, powerMonitor } = require("electron");
 const setupMenuBar = require("./menubar");
 const composio = require("./composio");
 const { createMeetingAutoplay } = require("./meeting-autoplay");
@@ -8,6 +8,22 @@ app.commandLine.appendSwitch("autoplay-policy", "no-user-gesture-required");
 const fs = require("fs");
 const http = require("http");
 const path = require("path");
+
+const APP_ID = "app.dreamlight.focus";
+const IS_MAC = process.platform === "darwin";
+const IS_WINDOWS = process.platform === "win32";
+// Jump list and second launches pass a player command like --dreamlight=toggle.
+const commandFrom = (argv) => {
+  const arg = argv.find((a) => a.startsWith("--dreamlight="));
+  if (!arg) return null;
+  const [name, value] = arg.slice(13).split(":");
+  return value === undefined ? [name] : [name, Number(value)];
+};
+
+// One copy at a time. Opening Dreamlight again brings the running window forward.
+if (!app.requestSingleInstanceLock()) app.exit(0);
+if (IS_WINDOWS) app.setAppUserModelId(APP_ID); // groups the taskbar icon and lets notifications show
+if (!IS_MAC) nativeTheme.themeSource = "dark"; // dark title bar and menus on Windows and Linux, to match the player
 
 // Packaged app: web/ ships inside Resources. Dev: the sibling ../web folder.
 const WEB_DIR = app.isPackaged ? path.join(process.resourcesPath, "web") : path.resolve(__dirname, "..", "web");
@@ -217,9 +233,11 @@ async function createWindow() {
     minHeight: 640,
     backgroundColor: "#0a0e17",
     title: "Dreamlight",
+    show: !process.argv.includes("--hidden"), // Windows "Open at login" starts in the tray
+    ...(IS_MAC ? {} : { icon: path.join(__dirname, "assets", IS_WINDOWS ? "icon.ico" : "icon-1024.png") }),
     // Same chrome as the Claude version on a Mac: no title bar, traffic lights inside the header.
     // Windows and Linux keep their normal frame so the window buttons stay visible.
-    ...(process.platform === "darwin" ? { titleBarStyle: "hidden", trafficLightPosition: { x: 12, y: 12 } } : {}),
+    ...(IS_MAC ? { titleBarStyle: "hidden", trafficLightPosition: { x: 12, y: 12 } } : {}),
     webPreferences: {
       preload: path.join(__dirname, "player-preload.js"),
       contextIsolation: true,
@@ -229,9 +247,11 @@ async function createWindow() {
     },
   });
 
+  if (!IS_MAC) mainWindow.removeMenu(); // no File / Edit / View bar on Windows and Linux
   mainWindow.loadURL(`${baseUrl}/`);
 
-  // Closing the window keeps Dreamlight playing in the menu bar. Quit from the menu bar or Cmd+Q.
+  // Closing the window keeps Dreamlight playing in the menu bar (Mac) or system tray (Windows).
+  // Quit from there, or with Cmd+Q on a Mac.
   mainWindow.on("close", (e) => {
     if (!app.isQuitting) { e.preventDefault(); mainWindow.hide(); }
   });
@@ -263,7 +283,27 @@ async function createWindow() {
   autoplay.start();
   powerMonitor.on("resume", () => { autoplay.refresh().then(() => autoplay.tick()).catch(() => {}); });
 
-  if (process.platform === "darwin" && app.dock) {
+  const pending = commandFrom(process.argv);
+  if (pending) mainWindow.webContents.once("did-finish-load", () => setTimeout(() => remote.run(...pending), 1500));
+  app.on("second-instance", (_event, argv) => {
+    const command = commandFrom(argv);
+    if (command) remote.run(...command);
+    else showMainWindow();
+  });
+
+  if (IS_WINDOWS) {
+    // Right-click the taskbar icon for the same quick controls as the Mac Dock menu.
+    const task = (title, command) => ({ program: process.execPath, arguments: `${app.isPackaged ? "" : `"${app.getAppPath()}" `}--dreamlight=${command}`,
+      iconPath: process.execPath, iconIndex: 0, title, description: title });
+    app.setUserTasks([task("Play / Pause", "toggle"), task("Next track", "next"), task("25 min timer", "setTimer:25"), task("50 min timer", "setTimer:50")]);
+    // Tag the Start menu shortcut made by the installer, so Windows shows Dreamlight's notifications.
+    const link = path.join(app.getPath("appData"), "Microsoft", "Windows", "Start Menu", "Programs", "Dreamlight.lnk");
+    if (app.isPackaged && fs.existsSync(link)) {
+      try { shell.writeShortcutLink(link, "update", { appUserModelId: APP_ID }); } catch {}
+    }
+  }
+
+  if (IS_MAC && app.dock) {
     app.dock.setIcon(nativeImage.createFromPath(path.join(__dirname, "assets", "icon-1024.png")));
     app.dock.setMenu(Menu.buildFromTemplate([
       { label: "Play / Pause", click: () => remote.run("toggle") },
@@ -279,7 +319,7 @@ app.on("before-quit", () => { app.isQuitting = true; stopConnectPoll(); autoplay
 app.whenReady().then(createWindow);
 
 app.on("window-all-closed", () => {
-  if (process.platform !== "darwin") { if (staticServer) staticServer.close(); app.quit(); }
+  if (!IS_MAC) { if (staticServer) staticServer.close(); app.quit(); }
 });
 
 app.on("activate", () => {

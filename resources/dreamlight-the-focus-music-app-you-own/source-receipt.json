@@ -1,26 +1,26 @@
 {
   "schema_version": 1,
   "product_id": "fGu8eEDUxRQIat4LK1vwZg==",
-  "fingerprint": "9af5b9f7f68bb0129e8ce73aa6860800fd137dcac48925e35dcb24826e61e2bd",
-  "source_saved_at": "2026-11-27T16:52:58.165588+00:00",
+  "fingerprint": "fd054b8477f5ce24b2f6163e093769b895eb0251d033b4ce3deb8e546c611eda",
+  "source_saved_at": "2026-11-27T21:44:29.487929+00:00",
   "source": "private-original-package",
   "files": [
     {
       "file": "Dreamlight-App.zip",
-      "source_sha256": "15d81ea69b4a7475e21f67c9ba9bbfcbe4b018b2b24f2e1826d1e3cad35de4b6",
-      "mirrored_sha256": "15d81ea69b4a7475e21f67c9ba9bbfcbe4b018b2b24f2e1826d1e3cad35de4b6",
+      "source_sha256": "1f06d9b55500cf1c1589b2fdafd8168f2614e2028d568f390cbad7a4e5ee5831",
+      "mirrored_sha256": "1f06d9b55500cf1c1589b2fdafd8168f2614e2028d568f390cbad7a4e5ee5831",
       "status": "downloaded"
     },
     {
       "file": "Dreamlight-Guide.pdf",
-      "source_sha256": "b7d59d244cebc8771a91006cdea32ae254e4ff688646a52f8b14abdd43b89121",
-      "mirrored_sha256": "b7d59d244cebc8771a91006cdea32ae254e4ff688646a52f8b14abdd43b89121",
+      "source_sha256": "e03f780dbdad18736366161dd3830361974af3ae2a5cc85167bec97606902cf0",
+      "mirrored_sha256": "e03f780dbdad18736366161dd3830361974af3ae2a5cc85167bec97606902cf0",
       "status": "downloaded"
     },
     {
       "file": "Dreamlight-Prompts.txt",
-      "source_sha256": "0ca27a97d69550c2673fc67fda1414de1d0180dc321b5711c8b98ea0b14bdbd5",
-      "mirrored_sha256": "0ca27a97d69550c2673fc67fda1414de1d0180dc321b5711c8b98ea0b14bdbd5",
+      "source_sha256": "89cabff136bba0226679b94fe03e0873a29c7c42685d75c7e12c037c6ae49b93",
+      "mirrored_sha256": "89cabff136bba0226679b94fe03e0873a29c7c42685d75c7e12c037c6ae49b93",
       "status": "downloaded"
     }
   ]

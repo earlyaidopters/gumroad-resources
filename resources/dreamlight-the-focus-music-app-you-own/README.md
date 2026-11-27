@@ -1,7 +1,5 @@
 # Dreamlight, the Focus Music App You Own
 
-![cover](https://public-files.gumroad.com/i4hku2k92y9iq0ro28xzx9w6mwt1)
-
 **Get it on Gumroad → https://markkashef.gumroad.com/l/dreamlight**
 
 `published` · CAD$0+
@@ -26,7 +24,7 @@ A visual guide: Six pages covering the four ways to run it, adding it to your iP
 
 Every track is written by code, with no samples or outside audio, so the music is royalty-free and yours to use. Binaural tracks need headphones. Dreamlight is music for focus and relaxation, not a medical device.
 
-What you need: A Mac or PC, an AI agent that can run commands on it (Claude Code or Codex), and about 3 GB of free space, or 7 GB with the Mac app. The music is 2.2 GB, so it downloads from GitHub during setup instead of sitting in the ZIP. The phone version needs a hosted copy and an internet connection.
+What you need: A Mac or PC, an AI agent that can run commands on it (Claude Code or Codex), and about 3 GB of free space, or 7 GB with the desktop app. The music is 2.2 GB, so it downloads from GitHub during setup instead of sitting in the ZIP. The phone version needs a hosted copy and an internet connection.
 
 Free and open source under the MIT license.
 

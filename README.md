@@ -16,7 +16,7 @@ The newest resources with their videos. Updates automatically on every sync.
 | | Resource | Watch | Get it |
 |---|---|---|---|
 |  | [Claude Connectors Setup Guide](resources/claude-connectors-setup-guide/) | - | [Gumroad](https://markkashef.gumroad.com/l/sf-ig-claude-connectors-setup) |
-| <a href="https://markkashef.gumroad.com/l/dreamlight"><img src="https://public-files.gumroad.com/i4hku2k92y9iq0ro28xzx9w6mwt1" width="200"></a> | [Dreamlight, the Focus Music App You Own](resources/dreamlight-the-focus-music-app-you-own/) | - | [Gumroad](https://markkashef.gumroad.com/l/dreamlight) |
+|  | [Dreamlight, the Focus Music App You Own](resources/dreamlight-the-focus-music-app-you-own/) | - | [Gumroad](https://markkashef.gumroad.com/l/dreamlight) |
 | <a href="https://youtu.be/3tBcdC3UmSo"><img src="https://i.ytimg.com/vi/3tBcdC3UmSo/maxresdefault.jpg" width="200"></a> | [Claude + Gemini Workflow Kit](resources/claude-gemini-workflow-kit/) | [▶ Watch](https://youtu.be/3tBcdC3UmSo) | [Gumroad](https://markkashef.gumroad.com/l/claude-gemini-workflow-kit) |
 | <a href="https://youtu.be/jfC6_biJ4Q8"><img src="https://i.ytimg.com/vi/jfC6_biJ4Q8/maxresdefault.jpg" width="200"></a> | [Uncensor Your Own AI with /unlock](resources/uncensor-your-own-ai-with-unlock/) | [▶ Watch](https://youtu.be/jfC6_biJ4Q8) | [Gumroad](https://markkashef.gumroad.com/l/unlock-skill) |
 |  | [Set Up Your First Paperclip Agent](resources/set-up-your-first-paperclip-agent/) | - | [Gumroad](https://markkashef.gumroad.com/l/sf-ig-paperclip-company) |

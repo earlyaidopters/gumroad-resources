@@ -19,10 +19,10 @@ plain English, and ask me before you install anything on my computer.
 4. Start the player with "python3 server.py 8787", open http://localhost:8787 in my
    browser, and check that a track plays.
 5. Then ask me which of these I want, and do the ones I pick.
-   a) A desktop app. Install Node.js if I don't have it. On a Mac, run "npm install" in
-      the desktop folder, then "./build-mac.sh --install", so Dreamlight sits in my
-      Applications folder and plays offline. On Windows or Linux, run "npm install" and
-      "npm start" in the desktop folder.
+   a) A desktop app that plays offline. Install Node.js if I don't have it. In the
+      desktop folder run "npm install", then "npm run install:mac" on a Mac (Dreamlight
+      goes in my Applications folder) or "npm run install:win" on Windows (Dreamlight
+      goes in my Start menu and on my desktop). On Linux, run "npm start" instead.
    b) A website I can open on my phone. Deploy the web folder to Vercel, helping me sign
       in or make a free account. The music is 2.2 GB and Vercel's free plan may refuse
       an upload that big. If it does, deploy the player without web/audio, put the MP3s

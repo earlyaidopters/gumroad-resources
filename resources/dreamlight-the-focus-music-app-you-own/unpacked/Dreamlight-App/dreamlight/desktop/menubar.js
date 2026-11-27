@@ -12,8 +12,11 @@ function fmt(seconds) {
 }
 
 module.exports = function setupMenuBar({ getMainWindow, showMainWindow, baseUrl, getAutoplay = () => null }) {
-  const image = nativeImage.createFromPath(path.join(ASSETS, "trayTemplate.png"));
-  image.setTemplateImage(true);
+  // Mac: a black template icon that macOS tints for light and dark menu bars.
+  // Windows and Linux: the colour app icon, which reads on both light and dark taskbars.
+  const IS_MAC = process.platform === "darwin";
+  const image = nativeImage.createFromPath(path.join(ASSETS, IS_MAC ? "trayTemplate.png" : "tray-color.png"));
+  if (IS_MAC) image.setTemplateImage(true);
   const tray = new Tray(image);
   tray.setToolTip("Dreamlight");
 
@@ -39,9 +42,14 @@ module.exports = function setupMenuBar({ getMainWindow, showMainWindow, baseUrl,
   function updateTitle(state) {
     const title = state.timerTotal ? `${state.timerRunning ? "" : "❚❚ "}${fmt(state.timerRemain)}`
       : state.playing ? state.name.length > 18 ? state.name.slice(0, 17) + "…" : state.name : "";
-    if (process.platform === "darwin") {
+    if (IS_MAC) {
       tray.setTitle(title ? ` ${title}` : "", { fontType: "monospacedDigit" });
       app.dock?.setBadge(state.timerTotal ? `${Math.ceil(state.timerRemain / 60)}m` : "");
+    } else {
+      // Windows: the session timer fills the taskbar icon like a progress bar.
+      const main = getMainWindow();
+      if (main && !main.isDestroyed()) main.setProgressBar(state.timerTotal ? Math.min(1, 1 - state.timerRemain / state.timerTotal) : -1,
+        { mode: state.timerTotal && !state.timerRunning ? "paused" : "normal" });
     }
     tray.setToolTip(state.playing ? `Dreamlight · ${state.title}` : "Dreamlight");
   }
@@ -149,8 +157,11 @@ module.exports = function setupMenuBar({ getMainWindow, showMainWindow, baseUrl,
       ...autoplayMenu(),
       { type: "separator" },
       { label: "Open Dreamlight", click: raisePlayer },
-      ...(process.platform === "darwin" ? [
+      ...(IS_MAC ? [
         { label: "Open at login", type: "checkbox", checked: app.getLoginItemSettings().openAtLogin, click: (item) => app.setLoginItemSettings({ openAtLogin: item.checked, openAsHidden: true }) },
+      ] : process.platform === "win32" && app.isPackaged ? [
+        { label: "Open at login", type: "checkbox", checked: app.getLoginItemSettings({ args: ["--hidden"] }).openAtLogin,
+          click: (item) => app.setLoginItemSettings({ openAtLogin: item.checked, args: ["--hidden"] }) },
       ] : []),
       { label: "Quit Dreamlight", accelerator: "CommandOrControl+Q", click: () => app.quit() },
     ]);
