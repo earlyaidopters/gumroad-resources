@@ -15,7 +15,7 @@
       "file": "Dreamlight-App.zip",
       "source_revision": "d31bba063a442c3fb0020c0ed7389104bc290b3ce0128073f8622f3b737246c5",
       "expected_bytes": 57167806,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 57167806,
       "source_sha256": "1f06d9b55500cf1c1589b2fdafd8168f2614e2028d568f390cbad7a4e5ee5831",
       "local_sha256": "1f06d9b55500cf1c1589b2fdafd8168f2614e2028d568f390cbad7a4e5ee5831",
@@ -25,7 +25,7 @@
       "file": "Dreamlight-Guide.pdf",
       "source_revision": "520cfb1e26466030af2118fbb9904987d84a10a54b2fbf66696c5671b26041f2",
       "expected_bytes": 1417548,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 1417548,
       "source_sha256": "e03f780dbdad18736366161dd3830361974af3ae2a5cc85167bec97606902cf0",
       "local_sha256": "e03f780dbdad18736366161dd3830361974af3ae2a5cc85167bec97606902cf0"
@@ -34,7 +34,7 @@
       "file": "Dreamlight-Prompts.txt",
       "source_revision": "2ef483304e8063f98f57a18a9e4c7662cb642e8663872569ee03e26bafeb8786",
       "expected_bytes": 17994,
-      "status": "downloaded",
+      "status": "cached",
       "bytes": 17994,
       "source_sha256": "89cabff136bba0226679b94fe03e0873a29c7c42685d75c7e12c037c6ae49b93",
       "local_sha256": "89cabff136bba0226679b94fe03e0873a29c7c42685d75c7e12c037c6ae49b93"
