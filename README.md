@@ -2,7 +2,7 @@
 
 Every free resource from the Early AI-dopters Gumroad, mirrored here and kept in sync. Each folder holds the actual files (zips unpacked so you can browse them on GitHub), the resource content page, and a README. Where a resource came from a YouTube video, the video is paired to it. Watch or star this repo to catch every new drop.
 
-**207 published resources**, grouped by topic and newest-first within each. Sync scheduled hourly. See the latest verified check below.
+**208 published resources**, grouped by topic and newest-first within each. Sync scheduled hourly. See the latest verified check below.
 
 <!-- sync-status:start -->
 [**Last verified sync: November 27, 2026 at 11:55 AM EST**](https://github.com/earlyaidopters/gumroad-resources/actions/runs/46037334941) · 207/207 published resources accounted for; 374 mirrored attachments verified. Oversized attachments available on Gumroad: 1. [Sync details](sync-status.json).
@@ -15,7 +15,8 @@ The newest resources with their videos. Updates automatically on every sync.
 
 | | Resource | Watch | Get it |
 |---|---|---|---|
-| <a href="https://markkashef.gumroad.com/l/dreamlight"><img src="https://public-files.gumroad.com/i4hku2k92y9iq0ro28xzx9w6mwt1" width="200"></a> | [Dreamlight, the Focus Music App You Own](resources/dreamlight-the-focus-music-app-you-own/) | - | [Gumroad](https://markkashef.gumroad.com/l/dreamlight) |
+|  | [Claude Connectors Setup Guide](resources/claude-connectors-setup-guide/) | - | [Gumroad](https://markkashef.gumroad.com/l/sf-ig-claude-connectors-setup) |
+|  | [Dreamlight, the Focus Music App You Own](resources/dreamlight-the-focus-music-app-you-own/) | - | [Gumroad](https://markkashef.gumroad.com/l/dreamlight) |
 | <a href="https://youtu.be/3tBcdC3UmSo"><img src="https://i.ytimg.com/vi/3tBcdC3UmSo/maxresdefault.jpg" width="200"></a> | [Claude + Gemini Workflow Kit](resources/claude-gemini-workflow-kit/) | [▶ Watch](https://youtu.be/3tBcdC3UmSo) | [Gumroad](https://markkashef.gumroad.com/l/claude-gemini-workflow-kit) |
 | <a href="https://youtu.be/jfC6_biJ4Q8"><img src="https://i.ytimg.com/vi/jfC6_biJ4Q8/maxresdefault.jpg" width="200"></a> | [Uncensor Your Own AI with /unlock](resources/uncensor-your-own-ai-with-unlock/) | [▶ Watch](https://youtu.be/jfC6_biJ4Q8) | [Gumroad](https://markkashef.gumroad.com/l/unlock-skill) |
 |  | [Set Up Your First Paperclip Agent](resources/set-up-your-first-paperclip-agent/) | - | [Gumroad](https://markkashef.gumroad.com/l/sf-ig-paperclip-company) |
@@ -24,7 +25,6 @@ The newest resources with their videos. Updates automatically on every sync.
 |  | [Human Writer: StoryScope Paper + Prompt](resources/human-writer-storyscope-paper-prompt/) | - | [Gumroad](https://markkashef.gumroad.com/l/sf-ig-human-writer) |
 |  | [Claude Five Tools Installation Guide](resources/claude-five-tools-installation-guide/) | - | [Gumroad](https://markkashef.gumroad.com/l/sf-ig-claude-five-tools-install) |
 |  | [Hindsight: Shared Memory for Claude Code and Codex](resources/hindsight-shared-memory-for-claude-code-and-codex/) | - | [Gumroad](https://markkashef.gumroad.com/l/sf-ig-hindsight-shared-memory) |
-| <a href="https://youtu.be/jx8Hc5O8dX0"><img src="https://i.ytimg.com/vi/jx8Hc5O8dX0/maxresdefault.jpg" width="200"></a> | [Hack Yourself: App Security Field Kit](resources/hack-yourself-app-self-test-checklist/) | [▶ Watch](https://youtu.be/jx8Hc5O8dX0) | [Gumroad](https://markkashef.gumroad.com/l/hack-yourself-checklist) |
 
 ## Categories
 
@@ -33,7 +33,7 @@ The newest resources with their videos. Updates automatically on every sync.
 - [🧠 Custom GPTs & AI Agents](#custom-gpts-ai-agents) (26)
 - [🗂️ Frameworks, Meta Techniques & Experiments](#frameworks-meta-techniques-experiments) (23)
 - [📊 Tools, Cheat Sheets & Evaluations](#tools-cheat-sheets-evaluations) (15)
-- [Other](#other) (77)
+- [Other](#other) (78)
 
 ## 🎯 Prompting & Engineering Skills
 
@@ -194,6 +194,7 @@ The newest resources with their videos. Updates automatically on every sync.
 
 | Resource | What it is | Video | Get it |
 |---|---|---|---|
+| [Claude Connectors Setup Guide](resources/claude-connectors-setup-guide/) | Set up the five Claude connections from the video in one guided session. | - | [Gumroad](https://markkashef.gumroad.com/l/sf-ig-claude-connectors-setup) |
 | [Dreamlight, the Focus Music App You Own](resources/dreamlight-the-focus-music-app-you-own/) | Your own focus music app, free Dreamlight is the focus music app from my video. | - | [Gumroad](https://markkashef.gumroad.com/l/dreamlight) |
 | [Claude + Gemini Workflow Kit](resources/claude-gemini-workflow-kit/) | Claude + Gemini Workflow Kit If you already use Claude and Gemini, give each one a different part of the job. | [▶ Watch](https://youtu.be/3tBcdC3UmSo) | [Gumroad](https://markkashef.gumroad.com/l/claude-gemini-workflow-kit) |
 | [Uncensor Your Own AI with /unlock](resources/uncensor-your-own-ai-with-unlock/) | Uncensor your own AI, and keep the proof Some open AI models refuse perfectly harmless questions. | [▶ Watch](https://youtu.be/jfC6_biJ4Q8) | [Gumroad](https://markkashef.gumroad.com/l/unlock-skill) |

@@ -1,7 +1,5 @@
 # Dreamlight, the Focus Music App You Own
 
-![cover](https://public-files.gumroad.com/i4hku2k92y9iq0ro28xzx9w6mwt1)
-
 **Get it on Gumroad → https://markkashef.gumroad.com/l/dreamlight**
 
 `published` · CAD$0+

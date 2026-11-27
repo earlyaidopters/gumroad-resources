@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "product_id": "5wESfLuDEU-cqHzx-iEz9Q==",
+  "fingerprint": "fb447d81eea79736f3c3778cf83d431afd2f7397afeac9e7167a0d48bd7f801e",
+  "source_saved_at": "2026-11-27T17:29:56.718843+00:00",
+  "source": "private-original-package",
+  "files": [
+    {
+      "file": "CONNECTORS-SETUP.md",
+      "source_sha256": "10363585e0f6c5dc36b0736a289e7fac317abf22c2a1abe0a43ab5906d17731e",
+      "mirrored_sha256": "10363585e0f6c5dc36b0736a289e7fac317abf22c2a1abe0a43ab5906d17731e",
+      "status": "downloaded"
+    },
+    {
+      "file": "CONNECTORS-SETUP-PROMPT.txt",
+      "source_sha256": "333c9a48405840fbedb2f42ad7395207fa65954635d9f724eab3f052b3623ae7",
+      "mirrored_sha256": "333c9a48405840fbedb2f42ad7395207fa65954635d9f724eab3f052b3623ae7",
+      "status": "downloaded"
+    }
+  ]
+}
