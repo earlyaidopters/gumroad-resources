@@ -1,0 +1,282 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#0a0e17">
+  <meta name="description" content="Dreamlight is a music player for focus, relaxation, sleep, and meditation.">
+  <title>Dreamlight</title>
+  <script type="application/json" id="claude-artifacts-manifest">{"permissions":["menu-bar","shortcuts","notifications"]}</script>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+  <link rel="manifest" href="manifest.json">
+  <link rel="stylesheet" href="player.css">
+  <script defer src="sessions.js"></script>
+  <script defer src="playback.js"></script>
+  <script defer src="motion.js"></script>
+  <script defer src="visualizer.js"></script>
+  <script defer src="player.js"></script>
+  <script defer src="claude-bridge.js"></script>
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+  <svg class="symbols" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <symbol id="i-play" viewBox="0 0 24 24"><path fill="currentColor" stroke="none" d="M8 4.8a1 1 0 0 0-1.5.9v12.6a1 1 0 0 0 1.5.9l10.2-6.3a1.05 1.05 0 0 0 0-1.8Z"/></symbol>
+    <symbol id="i-pause" viewBox="0 0 24 24"><rect fill="currentColor" stroke="none" x="6" y="5" width="4" height="14" rx="1"/><rect fill="currentColor" stroke="none" x="14" y="5" width="4" height="14" rx="1"/></symbol>
+    <symbol id="i-next" viewBox="0 0 24 24"><path fill="currentColor" stroke="none" d="M6 5.3a.8.8 0 0 0-1.2.7v12a.8.8 0 0 0 1.2.7l9-5.9a1 1 0 0 0 0-1.6Z"/><path d="M18.5 6v12"/></symbol>
+    <symbol id="i-prev" viewBox="0 0 24 24"><path fill="currentColor" stroke="none" d="M18 5.3a.8.8 0 0 1 1.2.7v12a.8.8 0 0 1-1.2.7l-9-5.9a1 1 0 0 1 0-1.6Z"/><path d="M5.5 6v12"/></symbol>
+    <symbol id="i-stop" viewBox="0 0 24 24"><rect fill="currentColor" stroke="none" x="6" y="6" width="12" height="12" rx="2"/></symbol>
+    <symbol id="i-timer" viewBox="0 0 24 24"><circle cx="12" cy="13" r="7.5"/><path d="M12 9v4l2.5 1.5M9 2.5h6m2.8 3.2 1.5-1.5"/></symbol>
+    <symbol id="i-back" viewBox="0 0 24 24"><path d="m14 6-6 6 6 6M8 12h12"/></symbol>
+    <symbol id="i-up" viewBox="0 0 24 24"><path d="m6 15 6-6 6 6"/></symbol>
+    <symbol id="i-right" viewBox="0 0 24 24"><path d="M4 12h15m-5-5 5 5-5 5"/></symbol>
+    <symbol id="i-full" viewBox="0 0 24 24"><path d="M9 4H4v5m11-5h5v5M4 15v5h5m11-5v5h-5"/></symbol>
+    <symbol id="i-mixer" viewBox="0 0 24 24"><path d="M6 3v7m0 4v7m6-18v12m0 4v2m6-18v4m0 4v10M3.5 10h5m1 9h5m1-8h5"/></symbol>
+    <symbol id="i-headphones" viewBox="0 0 24 24"><path d="M4 13v-1a8 8 0 0 1 16 0v1M4 13h2a1 1 0 0 1 1 1v5H6a2 2 0 0 1-2-2Zm16 0h-2a1 1 0 0 0-1 1v5h1a2 2 0 0 0 2-2Z"/></symbol>
+    <symbol id="i-breath" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="3"/></symbol>
+    <symbol id="i-close" viewBox="0 0 24 24"><path d="m6 6 12 12M6 18 18 6"/></symbol>
+    <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v5m0-8h.01"/></symbol>
+    <symbol id="i-signal" viewBox="0 0 24 24"><path d="M2 12h4l2-5 4 10 3-7 2 2h5"/></symbol>
+    <symbol id="i-calendar" viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="15.5" rx="2.5"/><path d="M8 3v4m8-4v4M3.5 10h17"/></symbol>
+  </svg>
+
+  <header class="topbar" id="topbar">
+    <button class="brand" type="button" data-home aria-label="Dreamlight home">
+      <img src="favicon.svg" alt="" width="34" height="34"><span>Dreamlight</span>
+    </button>
+    <nav class="navigation" aria-label="Main">
+      <button type="button" data-view="start" aria-current="page">Start</button>
+      <button type="button" data-view="player">Now playing</button>
+      <button type="button" data-view="library">Library</button>
+    </nav>
+    <div class="topbar-extras"><span id="focusStreak" hidden></span><span class="headphone-hint"><svg><use href="#i-headphones"/></svg> Stereo headphones for binaural</span><button class="pill" id="installApp" type="button" hidden>Install as app</button><button class="icon-btn about-button" type="button" id="aboutBtn" aria-label="About Dreamlight" title="About Dreamlight"><svg><use href="#i-info"/></svg></button></div>
+  </header>
+
+  <main id="main" tabindex="-1">
+    <section class="launcher" id="startView" aria-labelledby="startTitle">
+      <div class="mode-environment" id="modeEnvironment" aria-hidden="true"></div>
+      <div class="frame launcher-inner">
+        <div class="start-intro">
+          <button class="pill resume" type="button" id="resumeBtn" hidden><svg><use href="#i-play"/></svg><span></span></button>
+          <h1 id="startTitle" tabindex="-1">What are you doing?</h1>
+          <p>Pick a moment. Music starts instantly.</p>
+        </div>
+        <div class="mode-grid" id="modeGrid" aria-label="Modes"></div>
+        <p class="headphone-hint"><svg><use href="#i-headphones"/></svg> Stereo headphones for binaural</p>
+        <section id="sessionMatcher" aria-label="Describe your session" hidden>
+          <form id="matchForm">
+            <input id="sessionPrompt" aria-label="Describe what you're doing" placeholder='Describe what you&#39;re doing, like "finish a draft in 40 minutes"' required>
+            <button id="dictate" class="icon-btn" type="button" aria-label="Speak what you're doing" aria-pressed="false" hidden><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="2" width="6" height="13" rx="3"/><path d="M5 11v1a7 7 0 0 0 14 0v-1m-7 8v3m-4 0h8"/></svg><span hidden>Listening</span></button>
+            <button class="pill" id="matchSubmit" type="submit">Match session</button>
+          </form>
+          <p id="matchStatus" role="status"></p>
+          <div id="matchResult" hidden>
+            <div><strong id="matchTitle"></strong><p id="matchReason"></p></div>
+            <button class="pill primary" id="matchStart" type="button">Start session</button>
+            <button class="text-action" id="matchReset" type="button">Choose another</button>
+          </div>
+        </section>
+      </div>
+    </section>
+
+    <section class="launcher" id="activityView" aria-labelledby="activityHeading" hidden>
+      <div class="mode-environment" id="activityEnvironment" aria-hidden="true"></div>
+      <div class="frame activity-inner">
+        <div class="mode-strip" id="modeStrip" aria-label="Switch mode"></div>
+        <div class="activity-intro">
+          <h1 id="activityHeading" tabindex="-1"></h1>
+          <p id="activityFeel"></p>
+        </div>
+        <div class="activity-grid" id="activityGrid" aria-label="Activities"></div>
+      </div>
+    </section>
+
+    <section class="frame library" id="libraryView" aria-labelledby="libraryHeading" hidden>
+      <h1 id="libraryHeading" tabindex="-1">Library</h1>
+      <section aria-labelledby="blueprintHeading">
+        <h2 id="blueprintHeading">Blueprints</h2>
+        <div class="blueprint-grid" id="blueprints"></div>
+      </section>
+      <section class="track-catalog" aria-labelledby="trackHeading">
+        <div class="catalog-heading">
+          <div><h2 id="trackHeading">All Sessions</h2><span class="muted" id="trackCount"></span></div>
+          <button type="button" class="pill" data-dialog="queueDialog">Live queue</button>
+        </div>
+        <div class="filters">
+          <label>Search <input id="search" type="search" placeholder="Find a track"></label>
+          <label>Mode <select id="modeFilter"><option value="">All modes</option></select></label>
+          <label>Mood <select id="moodFilter"><option value="">All moods</option></select></label>
+          <label>Band <select id="bandFilter"><option value="">All bands</option></select></label>
+        </div>
+        <button type="button" class="pill" id="playBlueprint" hidden><svg><use href="#i-play"/></svg> Play blueprint</button>
+        <table class="tracks">
+          <thead><tr><th scope="col">Track</th><th scope="col" class="track-band">Band</th><th scope="col" class="track-length">Length</th><th scope="col" class="track-action"><span class="sr-only">Actions</span></th></tr></thead>
+          <tbody id="trackRows"></tbody>
+        </table>
+        <p class="muted" id="noTracks" hidden>No tracks match these filters.</p>
+      </section>
+    </section>
+
+    <section class="frame player" id="playerView" aria-labelledby="playerTitle" hidden>
+      <div class="mode-environment" id="playerEnvironment" aria-hidden="true"></div>
+      <div class="player-stage" id="playerStage">
+        <div class="hero-visual" id="heroVisual">
+          <div class="hero-scene" id="heroScene" aria-hidden="true"></div>
+          <canvas id="vizCanvas" aria-hidden="true" hidden></canvas>
+          <div class="visual-tools">
+            <div class="segments" aria-label="Visual display">
+              <button type="button" data-scene="scene" aria-pressed="true">Scene</button>
+              <button type="button" data-scene="signal" aria-pressed="false">Signal</button>
+            </div>
+            <button class="icon-btn" type="button" id="enterZen" aria-label="Enter Cinema Zen" title="Enter Cinema Zen"><svg><use href="#i-full"/></svg></button>
+            <button class="pill" type="button" id="exitZen" hidden>Exit Zen</button>
+          </div>
+          <div class="breath-guide" id="breathGuide" hidden>
+            <div class="breath-orb"></div><span id="breathPhase">Inhale</span><span id="breathCount"></span>
+          </div>
+          <div class="segments signal-tools" id="signalTools" aria-label="Signal style" hidden>
+            <button type="button" data-signal="signature">Signature</button>
+            <button type="button" data-signal="silk">Silk</button>
+            <button type="button" data-signal="halo">Halo</button>
+            <button type="button" data-signal="horizon">Horizon</button>
+          </div>
+        </div>
+        <div class="player-controls" id="playerControls">
+          <button class="back-button" type="button" id="backPlayer"><svg><use href="#i-back"/></svg><span>Back</span></button>
+          <div class="player-meta">
+            <p class="player-mode" id="playerMode">Now playing</p>
+            <h1 id="playerTitle" tabindex="-1">Choose an activity</h1>
+            <p class="track-title" id="currentTrack"></p>
+          </div>
+          <div class="clock" id="playerClock">
+            <span id="clockValue">Continuous</span><span class="muted" id="clockNote"></span>
+          </div>
+          <div class="play-cluster">
+            <button type="button" class="icon-btn desktop-transport" data-transport="previous" aria-label="Previous track"><svg><use href="#i-prev"/></svg></button>
+            <button type="button" class="play-btn" data-transport="toggle" aria-label="Play"><svg><use href="#i-play"/></svg></button>
+            <button type="button" class="icon-btn desktop-transport" data-transport="next" aria-label="Next track"><svg><use href="#i-next"/></svg></button>
+            <button type="button" class="pill timer-chip" data-dialog="timerDialog"><svg><use href="#i-timer"/></svg><span>Continuous</span></button>
+          </div>
+          <div class="session-actions">
+            <button class="pill" id="calendarBtn" type="button" hidden><svg><use href="#i-calendar"/></svg><span>Add to calendar</span></button>
+            <button class="pill" id="skipBreak" type="button" hidden>Skip break</button>
+            <button class="pill primary" id="dismissWake" type="button" hidden>I'm awake</button>
+            <button type="button" class="pill stop-button" data-transport="stop" hidden><svg><use href="#i-stop"/></svg> Stop session</button>
+            <button class="pill" id="dimScreen" type="button" aria-pressed="false" hidden>Dim screen</button>
+          </div>
+          <div class="seek-area">
+            <input id="seek" type="range" min="0" max="3600" value="0" step="1" aria-label="Seek in track" disabled>
+            <div class="seek-times"><span id="elapsed">00:00</span><span id="duration">00:00</span></div>
+          </div>
+          <div class="player-actions">
+            <button type="button" class="icon-btn" data-transport="previous" aria-label="Previous track"><svg><use href="#i-prev"/></svg></button>
+            <button type="button" class="icon-btn" data-transport="next" aria-label="Next track"><svg><use href="#i-next"/></svg></button>
+            <button type="button" class="pill" data-dialog="mixerDialog"><svg><use href="#i-mixer"/></svg> Ambience</button>
+            <button type="button" class="pill" id="breathBtn" aria-pressed="false"><svg><use href="#i-breath"/></svg> Breath</button>
+            <button class="pill" id="spokenCues" type="button" aria-pressed="false" hidden>Spoken cues</button>
+          </div>
+          <div class="intensity">
+            <span id="intensityLabel">Intensity</span>
+            <div class="segments" role="group" aria-labelledby="intensityLabel" aria-describedby="intensityHelp">
+              <button type="button" data-intensity="gentle">Gentle</button>
+              <button type="button" data-intensity="balanced">Balanced</button>
+              <button type="button" data-intensity="deep">Deep</button>
+            </div>
+          </div>
+          <section class="track-details" id="details" aria-label="Track details">
+            <p id="description"></p>
+            <dl id="telemetry"></dl>
+            <div class="details-foot">
+              <p id="intensityHelp">Intensity shapes tone and rhythmic presence.</p>
+              <button type="button" class="queue-link" data-dialog="queueDialog"><span>View queue</span><svg><use href="#i-right"/></svg></button>
+            </div>
+          </section>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div class="feedback" id="feedback">
+    <span id="feedbackText" role="status" aria-live="polite" aria-atomic="true"></span>
+    <button type="button" class="pill" id="retryBtn" hidden>Retry</button>
+  </div>
+
+  <div class="bridge-toast" id="calendarStatus" role="status"></div>
+
+  <footer class="transport" id="transport" hidden>
+    <div class="transport-inner">
+      <button type="button" class="mini-info" id="openPlayer" aria-label="Open Now Playing">
+        <span class="mini-art art-slot" id="miniArt" aria-hidden="true"><img alt=""></span>
+        <span class="mini-titles"><strong id="miniTitle">Choose an activity</strong><span id="miniTrack">Dreamlight</span></span>
+        <svg class="mini-expand"><use href="#i-up"/></svg>
+      </button>
+      <div class="mini-actions">
+        <button type="button" class="icon-btn desktop-transport" data-transport="previous" aria-label="Previous track"><svg><use href="#i-prev"/></svg></button>
+        <button type="button" class="play-btn" data-transport="toggle" aria-label="Play"><svg><use href="#i-play"/></svg></button>
+        <button type="button" class="icon-btn desktop-transport" data-transport="next" aria-label="Next track"><svg><use href="#i-next"/></svg></button>
+        <button type="button" class="pill timer-chip" data-dialog="timerDialog"><svg><use href="#i-timer"/></svg><span>Continuous</span></button>
+        <button type="button" class="icon-btn mini-stop stop-button" data-transport="stop" aria-label="Stop session" hidden><svg><use href="#i-stop"/></svg></button>
+      </div>
+      <span class="mini-clock" id="miniClock"></span>
+    </div>
+  </footer>
+
+  <dialog id="timerDialog" aria-labelledby="timerHeading">
+    <div class="dialog-heading"><h2 id="timerHeading">Session timer</h2><button type="button" class="icon-btn dialog-close" aria-label="Close timer"><svg><use href="#i-close"/></svg></button></div>
+    <div class="timer-types">
+      <button class="pill" type="button" id="continuousBtn">Continuous</button>
+      <button class="pill" type="button" id="intervalBtn" data-interval="25">Intervals <span>25 / 5</span></button>
+      <button class="pill" type="button" data-interval="50">Intervals <span>50 / 10</span></button>
+    </div>
+    <h3>Countdown</h3>
+    <div class="preset-grid" id="timerPresets"></div>
+    <form class="custom-timer" id="customTimer">
+      <label for="customMinutes">Custom minutes</label>
+      <div><input type="number" id="customMinutes" min="0.01" max="1440" step="any" required placeholder="Minutes"><button type="submit" class="pill primary">Set timer</button></div>
+    </form>
+  </dialog>
+  <dialog id="mixerDialog" aria-labelledby="mixerHeading">
+    <div class="dialog-heading"><h2 id="mixerHeading">Sound</h2><button type="button" class="icon-btn dialog-close" aria-label="Close sound mixer"><svg><use href="#i-close"/></svg></button></div>
+    <div class="mixer-rows" id="mixerRows"></div>
+    <label class="field">Automatic crossfade
+      <select id="crossfade"><option value="0">Off</option><option value="2">2 seconds</option><option value="4">4 seconds</option><option value="8">8 seconds</option><option value="12">12 seconds</option></select>
+    </label>
+  </dialog>
+  <dialog id="queueDialog" aria-labelledby="queueHeading">
+    <div class="dialog-heading"><h2 id="queueHeading">Live queue</h2><button type="button" class="icon-btn dialog-close" aria-label="Close queue"><svg><use href="#i-close"/></svg></button></div>
+    <div class="queue-settings">
+      <label><input type="checkbox" id="autoNext"> Auto-next</label>
+      <label><input type="checkbox" id="shuffle"> Shuffle</label>
+      <label>Repeat <select id="repeat"><option value="all">Queue</option><option value="one">Track</option><option value="off">Off</option></select></label>
+    </div>
+    <ol id="queueList"></ol>
+    <p class="muted" id="emptyQueue">Choose an activity or play a track to build a queue.</p>
+  </dialog>
+  <dialog id="aboutDialog" aria-labelledby="aboutHeading">
+    <div class="dialog-heading"><h2 id="aboutHeading">About Dreamlight</h2><button type="button" class="icon-btn dialog-close" aria-label="Close About"><svg><use href="#i-close"/></svg></button></div>
+    <p class="credits">Music generated with Python (numpy). Motion by Higgsfield. Built with Claude.</p>
+    <section id="desktopControls" aria-labelledby="desktopHeading" hidden>
+      <h3 id="desktopHeading">Desktop controls</h3>
+      <div id="desktopSwitches"></div>
+    </section>
+    <section id="meetingAutoplay" aria-labelledby="meetingHeading" hidden>
+      <h3 id="meetingHeading">Play after meetings</h3>
+      <div class="desktop-switch">
+        <div>Start Deep work after meetings<small id="meetingHint">Reads your Google Calendar and starts Deep work 10 min after a meeting ends.</small></div>
+        <button type="button" id="meetingSwitch" role="switch" aria-checked="false" aria-label="Play after meetings" aria-describedby="meetingHint"></button>
+        <div class="permission-status"><span id="meetingStatus" role="status">Off</span><button type="button" class="text-action" id="meetingRetry" hidden>Try again</button></div>
+      </div>
+    </section>
+    <button type="button" class="pill" data-dialog="helpDialog">Keyboard shortcuts</button>
+  </dialog>
+  <dialog id="helpDialog" aria-labelledby="helpHeading">
+    <div class="dialog-heading"><h2 id="helpHeading">Keyboard shortcuts</h2><button type="button" class="icon-btn dialog-close" aria-label="Close shortcuts"><svg><use href="#i-close"/></svg></button></div>
+    <dl class="shortcuts">
+      <dt>Space</dt><dd>Play or pause</dd><dt>N / P</dt><dd>Next or previous track</dd>
+      <dt>← / →</dt><dd>Seek 15 seconds</dd><dt>M</dt><dd>Mute</dd>
+      <dt>V</dt><dd>Open or close Signal</dd><dt>Z</dt><dd>Cinema Zen</dd>
+      <dt>B</dt><dd>Breath pacer</dd><dt>1–4</dt><dd>Signal styles</dd><dt>?</dt><dd>Show shortcuts</dd>
+    </dl>
+  </dialog>
+</body>
+</html>

@@ -1,6 +1,22 @@
 {
-  "count": 206,
+  "count": 207,
   "products": [
+    {
+      "slug": "dreamlight-the-focus-music-app-you-own",
+      "permalink": "dreamlight",
+      "numeric_id": 0,
+      "name": "Dreamlight, the Focus Music App You Own",
+      "status": "published",
+      "archived": false,
+      "category": "Other",
+      "content_hash": "0bee65c997cb4b98",
+      "files": [
+        "Dreamlight-App.zip",
+        "Dreamlight-Guide.pdf",
+        "Dreamlight-Prompts.txt"
+      ],
+      "has_content": true
+    },
     {
       "slug": "claude-gemini-workflow-kit",
       "permalink": "claude-gemini-workflow-kit",

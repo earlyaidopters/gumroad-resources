@@ -1,0 +1,35 @@
+# Audio & video renders (large binary media)
+audio/
+web/audio/
+*.mp3
+*.wav
+*.flac
+*.mp4
+# Motion graphics ship with the app
+!web/covers/loops/*.mp4
+!web/motion/**/*.mp4
+
+# Secrets & local environment
+.env
+.env.*
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+
+# Node / Electron
+node_modules/
+desktop/node_modules/
+desktop/dist/
+desktop/out/
+
+# Local verification & OS files
+review/
+.DS_Store
+.progress_orb.png
+.taper_mask.png
+dist/
+desktop/assets/icon-candidates/

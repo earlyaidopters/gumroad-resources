@@ -1,0 +1,27 @@
+{
+  "schema_version": 1,
+  "product_id": "fGu8eEDUxRQIat4LK1vwZg==",
+  "fingerprint": "9af5b9f7f68bb0129e8ce73aa6860800fd137dcac48925e35dcb24826e61e2bd",
+  "source_saved_at": "2026-11-27T16:52:58.165588+00:00",
+  "source": "private-original-package",
+  "files": [
+    {
+      "file": "Dreamlight-App.zip",
+      "source_sha256": "15d81ea69b4a7475e21f67c9ba9bbfcbe4b018b2b24f2e1826d1e3cad35de4b6",
+      "mirrored_sha256": "15d81ea69b4a7475e21f67c9ba9bbfcbe4b018b2b24f2e1826d1e3cad35de4b6",
+      "status": "downloaded"
+    },
+    {
+      "file": "Dreamlight-Guide.pdf",
+      "source_sha256": "b7d59d244cebc8771a91006cdea32ae254e4ff688646a52f8b14abdd43b89121",
+      "mirrored_sha256": "b7d59d244cebc8771a91006cdea32ae254e4ff688646a52f8b14abdd43b89121",
+      "status": "downloaded"
+    },
+    {
+      "file": "Dreamlight-Prompts.txt",
+      "source_sha256": "0ca27a97d69550c2673fc67fda1414de1d0180dc321b5711c8b98ea0b14bdbd5",
+      "mirrored_sha256": "0ca27a97d69550c2673fc67fda1414de1d0180dc321b5711c8b98ea0b14bdbd5",
+      "status": "downloaded"
+    }
+  ]
+}

@@ -1,0 +1,50 @@
+{
+ "modes": {
+  "loops": [
+   "focus",
+   "meditate",
+   "relax",
+   "sleep"
+  ],
+  "posters": [
+   "focus",
+   "meditate",
+   "relax",
+   "sleep"
+  ]
+ },
+ "activities": {
+  "loops": [
+   "breathwork",
+   "chill",
+   "creative_flow",
+   "deep_sleep",
+   "deep_work",
+   "light_work",
+   "meditate",
+   "morning_coffee",
+   "motivation",
+   "power_nap",
+   "recharge",
+   "study",
+   "unwind",
+   "wind_down"
+  ],
+  "posters": [
+   "breathwork",
+   "chill",
+   "creative_flow",
+   "deep_sleep",
+   "deep_work",
+   "light_work",
+   "meditate",
+   "morning_coffee",
+   "motivation",
+   "power_nap",
+   "recharge",
+   "study",
+   "unwind",
+   "wind_down"
+  ]
+ }
+}

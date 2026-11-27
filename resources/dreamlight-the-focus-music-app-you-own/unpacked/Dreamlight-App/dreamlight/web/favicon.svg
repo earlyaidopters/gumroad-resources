@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <defs>
+    <radialGradient id="bg" cx="35%" cy="28%" r="80%">
+      <stop offset="0%" stop-color="#141e42"/>
+      <stop offset="55%" stop-color="#090e22"/>
+      <stop offset="100%" stop-color="#04060f"/>
+    </radialGradient>
+    <radialGradient id="halo" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#60a5fa" stop-opacity="0.45"/>
+      <stop offset="55%" stop-color="#a78bfa" stop-opacity="0.22"/>
+      <stop offset="100%" stop-color="#a78bfa" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="waveA" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#a78bfa" stop-opacity="0.1"/>
+      <stop offset="25%" stop-color="#a78bfa"/>
+      <stop offset="50%" stop-color="#60a5fa"/>
+      <stop offset="75%" stop-color="#f5d0a9"/>
+      <stop offset="100%" stop-color="#f5d0a9" stop-opacity="0.1"/>
+    </linearGradient>
+    <linearGradient id="waveB" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#60a5fa" stop-opacity="0.15"/>
+      <stop offset="30%" stop-color="#93c5fd"/>
+      <stop offset="50%" stop-color="#fff8ec"/>
+      <stop offset="70%" stop-color="#c4b5fd"/>
+      <stop offset="100%" stop-color="#a78bfa" stop-opacity="0.15"/>
+    </linearGradient>
+  </defs>
+  <rect width="64" height="64" rx="16" fill="url(#bg)"/>
+  <rect x="1.25" y="1.25" width="61.5" height="61.5" rx="14.75" fill="none" stroke="rgba(180,208,255,0.2)" stroke-width="1.5"/>
+  <circle cx="32" cy="32" r="24" fill="url(#halo)"/>
+  <!-- Outer neural ring -->
+  <circle cx="32" cy="32" r="20.5" fill="none" stroke="url(#waveA)" stroke-width="1.35" stroke-opacity="0.65"/>
+  <!-- Soft secondary binaural sine wave -->
+  <path d="M 8 32 C 15 16, 22 48, 32 32 C 42 16, 49 48, 56 32"
+        fill="none" stroke="url(#waveA)" stroke-width="4.5" stroke-linecap="round" opacity="0.45"/>
+  <!-- Crisp luminous primary wave -->
+  <path d="M 8 32 C 16 47, 23 15, 32 32 C 41 49, 48 17, 56 32"
+        fill="none" stroke="url(#waveB)" stroke-width="2.6" stroke-linecap="round"/>
+  <!-- Center phase-lock spark -->
+  <circle cx="32" cy="32" r="2.7" fill="#fff8ec"/>
+</svg>

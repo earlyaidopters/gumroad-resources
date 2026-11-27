@@ -1,0 +1,302 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dreamlight Quick Remote</title>
+<style>
+  :root { color-scheme: dark; --ink: #f4f6fc; --muted: #aab7ca; --accent: #8db9ff; }
+  * { box-sizing: border-box; }
+  [hidden] { display: none !important; }
+  html, body { margin: 0; height: 100%; }
+  body { font: 13px/1.35 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; color: var(--ink); }
+  button, input { font: inherit; color: inherit; }
+  button { border: 0; background: none; cursor: pointer; }
+  button:disabled { opacity: .55; cursor: default; }
+  button:focus-visible, input:focus-visible { outline: 2px solid #b5e9ff; outline-offset: 3px; }
+  svg { width: 19px; height: 19px; fill: currentColor; }
+  .card { isolation: isolate; position: relative; display: flex; flex-direction: column; height: 100%; border-radius: 16px; overflow: hidden; border: 1px solid #ffffff2c; background: #0d1420f8; }
+  .hero { isolation: isolate; position: relative; padding: 16px 15px 13px; overflow: hidden; flex: none; }
+  .backdrop { position: absolute; inset: -35%; z-index: -2; width: 170%; height: 170%; object-fit: cover; filter: blur(25px); opacity: .38; }
+  .hero::after { content: ""; position: absolute; z-index: -1; inset: 0; background: linear-gradient(180deg, #10192967, #101929d9 74%, #0d1420); }
+  .brand { display: flex; justify-content: space-between; align-items: center; color: var(--muted); margin-bottom: 10px; }
+  .brand b { color: var(--ink); font: 400 21px/1 "Iowan Old Style", Georgia, serif; letter-spacing: -.05em; }
+  .brand button { color: var(--muted); letter-spacing: 2px; padding: 4px 5px; }
+  .current { display: flex; align-items: center; gap: 11px; }
+  .art { position: relative; overflow: hidden; width: 52px; height: 52px; flex: none; border-radius: 9px; border: 1px solid #ffffff32; background: radial-gradient(ellipse at 76% 22%, color-mix(in srgb, var(--accent) 38%, #151b29), #151b29 72%); }
+  .art img, .art video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  .art video { opacity: 0; transition: opacity 240ms ease; }
+  .art.decoded video { opacity: 1; }
+  h1, p { margin: 0; }
+  h1 { font-size: 18px; line-height: 1.15; letter-spacing: -.03em; }
+  .sub { color: var(--muted); margin-top: 4px; }
+  .content { flex: 1; min-height: 0; overflow: auto; padding: 0 15px 10px; scrollbar-width: thin; }
+  .clock { display: flex; justify-content: space-between; align-items: center; min-height: 28px; }
+  .clock strong { color: var(--ink); font: 600 15px/1.4 ui-monospace, Menlo, monospace; }
+  .clock span { color: var(--muted); font-size: 12px; }
+  .clock.on-break strong { color: #fbbf24; }
+  .session-actions { display: flex; gap: 5px; }
+  .session-actions:has(button:not([hidden])) { margin-block: 7px; }
+  .prog { height: 3px; margin-top: 5px; background: #ffffff1f; border-radius: 3px; overflow: hidden; }
+  .prog b { background: var(--accent); display: block; height: 100%; width: 0; }
+  .controls { display: flex; justify-content: center; align-items: center; gap: 7px; margin: 13px 0 8px; }
+  .icon { width: 36px; height: 38px; padding: 0; display: grid; place-items: center; color: var(--ink); border-radius: 50%; }
+  .icon:hover { background: #ffffff17; }
+  .play { width: 44px; height: 44px; margin-inline: 2px; background: #e5efff; color: #091523; }
+  .play:hover { background: white; }
+  .pill { padding: 6px 10px; min-height: 33px; border-radius: 15px; border: 1px solid #ffffff31; background: #162235; color: var(--ink); }
+  .pill:hover, .pill[aria-pressed="true"] { background: #263851; border-color: var(--accent); }
+  .upnext, .status { color: var(--muted); min-height: 19px; }
+  .status { display: flex; align-items: center; gap: 6px; }
+  .status .pill { margin-left: auto; }
+  .start { text-align: left; display: flex; justify-content: space-between; align-items: center; width: 100%; border: 1px solid #ffffff32; background: #162235; border-radius: 9px; padding: 9px 10px; margin-top: 10px; }
+  .start:hover { border-color: var(--accent); }
+  .start span { color: var(--accent); font-size: 15px; }
+  .modes, .presets { display: grid; grid-template-columns: repeat(3, 1fr); gap: 5px; margin-top: 8px; }
+  .modes { grid-template-columns: repeat(2, 1fr); }
+  .activity { width: 100%; display: flex; align-items: center; justify-content: space-between; gap: 5px; text-align: left; margin-top: 5px; }
+  .activity span { color: var(--muted); }
+  .timer-types, form { display: flex; gap: 5px; margin: 9px 0; }
+  .custom { flex: 1; min-width: 0; border: 1px solid #ffffff34; background: #121a29; border-radius: 7px; padding: 5px 8px; }
+  .foot { border-top: 1px solid #ffffff24; padding: 7px 15px 8px; flex: none; background: #101824; }
+  .open { width: 100%; display: flex; align-items: center; justify-content: space-between; padding: 4px 0; color: var(--muted); }
+  .open:hover { color: var(--ink); }
+  @media (prefers-reduced-motion: reduce) { *, *::before, *::after { transition-duration: 0s !important; } }
+</style>
+</head>
+<body>
+<div class="card">
+  <header class="hero">
+    <img class="backdrop" id="backdrop" alt="" hidden>
+    <div class="brand"><b>Dreamlight</b><button data-cmd="menu" aria-label="More Dreamlight options">•••</button></div>
+    <div class="current">
+      <div class="art" id="art"><img alt="" id="poster" hidden><video id="loop" preload="none" muted loop playsinline></video></div>
+      <div><h1 id="activity">Choose an activity</h1><p class="sub" id="track"></p></div>
+    </div>
+  </header>
+  <div class="content" id="content">
+    <div class="clock"><strong id="time">Continuous</strong><span id="phase"></span></div>
+    <div class="prog" aria-hidden="true"><b id="progress"></b></div>
+    <div class="controls">
+      <button class="icon" data-cmd="prev" aria-label="Previous track"><svg viewBox="0 0 24 24"><path d="M6 5h2v14H6zM20 5v14L9 12z"/></svg></button>
+      <button class="icon play" data-cmd="toggle" aria-label="Play"><svg viewBox="0 0 24 24"><path id="playIcon" d="M8 5v14l11-7z"/></svg></button>
+      <button class="icon" data-cmd="next" aria-label="Next track"><svg viewBox="0 0 24 24"><path d="M16 5h2v14h-2zM4 5v14l11-7z"/></svg></button>
+      <button class="pill" id="stop" data-cmd="stop" hidden>Stop</button>
+      <button class="pill" id="timer" aria-expanded="false" aria-controls="timerPanel">Continuous</button>
+    </div>
+    <div class="session-actions">
+      <button class="pill" id="skipBreak" data-cmd="skipBreak" hidden>Skip break</button>
+      <button class="pill" id="dismissWake" data-cmd="dismissWake" hidden>I'm awake</button>
+    </div>
+    <p class="upnext" id="next"></p>
+    <div class="status" id="status" hidden><span id="message" role="status"></span><button class="pill" data-cmd="retry" id="retry" hidden>Retry</button></div>
+    <section id="timerPanel" aria-label="Session timer" hidden>
+      <div class="timer-types"><button class="pill" data-min="0">Continuous</button><button class="pill" data-interval="25">25 / 5</button><button class="pill" data-interval="50">50 / 10</button></div>
+      <div class="presets" id="presets"></div>
+      <form id="custom"><input class="custom" type="number" aria-label="Custom minutes" placeholder="Custom minutes" min="0.01" max="1440" step="any" required><button class="pill" type="submit">Set timer</button></form>
+    </section>
+    <button type="button" class="start" id="start" aria-expanded="false" aria-controls="activityPanel">Start an activity <span aria-hidden="true">↘</span></button>
+    <section id="activityPanel" aria-label="Choose an activity" hidden><div class="modes" id="modes"></div><div id="activities"></div></section>
+  </div>
+  <footer class="foot"><button class="open" data-cmd="open">Open Dreamlight <span aria-hidden="true">↗</span></button></footer>
+</div>
+<script>
+  const base = new URLSearchParams(location.search).get("base");
+  const $ = (id) => document.getElementById(id);
+  const remote = window.dl;
+  const video = $("loop");
+  const motionPreference = matchMedia("(prefers-reduced-motion: reduce)");
+  let player = {}, visible = false, mode = "", assets = "", choices = false;
+  const broken = new Set();
+  const absolute = (url) => url ? new URL(url, base + "/").href : "";
+  const fmt = (seconds) => {
+    const s = Math.max(0, Math.ceil(seconds));
+    const h = Math.floor(s / 3600), m = String(Math.floor(s / 60) % 60).padStart(2, "0");
+    return `${h ? h + ":" : ""}${m}:${String(s % 60).padStart(2, "0")}`;
+  };
+
+  function resize() {
+    if (!visible) return;
+    const content = $("content");
+    remote.resize($("activityPanel").hidden && $("timerPanel").hidden ? 390 :
+      document.querySelector(".hero").offsetHeight + content.scrollHeight + document.querySelector(".foot").offsetHeight + 16);
+  }
+
+  function setExpanded(control, panel, on) {
+    $(control).setAttribute("aria-expanded", String(on));
+    $(panel).hidden = !on;
+    if (!on) $("content").scrollTop = 0;
+    resize();
+  }
+
+  function syncMotion() {
+    const loop = absolute(player.loop);
+    if (!visible || player.reducedMotion || motionPreference.matches || !loop || broken.has(loop)) {
+      video.pause();
+      $("art").classList.remove("decoded");
+      return;
+    }
+    if (video.getAttribute("src") !== loop) {
+      $("art").classList.remove("decoded");
+      video.src = loop;
+    }
+    if (video.paused) video.play().catch(() => {});
+  }
+
+  function updateArt() {
+    const key = `${player.poster}|${player.loop}|${player.hue}`;
+    if (key === assets) return;
+    assets = key;
+    video.pause();
+    video.removeAttribute("src");
+    video.load();
+    video.removeAttribute("poster");
+    $("art").classList.remove("decoded");
+    const poster = absolute(player.poster);
+    [$("poster"), $("backdrop")].forEach((image) => {
+      image.hidden = !poster;
+      image.onerror = () => { image.hidden = true; image.removeAttribute("src"); };
+      if (poster) image.src = poster;
+      else image.removeAttribute("src");
+    });
+    if (poster) video.poster = poster;
+    document.documentElement.style.setProperty("--accent", player.hue || "#8db9ff");
+  }
+
+  function showVideo() {
+    if (!visible || video.paused || player.reducedMotion || motionPreference.matches) return;
+    $("art").classList.add("decoded");
+  }
+  video.addEventListener("playing", () => {
+    if (video.requestVideoFrameCallback) video.requestVideoFrameCallback(showVideo);
+    else video.addEventListener("timeupdate", function reveal() {
+      if (video.currentTime <= 0) return;
+      video.removeEventListener("timeupdate", reveal);
+      showVideo();
+    });
+  });
+  video.addEventListener("error", () => {
+    if (video.getAttribute("src")) broken.add(video.getAttribute("src"));
+    $("art").classList.remove("decoded");
+  });
+  motionPreference.addEventListener("change", syncMotion);
+
+  function buildChoices() {
+    if (choices || !player.ready) return;
+    choices = true;
+    $("modes").replaceChildren(...player.modes.map((item) => {
+      const button = document.createElement("button");
+      button.className = "pill";
+      button.textContent = item.name;
+      button.dataset.mode = item.key;
+      button.setAttribute("aria-pressed", "false");
+      return button;
+    }));
+    $("presets").replaceChildren(...player.presets.map((minutes) => {
+      const button = document.createElement("button");
+      button.className = "pill";
+      button.dataset.min = minutes;
+      button.textContent = `${minutes} min`;
+      return button;
+    }));
+  }
+
+  function chooseMode(key) {
+    mode = key;
+    $("modes").querySelectorAll("button").forEach((button) => button.setAttribute("aria-pressed", String(button.dataset.mode === key)));
+    $("activities").replaceChildren(...player.activities.filter((item) => item.mode === mode).map((item) => {
+      const button = document.createElement("button");
+      button.className = "pill activity";
+      button.dataset.activity = item.key;
+      button.innerHTML = `${item.name} <span>${item.minutes ? item.minutes + " min" : "Continuous"}</span>`;
+      return button;
+    }));
+    resize();
+    $("start").scrollIntoView({ block: "nearest" });
+  }
+
+  function applyTimer(minutes, intervals = false) {
+    remote.cmd("setTimer", minutes, intervals);
+    setExpanded("timer", "timerPanel", false);
+    $("timer").focus();
+  }
+  $("start").addEventListener("click", () => {
+    setExpanded("timer", "timerPanel", false);
+    const opening = $("activityPanel").hidden;
+    setExpanded("start", "activityPanel", opening);
+    if (opening) $("start").scrollIntoView({ block: "start" });
+  });
+  $("timer").addEventListener("click", () => {
+    setExpanded("start", "activityPanel", false);
+    const opening = $("timerPanel").hidden;
+    setExpanded("timer", "timerPanel", opening);
+    if (opening) $("timerPanel").scrollIntoView({ block: "start" });
+  });
+  $("custom").addEventListener("submit", (event) => {
+    event.preventDefault();
+    applyTimer($("custom").querySelector("input").valueAsNumber);
+  });
+  document.addEventListener("click", (event) => {
+    const button = event.target.closest("button");
+    if (!button) return;
+    if (button.dataset.cmd) remote.cmd(button.dataset.cmd);
+    if (button.dataset.min != null) applyTimer(Number(button.dataset.min));
+    if (button.dataset.interval) applyTimer(Number(button.dataset.interval), true);
+    if (button.dataset.mode) chooseMode(button.dataset.mode);
+    if (button.dataset.activity) {
+      remote.cmd("startActivity", button.dataset.activity);
+      setExpanded("start", "activityPanel", false);
+      $("start").focus();
+    }
+  });
+  document.addEventListener("keydown", (event) => {
+    if (event.code === "Space" && event.target === document.body) {
+      event.preventDefault();
+      remote.cmd("toggle");
+    }
+    if (event.key !== "Escape") return;
+    if (!$("timerPanel").hidden) { setExpanded("timer", "timerPanel", false); $("timer").focus(); }
+    else if (!$("activityPanel").hidden) { setExpanded("start", "activityPanel", false); $("start").focus(); }
+    else remote.cmd("hide");
+  });
+
+  remote.onVisibility((on) => {
+    visible = on;
+    syncMotion();
+    resize();
+  });
+  remote.onState((state) => {
+    player = state;
+    buildChoices();
+    updateArt();
+    syncMotion();
+    $("activity").textContent = state.title ? state.name : "Choose an activity";
+    $("track").textContent = state.title;
+    const playing = state.playing || (state.intervalPhase === "break" && state.timerRunning);
+    $("playIcon").setAttribute("d", playing || state.starting ? "M7 5h4v14H7zM13 5h4v14h-4z" : "M8 5v14l11-7z");
+    document.querySelector(".play").setAttribute("aria-label", playing ? "Pause" : state.starting ? "Cancel start" : "Play");
+    document.querySelectorAll('[data-cmd="prev"], [data-cmd="next"]').forEach((button) => { button.disabled = !state.title; });
+    $("time").textContent = state.wake ? "Time to wake" : state.timerTotal ? fmt(state.timerRemain) : "Continuous";
+    $("time").parentElement.classList.toggle("on-break", state.intervalPhase === "break");
+    $("skipBreak").hidden = state.intervalPhase !== "break";
+    $("dismissWake").hidden = !state.wake;
+    $("phase").textContent = state.intervalPhase ? `${state.intervalPhase === "work" ? "Focus" : "Break"} · round ${state.intervalRound}` : state.timerTotal ? "remaining" : "";
+    $("timer").textContent = state.timerKind;
+    $("timer").setAttribute("aria-label", `Session timer: ${state.timerKind}`);
+    $("stop").hidden = state.activity !== "deep_sleep";
+    $("progress").style.width = `${state.dur ? Math.min(100, state.cur / state.dur * 100) : 0}%`;
+    $("next").textContent = state.upNext ? `Up next · ${state.upNext}` : "";
+    const status = state.error || (state.starting ? "Starting…" : state.completed ? "Session complete" : "");
+    if ($("message").textContent !== status) $("message").textContent = status;
+    $("status").hidden = !status;
+    $("retry").hidden = !state.error;
+    $("timerPanel").querySelectorAll("[data-min]").forEach((button) => {
+      button.setAttribute("aria-pressed", String(state.timerKind !== "Intervals" && state.timerTotal === Number(button.dataset.min) * 60));
+    });
+    document.querySelectorAll("[data-interval]").forEach((button) => {
+      button.setAttribute("aria-pressed", String(state.intervalWork === Number(button.dataset.interval)));
+    });
+  });
+</script>
+</body>
+</html>

@@ -1,0 +1,44 @@
+{
+  "name": "Dreamlight, the Focus Music App You Own",
+  "external_id": "fGu8eEDUxRQIat4LK1vwZg==",
+  "permalink": "dreamlight",
+  "unique_permalink": "dreamlight",
+  "custom_permalink": "dreamlight",
+  "url": "https://markkashef.gumroad.com/l/dreamlight",
+  "status": "published",
+  "archived": false,
+  "kind": "products",
+  "price_formatted": "CAD$0+",
+  "description_md": "# Your own focus music app, free\n\nDreamlight is the focus music app from my video. It has 25 one-hour tracks made entirely with Python, motion art for every mood, and a player you actually own. It runs in your browser on Mac, Windows or Linux, on your phone's home screen, or as a desktop app that plays offline. There's also a lighter version you can build inside Claude with one prompt.\n\n- \nThe full app: The complete source as a ZIP, the same code that's open source on GitHub, plus a script that downloads all 25 tracks in one command.\n\n- \nThe setup prompt: Paste one prompt into Claude Code or Codex and it installs Dreamlight for you, then sets up the desktop app, the phone version or Google Calendar (it runs in the desktop app), whichever you pick.\n\n- \nEvery prompt from the video: The prompt that turns any Claude app into one you own, the Electron prompt for a desktop app, the Higgsfield art prompt, and a one-prompt Dreamlight you can build inside Claude.\n\n- \nA visual guide: Six pages covering the four ways to run it, adding it to your iPhone or Android home screen, and how the music is made.\n\nEvery track is written by code, with no samples or outside audio, so the music is royalty-free and yours to use. Binaural tracks need headphones. Dreamlight is music for focus and relaxation, not a medical device.\n\nWhat you need: A Mac or PC, an AI agent that can run commands on it (Claude Code or Codex), and about 3 GB of free space, or 7 GB with the Mac app. The music is 2.2 GB, so it downloads from GitHub during setup instead of sitting in the ZIP. The phone version needs a hosted copy and an internet connection.\n\nFree and open source under the MIT license.",
+  "files": [
+    {
+      "file": "Dreamlight-App.zip",
+      "source_revision": "02b920b9615c1640574da835ec7468024804659342aeeb5aa5568532d2fcffb2",
+      "expected_bytes": 57026304,
+      "status": "downloaded",
+      "bytes": 57026304,
+      "source_sha256": "15d81ea69b4a7475e21f67c9ba9bbfcbe4b018b2b24f2e1826d1e3cad35de4b6",
+      "local_sha256": "15d81ea69b4a7475e21f67c9ba9bbfcbe4b018b2b24f2e1826d1e3cad35de4b6",
+      "unpacked_sha256": "15d81ea69b4a7475e21f67c9ba9bbfcbe4b018b2b24f2e1826d1e3cad35de4b6"
+    },
+    {
+      "file": "Dreamlight-Guide.pdf",
+      "source_revision": "329014b514fe223f4838fac7d16ad0b247c7b26218ce3805900ba38b61b70e89",
+      "expected_bytes": 1413778,
+      "status": "downloaded",
+      "bytes": 1413778,
+      "source_sha256": "b7d59d244cebc8771a91006cdea32ae254e4ff688646a52f8b14abdd43b89121",
+      "local_sha256": "b7d59d244cebc8771a91006cdea32ae254e4ff688646a52f8b14abdd43b89121"
+    },
+    {
+      "file": "Dreamlight-Prompts.txt",
+      "source_revision": "37317ebe8a07d576936b1ca1da23534997f6c732c570e77bd050c70bc720edcf",
+      "expected_bytes": 17955,
+      "status": "downloaded",
+      "bytes": 17955,
+      "source_sha256": "0ca27a97d69550c2673fc67fda1414de1d0180dc321b5711c8b98ea0b14bdbd5",
+      "local_sha256": "0ca27a97d69550c2673fc67fda1414de1d0180dc321b5711c8b98ea0b14bdbd5"
+    }
+  ],
+  "has_rich_content": true
+}
